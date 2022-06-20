@@ -1,6 +1,6 @@
 Moralis.Cloud.job('scrapOrganizations', async (request) => {
   try {
-    LOG('Starting to scrap');
+    LOG('Starting to scrap: orgs');
     const organizationsData = await grabOrganizationsFromSheet();
     LOG('Data from sheet scrapped');
     const organizations = await createOrganizations(organizationsData);

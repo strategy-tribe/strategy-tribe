@@ -1,6 +1,6 @@
 Moralis.Cloud.job('scrapIndividuals', async (request) => {
   try {
-    LOG('Starting to scrap');
+    LOG('Starting to scrap: individuals');
     //get raw data from sheet
     const targets = await grabTargetsFromSheet();
     //make them into bounties
@@ -25,11 +25,11 @@ async function grabTargetsFromSheet() {
 
   sheets.forEach((sheet, sheetIndex) => {
     //ignore the first one for now
-    if (sheetIndex > 0) {
+    if (sheetIndex > 2) {
       const sheetData = sheet.data.at(0); //obj
       const rowData = sheetData.rowData; //array
       rowData.forEach((row, rowIndex) => {
-        if (rowIndex > 2) {
+        if (rowIndex > 0) {
           const rowData = row.values.map((v) => {
             if (v.formattedValue) return v.formattedValue;
           });
