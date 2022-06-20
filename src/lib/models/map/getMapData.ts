@@ -10,7 +10,6 @@ const getMapStats = async (moralis: MoralisType) => {
     createdAt: r.attributes.createdAt,
     regions: r.attributes.stats,
   };
-  console.log(mapData);
   return mapData;
 };
 
@@ -21,7 +20,7 @@ const getMapRegions = () => {
   }[];
 };
 
-const getRegionCountries = (region: string) => {
+const getCountriesOfRegion = (region: string) => {
   const data = getMapRegions();
   const regionData = data.find((regionData) => regionData.location === region);
   const countries = regionData?.countries;
@@ -31,8 +30,7 @@ const getRegionCountries = (region: string) => {
 export const getMapData = async (moralis: MoralisType): Promise<MapData> => {
   const mapData = await getMapStats(moralis);
   mapData.regions.forEach((reg) => {
-    reg.countries = getRegionCountries(reg.name) || [];
+    reg.countries = getCountriesOfRegion(reg.name) || [];
   });
-  console.log(mapData);
   return mapData;
 };
