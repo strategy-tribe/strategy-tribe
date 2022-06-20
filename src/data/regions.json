@@ -1,0 +1,352 @@
+[
+  {
+    "location": "Caribbean",
+    "countries": [
+      "Anguilla",
+      "Antigua and Barbuda",
+      "Aruba",
+      "Bahamas",
+      "Barbados",
+      "Cayman Islands",
+      "Cuba",
+      "Dominica",
+      "Dominican Republic",
+      "Grenada",
+      "Guadeloupe",
+      "Haiti",
+      "Jamaica",
+      "Martinique",
+      "Montserrat",
+      "Netherlands Antilles",
+      "Puerto Rico",
+      "Saint Kitts and Nevis",
+      "Saint Lucia",
+      "Saint Vincent and the Grenadines",
+      "Trinidad and Tobago",
+      "Turks and Caicos Islands"
+    ]
+  },
+  {
+    "location": "Eastern Africa",
+    "countries": [
+      "British Indian Ocean Territory",
+      "Burundi",
+      "Comoros",
+      "Djibouti",
+      "Eritrea",
+      "Ethiopia",
+      "Kenya",
+      "Madagascar",
+      "Malawi",
+      "Mauritius",
+      "Mayotte",
+      "Mozambique",
+      "Reunion",
+      "Rwanda",
+      "Seychelles",
+      "Somalia",
+      "South Sudan",
+      "Tanzania",
+      "Uganda",
+      "Zambia",
+      "Zimbabwe"
+    ]
+  },
+  {
+    "location": "Middle East",
+    "countries": [
+      "Armenia",
+      "Azerbaijan",
+      "Bahrain",
+      "Cyprus",
+      "Georgia",
+      "Iraq",
+      "Israel",
+      "Jordan",
+      "Kuwait",
+      "Lebanon",
+      "Oman",
+      "Palestine",
+      "Qatar",
+      "Saudi Arabia",
+      "Syria",
+      "Turkey",
+      "United Arab Emirates",
+      "Yemen"
+    ]
+  },
+  {
+    "location": "Western Europe",
+    "countries": [
+      "Austria",
+      "Belgium",
+      "England",
+      "France",
+      "Germany",
+      "Liechtenstein",
+      "Luxembourg",
+      "Monaco",
+      "Netherlands",
+      "Northern Ireland",
+      "Scotland",
+      "Sri Lanka",
+      "Switzerland",
+      "The Democratic Republic of Congo",
+      "Virgin Islands, British",
+      "Virgin Islands, U.S.",
+      "Wales"
+    ]
+  },
+  {
+    "location": "Western Africa",
+    "countries": [
+      "Benin",
+      "Burkina Faso",
+      "Cape Verde",
+      "Gambia",
+      "Ghana",
+      "Guinea",
+      "Guinea-Bissau",
+      "Ivory Coast",
+      "Liberia",
+      "Mali",
+      "Mauritania",
+      "Niger",
+      "Nigeria",
+      "Saint Helena",
+      "Senegal",
+      "Sierra Leone",
+      "Togo"
+    ]
+  },
+  {
+    "location": "Southern Europe",
+    "countries": [
+      "Albania",
+      "Andorra",
+      "Bosnia and Herzegovina",
+      "Croatia",
+      "Gibraltar",
+      "Greece",
+      "Holy See (Vatican City State)",
+      "Italy",
+      "North Macedonia",
+      "Malta",
+      "Portugal",
+      "San Marino",
+      "Slovenia",
+      "Spain"
+    ]
+  },
+  {
+    "location": "South America",
+    "countries": [
+      "Argentina",
+      "Bolivia",
+      "Brazil",
+      "Chile",
+      "Colombia",
+      "Ecuador",
+      "Falkland Islands",
+      "French Guiana",
+      "Guyana",
+      "Paraguay",
+      "Peru",
+      "Suriname",
+      "Uruguay",
+      "Venezuela"
+    ]
+  },
+  {
+    "location": "Southern and Central Asia",
+    "countries": [
+      "Afghanistan",
+      "Bangladesh",
+      "Bhutan",
+      "India",
+      "Iran",
+      "Kazakhstan",
+      "Kyrgyzstan",
+      "Maldives",
+      "Nepal",
+      "Pakistan",
+      "Tajikistan",
+      "Turkmenistan",
+      "Uzbekistan"
+    ]
+  },
+  {
+    "location": "Southeast Asia",
+    "countries": [
+      "Brunei",
+      "Cambodia",
+      "East Timor",
+      "Indonesia",
+      "Laos",
+      "Malaysia",
+      "Myanmar",
+      "Philippines",
+      "Singapore",
+      "Thailand",
+      "Vietnam"
+    ]
+  },
+  {
+    "location": "Polynesia",
+    "countries": [
+      "American Samoa",
+      "Cook Islands",
+      "French Polynesia",
+      "Niue",
+      "Pitcairn",
+      "Samoa",
+      "Tokelau",
+      "Tonga",
+      "Tuvalu",
+      "Wallis and Futuna"
+    ]
+  },
+  {
+    "location": "Eastern Europe",
+    "countries": [
+      "Belarus",
+      "Bulgaria",
+      "Czech Republic",
+      "Hungary",
+      "Moldova",
+      "Poland",
+      "Romania",
+      "Russian Federation",
+      "Slovakia",
+      "Ukraine"
+    ]
+  },
+  {
+    "location": "Central Africa",
+    "countries": [
+      "Angola",
+      "Cameroon",
+      "Central African Republic",
+      "Chad",
+      "Congo",
+      "Equatorial Guinea",
+      "Gabon",
+      "Sao Tome and Principe"
+    ]
+  },
+  {
+    "location": "Central America",
+    "countries": [
+      "Belize",
+      "Costa Rica",
+      "El Salvador",
+      "Guatemala",
+      "Honduras",
+      "Mexico",
+      "Nicaragua",
+      "Panama"
+    ]
+  },
+  {
+    "location": "Northern Africa",
+    "countries": [
+      "Algeria",
+      "Egypt",
+      "Libyan Arab Jamahiriya",
+      "Morocco",
+      "Sudan",
+      "Tunisia",
+      "Western Sahara"
+    ]
+  },
+  {
+    "location": "Eastern Asia",
+    "countries": [
+      "China",
+      "Hong Kong",
+      "Japan",
+      "Macao",
+      "Mongolia",
+      "North Korea",
+      "South Korea"
+    ]
+  },
+  {
+    "location": "Nordic Countries",
+    "countries": [
+      "Denmark",
+      "Faroe Islands",
+      "Finland",
+      "Iceland",
+      "Norway",
+      "Svalbard and Jan Mayen",
+      "Sweden"
+    ]
+  },
+  {
+    "location": "Micronesia",
+    "countries": [
+      "Guam",
+      "Kiribati",
+      "Marshall Islands",
+      "Micronesia, Federated States of",
+      "Nauru",
+      "Northern Mariana Islands",
+      "Palau"
+    ]
+  },
+  {
+    "location": "Antarctica",
+    "countries": [
+      "Antarctica",
+      "Bouvet Island",
+      "French Southern territories",
+      "Heard Island and McDonald Islands",
+      "South Georgia and the South Sandwich Islands"
+    ]
+  },
+  {
+    "location": "Australia and New Zealand",
+    "countries": [
+      "Australia",
+      "Christmas Island",
+      "Cocos (Keeling) Islands",
+      "New Zealand",
+      "Norfolk Island"
+    ]
+  },
+  {
+    "location": "North America",
+    "countries": [
+      "Bermuda",
+      "Canada",
+      "Greenland",
+      "Saint Pierre and Miquelon",
+      "United States"
+    ]
+  },
+  {
+    "location": "Southern Africa",
+    "countries": ["Botswana", "Lesotho", "Namibia", "South Africa", "Swaziland"]
+  },
+  {
+    "location": "Melanesia",
+    "countries": [
+      "Fiji Islands",
+      "New Caledonia",
+      "Papua New Guinea",
+      "Solomon Islands",
+      "Vanuatu"
+    ]
+  },
+  {
+    "location": "Baltic Countries",
+    "countries": ["Estonia", "Latvia", "Lithuania"]
+  },
+  { "location": "British Isles", "countries": ["Ireland", "United Kingdom"] },
+  { "location": "Central and Southeast Europe", "countries": ["Serbia"] },
+  {
+    "location": "Micronesia/Caribbean",
+    "countries": ["United States Minor Outlying Islands"]
+  }
+]

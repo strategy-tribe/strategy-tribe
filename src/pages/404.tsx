@@ -1,0 +1,102 @@
+import Footer from '@/components/pages/landing/Footer';
+import { Section } from '@/components/pages/landing/Section';
+import Navbar from '@/components/navbar/Navbar';
+import { Title } from '@/components/utils/Title';
+('@/components/utils/Title');
+import { ButtonStyle } from '@/components/utils/Button';
+import Icon from '@/components/utils/Icon';
+import { GoToHomePage, GoToLandingPage } from '@/utils/Routes';
+import { motion } from 'framer-motion';
+import { NextPage } from 'next';
+import Head from 'next/head';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import React, { useEffect } from 'react';
+import { HugeTitle } from '@/components/utils/HugeTitle';
+
+const _404Page: NextPage = () => {
+  const router = useRouter();
+
+  return (
+    <div className="text-text space-y-8">
+      <Head>
+        <title>ST | 404</title>
+        <meta
+          name="description"
+          content="StrategyTribe was born from a need for higher quality, better scaled OSINT work on the
+          world's most important threat actors. We aim to centralize, organize
+          and incentivise the collection of widely important data by
+          individuals."
+        />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      <Navbar
+        setUp={{
+          useOverflowMenu: true,
+          rightButtonInfo: [
+            {
+              label: 'Join the hunt',
+              onClick: () => router.push(GoToHomePage()),
+              style: ButtonStyle.Filled,
+            },
+          ],
+        }}
+      >
+        {/* Content */}
+        <motion.div
+          initial={{ opacity: 0, y: 5 }}
+          animate={{ opacity: 1, y: 0 }}
+        >
+          <Section className="space-y-24 pb-48">
+            {/* About us */}
+            <div className="flex gap-16">
+              <figure className="relative h-[10rem] min-w-[10rem]">
+                <Image src="/illustrations/goal.svg" layout="fill" />
+              </figure>
+              <div className="space-y-6 ">
+                {/* Title */}
+                <div>
+                  <HugeTitle title="404" />
+                </div>
+                {/* Content */}
+                <div>
+                  <p className="max-w-lg body">Let's get you back on track.</p>
+                </div>
+                {/* CTA */}
+                <div>
+                  <div className="-ml-6">
+                    <Link href={GoToHomePage()}>
+                      <a className="text-white hover:text-purpleLight py-3 px-5 tablet:px-6 font-medium font-grotesk z-10 flex items-center justify-center gap-2 rounded-full min-w-[6rem] w-fit">
+                        <Icon icon="arrow_forward" />
+                        <span>Go to the app</span>
+                      </a>
+                    </Link>
+                    <Link href={GoToLandingPage()}>
+                      <a className="text-white hover:text-purpleLight py-3 px-5 tablet:px-6 font-medium font-grotesk z-10 flex items-center justify-center gap-2 rounded-full min-w-[6rem] w-fit">
+                        <Icon icon="arrow_forward" />
+                        <span>Landing page</span>
+                      </a>
+                    </Link>
+                    <a
+                      href="https://twitter.com/Strategy_Tribe"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-white hover:text-purpleLight py-3 px-5 tablet:px-6 font-medium font-grotesk z-10 flex items-center justify-center gap-2 rounded-full min-w-[6rem] w-fit"
+                    >
+                      <Icon icon="arrow_forward" />
+                      <span>Follow us on Twitter</span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </Section>
+        </motion.div>
+        <Footer />
+      </Navbar>
+    </div>
+  );
+};
+
+export default _404Page;

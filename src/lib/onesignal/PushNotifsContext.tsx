@@ -1,0 +1,174 @@
+import {
+  DelayType,
+  NotificationStyle,
+  NotificationType,
+} from '@/components/notifications/iNotification';
+import { useNotification } from '@/components/notifications/NotificationContext';
+import { CloudFunctionResponse } from '@/lib/moralis/utils/CloudFunctionResponse';
+import { createContext, useContext, useEffect, useState } from 'react';
+import OneSignal from 'react-onesignal';
+import { useAuth } from 'auth/AuthContext';
+import {
+  addSubscriber,
+  isSubscribed,
+  removeSubscriber,
+  isSubscribedToAll,
+  addSubscriberToAll,
+  removeSubscriberFromAll,
+} from './methods';
+
+interface PushNotifsContextInterface {
+  initialized: boolean | undefined;
+  activateNotifs: () => void;
+  areNotifsEnabled: () => Promise<boolean>;
+  subscribeToOrg: (
+    userId: string,
+    orgName: string
+  ) => Promise<CloudFunctionResponse | undefined>;
+  unsubscribeToOrg: (
+    userId: string,
+    orgName: string
+  ) => Promise<CloudFunctionResponse | undefined>;
+  isSubscribed: (userId: string, orgName: string) => Promise<boolean>;
+  isSubscribedToAll: (userId: string) => Promise<boolean>;
+  subscribeToAllOrgs: (
+    userId: string
+  ) => Promise<CloudFunctionResponse | undefined>;
+  unsubscribeFromAllOrgs: (
+    userId: string
+  ) => Promise<CloudFunctionResponse | undefined>;
+}
+
+const PushNotifsContext = createContext<PushNotifsContextInterface>({
+  initialized: undefined,
+  activateNotifs: () => {},
+  areNotifsEnabled: async () => false,
+  subscribeToOrg: async () => {
+    return { success: false };
+  },
+  unsubscribeToOrg: async () => {
+    return { success: false };
+  },
+  isSubscribed: async () => {
+    return false;
+  },
+  isSubscribedToAll: async () => {
+    return false;
+  },
+  subscribeToAllOrgs: async (id: string) => {
+    return { success: false };
+  },
+  unsubscribeFromAllOrgs: async (id: string) => {
+    return { success: false };
+  },
+});
+
+export default function PushNotifsContextProvider({
+  children,
+  appId,
+}: {
+  appId: string;
+  children: React.ReactNode;
+}) {
+  //*state
+  const [initialized, setInitialized] = useState<boolean | undefined>();
+  useEffect(() => {
+    async function init() {
+      try {
+        if (initialized) return;
+        await OneSignal.init({ appId });
+        setInitialized(true);
+      } catch (error) {
+        console.error(`Error initializing OneSignal`, error);
+        setInitialized(false);
+      }
+    }
+
+    if (!initialized) init();
+  }, []);
+
+  //*Notifications
+  const { notify } = useNotification();
+
+  //*User info
+  const { LogIn } = useAuth();
+
+  //*external
+  async function activateNotifs() {
+    await OneSignal.registerForPushNotifications();
+  }
+
+  async function subscribeToOrg(userId: string, orgName: string) {
+    if (!userId) {
+      notify(
+        {
+          title: 'Please sign in to get access to notifications and more',
+          icon: 'warning',
+          style: NotificationStyle.error,
+          content: (
+            <button onClick={LogIn} className="mt-4 label underline text-white">
+              <span>Join the hunt here</span>
+            </button>
+          ),
+        },
+        {
+          condition: false,
+          delayTime: 7,
+          delayType: DelayType.Time,
+          type: NotificationType.Banner,
+        }
+      );
+      return;
+    }
+    const areNotifsOn = await OneSignal.isPushNotificationsEnabled();
+    if (!areNotifsOn) {
+      await activateNotifs();
+    }
+    const exUserId = await OneSignal.getExternalUserId();
+    if (!exUserId) {
+      try {
+        await OneSignal.setExternalUserId(userId);
+      } catch (error) {
+        console.error('could not register the user to one signal:', error);
+        return;
+      }
+    }
+    const serverResponse = await addSubscriber(userId, orgName);
+
+    if (!serverResponse.success) {
+      console.error(
+        'could not register the user to one signal: ',
+        serverResponse.error
+      );
+      await OneSignal.removeExternalUserId();
+    }
+
+    return serverResponse;
+  }
+
+  async function unsubscribeToOrg(userId: string, orgName: string) {
+    return await removeSubscriber(userId, orgName);
+  }
+
+  return (
+    <PushNotifsContext.Provider
+      value={{
+        initialized,
+        activateNotifs,
+        areNotifsEnabled: OneSignal.isPushNotificationsEnabled,
+        subscribeToOrg,
+        unsubscribeToOrg,
+        isSubscribed,
+        isSubscribedToAll,
+        subscribeToAllOrgs: addSubscriberToAll,
+        unsubscribeFromAllOrgs: removeSubscriberFromAll,
+      }}
+    >
+      {children}
+    </PushNotifsContext.Provider>
+  );
+}
+
+export const usePushNotifs = () => {
+  return useContext(PushNotifsContext);
+};
