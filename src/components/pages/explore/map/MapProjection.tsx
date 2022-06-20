@@ -5,17 +5,15 @@ import { Topology } from 'topojson-specification';
 import { geoPath, geoGraticule } from 'd3-geo';
 import { useQuery } from 'react-query';
 import { Country } from './Country';
+import { RegionData } from '@/lib/models/map/RegionStats';
+import { useGetColor } from '@/lib/models/map/useGetColor';
+import { mapProps } from '@/lib/models/map/mapProps';
 
 const mapDataUrl = 'https://unpkg.com/world-atlas@2.0.2/countries-50m.json';
 
 interface CustomTopology extends ExtendedFeatureCollection {
   interiors: any;
 }
-
-const scale = 1;
-const width = 1000 * scale;
-const height = 500 * scale;
-const color = ' fill-dark';
 
 const getTopology = async () => {
   const topology = await json(mapDataUrl);
@@ -29,7 +27,9 @@ const getTopology = async () => {
 };
 
 const typeOfMap = geoMercator;
-export function MapProjection() {
+
+export function MapProjection({ regions }: { regions: RegionData[] }) {
+  const { width, color, height } = mapProps;
   const { data: topology } = useQuery('get topology', getTopology, {
     cacheTime: Infinity,
     staleTime: Infinity,
@@ -40,8 +40,24 @@ export function MapProjection() {
   const graticule = useMemo(() => geoGraticule(), []);
   const features = useMemo(() => topology?.features, [topology?.features]);
 
+  const { getColor } = useGetColor(regions);
+
   const countries = useMemo(() => {
     return features?.map((feature, i) => {
+      const { name } = feature.properties as any;
+      const countryName = name as string;
+
+      const region = regions.find((r) => {
+        return countryName
+          ? r.countries?.find(
+              (c) =>
+                c.toLocaleLowerCase().trim() ===
+                countryName.toLocaleLowerCase().trim()
+            )
+          : false;
+      });
+
+      const color = region ? getColor(region) : undefined;
       return <Country key={i} path={path(feature) || ''} color={color} />;
     });
   }, [features]);

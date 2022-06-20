@@ -1,5 +1,7 @@
+import { DARKEST } from '@/lib/models/map/mapColors';
+
 export function Country({
-  color = 'fill-purpleDark',
+  color = DARKEST,
   path,
 }: {
   color?: string;
@@ -7,7 +9,7 @@ export function Country({
 }) {
   return (
     <g className="group">
-      <path d={path} className={color} />
+      <path d={path} fill={color} />
     </g>
   );
 }

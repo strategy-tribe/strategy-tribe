@@ -4,7 +4,6 @@ import { ButtonStyle } from '@/components/utils/Button';
 import { useAuth } from 'auth/AuthContext';
 import React from 'react';
 import { Section } from '../landing/Section';
-
 import { LatestBounties } from './LatestBounties';
 import { LowCompetitionBounties } from './LowCompetition';
 import { ClosesSoonBounties } from './ClosesSoonBounties';

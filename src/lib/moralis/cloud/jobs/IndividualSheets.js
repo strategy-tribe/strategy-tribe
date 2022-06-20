@@ -29,7 +29,7 @@ async function grabTargetsFromSheet() {
       const sheetData = sheet.data.at(0); //obj
       const rowData = sheetData.rowData; //array
       rowData.forEach((row, rowIndex) => {
-        if (rowIndex > 0) {
+        if (rowIndex > 2) {
           const rowData = row.values.map((v) => {
             if (v.formattedValue) return v.formattedValue;
           });
@@ -103,7 +103,7 @@ async function tryToCreateOrg(name, alsoKnownAs, region, tags) {
 
   await orgRef.save(null, { useMasterKey: true });
 
-  await createDefaultBounties([name]);
+  await createDefaultBounties([{ name, region }]);
 }
 
 function createBountiesForTarget(target) {

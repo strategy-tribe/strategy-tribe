@@ -3,10 +3,9 @@ import { useExploreContext } from '../ExploreContext';
 
 export function Map() {
   const { mapData } = useExploreContext();
-
   return (
     <div>
-      <MapProjection />
+      <MapProjection regions={mapData.regions} />
     </div>
   );
 }

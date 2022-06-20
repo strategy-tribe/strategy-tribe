@@ -21,8 +21,13 @@ const getMapRegions = () => {
 };
 
 const getCountriesOfRegion = (region: string) => {
+  if (!region) return undefined;
   const data = getMapRegions();
-  const regionData = data.find((regionData) => regionData.location === region);
+  const regionData = data.find(
+    (regionData) =>
+      regionData.location.toLocaleLowerCase().trim() ===
+      region.toLocaleLowerCase().trim()
+  );
   const countries = regionData?.countries;
   return countries;
 };

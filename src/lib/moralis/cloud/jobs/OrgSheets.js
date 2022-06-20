@@ -1,11 +1,11 @@
 Moralis.Cloud.job('scrapOrganizations', async (request) => {
   try {
     LOG('Starting to scrap');
-    const organizations = await grabOrganizationsFromSheet();
+    const organizationsData = await grabOrganizationsFromSheet();
     LOG('Data from sheet scrapped');
-    const orgNames = await createOrganizations(organizations);
+    const organizations = await createOrganizations(organizationsData);
     LOG('All organizations uploaded');
-    await createDefaultBounties(orgNames);
+    await createDefaultBounties(organizations);
 
     LOG(`Complete.`);
   } catch (error) {
@@ -21,32 +21,32 @@ async function grabOrganizationsFromSheet() {
   });
 
   const organizations = [];
-  res.data.sheets
-    .at(0)
-    .data.at(0)
-    .rowData.forEach((row, i) => {
-      if (i > 0) {
-        const rowData = row.values.map((v) => {
-          if (v.formattedValue) return v.formattedValue;
-        });
+  const sheets = res.data.sheets;
+  const orgSheet = sheets.at(2);
 
-        if (rowData[0]) {
-          const data = {
-            name: titleCase(rowData[0]),
-            alsoKnownAs:
-              typeof rowData[1] === 'string'
-                ? rowData[1].toLowerCase().split(',')
-                : [],
-            tags:
-              typeof rowData[2] === 'string'
-                ? rowData[2].toLowerCase().split(',')
-                : [],
-            region: rowData[3] ? rowData[3].toLowerCase() : undefined,
-          };
-          organizations.push(data);
-        }
+  orgSheet.data.at(0).rowData.forEach((row, i) => {
+    if (i > 0) {
+      const rowData = row.values.map((v) => {
+        if (v.formattedValue) return v.formattedValue;
+      });
+
+      if (rowData[0]) {
+        const data = {
+          name: titleCase(rowData[0]),
+          alsoKnownAs:
+            typeof rowData[1] === 'string'
+              ? rowData[1].toLowerCase().split(',')
+              : [],
+          tags:
+            typeof rowData[2] === 'string'
+              ? rowData[2].toLowerCase().split(',')
+              : [],
+          region: rowData[3] ? rowData[3].toLowerCase() : undefined,
+        };
+        organizations.push(data);
       }
-    });
+    }
+  });
 
   return organizations;
 }
@@ -54,6 +54,7 @@ async function grabOrganizationsFromSheet() {
 //!ORG
 async function createOrganizations(organizations) {
   const orgsToCreateBountiesTo = [];
+
   for await (const org of organizations) {
     const name = await createOrganization(
       org.name,
@@ -61,7 +62,8 @@ async function createOrganizations(organizations) {
       org.region,
       org.tags
     );
-    if (name) orgsToCreateBountiesTo.push(name);
+
+    if (name) orgsToCreateBountiesTo.push({ name, region: org.region });
   }
   return orgsToCreateBountiesTo;
 }
@@ -100,22 +102,23 @@ async function createOrganization(name, alsoKnownAs, region, tags) {
 }
 
 //!PROPS
-async function createDefaultBounties(orgNames) {
-  for await (const orgName of orgNames) {
-    LOG(`Creating default bounties for ${orgName}`);
-    await createBountiesForOrg(orgName);
+async function createDefaultBounties(orgs) {
+  for await (const org of orgs) {
+    const { name, region } = org;
+    LOG(`Creating default bounties for ${name} w region ${region}`);
+    await createBountiesForOrg(name, region);
   }
 }
 
-async function createBountiesForOrg(orgName) {
-  const params = createBountiesParams(orgName);
+async function createBountiesForOrg(orgName, orgRegion) {
+  const params = createBountiesParams(orgName, orgRegion);
 
   for await (const p of params) {
     await saveBounty(p);
   }
 }
 
-function createBountiesParams(organizationName) {
+function createBountiesParams(organizationName, orgRegion) {
   //TODO:8x times & add the closesAt field
   const params = [];
 
@@ -215,7 +218,7 @@ function createBountiesParams(organizationName) {
       type: 'Organization',
       organizationName: organizationName,
       tags: [],
-      region: '',
+      region: orgRegion,
     });
   });
 
@@ -223,7 +226,15 @@ function createBountiesParams(organizationName) {
 }
 
 async function saveBounty(p) {
-  const { title, name, organizationName, type, requirements, closesAt } = p;
+  const {
+    title,
+    name,
+    organizationName,
+    type,
+    requirements,
+    closesAt,
+    region,
+  } = p;
   //!Bounty
   const bountyRef = new Moralis.Object(BOUNTY_TABLE);
   //TODO:Set the bounties to 'Waiting for funds'
@@ -233,6 +244,7 @@ async function saveBounty(p) {
   bountyRef.set('name', name);
   bountyRef.set('organizationName', organizationName);
   bountyRef.set('type', type);
+  bountyRef.set('region', region);
 
   bountyRef.set('requirements', requirements);
   bountyRef.set('staffCreatorId', undefined);
