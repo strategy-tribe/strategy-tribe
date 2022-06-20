@@ -67,15 +67,6 @@ export function MapProjection({ regions }: { regions: RegionData[] }) {
       <svg width={width} height={height} viewBox="0 0 960 400">
         <g>
           <path
-            d={
-              path({
-                type: 'Sphere',
-              }) || ''
-            }
-            className="fill-black"
-          />
-
-          <path
             d={path(graticule()) || ''}
             className="fill-black stroke-[0.1px] stroke-disabled"
           />
