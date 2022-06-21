@@ -190,7 +190,7 @@ export const Moralis_useSaveBounty = (
     bountyRef.set('type', target.type);
     bountyRef.set('organizationName', target.organizationName);
     bountyRef.set('tags', target.tags);
-    bountyRef.set('region', target.region);
+    bountyRef.set('region', target.region?.toLowerCase().trim());
 
     bountyRef.set('requirements', requirements);
     bountyRef.set('staffCreatorId', staffCreatorId);

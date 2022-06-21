@@ -90,7 +90,7 @@ async function tryToCreateOrg(name, alsoKnownAs, region, tags) {
   //stats
   orgRef.set('name', name);
   orgRef.set('alsoKnownAs', alsoKnownAs);
-  orgRef.set('region', region);
+  orgRef.set('region', region?.toLowerCase().trim());
   orgRef.set('tags', tags);
   orgRef.set('bounties', 0);
 
@@ -222,7 +222,7 @@ async function saveBountyToDb(bountyData) {
   bountyRef.set('type', type);
   bountyRef.set('organizationName', organizationName);
   bountyRef.set('tags', tags);
-  bountyRef.set('region', region);
+  bountyRef.set('region', region?.toLowerCase().trim());
 
   bountyRef.set('requirements', requirements);
   bountyRef.set('staffCreatorId', undefined);

@@ -1,6 +1,6 @@
 Moralis.Cloud.job('scrapOrganizations', async (request) => {
   try {
-    LOG('Starting to scrap: orgs');
+    LOG('Starting to scrap:');
     const organizationsData = await grabOrganizationsFromSheet();
     LOG('Data from sheet scrapped');
     const organizations = await createOrganizations(organizationsData);
@@ -85,7 +85,7 @@ async function createOrganization(name, alsoKnownAs, region, tags) {
   //stats
   orgRef.set('name', name);
   orgRef.set('alsoKnownAs', alsoKnownAs);
-  orgRef.set('region', region);
+  orgRef.set('region', region?.toLowerCase().trim());
   orgRef.set('tags', tags);
   orgRef.set('bounties', 0);
 
@@ -244,7 +244,7 @@ async function saveBounty(p) {
   bountyRef.set('name', name);
   bountyRef.set('organizationName', organizationName);
   bountyRef.set('type', type);
-  bountyRef.set('region', region);
+  bountyRef.set('region', region?.toLowerCase().trim());
 
   bountyRef.set('requirements', requirements);
   bountyRef.set('staffCreatorId', undefined);
