@@ -36,7 +36,7 @@ export function Privacy() {
           <div className="laptop:max-w-[50%] flex flex-col gap-6 items-center">
             <div className="">
               <p className="body-lg font-semibold text-unactive">Privacy</p>
-              <h2 className="h4 laptop:h3">
+              <h2 className="h5 laptop:h4">
                 You only need a wallet to join the hunt.
               </h2>
             </div>

@@ -55,7 +55,7 @@ function HeroDesktop() {
       >
         {/* Text */}
         <div className="space-y-4">
-          <h1 className="h4 laptop:h3">
+          <h1 className="h5 laptop:h4">
             An{' '}
             <a
               className="underline hover:text-purpleLight"

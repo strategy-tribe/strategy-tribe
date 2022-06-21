@@ -52,7 +52,7 @@ const _404Page: NextPage = () => {
             {/* About us */}
             <div className="flex gap-16">
               <figure className="relative h-[10rem] min-w-[10rem]">
-                <Image src="/illustrations/goal.svg" layout="fill" />
+                <Image src="/illustrations/goal.svg" layout="fill" priority />
               </figure>
               <div className="space-y-6 ">
                 {/* Title */}

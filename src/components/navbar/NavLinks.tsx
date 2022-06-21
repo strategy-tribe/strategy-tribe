@@ -70,7 +70,7 @@ function NavLink({ url, label }: { url: string; label: string }) {
   return (
     <Link href={url}>
       <a
-        className={`label-lg hover:text-white shrink-0 min-w-fit  ${
+        className={`label hover:text-white shrink-0 min-w-fit  ${
           router.pathname === url && 'text-white'
         }`}
       >

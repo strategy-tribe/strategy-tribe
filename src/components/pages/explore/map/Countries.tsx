@@ -2,7 +2,7 @@ import { LIGHTEST, DARKEST } from '@/lib/models/map/mapColors';
 import { useFindRegion } from '@/lib/models/map/useFindRegion';
 import { useGetColor } from '@/lib/models/map/useGetColor';
 import { GeoPath, GeoPermissibleObjects, selectAll, select } from 'd3';
-import { useMemo, useLayoutEffect } from 'react';
+import { useMemo, useLayoutEffect, useEffect } from 'react';
 import { useExploreContext } from '../ExploreContext';
 import { Country } from './Country';
 import { useTopology } from '@/lib/models/map/useGetTopology';
@@ -41,7 +41,7 @@ export function Countries({
     });
   }, [topology]);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     selectAll('.country')
       .on('mouseover', (e) => {
         const id = e.target.id as string;

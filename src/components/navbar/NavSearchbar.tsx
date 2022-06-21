@@ -23,7 +23,7 @@ export function NavSearchbar() {
   if (router.pathname === GoToSearchPage()) return <div></div>;
 
   return (
-    <div className="flex items-center gap-4 border-b-2 border-dark">
+    <div className="flex items-center gap-4 border-b-2 border-dark ">
       <Icon icon="search" />
       <input
         type="text"
@@ -31,7 +31,7 @@ export function NavSearchbar() {
         onKeyUp={ManageType}
         onChange={(e) => setSearch(e.target.value)}
         placeholder="Search"
-        className="border-0 focus:ring-0 focus:border-0 pl-0 bg-black text-white placeholder:text-unactive"
+        className="body border-0 focus:ring-0 focus:border-0 pl-0 bg-black text-white placeholder:text-unactive"
       />
     </div>
   );

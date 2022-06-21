@@ -24,7 +24,7 @@ export function BountyEntry({
   return (
     <motion.div
       variants={variants}
-      className={`space-y-2 bt:max-w-xl laptop:max-w-none ${className}`}
+      className={`space-y-1 bt:max-w-xl laptop:max-w-none ${className}`}
     >
       {/* Org and target into */}
       <div className="label-sm flex items-center gap-4 text-unactive">
@@ -43,7 +43,7 @@ export function BountyEntry({
         <Link href={GoToBountyPage(bounty.id as string)}>
           <a
             className={`max-w-md hover:underline cursor-pointer w-full ${
-              fullSize ? 'h6 laptop:h5 ' : 'h7 laptop:h6'
+              fullSize ? 'h7 laptop:h6 ' : 'h7 laptop:h6'
             }`}
           >
             {bounty.title}

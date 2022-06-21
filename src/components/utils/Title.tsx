@@ -32,7 +32,7 @@ export function Title({
   return (
     <div className={`${big && 'flex flex-col space-y-5'} ${color} `}>
       <div className="flex items-center gap-2">
-        <h2 className="h5 font-bold">{title}</h2>
+        <h2 className="h6 font-bold">{title}</h2>
         {extraInfo && (
           <div className="relative group cursor-pointer pt-1 hidden laptop:block">
             <Icon icon="info" className="text-unactive" size={IconSize.Small} />
