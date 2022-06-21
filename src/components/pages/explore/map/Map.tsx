@@ -4,14 +4,17 @@ import { useExploreContext } from '../ExploreContext';
 import { Title } from '@/components/utils/Title';
 
 export function Map() {
-  const { mapData } = useExploreContext();
+  const {
+    mapData: { regions },
+    selected,
+  } = useExploreContext();
+
   return (
     <div className="space-y-4">
       <Title title="World wide bounties" />
-
-      <MapProjection regions={mapData.regions} />
-
-      <MapLegend regions={mapData.regions} />
+      <div>Selected is : {selected?.name}</div>
+      <MapProjection />
+      {/* <MapLegend  /> */}
     </div>
   );
 }

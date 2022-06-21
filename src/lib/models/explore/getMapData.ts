@@ -1,6 +1,6 @@
 import { Moralis as MoralisType } from 'moralis/types';
 import regions from '../../../data/regions.json';
-import { MapData } from './MapData';
+import { MapData } from '../map/MapData';
 
 const getMapStats = async (moralis: MoralisType) => {
   const r = await moralis.Cloud.run('getMapStats');

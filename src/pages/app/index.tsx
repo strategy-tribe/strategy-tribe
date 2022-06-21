@@ -4,10 +4,10 @@ import { NextPageWithLayout } from '../_app';
 import Head from 'next/head';
 import { GetStaticProps } from 'next';
 import { dehydrate } from 'react-query';
-import { getMapData } from '@/lib/models/map/getMapData';
+import { getMapData } from '@/lib/models/explore/getMapData';
 import { MapData } from '@/lib/models/map/MapData';
 import { prefetchExploreQueries } from '@/lib/models/explore/PrefetchExploreQueries';
-const Moralis = require('moralis/node');
+import Moralis from 'moralis/node';
 
 export const getStaticProps: GetStaticProps = async () => {
   //*Prefetch queries
@@ -16,6 +16,8 @@ export const getStaticProps: GetStaticProps = async () => {
 
   //*Map data
   const mapData = await getMapData(Moralis);
+
+  //*Return props
   return {
     props: {
       dehydratedState: JSON.parse(JSON.stringify(prefetchedQueries)),
