@@ -44,10 +44,10 @@ export function Countries({
   useEffect(() => {
     selectAll('.country')
       .on('mouseover', (e) => {
-        const id = e.target.id as string;
-        const name = getNameFromLabel(id);
-        const region = findRegion(name);
-        const selector = `#${id}`;
+        const pathId = e.target.id as string;
+        const label = getNameFromLabel(pathId);
+        const region = findRegion(label);
+        const selector = `#${pathId}`;
         setSelected(region);
         select(selector).transition().duration(30).attr('fill', LIGHTEST);
       })
@@ -56,6 +56,7 @@ export function Countries({
         const selector = `#${id}`;
         setSelected(undefined);
         select(selector).transition().duration(30).attr('fill', DARKEST);
+        // select(selector).select('text').remove();
       });
   }, [countries]);
 

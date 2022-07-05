@@ -10,13 +10,12 @@ export function Country({
   path: string;
 }) {
   return (
-    <g className="group country">
-      <path d={path} fill={color} id={makeId(label)} />
+    <g className="group country" id={`group-${label}`}>
+      <path d={path} fill={DARKEST} id={makeId(label)} />
     </g>
   );
 }
 
 function makeId(id: string) {
-  if (id === "Côted'Ivoire") return 'cotedivoire';
-  else return id.replace(/\s/g, '');
+  return id.replace(/\s/g, '');
 }

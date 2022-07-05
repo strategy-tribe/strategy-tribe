@@ -12,9 +12,10 @@ export function Map() {
   return (
     <div className="space-y-4">
       <Title title="World wide bounties" />
-      <div>Selected is : {selected?.name}</div>
       <MapProjection />
-      {/* <MapLegend  /> */}
+      <div className="label text-unactive first-letter:capitalize">
+        {selected?.name || '.'}
+      </div>
     </div>
   );
 }

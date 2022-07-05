@@ -2,7 +2,8 @@ import { RegionData } from './RegionStats';
 
 export const useCountryLabel = () => {
   function createLabel(countryName: string, region?: RegionData) {
-    return `${countryName}---belongs in ${region?.name}`;
+    const name = countryName === "Côted'Ivoire" ? 'cotedivoire' : countryName;
+    return `${name}---belongs in ${region?.name}`;
   }
 
   function getNameFromLabel(label: string) {

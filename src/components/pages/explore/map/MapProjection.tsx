@@ -8,7 +8,7 @@ import { mapProps } from '@/lib/models/map/mapProps';
 const typeOfMap = geoMercator;
 
 export function MapProjection() {
-  const { width, color, height } = mapProps;
+  const { width, height } = mapProps;
   const projection = useMemo(() => typeOfMap(), []);
   const path = useMemo(() => geoPath(projection), [projection]);
 
@@ -19,7 +19,6 @@ export function MapProjection() {
         height={height}
         viewBox={`0 0 ${width} ${height * 0.7}`}
       >
-        <Graticule path={path} />
         <Countries path={path} />
       </svg>
     </div>
