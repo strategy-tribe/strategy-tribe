@@ -1,7 +1,7 @@
 import { Section } from '@/components/pages/landing/Section';
 ('@/components/utils/Title');
 import Icon from '@/components/utils/Icon';
-import { GoToHomePage, GoToLandingPage } from '@/utils/Routes';
+import { GoTobBountiesPage, GoToLandingPage } from '@/utils/Routes';
 import { motion } from 'framer-motion';
 import Head from 'next/head';
 import Image from 'next/image';
@@ -49,7 +49,7 @@ const _404Page: NextPageWithLayout = () => {
                 {/* CTA */}
                 <div>
                   <div className="-ml-6">
-                    <Link href={GoToHomePage()}>
+                    <Link href={GoTobBountiesPage()}>
                       <a className="text-white hover:text-purpleLight py-3 px-5 tablet:px-6 font-medium font-grotesk z-10 flex items-center justify-center gap-2 rounded-full min-w-[6rem] w-fit">
                         <Icon icon="arrow_forward" />
                         <span>Go to the app</span>

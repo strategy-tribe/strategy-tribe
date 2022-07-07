@@ -5,10 +5,10 @@ export function Section({
 }: {
   id?: string;
   className?: string;
-  children: React.ReactNode;
+  children?: React.ReactNode;
 }) {
   return (
-    <section id={id} className={`${className} px-2 mx-auto max-w-5xl`}>
+    <section id={id} className={`${className} px-2 mx-auto max-w-6xl`}>
       {children}
     </section>
   );

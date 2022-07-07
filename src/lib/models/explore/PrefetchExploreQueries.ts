@@ -1,6 +1,6 @@
 import CreateBountyQuery from '@/lib/moralis/serverMethods/CreateBountyQuery';
 import { Moralis as MoralisType } from 'moralis/types';
-import { QueryClient, dehydrate } from 'react-query';
+import { QueryClient } from 'react-query';
 import { BountyQueryParams, Order, BountyOrderBy } from '../queryParams';
 import { TargetType } from '../targetType';
 
@@ -14,28 +14,28 @@ export const prefetchExploreQueries = async (moralisInstance: MoralisType) => {
     appId: moralis_appId,
   });
 
-  //*Closes soon query
-  const qClosesSoon: BountyQueryParams = {
-    order: Order.Asc,
-    orderBy: BountyOrderBy.ClosesAt,
-    amount: 5,
-  };
+  // //*Closes soon query
+  // const qClosesSoon: BountyQueryParams = {
+  //   order: Order.Asc,
+  //   orderBy: BountyOrderBy.ClosesAt,
+  //   amount: 5,
+  // };
 
-  const { fetch: fetchClosesSoon, id: closesSoon } = CreateBountyQuery(
-    qClosesSoon,
-    moralisInstance
-  );
+  // const { fetch: fetchClosesSoon, id: closesSoon } = CreateBountyQuery(
+  //   qClosesSoon,
+  //   moralisInstance
+  // );
 
-  //*Low competition query
-  const qLowCompetition: BountyQueryParams = {
-    order: Order.Asc,
-    orderBy: BountyOrderBy.Submissions,
-    amount: 5,
-  };
-  const { fetch: fetchLowCompetition, id: lowCompetition } = CreateBountyQuery(
-    qLowCompetition,
-    moralisInstance
-  );
+  // //*Low competition query
+  // const qLowCompetition: BountyQueryParams = {
+  //   order: Order.Asc,
+  //   orderBy: BountyOrderBy.Submissions,
+  //   amount: 5,
+  // };
+  // const { fetch: fetchLowCompetition, id: lowCompetition } = CreateBountyQuery(
+  //   qLowCompetition,
+  //   moralisInstance
+  // );
 
   //*Latest bounties query
   const qLatest: BountyQueryParams = {
@@ -48,39 +48,39 @@ export const prefetchExploreQueries = async (moralisInstance: MoralisType) => {
     moralisInstance
   );
 
-  //*Top ind bounties
-  const qIndividual: BountyQueryParams = {
-    order: Order.Desc,
-    orderBy: BountyOrderBy.Bounty,
-    targetType: TargetType.Individual,
-    amount: 5,
-  };
+  // //*Top ind bounties
+  // const qIndividual: BountyQueryParams = {
+  //   order: Order.Desc,
+  //   orderBy: BountyOrderBy.Bounty,
+  //   targetType: TargetType.Individual,
+  //   amount: 5,
+  // };
 
-  const { fetch: fetchIndividuals, id: individuals } = CreateBountyQuery(
-    qIndividual,
-    moralisInstance
-  );
+  // const { fetch: fetchIndividuals, id: individuals } = CreateBountyQuery(
+  //   qIndividual,
+  //   moralisInstance
+  // );
 
-  //*Top org bounties
-  const qOrg: BountyQueryParams = {
-    order: Order.Desc,
-    orderBy: BountyOrderBy.Bounty,
-    targetType: TargetType.Organization,
-    amount: 5,
-  };
+  // //*Top org bounties
+  // const qOrg: BountyQueryParams = {
+  //   order: Order.Desc,
+  //   orderBy: BountyOrderBy.Bounty,
+  //   targetType: TargetType.Organization,
+  //   amount: 5,
+  // };
 
-  const { fetch: fetchOrgBounties, id: orgBounties } = CreateBountyQuery(
-    qOrg,
-    moralisInstance
-  );
+  // const { fetch: fetchOrgBounties, id: orgBounties } = CreateBountyQuery(
+  //   qOrg,
+  //   moralisInstance
+  // );
 
   //!End
   await Promise.all([
-    queryClient.prefetchQuery(closesSoon, () => fetchClosesSoon()),
-    queryClient.prefetchQuery(lowCompetition, () => fetchLowCompetition()),
     queryClient.prefetchQuery(latest, () => fetchLatest()),
-    queryClient.prefetchQuery(individuals, () => fetchIndividuals()),
-    queryClient.prefetchQuery(orgBounties, () => fetchOrgBounties()),
+    // queryClient.prefetchQuery(closesSoon, () => fetchClosesSoon()),
+    // queryClient.prefetchQuery(lowCompetition, () => fetchLowCompetition()),
+    // queryClient.prefetchQuery(individuals, () => fetchIndividuals()),
+    // queryClient.prefetchQuery(orgBounties, () => fetchOrgBounties()),
   ]);
 
   return queryClient;

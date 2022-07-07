@@ -1,7 +1,7 @@
 import {
   GoToAboutusPage,
   GoToFAQPage,
-  GoToHomePage,
+  GoTobBountiesPage,
   GoToOrganizationsPage,
   GoToUserPage,
 } from '@/lib/utils/Routes';
@@ -12,6 +12,7 @@ import Icon, { IconSize } from '../../utils/Icon';
 import { useAuth } from 'auth/AuthContext';
 import { Button, ButtonStyle } from '@/components/utils/Button';
 import Link from 'next/link';
+import { LandingPageLink } from './LandingPageLink';
 
 export function Navbar() {
   const [showAccountMenu, setShowAccountMenu] = useState(false);
@@ -27,8 +28,8 @@ export function Navbar() {
         >
           {/* right side */}
           <div className="flex gap-8 items-center">
-            <HomeLink />
-            <NavLink url={GoToHomePage()} label="Bounties" />
+            <LandingPageLink />
+            <NavLink url={GoTobBountiesPage()} label="Bounties" />
             <NavLink url={GoToOrganizationsPage()} label="Organizations" />
             <NavLink url={GoToAboutusPage()} label="About" />
           </div>

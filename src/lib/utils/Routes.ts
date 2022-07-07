@@ -2,7 +2,7 @@ export const GoToLandingPage = () => '/';
 
 export const GoTo404Page = () => '/404';
 
-export const GoToHomePage = () => '/app';
+export const GoTobBountiesPage = () => '/bounties';
 
 export const GoToGeneralDonationsPage = () => '/support';
 

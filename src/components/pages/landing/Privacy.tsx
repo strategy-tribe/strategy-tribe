@@ -1,4 +1,4 @@
-import { GoToHomePage } from '@/utils/Routes';
+import { GoTobBountiesPage } from '@/utils/Routes';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import router from 'next/router';
@@ -52,7 +52,7 @@ export function Privacy() {
                 label: 'Join the hunt',
                 style: ButtonStyle.Filled,
                 onClick: () => {
-                  router.push(GoToHomePage());
+                  router.push(GoTobBountiesPage());
                 },
               }}
             />

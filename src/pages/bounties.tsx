@@ -1,6 +1,6 @@
 import { Explore } from '@/components/pages/explore/Explore';
 import AppLayout from '@/components/layouts/AppLayout';
-import { NextPageWithLayout } from '../_app';
+import { NextPageWithLayout } from './_app';
 import Head from 'next/head';
 import { GetStaticProps } from 'next';
 import { dehydrate } from 'react-query';
@@ -25,7 +25,7 @@ export const getStaticProps: GetStaticProps = async () => {
   };
 };
 
-const ExplorePage: NextPageWithLayout = () => {
+const BountiesPage: NextPageWithLayout = () => {
   return (
     <>
       <Head>
@@ -42,8 +42,8 @@ const ExplorePage: NextPageWithLayout = () => {
   );
 };
 
-export default ExplorePage;
+export default BountiesPage;
 
-ExplorePage.getLayout = function getLayout(page) {
+BountiesPage.getLayout = function getLayout(page) {
   return <AppLayout>{page}</AppLayout>;
 };

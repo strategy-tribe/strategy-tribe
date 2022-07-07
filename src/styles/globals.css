@@ -129,6 +129,24 @@
     line-height: 15px;
   }
 
+  .currency-lg {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 22px;
+    line-height: 27px;
+    letter-spacing: 0.2px;
+  }
+
+  .title-xs {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 26px;
+    letter-spacing: 0.2px;
+  }
+
   .title-sm {
     font-family: 'Inter';
     font-style: normal;

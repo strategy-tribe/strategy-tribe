@@ -1,5 +1,4 @@
-import { useSaveBounty } from '@/hooks/index';
-import { GoToHomePage } from '@/utils/Routes';
+import { GoTobBountiesPage } from '@/utils/Routes';
 import { useAuth } from 'auth/AuthContext';
 
 import { useRouter } from 'next/router';
@@ -15,6 +14,7 @@ import { SetRequirements } from '@/components/pages/newSubmission/SetRequirement
 import { SetTargetInfo } from '@/components/pages/newSubmission/SetTargetInfo';
 import { SetTimeLimit } from '@/components/pages/newSubmission/SetTimeLimit';
 import { Review } from '@/components/pages/newSubmission/Review';
+import { useSaveBounty } from '@/lib/hooks/bountyHooks';
 
 const NewBounty: NextPageWithLayout = () => {
   const [step, setStep] = useState<number>(1);
@@ -39,7 +39,7 @@ const NewBounty: NextPageWithLayout = () => {
 
   const moveToNext = () => {
     if (step === 5) {
-      router.push(GoToHomePage());
+      router.push(GoTobBountiesPage());
     } else setStep(step + 1);
   };
 
@@ -79,7 +79,7 @@ const NewBounty: NextPageWithLayout = () => {
 
   useEffect(() => {
     if (!isStaff) {
-      router.push(GoToHomePage());
+      router.push(GoTobBountiesPage());
     }
   }, [isStaff, userId]);
 

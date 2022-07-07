@@ -1,13 +1,14 @@
 import {
   GoToAboutusPage,
-  GoToHomePage,
+  GoTobBountiesPage,
   GoToOrganizationsPage,
 } from '@/lib/utils/Routes';
 import { useState } from 'react';
 import { NavLink } from './NavLink';
-import { useScrollPosition } from '@/lib/hooks';
+
 import { Button, ButtonStyle } from '../../utils/Button';
 import { LandingPageLink } from './LandingPageLink';
+import useScrollPosition from '@/lib/hooks/useScrollPosition';
 
 export function LandingNavbar({ hideBgOnScroll }: { hideBgOnScroll: boolean }) {
   const [navbarBackground, setNavbarBackground] = useState(!hideBgOnScroll);
@@ -29,7 +30,7 @@ export function LandingNavbar({ hideBgOnScroll }: { hideBgOnScroll: boolean }) {
           {/* right side */}
           <div className="flex gap-8 items-center">
             <LandingPageLink />
-            <NavLink url={GoToHomePage()} label="Bounties" />
+            <NavLink url={GoTobBountiesPage()} label="Bounties" />
             <NavLink url={GoToOrganizationsPage()} label="Organizations" />
             <NavLink url={GoToAboutusPage()} label="About" />
           </div>
@@ -40,7 +41,7 @@ export function LandingNavbar({ hideBgOnScroll }: { hideBgOnScroll: boolean }) {
               info={{
                 label: 'Join the hunt',
                 style: ButtonStyle.Filled,
-                isALink: GoToHomePage(),
+                isALink: GoTobBountiesPage(),
               }}
             />
           </div>
