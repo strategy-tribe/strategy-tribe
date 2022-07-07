@@ -1,9 +1,7 @@
 import Head from 'next/head';
-import { NextPageWithLayout } from '../_app';
+import { NextPageWithLayout } from './_app';
 import AppLayout from '@/components/layouts/AppLayout';
 import { AllOrganizations } from '@/components/pages/organizations/AllOrganizations';
-import { GetStaticProps } from 'next';
-import fs from 'fs';
 
 const OrganizationsPage: NextPageWithLayout = () => {
   return (

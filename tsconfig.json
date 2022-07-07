@@ -30,7 +30,7 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    "src/pages/app/[id]",
+    "src/pages/organization",
     "src/lib/moralis/cloud/functions/Regions.js"
   ],
   "exclude": ["node_modules"]
