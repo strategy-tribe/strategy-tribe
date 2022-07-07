@@ -1,5 +1,4 @@
 import AppLayout from '@/components/layouts/AppLayout';
-import Navbar from '@/components/navbar/Navbar';
 import { ImportantMessage } from '@/components/utils/Warning';
 import { NextPageWithLayout } from '@/pages/_app';
 import Head from 'next/head';
@@ -21,14 +20,7 @@ const UserPage: NextPageWithLayout = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Navbar
-        setUp={{
-          background: true,
-          useBackArrow: false,
-          useOverflowMenu: false,
-          useMobileNavigation: true,
-        }}
-      >
+      <>
         {isAuthenticated && !!userId && <UserDetails />}
         {(!isAuthenticated || !userId) && (
           <ImportantMessage
@@ -43,7 +35,7 @@ const UserPage: NextPageWithLayout = () => {
             }
           />
         )}
-      </Navbar>
+      </>
     </>
   );
 };

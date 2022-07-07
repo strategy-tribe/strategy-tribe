@@ -2,7 +2,6 @@ import { BountyTabs } from './BountyTabs';
 import { StartSubmissionButton } from './StartSubmissionButton';
 import { BountySubmissions } from './BountySubmissions';
 import { FAQ } from './FAQ';
-import Navbar from '@/components/navbar/Navbar';
 import { ButtonInformation, ButtonStyle } from '@/components/utils/Button';
 import { ImportantMessage } from '@/components/utils/Warning';
 import { useCanUserSubmit } from '@/lib/hooks/submissionHooks';
@@ -49,14 +48,7 @@ export const Bounty = ({ bounty }: { bounty: BountyData }) => {
 
   return (
     <BountyContextProvider bounty={bounty}>
-      <Navbar
-        setUp={{
-          useBackArrow: true,
-          leftLabel: bounty ? bounty.title : 'Loading...',
-          useOverflowMenu: true,
-          rightButtonInfo: ctaButton ? [ctaButton] : undefined,
-        }}
-      >
+      <div>
         <div className="flex flex-col gap-16 laptop:gap-8 mx-auto max-w-5xl">
           <BountyTabs />
 
@@ -90,7 +82,7 @@ export const Bounty = ({ bounty }: { bounty: BountyData }) => {
 
           <FAQ />
         </div>
-      </Navbar>
+      </div>
     </BountyContextProvider>
   );
 };

@@ -1,5 +1,4 @@
 import AppLayout from '@/components/layouts/AppLayout';
-import Navbar from '@/components/navbar/Navbar';
 import { BountyEntry } from '@/components/utils/BountyEntry';
 import { Title } from '@/components/utils/Title';
 ('@/components/utils/Title');
@@ -37,7 +36,7 @@ const WaitingForFunds: NextPageWithLayout = () => {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Navbar setUp={{}} className="space-y-4 max-w-5xl mx-auto">
+      <div className="space-y-4 max-w-5xl mx-auto">
         <Title
           title="Bounties waiting for funds"
           extraInfo={`${bounties?.length} bounties`}
@@ -47,7 +46,7 @@ const WaitingForFunds: NextPageWithLayout = () => {
             return <BountyEntry bounty={p} key={i} />;
           })}
         </div>
-      </Navbar>
+      </div>
     </>
   );
 };

@@ -5,7 +5,6 @@ import {
 } from '@/utils/Routes';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Logo } from '../../utils/Logo';
 
 const Footer = () => {
   return (

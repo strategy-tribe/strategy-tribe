@@ -38,7 +38,7 @@ export function Button({ info }: { info: ButtonInformation }) {
     isALink,
   } = info;
 
-  const padding = removePadding ? '' : 'py-3 px-5 tablet:px-6';
+  const padding = removePadding ? '' : 'py-2 px-5 tablet:px-6';
   const colors = style.toString();
   const font = 'label';
   const align = info.align ? info.align : 'justify-center';

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Button, ButtonStyle } from '@/components/utils/Button';
 
-import { DarkOverlay } from '@/components/navbar/utils/DarkOverlay';
+import { Overlay } from '@/components/utils/Overlay';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Recipient } from '@/models/donation';
 import { SupportButton } from './SupportButton';
@@ -141,7 +141,7 @@ export function DonationPopUp({
                 }
               </div>
             </div>
-            <DarkOverlay
+            <Overlay
               showOverlay={true}
               setShowOverlay={() => {
                 hide();

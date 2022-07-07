@@ -1,23 +1,17 @@
-import Footer from '@/components/pages/landing/Footer';
 import { Section } from '@/components/pages/landing/Section';
-import Navbar from '@/components/navbar/Navbar';
-import { Title } from '@/components/utils/Title';
 ('@/components/utils/Title');
-import { ButtonStyle } from '@/components/utils/Button';
 import Icon from '@/components/utils/Icon';
 import { GoToHomePage, GoToLandingPage } from '@/utils/Routes';
 import { motion } from 'framer-motion';
-import { NextPage } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { HugeTitle } from '@/components/utils/HugeTitle';
+import LandingLayout from '@/components/layouts/LandingLayout';
+import { NextPageWithLayout } from './_app';
 
-const _404Page: NextPage = () => {
-  const router = useRouter();
-
+const _404Page: NextPageWithLayout = () => {
   return (
     <div className="text-text space-y-8">
       <Head>
@@ -31,18 +25,7 @@ const _404Page: NextPage = () => {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Navbar
-        setUp={{
-          useOverflowMenu: true,
-          rightButtonInfo: [
-            {
-              label: 'Join the hunt',
-              onClick: () => router.push(GoToHomePage()),
-              style: ButtonStyle.Filled,
-            },
-          ],
-        }}
-      >
+      <>
         {/* Content */}
         <motion.div
           initial={{ opacity: 0, y: 5 }}
@@ -93,10 +76,12 @@ const _404Page: NextPage = () => {
             </div>
           </Section>
         </motion.div>
-        <Footer />
-      </Navbar>
+      </>
     </div>
   );
 };
 
 export default _404Page;
+_404Page.getLayout = function getLayout(page) {
+  return <LandingLayout>{page}</LandingLayout>;
+};

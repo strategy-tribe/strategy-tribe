@@ -17,7 +17,7 @@
     "baseUrl": "./src",
     "paths": {
       "@/components/*": ["components/*"],
-      "@/firebase/*": ["firebase/*"],
+      "@/navbar/*": ["components/layouts/navbar/*"],
       "@/pages/*": ["pages/*"],
       "@/assets/*": ["assets/*"],
       "@/lib/*": ["lib/*"],

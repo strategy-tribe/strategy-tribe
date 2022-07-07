@@ -14,6 +14,8 @@ export const GoToRulesPage = () => '/app/rules';
 
 export const GoToAboutusPage = () => '/about';
 
+export const GoToFAQPage = () => '/faq';
+
 export const GoToWaitingPage = () => '/app/waiting';
 
 export const GoToWaitingForReview = () => '/app/review';

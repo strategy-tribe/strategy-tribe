@@ -1,5 +1,4 @@
 import AppLayout from '@/components/layouts/AppLayout';
-import Navbar from '@/components/navbar/Navbar';
 import { Searchbar } from '@/components/pages/search/Searchbar';
 import { Title } from '@/components/utils/Title';
 ('@/components/utils/Title');
@@ -12,27 +11,17 @@ import { useAuth } from 'auth/AuthContext';
 import { Button, ButtonStyle } from '@/components/utils/Button';
 import { Organization } from '@/lib/models/organizations/organization';
 import { useGetBounties } from '@/hooks/bountyHooks';
-import { BountyState } from '@/lib/models/status';
-import {
-  Order,
-  BountyOrderBy,
-  BountyQueryParams,
-} from '@/lib/models/queryParams';
 import Head from 'next/head';
-import { NextRouter, useRouter } from 'next/router';
-import { TargetType } from '@/lib/models/targetType';
 import Loading from '@/components/utils/Loading';
 import { AppearVariants } from '@/lib/framer/Variants';
 import { PageControls } from '../../components/pages/search/PageControls';
 import { SearchFilters } from '../../components/pages/search/SearchFilters';
-import { DarkOverlay } from '@/components/navbar/utils/DarkOverlay';
+import { Overlay } from '@/components/utils/Overlay';
 import { useUrlSearchParams } from '@/hooks/useUrlSearchParams';
 
 const PAGE_SIZE = 10;
 
 const SearchPage: NextPageWithLayout = () => {
-  const { userId, LogIn } = useAuth();
-
   const { searchParams: query, applyQry: setQuery } = useUrlSearchParams();
 
   const {
@@ -67,35 +56,7 @@ const SearchPage: NextPageWithLayout = () => {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Navbar
-        setUp={{
-          useMobileNavigation: true,
-          rightButtonInfo: !userId
-            ? [
-                {
-                  label: 'Connect wallet',
-                  onClick: LogIn,
-                  style: ButtonStyle.Hollow,
-                },
-                {
-                  label: 'Filters',
-                  onClick: () => setshowFilters(true),
-                  style: ButtonStyle.Filled,
-                  className: 'laptop:hidden qwerqwerqwe',
-                },
-              ]
-            : [
-                {
-                  label: 'Filters',
-                  onClick: () => setshowFilters(true),
-                  style: ButtonStyle.Filled,
-                  icon: 'sort',
-                  className: 'laptop:hidden qwerqwerqwe',
-                },
-              ],
-        }}
-        className="px-2 max-w-5xl mx-auto space-y-4 laptop:space-y-16"
-      >
+      <>
         {/* Header */}
         <div className="space-y-4 max-w-5xl mx-auto">
           <Searchbar
@@ -117,7 +78,7 @@ const SearchPage: NextPageWithLayout = () => {
               setshowFilters={setshowFilters}
             />
 
-            <DarkOverlay
+            <Overlay
               showOverlay={showFilters}
               setShowOverlay={setshowFilters}
               responsiveClasses="laptop:hidden"
@@ -195,7 +156,7 @@ const SearchPage: NextPageWithLayout = () => {
             icon="warning"
           />
         )}
-      </Navbar>
+      </>
     </>
   );
 };

@@ -1,48 +1,24 @@
 import { OrganizationStats } from './OrganizationStats';
 import { OrganizationHeader } from './OrganizationHeader';
 import { DonationPopUp } from '@/components/donations/DonationPopUp';
-import Navbar from '@/components/navbar/Navbar';
-import { ButtonInformation, ButtonStyle } from '@/components/utils/Button';
 import { Organization as OrganizationData } from '@/lib/models/organizations/organization';
-import { useAuth } from 'auth/AuthContext';
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { OrganizationContextProvider } from './OrganizationContext';
 import { OrganizationBounties } from './OrganizationBounties';
 
 export const Organization = ({ org }: { org: OrganizationData }) => {
-  //*Auth
-  const { isAuthenticated, isStaff, LogIn } = useAuth();
-
   //*UI
   const [showDonation, setShowDonation] = useState(false);
 
   //*CTA
-  const ctaButton: ButtonInformation | undefined = useMemo(() => {
-    if (!isAuthenticated)
-      return {
-        label: 'Connect wallet',
-        icon: 'loging',
-        iconClasses: 'laptop:hidden',
-        onClick: LogIn,
-        style: ButtonStyle.Filled,
-      };
-  }, [isAuthenticated, isStaff]);
 
   return (
     <OrganizationContextProvider org={org}>
-      <Navbar
-        className="bg-black text-text flex flex-col gap-12 pb-16 min-h-screen"
-        setUp={{
-          useBackArrow: true,
-          leftLabel: org ? org.name : 'Loading...',
-          useOverflowMenu: !!isAuthenticated,
-          rightButtonInfo: ctaButton ? [ctaButton] : undefined,
-        }}
-      >
+      <div className="bg-black text-text flex flex-col gap-12 pb-16 min-h-screen">
         <OrganizationHeader />
         <OrganizationStats showDonations={() => setShowDonation(true)} />
         <OrganizationBounties />
-      </Navbar>
+      </div>
 
       {/* Donation pop up */}
       {org && (

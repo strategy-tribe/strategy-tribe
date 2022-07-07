@@ -1,0 +1,1028 @@
+[
+  {
+    "id": "AFG",
+    "bounties": 302797,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "AGO",
+    "bounties": 711335,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "ALB",
+    "bounties": 129466,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "ARE",
+    "bounties": 169482,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "ARG",
+    "bounties": 784907,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "ARM",
+    "bounties": 486943,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "ATA",
+    "bounties": 497272,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "ATF",
+    "bounties": 863560,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "AUT",
+    "bounties": 279884,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "AZE",
+    "bounties": 911587,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "BDI",
+    "bounties": 455774,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "BEL",
+    "bounties": 517516,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "BEN",
+    "bounties": 529551,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "BFA",
+    "bounties": 840692,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "BGD",
+    "bounties": 983469,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "BGR",
+    "bounties": 139812,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "BHS",
+    "bounties": 501574,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "BIH",
+    "bounties": 468973,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "BLR",
+    "bounties": 907799,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "BLZ",
+    "bounties": 948312,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "BOL",
+    "bounties": 374677,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "BRN",
+    "bounties": 631731,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "BTN",
+    "bounties": 705754,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "BWA",
+    "bounties": 216852,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "CAF",
+    "bounties": 992232,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "CAN",
+    "bounties": 754177,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "CHE",
+    "bounties": 5834,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "CHL",
+    "bounties": 388374,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "CHN",
+    "bounties": 446446,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "CIV",
+    "bounties": 5447,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "CMR",
+    "bounties": 218296,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "COG",
+    "bounties": 914842,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "COL",
+    "bounties": 941373,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "CRI",
+    "bounties": 279875,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "CUB",
+    "bounties": 500775,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "-99",
+    "bounties": 355717,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "CYP",
+    "bounties": 143516,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "CZE",
+    "bounties": 527610,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "DEU",
+    "bounties": 383898,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "DJI",
+    "bounties": 798649,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "DNK",
+    "bounties": 278283,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "DOM",
+    "bounties": 71713,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "DZA",
+    "bounties": 880607,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "ECU",
+    "bounties": 557470,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "EGY",
+    "bounties": 121040,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "ERI",
+    "bounties": 589675,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "ESP",
+    "bounties": 755734,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "EST",
+    "bounties": 366881,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "ETH",
+    "bounties": 863093,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "FIN",
+    "bounties": 620677,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "FJI",
+    "bounties": 695124,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "FLK",
+    "bounties": 656755,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "FRA",
+    "bounties": 241928,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "GAB",
+    "bounties": 777544,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "GBR",
+    "bounties": 892516,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "GEO",
+    "bounties": 526874,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "GHA",
+    "bounties": 579720,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "GIN",
+    "bounties": 422845,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "GMB",
+    "bounties": 850617,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "GNB",
+    "bounties": 242335,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "GNQ",
+    "bounties": 714799,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "GRC",
+    "bounties": 141975,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "GTM",
+    "bounties": 151030,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "GUY",
+    "bounties": 938470,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "HND",
+    "bounties": 384110,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "HRV",
+    "bounties": 350054,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "HTI",
+    "bounties": 878628,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "HUN",
+    "bounties": 744813,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "idN",
+    "bounties": 624061,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "IND",
+    "bounties": 635967,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "IRL",
+    "bounties": 156644,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "IRN",
+    "bounties": 476796,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "IRQ",
+    "bounties": 260143,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "ISL",
+    "bounties": 798899,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "ISR",
+    "bounties": 923253,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "ITA",
+    "bounties": 196068,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "JAM",
+    "bounties": 750521,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "JOR",
+    "bounties": 613202,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "JPN",
+    "bounties": 540916,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "KAZ",
+    "bounties": 185421,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "KEN",
+    "bounties": 673746,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "KGZ",
+    "bounties": 320983,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "KHM",
+    "bounties": 176537,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "OSA",
+    "bounties": 89882,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "KWT",
+    "bounties": 633399,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "LAO",
+    "bounties": 453865,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "LBN",
+    "bounties": 188164,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "LBR",
+    "bounties": 661838,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "LBY",
+    "bounties": 480801,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "LKA",
+    "bounties": 766525,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "LSO",
+    "bounties": 584120,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "LTU",
+    "bounties": 217349,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "LUX",
+    "bounties": 145613,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "LVA",
+    "bounties": 39944,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "MAR",
+    "bounties": 112935,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "MDA",
+    "bounties": 90873,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "MDG",
+    "bounties": 608767,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "MEX",
+    "bounties": 827583,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "MKD",
+    "bounties": 263399,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "MLI",
+    "bounties": 786011,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "MMR",
+    "bounties": 623740,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "MNE",
+    "bounties": 827110,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "MNG",
+    "bounties": 507244,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "MOZ",
+    "bounties": 951160,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "MRT",
+    "bounties": 569973,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "MWI",
+    "bounties": 695952,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "MYS",
+    "bounties": 463630,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "NAM",
+    "bounties": 249733,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "NCL",
+    "bounties": 583959,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "NER",
+    "bounties": 791867,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "NGA",
+    "bounties": 21685,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "NIC",
+    "bounties": 596511,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "NLD",
+    "bounties": 83504,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "NOR",
+    "bounties": 991881,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "NPL",
+    "bounties": 73699,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "NZL",
+    "bounties": 847601,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "OMN",
+    "bounties": 458153,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "PAK",
+    "bounties": 642982,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "PAN",
+    "bounties": 576905,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "PER",
+    "bounties": 837304,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "PHL",
+    "bounties": 999649,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "PNG",
+    "bounties": 397185,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "POL",
+    "bounties": 989779,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "PRI",
+    "bounties": 419449,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "PRT",
+    "bounties": 859430,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "PRY",
+    "bounties": 439342,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "QAT",
+    "bounties": 660370,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "ROU",
+    "bounties": 378037,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "RUS",
+    "bounties": 371839,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "RWA",
+    "bounties": 582701,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "ESH",
+    "bounties": 829104,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "SAU",
+    "bounties": 184594,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "SDN",
+    "bounties": 345066,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "SDS",
+    "bounties": 902214,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "SEN",
+    "bounties": 204198,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "SLB",
+    "bounties": 817278,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "SLE",
+    "bounties": 2143,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "SLV",
+    "bounties": 938090,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "ABV",
+    "bounties": 998006,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "SOM",
+    "bounties": 967018,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "SRB",
+    "bounties": 976395,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "SUR",
+    "bounties": 357553,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "SVK",
+    "bounties": 427029,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "SVN",
+    "bounties": 656643,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "SWZ",
+    "bounties": 169112,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "SYR",
+    "bounties": 324740,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "TCD",
+    "bounties": 388553,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "TGO",
+    "bounties": 648376,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "THA",
+    "bounties": 441801,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "TJK",
+    "bounties": 990487,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "TKM",
+    "bounties": 362123,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "TLS",
+    "bounties": 543170,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "TTO",
+    "bounties": 408563,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "TUN",
+    "bounties": 346900,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "TUR",
+    "bounties": 394269,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "TWN",
+    "bounties": 940177,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "TZA",
+    "bounties": 907254,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "UGA",
+    "bounties": 967859,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "UKR",
+    "bounties": 41705,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "URY",
+    "bounties": 335654,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "USA",
+    "bounties": 971226,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "UZB",
+    "bounties": 671677,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "VEN",
+    "bounties": 415993,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "VNM",
+    "bounties": 92522,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "VUT",
+    "bounties": 565888,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "PSE",
+    "bounties": 639734,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "YEM",
+    "bounties": 557562,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "ZAF",
+    "bounties": 159464,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "ZMB",
+    "bounties": 114056,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "ZWE",
+    "bounties": 672721,
+    "totalFunds": 591,
+    "organizations": 405
+  },
+  {
+    "id": "KOR",
+    "bounties": 543682,
+    "totalFunds": 591,
+    "organizations": 405
+  }
+]

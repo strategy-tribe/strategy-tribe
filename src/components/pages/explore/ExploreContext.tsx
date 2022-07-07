@@ -1,12 +1,12 @@
 import { MapData } from '@/lib/models/map/MapData';
-import { RegionData } from '@/lib/models/map/RegionStats';
+import { CountryData } from '@/lib/models/map/CountryData';
 import { useContext, createContext, ReactNode, useState } from 'react';
 
 interface iExploreContext {
   mapData: MapData;
-  regions: RegionData[];
-  selected?: RegionData;
-  setSelected: (r?: RegionData) => void;
+  regions: CountryData[];
+  selected?: CountryData;
+  setSelected: (r?: CountryData) => void;
 }
 
 const ExploreContext = createContext<iExploreContext>({
@@ -22,7 +22,7 @@ export const ExploreContextProvider = ({
   children: ReactNode;
   mapData: MapData;
 }) => {
-  const [selected, setSelected] = useState<RegionData>();
+  const [selected, setSelected] = useState<CountryData>();
 
   return (
     <ExploreContext.Provider

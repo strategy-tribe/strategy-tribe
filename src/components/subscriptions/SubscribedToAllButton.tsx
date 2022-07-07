@@ -10,7 +10,6 @@ import {
   ButtonStyle,
 } from '@/components/utils/Button';
 import { useSubscribeToAll } from '@/hooks/subscriptionHooks';
-import { info } from 'console';
 import React from 'react';
 import { useAuth } from 'auth/AuthContext';
 

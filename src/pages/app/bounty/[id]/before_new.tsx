@@ -1,5 +1,4 @@
 import FromBounty from '@/components/utils/FromBounty';
-import Navbar from '@/components/navbar/Navbar';
 import { GoToNewSubmissionPage } from '@/utils/Routes';
 import { useRouter } from 'next/router';
 import React from 'react';
@@ -22,10 +21,7 @@ const BeforeNewSubmission: NextPageWithLayout = () => {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Navbar
-        setUp={{ useBackArrow: true, leftLabel: 'Submitting findings' }}
-        className="px-2 text-text space-y-6 mx-auto max-w-5xl"
-      >
+      <div className="px-2 text-text space-y-6 mx-auto max-w-5xl">
         {/* Bounty name */}
         <div className="mx-auto laptop:max-w-3xl">
           {Boolean(id as string) && (
@@ -69,7 +65,7 @@ const BeforeNewSubmission: NextPageWithLayout = () => {
             <span className="font-medium font-grotesk">Submit findings</span>
           </button>
         </div>
-      </Navbar>
+      </div>
     </>
   );
 };

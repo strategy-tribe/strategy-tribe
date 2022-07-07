@@ -1,4 +1,3 @@
-import Navbar from '@/components/navbar/Navbar';
 import { useSaveBounty } from '@/hooks/index';
 import { GoToHomePage } from '@/utils/Routes';
 import { useAuth } from 'auth/AuthContext';
@@ -139,62 +138,48 @@ const NewBounty: NextPageWithLayout = () => {
       </Head>
 
       <div className="px-2 space-y-8 text-text mx-auto max-w-5xl pb-40">
-        <Navbar
-          setUp={{
-            useBackArrow: true,
-            useBackArrowOnDesktop: true,
-            useNavigation: false,
-            leftLabel: step >= 2 ? title : 'New Bounty',
-            useOverflowMenu: false,
-
-            rightButtonInfo: ctaButton ? [ctaButton] : undefined,
-
-            goBack: moveToPrev,
-          }}
-        >
-          <div className="px-2">
-            {step === 1 && <SetBountyTitle setTitle={setTitle} title={title} />}
-            {step === 2 && (
-              <SetTargetInfo
-                content={targetDescription}
-                setContent={setDescription}
-                name={targetName}
-                setName={setTargetName}
-                organization={targetAffiliation}
-                setOrganization={setTargetAffiliation}
-                targetType={targetType}
-                setTargetType={setTargetType}
-              />
-            )}
-            {step === 3 && (
-              <SetRequirements
-                requirements={requirements}
-                setRequirements={setRequirements}
-              />
-            )}
-            {step === 4 && (
-              <SetTimeLimit
-                setDate={setDate}
-                date={date}
-                hasDeadline={hasDeadline}
-                setHasDeadline={setHaveDeadline}
-              />
-            )}
-            {step === 5 && (
-              <Review
-                title={title}
-                target={{
-                  name: targetName,
-                  organizationName: targetAffiliation,
-                  description: targetDescription,
-                  type: targetType,
-                }}
-                requirements={requirements}
-                date={hasDeadline ? date : undefined}
-              />
-            )}
-          </div>
-        </Navbar>
+        <div className="px-2">
+          {step === 1 && <SetBountyTitle setTitle={setTitle} title={title} />}
+          {step === 2 && (
+            <SetTargetInfo
+              content={targetDescription}
+              setContent={setDescription}
+              name={targetName}
+              setName={setTargetName}
+              organization={targetAffiliation}
+              setOrganization={setTargetAffiliation}
+              targetType={targetType}
+              setTargetType={setTargetType}
+            />
+          )}
+          {step === 3 && (
+            <SetRequirements
+              requirements={requirements}
+              setRequirements={setRequirements}
+            />
+          )}
+          {step === 4 && (
+            <SetTimeLimit
+              setDate={setDate}
+              date={date}
+              hasDeadline={hasDeadline}
+              setHasDeadline={setHaveDeadline}
+            />
+          )}
+          {step === 5 && (
+            <Review
+              title={title}
+              target={{
+                name: targetName,
+                organizationName: targetAffiliation,
+                description: targetDescription,
+                type: targetType,
+              }}
+              requirements={requirements}
+              date={hasDeadline ? date : undefined}
+            />
+          )}
+        </div>
       </div>
     </>
   );

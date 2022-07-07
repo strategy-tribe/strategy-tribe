@@ -2,10 +2,10 @@ import { SpreadTheWord } from '@/components/pages/support/SpreadTheWord';
 import { Donate } from '../components/pages/support/Donate';
 import { Section } from '@/components/pages/landing/Section';
 import AppLayout from '@/components/layouts/AppLayout';
-import Navbar from '@/components/navbar/Navbar';
 import { motion } from 'framer-motion';
 import Head from 'next/head';
 import { NextPageWithLayout } from './_app';
+import LandingLayout from '@/components/layouts/LandingLayout';
 
 const GeneralDonationsPage: NextPageWithLayout = () => {
   return (
@@ -21,11 +21,7 @@ const GeneralDonationsPage: NextPageWithLayout = () => {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Navbar
-        setUp={{
-          useOverflowMenu: false,
-        }}
-      >
+      <>
         {/* Content */}
         <Section>
           <motion.div
@@ -40,7 +36,7 @@ const GeneralDonationsPage: NextPageWithLayout = () => {
             <SpreadTheWord />
           </motion.div>
         </Section>
-      </Navbar>
+      </>
     </div>
   );
 };
@@ -50,3 +46,6 @@ GeneralDonationsPage.getLayout = function getLayout(page) {
 };
 
 export default GeneralDonationsPage;
+GeneralDonationsPage.getLayout = function getLayout(page) {
+  return <LandingLayout>{page}</LandingLayout>;
+};

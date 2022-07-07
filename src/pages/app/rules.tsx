@@ -1,12 +1,11 @@
 import { Section } from '@/components/pages/landing/Section';
 import AppLayout from '@/components/layouts/AppLayout';
-import Navbar from '@/components/navbar/Navbar';
 import React from 'react';
 import { NextPageWithLayout } from '../_app';
 
 const RulesPage: NextPageWithLayout = () => {
   return (
-    <Navbar setUp={{}} className="space-y-6 min-h-screen">
+    <>
       <Section>
         <div>
           <h2 className="text-3xl font-inter font-bold text-white">
@@ -69,7 +68,7 @@ const RulesPage: NextPageWithLayout = () => {
           See our full terms of service
         </a>
       </Section>
-    </Navbar>
+    </>
   );
 };
 

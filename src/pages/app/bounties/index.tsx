@@ -1,5 +1,4 @@
 import AppLayout from '@/components/layouts/AppLayout';
-import Navbar from '@/components/navbar/Navbar';
 import { Button, ButtonStyle } from '@/components/utils/Button';
 import Loading from '@/components/utils/Loading';
 import { useGetBounties } from '@/hooks/bountyHooks';
@@ -46,7 +45,7 @@ const QueryPage: NextPageWithLayout = () => {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Navbar setUp={{}} className="flex flex-col gap-4 max-w-5xl mx-auto">
+      <div className="flex flex-col gap-4 max-w-5xl mx-auto">
         <Title title={title as string} />
         <div className="space-y-8">
           {bounties?.map((p, i) => {
@@ -80,7 +79,7 @@ const QueryPage: NextPageWithLayout = () => {
             You have reach the end.
           </div>
         )}
-      </Navbar>
+      </div>
     </>
   );
 };

@@ -1,27 +1,11 @@
 import { Privacy } from '../components/pages/landing/Privacy';
 import Hero from '@/components/pages/landing/Hero';
-import Footer from '@/components/pages/landing/Footer';
-import type { NextPage } from 'next';
 import Head from 'next/head';
-import { GoToHomePage } from '@/utils/Routes';
-import { useRouter } from 'next/router';
-import React, { useState } from 'react';
-import { ButtonStyle } from '@/components/utils/Button';
-import Navbar from '@/components/navbar/Navbar';
-import { useScrollPosition } from '../lib/hooks';
-import useWindowDimensions from '@/hooks/useWindowDimensions';
+import React from 'react';
+import { NextPageWithLayout } from './_app';
+import LandingLayout from '@/components/layouts/LandingLayout';
 
-const LandingPage: NextPage = () => {
-  const router = useRouter();
-  const { width } = useWindowDimensions();
-  const [navbarBackground, setNavbarBackground] = useState(false);
-
-  const {} = useScrollPosition(
-    1100,
-    () => setNavbarBackground(true),
-    () => setNavbarBackground(false)
-  );
-
+const LandingPage: NextPageWithLayout = () => {
   return (
     <>
       <Head>
@@ -34,27 +18,15 @@ const LandingPage: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Navbar
-        setUp={{
-          background: width > 1000 ? navbarBackground : true,
-          useOverflowMenu: false,
-          rightButtonInfo: [
-            {
-              label: 'Join the hunt',
-              icon: 'login',
-              iconClasses: 'laptop:hidden',
-              onClick: () => router.push(GoToHomePage()),
-              style: ButtonStyle.Filled,
-            },
-          ],
-        }}
-      >
+      <div>
         <Hero />
         <Privacy />
-        <Footer />
-      </Navbar>
+      </div>
     </>
   );
 };
 
+LandingPage.getLayout = function getLayout(page) {
+  return <LandingLayout hideBgOnScroll>{page}</LandingLayout>;
+};
 export default LandingPage;

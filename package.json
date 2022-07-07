@@ -9,9 +9,9 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@nivo/core": "^0.79.0",
     "@nivo/geo": "^0.79.1",
     "@types/react-datepicker": "^4.4.1",
-    "d3": "^7.4.4",
     "framer-motion": "^6.3.3",
     "moralis": "^1.5.11",
     "next": "^12.1.5",
@@ -23,17 +23,14 @@
     "react-query": "^3.34.19",
     "react-switch": "^6.0.0",
     "react-textarea-autosize": "^8.3.3",
-    "topojson": "^3.0.2",
     "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@tailwindcss/forms": "^0.5.0",
     "@tailwindcss/line-clamp": "^0.3.1",
-    "@types/d3": "^7.4.0",
     "@types/node": "^17.0.23",
     "@types/react": "^18.0.4",
     "@types/react-dom": "^18.0.0",
-    "@types/topojson": "^3.2.3",
     "@types/uuid": "^8.3.4",
     "autoprefixer": "^10.4.4",
     "eslint": "^8.13.0",

@@ -4,8 +4,6 @@ import { NextPageWithLayout } from '../_app';
 import Head from 'next/head';
 import { GetStaticProps } from 'next';
 import { dehydrate } from 'react-query';
-import { getMapData } from '@/lib/models/explore/getMapData';
-import { MapData } from '@/lib/models/map/MapData';
 import { prefetchExploreQueries } from '@/lib/models/explore/PrefetchExploreQueries';
 import Moralis from 'moralis/node';
 
@@ -15,19 +13,19 @@ export const getStaticProps: GetStaticProps = async () => {
   const prefetchedQueries = dehydrate(queryClient);
 
   //*Map data
-  const mapData = await getMapData(Moralis);
+  // const mapData = await getMapData(Moralis);
 
   //*Return props
   return {
     props: {
       dehydratedState: JSON.parse(JSON.stringify(prefetchedQueries)),
-      mapData: JSON.parse(JSON.stringify(mapData)),
+      // mapData: JSON.parse(JSON.stringify(mapData)),
     },
     revalidate: 10,
   };
 };
 
-const ExplorePage: NextPageWithLayout<{ mapData: MapData }> = ({ mapData }) => {
+const ExplorePage: NextPageWithLayout = () => {
   return (
     <>
       <Head>
@@ -39,7 +37,7 @@ const ExplorePage: NextPageWithLayout<{ mapData: MapData }> = ({ mapData }) => {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Explore mapData={mapData} />
+      <Explore mapData={{ regions: [], id: '', createdAt: new Date() }} />
     </>
   );
 };

@@ -1,19 +1,13 @@
+import AppLayout from '@/components/layouts/AppLayout';
 import { About } from '@/components/pages/about/About';
 import { Goal } from '@/components/pages/about/Goal';
 import { Mission } from '@/components/pages/about/Mission';
-import Footer from '@/components/pages/landing/Footer';
 import { Section } from '@/components/pages/landing/Section';
-import Navbar from '@/components/navbar/Navbar';
-import { ButtonStyle } from '@/components/utils/Button';
-import { GoToHomePage } from '@/utils/Routes';
 import { motion } from 'framer-motion';
-import { NextPage } from 'next';
 import Head from 'next/head';
-import { useRouter } from 'next/router';
+import { NextPageWithLayout } from './_app';
 
-const AboutUsPage: NextPage = () => {
-  const router = useRouter();
-
+const AboutUsPage: NextPageWithLayout = () => {
   return (
     <div className="text-text space-y-8">
       <Head>
@@ -27,18 +21,7 @@ const AboutUsPage: NextPage = () => {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Navbar
-        setUp={{
-          useOverflowMenu: false,
-          rightButtonInfo: [
-            {
-              label: 'Join the hunt',
-              onClick: () => router.push(GoToHomePage()),
-              style: ButtonStyle.Filled,
-            },
-          ],
-        }}
-      >
+      <div>
         <Section>
           <motion.div
             className="space-y-16 pb-48"
@@ -53,10 +36,13 @@ const AboutUsPage: NextPage = () => {
             <Goal />
           </motion.div>
         </Section>
-        <Footer />
-      </Navbar>
+      </div>
     </div>
   );
 };
 
 export default AboutUsPage;
+
+AboutUsPage.getLayout = function getLayout(page) {
+  return <AppLayout>{page}</AppLayout>;
+};

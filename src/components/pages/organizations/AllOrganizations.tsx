@@ -1,4 +1,3 @@
-import Navbar from '@/components/navbar/Navbar';
 import { ButtonInformation, ButtonStyle } from '@/components/utils/Button';
 import Loading from '@/components/utils/Loading';
 import { AppearVariants } from '@/lib/framer/Variants';
@@ -54,17 +53,7 @@ export const AllOrganizations = () => {
   }, [organizations]);
 
   return (
-    <Navbar
-      className="bg-black text-text px-2 max-w-4xl laptop:max-w-5xl mx-auto w-full block laptop:grid grid-cols-3 gap-x-16"
-      setUp={{
-        goBack: () => {},
-        useOverflowMenu: !!user,
-        rightButtonInfo: ctaButton ? [ctaButton] : undefined,
-        forceHide: forceHideNav,
-        setForceHide: setForceHideNav,
-        useMobileNavigation: true,
-      }}
-    >
+    <>
       {isLoading && (
         <div className="col-span-2 w-full grid place-items-center">
           <Loading fullScreen={false} />
@@ -73,7 +62,7 @@ export const AllOrganizations = () => {
 
       {!isLoading && organizations && (
         <motion.div
-          className="space-y-2 col-span-2 w-full"
+          className="space-y-8 col-span-2 w-full max-w-4xl mx-auto"
           variants={AppearVariants}
           initial="hidden"
           animate="visible"
@@ -82,6 +71,6 @@ export const AllOrganizations = () => {
           <Organizations map={mapOfOrg} />
         </motion.div>
       )}
-    </Navbar>
+    </>
   );
 };

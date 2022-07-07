@@ -1,4 +1,4 @@
-export function DarkOverlay({
+export function Overlay({
   setShowOverlay,
   showOverlay,
   opacity = 'opacity-75',

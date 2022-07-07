@@ -2,9 +2,9 @@ import { GoToBountyPage } from '@/utils/Routes';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useState } from 'react';
 import { useNotification } from '../notifications/NotificationContext';
-import { DarkOverlay } from '../navbar/utils/DarkOverlay';
+import { Overlay } from './Overlay';
 import { DelayType, NotificationType } from '../notifications/iNotification';
-import { Portal } from '../navbar/utils/Portal';
+import { Portal } from './Portal';
 import Icon from './Icon';
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
@@ -67,7 +67,7 @@ export function MoreMenu({ bountyId }: { bountyId: string }) {
             </button>
           </motion.div>
         )}
-        <DarkOverlay
+        <Overlay
           setShowOverlay={setIsOpen}
           showOverlay={isOpen}
           opacity="opacity-50"

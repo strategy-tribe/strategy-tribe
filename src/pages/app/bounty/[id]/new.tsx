@@ -9,7 +9,6 @@ import React, {
 import { useSaveSubmission } from '@/hooks/submissionHooks';
 import { useAuth } from 'auth/AuthContext';
 import { GoToBountyPage, GoToSubmissionPage } from '@/utils/Routes';
-import Navbar from '@/components/navbar/Navbar';
 import { useNotification } from '@/components/notifications/NotificationContext';
 import { Check } from '@/components/utils/BountyRequirementsShowcase';
 import {
@@ -213,19 +212,7 @@ const NewSubmission: NextPageWithLayout = () => {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Navbar
-        className="px-2 text-text space-y-6 mx-auto max-w-5xl mb-52 laptop:mb-96"
-        setUp={{
-          useBackArrow: true,
-          useBackArrowOnDesktop: true,
-          useNavigation: false,
-          leftLabel: editPhase ? 'New Submission' : 'Back to edit',
-          useOverflowMenu: false,
-          rightButtonInfo: ctaButton ? [ctaButton] : undefined,
-
-          goBack: editPhase ? () => router.back() : () => setEditPhase(true),
-        }}
-      >
+      <>
         <NewSubmissionContext.Provider
           value={{
             userAnswers,
@@ -243,7 +230,7 @@ const NewSubmission: NextPageWithLayout = () => {
         <div className="laptop:hidden">
           <Button info={ctaButton} />
         </div>
-      </Navbar>
+      </>
     </>
   );
 };

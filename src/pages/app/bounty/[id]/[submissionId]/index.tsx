@@ -2,7 +2,6 @@ import { GoToReviewSubmissionPage } from '@/utils/Routes';
 import { useAuth } from 'auth/AuthContext';
 import { useRouter } from 'next/router';
 import React, { useMemo } from 'react';
-import Navbar from '@/components/navbar/Navbar';
 
 import { ButtonInformation, ButtonStyle } from '@/components/utils/Button';
 import Head from 'next/head';
@@ -40,19 +39,12 @@ const SubmissionPage: NextPageWithLayout = () => {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Navbar
-        setUp={{
-          useBackArrow: true,
-          leftLabel: `S#${submissionId?.slice(0, 9)}...`,
-          rightButtonInfo: ctaButton ? [ctaButton] : undefined,
-          useMobileNavigation: false,
-        }}
-      >
+      <>
         <SubmissionDetails
           bountyId={bountyId as string}
           submissionId={submissionId as string}
         />
-      </Navbar>
+      </>
     </>
   );
 };

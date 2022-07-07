@@ -1,5 +1,4 @@
-import Navbar from '@/components/navbar/Navbar';
-import { GoToBountyPage, GoToSubmissionPage } from '@/utils/Routes';
+import { GoToBountyPage } from '@/utils/Routes';
 import { useAuth } from 'auth/AuthContext';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
@@ -30,18 +29,7 @@ const ReviewPage: NextPageWithLayout = () => {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Navbar
-        className="px-2 space-y-6 text-sm mx-auto max-w-5xl"
-        setUp={{
-          useBackArrow: true,
-          leftLabel: 'Review Submission',
-          useOverflowMenu: true,
-          goBack: () =>
-            router.push(
-              GoToSubmissionPage(bountyId as string, submissionId as string)
-            ),
-        }}
-      >
+      <div className="px-2 space-y-6 text-sm mx-auto max-w-5xl">
         {/* Evaluating as */}
         <div className="flex flex-col">
           <span className="text-white font-grotesk text-sm font-medium">
@@ -100,7 +88,7 @@ const ReviewPage: NextPageWithLayout = () => {
         {section === 'Evaluate' && (
           <Evaluate submissionId={submissionId as string} />
         )}
-      </Navbar>
+      </div>
     </>
   );
 };

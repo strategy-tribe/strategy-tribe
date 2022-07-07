@@ -1,4 +1,3 @@
-import Navbar from '@/components/navbar/Navbar';
 import { Title } from '@/components/utils/Title';
 ('@/components/utils/Title');
 import { SubmissionEntry } from '@/components/utils/SubmissionEntry';
@@ -8,10 +7,11 @@ import { ImportantMessage } from '@/components/utils/Warning';
 import { useGetSubmissions } from '@/hooks/submissionHooks';
 import { Order, SubmissionQueryParams } from '@/lib/models/queryParams';
 import { SubmissionState } from '@/lib/models/status';
-import type { NextPage } from 'next';
 import { useAuth } from 'auth/AuthContext';
+import AppLayout from '@/components/layouts/AppLayout';
+import { NextPageWithLayout } from '../_app';
 
-const ReviewPage: NextPage = () => {
+const ReviewPage: NextPageWithLayout = () => {
   const query: SubmissionQueryParams = {
     order: Order.Desc,
     states: [SubmissionState.WaitingForReview],
@@ -30,7 +30,7 @@ const ReviewPage: NextPage = () => {
   }
 
   return (
-    <Navbar setUp={{}} className="mx-auto max-w-5xl min-h-screen space-y-8">
+    <div className="mx-auto max-w-5xl min-h-screen space-y-8">
       <Title
         title="Submissions to review"
         extraInfo="Submissions waiting to be reviewed"
@@ -60,8 +60,11 @@ const ReviewPage: NextPage = () => {
           icon="warning"
         />
       )}
-    </Navbar>
+    </div>
   );
 };
 
+ReviewPage.getLayout = function getLayout(page) {
+  return <AppLayout>{page}</AppLayout>;
+};
 export default ReviewPage;
