@@ -61,7 +61,7 @@ export const useUrlSearchParams = () => {
       options?: { scroll?: boolean; url?: string }
     ) => {
       const newRouter = buildRoute(qry, options?.url);
-      router.push(newRouter, undefined, { scroll: options?.scroll });
+      router.push(newRouter, undefined, { scroll: !!options?.scroll });
     },
     query,
   };

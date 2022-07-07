@@ -8,7 +8,7 @@ import { kFormatter } from '@/lib/utils/NumberHelpers';
 export function ExploreFilters() {
   const { query, setQuery } = useUrlSearchParams();
   const {
-    bountyFetch: { count },
+    bountyFetch: { count, isLoading },
   } = useExploreContext();
 
   return (
@@ -28,7 +28,9 @@ export function ExploreFilters() {
         })}
       </ul>
 
-      <span className="label text-unactive">
+      <span
+        className={`label text-unactive ${isLoading ? 'invisible' : 'visible'}`}
+      >
         {kFormatter(count || 0)} bounties
       </span>
     </div>

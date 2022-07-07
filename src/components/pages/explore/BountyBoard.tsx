@@ -8,7 +8,7 @@ export function BountyBoard() {
     bountyFetch: { bounties },
   } = useExploreContext();
   return (
-    <Section className={`grid grid-cols-4 gap-x-20 gap-y-10`}>
+    <Section className={`grid grid-cols-4 gap-x-16 gap-y-10`}>
       {bounties?.map((bounty, i) => {
         return <BountyCard bounty={bounty} key={i} />;
       })}

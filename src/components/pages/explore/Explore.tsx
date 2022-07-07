@@ -32,19 +32,16 @@ function ExploreContent() {
           <Map />
         </Section>
 
-        {!!isLoading && <Loading small />}
+        <div className="space-y-20 min-h-screen">
+          {!!error && <span>{`${error}`}</span>}
 
-        {!!error && <span>{`${error}`}</span>}
+          <Section>
+            <ExploreFilters />
+          </Section>
 
-        {!!bounties && (
-          <>
-            <Section>
-              <ExploreFilters />
-            </Section>
-
-            <BountyBoard />
-          </>
-        )}
+          {!!bounties && <BountyBoard />}
+          {!!isLoading && <Loading small />}
+        </div>
       </div>
     </>
   );
