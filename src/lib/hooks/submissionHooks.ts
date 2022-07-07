@@ -13,9 +13,10 @@ import {
   useQuery,
   useQueryClient,
 } from 'react-query';
-import { UserInput } from '@/pages/app/bounty/[id]/new';
+
 import { SubmissionQueryParams } from '@/lib/models/queryParams';
 import { Submission } from '../models';
+import { UserInput } from '@/components/pages/submission/UserInput';
 
 export const useSaveSubmission = (
   owner: string,

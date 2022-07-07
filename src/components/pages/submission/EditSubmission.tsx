@@ -1,15 +1,14 @@
 import Loading from '@/components/utils/Loading';
 import { useGetBounty } from '@/hooks/bountyHooks';
-import {
-  useNewSubmissionContext,
-  UserInput,
-} from '@/pages/app/bounty/[id]/new';
+
 import React, { useMemo, useState } from 'react';
 import FromBounty from '@/components/utils/FromBounty';
 import { Title } from '@/components/utils/Title';
 ('@/components/utils/Title');
 import { RequirementEditor } from './editSubmission/RequirementEditor';
 import { Stat } from './Stat';
+import { useNewSubmissionContext } from './NewSubmissionContext';
+import { UserInput } from './UserInput';
 
 export function EditSubmission() {
   //*Context

@@ -21,7 +21,7 @@ export function SubscriptionsList({ showAll = false }: { showAll?: boolean }) {
   const { subscribeToAll, unsubscribeFromAll, isLoading, isLoadingUnsub } =
     useSubscribeToAll(userId as string, {}, {});
 
-  if (!userInfo) return <Loading fullScreen={false} />;
+  if (!userInfo) return <Loading small={false} />;
 
   const numOfSubscriptions = userInfo?.subscribedTo?.length;
   const theresMore = numOfSubscriptions > 5;

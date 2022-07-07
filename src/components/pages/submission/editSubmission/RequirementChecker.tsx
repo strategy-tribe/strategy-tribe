@@ -1,8 +1,9 @@
 import Icon from '@/components/utils/Icon';
 import { Requirement, RequirementType } from '@/lib/models/requirement';
-import { useNewSubmissionContext } from '@/pages/app/bounty/[id]/new';
+
 import { GetWordCount } from '@/utils/StringHelpers';
 import React, { useEffect, useState } from 'react';
+import { useNewSubmissionContext } from '../NewSubmissionContext';
 import CheckInput from './checkers';
 
 export function RequirementChecker({

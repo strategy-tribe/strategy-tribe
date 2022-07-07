@@ -1,11 +1,11 @@
-import { BOUNTIES_TABLE, SUBMISSION_TABLE } from './tables';
+import { SUBMISSION_TABLE } from './tables';
 import { Moralis } from 'moralis';
 import { v4 as uuid } from 'uuid';
 import { CastSubmission } from '../utils/Helpers';
 import { SubmissionState } from '@/lib/models/status';
 import { Submission, SubmissionContent } from '@/lib/models/submission';
-import { UserInput } from '@/pages/app/bounty/[id]/new';
 import { SubmissionQueryParams } from '@/lib/models/queryParams';
+import { UserInput } from '@/components/pages/submission/UserInput';
 
 export const Molaris_useSaveSubmission = (
   owner: string,

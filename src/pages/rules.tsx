@@ -1,11 +1,11 @@
 import { Section } from '@/components/pages/landing/Section';
 import AppLayout from '@/components/layouts/AppLayout';
 import React from 'react';
-import { NextPageWithLayout } from '../_app';
+import { NextPageWithLayout } from './_app';
 
 const RulesPage: NextPageWithLayout = () => {
   return (
-    <>
+    <div className="mx-auto max-w-5xl">
       <Section>
         <div>
           <h2 className="text-3xl font-inter font-bold text-white">
@@ -68,7 +68,7 @@ const RulesPage: NextPageWithLayout = () => {
           See our full terms of service
         </a>
       </Section>
-    </>
+    </div>
   );
 };
 

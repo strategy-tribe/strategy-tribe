@@ -1,5 +1,5 @@
 import useWindowDimensions from '@/hooks/useWindowDimensions';
-import { GoToAboutusPage, GoTobBountiesPage } from '@/utils/Routes';
+import { GoToAboutusPage, GoToBountiesPage } from '@/utils/Routes';
 import { motion, useTransform, useViewportScroll } from 'framer-motion';
 import Image from 'next/image';
 import router from 'next/router';
@@ -75,7 +75,7 @@ function HeroDesktop() {
             info={{
               label: 'Join the hunt',
               style: ButtonStyle.Filled,
-              onClick: () => router.push(GoTobBountiesPage()),
+              onClick: () => router.push(GoToBountiesPage()),
             }}
           />
           <Button
@@ -315,7 +315,7 @@ function HeroMobile() {
             info={{
               label: 'Join the hunt',
               style: ButtonStyle.Filled,
-              onClick: () => router.push(GoTobBountiesPage()),
+              onClick: () => router.push(GoToBountiesPage()),
             }}
           />
           <Button

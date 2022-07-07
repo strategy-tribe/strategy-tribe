@@ -1,6 +1,6 @@
 import {
   GoToAboutusPage,
-  GoTobBountiesPage,
+  GoToBountiesPage,
   GoToOrganizationsPage,
 } from '@/lib/utils/Routes';
 import { useState } from 'react';
@@ -30,7 +30,7 @@ export function LandingNavbar({ hideBgOnScroll }: { hideBgOnScroll: boolean }) {
           {/* right side */}
           <div className="flex gap-8 items-center">
             <LandingPageLink />
-            <NavLink url={GoTobBountiesPage()} label="Bounties" />
+            <NavLink url={GoToBountiesPage()} label="Bounties" />
             <NavLink url={GoToOrganizationsPage()} label="Organizations" />
             <NavLink url={GoToAboutusPage()} label="About" />
           </div>
@@ -41,7 +41,7 @@ export function LandingNavbar({ hideBgOnScroll }: { hideBgOnScroll: boolean }) {
               info={{
                 label: 'Join the hunt',
                 style: ButtonStyle.Filled,
-                isALink: GoTobBountiesPage(),
+                isALink: GoToBountiesPage(),
               }}
             />
           </div>

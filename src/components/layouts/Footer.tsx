@@ -1,7 +1,7 @@
 import {
   GoToAboutusPage,
   GoToGeneralDonationsPage,
-  GoTobBountiesPage,
+  GoToBountiesPage,
 } from '@/utils/Routes';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -25,7 +25,7 @@ const Footer = () => {
         <div className="grid bt:grid-cols-2 w-full gap-y-4">
           <ul className="space-y-4  text-purpleLight">
             <li className="cursor-pointer font-grotesk font-medium hover:text-white">
-              <Link href={GoTobBountiesPage()}>Home</Link>
+              <Link href={GoToBountiesPage()}>Home</Link>
             </li>
             <li className="cursor-pointer font-grotesk font-medium hover:text-white">
               <Link href={GoToAboutusPage()}>About</Link>

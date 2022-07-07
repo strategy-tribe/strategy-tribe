@@ -3,26 +3,25 @@ import { Searchbar } from '@/components/pages/search/Searchbar';
 import { Title } from '@/components/utils/Title';
 ('@/components/utils/Title');
 import { useState } from 'react';
-import { NextPageWithLayout } from '../_app';
 import { BountyEntry } from '@/components/utils/BountyEntry';
 import { OrgEntry } from '@/components/pages/organizations/OrgEntry';
 import { ImportantMessage } from '@/components/utils/Warning';
-import { useAuth } from 'auth/AuthContext';
 import { Button, ButtonStyle } from '@/components/utils/Button';
 import { Organization } from '@/lib/models/organizations/organization';
 import { useGetBounties } from '@/hooks/bountyHooks';
 import Head from 'next/head';
 import Loading from '@/components/utils/Loading';
 import { AppearVariants } from '@/lib/framer/Variants';
-import { PageControls } from '../../components/pages/search/PageControls';
-import { SearchFilters } from '../../components/pages/search/SearchFilters';
 import { Overlay } from '@/components/utils/Overlay';
 import { useUrlSearchParams } from '@/hooks/useUrlSearchParams';
+import { PageControls } from '@/components/pages/search/PageControls';
+import { SearchFilters } from '@/components/pages/search/SearchFilters';
+import { NextPageWithLayout } from './_app';
 
 const PAGE_SIZE = 10;
 
 const SearchPage: NextPageWithLayout = () => {
-  const { searchParams: query, applyQry: setQuery } = useUrlSearchParams();
+  const { query: query, setQuery: setQuery } = useUrlSearchParams();
 
   const {
     error,
@@ -128,7 +127,7 @@ const SearchPage: NextPageWithLayout = () => {
 
             {isLoading && (
               <div className="py-16">
-                <Loading fullScreen={false} />
+                <Loading small={false} />
               </div>
             )}
 

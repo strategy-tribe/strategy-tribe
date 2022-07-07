@@ -9,7 +9,7 @@ import { Order, SubmissionQueryParams } from '@/lib/models/queryParams';
 import { SubmissionState } from '@/lib/models/status';
 import { useAuth } from 'auth/AuthContext';
 import AppLayout from '@/components/layouts/AppLayout';
-import { NextPageWithLayout } from '../_app';
+import { NextPageWithLayout } from './_app';
 
 const ReviewPage: NextPageWithLayout = () => {
   const query: SubmissionQueryParams = {

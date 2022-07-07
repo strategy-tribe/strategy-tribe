@@ -8,7 +8,7 @@ import { Order, BountyOrderBy } from '@/lib/models/queryParams';
 import { BountyState } from '@/lib/models/status';
 import Head from 'next/head';
 import { useAuth } from 'auth/AuthContext';
-import { NextPageWithLayout } from '../_app';
+import { NextPageWithLayout } from './_app';
 
 const WaitingForFunds: NextPageWithLayout = () => {
   const { userId, isStaff } = useAuth();

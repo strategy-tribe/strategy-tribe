@@ -1,7 +1,7 @@
 import {
   GoToAboutusPage,
   GoToFAQPage,
-  GoTobBountiesPage,
+  GoToBountiesPage,
   GoToOrganizationsPage,
   GoToUserPage,
 } from '@/lib/utils/Routes';
@@ -29,7 +29,7 @@ export function Navbar() {
           {/* right side */}
           <div className="flex gap-8 items-center">
             <LandingPageLink />
-            <NavLink url={GoTobBountiesPage()} label="Bounties" />
+            <NavLink url={GoToBountiesPage()} label="Bounties" />
             <NavLink url={GoToOrganizationsPage()} label="Organizations" />
             <NavLink url={GoToAboutusPage()} label="About" />
           </div>

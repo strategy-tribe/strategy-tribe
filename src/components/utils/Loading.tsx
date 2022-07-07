@@ -1,11 +1,7 @@
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 
-export default function Loading({
-  fullScreen = true,
-}: {
-  fullScreen?: boolean;
-}) {
+export default function Loading({ small = false }: { small?: boolean }) {
   const [errorMessage, setErrorMessage] = useState(false);
 
   const [errorMessage2, setErrorMessage2] = useState(false);
@@ -22,7 +18,7 @@ export default function Loading({
   return (
     <div
       className={`${
-        fullScreen && 'h-screen w-screen '
+        !small && 'h-screen w-screen '
       } flex items-center justify-center flex-col gap-8 text-unactive `}
     >
       <div className="flex items-center justify-center flex-col gap-4 animate-pulse">

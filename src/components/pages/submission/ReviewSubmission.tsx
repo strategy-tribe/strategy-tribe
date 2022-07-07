@@ -1,8 +1,8 @@
 import { ImageGallery } from '@/components/utils/ImageGallery';
-import { useNewSubmissionContext } from '@/pages/app/bounty/[id]/new';
 import React from 'react';
 import FromBounty from '@/components/utils/FromBounty';
 import { Title } from '@/components/utils/Title';
+import { useNewSubmissionContext } from './NewSubmissionContext';
 ('@/components/utils/Title');
 
 export function ReviewSubmission() {

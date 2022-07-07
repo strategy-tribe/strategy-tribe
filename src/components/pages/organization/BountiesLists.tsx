@@ -66,7 +66,7 @@ export function BountiesLists({
     <div className="max-w-xl space-y-4">
       {isLoading && (
         <div className="col-span-2 w-full grid place-items-center">
-          <Loading fullScreen={false} />
+          <Loading small={false} />
         </div>
       )}
 
@@ -95,7 +95,7 @@ export function BountiesLists({
 
           {/* Closed */}
           {isStaff && <List bounties={closedBounties} title="Closed" />}
-          {isLoading && <Loading fullScreen={false} />}
+          {isLoading && <Loading small={false} />}
         </div>
       )}
     </div>

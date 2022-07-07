@@ -1,7 +1,7 @@
 import FromBounty from '@/components/utils/FromBounty';
 import { useGetSubmission } from '@/hooks/submissionHooks';
 import { GetDateInString } from '@/utils/DateHelpers';
-import { GoTo404Page, GoTobBountiesPage } from '@/utils/Routes';
+import { GoTo404Page, GoToBountiesPage } from '@/utils/Routes';
 import { useAuth } from 'auth/AuthContext';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
@@ -32,7 +32,7 @@ export function SubmissionDetails({
   useEffect(() => {
     if (!submission) return;
     else if (!isStaff && submission.owner !== user) {
-      router.push(GoTobBountiesPage());
+      router.push(GoToBountiesPage());
     }
   }, [submission, isAuthenticated, isStaff]);
 
@@ -45,7 +45,7 @@ export function SubmissionDetails({
   }, [isLoading, submission, error]);
 
   if (!Boolean(submissionId as string) || isLoading)
-    return <Loading fullScreen={false} />;
+    return <Loading small={false} />;
   else
     return (
       <div className="text-text space-y-6 p-2 pb-16 mx-auto max-w-5xl">

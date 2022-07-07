@@ -56,7 +56,7 @@ export const AllOrganizations = () => {
     <>
       {isLoading && (
         <div className="col-span-2 w-full grid place-items-center">
-          <Loading fullScreen={false} />
+          <Loading small={false} />
         </div>
       )}
 

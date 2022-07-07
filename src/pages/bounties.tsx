@@ -7,23 +7,23 @@ import { dehydrate } from 'react-query';
 import { prefetchExploreQueries } from '@/lib/models/explore/PrefetchExploreQueries';
 import Moralis from 'moralis/node';
 
-export const getStaticProps: GetStaticProps = async () => {
-  //*Prefetch queries
-  const queryClient = await prefetchExploreQueries(Moralis);
-  const prefetchedQueries = dehydrate(queryClient);
+// export const getStaticProps: GetStaticProps = async () => {
+//   //*Prefetch queries
+//   const queryClient = await prefetchExploreQueries(Moralis);
+//   const prefetchedQueries = dehydrate(queryClient);
 
-  //*Map data
-  // const mapData = await getMapData(Moralis);
+//   //*Map data
+//   // const mapData = await getMapData(Moralis);
 
-  //*Return props
-  return {
-    props: {
-      dehydratedState: JSON.parse(JSON.stringify(prefetchedQueries)),
-      // mapData: JSON.parse(JSON.stringify(mapData)),
-    },
-    revalidate: 10,
-  };
-};
+//   //*Return props
+//   return {
+//     props: {
+//       dehydratedState: JSON.parse(JSON.stringify(prefetchedQueries)),
+//       // mapData: JSON.parse(JSON.stringify(mapData)),
+//     },
+//     revalidate: 10,
+//   };
+// };
 
 const BountiesPage: NextPageWithLayout = () => {
   return (

@@ -5,15 +5,15 @@ import {
 } from '@/lib/models/queryParams';
 import { BountyState } from '@/lib/models/status';
 import { TargetType } from '@/lib/models/targetType';
-import { GoToSearchPage } from '@/utils/Routes';
+import { GoToBountiesPage } from '@/utils/Routes';
 import { useRouter } from 'next/router';
 import { useMemo } from 'react';
 
 export const useUrlSearchParams = () => {
   const router = useRouter();
 
-  function buildRoute(qry: BountyQueryParams) {
-    router.pathname = GoToSearchPage();
+  function buildRoute(qry: BountyQueryParams, url = GoToBountiesPage()) {
+    router.pathname = url;
 
     return {
       pathname: router.pathname,
@@ -33,7 +33,7 @@ export const useUrlSearchParams = () => {
     };
   }
 
-  const searchParams: BountyQueryParams = useMemo(() => {
+  const query: BountyQueryParams = useMemo(() => {
     const qry = router.query;
     const specificityOfOrgName = qry.specificityOfOrgName as string as
       | 'Exact'
@@ -48,7 +48,7 @@ export const useUrlSearchParams = () => {
       states: qry.states as BountyState[],
       targetType: qry.targetType as TargetType,
       orgName: qry.orgName as string,
-      amount: parseFloat(qry.amount as string),
+      amount: parseFloat(qry.amount as string) || 4 * 4,
       specificityOfOrgName,
       paginate: qry.paginate === 'true',
     };
@@ -56,10 +56,13 @@ export const useUrlSearchParams = () => {
   }, [router.query]);
 
   return {
-    applyQry: (qry: BountyQueryParams) => {
-      const newRouter = buildRoute(qry);
-      router.push(newRouter);
+    setQuery: (
+      qry: BountyQueryParams,
+      options?: { scroll?: boolean; url?: string }
+    ) => {
+      const newRouter = buildRoute(qry, options?.url);
+      router.push(newRouter, undefined, { scroll: options?.scroll });
     },
-    searchParams,
+    query,
   };
 };

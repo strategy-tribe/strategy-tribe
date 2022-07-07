@@ -1,4 +1,4 @@
-import { GoTobBountiesPage } from '@/utils/Routes';
+import { GoToBountiesPage } from '@/utils/Routes';
 import { useRouter } from 'next/router';
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { Banner } from './Banner';
@@ -78,7 +78,7 @@ export const NotificationcontextProvider = ({
     setCondition(_condition);
     setNotificationType(_notificationType);
     //check if the user is in the app...
-    setShowNotif(router.pathname.includes(GoTobBountiesPage()));
+    setShowNotif(router.pathname.includes(GoToBountiesPage()));
   }
 
   return (

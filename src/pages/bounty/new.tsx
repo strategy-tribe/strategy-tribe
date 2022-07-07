@@ -1,4 +1,4 @@
-import { GoTobBountiesPage } from '@/utils/Routes';
+import { GoToBountiesPage } from '@/utils/Routes';
 import { useAuth } from 'auth/AuthContext';
 
 import { useRouter } from 'next/router';
@@ -39,7 +39,7 @@ const NewBounty: NextPageWithLayout = () => {
 
   const moveToNext = () => {
     if (step === 5) {
-      router.push(GoTobBountiesPage());
+      router.push(GoToBountiesPage());
     } else setStep(step + 1);
   };
 
@@ -79,7 +79,7 @@ const NewBounty: NextPageWithLayout = () => {
 
   useEffect(() => {
     if (!isStaff) {
-      router.push(GoTobBountiesPage());
+      router.push(GoToBountiesPage());
     }
   }, [isStaff, userId]);
 

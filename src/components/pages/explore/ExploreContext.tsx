@@ -1,19 +1,15 @@
 import { MapData } from '@/lib/models/map/MapData';
 import { CountryData } from '@/lib/models/map/CountryData';
 import { useContext, createContext, ReactNode, useState } from 'react';
+import { useUrlSearchParams } from '@/lib/hooks/useUrlSearchParams';
+import { useGetBounties } from '@/lib/hooks/bountyHooks';
 
 interface iExploreContext {
-  mapData: MapData;
-  regions: CountryData[];
-  selected?: CountryData;
-  setSelected: (r?: CountryData) => void;
+  bountyFetch: ReturnType<typeof useGetBounties>;
 }
 
-const ExploreContext = createContext<iExploreContext>({
-  mapData: { regions: [], id: '', createdAt: new Date() },
-  setSelected: () => {},
-  regions: [],
-});
+//@ts-ignore
+const ExploreContext = createContext<iExploreContext>();
 
 export const ExploreContextProvider = ({
   children,
@@ -22,12 +18,11 @@ export const ExploreContextProvider = ({
   children: ReactNode;
   mapData: MapData;
 }) => {
-  const [selected, setSelected] = useState<CountryData>();
+  const { query } = useUrlSearchParams();
+  const bountyFetch = useGetBounties(query, 0);
 
   return (
-    <ExploreContext.Provider
-      value={{ mapData, regions: mapData.regions, selected, setSelected }}
-    >
+    <ExploreContext.Provider value={{ bountyFetch }}>
       {children}
     </ExploreContext.Provider>
   );

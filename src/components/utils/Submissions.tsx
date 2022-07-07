@@ -28,7 +28,7 @@ function Submissions({ bountyId }: { bountyId: string }) {
     );
   }, [submissions]);
 
-  if (isLoading) return <Loading fullScreen={false} />;
+  if (isLoading) return <Loading small={false} />;
   return (
     <div className="space-y-4 pb-32">
       {/* Title */}

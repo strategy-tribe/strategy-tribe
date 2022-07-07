@@ -4,6 +4,7 @@ import { ChoroplethBoundFeature, ResponsiveChoropleth } from '@nivo/geo';
 import { useQuery } from 'react-query';
 import { CountryData } from '@/lib/models/map/CountryData';
 import { useGetMapData } from '@/lib/models/map/useGetMapData';
+import { kFormatter } from '@/lib/utils/NumberHelpers';
 
 export default function MapProjection() {
   const { data, isLoading, error } = useGetMapData();
@@ -47,8 +48,8 @@ export default function MapProjection() {
                   <span className="text-purpleDark">{totalFunds} ETH</span>
                 </div>
                 <div className="flex justify-between items-center gap-6 label-sm text-unactive">
-                  <span>{bounties} bounties</span>
-                  <span>{organizations} organizations</span>
+                  <span>{kFormatter(bounties)} bounties</span>
+                  <span>{kFormatter(organizations)} organizations</span>
                 </div>
               </div>
             );

@@ -2,7 +2,7 @@ import { useNotification } from '@/components/notifications/NotificationContext'
 import { Submission, SubmissionState } from '@/models/index';
 import { useSubmitReview } from '@/hooks/reviewHooks';
 import { useGetSubmission } from '@/hooks/submissionHooks';
-import { GoTobBountiesPage } from '@/utils/Routes';
+import { GoToBountiesPage } from '@/utils/Routes';
 import { useAuth } from 'auth/AuthContext';
 import { useRouter } from 'next/router';
 import React, { useMemo, useState } from 'react';
@@ -146,7 +146,7 @@ function SubmitReviewButton({
       className="text-purpleLight border-2 border-purpleDark py-3 px-6 text-base rounded-full flex space-x-2 disabled:hidden"
       onClick={() => {
         SubmitReview();
-        router.push(GoTobBountiesPage());
+        router.push(GoToBountiesPage());
       }}
     >
       <Icon icon="publish" />

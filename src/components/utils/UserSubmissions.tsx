@@ -17,7 +17,7 @@ export function UserSubmissions({ id }: { id: string }) {
       Boolean(userId as string)
     );
 
-  if (isLoading) return <Loading fullScreen={true} />;
+  if (isLoading) return <Loading small={true} />;
 
   return (
     <div className="space-y-4 laptop:pb-32 px-2">
