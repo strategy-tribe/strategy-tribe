@@ -1,4 +1,4 @@
-import React, { useContext, createContext, useState, useEffect } from 'react';
+import React, { useContext, createContext, useState } from 'react';
 import { Moralis } from 'moralis';
 import { useMoralis } from 'react-moralis';
 import { useAuthChanged } from './utils/useAuthChanged';
@@ -57,7 +57,9 @@ const ServerContextProvider = ({
     account,
     isInitialized,
   } = useMoralis();
+
   useAuthChanged((isAuth) => fetchIsStaff(isAuth));
+
   const [isStaff, setIsStaff] = useState(false);
   const [isFetchingIsStaff, setIsFetchingIsStaff] = useState(false);
 

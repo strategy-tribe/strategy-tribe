@@ -1,15 +1,19 @@
 import { Button, ButtonStyle } from '@/components/utils/Button';
 import { TargetType } from '@/lib/models/targetType';
-import React, { useState } from 'react';
+import React from 'react';
 import { Section } from '../landing/Section';
 import { useOrganizationContext } from './OrganizationContext';
 import { BountiesLists } from './BountiesLists';
 
 export function OrganizationBounties() {
-  const { orgBounties, isLoadingBounties, amountOfBounties, goToMoreBounties } =
-    useOrganizationContext();
-
-  const [viewing, setViewing] = useState<TargetType>(TargetType.Organization);
+  const {
+    orgBounties,
+    isLoadingBounties,
+    amountOfBounties,
+    goToMoreBounties,
+    viewing,
+    setViewing,
+  } = useOrganizationContext();
 
   return (
     <Section className="laptop:pl-4 w-full max-w-4xl laptop:max-w-5xl mx-auto space-y-8">

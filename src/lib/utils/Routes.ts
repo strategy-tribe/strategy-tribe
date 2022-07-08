@@ -25,7 +25,7 @@ export const GoToNewBountyPage = () => '/bounty/new';
 export const GoToUserPage = () => '/user';
 export const GoToSubsPage = () => '/user/subscriptions';
 
-export const GoToOrgPage = (orgId: string) => `/org/${orgId}`;
+export const GoToOrgPage = (orgId: string) => `/organization/${orgId}`;
 
 export const GoToBountyPage = (bountyId: string) => `/bounty/${bountyId}`;
 
