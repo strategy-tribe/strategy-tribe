@@ -2,11 +2,19 @@ import Queries from '@/utils/Queries';
 import { usePushNotifs } from '@/lib/onesignal/PushNotifsContext';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 
-const subsQuery = (userId: string, orgName: string) => [
+const queryForSubs = (userId: string, orgName: string) => [
   Queries.isSubscribed,
   orgName,
   userId,
 ];
+
+const queryForUserInfo = (userId: string) => {
+  return [userId, 'userInfo'];
+};
+
+const queryForUserSubsToAll = (userId: string) => {
+  return [userId, 'sub to all'];
+};
 
 export const useIsSubscribed = (
   userId: string,
@@ -14,11 +22,15 @@ export const useIsSubscribed = (
   enabled = true
 ) => {
   const { isSubscribed } = usePushNotifs();
+
+  const queryId = queryForSubs(userId, orgName);
+
   const { isLoading, data, error } = useQuery(
-    subsQuery(userId, orgName),
+    queryId,
     () => isSubscribed(userId, orgName),
     {
       enabled,
+      staleTime: 1000,
     }
   );
 
@@ -39,8 +51,8 @@ export const useSubscribe = (userId: string, orgName: string) => {
     isLoading: isLoadingSub,
   } = useMutation(() => subscribeToOrg(userId, orgName), {
     onSuccess: () => {
-      q.invalidateQueries(subsQuery(userId, orgName));
-      q.invalidateQueries([userId, 'userInfo']);
+      q.invalidateQueries(queryForSubs(userId, orgName));
+      q.invalidateQueries(queryForUserInfo(userId));
     },
   });
 
@@ -50,8 +62,8 @@ export const useSubscribe = (userId: string, orgName: string) => {
     isLoading: isLoadingUnsub,
   } = useMutation(() => unsubscribeToOrg(userId, orgName), {
     onSuccess: () => {
-      q.invalidateQueries(subsQuery(userId, orgName));
-      q.invalidateQueries([userId, 'userInfo']);
+      q.invalidateQueries(queryForSubs(userId, orgName));
+      q.invalidateQueries(queryForUserInfo(userId));
     },
   });
 
@@ -68,8 +80,9 @@ export const useSubscribe = (userId: string, orgName: string) => {
 
 export const useIsSubscribeToAll = (userId: string, enabled = true) => {
   const { isSubscribedToAll } = usePushNotifs();
+  const queryId = queryForUserSubsToAll(userId);
   const { isLoading, data, error } = useQuery(
-    [userId, 'sub to all'],
+    queryId,
     () => isSubscribedToAll(userId),
     {
       enabled,
@@ -104,8 +117,8 @@ export const useSubscribeToAll = (
     isLoading: isLoadingSub,
   } = useMutation(() => subscribeToAllOrgs(userId), {
     onSuccess: () => {
-      q.invalidateQueries([userId, 'sub to all']);
-      q.invalidateQueries([userId, 'userInfo']);
+      q.invalidateQueries(queryForUserSubsToAll(userId));
+      q.invalidateQueries(queryForUserInfo(userId));
       if (onSuccess) onSuccess();
     },
     onError,
@@ -117,8 +130,8 @@ export const useSubscribeToAll = (
     isLoading: isLoadingUnsub,
   } = useMutation(() => unsubscribeFromAllOrgs(userId), {
     onSuccess: () => {
-      q.invalidateQueries([userId, 'sub to all']);
-      q.invalidateQueries([userId, 'userInfo']);
+      q.invalidateQueries(queryForUserSubsToAll(userId));
+      q.invalidateQueries(queryForUserInfo(userId));
       if (afterUnsubscribe?.onSuccess) afterUnsubscribe.onSuccess();
     },
     onError: (e) => {

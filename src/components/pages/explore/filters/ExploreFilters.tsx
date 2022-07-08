@@ -58,6 +58,5 @@ function compareQueries(q1: QueryParams, q2: QueryParams) {
     }
   });
 
-  console.log(q1.orderBy, q2.orderBy, same);
   return same;
 }
