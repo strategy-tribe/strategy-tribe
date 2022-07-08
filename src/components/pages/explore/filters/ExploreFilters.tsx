@@ -44,7 +44,8 @@ function compareQueries(q1: QueryParams, q2: QueryParams) {
   const keys2 = Object.entries(q2);
 
   const biggest = keys1.length > keys2.length ? keys1 : keys2;
-  const smallest = keys1.length < keys2.length ? keys1 : keys2;
+  const smallest = keys1.length > keys2.length ? keys2 : keys1;
+
   let same = true;
   biggest.forEach((pair) => {
     if (!same) return;
@@ -52,6 +53,7 @@ function compareQueries(q1: QueryParams, q2: QueryParams) {
     const value = pair.at(valueIndex);
 
     const otherEntries = smallest.find((entry) => entry.at(keyIndex) === key);
+
     if (otherEntries) {
       const otherValue = otherEntries?.at(valueIndex);
       same = otherValue === value;

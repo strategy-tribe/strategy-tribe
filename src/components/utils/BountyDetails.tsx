@@ -69,8 +69,8 @@ export function BountyDetails() {
             />
             <Stat
               title="Funds address"
-              content={`${bounty.wallet.slice(0, 24)}...`}
-              copyThis={bounty.wallet}
+              content={`${bounty.wallet?.slice(0, 24)}...`}
+              copyThis={bounty.wallet || ''}
               copyable={true}
             />
           </div>

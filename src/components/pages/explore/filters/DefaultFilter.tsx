@@ -5,7 +5,8 @@ export type DefaultFilter = {
   type: string;
   query: QueryParams;
 };
-const latest: DefaultFilter = {
+
+const LATEST_FILTER: DefaultFilter = {
   type: 'Latest',
   query: {
     order: Order.Asc,
@@ -13,7 +14,7 @@ const latest: DefaultFilter = {
     amount: 16,
   },
 };
-const topRewards: DefaultFilter = {
+const TOP_REWARDS_FILTER: DefaultFilter = {
   type: 'Rewards',
   query: {
     order: Order.Desc,
@@ -21,7 +22,7 @@ const topRewards: DefaultFilter = {
     amount: 16,
   },
 };
-const lowCompetition: DefaultFilter = {
+const LOW_COMPETITION_FILTER: DefaultFilter = {
   type: 'Low competition',
   query: {
     order: Order.Asc,
@@ -29,7 +30,7 @@ const lowCompetition: DefaultFilter = {
     amount: 16,
   },
 };
-const closesSoon: DefaultFilter = {
+const CLOSES_SOON_FILTER: DefaultFilter = {
   type: 'Closes soon',
   query: {
     order: Order.Asc,
@@ -37,4 +38,11 @@ const closesSoon: DefaultFilter = {
     amount: 16,
   },
 };
-export const DEFAULT_FILTERS = [latest, topRewards, lowCompetition, closesSoon];
+export const DEFAULT_FILTERS = [
+  LATEST_FILTER,
+  TOP_REWARDS_FILTER,
+  LOW_COMPETITION_FILTER,
+  CLOSES_SOON_FILTER,
+];
+
+export const DEFAULT_FILTER = LATEST_FILTER;

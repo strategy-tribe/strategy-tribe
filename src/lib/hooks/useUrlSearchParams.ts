@@ -1,3 +1,4 @@
+import { DEFAULT_FILTER } from '@/components/pages/explore/filters/DefaultFilter';
 import {
   Order,
   BountyOrderBy,
@@ -39,6 +40,11 @@ export const useUrlSearchParams = () => {
       | 'Exact'
       | 'Loose'
       | undefined;
+
+    if (!qry.order || !qry.orderBy) {
+      return DEFAULT_FILTER.query;
+    }
+
     const params: BountyQueryParams = {
       searchTerm: qry.searchTerm as string,
       order: qry.order as Order,
@@ -48,10 +54,12 @@ export const useUrlSearchParams = () => {
       states: qry.states as BountyState[],
       targetType: qry.targetType as TargetType,
       orgName: qry.orgName as string,
+
       amount: parseFloat(qry.amount as string) || 4 * 4,
       specificityOfOrgName,
       paginate: qry.paginate === 'true',
     };
+
     return params;
   }, [router.query]);
 

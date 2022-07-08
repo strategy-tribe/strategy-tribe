@@ -1,6 +1,5 @@
 import { MapData } from '@/lib/models/map/MapData';
-import { CountryData } from '@/lib/models/map/CountryData';
-import { useContext, createContext, ReactNode, useState } from 'react';
+import { useContext, createContext, ReactNode } from 'react';
 import { useUrlSearchParams } from '@/lib/hooks/useUrlSearchParams';
 import { useGetBounties } from '@/lib/hooks/bountyHooks';
 

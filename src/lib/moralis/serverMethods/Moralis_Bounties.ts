@@ -28,8 +28,6 @@ export const Moralis_useGetBounties = (
 
     const query = new moralis.Query(BOUNTIES_TABLE);
 
-    // query.include('target');
-
     if (targetType) {
       query.equalTo('type', targetType);
     }

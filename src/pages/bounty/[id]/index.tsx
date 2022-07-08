@@ -23,6 +23,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
   const response = await Moralis.Cloud.run('getBountiesIds');
   const ids: string[] = response.ids;
+
   const paths = ids.map((id) => {
     return { params: { id } };
   });

@@ -2,11 +2,11 @@ import React from 'react';
 import { Section } from '../landing/Section';
 import { MapData } from '@/lib/models/map/MapData';
 import { ExploreContextProvider, useExploreContext } from './ExploreContext';
-
 import dynamic from 'next/dynamic';
 import Loading from '@/components/utils/Loading';
 import { ExploreFilters } from './filters/ExploreFilters';
 import { BountyBoard } from './BountyBoard';
+
 const Map = dynamic(import('./map/MapProjection'), {
   ssr: false,
 });

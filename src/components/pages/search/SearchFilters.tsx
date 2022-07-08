@@ -1,6 +1,6 @@
 import { Title } from '@/components/utils/Title';
 ('@/components/utils/Title');
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { BountyQueryParams } from '@/lib/models/queryParams';
 import { FilterMenu } from '@/components/filters/FilterMenu';
 import Icon from '@/components/utils/Icon';
@@ -33,9 +33,6 @@ export function SearchFilters({
     const newQ2 = { ...newQ, searchTerm: search };
     setQuery(newQ2);
   }
-  // useEffect(() => {
-  //   manageNewQuery(query);
-  // }, [search]);
 
   return (
     <>
