@@ -4,14 +4,13 @@ import { TargetType } from './targetType';
 
 export type Bounty = {
   //relations
-  // target: Target;
   name: string;
   alsoKnownAs?: string[];
   description?: string;
   type: TargetType;
   organizationName: string;
   tags?: string[];
-  region?: string;
+  countries?: string[];
 
   //has a default
   state: BountyState;

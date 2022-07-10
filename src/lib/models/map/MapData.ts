@@ -1,7 +1,6 @@
-import { CountryData } from './CountryData';
+import { CountriesData } from './CountriesData';
 
 export type MapData = {
-  id: string;
-  createdAt: Date;
-  regions: CountryData[];
+  mapData: CountriesData;
+  features: any[];
 };

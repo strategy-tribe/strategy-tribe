@@ -4,11 +4,14 @@ import { QueryParams } from '@/lib/models';
 import { DEFAULT_FILTERS } from './DefaultFilter';
 import { useExploreContext } from '../ExploreContext';
 import { kFormatter } from '@/lib/utils/NumberHelpers';
+import Icon, { IconSize } from '@/components/utils/Icon';
 
 export function ExploreFilters() {
   const { query, setQuery } = useUrlSearchParams();
   const {
     bountyFetch: { count, isLoading },
+    countries,
+    removeCountry,
   } = useExploreContext();
 
   return (
@@ -28,11 +31,34 @@ export function ExploreFilters() {
         })}
       </ul>
 
-      <span
-        className={`label text-unactive ${isLoading ? 'invisible' : 'visible'}`}
-      >
-        {kFormatter(count || 0)} bounties
-      </span>
+      <div className="flex items-center gap-6 py-1">
+        <div className="flex gap-4 items-center">
+          {countries?.map((country, i) => {
+            return (
+              <div
+                className="border-[1px] rounded-full py-1 pl-3 pr-4 flex gap-2 items-center"
+                key={i}
+              >
+                <button
+                  onClick={() => removeCountry(country)}
+                  className="grid place-items-center"
+                >
+                  <Icon icon="close" size={IconSize.Small} />
+                </button>
+                <span className="label-sm">{country}</span>
+              </div>
+            );
+          })}
+        </div>
+
+        <span
+          className={`label text-unactive ${
+            isLoading ? 'invisible' : 'visible'
+          }`}
+        >
+          {kFormatter(count || 0)} bounties
+        </span>
+      </div>
     </div>
   );
 }

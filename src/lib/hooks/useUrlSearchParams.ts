@@ -30,6 +30,7 @@ export const useUrlSearchParams = () => {
         amount: qry.amount?.toString(),
         specificityOfOrgName: qry.specificityOfOrgName,
         paginate: qry.paginate,
+        countries: qry.countries,
       },
     };
   }
@@ -45,6 +46,12 @@ export const useUrlSearchParams = () => {
       return DEFAULT_FILTER.query;
     }
 
+    let countries: string[] = [];
+    if (qry.countries) {
+      if (typeof qry.countries === 'string') countries = [qry.countries];
+      else countries = qry.countries;
+    }
+
     const params: BountyQueryParams = {
       searchTerm: qry.searchTerm as string,
       order: qry.order as Order,
@@ -54,10 +61,10 @@ export const useUrlSearchParams = () => {
       states: qry.states as BountyState[],
       targetType: qry.targetType as TargetType,
       orgName: qry.orgName as string,
-
       amount: parseFloat(qry.amount as string) || 4 * 4,
       specificityOfOrgName,
       paginate: qry.paginate === 'true',
+      countries,
     };
 
     return params;

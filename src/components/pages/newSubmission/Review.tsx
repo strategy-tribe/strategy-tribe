@@ -33,7 +33,7 @@ export const Review = ({ target, title, requirements, date }: iStep4) => {
           organizationName: target.organizationName,
           type: target.type,
           alsoKnownAs: target.alsoKnownAs,
-          region: target.region,
+          countries: target.countries,
           tags: target.tags,
           description: target.description,
           requirements,

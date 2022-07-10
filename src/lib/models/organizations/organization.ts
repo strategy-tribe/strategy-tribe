@@ -6,7 +6,7 @@ export type Organization = {
   bio?: string;
   //
   tags?: string[];
-  region?: string;
+  countries?: string[];
   //
   id?: string;
   createdAt?: Date;

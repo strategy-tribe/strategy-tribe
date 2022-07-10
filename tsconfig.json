@@ -31,7 +31,8 @@
     "**/*.ts",
     "**/*.tsx",
     "src/pages/organization",
-    "src/lib/moralis/cloud/functions/Regions.js"
+    "src/lib/moralis/cloud/jobs/Countries.js",
+    "src/lib/moralis/cloud/triggers/Wallet.js"
   ],
   "exclude": ["node_modules"]
 }

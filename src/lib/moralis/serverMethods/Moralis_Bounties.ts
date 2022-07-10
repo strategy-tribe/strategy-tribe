@@ -24,6 +24,7 @@ export const Moralis_useGetBounties = (
       maxBounty,
       minBounty,
       specificityOfOrgName,
+      countries,
     } = config;
 
     const query = new moralis.Query(BOUNTIES_TABLE);
@@ -44,6 +45,10 @@ export const Moralis_useGetBounties = (
         caseSensitive: false,
         diacriticSensitive: true,
       });
+    }
+
+    if (countries) {
+      query.containsAll('countries', countries);
     }
 
     switch (orderBy) {
@@ -188,7 +193,11 @@ export const Moralis_useSaveBounty = (
     bountyRef.set('type', target.type);
     bountyRef.set('organizationName', target.organizationName);
     bountyRef.set('tags', target.tags);
-    bountyRef.set('region', target.region?.toLowerCase().trim());
+
+    const lowerCaseCountries = target.countries?.map((c) =>
+      c.toUpperCase().trim()
+    );
+    bountyRef.set('countries', lowerCaseCountries);
 
     bountyRef.set('requirements', requirements);
     bountyRef.set('staffCreatorId', staffCreatorId);

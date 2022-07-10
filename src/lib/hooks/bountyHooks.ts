@@ -21,17 +21,17 @@ import { useMoralis } from 'react-moralis';
 
 //!Get All
 export const useGetBounties = (
-  config: BountyQueryParams,
+  query: BountyQueryParams,
   initialPage = 10,
   enabled = true
 ) => {
   const { isInitialized } = useMoralis();
-  const { fetch } = Moralis_useGetBounties(config);
+  const { fetch } = Moralis_useGetBounties(query);
 
   const [numOfPages, setNumOfPages] = useState(0);
   const [currPage, setCurrPage] = useState(initialPage);
 
-  const queryId = [Queries.AllBounties, config, currPage];
+  const queryId = [Queries.AllBounties, query, currPage];
 
   const { error, isLoading, data, isFetching, isPreviousData } = useQuery(
     queryId,
@@ -48,18 +48,20 @@ export const useGetBounties = (
         else return false;
       },
       enabled: isInitialized && enabled,
-      keepPreviousData: config.paginate,
+      keepPreviousData: query.paginate,
+      staleTime: 30,
+      cacheTime: 30,
     }
   );
 
   useEffect(() => {
     setCurrPage(0);
-  }, [config]);
+  }, [query]);
 
   useEffect(() => {
-    if (data && config.amount && config.paginate) {
+    if (data && query.amount && query.paginate) {
       const { count, page } = data;
-      const _numOfPages = Math.round(count / config.amount);
+      const _numOfPages = Math.round(count / query.amount);
 
       setNumOfPages(_numOfPages);
       setCurrPage(page);

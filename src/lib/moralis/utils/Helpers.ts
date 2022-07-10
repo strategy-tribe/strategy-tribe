@@ -1,7 +1,6 @@
 import { Organization } from '@/lib/models/organizations/organization';
 import { Bounty } from '@/lib/models/bounty';
 import { Submission } from '@/lib/models/submission';
-import { Target } from '@/lib/models/target';
 import Moralis from 'moralis/types';
 
 export function CastSubmission(subRef: Moralis.Object<Moralis.Attributes>) {

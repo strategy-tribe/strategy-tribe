@@ -7,7 +7,7 @@ export type Target = {
   type: TargetType;
   organizationName: string;
   tags?: string[];
-  region?: string;
+  countries?: string[];
 
   //
   id?: string;

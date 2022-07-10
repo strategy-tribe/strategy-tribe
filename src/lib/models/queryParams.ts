@@ -1,3 +1,4 @@
+import { CountryData } from './map/CountryData';
 import { Requirement, RequirementType } from './requirement';
 import { BountyState, SubmissionState } from './status';
 import { TargetType } from './targetType';
@@ -29,6 +30,7 @@ export interface BountyQueryParams {
   targetType?: TargetType;
   minBounty?: number;
   maxBounty?: number;
+  countries?: string[];
 }
 
 export enum BountyOrderBy {

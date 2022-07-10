@@ -3,29 +3,57 @@ import AppLayout from '@/components/layouts/AppLayout';
 import { NextPageWithLayout } from './_app';
 import Head from 'next/head';
 import { GetStaticProps } from 'next';
-import { dehydrate } from 'react-query';
-import { prefetchExploreQueries } from '@/lib/models/explore/PrefetchExploreQueries';
+import { CountriesData } from '@/lib/models/map/CountriesData';
+import { MapData } from '@/lib/models/map/MapData';
 import Moralis from 'moralis/node';
+import fs from 'fs';
 
-// export const getStaticProps: GetStaticProps = async () => {
-//   //*Prefetch queries
-//   const queryClient = await prefetchExploreQueries(Moralis);
-//   const prefetchedQueries = dehydrate(queryClient);
+const getMapData = async (): Promise<MapData> => {
+  const moralis_serverUrl = process.env.NEXT_PUBLIC_SERVER_URL;
+  const moralis_appId = process.env.NEXT_PUBLIC_APP_ID;
 
-//   //*Map data
-//   // const mapData = await getMapData(Moralis);
+  await Moralis.start({
+    serverUrl: moralis_serverUrl,
+    appId: moralis_appId,
+  });
 
-//   //*Return props
-//   return {
-//     props: {
-//       dehydratedState: JSON.parse(JSON.stringify(prefetchedQueries)),
-//       // mapData: JSON.parse(JSON.stringify(mapData)),
-//     },
-//     revalidate: 10,
-//   };
-// };
+  const r = await Moralis.Cloud.run('getMapStats');
 
-const BountiesPage: NextPageWithLayout = () => {
+  const mapData: CountriesData = {
+    id: r.id,
+    createdAt: r.attributes.createdAt,
+    countries: r.attributes.stats,
+  };
+
+  const featuresRaw = fs.readFileSync('./public/data/features.json', {
+    encoding: 'utf-8',
+  });
+  const features = JSON.parse(featuresRaw).features;
+
+  return { mapData, features };
+};
+
+export const getStaticProps: GetStaticProps = async () => {
+  //*Prefetch queries
+  // const queryClient = await prefetchExploreQueries(Moralis);
+  // const prefetchedQueries = dehydrate(queryClient);
+
+  //*Map data
+  const data = await getMapData();
+
+  //*Return props
+  return {
+    props: {
+      // dehydratedState: JSON.parse(JSON.stringify(prefetchedQueries)),
+      data: JSON.parse(JSON.stringify(data)),
+    },
+    revalidate: 10,
+  };
+};
+
+const BountiesPage: NextPageWithLayout<{
+  data: MapData;
+}> = ({ data }) => {
   return (
     <>
       <Head>
@@ -37,7 +65,7 @@ const BountiesPage: NextPageWithLayout = () => {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Explore mapData={{ regions: [], id: '', createdAt: new Date() }} />
+      <Explore data={data} />
     </>
   );
 };

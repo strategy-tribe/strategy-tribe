@@ -21,7 +21,7 @@ export function OrganizationHeader() {
           <h1 className="h5 laptop:h4">{org?.name}</h1>
           <div className="flex gap-2 text-unactive">
             <Icon icon="pin_drop" />
-            <span>{org?.region}</span>
+            <span>{org?.countries}</span>
           </div>
         </div>
         <SubToOrgButton
