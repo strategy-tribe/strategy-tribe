@@ -1,10 +1,10 @@
 import { GoToBountiesPage } from '@/utils/Routes';
 import { useRouter } from 'next/router';
-import React, { useState, useEffect, useMemo, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Banner } from './Banner';
 import {
   DelayType,
-  iNotification,
+  ClientNotification,
   iNotificationConfig,
   NotificationType,
 } from './iNotification';
@@ -13,14 +13,14 @@ import { Notification } from './Notification';
 interface NotificationContextInterface {
   isAvailable: boolean;
   hide: () => void;
-  notify: (notification: iNotification, config?: iNotificationConfig) => void;
+  notify: (
+    notification: ClientNotification,
+    config?: iNotificationConfig
+  ) => void;
 }
 
-const NotificationContext = React.createContext<NotificationContextInterface>({
-  isAvailable: false,
-  notify: () => {},
-  hide: () => {},
-});
+//@ts-ignore
+const NotificationContext = React.createContext<NotificationContextInterface>();
 
 export const NotificationcontextProvider = ({
   children,
@@ -31,7 +31,9 @@ export const NotificationcontextProvider = ({
   const router = useRouter();
 
   //*State
-  const [notification, setNotification] = useState<iNotification | undefined>();
+  const [notification, setNotification] = useState<
+    ClientNotification | undefined
+  >();
   const [showNotif, setShowNotif] = useState(false);
 
   //*Notification config
@@ -58,7 +60,7 @@ export const NotificationcontextProvider = ({
   }, [notification, showNotif, hideCondition, delayType, notificationType]);
 
   //!Main method
-  function Notify(msg: iNotification, config?: iNotificationConfig) {
+  function Notify(msg: ClientNotification, config?: iNotificationConfig) {
     //*Notification info
     setNotification(msg);
 

@@ -1,7 +1,6 @@
-import { useAuth } from 'auth/AuthContext';
 import { Button, ButtonStyle } from '@/components/utils/Button';
 import { AnimatePresence, motion } from 'framer-motion';
-import { iNotification, NotificationStyle } from './iNotification';
+import { ClientNotification, NotificationStyle } from './iNotification';
 
 function setStyle(style?: NotificationStyle) {
   switch (style) {
@@ -31,7 +30,7 @@ export function Banner({
   show,
   close,
 }: {
-  notif?: iNotification;
+  notif?: ClientNotification;
   show: boolean;
   close: () => void;
 }) {

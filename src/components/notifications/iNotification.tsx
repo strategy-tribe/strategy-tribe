@@ -1,4 +1,13 @@
-export interface iNotification {
+export interface ServerNotification {
+  id: string;
+  userId: string;
+  message: string;
+  type: string;
+  createdAt: Date;
+  read: boolean;
+}
+
+export interface ClientNotification {
   icon?: string;
   title: string;
   content?: JSX.Element | string;

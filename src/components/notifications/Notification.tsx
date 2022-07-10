@@ -1,6 +1,6 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import Icon from '../utils/Icon';
-import { iNotification } from './iNotification';
+import { ClientNotification } from './iNotification';
 
 const colors = 'bg-dark text-white';
 const position = ' z-50 fixed bottom-4 mx-auto';
@@ -14,7 +14,7 @@ export function Notification({
   show,
   close,
 }: {
-  notif?: iNotification;
+  notif?: ClientNotification;
   show: boolean;
   close: () => void;
 }) {

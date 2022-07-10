@@ -4,7 +4,6 @@ import { useState } from 'react';
 import { useNotification } from '../notifications/NotificationContext';
 import { Overlay } from './Overlay';
 import { DelayType, NotificationType } from '../notifications/iNotification';
-import { Portal } from './Portal';
 import Icon from './Icon';
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
@@ -68,7 +67,7 @@ export function MoreMenu({ bountyId }: { bountyId: string }) {
           </motion.div>
         )}
         <Overlay
-          setShowOverlay={setIsOpen}
+          hide={() => setIsOpen(false)}
           showOverlay={isOpen}
           opacity="opacity-50"
         />

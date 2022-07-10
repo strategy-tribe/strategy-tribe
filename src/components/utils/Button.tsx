@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import React from 'react';
-import Icon from './Icon';
+import Icon, { IconSize } from './Icon';
 
 export enum ButtonStyle {
   Hollow = 'text-white border-2 border-purpleDark hover:bg-purpleDark',
@@ -23,6 +23,7 @@ export interface ButtonInformation {
   align?: string;
   removePadding?: boolean;
   removeMinWidth?: boolean;
+  iconSize?: IconSize;
 }
 
 export function Button({ info }: { info: ButtonInformation }) {
@@ -36,6 +37,7 @@ export function Button({ info }: { info: ButtonInformation }) {
     style,
     removeMinWidth,
     isALink,
+    iconSize,
   } = info;
 
   const padding = removePadding ? '' : 'py-2 px-5 tablet:px-6';
@@ -49,6 +51,7 @@ export function Button({ info }: { info: ButtonInformation }) {
     <>
       {icon && (
         <Icon
+          size={iconSize}
           icon={icon}
           displayClasses={`${!label && 'hidden'} tablet:block`}
           className={iconClasses}

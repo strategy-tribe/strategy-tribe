@@ -56,6 +56,7 @@ export const Molaris_useSaveSubmission = (
     acl.setRoleWriteAccess('staff', true);
     acl.setRoleReadAccess('staff', true);
     acl.setReadAccess(owner, true);
+
     submissionRef.setACL(acl);
 
     const subClass = Moralis.Object.extend(SUBMISSION_TABLE);

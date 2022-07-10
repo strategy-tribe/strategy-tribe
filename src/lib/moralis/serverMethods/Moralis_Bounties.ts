@@ -143,7 +143,7 @@ export const Moralis_useGetBounty = (
         throw `No bounties found for ${id}`;
       }
 
-      const bounty: Bounty = await CastBounty(firstDoc);
+      const bounty: Bounty = CastBounty(firstDoc);
       return bounty;
     } catch (error) {
       console.error(

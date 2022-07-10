@@ -8,7 +8,7 @@ import { SupportButton } from './SupportButton';
 import { useNotification } from '../notifications/NotificationContext';
 import {
   DelayType,
-  iNotification,
+  ClientNotification,
   iNotificationConfig,
   NotificationStyle,
   NotificationType,
@@ -40,7 +40,7 @@ export function DonationPopUp({
   const { notify } = useNotification();
 
   function onDonationSuccess() {
-    const msg: iNotification = {
+    const msg: ClientNotification = {
       title: 'Your donation is being processed',
       content: 'Thank you',
       style: NotificationStyle.success,
@@ -58,7 +58,7 @@ export function DonationPopUp({
   }
 
   function onDonationError(e: any) {
-    const msg: iNotification = {
+    const msg: ClientNotification = {
       title: 'There has been an error',
       content: `${e}`,
       style: NotificationStyle.error,
@@ -143,7 +143,7 @@ export function DonationPopUp({
             </div>
             <Overlay
               showOverlay={true}
-              setShowOverlay={() => {
+              hide={() => {
                 hide();
               }}
             />

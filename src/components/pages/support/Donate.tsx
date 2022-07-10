@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { SupportButton } from '../../donations/SupportButton';
 import {
-  iNotification,
+  ClientNotification,
   NotificationStyle,
   iNotificationConfig,
   DelayType,
@@ -18,7 +18,7 @@ export function Donate() {
   const { notify } = useNotification();
 
   function onDonationSuccess() {
-    const msg: iNotification = {
+    const msg: ClientNotification = {
       title: 'Your donation is being processed',
       content: 'Thank you',
       style: NotificationStyle.success,
@@ -35,7 +35,7 @@ export function Donate() {
   }
 
   function onDonationError(e: any) {
-    const msg: iNotification = {
+    const msg: ClientNotification = {
       title: 'There has been an error',
       content: `${e}`,
       style: NotificationStyle.error,
