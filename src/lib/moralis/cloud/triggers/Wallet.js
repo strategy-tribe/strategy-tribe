@@ -1,4 +1,4 @@
-Moralis.Cloud.beforeDelete(ORG_TABLE, async function (request) {
+Moralis.Cloud.beforeDelete(WALLET_TABLE, async function (request) {
   try {
     const { object: wallet } = request;
     await ArchiveWallet(wallet);

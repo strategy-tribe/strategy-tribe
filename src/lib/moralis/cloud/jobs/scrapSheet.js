@@ -442,6 +442,7 @@ async function saveBounty(bountyData) {
     closesAt,
     countries,
     tags,
+    alsoKnownAs,
   } = bountyData;
 
   const bountyRef = new Moralis.Object(BOUNTY_TABLE);
@@ -463,6 +464,7 @@ async function saveBounty(bountyData) {
   bountyRef.set('wallet', '');
   bountyRef.set('tags', tags);
   bountyRef.set('closesAt', closesAt);
+  bountyRef.set('alsoKnownAs', alsoKnownAs);
 
   const Bounty = Moralis.Object.extend(BOUNTY_TABLE);
   const bounty = new Bounty(bountyRef.attributes);

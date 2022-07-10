@@ -7,6 +7,7 @@ const REVIEWS_TABLE = 'Review';
 const TARGETS_TABLE = 'Target';
 
 const MAP_DATA_TABLE = 'MapData';
+const NOTIFICATIONS_TABLE = 'Notification';
 
 const TRANSACTIONS_TABLE = 'EthTransactions';
 const RECORDS_TABLE = '_AddressSyncStatus';

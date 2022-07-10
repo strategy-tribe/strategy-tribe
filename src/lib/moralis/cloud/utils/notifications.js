@@ -8,16 +8,54 @@ async function CreateNotification(users, message, url) {
       url,
     };
 
-    Moralis.Cloud.httpRequest({
-      method: 'POST',
-      url: 'https://onesignal.com/api/v1/notifications',
-      body: data,
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Basic ${KEY_APP_KEY}`,
-      },
-    });
+    //notifiy push notifs
+    const pushNotifs = () => {
+      Moralis.Cloud.httpRequest({
+        method: 'POST',
+        url: 'https://onesignal.com/api/v1/notifications',
+        body: data,
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Basic ${KEY_APP_KEY}`,
+        },
+      });
+    };
+
+    //create a notification in the db for each user in users
+    //create the notification in the db
+    const promises = users.map((user) => SaveNotificationInDB(message, user));
+    await Promise.all([...promises, pushNotifs()]);
   } catch (error) {
     ERROR(`Error sending notification: ${error}`);
+  }
+}
+
+async function SaveNotificationInDB(message, userId) {
+  try {
+    //moralis new object
+    const notifRef = new Moralis.Object(NOTIFICATIONS_TABLE);
+
+    //set these properties:
+    notifRef.set('userId', userId);
+    notifRef.set('message', message);
+    notifRef.set('type', '');
+    notifRef.set('read', false);
+
+    //set the ACL for the user only
+    const acl = new Moralis.ACL();
+    acl.setPublicReadAccess(false);
+    acl.setPublicWriteAccess(false);
+    acl.setRoleWriteAccess('staff', false);
+    acl.setRoleReadAccess('staff', true);
+    acl.setReadAccess(userId, true);
+    acl.setWriteAccess(userId, true);
+    notifRef.setACL(acl);
+
+    //return
+    await notifRef.save(null, { useMasterKey: true });
+  } catch (error) {
+    ERROR(
+      `Error saving notification:\n"${msg}"\nto database. \nReason: ${error}`
+    );
   }
 }

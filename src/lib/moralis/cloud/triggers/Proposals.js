@@ -28,10 +28,13 @@ Moralis.Cloud.afterSave(BOUNTY_TABLE, async function (request) {
   const { object: bounty, context } = request;
 
   //Check for wallet
-  if (bounty.get('wallet') === '') {
-    //add the wallet to the bounty
+  if (!bounty.get('wallet') || bounty.get('wallet') === '') {
+    LOG('Adding wallet to bounty');
     const wallet = await CreateWallet('bounty', bounty.id);
     bounty.set('wallet', wallet);
+    await bounty.save(null, { useMasterKey: true });
+  } else {
+    LOG('Bounty did not needed wallet');
   }
 
   if (bounty.get('state') === 'Open' && context.isNew) {
