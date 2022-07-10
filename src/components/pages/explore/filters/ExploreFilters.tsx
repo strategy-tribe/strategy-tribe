@@ -8,6 +8,7 @@ import Icon, { IconSize } from '@/components/utils/Icon';
 
 export function ExploreFilters() {
   const { query, setQuery } = useUrlSearchParams();
+
   const {
     bountyFetch: { count, isLoading },
     countries,
@@ -64,6 +65,8 @@ export function ExploreFilters() {
 }
 
 function compareQueries(q1: QueryParams, q2: QueryParams) {
+  if (!q1 || !q2) return false;
+
   const keyIndex = 0;
   const valueIndex = 1;
   const keys1 = Object.entries(q1);
