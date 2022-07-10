@@ -10,11 +10,17 @@ Moralis.Cloud.beforeSave(SUBMISSIONS_TABLE, async function (request) {
       await UserCanSubmitChecks(userId, bountyId);
 
     if (userHasUploadedInLessThanADay) {
-      throw 'Validation Error: Users cannot submit findings to the same bounty more than once per day.';
+      ERROR(
+        'Validation Error: Users cannot submit findings to the same bounty more than once per day.',
+        true
+      );
     } else if (bountyIsClosed) {
-      throw 'Validation Error: Cannot submit findings to a bounty that is not open.';
+      ERROR(
+        'Validation Error: Cannot submit findings to a bounty that is not open.',
+        true
+      );
     } else {
-      LOG('submission passed checks');
+      LOG('Submission passed checks');
     }
   }
 });
@@ -27,8 +33,7 @@ Moralis.Cloud.afterSave(SUBMISSIONS_TABLE, async function (request) {
   const bounty = await GetBountyByID(bountyId);
 
   if (!bounty) {
-    LOG('bounty not found for submission');
-    throw 'Validation error: Bounty not found for submission';
+    ERROR('Validation error: Bounty not found for submission', true);
   }
 
   if (submissionState === "was accepted and it's waiting for payment") {
@@ -56,8 +61,7 @@ Moralis.Cloud.afterDelete(SUBMISSIONS_TABLE, async function (request) {
   const bounty = await GetBountyByID(bountyId);
 
   if (!bounty) {
-    LOG('bounty not found for submission');
-    throw 'Validation error: Bounty not found for submission';
+    ERROR('Validation error: Bounty not found for submission', true);
   }
 
   const count = await CountBountySubmissions(bountyId);

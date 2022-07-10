@@ -1,49 +1,6 @@
-async function CreateWallet(type) {
-  const chainCode = await GetChainCode();
-  const { ethers } = Moralis.ethersByChain(chainCode);
-
-  const wallet = ethers.Wallet.createRandom();
-
-  //!save the wallet info in a table
-  const walletRef = new Moralis.Object(WALLET_TABLE);
-  walletRef.set('address', wallet.address.toLowerCase());
-  walletRef.set('privateKey', wallet.privateKey.toLowerCase());
-  walletRef.set('mnemonic', wallet.mnemonic.phrase.toLowerCase());
-  walletRef.set('type', type);
-
-  //security --- can only read
-  const acl = new Moralis.ACL();
-  acl.setPublicReadAccess(false);
-  acl.setPublicWriteAccess(false);
-  acl.setRoleWriteAccess('staff', false);
-  acl.setRoleReadAccess('staff', true);
-  walletRef.setACL(acl);
-
-  //!Save the wallet
-  await walletRef.save(null, { useMasterKey: true });
-
-  //!Set the server to watch this addresses
-  await Moralis.Cloud.run(
-    'watchEthAddress',
-    {
-      address: wallet.address,
-    },
-    { useMasterKey: true }
-  );
-
-  return wallet.address.toLowerCase();
-}
-
 //*Bounties
 Moralis.Cloud.beforeSave(BOUNTY_TABLE, async function (request) {
   const { object: bounty } = request;
-
-  //Check for wallet
-  if (bounty.get('wallet') === '') {
-    //add the wallet to the bounty
-    const wallet = await CreateWallet('bounty');
-    bounty.set('wallet', wallet);
-  }
 
   //Check for funds and state
   if (bounty.get('funds') > 0 && bounty.get('state') === 'Waiting for funds') {
@@ -70,15 +27,24 @@ Moralis.Cloud.beforeSave(BOUNTY_TABLE, async function (request) {
 Moralis.Cloud.afterSave(BOUNTY_TABLE, async function (request) {
   const { object: bounty, context } = request;
 
+  //Check for wallet
+  if (bounty.get('wallet') === '') {
+    //add the wallet to the bounty
+    const wallet = await CreateWallet('bounty', bounty.id);
+    bounty.set('wallet', wallet);
+  }
+
   if (bounty.get('state') === 'Open' && context.isNew) {
-    LOG(`New bounty created. Notifying subscribers`);
+    // LOG(`New bounty created. Notifying subscribers`);
     const orgName = bounty.get('organizationName');
 
     await IncrementOrganizationCount(orgName);
 
     const orgSubsRef = await GetOrgSubsRef(orgName);
+
     if (!orgSubsRef) {
-      throw `How does ${orgName} doesnt have a subs table?`;
+      const msg = `How does ${orgName} doesnt have a subs table?`;
+      ERROR(msg, true);
     }
     const subscribers = orgSubsRef.get('subs');
 
@@ -92,6 +58,14 @@ Moralis.Cloud.afterSave(BOUNTY_TABLE, async function (request) {
   }
 });
 
+Moralis.Cloud.afterDelete(BOUNTY_TABLE, async function (request) {
+  const { object: bounty } = request;
+
+  const address = bounty.get('wallet');
+
+  await UnassignWallet(address);
+});
+
 async function IncrementOrganizationCount(orgName) {
   //see if the org exists
   let q = new Moralis.Query(ORG_TABLE);
@@ -99,9 +73,11 @@ async function IncrementOrganizationCount(orgName) {
   let orgRef = await q.first({ useMasterKey: true });
   try {
     orgRef.increment('bounties');
-    LOG(`${orgName} +1 bounty`);
+    // LOG(`${orgName} +1 bounty`);
     await orgRef.save(null, { useMasterKey: true });
   } catch (error) {
-    throw 'Tried incrementing of a organization that does not exists';
+    ERROR(
+      `Error tried incrementing of a organization that does not exists: ${error}`
+    );
   }
 }

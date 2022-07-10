@@ -6,8 +6,7 @@ Moralis.Cloud.afterSave(REVIEWS_TABLE, async function (request) {
   const bountyId = request.object.get('bountyId');
   const submissionRef = await GetSubmissionByID(submissionId);
   if (!submissionRef) {
-    LOG('Submission not found');
-    throw 'Validation error: Submission not found';
+    ERROR('Validation error: Submission not found');
   }
   //update the submission state
   let submissionState = 'was not accepted';
@@ -18,9 +17,6 @@ Moralis.Cloud.afterSave(REVIEWS_TABLE, async function (request) {
   submissionRef.set('review', request.object);
   //save the submission
   await submissionRef.save(null, { useMasterKey: true });
-
-  //TODO notify the user
-  //users
 
   const userId = submissionRef.get('owner');
   const users = [userId];
