@@ -6,14 +6,12 @@ import {
 } from '@/lib/utils/Routes';
 import { useState } from 'react';
 import { NavLink } from './NavLink';
-import Icon, { IconSize } from '../../utils/Icon';
 import { useAuth } from 'auth/AuthContext';
 import { Button, ButtonStyle } from '@/components/utils/Button';
 import { LandingPageLink } from './LandingPageLink';
 import { UserMenu } from './menus/UserMenu';
 import { NotifsMenu } from './menus/NotifsMenu';
 import { NavbarButton } from './NavbarButton';
-import { useScrollDirection } from '@/lib/hooks/useScrollDirection';
 import useScrollPosition from '@/lib/hooks/useScrollPosition';
 
 export function Navbar({ hideBgOnScroll }: { hideBgOnScroll: boolean }) {
@@ -30,7 +28,7 @@ export function Navbar({ hideBgOnScroll }: { hideBgOnScroll: boolean }) {
   const [showElevation, setShowElevation] = useState(false);
 
   useScrollPosition(
-    hideBgOnScroll ? 300 : 25,
+    hideBgOnScroll ? 325 : 25,
     () => setShowElevation(true),
     () => setShowElevation(false)
   );
