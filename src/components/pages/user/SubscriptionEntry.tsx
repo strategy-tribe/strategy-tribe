@@ -6,14 +6,17 @@ import { useNotification } from '@/components/notifications/NotificationContext'
 import { Button, ButtonStyle } from '@/components/utils/Button';
 import { SubToOrgButton } from '@/components/subscriptions/SubscribeToOrgButton';
 import { useAuth } from 'auth/AuthContext';
-import { OrganizationLink } from '@/components/utils/OrganizationLink';
+import {
+  BountyLink,
+  OrganizationLink,
+} from '@/components/utils/OrganizationLink';
+import { Subscription } from '@/lib/moralis/ServerContextProvider';
+import { TargetType } from '@/lib/models/targetType';
 
 export function SubscriptionEntry({
-  orgName,
-  variants,
+  subscription,
 }: {
-  orgName: string;
-  variants?: {};
+  subscription: Subscription;
 }) {
   //org name
   //sub button
@@ -52,15 +55,26 @@ export function SubscriptionEntry({
 
   return (
     <div className="flex w-full items-center justify-between">
-      <OrganizationLink
-        orgName={orgName}
-        className="text-text body w-fit hover:underline"
-      />
-      <SubToOrgButton
-        userId={userId}
-        orgName={orgName}
-        onClick={ManageNotification}
-      />
+      {subscription.type === TargetType.Organization && (
+        <>
+          <OrganizationLink
+            orgName={subscription.name}
+            className="text-text body w-fit hover:underline"
+          />
+
+          <SubToOrgButton
+            userId={userId}
+            orgName={subscription.name}
+            onClick={ManageNotification}
+          />
+        </>
+      )}
+      {subscription.type === TargetType.Individual && (
+        <BountyLink
+          bountyId={subscription.id}
+          className="text-text body w-fit hover:underline"
+        />
+      )}
     </div>
   );
 }

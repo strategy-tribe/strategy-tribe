@@ -1,5 +1,3 @@
-import { useGetOrganization } from '@/hooks/organizationHooks';
-import { useRouter } from 'next/router';
 import React from 'react';
 import { OrganizationLink } from './OrganizationLink';
 

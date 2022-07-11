@@ -1,32 +1,27 @@
-import { useBountyUrl } from '@/lib/hooks/useBountyUrl';
 import { useAuth } from 'auth/AuthContext';
 import { Section } from '../landing/Section';
 import { useBountyContext } from './BountyContext';
 import { BountyMoreDetails } from './BountyMoreDetails';
 import { BountySideMap } from './BountySideMap';
 import { BountySubmissions } from './BountySubmissions';
-import { BountyPage } from '../../../lib/models/bounty/BountyPage';
+import { BountyView } from '../../../lib/models/bounty/BountyPage';
 
 export function BountyContent() {
-  const { bounty } = useBountyContext();
-
-  const {
-    query: { view },
-  } = useBountyUrl();
+  const { bounty, view } = useBountyContext();
 
   const { userId } = useAuth();
 
   return (
     <Section className="flex gap-24 min-h-[20rem]">
-      <BountySideMap bounty={bounty} />
+      <BountySideMap />
 
-      {view === BountyPage.Submissions && (
+      {view === BountyView.Submissions && (
         <>
           <BountySubmissions userId={userId} />
         </>
       )}
 
-      {view === BountyPage['More details'] && (
+      {view === BountyView['More details'] && (
         <>
           <BountyMoreDetails />
         </>

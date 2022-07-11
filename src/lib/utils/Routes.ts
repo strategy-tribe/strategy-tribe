@@ -1,3 +1,5 @@
+import { AccountView } from '@/lib/models/account/AccountView';
+
 export const GoToLandingPage = () => '/';
 
 export const GoTo404Page = () => '/404';
@@ -22,7 +24,13 @@ export const GoToWaitingForReview = () => '/review';
 
 export const GoToNewBountyPage = () => '/bounty/new';
 
-export const GoToUserPage = () => '/user';
+//TODO:
+export const GoToAccountPage = (view?: AccountView) => {
+  if (!view) return '/account';
+  else return `/account?view=${view}`;
+};
+export const GoToUserPage = () => '/account';
+
 export const GoToSubsPage = () => '/user/subscriptions';
 
 export const GoToOrgPage = (orgId: string) => `/organization/${orgId}`;

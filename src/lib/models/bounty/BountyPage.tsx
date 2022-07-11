@@ -1,6 +1,6 @@
 //TODO: Move to lib
 
-export enum BountyPage {
+export enum BountyView {
   Submissions = 'submissions',
   'More details' = 'details',
 }

@@ -1,31 +1,18 @@
-import { Bounty, BountyState } from '@/lib/models';
+import { useBountyUrl } from '@/lib/hooks/useBountyUrl';
+import { Bounty } from '@/lib/models';
+import { BountyView } from '@/lib/models/bounty/BountyPage';
 
-import { TargetType } from '@/lib/models/targetType';
-import { useContext, createContext, ReactNode, useMemo, useState } from 'react';
-
-type BountyPageTabs = 'details' | 'submissions' | 'FAQ';
+import { GoToBountyPage } from '@/lib/utils/Routes';
+import { useContext, createContext, ReactNode } from 'react';
 
 interface iBountyContext {
   bounty: Bounty;
-  sectionInView: BountyPageTabs;
-  setSectionInView: (val: BountyPageTabs) => void;
+  view: BountyView;
+  setView: (val: BountyView) => void;
 }
 
-const BountyContext = createContext<iBountyContext>({
-  bounty: {
-    name: '',
-    organizationName: '',
-    type: TargetType.Individual,
-    state: BountyState.Closed,
-    title: '',
-    requirements: [],
-    funds: 0,
-    submissions: 0,
-    wallet: '',
-  },
-  sectionInView: 'details',
-  setSectionInView: () => {},
-});
+//@ts-ignore
+const BountyContext = createContext<iBountyContext>();
 
 export const BountyContextProvider = ({
   children,
@@ -34,14 +21,18 @@ export const BountyContextProvider = ({
   children: ReactNode;
   bounty: Bounty;
 }) => {
-  const [sectionInView, setSectionInView] = useState<BountyPageTabs>('details');
+  const { query, setQuery } = useBountyUrl();
+
+  function setView(val: BountyView) {
+    setQuery({ ...query, view: val }, GoToBountyPage(bounty.id!));
+  }
 
   return (
     <BountyContext.Provider
       value={{
         bounty,
-        sectionInView,
-        setSectionInView,
+        view: query.view,
+        setView,
       }}
     >
       {children}

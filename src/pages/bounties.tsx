@@ -17,15 +17,16 @@ const getMapData = async (): Promise<MapData> => {
     appId: moralis_appId,
   });
 
-  const r = await Moralis.Cloud.run('getMapStats');
+  const res = await Moralis.Cloud.run('getMapStats');
 
   const mapData: CountriesData = {
-    id: r.id,
-    createdAt: r.attributes.createdAt,
-    countries: r.attributes.stats,
+    id: res.id,
+    createdAt: res.attributes.createdAt,
+    countries: res.attributes.stats,
   };
 
-  const featuresRaw = fs.readFileSync('./public/data/features.json', {
+  const path = './public/data/features.json';
+  const featuresRaw = fs.readFileSync(path, {
     encoding: 'utf-8',
   });
   const features = JSON.parse(featuresRaw).features;

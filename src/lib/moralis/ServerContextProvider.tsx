@@ -9,6 +9,13 @@ import {
   NotificationStyle,
   NotificationType,
 } from '@/components/notifications/iNotification';
+import { TargetType } from '../models/targetType';
+
+export type Subscription = {
+  name: string;
+  id: string;
+  type: TargetType;
+};
 
 export type UserInfo = {
   userId: string;
@@ -16,7 +23,7 @@ export type UserInfo = {
   wallets: string[];
   email?: string;
   joined: Date;
-  subscribedTo: string[];
+  watching?: Subscription[];
 };
 
 interface ServerContextInterface {

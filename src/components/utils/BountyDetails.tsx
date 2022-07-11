@@ -13,7 +13,7 @@ import { useBountyContext } from '../pages/bounty/BountyContext';
 export function BountyDetails() {
   const { bounty } = useBountyContext();
 
-  const { sectionInView } = useBountyContext();
+  const { view: sectionInView } = useBountyContext();
   const hidden = sectionInView !== 'details';
 
   const { organization } = useGetOrganizationByName(

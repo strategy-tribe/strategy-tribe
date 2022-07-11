@@ -3,7 +3,7 @@ import { ImportantMessage } from '@/components/utils/Warning';
 import { NextPageWithLayout } from '@/pages/_app';
 import Head from 'next/head';
 import { useAuth } from 'auth/AuthContext';
-import { UserDetails } from '@/components/pages/user/UserDetails';
+import { Account } from '@/components/pages/user/Account';
 
 const UserPage: NextPageWithLayout = () => {
   const { userId, isAuthenticated, LogIn } = useAuth();
@@ -21,7 +21,7 @@ const UserPage: NextPageWithLayout = () => {
       </Head>
 
       <>
-        {isAuthenticated && !!userId && <UserDetails />}
+        {isAuthenticated && !!userId && <Account />}
         {(!isAuthenticated || !userId) && (
           <ImportantMessage
             message="You're not signed in."

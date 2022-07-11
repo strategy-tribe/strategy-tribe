@@ -1,14 +1,12 @@
-import { useBountyUrl } from '@/lib/hooks/useBountyUrl';
-import { Bounty as BountyData } from '@/lib/models';
-import { GoToBountyPage } from '@/lib/utils/Routes';
-import { BountyPage } from '../../../lib/models/bounty/BountyPage';
+import { BountyView } from '../../../lib/models/bounty/BountyPage';
+import { useBountyContext } from './BountyContext';
 
-export function BountySideMap({ bounty }: { bounty: BountyData }) {
-  const { query, setQuery } = useBountyUrl();
-  const pages = Object.entries(BountyPage);
+export function BountySideMap() {
+  const { view, setView } = useBountyContext();
+  const pages = Object.entries(BountyView);
 
-  function goToPage(value: BountyPage) {
-    setQuery({ view: value }, GoToBountyPage(bounty.id!));
+  function goToPage(view: BountyView) {
+    setView(view);
   }
 
   return (
@@ -19,10 +17,10 @@ export function BountySideMap({ bounty }: { bounty: BountyData }) {
         return (
           <button
             className={`${
-              value === query.view && 'bg-darker text-white'
+              value === view && 'bg-darker text-white'
             } rounded text-left pr-8 p-4 label`}
             key={i}
-            onClick={() => goToPage(value as BountyPage)}
+            onClick={() => goToPage(value as BountyView)}
           >
             {label}
           </button>

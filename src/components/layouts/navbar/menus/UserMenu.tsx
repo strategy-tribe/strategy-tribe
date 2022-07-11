@@ -1,8 +1,9 @@
-import { GoToUserPage } from '@/lib/utils/Routes';
+import { GoToAccountPage, GoToUserPage } from '@/lib/utils/Routes';
 import { useAuth } from 'auth/AuthContext';
 import Link from 'next/link';
 import { Overlay } from '@/components/utils/Overlay';
 import { NavbarButton } from '../NavbarButton';
+import { AccountView } from '@/lib/models/account/AccountView';
 
 export function UserMenu({
   shouldShow,
@@ -22,7 +23,7 @@ export function UserMenu({
       {shouldShow && (
         <aside>
           <div className="bg-darker text-text rounded-lg overflow-hidden body-sm flex flex-col z-50 absolute top-6 right-0">
-            <Link href={GoToUserPage()} className="w-full h-full">
+            <Link href={GoToAccountPage()} className="w-full h-full">
               <a
                 className="px-6 py-4 w-full text-left hover:bg-dark"
                 onClick={hide}
@@ -30,7 +31,10 @@ export function UserMenu({
                 Account
               </a>
             </Link>
-            <Link href={GoToUserPage()} className="w-full h-full">
+            <Link
+              href={GoToAccountPage(AccountView.Watching)}
+              className="w-full h-full"
+            >
               <a
                 className="px-6 py-4 w-full text-left hover:bg-dark"
                 onClick={hide}
@@ -38,7 +42,10 @@ export function UserMenu({
                 Watching
               </a>
             </Link>
-            <Link href={GoToUserPage()} className="w-full h-full">
+            <Link
+              href={GoToAccountPage(AccountView.Submissions)}
+              className="w-full h-full"
+            >
               <a
                 className="px-6 py-4 w-full text-left hover:bg-dark"
                 onClick={hide}
