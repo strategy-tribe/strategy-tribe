@@ -32,7 +32,7 @@ const GeneralDonationsPage: NextPageWithLayout = () => {
             <h2 className="h4 laptop:h3 font-inter font-bold text-white">
               Submitting findings is not the only way to help
             </h2>
-            <Donate />
+            {/* <Donate /> */}
             <SpreadTheWord />
           </motion.div>
         </Section>

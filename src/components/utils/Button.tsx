@@ -38,6 +38,7 @@ export function Button({ info }: { info: ButtonInformation }) {
     removeMinWidth,
     isALink,
     iconSize,
+    onClick,
   } = info;
 
   const padding = removePadding ? '' : 'py-2 px-5 tablet:px-6';
@@ -69,6 +70,7 @@ export function Button({ info }: { info: ButtonInformation }) {
     return (
       <Link href={isALink}>
         <a
+          onClick={onClick}
           className={` ${padding} ${font} ${others} ${colors} ${className} ${align} ${size}`}
         >
           {innerContent}
@@ -80,7 +82,7 @@ export function Button({ info }: { info: ButtonInformation }) {
       <button
         className={`${className} ${padding} ${font} ${others} ${colors} ${align} ${size}`}
         onClick={() => {
-          if (info.onClick) info.onClick();
+          if (onClick) onClick();
         }}
         disabled={info.disabled}
       >

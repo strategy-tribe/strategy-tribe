@@ -44,6 +44,7 @@ export function NotifsMenu({
                   removeMinWidth: true,
                   removePadding: true,
                   isALink: GoToUserPage(),
+                  onClick: hide,
                 }}
               />
             </header>
@@ -81,6 +82,7 @@ export function NotifsMenu({
                   removeMinWidth: true,
                   removePadding: true,
                   isALink: GoToUserPage(),
+                  onClick: hide,
                 }}
               />
 
@@ -91,7 +93,10 @@ export function NotifsMenu({
                     style: ButtonStyle.Text,
                     removeMinWidth: true,
                     removePadding: true,
-                    onClick: () => alert('to do'),
+                    onClick: () => {
+                      hide();
+                      alert('to do');
+                    },
                   }}
                 />
               )}

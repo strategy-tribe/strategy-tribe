@@ -22,30 +22,27 @@ export function UserMenu({
       {shouldShow && (
         <aside>
           <div className="bg-darker text-text rounded-lg overflow-hidden body-sm flex flex-col z-50 absolute top-6 right-0">
-            <Link
-              href={GoToUserPage()}
-              className="w-full h-full"
-              onClick={hide}
-            >
-              <a className="px-6 py-4 w-full text-left hover:bg-dark">
+            <Link href={GoToUserPage()} className="w-full h-full">
+              <a
+                className="px-6 py-4 w-full text-left hover:bg-dark"
+                onClick={hide}
+              >
                 Account
               </a>
             </Link>
-            <Link
-              href={GoToUserPage()}
-              className="w-full h-full"
-              onClick={hide}
-            >
-              <a className="px-6 py-4 w-full text-left hover:bg-dark">
+            <Link href={GoToUserPage()} className="w-full h-full">
+              <a
+                className="px-6 py-4 w-full text-left hover:bg-dark"
+                onClick={hide}
+              >
                 Watching
               </a>
             </Link>
-            <Link
-              href={GoToUserPage()}
-              className="w-full h-full"
-              onClick={hide}
-            >
-              <a className="px-6 py-4 w-full text-left hover:bg-dark">
+            <Link href={GoToUserPage()} className="w-full h-full">
+              <a
+                className="px-6 py-4 w-full text-left hover:bg-dark"
+                onClick={hide}
+              >
                 Submissions
               </a>
             </Link>
@@ -53,7 +50,10 @@ export function UserMenu({
             <hr className="w-full text-dark" />
             <button
               className="px-6 py-4 w-full text-left hover:bg-dark"
-              onClick={LogOut}
+              onClick={() => {
+                hide();
+                LogOut();
+              }}
             >
               Log out
             </button>
