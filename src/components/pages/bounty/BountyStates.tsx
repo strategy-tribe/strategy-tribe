@@ -35,8 +35,8 @@ export default function BountyStates({ bounty }: { bounty: Bounty }) {
   };
 
   return (
-    <div className="flex gap-6">
-      {/* Funds */}
+    <div className="flex gap-6 text-unactive">
+      {/* Funds
       <div className="bg-purpleDark text-white w-fit rounded-sm p-2 hover:bg-purpleLight hover:text-black cursor-pointer">
         <a
           href={ETHERSCAN_LINK + bounty.wallet}
@@ -46,15 +46,13 @@ export default function BountyStates({ bounty }: { bounty: Bounty }) {
         >
           {bounty.funds} ETH
         </a>
-      </div>
-
-      <div className="flex gap-1 items-center text-text relative group cursor-default">
+      </div> */}
+      <div className="flex gap-1 items-center  relative group cursor-default">
         <Icon icon={calculateIcon()} />
         <span>{bounty.state}</span>
         <MoreInfo content={stateInfo()} />
       </div>
-
-      <div className="flex gap-1 items-center text-text relative group cursor-default">
+      <div className="flex gap-1 items-center  relative group cursor-default">
         <Icon icon="timer" />
         <span>
           {bounty.closesAt

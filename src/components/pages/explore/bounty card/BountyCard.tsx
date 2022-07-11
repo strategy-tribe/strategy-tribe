@@ -23,7 +23,7 @@ export function BountyCard({ bounty }: { bounty: Bounty }) {
           <div>
             <BountyCardTags bounty={bounty} />
 
-            <BountyCardTitle title={bounty.title} id={bounty.id!} />
+            <BountyCardTitle bounty={bounty} />
           </div>
 
           <BountyCardWatchButton animClasses={animClasses} />

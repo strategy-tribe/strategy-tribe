@@ -14,3 +14,20 @@ export function GetReadTimeInSeconds(text: string, speed = 200) {
   let textLength = GetWordCount(text);
   return Math.round((textLength / speed) * 60);
 }
+
+export function CapitalizeFirstLetter(s: string, eachWord = true): string {
+  if (eachWord) return toTitleCase(s);
+  else return capitalizeSentence(s);
+}
+
+const capitalizeSentence = (word: string) => {
+  return word.charAt(0).toUpperCase() + word.slice(1);
+};
+
+const toTitleCase = (phrase: string) => {
+  return phrase
+    .toLowerCase()
+    .split(' ')
+    .map((word) => capitalizeSentence(word))
+    .join(' ');
+};

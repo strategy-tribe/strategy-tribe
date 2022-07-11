@@ -1,10 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useNotification } from '../notifications/NotificationContext';
-import { useScrollDirection } from '@/hooks/useScrollDirection';
 import { BountyRequirementsShowcase } from './BountyRequirementsShowcase';
 import { useGetOrganizationByName } from '@/hooks/organizationHooks';
 import FromOrganization from './FromOrganization';
-import BountyStates from './BountyStates';
+import BountyStates from '../pages/bounty/BountyStates';
 import { Bounty } from '@/lib/models/bounty';
 import { DonationPopUp } from '../donations/DonationPopUp';
 import { Button, ButtonStyle } from './Button';

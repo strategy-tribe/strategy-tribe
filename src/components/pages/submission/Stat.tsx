@@ -38,7 +38,9 @@ export function Stat({
         }
       }}
     >
-      <span className="font-grotesk font-semibold text-white">{title}</span>
+      <span className="font-grotesk font-semibold text-unactive capitalize">
+        {title}
+      </span>
       <p
         className={`relative whitespace-pre-line first-letter:capitalize ${
           copyable && 'group-hover:underline'

@@ -9,7 +9,7 @@ export function Organizations({ map }: { map: MapOfOrgs }) {
         const { letter, orgs } = obj;
         return (
           <div key={i} className="space-y-4 border-">
-            <p className="label-lg text-unactive laptop:sticky top-20 laptop:-translate-x-12">
+            <p className="label-lg text-unactive laptop:sticky top-20 laptop:-translate-x-12 capitalize">
               {letter}
             </p>
             <div className="space-y-6 laptop:-translate-y-10">
