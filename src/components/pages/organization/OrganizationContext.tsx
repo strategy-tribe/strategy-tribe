@@ -55,7 +55,7 @@ export const OrganizationContextProvider = ({
     isLoading: isLoadingBounties,
     bounties: orgBounties,
     count: amountOfBounties,
-  } = useGetBounties(query, undefined, !!org);
+  } = useGetBounties(query, !!org);
 
   const { setQuery: go } = useUrlSearchParams();
 

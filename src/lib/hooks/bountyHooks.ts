@@ -6,36 +6,26 @@ import {
 import { BountyQueryParams } from '@/lib/models/queryParams';
 import { GoToBountyPage } from '@/utils/Routes';
 import { useRouter } from 'next/router';
-import {
-  useInfiniteQuery,
-  useMutation,
-  useQuery,
-  useQueryClient,
-} from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import Queries from '@/utils/Queries';
-import { Bounty } from '@/lib/models/bounty';
 import { Requirement } from '@/lib/models/requirement';
 import { Target } from '@/lib/models/target';
 import { useEffect, useState } from 'react';
 import { useMoralis } from 'react-moralis';
 
 //!Get All
-export const useGetBounties = (
-  query: BountyQueryParams,
-  initialPage = 10,
-  enabled = true
-) => {
+export const useGetBounties = (query: BountyQueryParams, enabled = true) => {
   const { isInitialized } = useMoralis();
+  const page = query.page || 0;
   const { fetch } = Moralis_useGetBounties(query);
 
   const [numOfPages, setNumOfPages] = useState(0);
-  const [currPage, setCurrPage] = useState(initialPage);
 
-  const queryId = [Queries.AllBounties, query, currPage];
+  const queryId = [Queries.AllBounties, query, query.page];
 
   const { error, isLoading, data, isFetching, isPreviousData } = useQuery(
     queryId,
-    () => fetch(currPage),
+    () => fetch(),
     {
       getPreviousPageParam: (lastPackage) => {
         const { hasLess, page } = lastPackage;
@@ -49,22 +39,16 @@ export const useGetBounties = (
       },
       enabled: isInitialized && enabled,
       keepPreviousData: query.paginate,
-      staleTime: 30,
-      cacheTime: 30,
+      refetchOnWindowFocus: false,
     }
   );
 
   useEffect(() => {
-    setCurrPage(0);
-  }, [query]);
-
-  useEffect(() => {
     if (data && query.amount && query.paginate) {
-      const { count, page } = data;
+      const { count } = data;
       const _numOfPages = Math.round(count / query.amount);
 
       setNumOfPages(_numOfPages);
-      setCurrPage(page);
     } else {
       setNumOfPages(0);
     }
@@ -74,69 +58,12 @@ export const useGetBounties = (
     isLoading,
     bounties: data?.bounties,
     isFetching,
-    currPage,
+    page,
     numOfPages,
     count: data?.count,
-    fetchNextPage: () => setCurrPage(currPage + 1),
-    fetchPreviousPage: () => setCurrPage(currPage - 1),
-    goToPage: (pageNum: number) => setCurrPage(pageNum),
     hasNextPage: data?.hasMore,
     hasPreviousPage: data?.hasLess,
     isPreviousData,
-    error,
-  };
-};
-
-export const useGetBounties_Infinite = (
-  config: BountyQueryParams,
-  enabled = true
-) => {
-  const { fetch } = Moralis_useGetBounties(config);
-
-  const {
-    error,
-    isLoading,
-    data,
-    isFetching,
-    isPreviousData,
-    fetchNextPage,
-    fetchPreviousPage,
-    hasNextPage,
-    hasPreviousPage,
-  } = useInfiniteQuery(
-    [Queries.AllBounties, config],
-    ({ pageParam = 1 }) => fetch(pageParam),
-    {
-      getPreviousPageParam: (lastPackage) => {
-        const { hasLess, page } = lastPackage;
-        if (hasLess) return page - 1;
-        else return false;
-      },
-      getNextPageParam: (lastPackage) => {
-        const { hasMore, page } = lastPackage;
-        if (hasMore) return page + 1;
-        else return false;
-      },
-      enabled,
-      keepPreviousData: config.paginate,
-    }
-  );
-
-  let bounties: Bounty[] = [];
-  data?.pages.forEach((d) => {
-    bounties = [...bounties, ...d.bounties];
-  });
-
-  return {
-    isLoading,
-    bounties,
-    isFetching,
-    fetchNextPage,
-    fetchPreviousPage,
-    hasNextPage,
-    hasPreviousPage,
-    isPreviousData,
-    count: data?.pages.at(0)?.count,
     error,
   };
 };

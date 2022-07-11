@@ -19,7 +19,6 @@ const WaitingForFunds: NextPageWithLayout = () => {
       states: [BountyState.WaitingForFunds],
       orderBy: BountyOrderBy.CreatedAt,
     },
-    undefined,
     !!userId && isStaff
   );
 

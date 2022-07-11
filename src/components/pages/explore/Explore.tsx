@@ -6,6 +6,7 @@ import Loading from '@/components/utils/Loading';
 import { ExploreFilters } from './filters/ExploreFilters';
 import { BountyBoard } from './BountyBoard';
 import { MapData } from '@/lib/models/map/MapData';
+import { PageControls } from '../search/PageControls';
 
 const Map = dynamic(import('./map/MapProjection'), {
   ssr: false,
@@ -22,9 +23,8 @@ export function Explore({ data }: { data: MapData }) {
 }
 
 function ExploreContent() {
-  const {
-    bountyFetch: { isLoading, bounties, error },
-  } = useExploreContext();
+  const { bountyFetch } = useExploreContext();
+  const { isLoading, bounties, error } = bountyFetch;
   return (
     <>
       <div className="space-y-20">
@@ -39,7 +39,14 @@ function ExploreContent() {
             <ExploreFilters />
           </Section>
 
-          {!!bounties && <BountyBoard />}
+          {!!bounties && (
+            <>
+              <BountyBoard />
+              <div className="flex  justify-center">
+                <PageControls />
+              </div>
+            </>
+          )}
           {!!isLoading && <Loading small />}
         </div>
       </div>

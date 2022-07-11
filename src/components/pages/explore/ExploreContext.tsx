@@ -22,7 +22,7 @@ export const ExploreContextProvider = ({
   data: MapData;
 }) => {
   const { query, setQuery } = useUrlSearchParams();
-  const bountyFetch = useGetBounties(query, 0);
+  const bountyFetch = useGetBounties(query);
 
   function addCountry(newCountry: string) {
     if (query.countries?.includes(newCountry)) return;

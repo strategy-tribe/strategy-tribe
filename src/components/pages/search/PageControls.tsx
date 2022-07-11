@@ -3,28 +3,35 @@ import { Button, ButtonStyle } from '@/components/utils/Button';
 import { useScrollToTop } from '@/hooks/useScrollTo';
 import { ArrayOfNumbers } from '@/utils/ArrayHelpers';
 import useWindowDimensions from '@/hooks/useWindowDimensions';
+import { useGetBounties } from '@/lib/hooks/bountyHooks';
+import { useExploreContext } from '../explore/ExploreContext';
+import { useUrlSearchParams } from '@/lib/hooks/useUrlSearchParams';
 
-export function PageControls({
-  numOfPages,
-  currPage,
-  goToPage,
-  prevPage,
-  nextPage,
-  isFetching,
-  hasPreviousPage,
-  hasNextPage,
-  isLoading,
-}: {
-  numOfPages: number;
-  currPage: number;
-  hasPreviousPage?: boolean;
-  hasNextPage?: boolean;
-  isFetching: boolean;
-  isLoading: boolean;
-  prevPage: () => void;
-  nextPage: () => void;
-  goToPage: (page: number) => void;
-}) {
+export function PageControls() {
+  const { bountyFetch } = useExploreContext();
+  const {
+    hasNextPage,
+    hasPreviousPage,
+    isFetching,
+    numOfPages,
+    isLoading,
+    page: currPage,
+  } = bountyFetch;
+
+  const { setQuery, query } = useUrlSearchParams();
+
+  function nextPage() {
+    setQuery({ ...query, page: (query.page || 0) + 1, paginate: true });
+  }
+
+  function prevPage() {
+    setQuery({ ...query, page: (query.page || 0) - 1, paginate: true });
+  }
+
+  function goToPage(page: number) {
+    setQuery({ ...query, page, paginate: true });
+  }
+
   //*num of numbers in screen
   const { width } = useWindowDimensions();
   const [amountOfPages, setAmountOfPages] = useState(10);
@@ -35,7 +42,7 @@ export function PageControls({
     } else setAmountOfPages(10);
   }, [width, setAmountOfPages]);
 
-  const scrollToTop = useScrollToTop();
+  const scrollToTop = useScrollToTop(500);
 
   async function RunAndMoveToTop(move: (x?: any) => any) {
     await move();
@@ -50,6 +57,7 @@ export function PageControls({
       moreThan && scrollPassed ? currPage - amountOfPages / 2 : 0,
       numOfPages
     );
+
     return _pages;
   }, [currPage, numOfPages, amountOfPages]);
 

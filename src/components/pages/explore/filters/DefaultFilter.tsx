@@ -12,6 +12,8 @@ const LATEST_FILTER: DefaultFilter = {
     order: Order.Asc,
     orderBy: BountyOrderBy.CreatedAt,
     amount: 16,
+    paginate: true,
+    page: 0,
   },
 };
 const TOP_REWARDS_FILTER: DefaultFilter = {
@@ -20,6 +22,8 @@ const TOP_REWARDS_FILTER: DefaultFilter = {
     order: Order.Desc,
     orderBy: BountyOrderBy.Bounty,
     amount: 16,
+    paginate: true,
+    page: 0,
   },
 };
 const LOW_COMPETITION_FILTER: DefaultFilter = {
@@ -28,6 +32,8 @@ const LOW_COMPETITION_FILTER: DefaultFilter = {
     order: Order.Asc,
     orderBy: BountyOrderBy.Submissions,
     amount: 16,
+    paginate: true,
+    page: 0,
   },
 };
 const CLOSES_SOON_FILTER: DefaultFilter = {
@@ -36,6 +42,8 @@ const CLOSES_SOON_FILTER: DefaultFilter = {
     order: Order.Asc,
     orderBy: BountyOrderBy.ClosesAt,
     amount: 16,
+    paginate: true,
+    page: 0,
   },
 };
 export const DEFAULT_FILTERS = [

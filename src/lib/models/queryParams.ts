@@ -31,6 +31,7 @@ export interface BountyQueryParams {
   minBounty?: number;
   maxBounty?: number;
   countries?: string[];
+  page?: number;
 }
 
 export enum BountyOrderBy {

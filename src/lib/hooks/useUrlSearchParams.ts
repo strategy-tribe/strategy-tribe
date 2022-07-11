@@ -31,6 +31,7 @@ export const useUrlSearchParams = () => {
         specificityOfOrgName: qry.specificityOfOrgName,
         paginate: qry.paginate,
         countries: qry.countries,
+        page: qry.page,
       },
     };
   }
@@ -65,6 +66,7 @@ export const useUrlSearchParams = () => {
       specificityOfOrgName,
       paginate: qry.paginate === 'true',
       countries,
+      page: parseInt(qry.page as string) || 0,
     };
 
     return params;

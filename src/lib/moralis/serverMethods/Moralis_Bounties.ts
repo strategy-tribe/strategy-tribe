@@ -11,7 +11,7 @@ export const Moralis_useGetBounties = (
   config: BountyQueryParams,
   moralis = Moralis
 ) => {
-  const fetch = async (page = 0) => {
+  const fetch = async () => {
     const {
       amount,
       orgName,
@@ -25,6 +25,7 @@ export const Moralis_useGetBounties = (
       minBounty,
       specificityOfOrgName,
       countries,
+      page,
     } = config;
 
     const query = new moralis.Query(BOUNTIES_TABLE);
@@ -47,7 +48,7 @@ export const Moralis_useGetBounties = (
       });
     }
 
-    if (countries) {
+    if (countries && countries.length) {
       query.containsAll('countries', countries);
     }
 
@@ -95,29 +96,35 @@ export const Moralis_useGetBounties = (
       });
     }
 
-    if (amount) query.limit(amount);
-
     let skipped = 0;
     if (paginate && page && amount) {
       skipped = page * amount;
       query.skip(skipped);
     }
 
-    const data = await query.find();
-    const count = await query.count();
+    if (amount) {
+      query.limit(amount);
+    }
+
+    const promises = [query.find(), query.count()];
+
+    const results = await Promise.all(promises);
+
+    const data = results[0] as Moralis.Object<Moralis.Attributes>[];
+    const count = results[1] as number;
 
     const bounties: Bounty[] | undefined = castMultipleBounties(data);
 
     const hasLess = skipped > 0;
     const hasMore = config.amount
-      ? count - config.amount * page > config.amount
+      ? count - config.amount * (page || 0) > config.amount
       : false;
 
     return {
       bounties,
       hasMore,
       hasLess,
-      page,
+      page: page || 0,
       count,
     };
   };
