@@ -76,6 +76,7 @@ function compareQueries(q1: QueryParams, q2: QueryParams) {
 
     let same = true;
     biggest.forEach((pair) => {
+      if (!same) return;
       const key = pair.at(keyIndex) as string;
       const value = pair.at(valueIndex);
 
