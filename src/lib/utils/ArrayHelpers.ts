@@ -8,6 +8,5 @@ export const ArrayOfNumbers = (length: number, starts = 0, maxNum?: number) => {
   for (let i = starts; i < length + starts; i++) {
     if (!maxNum || i < maxNum) arr.push(i);
   }
-
   return arr;
 };

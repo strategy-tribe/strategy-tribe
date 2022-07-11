@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useUrlSearchParams } from '@/lib/hooks/useUrlSearchParams';
 import { QueryParams } from '@/lib/models';
 import { DEFAULT_FILTERS } from './DefaultFilter';
 import { useExploreContext } from '../ExploreContext';
 import { kFormatter } from '@/lib/utils/NumberHelpers';
 import Icon, { IconSize } from '@/components/utils/Icon';
+import { Searchbar } from '../../search/Searchbar';
+import { Button, ButtonStyle } from '@/components/utils/Button';
 
 export function ExploreFilters() {
   const { query, setQuery } = useUrlSearchParams();
@@ -15,50 +17,109 @@ export function ExploreFilters() {
     removeCountry,
   } = useExploreContext();
 
-  return (
-    <div className="flex items-center justify-between gap-6">
-      <ul className="flex gap-6">
-        {DEFAULT_FILTERS.map((filter, i) => {
-          const opacity = compareQueries(query, filter.query)
-            ? ''
-            : 'opacity-50 hover:opacity-90';
-          return (
-            <li key={i} className={`${opacity}`}>
-              <button onClick={() => setQuery(filter.query)}>
-                {filter.type}
-              </button>
-            </li>
-          );
-        })}
-      </ul>
+  function setSearch(s: string) {
+    setQuery({ ...query, searchTerm: s, specificityOfTitle: 'Exact' });
+  }
 
-      <div className="flex items-center gap-6 py-1">
-        <div className="flex gap-4 items-center">
-          {countries?.map((country, i) => {
+  function resetOrgFromQuery() {
+    setQuery({ ...query, orgName: undefined });
+  }
+
+  const [showSearchbar, setShowSearchbar] = useState(false);
+
+  return (
+    <div className="space-y-4">
+      <div className="flex justify-end">
+        {
+          <Searchbar
+            searchTerm={query.searchTerm || ''}
+            search={(s) => {
+              setSearch(s);
+              setShowSearchbar(false);
+            }}
+            events={{ onBlur: () => setShowSearchbar(false) }}
+          />
+        }
+
+        {/* {!showSearchbar && (
+          <Button
+            info={{
+              icon: 'search',
+              style: ButtonStyle.Text,
+              onClick: () => setShowSearchbar(true),
+            }}
+          />
+        )} */}
+      </div>
+
+      <div className="flex items-center justify-between gap-6">
+        <ul className="flex gap-6">
+          {DEFAULT_FILTERS.map((filter, i) => {
+            const opacity = compareQueries(query, filter.query)
+              ? ''
+              : 'opacity-50 hover:opacity-90';
             return (
-              <div
-                className="border-[1px] rounded-full py-1 pl-3 pr-4 flex gap-2 items-center"
-                key={i}
-              >
+              <li key={i} className={`${opacity}`}>
+                <button onClick={() => setQuery(filter.query)}>
+                  {filter.type}
+                </button>
+              </li>
+            );
+          })}
+        </ul>
+
+        <div className="flex items-center gap-6 py-1">
+          <div className="flex gap-4 items-center">
+            {countries?.map((country, i) => {
+              return (
+                <div
+                  className="border-[1px] rounded-full py-1 pl-3 pr-4 flex gap-2 items-center"
+                  key={i}
+                >
+                  <button
+                    onClick={() => removeCountry(country)}
+                    className="grid place-items-center"
+                  >
+                    <Icon icon="close" size={IconSize.Small} />
+                  </button>
+                  <span className="label-sm">{country}</span>
+                </div>
+              );
+            })}
+
+            {query.searchTerm && (
+              <div className="border-[1px] rounded-full py-1 pl-3 pr-4 flex gap-2 items-center">
                 <button
-                  onClick={() => removeCountry(country)}
+                  onClick={() => setSearch('')}
                   className="grid place-items-center"
                 >
                   <Icon icon="close" size={IconSize.Small} />
                 </button>
-                <span className="label-sm">{country}</span>
+                <span className="label-sm">{query.searchTerm}</span>
               </div>
-            );
-          })}
-        </div>
+            )}
 
-        <span
-          className={`label text-unactive ${
-            isLoading ? 'invisible' : 'visible'
-          }`}
-        >
-          {kFormatter(count || 0)} bounties
-        </span>
+            {query.orgName && (
+              <div className="border-[1px] rounded-full py-1 pl-3 pr-4 flex gap-2 items-center">
+                <button
+                  onClick={resetOrgFromQuery}
+                  className="grid place-items-center"
+                >
+                  <Icon icon="close" size={IconSize.Small} />
+                </button>
+                <span className="label-sm">{query.orgName}</span>
+              </div>
+            )}
+          </div>
+
+          <span
+            className={`label text-unactive ${
+              isLoading ? 'invisible' : 'visible'
+            }`}
+          >
+            {kFormatter(count || 0)} bounties
+          </span>
+        </div>
       </div>
     </div>
   );

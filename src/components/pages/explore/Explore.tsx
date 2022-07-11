@@ -32,7 +32,7 @@ function ExploreContent() {
           <Map />
         </Section>
 
-        <div className="space-y-20 min-h-screen">
+        <div className="space-y-12 min-h-screen">
           {!!error && <span>{`${error}`}</span>}
 
           <Section>
@@ -42,7 +42,7 @@ function ExploreContent() {
           {!!bounties && (
             <>
               <BountyBoard />
-              <div className="flex  justify-center">
+              <div className="flex justify-center">
                 <PageControls />
               </div>
             </>

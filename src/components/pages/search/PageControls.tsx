@@ -50,6 +50,7 @@ export function PageControls() {
   }
 
   const pages: number[] = useMemo(() => {
+    if (numOfPages === 0) return [];
     const moreThan = numOfPages > amountOfPages;
     const scrollPassed = currPage - amountOfPages / 2 > 0;
     const _pages: number[] = ArrayOfNumbers(

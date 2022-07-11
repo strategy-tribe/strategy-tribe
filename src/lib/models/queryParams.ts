@@ -27,6 +27,7 @@ export interface BountyQueryParams {
   states?: BountyState[];
   orgName?: string;
   specificityOfOrgName?: 'Exact' | 'Loose';
+  specificityOfTitle?: 'Exact' | 'Loose';
   targetType?: TargetType;
   minBounty?: number;
   maxBounty?: number;

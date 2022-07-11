@@ -24,6 +24,7 @@ export const Moralis_useGetBounties = (
       maxBounty,
       minBounty,
       specificityOfOrgName,
+      specificityOfTitle,
       countries,
       page,
     } = config;
@@ -42,10 +43,14 @@ export const Moralis_useGetBounties = (
     }
 
     if (searchTerm) {
-      query.fullText('title', searchTerm, {
-        caseSensitive: false,
-        diacriticSensitive: true,
-      });
+      if (specificityOfTitle === 'Exact')
+        query.equalTo('title', searchTerm.toLocaleLowerCase().trim());
+      else {
+        query.fullText('title', searchTerm, {
+          caseSensitive: false,
+          diacriticSensitive: true,
+        });
+      }
     }
 
     if (countries && countries.length) {
@@ -85,9 +90,9 @@ export const Moralis_useGetBounties = (
 
     if (orgName) {
       if (specificityOfOrgName === 'Exact') {
-        query.equalTo('organizationName', orgName);
+        query.equalTo('organizationName', orgName.toLocaleLowerCase().trim());
       } else {
-        query.fullText('organizationName', orgName);
+        query.fullText('organizationName', orgName.toLocaleLowerCase().trim());
       }
     }
     if (states) {

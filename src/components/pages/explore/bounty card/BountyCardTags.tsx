@@ -1,19 +1,31 @@
 import React, { useId } from 'react';
 import { Bounty } from '@/lib/models';
+import { useUrlSearchParams } from '@/lib/hooks/useUrlSearchParams';
 
 export function BountyCardTags({ bounty }: { bounty: Bounty }) {
+  const type = bounty.requirements.at(0)?.type || '';
+  const org = bounty.organizationName;
+
+  const { query, setQuery } = useUrlSearchParams();
+
+  function addOrgToFilters() {
+    setQuery({ ...query, orgName: org, specificityOfOrgName: 'Exact' });
+  }
+
   return (
     <div className="flex gap-4 pb-2">
-      {[bounty.organizationName, ...(bounty.tags || [])]?.map((tag) => (
-        <Tag tag={tag} key={tag} />
-      ))}
+      <Tag tag={org} onClick={addOrgToFilters} />
+      <Tag tag={type} />
     </div>
   );
 }
 
-function Tag({ tag }: { tag: string }) {
+function Tag({ tag, onClick }: { tag: string; onClick?: () => void }) {
   return (
-    <button className="label-sm text-unactive text-left capitalize">
+    <button
+      className="label-sm text-unactive text-left capitalize"
+      onClick={onClick}
+    >
       {tag?.length > 14 ? `${tag.slice(0, 14)}...` : tag}
     </button>
   );

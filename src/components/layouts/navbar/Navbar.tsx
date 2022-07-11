@@ -57,7 +57,7 @@ export function Navbar({ hideBgOnScroll }: { hideBgOnScroll: boolean }) {
           {/* Left side */}
           <div className="flex items-center gap-6">
             <NavLink url={GoToFAQPage()} label="FAQ" />
-            <NavbarButton icon="search" onClick={() => alert('to do')} />
+            {/* <NavbarButton icon="search" onClick={() => alert('to do')} /> */}
             {!!userId && (
               <NotifsMenu
                 userId={userId}
