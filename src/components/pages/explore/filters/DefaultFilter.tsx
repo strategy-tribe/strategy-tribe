@@ -17,7 +17,7 @@ const LATEST_FILTER: DefaultFilter = {
   },
 };
 const TOP_REWARDS_FILTER: DefaultFilter = {
-  type: 'Rewards',
+  type: 'Top Rewards',
   query: {
     order: Order.Desc,
     orderBy: BountyOrderBy.Bounty,
