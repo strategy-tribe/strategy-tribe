@@ -32,7 +32,7 @@ export function BountySubmissions({ userId }: { userId: string | undefined }) {
       </div>
 
       {/* Submissions */}
-      <div className="py-8">
+      <div className={submissions?.length ? 'py-8' : ''}>
         {submissions?.map((s, i) => {
           return (
             <button

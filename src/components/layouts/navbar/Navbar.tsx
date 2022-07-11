@@ -16,13 +16,21 @@ import { NavbarButton } from './NavbarButton';
 import { useScrollDirection } from '@/lib/hooks/useScrollDirection';
 import useScrollPosition from '@/lib/hooks/useScrollPosition';
 
-export function Navbar() {
+export function Navbar({ hideBgOnScroll }: { hideBgOnScroll: boolean }) {
+  const [navbarBackground, setNavbarBackground] = useState(!hideBgOnScroll);
+
+  const {} = useScrollPosition(
+    300,
+    () => setNavbarBackground(!hideBgOnScroll || true),
+    () => setNavbarBackground(!hideBgOnScroll || false)
+  );
+
   const [showAccountMenu, setShowAccountMenu] = useState(false);
   const [showNotifs, setShowNotifs] = useState(false);
   const [showElevation, setShowElevation] = useState(false);
 
   useScrollPosition(
-    25,
+    hideBgOnScroll ? 300 : 25,
     () => setShowElevation(true),
     () => setShowElevation(false)
   );
@@ -33,9 +41,9 @@ export function Navbar() {
   return (
     <>
       <nav
-        className={`fixed top-0 bg-black text-text w-screen z-40 ${
-          showElevation ? 'border-b-[1px] border-dark' : ''
-        }`}
+        className={`fixed top-0 text-text border-dark w-screen z-40 transition-colors duration-1000 ${
+          showElevation ? 'border-b-[1px] ' : ''
+        } ${navbarBackground ? 'bg-black' : ''}`}
       >
         <div
           className={`flex justify-between items-center max-w-7xl mx-auto ${padding}`}

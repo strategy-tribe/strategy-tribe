@@ -10,6 +10,7 @@ import React, { useEffect } from 'react';
 import Loading from '@/components/utils/Loading';
 import { RequirementType } from '@/lib/models/requirement';
 import { Stat } from './Stat';
+import { SubmissionStatus } from '../bounty/SubmissionStatus';
 
 export function SubmissionDetails({
   bountyId,
@@ -44,7 +45,7 @@ export function SubmissionDetails({
     }
   }, [isLoading, submission, error]);
 
-  if (!Boolean(submissionId as string) || isLoading)
+  if (!Boolean(submissionId as string) || isLoading || !submission)
     return <Loading small={false} />;
   else
     return (
@@ -73,7 +74,8 @@ export function SubmissionDetails({
                 submission.createdAt
               )} ago - ${date.toLocaleString()}`}
             />
-            <Stat title="Status" content={submission.state} size="text-sm" />
+
+            <SubmissionStatus status={submission.state} />
           </div>
         )}
 

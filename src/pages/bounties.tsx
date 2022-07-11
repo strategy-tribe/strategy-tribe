@@ -73,5 +73,5 @@ const BountiesPage: NextPageWithLayout<{
 export default BountiesPage;
 
 BountiesPage.getLayout = function getLayout(page) {
-  return <AppLayout>{page}</AppLayout>;
+  return <AppLayout hideBgOnScroll>{page}</AppLayout>;
 };

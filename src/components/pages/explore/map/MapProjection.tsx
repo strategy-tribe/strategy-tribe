@@ -26,7 +26,7 @@ export default function MapProjection() {
         data={map.mapData.countries}
         features={map.features}
         margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
-        colors={['#948BDE', '#8176D8', '#6C5CE7']}
+        colors={['#2E2A4D', '#423B80', '#574BB3', '#6C5CE7']}
         domain={[0, max + max * 0.05]}
         unknownColor="#191919"
         value={(data) => {
