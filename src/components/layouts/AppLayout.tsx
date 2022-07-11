@@ -6,7 +6,7 @@ export default function AppLayout({
   children,
   hideBgOnScroll = false,
 }: {
-  hideBgOnScroll: boolean;
+  hideBgOnScroll?: boolean;
   children: React.ReactNode;
 }) {
   return (
