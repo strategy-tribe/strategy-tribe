@@ -23,7 +23,6 @@ export function Notification({
       {show && (
         <div className="max-w-5xl mx-auto border-2 border-purpleDark bg-redDark">
           <motion.div
-            key="Notif pill"
             initial={{ opacity: 0, y: 100 }}
             exit={{ opacity: 0, y: 100, transition: { duration: 0.4 } }}
             animate={{

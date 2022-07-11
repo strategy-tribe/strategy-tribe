@@ -79,9 +79,10 @@ export const NotificationcontextProvider = ({
     setDelayType(_delayType);
     setCondition(_condition);
     setNotificationType(_notificationType);
-    //check if the user is in the app...
-    setShowNotif(router.pathname.includes(GoToBountiesPage()));
+    setShowNotif(true);
   }
+
+  console.log(notificationType, showNotif);
 
   return (
     <NotificationContext.Provider
