@@ -23,14 +23,16 @@ async function CreateNotification(users, message, url) {
 
     //create a notification in the db for each user in users
     //create the notification in the db
-    const promises = users.map((user) => SaveNotificationInDB(message, user));
+    const promises = users.map((user) =>
+      SaveNotificationInDB(message, user, url)
+    );
     await Promise.all([...promises, pushNotifs()]);
   } catch (error) {
     ERROR(`Error sending notification: ${error}`);
   }
 }
 
-async function SaveNotificationInDB(message, userId) {
+async function SaveNotificationInDB(message, userId, url) {
   try {
     //moralis new object
     const notifRef = new Moralis.Object(NOTIFICATIONS_TABLE);
@@ -40,6 +42,7 @@ async function SaveNotificationInDB(message, userId) {
     notifRef.set('message', message);
     notifRef.set('type', '');
     notifRef.set('read', false);
+    notifRef.set('url', url);
 
     //set the ACL for the user only
     const acl = new Moralis.ACL();

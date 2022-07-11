@@ -5,6 +5,7 @@ export interface ServerNotification {
   type: string;
   createdAt: Date;
   read: boolean;
+  url: string;
 }
 
 export interface ClientNotification {
