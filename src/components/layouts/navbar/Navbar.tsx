@@ -13,17 +13,30 @@ import { LandingPageLink } from './LandingPageLink';
 import { UserMenu } from './menus/UserMenu';
 import { NotifsMenu } from './menus/NotifsMenu';
 import { NavbarButton } from './NavbarButton';
+import { useScrollDirection } from '@/lib/hooks/useScrollDirection';
+import useScrollPosition from '@/lib/hooks/useScrollPosition';
 
 export function Navbar() {
   const [showAccountMenu, setShowAccountMenu] = useState(false);
   const [showNotifs, setShowNotifs] = useState(false);
+  const [showElevation, setShowElevation] = useState(false);
+
+  useScrollPosition(
+    25,
+    () => setShowElevation(true),
+    () => setShowElevation(false)
+  );
 
   const { userId, LogIn } = useAuth();
 
   const padding = !!userId ? 'py-3' : 'py-1';
   return (
     <>
-      <nav className="fixed top-0 bg-black text-text w-screen z-40">
+      <nav
+        className={`fixed top-0 bg-black text-text w-screen z-40 ${
+          showElevation ? 'border-b-[1px] border-dark' : ''
+        }`}
+      >
         <div
           className={`flex justify-between items-center max-w-7xl mx-auto ${padding}`}
         >
