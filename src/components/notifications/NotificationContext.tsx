@@ -82,8 +82,6 @@ export const NotificationcontextProvider = ({
     setShowNotif(true);
   }
 
-  console.log(notificationType, showNotif);
-
   return (
     <NotificationContext.Provider
       value={{

@@ -17,6 +17,10 @@ export function SubmissionStatus({ status }: { status: SubmissionState }) {
   };
 
   return (
-    <div className={`${color()} border-2 rounded-full py-2 px-6`}>{status}</div>
+    <div
+      className={`${color()} border-2 rounded-full py-2 px-6 capitalize label-sm`}
+    >
+      {status}
+    </div>
   );
 }

@@ -9,11 +9,17 @@ import { RequirementEditor } from './editSubmission/RequirementEditor';
 import { Stat } from './Stat';
 import { useNewSubmissionContext } from './NewSubmissionContext';
 import { UserInput } from './UserInput';
+import { Button } from '@/components/utils/Button';
 
 export function EditSubmission() {
   //*Context
-  const { userAnswers, setUserAnswers, bountyId, requirementsFullfiled } =
-    useNewSubmissionContext();
+  const {
+    userAnswers,
+    setUserAnswers,
+    bountyId,
+    requirementsFullfiled,
+    ctaButton,
+  } = useNewSubmissionContext();
 
   //*State
   const { bounty, isLoading } = useGetBounty(bountyId);
@@ -53,44 +59,50 @@ export function EditSubmission() {
   return (
     <div className="space-y-8">
       {bounty && (
-        <div className="space-y-2">
-          <Title title="About the bounty" />
-          <div className="space-y-8">
-            {/* Bounty name */}
-            <FromBounty bountyId={bountyId as string} />
-            <Stat
-              title="Target"
-              content={bounty.name}
-              copyable={true}
-              size="text-sm"
-            />
-
-            <Stat
-              title="Affiliated with"
-              content={bounty.organizationName}
-              copyable={true}
-              size="text-sm"
-            />
-
-            {bounty.description && (
-              <div className="">
-                <Stat
-                  title="More details"
-                  size="text-sm"
-                  content={bounty.description}
-                  className={`${!expandDetails && 'line-clamp-4'}`}
-                />
-                {bounty.description.length > 500 && (
-                  <button
-                    className="text-purpleDark hover:text-purpleLight text-sm font-semibold"
-                    onClick={() => setExpandDetails(!expandDetails)}
-                  >
-                    {expandDetails ? 'Less' : 'Read more'}
-                  </button>
-                )}
-              </div>
-            )}
+        <div className="flex justify-between">
+          <div className="space-y-2">
+            <Title title="About the bounty" />
+            <div className="space-y-8">
+              {/* Bounty name */}
+              <FromBounty bountyId={bountyId as string} />
+              <Stat
+                title="Target"
+                content={bounty.name}
+                copyable={true}
+                size="text-sm"
+              />
+              <Stat
+                title="Affiliated with"
+                content={bounty.organizationName}
+                copyable={true}
+                size="text-sm"
+              />
+              {bounty.description && (
+                <div className="">
+                  <Stat
+                    title="More details"
+                    size="text-sm"
+                    content={bounty.description}
+                    className={`${!expandDetails && 'line-clamp-4'}`}
+                  />
+                  {bounty.description.length > 500 && (
+                    <button
+                      className="text-purpleDark hover:text-purpleLight text-sm font-semibold"
+                      onClick={() => setExpandDetails(!expandDetails)}
+                    >
+                      {expandDetails ? 'Less' : 'Read more'}
+                    </button>
+                  )}
+                </div>
+              )}
+            </div>
           </div>
+
+          {ctaButton && (
+            <div className="">
+              <Button info={ctaButton} />
+            </div>
+          )}
         </div>
       )}
 

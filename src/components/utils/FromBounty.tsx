@@ -18,7 +18,7 @@ export default function FromBounty({
 
   return (
     <div className="flex flex-col">
-      <span className="text-white font-grotesk text-sm font-medium">
+      <span className="text-unactive font-grotesk text-sm font-medium">
         {title}
       </span>
       <button

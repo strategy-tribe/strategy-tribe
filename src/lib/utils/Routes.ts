@@ -33,7 +33,7 @@ export const GoToSubmissionPage = (bountyId: string, submissionId: string) =>
   `/bounty/${bountyId}/${submissionId}`;
 
 export const GoToBeforeNewSubmissionPage = (bountyId: string) =>
-  `/bounty/${bountyId}/before_new`;
+  `/bounty/${bountyId}/rules`;
 
 export const GoToNewSubmissionPage = (bountyId: string) =>
   `/bounty/${bountyId}/new`;

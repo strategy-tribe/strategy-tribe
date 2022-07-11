@@ -10,6 +10,7 @@ import {
   useNewSubmissionContext,
 } from '@/components/pages/submission/NewSubmissionContext';
 import { Button } from '@/components/utils/Button';
+import { Section } from '@/components/pages/landing/Section';
 
 const NewSubmission: NextPageWithLayout = () => {
   return (
@@ -35,15 +36,10 @@ const NewSubmission: NextPageWithLayout = () => {
 function Content() {
   const { editPhase, ctaButton } = useNewSubmissionContext();
   return (
-    <>
+    <div className="mx-auto max-w-5xl">
       {editPhase && <EditSubmission />}
       {!editPhase && <ReviewSubmission />}
-      {ctaButton && (
-        <div className="laptop:hidden">
-          <Button info={ctaButton} />
-        </div>
-      )}
-    </>
+    </div>
   );
 }
 
