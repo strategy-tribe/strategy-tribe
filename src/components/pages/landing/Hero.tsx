@@ -59,7 +59,7 @@ function HeroDesktop() {
             An{' '}
             <a
               className="underline hover:text-purpleLight"
-              href="https://github.com/strategy-tribe/st"
+              href="https://github.com/strategy-tribe/strategy-tribe"
               target="_blank"
               rel="noopener noreferrer"
             >

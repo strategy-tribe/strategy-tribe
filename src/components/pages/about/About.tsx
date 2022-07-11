@@ -57,7 +57,7 @@ export function About({}) {
             <span>Follow us on Twitter</span>
           </a>
           <a
-            href="https://github.com/strategy-tribe/st"
+            href="https://github.com/strategy-tribe/strategy-tribe"
             target="_blank"
             rel="noopener noreferrer"
             className="text-white hover:text-purpleLight py-3 px-5 tablet:px-6 label z-10 flex items-center justify-center gap-2 rounded-full min-w-[6rem] w-fit"

@@ -44,7 +44,7 @@ export function SpreadTheWord() {
 
         <li className="label hover:text-purpleLight">
           <a
-            href="https://github.com/strategy-tribe/st"
+            href="https://github.com/strategy-tribe/strategy-tribe"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-3"
