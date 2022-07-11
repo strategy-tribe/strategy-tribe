@@ -3,7 +3,5 @@ Moralis.Cloud.define('canSubmit', async (request) => {
   const { userHasUploadedInLessThanADay, bountyIsClosed } =
     await UserCanSubmitChecks(userId, bountyId);
 
-  LOG(`Can user submit? ${!userHasUploadedInLessThanADay && !bountyIsClosed}`);
-
   return !userHasUploadedInLessThanADay && !bountyIsClosed;
 });

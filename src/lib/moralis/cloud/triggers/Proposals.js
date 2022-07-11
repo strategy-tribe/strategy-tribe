@@ -29,16 +29,11 @@ Moralis.Cloud.afterSave(BOUNTY_TABLE, async function (request) {
 
   //Check for wallet
   if (!bounty.get('wallet') || bounty.get('wallet') === '') {
-    LOG('Adding wallet to bounty');
     const wallet = await CreateWallet('bounty', bounty.id);
     bounty.set('wallet', wallet);
     await bounty.save(null, { useMasterKey: true });
-  } else {
-    LOG('Bounty did not needed wallet');
   }
-
   if (bounty.get('state') === 'Open' && context.isNew) {
-    // LOG(`New bounty created. Notifying subscribers`);
     const orgName = bounty.get('organizationName');
 
     await IncrementOrganizationCount(orgName);
@@ -76,7 +71,6 @@ async function IncrementOrganizationCount(orgName) {
   let orgRef = await q.first({ useMasterKey: true });
   try {
     orgRef.increment('bounties');
-    // LOG(`${orgName} +1 bounty`);
     await orgRef.save(null, { useMasterKey: true });
   } catch (error) {
     ERROR(

@@ -14,8 +14,7 @@ async function TrytoUpdate(address) {
   const walletObj = await q.first({ useMasterKey: true });
 
   if (!walletObj) {
-    LOG(`wallet not found`);
-    return undefined;
+    ERROR(`wallet not found`, true);
   }
 
   const type = walletObj.get('type');
@@ -23,7 +22,7 @@ async function TrytoUpdate(address) {
   if (type === 'bounty') table = BOUNTY_TABLE;
   else if (type === 'org') table = ORG_TABLE;
   else {
-    LOG(`The type of the bounty was not defined`);
+    ERROR(`The type of the bounty was not defined`);
     return undefined;
   }
 
@@ -37,15 +36,12 @@ async function TrytoUpdate(address) {
 }
 
 async function UpdateObjectWallet(obj, address) {
-  LOG(`Found. ID is ${obj.id}`);
   const chainCode = await GetChainCode();
-  LOG(`The chain code is ${chainCode}`);
   const { ethers, provider } = Moralis.ethersByChain(chainCode);
   const bigNumbalance = await provider.getBalance(address);
   const balanceInString = ethers.utils.formatEther(bigNumbalance);
 
   const balance = Number.parseFloat(balanceInString);
-  LOG(`The balance is: ${balance}`);
 
   obj.set('funds', balance);
   await obj.save(null, { useMasterKey: true });

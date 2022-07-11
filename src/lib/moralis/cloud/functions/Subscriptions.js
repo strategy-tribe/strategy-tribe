@@ -29,7 +29,7 @@ Moralis.Cloud.define('addSubscriber', async (request) => {
   const orgSubsRef = await q.first({ useMasterKey: true });
 
   if (!orgSubsRef) {
-    LOG(`Validation error: Could not find the org: ${orgName}`);
+    ERROR(`Validation error: Could not find the org: ${orgName}`);
     return {
       success: false,
       error: `Validation error: Could not find the org: ${orgName}`,
@@ -62,7 +62,7 @@ Moralis.Cloud.define('removeSubscriber', async (request) => {
   const orgSubsRef = await q.first({ useMasterKey: true });
 
   if (!orgSubsRef) {
-    LOG(`Validation error: Could not find the org: ${orgName}`);
+    ERROR(`Validation error: Could not find the org: ${orgName}`);
     return {
       success: false,
       error: `Validation error: Could not find the org: ${orgName}`,
@@ -79,7 +79,6 @@ Moralis.Cloud.define('removeSubscriber', async (request) => {
   }
 
   const newSubs = subs.filter((s) => s !== userId);
-  LOG(`type: ${typeof subs} / length : ${subs.length}`);
   orgSubsRef.set('subs', newSubs);
   await orgSubsRef.save(null, { useMasterKey: true });
 
@@ -97,14 +96,12 @@ Moralis.Cloud.define('isSubscribedToAll', async (request) => {
   const numOfSubscriptions = await qSubscribedto.count({ useMasterKey: true });
 
   if (numOfSubscriptions === 0) {
-    LOG(`The user has 0 subscriptions`);
     return false;
   }
 
   const qAllOrg = new Moralis.Query(ORG_SUBS_TABLE);
   const allOrg = await qAllOrg.count({ useMasterKey: true });
 
-  LOG(`Subs: ${numOfSubscriptions} | total orgs : ${allOrg}`);
   return numOfSubscriptions === allOrg;
 });
 
@@ -112,6 +109,7 @@ Moralis.Cloud.define('addSubscriberToAll', async (request) => {
   const { userId } = request.params;
   if (!userId) {
     const errMsg = `Trying to subscribe null user (${userId})`;
+    ERROR(errMsg);
     return {
       success: false,
       error: errMsg,

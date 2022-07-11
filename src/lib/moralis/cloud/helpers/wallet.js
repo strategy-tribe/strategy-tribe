@@ -11,7 +11,6 @@ async function CreateWallet(type, id) {
   walletRef.set('mnemonic', wallet.mnemonic.phrase.toLowerCase());
   walletRef.set('type', type);
 
-  // LOG(`Creating wallet and assiged to: ${id} for ${type}`);
   walletRef.set('assigned', id);
 
   //security --- can only read
@@ -45,7 +44,7 @@ async function UnassignWallet(address) {
   const wallet = await q.first({ useMasterKey: true });
 
   if (!wallet) {
-    LOG(`Couldnt find this wallet: ${address}`);
+    ERROR(`Couldnt find this wallet: ${address}`, true);
   }
 
   wallet.set('assigned', undefined);
@@ -54,7 +53,6 @@ async function UnassignWallet(address) {
 }
 
 async function ArchiveWallet(wallet) {
-  LOG('Archiving wallet');
   try {
     const address = wallet.get('address');
     const type = wallet.get('type');

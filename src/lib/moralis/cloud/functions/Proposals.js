@@ -4,6 +4,5 @@ Moralis.Cloud.define('getBountiesIds', async (request) => {
   const bounties = await q.find();
   const ids = bounties.map((p) => p.id);
 
-  LOG(`Asked for all bounties ids, there are ${ids.length} bounties`);
   return { ids };
 });

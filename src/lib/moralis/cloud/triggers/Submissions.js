@@ -40,12 +40,10 @@ Moralis.Cloud.afterSave(SUBMISSIONS_TABLE, async function (request) {
     //needs to pay
     bounty.set('state', 'Payment needed');
     await bounty.save(null, { useMasterKey: true });
-    LOG('bounty needs to pay user');
   } else if (submissionState === 'was fully accepted') {
     //close
     bounty.set('state', 'closed');
     await bounty.save(null, { useMasterKey: true });
-    LOG('bounty was closed');
   } else if (submissionState === 'is waiting for review') {
     //recount
     const count = await CountBountySubmissions(bountyId);
@@ -55,8 +53,6 @@ Moralis.Cloud.afterSave(SUBMISSIONS_TABLE, async function (request) {
 });
 
 Moralis.Cloud.afterDelete(SUBMISSIONS_TABLE, async function (request) {
-  //*check if the bounty state should change
-  LOG(`Deleted Submission`);
   const bountyId = request.object.get('bountyId');
   const bounty = await GetBountyByID(bountyId);
 

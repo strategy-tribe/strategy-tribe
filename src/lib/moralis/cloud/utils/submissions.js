@@ -16,7 +16,6 @@ async function CountBountySubmissions(bountyId) {
   let q = new Moralis.Query(SUBMISSIONS_TABLE);
   q.equalTo('bountyId', bountyId);
   const count = await q.count({ useMasterKey: true });
-  LOG(`The count is ${count}`);
   return count;
 }
 
@@ -46,14 +45,10 @@ async function UserCanSubmitChecks(userId, bountyId) {
       bountyState === 'Closed' ||
       bountyState === 'Payment needed' ||
       !theresTimeLeft;
-    LOG(
-      `Bounty state: ${bountyState} / ClosesAt: ${closesAt} / theresTimeLeft : ${theresTimeLeft}`
-    );
   }
 
   //*2- check if user hasn't uploaded in a day
   const latestSubmission = await GetLatestUserSubmisson(userId, bountyId);
-  LOG(`latestSubmission exists: ${!!latestSubmission}`);
 
   let userHasUploadedInLessThanADay = false;
 
@@ -64,9 +59,6 @@ async function UserCanSubmitChecks(userId, bountyId) {
     const diffOfDays = diff / aDayInMs;
 
     userHasUploadedInLessThanADay = diffOfDays < 1;
-    LOG(
-      `diff: ${diff} / diffOfDays: ${diffOfDays} / userHasUploadedInLessThanADay: ${userHasUploadedInLessThanADay}`
-    );
   }
 
   return {
