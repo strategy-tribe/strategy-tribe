@@ -3,12 +3,14 @@ import { useAuth } from 'auth/AuthContext';
 import { Stat } from '../../submission/Stat';
 
 export function AccountDetails() {
-  const { userId, userInfo } = useAuth();
+  const { userId, userInfo, isStaff } = useAuth();
 
   if (!userInfo || !userId) return <></>;
 
   return (
     <div className="w-full space-y-6">
+      {isStaff && <div className="label text-disabled">Staff account</div>}
+
       <Stat title="User ID" content={userId as string} copyable={true} />
 
       <Stat

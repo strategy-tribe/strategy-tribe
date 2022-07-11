@@ -8,13 +8,19 @@ import { Bounty } from '@/lib/models/bounty';
 import { DonationPopUp } from '../donations/DonationPopUp';
 import { Button, ButtonStyle } from './Button';
 import { Stat } from '../pages/submission/Stat';
-import { useBountyContext } from '../pages/bounty/BountyContext';
+import { useGetBounty } from '@/lib/hooks/bountyHooks';
+import { ReviewSections } from '@/pages/bounty/[id]/[submissionId]/review';
 
-export function BountyDetails() {
-  const { bounty } = useBountyContext();
+export function BountyDetails({
+  bountyId,
+  view: view,
+}: {
+  bountyId: string;
+  view: ReviewSections;
+}) {
+  const { bounty, isLoading } = useGetBounty(bountyId);
 
-  const { view: sectionInView } = useBountyContext();
-  const hidden = sectionInView !== 'details';
+  const hidden = view !== ReviewSections.Bounty;
 
   const { organization } = useGetOrganizationByName(
     bounty?.organizationName as string,
@@ -30,6 +36,8 @@ export function BountyDetails() {
       setCopied(false);
     }
   }, [copied]);
+
+  if (isLoading || !bounty) return <></>;
 
   return (
     <>

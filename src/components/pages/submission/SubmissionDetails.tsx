@@ -46,7 +46,7 @@ export function SubmissionDetails({
   }, [isLoading, submission, error]);
 
   if (!Boolean(submissionId as string) || isLoading || !submission)
-    return <Loading small={false} />;
+    return <Loading small />;
   else
     return (
       <div className="text-text space-y-6 p-2 pb-16 mx-auto max-w-5xl">

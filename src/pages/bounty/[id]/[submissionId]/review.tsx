@@ -9,14 +9,18 @@ import AppLayout from '@/components/layouts/AppLayout';
 import Evaluate from '@/components/pages/submission/review/Evaluate';
 import { SubmissionDetails } from '@/components/pages/submission/SubmissionDetails';
 
+export enum ReviewSections {
+  Bounty = 'Bounty',
+  Submission = 'Submission',
+  Evaluate = 'Evaluate',
+}
+
 const ReviewPage: NextPageWithLayout = () => {
   const router = useRouter();
   const { id: bountyId, submissionId } = router.query;
   const { userId: user } = useAuth();
 
-  const [section, setSection] = useState<'Bounty' | 'Submission' | 'Evaluate'>(
-    'Bounty'
-  );
+  const [view, setView] = useState<ReviewSections>(ReviewSections.Bounty);
 
   return (
     <>
@@ -45,47 +49,37 @@ const ReviewPage: NextPageWithLayout = () => {
 
         {/* pick section */}
         <ul className="w-full flex space-x-6 items-center text-disabled">
-          <li
-            className={`${
-              section === `Bounty` ? 'text-white font-semibold' : ''
-            } cursor-pointer`}
-            onClick={() => {
-              setSection('Bounty');
-            }}
-          >
-            Bounty
-          </li>
-          <li
-            className={`${
-              section === `Submission` ? 'text-white font-semibold' : ''
-            } cursor-pointer`}
-            onClick={() => {
-              setSection('Submission');
-            }}
-          >
-            Submission
-          </li>
-          <li
-            className={`${
-              section === `Evaluate` ? 'text-white font-semibold' : ''
-            } cursor-pointer`}
-            onClick={() => {
-              setSection('Evaluate');
-            }}
-          >
-            Evaluate
-          </li>
+          {Object.entries(ReviewSections).map((entries) => {
+            const label = entries[0];
+            const value = entries[1] as ReviewSections;
+
+            return (
+              <li
+                key={label}
+                className={`${
+                  view === value ? 'text-white font-semibold' : ''
+                } cursor-pointer`}
+                onClick={() => {
+                  setView(value);
+                }}
+              >
+                {label}
+              </li>
+            );
+          })}
         </ul>
 
         {/* Actual section */}
-        {section === 'Bounty' && <BountyDetails />}
-        {section === 'Submission' && (
+        {view === ReviewSections.Bounty && (bountyId as string) && (
+          <BountyDetails bountyId={bountyId as string} view={view} />
+        )}
+        {view === ReviewSections.Submission && (
           <SubmissionDetails
             bountyId={bountyId as string}
             submissionId={submissionId as string}
           />
         )}
-        {section === 'Evaluate' && (
+        {view === ReviewSections.Evaluate && (
           <Evaluate submissionId={submissionId as string} />
         )}
       </div>
