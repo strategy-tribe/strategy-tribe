@@ -65,32 +65,30 @@ export function ExploreFilters() {
 }
 
 function compareQueries(q1: QueryParams, q2: QueryParams) {
-  if (!q1 || !q2) return false;
+  try {
+    const keyIndex = 0;
+    const valueIndex = 1;
+    const keys1 = Object.entries(q1);
+    const keys2 = Object.entries(q2);
 
-  const keyIndex = 0;
-  const valueIndex = 1;
-  const keys1 = Object.entries(q1);
-  const keys2 = Object.entries(q2);
+    const biggest = keys1.length > keys2.length ? keys1 : keys2;
+    const smallest = keys1.length > keys2.length ? keys2 : keys1;
 
-  if (!keys1 || !keys2) return false;
+    let same = true;
+    biggest.forEach((pair) => {
+      const key = pair.at(keyIndex) as string;
+      const value = pair.at(valueIndex);
 
-  const biggest = keys1.length > keys2.length ? keys1 : keys2;
-  const smallest = keys1.length > keys2.length ? keys2 : keys1;
+      const otherEntries = smallest.find((entry) => entry.at(keyIndex) === key);
 
-  let same = true;
-  biggest.forEach((pair) => {
-    if (!same) return;
-    if (!pair.at) return;
-    const key = pair.at(keyIndex) as string;
-    const value = pair.at(valueIndex);
+      if (otherEntries) {
+        const otherValue = otherEntries?.at(valueIndex);
+        same = otherValue === value;
+      }
+    });
 
-    const otherEntries = smallest.find((entry) => entry.at(keyIndex) === key);
-
-    if (otherEntries) {
-      const otherValue = otherEntries?.at(valueIndex);
-      same = otherValue === value;
-    }
-  });
-
-  return same;
+    return same;
+  } catch (error) {
+    return false;
+  }
 }
