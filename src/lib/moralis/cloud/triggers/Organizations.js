@@ -6,7 +6,6 @@ Moralis.Cloud.beforeSave(ORG_TABLE, async function (request) {
   let orgSubsRef = await GetOrgSubsRef(name);
 
   if (!orgSubsRef) {
-    // LOG(`Creating subs object for "${name}"`);
     orgSubsRef = new Moralis.Object(ORG_SUBS_TABLE);
     orgSubsRef.set('name', name);
     orgSubsRef.set('subs', []);
@@ -31,6 +30,7 @@ Moralis.Cloud.afterSave(ORG_TABLE, async function (request) {
     const wallet = await CreateWallet('org', organization.id);
     organization.set('wallet', wallet);
     organization.set('funds', 0);
+    await organization.save(null, { useMasterKey: true });
   }
 });
 
