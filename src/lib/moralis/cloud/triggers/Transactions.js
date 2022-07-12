@@ -14,7 +14,8 @@ async function TrytoUpdate(address) {
   const walletObj = await q.first({ useMasterKey: true });
 
   if (!walletObj) {
-    ERROR(`wallet not found`, true);
+    ERROR(`wallet not found`);
+    return undefined;
   }
 
   const type = walletObj.get('type');
@@ -25,8 +26,6 @@ async function TrytoUpdate(address) {
     ERROR(`The type of the bounty was not defined`);
     return undefined;
   }
-
-  LOG(`The type of wallet is: ${type}`);
 
   const objQuery = new Moralis.Query(table);
   objQuery.equalTo('wallet', address);
