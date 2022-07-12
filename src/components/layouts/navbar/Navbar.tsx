@@ -28,7 +28,7 @@ export function Navbar({ hideBgOnScroll }: { hideBgOnScroll: boolean }) {
   const [showElevation, setShowElevation] = useState(false);
 
   useScrollPosition(
-    hideBgOnScroll ? 325 : 25,
+    hideBgOnScroll ? 600 : 25,
     () => setShowElevation(true),
     () => setShowElevation(false)
   );
