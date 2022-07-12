@@ -5,10 +5,14 @@ const getQueryId = (userId: string, amount: number) => {
   return ['get user server notifs', userId, amount];
 };
 
-export const useGetUserServerNotifications = (userId: string, amount = 3) => {
+export const useGetUserServerNotifications = (
+  userId: string,
+  onlyUnread: boolean,
+  amount = 3
+) => {
   const queryId = getQueryId(userId, amount);
 
-  const { fetch } = Moralis_getNotifications(userId, amount);
+  const { fetch } = Moralis_getNotifications(userId, amount, onlyUnread);
 
   const {
     data: notifications,

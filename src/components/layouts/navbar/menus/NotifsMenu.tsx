@@ -1,12 +1,14 @@
 import { GoToUserPage } from '@/lib/utils/Routes';
 import { IconSize } from '../../../utils/Icon';
-import { useAuth } from 'auth/AuthContext';
 import Link from 'next/link';
 import { Button, ButtonStyle } from '@/components/utils/Button';
 import { useGetUserServerNotifications } from '@/lib/hooks/serverNotificationHooks';
 import Loading from '@/components/utils/Loading';
 import { Overlay } from '@/components/utils/Overlay';
 import { NavbarButton } from '../NavbarButton';
+import { GetDateInString } from '@/lib/utils/DateHelpers';
+import { ServerNotification } from '@/components/notifications/iNotification';
+import { useReadNotification } from '@/lib/hooks/useReadNotification';
 
 export function NotifsMenu({
   userId,
@@ -19,8 +21,9 @@ export function NotifsMenu({
   show: () => void;
   hide: () => void;
 }) {
-  const { notifications, error, isLoading } = useGetUserServerNotifications(
+  const { notifications, isLoading } = useGetUserServerNotifications(
     userId,
+    true,
     3
   );
 
@@ -52,21 +55,21 @@ export function NotifsMenu({
             <hr className="w-full text-dark" />
 
             {!!notifications && (
-              <div className="px-6 py-4">
+              <>
                 {notifications.length > 0 && (
-                  <div>
+                  <div className="">
                     {notifications.map((n, i) => {
-                      return <div key={i}>{n.message}</div>;
+                      return <NotificationListEntry key={i} notification={n} />;
                     })}
                   </div>
                 )}
 
                 {notifications.length === 0 && (
-                  <div className="h-[10rem] grid place-items-center">
+                  <div className="h-[10rem] grid place-items-center px-6 py-4">
                     <span className="label">You have no new notifications</span>
                   </div>
                 )}
-              </div>
+              </>
             )}
 
             {isLoading && <Loading small />}
@@ -112,5 +115,30 @@ export function NotifsMenu({
         </aside>
       )}
     </div>
+  );
+}
+
+function NotificationListEntry({
+  notification,
+}: {
+  notification: ServerNotification;
+}) {
+  const { mutate } = useReadNotification(notification.id);
+
+  return (
+    <Link href={notification.url}>
+      <a
+        className={`${
+          notification.read ? 'text-disabled' : 'hover:bg-dark text-text'
+        } block py-5 px-6 w-full text-left`}
+        onClick={() => mutate()}
+      >
+        <span>{notification.message}</span>
+        <br />
+        <span className="label-sm text-unactive">
+          {GetDateInString(notification.createdAt)} ago
+        </span>
+      </a>
+    </Link>
   );
 }

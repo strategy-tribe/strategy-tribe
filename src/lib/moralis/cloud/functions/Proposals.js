@@ -1,4 +1,4 @@
-Moralis.Cloud.define('getBountiesIds', async (request) => {
+Moralis.Cloud.define('getBountiesIds', async () => {
   const q = new Moralis.Query(BOUNTY_TABLE);
   q.limit(3000);
   const bounties = await q.find();

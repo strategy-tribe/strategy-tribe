@@ -42,7 +42,7 @@ Moralis.Cloud.afterSave(BOUNTY_TABLE, async function (request) {
     await CreateNotification(
       subscribers,
       `New bounty on ${orgName}`,
-      `${BASE_URL}app/bounty/${bounty.id}`
+      `${BASE_URL}/bounty/${bounty.id}`
     );
   }
 });
