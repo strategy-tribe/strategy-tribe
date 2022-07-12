@@ -1,14 +1,12 @@
-import { GoToUserPage } from '@/lib/utils/Routes';
+import { GoToAccountPage, GoToUserPage } from '@/lib/utils/Routes';
 import { IconSize } from '../../../utils/Icon';
-import Link from 'next/link';
 import { Button, ButtonStyle } from '@/components/utils/Button';
 import { useGetUserServerNotifications } from '@/lib/hooks/serverNotificationHooks';
 import Loading from '@/components/utils/Loading';
 import { Overlay } from '@/components/utils/Overlay';
 import { NavbarButton } from '../NavbarButton';
-import { GetDateInString } from '@/lib/utils/DateHelpers';
-import { ServerNotification } from '@/components/notifications/iNotification';
-import { useReadNotification } from '@/lib/hooks/useReadNotification';
+import { NotificationListEntry } from '../../../notifications/NotificationListEntry';
+import { AccountView } from '@/lib/models/account/AccountView';
 
 export function NotifsMenu({
   userId,
@@ -21,11 +19,11 @@ export function NotifsMenu({
   show: () => void;
   hide: () => void;
 }) {
-  const { notifications, isLoading } = useGetUserServerNotifications(
-    userId,
-    true,
-    3
-  );
+  const { notifications, isLoading } = useGetUserServerNotifications(userId, {
+    amount: 3,
+    onlyUnread: true,
+    enabled: true,
+  });
 
   return (
     <div className="relative">
@@ -84,7 +82,7 @@ export function NotifsMenu({
                   style: ButtonStyle.Text,
                   removeMinWidth: true,
                   removePadding: true,
-                  isALink: GoToUserPage(),
+                  isALink: GoToAccountPage(AccountView.Notifications),
                   onClick: hide,
                 }}
               />
@@ -98,7 +96,6 @@ export function NotifsMenu({
                     removePadding: true,
                     onClick: () => {
                       hide();
-                      alert('to do');
                     },
                   }}
                 />
@@ -115,30 +112,5 @@ export function NotifsMenu({
         </aside>
       )}
     </div>
-  );
-}
-
-function NotificationListEntry({
-  notification,
-}: {
-  notification: ServerNotification;
-}) {
-  const { mutate } = useReadNotification(notification.id);
-
-  return (
-    <Link href={notification.url}>
-      <a
-        className={`${
-          notification.read ? 'text-disabled' : 'hover:bg-dark text-text'
-        } block py-5 px-6 w-full text-left`}
-        onClick={() => mutate()}
-      >
-        <span>{notification.message}</span>
-        <br />
-        <span className="label-sm text-unactive">
-          {GetDateInString(notification.createdAt)} ago
-        </span>
-      </a>
-    </Link>
   );
 }

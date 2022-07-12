@@ -1,13 +1,20 @@
-Moralis.Cloud.define('markAsRead', async (req) => {
+Moralis.Cloud.define('markAsRead', async (request) => {
+  const { notificationId } = request.params;
   try {
-    const { notificationId } = req.params;
-
     const q = new Moralis.Query(NOTIFICATIONS_TABLE);
-    q.equal('objectId', notificationId);
+
+    q.equalTo('objectId', notificationId);
+
     const notification = await q.first();
 
+    if (!notification) {
+      ERROR('No notification found', true);
+    }
+
     notification.set('read', true);
+
     await notification.save(null, { useMasterKey: true });
+
     return true;
   } catch (error) {
     ERROR(

@@ -46,7 +46,7 @@ async function SaveNotificationInDB(message, userId, url) {
 
     //set the ACL for the user only
     const acl = new Moralis.ACL();
-    acl.setPublicReadAccess(false);
+    acl.setPublicReadAccess(true);
     acl.setPublicWriteAccess(false);
     acl.setRoleWriteAccess('staff', false);
     acl.setRoleReadAccess('staff', true);

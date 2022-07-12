@@ -1,16 +1,15 @@
 import FromBounty from '@/components/utils/FromBounty';
 import { useGetSubmission } from '@/hooks/submissionHooks';
 import { GetDateInString } from '@/utils/DateHelpers';
-import { GoTo404Page, GoToBountiesPage } from '@/utils/Routes';
-import { useAuth } from 'auth/AuthContext';
 import Image from 'next/image';
-import { useRouter } from 'next/router';
-import React, { useEffect } from 'react';
-
+import React from 'react';
 import Loading from '@/components/utils/Loading';
 import { RequirementType } from '@/lib/models/requirement';
 import { Stat } from './Stat';
 import { SubmissionStatus } from '../bounty/SubmissionStatus';
+import { MessageForUser } from '@/components/utils/MessageForUser';
+import { useRouter } from 'next/router';
+import { GoTo404Page } from '@/lib/utils/Routes';
 
 export function SubmissionDetails({
   bountyId,
@@ -19,35 +18,26 @@ export function SubmissionDetails({
   bountyId: string;
   submissionId: string;
 }) {
+  const router = useRouter();
+
   //Get the submission
   const { submission, isLoading, error } = useGetSubmission(
     submissionId as string,
-    Boolean(submissionId as string)
+    Boolean(submissionId as string),
+    0
   );
-
-  //info of the user
-  const { isAuthenticated, userId: user, isStaff } = useAuth();
-  //router
-  const router = useRouter();
-  //cannot see the details of a submission if the user isnt staff
-  useEffect(() => {
-    if (!submission) return;
-    else if (!isStaff && submission.owner !== user) {
-      router.push(GoToBountiesPage());
-    }
-  }, [submission, isAuthenticated, isStaff]);
 
   const date = submission ? submission.createdAt : '';
 
-  useEffect(() => {
-    if (!isLoading && !submission && error) {
-      router.push(GoTo404Page());
-    }
-  }, [isLoading, submission, error]);
-
-  if (!Boolean(submissionId as string) || isLoading || !submission)
-    return <Loading small />;
-  else
+  if (isLoading) return <Loading small />;
+  else if (error) {
+    router.push(GoTo404Page());
+    return (
+      <div className="grid place-items-center">
+        <MessageForUser text={`${error}`} />
+      </div>
+    );
+  } else
     return (
       <div className="text-text space-y-6 p-2 pb-16 mx-auto max-w-5xl">
         <FromBounty bountyId={bountyId as string} />

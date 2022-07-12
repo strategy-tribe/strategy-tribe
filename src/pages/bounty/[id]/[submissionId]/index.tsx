@@ -1,9 +1,6 @@
-import { GoToReviewSubmissionPage } from '@/utils/Routes';
 import { useAuth } from 'auth/AuthContext';
 import { useRouter } from 'next/router';
-import React, { useMemo } from 'react';
-
-import { ButtonInformation, ButtonStyle } from '@/components/utils/Button';
+import React from 'react';
 import Head from 'next/head';
 import { NextPageWithLayout } from '@/pages/_app';
 import AppLayout from '@/components/layouts/AppLayout';
@@ -12,21 +9,6 @@ import { SubmissionDetails } from '@/components/pages/submission/SubmissionDetai
 const SubmissionPage: NextPageWithLayout = () => {
   const router = useRouter();
   const { id: bountyId, submissionId } = router.query;
-
-  const { isStaff } = useAuth();
-
-  const ctaButton: ButtonInformation | undefined = useMemo(() => {
-    if (isStaff)
-      return {
-        label: 'Evaluate submission',
-        icon: 'rule',
-        onClick: () =>
-          router.push(
-            GoToReviewSubmissionPage(bountyId as string, submissionId as string)
-          ),
-        style: ButtonStyle.Filled,
-      };
-  }, [isStaff]);
 
   return (
     <>

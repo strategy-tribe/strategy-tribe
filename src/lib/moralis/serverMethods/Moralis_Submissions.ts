@@ -81,7 +81,7 @@ export const Moralis_useGetSubmission = (submissionId: string) => {
 
     const ref = response.at(0);
     if (!ref) {
-      throw `Unabled to find submission ${submissionId}`;
+      throw new Error(`Unabled to find submission ${submissionId}`);
     }
     return CastSubmission(ref);
   };

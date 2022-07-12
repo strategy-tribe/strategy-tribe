@@ -47,14 +47,17 @@ export const useSaveSubmission = (
   };
 };
 
-export const useGetSubmission = (id: string, enabled = true) => {
+export const useGetSubmission = (id: string, enabled = true, retries = 1) => {
   const { find } = Moralis_useGetSubmission(id);
 
   const {
     data: submission,
     isLoading,
     error,
-  } = useQuery([Queries.OneSubmision, id], () => find(), { enabled });
+  } = useQuery([Queries.OneSubmision, id], () => find(), {
+    enabled,
+    retry: retries,
+  });
 
   return { submission, isLoading, error };
 };
