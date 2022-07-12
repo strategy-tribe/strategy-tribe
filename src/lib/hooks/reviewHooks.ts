@@ -3,7 +3,7 @@ import { Moralis_useSaveReview } from '@/lib/moralis/serverMethods/Moralis_Revie
 import { useMutation, useQueryClient } from 'react-query';
 
 export const useSubmitReview = (
-  grade: SubmissionState.Accepted | SubmissionState.NotAccepted,
+  grade: SubmissionState.Accepted | SubmissionState.Rejected,
   submission: Submission,
   reviewerId: string,
   reviewerComment?: string,

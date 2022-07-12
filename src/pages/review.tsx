@@ -14,7 +14,7 @@ import { NextPageWithLayout } from './_app';
 const ReviewPage: NextPageWithLayout = () => {
   const query: SubmissionQueryParams = {
     order: Order.Desc,
-    states: [SubmissionState.WaitingForReview],
+    states: [SubmissionState['WaitingForReview']],
     amount: 15,
     paginate: true,
     reviewed: false,

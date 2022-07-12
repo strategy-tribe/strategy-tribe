@@ -9,7 +9,7 @@ export function SubmissionStatus({ status }: { status: SubmissionState }) {
         return 'border-purpleLight text-purpleLight';
       case SubmissionState.WaitingForPayment:
         return 'border-greenDark text-greenDark';
-      case SubmissionState.NotAccepted:
+      case SubmissionState.Rejected:
         return 'border-disabled text-disabled';
       default:
         return 'border-disabled text-disabled';
@@ -18,7 +18,7 @@ export function SubmissionStatus({ status }: { status: SubmissionState }) {
 
   return (
     <div
-      className={`${color()} border-2 rounded-full py-2 px-6 capitalize label-sm w-fit`}
+      className={`${color()} border-2 rounded-full py-2 px-6 first-letter:capitalize label-sm w-fit`}
     >
       {status}
     </div>

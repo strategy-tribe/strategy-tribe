@@ -24,7 +24,7 @@ function Submissions({ bountyId }: { bountyId: string }) {
   const waitingForReview = useMemo(() => {
     if (!submissions || submissions.length < 1) return [];
     return submissions?.filter(
-      (s) => s.state === SubmissionState.WaitingForReview
+      (s) => s.state === SubmissionState['WaitingForReview']
     );
   }, [submissions]);
 

@@ -6,8 +6,8 @@ export enum BountyState {
 }
 
 export enum SubmissionState {
-  WaitingForReview = 'is waiting for review',
-  NotAccepted = 'was not accepted',
-  WaitingForPayment = "was accepted and it's waiting for payment",
-  Accepted = 'was fully accepted',
+  WaitingForReview = 'Waiting for review',
+  Rejected = 'Rejected',
+  WaitingForPayment = 'Waiting for payment',
+  Accepted = 'Accepted',
 }

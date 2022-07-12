@@ -48,7 +48,7 @@ export const Molaris_useSaveSubmission = (
     submissionRef.set('bountyId', bountyId);
     submissionRef.set('owner', owner);
     submissionRef.set('content', submissionContents);
-    submissionRef.set('state', SubmissionState.WaitingForReview);
+    submissionRef.set('state', SubmissionState['WaitingForReview']);
 
     const acl = new Moralis.ACL();
     acl.setPublicReadAccess(false);

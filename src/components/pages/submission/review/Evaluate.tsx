@@ -122,7 +122,7 @@ function SubmitReviewButton({
   const { notify } = useNotification();
 
   const { SubmitReview } = useSubmitReview(
-    meetsRequirements ? SubmissionState.Accepted : SubmissionState.NotAccepted,
+    meetsRequirements ? SubmissionState.Accepted : SubmissionState['Rejected'],
     submission,
     reviewer,
     undefined, //TODO: reviewer message

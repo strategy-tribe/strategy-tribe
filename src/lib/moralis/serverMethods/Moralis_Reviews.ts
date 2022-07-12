@@ -4,7 +4,7 @@ import { SubmissionState } from '@/lib/models/status';
 import { Submission } from '@/lib/models/submission';
 
 export const Moralis_useSaveReview = (
-  grade: SubmissionState.Accepted | SubmissionState.NotAccepted,
+  grade: SubmissionState.Accepted | SubmissionState.Rejected,
   submission: Submission,
   reviewerId: string,
   reviewerComment?: string

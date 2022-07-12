@@ -15,7 +15,7 @@ export function SubmissionListEntry({
   const { bounty, isLoading } = useGetBounty(submission.bountyId);
 
   if (isLoading || !bounty)
-    return <div className="w-full bg-darker animate-pulse"></div>;
+    return <div className="w-full bg-darker animate-pulse h-16 rounded"></div>;
 
   return (
     <button

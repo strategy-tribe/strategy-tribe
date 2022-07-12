@@ -27,7 +27,6 @@ Moralis.Cloud.beforeSave(SUBMISSIONS_TABLE, async function (request) {
 
 Moralis.Cloud.afterSave(SUBMISSIONS_TABLE, async function (request) {
   //*check if the bounty state should change
-
   const submissionState = request.object.get('state');
   const bountyId = request.object.get('bountyId');
   const bounty = await GetBountyByID(bountyId);
@@ -45,7 +44,7 @@ Moralis.Cloud.afterSave(SUBMISSIONS_TABLE, async function (request) {
     bounty.set('state', 'closed');
     await bounty.save(null, { useMasterKey: true });
   } else if (submissionState === 'is waiting for review') {
-    //recount
+    //keep the same state, just reco
     const count = await CountBountySubmissions(bountyId);
     bounty.set('submissions', count);
     await bounty.save(null, { useMasterKey: true });

@@ -51,8 +51,17 @@ export const getStaticProps: GetStaticProps = async (context) => {
     const queryId = [Queries.OneBounty, id];
     const { fetch } = Moralis_useGetBounty(id as string, Moralis);
 
-    await queryClient.prefetchQuery(queryId, () => fetch());
+    let bounty: any;
+    await queryClient.prefetchQuery(queryId, async () => {
+      bounty = await fetch();
+      return bounty;
+    });
 
+    if (!bounty) {
+      return {
+        notFound: true,
+      };
+    }
     return {
       props: {
         dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
@@ -61,10 +70,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
     };
   } else {
     return {
-      props: {
-        dehydratedState: undefined,
-      },
-      revalidate: 10,
+      notFound: true,
     };
   }
 };

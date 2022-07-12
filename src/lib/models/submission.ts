@@ -23,7 +23,7 @@ export type Review = {
   id?: string;
   createdAt: Date;
   //actual info
-  grade: SubmissionState.Accepted | SubmissionState.NotAccepted;
+  grade: SubmissionState.Accepted | SubmissionState.Rejected;
   submissionId: string;
   reviewerId: string;
   reviewerComment?: string;

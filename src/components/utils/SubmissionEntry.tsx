@@ -73,9 +73,9 @@ function SubmissionStateIcon({ state }: { state: SubmissionState }) {
   switch (state) {
     case SubmissionState.Accepted:
       return <Icon icon="check_circle" />;
-    case SubmissionState.NotAccepted:
+    case SubmissionState['Rejected']:
       return <Icon icon="do_not_disturb_on" />;
-    case SubmissionState.WaitingForPayment:
+    case SubmissionState['WaitingForPayment']:
       return <Icon icon="toll" />;
     default:
       return <Icon icon="pending" />;

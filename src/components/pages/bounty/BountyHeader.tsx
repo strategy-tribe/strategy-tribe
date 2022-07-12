@@ -17,8 +17,6 @@ import { useRouter } from 'next/router';
 export function BountyHeader() {
   const { bounty } = useBountyContext();
 
-  const router = useRouter();
-
   const ETHERSCAN_LINK = process.env.NEXT_PUBLIC_ETHERSCAN_URL;
   const { organization } = useGetOrganizationByName(
     bounty?.organizationName as string,
@@ -26,13 +24,7 @@ export function BountyHeader() {
   );
   const [showDonation, setShowDonation] = useState(false);
 
-  const { userId } = useAuth();
-
-  const { canSubmit } = useCanUserSubmit(
-    userId as string,
-    bounty?.id as string,
-    Boolean(userId as string) && Boolean(bounty?.id)
-  );
+  const { isStaff } = useAuth();
 
   const parsedTitle = bounty.title.replace(
     bounty.organizationName.toLocaleLowerCase(),
@@ -103,6 +95,7 @@ export function BountyHeader() {
           </div>
         </Section>
 
+        {/* Details */}
         <Section className="space-y-8">
           <Stat title="target" content={bounty.name} />
           <Stat
@@ -114,6 +107,7 @@ export function BountyHeader() {
           <FromOrganization orgName={organization?.name as string} />
         </Section>
 
+        {/* CTAs */}
         <Section className="flex justify-between gap-6">
           <Button
             info={{
@@ -124,29 +118,13 @@ export function BountyHeader() {
             }}
           />
 
-          <div className="flex flex-col items-end gap-2">
-            <Button
-              info={{
-                style: ButtonStyle.Filled,
-                label: 'Start new submission',
-                icon: 'arrow_forward',
-                disabled: !canSubmit,
-                onClick: () =>
-                  router.push(GoToBeforeNewSubmissionPage(bounty.id!)),
-              }}
-            />
-            <div className="pr-2">
-              {!canSubmit && userId && (
-                <span className="text-redLight">
-                  You need to wait 24 hours between submissions
-                </span>
-              )}
-
-              {!userId && (
-                <span className="text-redLight">Log in to joint the hunt</span>
-              )}
+          {!isStaff && (
+            <div className="flex flex-col items-end gap-2">
+              <SubmitButton />
+              {/* warning messages */}
+              <SubmitMessages />
             </div>
-          </div>
+          )}
         </Section>
       </header>
       <DonationPopUp
@@ -156,5 +134,57 @@ export function BountyHeader() {
         description={`Bigger rewards mean more eyes and more OSINT hunters.\nBy donating to this bounty you're directly contributing to bringing this bounty to fruition.\n\nAll donations go directly to the hunter who fulfills the bounty requirements.`}
       />
     </>
+  );
+}
+
+function SubmitMessages() {
+  const { bounty } = useBountyContext();
+
+  const { userId } = useAuth();
+
+  const { canSubmit } = useCanUserSubmit(
+    userId as string,
+    bounty?.id as string,
+    Boolean(userId as string) && Boolean(bounty?.id)
+  );
+
+  return (
+    <div className="pr-2">
+      {!canSubmit && userId && (
+        <span className="text-redLight">
+          You need to wait 24 hours between submissions
+        </span>
+      )}
+
+      {!userId && (
+        <span className="text-redLight">Log in to joint the hunt</span>
+      )}
+    </div>
+  );
+}
+
+function SubmitButton() {
+  const router = useRouter();
+
+  const { bounty } = useBountyContext();
+
+  const { userId } = useAuth();
+
+  const { canSubmit } = useCanUserSubmit(
+    userId as string,
+    bounty?.id as string,
+    Boolean(userId as string) && Boolean(bounty?.id)
+  );
+
+  return (
+    <Button
+      info={{
+        style: ButtonStyle.Filled,
+        label: 'Start new submission',
+        icon: 'arrow_forward',
+        disabled: !canSubmit,
+        onClick: () => router.push(GoToBeforeNewSubmissionPage(bounty.id!)),
+      }}
+    />
   );
 }

@@ -7,21 +7,12 @@ Moralis.Cloud.beforeSave(BOUNTY_TABLE, async function (request) {
     bounty.set('state', 'Open');
   }
 
-  if (bounty.get('state') !== 'Open') {
-    const bountyACL = new Moralis.ACL();
-    bountyACL.setPublicReadAccess(false);
-    bountyACL.setPublicWriteAccess(false);
-    bountyACL.setRoleWriteAccess('staff', true);
-    bountyACL.setRoleReadAccess('staff', true);
-    bounty.setACL(bountyACL);
-  } else {
-    const bountyACL = new Moralis.ACL();
-    bountyACL.setPublicReadAccess(true);
-    bountyACL.setPublicWriteAccess(false);
-    bountyACL.setRoleWriteAccess('staff', true);
-    bountyACL.setRoleReadAccess('staff', true);
-    bounty.setACL(bountyACL);
-  }
+  const bountyACL = new Moralis.ACL();
+  bountyACL.setPublicReadAccess(true);
+  bountyACL.setPublicWriteAccess(false);
+  bountyACL.setRoleWriteAccess('staff', true);
+  bountyACL.setRoleReadAccess('staff', false);
+  bounty.setACL(bountyACL);
 });
 
 Moralis.Cloud.afterSave(BOUNTY_TABLE, async function (request) {

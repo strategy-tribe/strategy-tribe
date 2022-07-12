@@ -1,4 +1,4 @@
-import { QueryParams } from '@/lib/models';
+import { BountyState, QueryParams } from '@/lib/models';
 import { Order, BountyOrderBy } from '@/lib/models/queryParams';
 
 export type DefaultFilter = {
@@ -14,6 +14,7 @@ const LATEST_FILTER: DefaultFilter = {
     amount: 16,
     paginate: true,
     page: 0,
+    states: [BountyState.Open],
   },
 };
 const TOP_REWARDS_FILTER: DefaultFilter = {
@@ -24,6 +25,7 @@ const TOP_REWARDS_FILTER: DefaultFilter = {
     amount: 16,
     paginate: true,
     page: 0,
+    states: [BountyState.Open],
   },
 };
 const LOW_COMPETITION_FILTER: DefaultFilter = {
@@ -34,6 +36,7 @@ const LOW_COMPETITION_FILTER: DefaultFilter = {
     amount: 16,
     paginate: true,
     page: 0,
+    states: [BountyState.Open],
   },
 };
 const CLOSES_SOON_FILTER: DefaultFilter = {
@@ -44,6 +47,7 @@ const CLOSES_SOON_FILTER: DefaultFilter = {
     amount: 16,
     paginate: true,
     page: 0,
+    states: [BountyState.Open],
   },
 };
 export const DEFAULT_FILTERS = [
