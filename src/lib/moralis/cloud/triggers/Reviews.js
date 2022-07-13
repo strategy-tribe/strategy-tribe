@@ -1,9 +1,4 @@
 //*Reviews
-
-const ACCEPTED_STATE = 'Accepted';
-const REJECTED_STATE = 'Rejected';
-const WAITING_FOR_PAYMENT_STATE = 'Waiting for payment';
-
 Moralis.Cloud.beforeSave(REVIEWS_TABLE, async function (request) {
   try {
     const {
@@ -44,12 +39,12 @@ Moralis.Cloud.afterSave(REVIEWS_TABLE, async function (request) {
   }
 
   //check the grade of the review
-  let submissionState = REJECTED_STATE;
+  let submissionState = SUBMISSION_REJECTED_STATE;
 
   const reviewGrade = request.object.get('grade');
 
-  if (reviewGrade === ACCEPTED_STATE) {
-    submissionState = WAITING_FOR_PAYMENT_STATE;
+  if (reviewGrade === SUBMISSION_ACCEPTED_STATE) {
+    submissionState = SUBMISSION_WAITING_FOR_PAYMENT_STATE;
   }
 
   //update the submission state

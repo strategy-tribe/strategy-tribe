@@ -42,8 +42,8 @@ async function UserCanSubmitChecks(userId, bountyId) {
     const theresTimeLeft = today.getTime() < closesAt.getTime();
 
     bountyIsClosed =
-      bountyState === 'Closed' ||
-      bountyState === 'Payment needed' ||
+      bountyState === BOUNTY_CLOSED_STATE ||
+      bountyState === BOUNTY_PAYMENT_NEEDED_STATE ||
       !theresTimeLeft;
   }
 

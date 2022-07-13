@@ -26,25 +26,26 @@ Moralis.Cloud.beforeSave(SUBMISSIONS_TABLE, async function (request) {
 });
 
 Moralis.Cloud.afterSave(SUBMISSIONS_TABLE, async function (request) {
-  //*check if the bounty state should change
-  const submissionState = request.object.get('state');
-  const bountyId = request.object.get('bountyId');
+  const submission = request.object;
+  const submissionState = submission.get('state');
+  const bountyId = submission.get('bountyId');
   const bounty = await GetBountyByID(bountyId);
 
   if (!bounty) {
     ERROR('Validation error: Bounty not found for submission', true);
   }
 
-  if (submissionState === "was accepted and it's waiting for payment") {
+  if (submissionState === SUBMISSION_WAITING_FOR_PAYMENT_STATE) {
     //needs to pay
-    bounty.set('state', 'Payment needed');
+    bounty.set('state', BOUNTY_PAYMENT_NEEDED_STATE);
     await bounty.save(null, { useMasterKey: true });
-  } else if (submissionState === 'was fully accepted') {
+    await CreateInvoice(submission);
+  } else if (submissionState === SUBMISSION_ACCEPTED_STATE) {
     //close
-    bounty.set('state', 'closed');
+    bounty.set('state', BOUNTY_CLOSED_STATE);
     await bounty.save(null, { useMasterKey: true });
-  } else if (submissionState === 'is waiting for review') {
-    //keep the same state, just reco
+  } else if (submissionState === SUBMISSION_WAITING_FOR_REVIEW_STATE) {
+    //keep the same state, just recount bounty's submissions
     const count = await CountBountySubmissions(bountyId);
     bounty.set('submissions', count);
     await bounty.save(null, { useMasterKey: true });

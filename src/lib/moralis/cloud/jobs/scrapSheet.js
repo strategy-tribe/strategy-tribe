@@ -452,7 +452,7 @@ async function saveBounty(bountyData) {
 
   const bountyRef = new Moralis.Object(BOUNTY_TABLE);
   //TODO:Set the bounties to 'Waiting for funds'
-  bountyRef.set('state', 'Open');
+  bountyRef.set('state', BOUNTY_OPEN_STATE);
   bountyRef.set('title', title);
 
   bountyRef.set('name', name);

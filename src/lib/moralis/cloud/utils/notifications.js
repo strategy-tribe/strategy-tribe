@@ -64,7 +64,7 @@ async function SaveNotificationInDB(message, userId, url) {
     await notifRef.save(null, { useMasterKey: true });
   } catch (error) {
     ERROR(
-      `Error saving notification:\n"${msg}"\nto database. \nReason: ${error}`
+      `Error saving notification:\n"${message}"\nto database. \nReason: ${error}`
     );
   }
 }

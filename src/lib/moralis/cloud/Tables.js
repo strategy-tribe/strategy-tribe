@@ -9,6 +9,8 @@ const TARGETS_TABLE = 'Target';
 const MAP_DATA_TABLE = 'MapData';
 const NOTIFICATIONS_TABLE = 'Notification';
 
+const INVOICE_TABLE = 'Invoice';
+
 const TRANSACTIONS_TABLE = 'EthTransactions';
 const RECORDS_TABLE = '_AddressSyncStatus';
 const ARCHIVED_WALLET_TABLE = 'Archived_Wallet';

@@ -3,8 +3,11 @@ Moralis.Cloud.beforeSave(BOUNTY_TABLE, async function (request) {
   const { object: bounty } = request;
 
   //Check for funds and state
-  if (bounty.get('funds') > 0 && bounty.get('state') === 'Waiting for funds') {
-    bounty.set('state', 'Open');
+  if (
+    bounty.get('funds') > 0 &&
+    bounty.get('state') === BOUNTY_WAITING_FUNDS_STATE
+  ) {
+    bounty.set('state', BOUNTY_OPEN_STATE);
   }
 
   const bountyACL = new Moralis.ACL();
@@ -30,7 +33,7 @@ Moralis.Cloud.afterSave(BOUNTY_TABLE, async function (request) {
     bounty.set('wallet', wallet);
     await bounty.save(null, { useMasterKey: true });
   }
-  if (bounty.get('state') === 'Open' && context.isNew) {
+  if (bounty.get('state') === BOUNTY_OPEN_STATE && context.isNew) {
     const orgName = bounty.get('organizationName');
 
     await IncrementOrganizationCount(orgName);

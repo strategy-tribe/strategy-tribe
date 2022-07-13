@@ -13,7 +13,7 @@ export function BountySubmissions({ userId }: { userId: string | undefined }) {
     !!userId
   );
 
-  if (isLoading) return <Loading />;
+  if (isLoading) return <Loading small />;
   return (
     <div className="text-text w-full">
       <div className="pb-4 border-b-[1px] border-darker">
