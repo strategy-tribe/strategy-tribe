@@ -25,8 +25,6 @@ export function NotifsMenu({
     enabled: true,
   });
 
-  console.log(notifications?.length, notifications);
-
   return (
     <div className="relative">
       <NavbarButton icon="notifications" onClick={show} />
