@@ -19,8 +19,10 @@ export function AccountSideMap() {
         return (
           <button
             className={`${
-              value === query.view ? 'bg-darker text-white' : 'hover:bg-darker'
-            } rounded text-left pr-8 p-4 label`}
+              value === query.view
+                ? 'border-purpleDark text-white'
+                : 'border-black hover:bg-darker'
+            } rounded text-left pr-8 p-4 label border-2`}
             key={i}
             onClick={() => goToPage(value as AccountView)}
           >
