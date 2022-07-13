@@ -25,6 +25,8 @@ export function NotifsMenu({
     enabled: true,
   });
 
+  console.log(notifications?.length, notifications);
+
   return (
     <div className="relative">
       <NavbarButton icon="notifications" onClick={show} />
@@ -87,7 +89,7 @@ export function NotifsMenu({
                 }}
               />
 
-              {!!notifications && notifications?.length > 0 && (
+              {/* {!!notifications && notifications?.length > 0 && (
                 <Button
                   info={{
                     label: 'Mark all as read',
@@ -99,7 +101,7 @@ export function NotifsMenu({
                     },
                   }}
                 />
-              )}
+              )} */}
             </footer>
           </div>
 

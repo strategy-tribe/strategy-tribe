@@ -15,7 +15,13 @@ export function AccountRewards() {
   const { invoices, isLoading } = useGetInvoices(userId!, !!userId);
 
   return (
-    <section className="w-full">
+    <section className="w-full space-y-4">
+      <div className="pb-4 border-b-1 border-dark">
+        <span className="body-sm text-unactive">
+          {invoices?.length} {invoices?.length === 1 ? 'invoice' : 'invoices'}
+        </span>
+      </div>
+
       {invoices &&
         invoices?.map((invoice) => {
           return <Invoice invoice={invoice} key={invoice.id} />;
