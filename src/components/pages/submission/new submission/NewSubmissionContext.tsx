@@ -8,6 +8,7 @@ import { Check } from '@/components/utils/BountyRequirementsShowcase';
 import { ButtonInformation, ButtonStyle } from '@/components/utils/Button';
 import { useGetBounty } from '@/lib/hooks/bountyHooks';
 import { useSaveSubmission } from '@/lib/hooks/submissionHooks';
+import { Bounty } from '@/lib/models';
 import { Requirement, RequirementType } from '@/lib/models/requirement';
 import { GoToSubmissionPage, GoToBountyPage } from '@/lib/utils/Routes';
 import { useAuth } from 'auth/AuthContext';
@@ -23,7 +24,7 @@ import {
 } from 'react';
 import { UserInput } from './UserInput';
 
-interface iSubmissionContext {
+interface iNewSubmissionContext {
   bountyId: string;
   userAnswers: UserInput[];
   setUserAnswers: (s: UserInput[]) => void;
@@ -32,19 +33,21 @@ interface iSubmissionContext {
   backToEdit: () => void;
   requirementsFullfiled: boolean;
   ctaButton: ButtonInformation | undefined;
+  bounty: Bounty | undefined;
 }
 
 //@ts-ignore
-const NewSubmissionContext = createContext<iSubmissionContext>();
+const NewSubmissionContext = createContext<iNewSubmissionContext>();
 
 export const NewSubmissionContextProvider = ({
   children,
+  bountyId,
+  redirectToBounty,
 }: {
+  bountyId: string;
+  redirectToBounty: () => void;
   children: ReactNode;
 }) => {
-  //*Router
-  const router = useRouter();
-  const { id: bountyId } = router.query;
   const { userId: user } = useAuth();
 
   //*UI State
@@ -78,12 +81,7 @@ export const NewSubmissionContextProvider = ({
       });
       setChecks(newChecks);
     }
-  }, []);
-
-  //*Effects
-  useEffect(() => {
-    if (!user) router.back();
-  }, [user]);
+  }, [bounty]);
 
   //*Mutations
   const { Save } = useSaveSubmission(
@@ -91,6 +89,7 @@ export const NewSubmissionContextProvider = ({
     userAnswers,
     bountyId as string,
     () => {
+      redirectToBounty();
       notify(
         {
           title: 'Your Submission is being uploaded',
@@ -111,12 +110,7 @@ export const NewSubmissionContextProvider = ({
           style: NotificationStyle.success,
           title: 'Your Submission was uploaded successfully',
           content: (
-            <Link
-              href={GoToSubmissionPage(
-                bountyId as string,
-                newSubmissionId as string
-              )}
-            >
+            <Link href={GoToSubmissionPage(newSubmissionId as string)}>
               <a className="underline text-white font-medium" onClick={hide}>
                 You can see it here
               </a>
@@ -153,11 +147,17 @@ export const NewSubmissionContextProvider = ({
   //*Notifications
   const { notify: notify, hide } = useNotification();
 
+  function answerChanged(requirement: Requirement, passed: boolean) {
+    const newChecks = checks.filter((c) => c.requirement !== requirement);
+    newChecks.push({ requirement, passed });
+    setChecks(newChecks);
+  }
+
   const ctaButton: ButtonInformation | undefined = useMemo(() => {
     if (editPhase) {
       return {
         icon: 'arrow_forward',
-        label: 'Next',
+        label: 'Review',
         onClick: () => setEditPhase(false),
         style: ButtonStyle.Filled,
         disabled: !requirementsFullfiled,
@@ -166,23 +166,11 @@ export const NewSubmissionContextProvider = ({
       return {
         icon: 'publish',
         label: 'Submit',
-        onClick: () => ManageSubmission(),
+        onClick: Save,
         style: ButtonStyle.Filled,
         disabled: !requirementsFullfiled,
       };
   }, [requirementsFullfiled, editPhase]);
-
-  //*Methods
-  function ManageSubmission() {
-    Save();
-    router.push(GoToBountyPage(bountyId as string));
-  }
-
-  function answerChanged(requirement: Requirement, passed: boolean) {
-    const newChecks = checks.filter((c) => c.requirement !== requirement);
-    newChecks.push({ requirement, passed });
-    setChecks(newChecks);
-  }
 
   return (
     <NewSubmissionContext.Provider
@@ -195,6 +183,7 @@ export const NewSubmissionContextProvider = ({
         backToEdit: () => setEditPhase(true),
         requirementsFullfiled,
         ctaButton,
+        bounty,
       }}
     >
       {children}

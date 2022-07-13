@@ -29,6 +29,7 @@ const getMapData = async (): Promise<MapData> => {
   const featuresRaw = fs.readFileSync(path, {
     encoding: 'utf-8',
   });
+
   const features = JSON.parse(featuresRaw).features;
 
   return { mapData, features };

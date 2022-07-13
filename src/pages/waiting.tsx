@@ -9,8 +9,11 @@ import { BountyState } from '@/lib/models/status';
 import Head from 'next/head';
 import { useAuth } from 'auth/AuthContext';
 import { NextPageWithLayout } from './_app';
+import { useBanRegularUsers } from '@/lib/hooks/useBanRegularUsers';
 
 const WaitingForFunds: NextPageWithLayout = () => {
+  useBanRegularUsers();
+
   const { userId, isStaff } = useAuth();
 
   const { bounties, isLoading } = useGetBounties(

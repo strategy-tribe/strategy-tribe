@@ -1,4 +1,4 @@
-import { GoToAccountPage, GoToUserPage } from '@/lib/utils/Routes';
+import { GoToAccountPage } from '@/lib/utils/Routes';
 import { IconSize } from '../../../utils/Icon';
 import { Button, ButtonStyle } from '@/components/utils/Button';
 import { useGetUserServerNotifications } from '@/lib/hooks/serverNotificationHooks';
@@ -44,7 +44,7 @@ export function NotifsMenu({
                   style: ButtonStyle.Text,
                   removeMinWidth: true,
                   removePadding: true,
-                  isALink: GoToUserPage(),
+                  isALink: GoToAccountPage(),
                   onClick: hide,
                 }}
               />

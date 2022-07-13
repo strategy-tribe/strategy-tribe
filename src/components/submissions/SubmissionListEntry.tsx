@@ -20,9 +20,7 @@ export function SubmissionListEntry({
   return (
     <button
       key={submission.id}
-      onClick={() =>
-        router.push(GoToSubmissionPage(bounty.id!, submission.id!))
-      }
+      onClick={() => router.push(GoToSubmissionPage(submission.id!))}
       className="relative w-full group grid grid-cols-4"
     >
       <div className="flex flex-col items-start col-span-2">

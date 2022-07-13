@@ -1,4 +1,4 @@
-import { GoToAccountPage, GoToUserPage } from '@/lib/utils/Routes';
+import { GoToAccountPage } from '@/lib/utils/Routes';
 import { useAuth } from 'auth/AuthContext';
 import Link from 'next/link';
 import { Overlay } from '@/components/utils/Overlay';

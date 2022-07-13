@@ -16,7 +16,7 @@ import {
 
 import { SubmissionQueryParams } from '@/lib/models/queryParams';
 import { Submission } from '../models';
-import { UserInput } from '@/components/pages/submission/UserInput';
+import { UserInput } from '@/components/pages/submission/new submission/UserInput';
 
 export const useSaveSubmission = (
   owner: string,

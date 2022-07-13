@@ -4,7 +4,7 @@ import { Requirement, RequirementType } from '@/lib/models/requirement';
 import { GetWordCount } from '@/utils/StringHelpers';
 import React, { useEffect, useState } from 'react';
 import { useNewSubmissionContext } from '../NewSubmissionContext';
-import CheckInput from './checkers';
+import { CheckInput } from '../checkers';
 
 export function RequirementChecker({
   requirement,

@@ -1,6 +1,5 @@
 import { GoToBountiesPage } from '@/utils/Routes';
 import { useAuth } from 'auth/AuthContext';
-
 import { useRouter } from 'next/router';
 import { useEffect, useMemo, useState } from 'react';
 import { ButtonInformation, ButtonStyle } from '@/components/utils/Button';
@@ -9,11 +8,11 @@ import { Requirement, RequirementType } from '@/lib/models/requirement';
 import { TargetType } from '@/lib/models/targetType';
 import AppLayout from '@/components/layouts/AppLayout';
 import { NextPageWithLayout } from '@/pages/_app';
-import { SetBountyTitle } from '@/components/pages/newSubmission/SetBountyTitle';
-import { SetRequirements } from '@/components/pages/newSubmission/SetRequirements';
-import { SetTargetInfo } from '@/components/pages/newSubmission/SetTargetInfo';
-import { SetTimeLimit } from '@/components/pages/newSubmission/SetTimeLimit';
-import { Review } from '@/components/pages/newSubmission/Review';
+import { SetBountyTitle } from '@/components/pages/bounty/new bounty/SetBountyTitle';
+import { SetRequirements } from '@/components/pages/bounty/new bounty/SetRequirements';
+import { SetTargetInfo } from '@/components/pages/bounty/new bounty/SetTargetInfo';
+import { SetTimeLimit } from '@/components/pages/bounty/new bounty/SetTimeLimit';
+import { Review } from '@/components/pages/bounty/new bounty/Review';
 import { useSaveBounty } from '@/lib/hooks/bountyHooks';
 
 const NewBounty: NextPageWithLayout = () => {

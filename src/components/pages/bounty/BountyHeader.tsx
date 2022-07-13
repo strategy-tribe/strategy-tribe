@@ -24,7 +24,7 @@ export function BountyHeader() {
   );
   const [showDonation, setShowDonation] = useState(false);
 
-  const { isStaff } = useAuth();
+  const { isStaff, isFetchingIsStaff } = useAuth();
 
   const parsedTitle = bounty.title.replace(
     bounty.organizationName.toLocaleLowerCase(),
@@ -34,64 +34,64 @@ export function BountyHeader() {
   return (
     <>
       <header className="border-y-2 border-purpleDark py-14 space-y-14">
-        <Section className="flex justify-between gap-6">
-          {/* Left side */}
-          <div>
-            <div className="flex gap-6">
-              {organization && (
+        <Section>
+          <div className="flex gap-6">
+            {organization && (
+              <Button
+                info={{
+                  style: ButtonStyle.TextPurple,
+                  removeMinWidth: true,
+                  removePadding: true,
+                  label: bounty.organizationName,
+                  labelClasses: 'capitalize',
+                  isALink: GoToOrgPage(organization?.id as string),
+                }}
+              />
+            )}
+            {bounty.tags?.map((tag, i) => {
+              return (
                 <Button
                   info={{
                     style: ButtonStyle.TextPurple,
                     removeMinWidth: true,
                     removePadding: true,
-                    label: bounty.organizationName,
+                    label: tag,
                     labelClasses: 'capitalize',
-                    isALink: GoToOrgPage(organization?.id as string),
                   }}
                 />
-              )}
-              {bounty.tags?.map((tag, i) => {
-                return (
-                  <Button
-                    info={{
-                      style: ButtonStyle.TextPurple,
-                      removeMinWidth: true,
-                      removePadding: true,
-                      label: tag,
-                      labelClasses: 'capitalize',
-                    }}
-                  />
-                );
-              })}
-            </div>
-            <h1 className="h4">{parsedTitle}</h1>
-            <div className="pt-4">
-              <BountyStates bounty={bounty} />
+              );
+            })}
+          </div>
+
+          <div className="flex justify-between gap-10">
+            <h1 className="h4 max-w-4xl">{parsedTitle}</h1>
+
+            <div className=" flex flex-col gap-4 items-end justify-start shrink-0">
+              <a
+                href={ETHERSCAN_LINK + bounty.wallet}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex gap-4 items-center text-purpleLight hover:text-purpleDark cursor-pointer"
+              >
+                <Icon icon="emoji_events" size={IconSize.Large} />
+                <span className="title">{bounty.funds} ETH</span>
+              </a>
+              <Button
+                info={{
+                  label: 'Support this bounty',
+                  style: ButtonStyle.Text,
+                  icon: 'toll',
+                  onClick: () => setShowDonation(true),
+                  className: 'w-fit',
+                  removeMinWidth: true,
+                  removePadding: true,
+                }}
+              />
             </div>
           </div>
 
-          {/* Right side */}
-          <div className="flex flex-col gap-4 items-end">
-            <a
-              href={ETHERSCAN_LINK + bounty.wallet}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex gap-4 items-center text-purpleLight hover:text-purpleDark cursor-pointer"
-            >
-              <Icon icon="emoji_events" size={IconSize.Large} />
-              <span className="title">{bounty.funds} ETH</span>
-            </a>
-            <Button
-              info={{
-                label: 'Support this bounty',
-                style: ButtonStyle.Text,
-                icon: 'toll',
-                onClick: () => setShowDonation(true),
-                className: 'w-fit',
-                removeMinWidth: true,
-                removePadding: true,
-              }}
-            />
+          <div className="pt-4">
+            <BountyStates bounty={bounty} />
           </div>
         </Section>
 
@@ -108,17 +108,17 @@ export function BountyHeader() {
         </Section>
 
         {/* CTAs */}
-        <Section className="flex justify-between gap-6">
-          <Button
+        <Section className="flex justify-end gap-6">
+          {/* <Button
             info={{
               style: ButtonStyle.Text,
               label: 'Watch this bounty',
               icon: 'visibility',
               removePadding: true,
             }}
-          />
+          /> */}
 
-          {!isStaff && (
+          {!isStaff && !isFetchingIsStaff && (
             <div className="flex flex-col items-end gap-2">
               <SubmitButton />
               {/* warning messages */}

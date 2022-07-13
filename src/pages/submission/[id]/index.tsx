@@ -1,14 +1,21 @@
-import { useAuth } from 'auth/AuthContext';
 import { useRouter } from 'next/router';
 import React from 'react';
 import Head from 'next/head';
 import { NextPageWithLayout } from '@/pages/_app';
 import AppLayout from '@/components/layouts/AppLayout';
-import { SubmissionDetails } from '@/components/pages/submission/SubmissionDetails';
+import { Submission } from '@/components/pages/submission/Submission';
+import { MessageForUser } from '@/components/utils/MessageForUser';
+import { useGetSubmission } from '@/lib/hooks/submissionHooks';
+import Loading from '@/components/utils/Loading';
 
 const SubmissionPage: NextPageWithLayout = () => {
   const router = useRouter();
-  const { id: bountyId, submissionId } = router.query;
+  const { id: submissionId } = router.query;
+
+  const { submission, isLoading, error } = useGetSubmission(
+    submissionId as string,
+    !!(submissionId as string)
+  );
 
   return (
     <>
@@ -22,10 +29,14 @@ const SubmissionPage: NextPageWithLayout = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <>
-        <SubmissionDetails
-          bountyId={bountyId as string}
-          submissionId={submissionId as string}
-        />
+        {error && (
+          <div className="grid place-items-center">
+            <MessageForUser text={`${error}`} />
+          </div>
+        )}
+        {isLoading && <Loading small />}
+
+        {!!submission && <Submission submission={submission} />}
       </>
     </>
   );

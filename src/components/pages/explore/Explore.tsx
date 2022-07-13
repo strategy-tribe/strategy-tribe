@@ -7,6 +7,8 @@ import { ExploreFilters } from './filters/ExploreFilters';
 import { BountyBoard } from './BountyBoard';
 import { MapData } from '@/lib/models/map/MapData';
 import { PageControls } from '../search/PageControls';
+import { useRouter } from 'next/router';
+import { GoTo404Page } from '@/lib/utils/Routes';
 
 const Map = dynamic(import('./map/MapProjection'), {
   ssr: false,
@@ -25,30 +27,44 @@ export function Explore({ data }: { data: MapData }) {
 function ExploreContent() {
   const { bountyFetch } = useExploreContext();
   const { isLoading, bounties, error } = bountyFetch;
+
+  const router = useRouter();
+
+  if (error) {
+    router.push(GoTo404Page());
+  }
+
   return (
     <>
       <div className="space-y-20">
-        <Section>
-          <Map />
-        </Section>
+        {!!error && (
+          <p className="w-full text-center text-redLight label">
+            There has been an error.
+            <br />
+            {`${error}`}
+          </p>
+        )}
 
-        <div className="space-y-12 min-h-screen">
-          {!!error && <span>{`${error}`}</span>}
+        {!error && (
+          <>
+            <Section>{!!Map && <Map />}</Section>
 
-          <Section>
-            <ExploreFilters />
-          </Section>
-
-          {!!bounties && (
-            <>
-              <BountyBoard />
-              <div className="flex justify-center">
-                <PageControls />
-              </div>
-            </>
-          )}
-          {!!isLoading && <Loading small />}
-        </div>
+            <div className="space-y-12 min-h-screen">
+              {!!bounties && (
+                <>
+                  <Section>
+                    <ExploreFilters />
+                  </Section>
+                  <BountyBoard />
+                  <div className="flex justify-center">
+                    <PageControls />
+                  </div>
+                </>
+              )}
+              {!!isLoading && <Loading small />}
+            </div>
+          </>
+        )}
       </div>
     </>
   );

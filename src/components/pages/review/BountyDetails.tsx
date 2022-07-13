@@ -1,15 +1,15 @@
 import { useEffect, useState } from 'react';
-import { useNotification } from '../notifications/NotificationContext';
-import { BountyRequirementsShowcase } from './BountyRequirementsShowcase';
+import { useNotification } from '../../notifications/NotificationContext';
+import { BountyRequirementsShowcase } from '../../utils/BountyRequirementsShowcase';
 import { useGetOrganizationByName } from '@/hooks/organizationHooks';
-import FromOrganization from './FromOrganization';
-import BountyStates from '../pages/bounty/BountyStates';
+import FromOrganization from '../../utils/FromOrganization';
+import BountyStates from '../bounty/BountyStates';
 import { Bounty } from '@/lib/models/bounty';
-import { DonationPopUp } from '../donations/DonationPopUp';
-import { Button, ButtonStyle } from './Button';
-import { Stat } from '../pages/submission/Stat';
+import { DonationPopUp } from '../../donations/DonationPopUp';
+import { Button, ButtonStyle } from '../../utils/Button';
+import { Stat } from '../submission/Stat';
 import { useGetBounty } from '@/lib/hooks/bountyHooks';
-import { ReviewSections } from '@/pages/bounty/[id]/[submissionId]/review';
+import { ReviewSections } from './Review';
 
 export function BountyDetails({
   bountyId,

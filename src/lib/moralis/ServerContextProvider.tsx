@@ -10,6 +10,7 @@ import {
   NotificationType,
 } from '@/components/notifications/iNotification';
 import { TargetType } from '../models/targetType';
+import { useQueryClient } from 'react-query';
 
 export type Subscription = {
   name: string;
@@ -70,6 +71,8 @@ const ServerContextProvider = ({
   const [isStaff, setIsStaff] = useState(false);
   const [isFetchingIsStaff, setIsFetchingIsStaff] = useState(false);
 
+  const queryClient = useQueryClient();
+
   //*Notifications
   const { notify } = useNotification();
 
@@ -117,11 +120,12 @@ const ServerContextProvider = ({
     if (!isInitialized) return;
 
     if (!isAuthenticated) {
-      await authenticate({ signingMessage: 'Log in using Moralis' })
+      authenticate({ signingMessage: 'Log in using Moralis' })
         .then(function (user) {
           if (!user) {
             throw 'Nope';
           }
+          queryClient.invalidateQueries();
         })
         .catch(function (error) {
           notify(
@@ -159,6 +163,7 @@ const ServerContextProvider = ({
   }
 
   async function LogOut() {
+    queryClient.invalidateQueries();
     await logout();
   }
 

@@ -1,29 +1,29 @@
 import { Title } from '@/components/utils/Title';
 ('@/components/utils/Title');
-import { SubmissionEntry } from '@/components/utils/SubmissionEntry';
 import { Button, ButtonStyle } from '@/components/utils/Button';
 import Loading from '@/components/utils/Loading';
 import { ImportantMessage } from '@/components/utils/Warning';
 import { useGetSubmissions } from '@/hooks/submissionHooks';
 import { Order, SubmissionQueryParams } from '@/lib/models/queryParams';
 import { SubmissionState } from '@/lib/models/status';
-import { useAuth } from 'auth/AuthContext';
 import AppLayout from '@/components/layouts/AppLayout';
 import { NextPageWithLayout } from './_app';
+import { useBanRegularUsers } from '@/lib/hooks/useBanRegularUsers';
+import { SubmissionListEntry } from '@/components/submissions/SubmissionListEntry';
 
-const ReviewPage: NextPageWithLayout = () => {
+const SubmissionsToReviewPage: NextPageWithLayout = () => {
+  useBanRegularUsers();
+
   const query: SubmissionQueryParams = {
     order: Order.Desc,
-    states: [SubmissionState['WaitingForReview']],
+    states: [SubmissionState.WaitingForReview],
     amount: 15,
-    paginate: true,
+    paginate: false,
     reviewed: false,
   };
 
-  const { isStaff } = useAuth();
-
   const { submissions, error, isFetching, isLoading, hasMore, nextPage } =
-    useGetSubmissions(query, isStaff);
+    useGetSubmissions(query);
 
   if (isLoading) {
     return <Loading />;
@@ -35,9 +35,9 @@ const ReviewPage: NextPageWithLayout = () => {
         title="Submissions to review"
         extraInfo="Submissions waiting to be reviewed"
       />
-      <div className="space-y-6">
+      <div className="space-y-10">
         {submissions.map((s, i) => {
-          return <SubmissionEntry submission={s} key={i} />;
+          return <SubmissionListEntry submission={s} key={i} />;
         })}
       </div>
 
@@ -64,7 +64,7 @@ const ReviewPage: NextPageWithLayout = () => {
   );
 };
 
-ReviewPage.getLayout = function getLayout(page) {
+SubmissionsToReviewPage.getLayout = function getLayout(page) {
   return <AppLayout>{page}</AppLayout>;
 };
-export default ReviewPage;
+export default SubmissionsToReviewPage;

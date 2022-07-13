@@ -7,7 +7,7 @@ import { BountySubmissions } from './BountySubmissions';
 import { BountyView } from '../../../lib/models/bounty/BountyPage';
 
 export function BountyContent() {
-  const { bounty, view } = useBountyContext();
+  const { view } = useBountyContext();
 
   const { userId } = useAuth();
 

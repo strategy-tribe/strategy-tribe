@@ -18,35 +18,35 @@ export const GoToAboutusPage = () => '/about';
 
 export const GoToFAQPage = () => '/faq';
 
-export const GoToWaitingPage = () => '/waiting';
-
 export const GoToWaitingForReview = () => '/review';
 
 export const GoToNewBountyPage = () => '/bounty/new';
 
-//TODO:
 export const GoToAccountPage = (view?: AccountView) => {
   if (!view) return '/account';
   else return `/account?view=${view}`;
 };
-export const GoToUserPage = () => '/account';
-
-export const GoToSubsPage = () => '/user/subscriptions';
 
 export const GoToOrgPage = (orgId: string) => `/organization/${orgId}`;
 
 export const GoToBountyPage = (bountyId: string) => `/bounty/${bountyId}`;
 
-export const GoToSubmissionPage = (bountyId: string, submissionId: string) =>
-  `/bounty/${bountyId}/${submissionId}`;
+export const GoToSubmissionPage = (submissionId: string) =>
+  `/submission/${submissionId}`;
 
 export const GoToBeforeNewSubmissionPage = (bountyId: string) =>
   `/bounty/${bountyId}/rules`;
 
 export const GoToNewSubmissionPage = (bountyId: string) =>
-  `/bounty/${bountyId}/new`;
+  `/bounty/${bountyId}/submit`;
 
-export const GoToReviewSubmissionPage = (
-  bountyId: string,
-  submissionId: string
-) => `/bounty/${bountyId}/${submissionId}/review`;
+export const GoToReviewSubmissionPage = (submissionId: string) =>
+  `/submission/${submissionId}/review`;
+
+export const GoToWaitingForFunds = () => {
+  return `/waiting`;
+};
+
+export const GoToReviewsPage = () => {
+  return `/review`;
+};

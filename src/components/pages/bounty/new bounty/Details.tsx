@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useScrollDirection } from '@/hooks/useScrollDirection';
 import { useScrollToTop } from '@/hooks/useScrollTo';
 import { useAuth } from 'auth/AuthContext';
@@ -6,7 +6,7 @@ import { useAuth } from 'auth/AuthContext';
 import { Bounty } from '@/lib/models/bounty';
 import { GetDateInString } from '@/utils/DateHelpers';
 import Icon from '@/components/utils/Icon';
-import { Stat } from '../submission/Stat';
+import { Stat } from '../../submission/Stat';
 
 export function Step4Details({
   showSubmissions,

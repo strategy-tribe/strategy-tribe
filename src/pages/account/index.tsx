@@ -3,7 +3,7 @@ import { ImportantMessage } from '@/components/utils/Warning';
 import { NextPageWithLayout } from '@/pages/_app';
 import Head from 'next/head';
 import { useAuth } from 'auth/AuthContext';
-import { Account } from '@/components/pages/user/Account';
+import { Account } from '@/components/pages/account/Account';
 
 const UserPage: NextPageWithLayout = () => {
   const { userId, isAuthenticated, LogIn } = useAuth();

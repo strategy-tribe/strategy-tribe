@@ -1,0 +1,102 @@
+import FromBounty from '@/components/utils/FromBounty';
+import { GetDateInString } from '@/utils/DateHelpers';
+import Image from 'next/image';
+import React from 'react';
+import { RequirementType } from '@/lib/models/requirement';
+import { Stat } from './Stat';
+import { SubmissionStatus } from '../bounty/SubmissionStatus';
+import { Submission as SubmissionData } from '@/lib/models';
+
+export function Submission({ submission }: { submission: SubmissionData }) {
+  const date = submission ? submission.createdAt : '';
+
+  return (
+    <div className="text-text space-y-6 p-2 pb-16 mx-auto max-w-5xl">
+      <FromBounty bountyId={submission.bountyId as string} />
+
+      {/* Stats */}
+      {submission && (
+        <div className="space-y-6">
+          <Stat
+            title="User ID"
+            content={submission.owner}
+            copyable={true}
+            size="text-sm"
+          />
+          <Stat
+            title="Submission ID"
+            content={submission.id as string}
+            copyable={true}
+            size="text-sm"
+          />
+          <Stat
+            title="Submitted"
+            size="text-sm"
+            content={`${GetDateInString(
+              submission.createdAt
+            )} ago - ${date.toLocaleString()}`}
+          />
+
+          <SubmissionStatus status={submission.state} />
+        </div>
+      )}
+
+      <hr className="w-1/2 text-dark" />
+
+      {/* Content */}
+      <div className="flex items-start space-x-4 snap-x overflow-x-auto">
+        {submission?.answers
+          .filter((c) => c.requirement.type === RequirementType.Image)
+          .map((content, i) => {
+            if (typeof content.answer === 'string') {
+              return (
+                <figure
+                  key={i}
+                  className="relative aspect-video shrink-0 w-[20rem]"
+                >
+                  <Image
+                    src={content.answer}
+                    alt={`Image #${i}`}
+                    layout="fill"
+                    className="object-cover"
+                    priority={true}
+                  />
+                </figure>
+              );
+            } else if (typeof content.answer === 'object') {
+              content.answer.map((image, x) => {
+                return (
+                  <figure
+                    key={x}
+                    className="relative aspect-video shrink-0 w-[20rem]"
+                  >
+                    <Image
+                      src={image}
+                      alt={`Image #${i}`}
+                      layout="fill"
+                      className="object-cover"
+                      priority={true}
+                    />
+                  </figure>
+                );
+              });
+            }
+          })}
+      </div>
+      <div className="space-y-8">
+        {submission?.answers.map((x, i) => {
+          return (
+            <div key={i}>
+              <p className="label text-unactive">{x.requirement.title}</p>
+              {typeof x.answer === 'string' && (
+                <p className="whitespace-pre-line">{x.answer}</p>
+              )}
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+//whitespace-pre-line max-w-lg first-letter:capitalize

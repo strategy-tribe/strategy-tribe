@@ -4,7 +4,7 @@ import { NextPageWithLayout } from './_app';
 import LandingLayout from '@/components/layouts/LandingLayout';
 import { FAQuestion } from '@/components/pages/faq/FAQuestion';
 import { Title } from '@/components/utils/Title';
-import { GoToRulesPage, GoToUserPage } from '@/lib/utils/Routes';
+import { GoToRulesPage, GoToAccountPage } from '@/lib/utils/Routes';
 import Link from 'next/link';
 import AppLayout from '@/components/layouts/AppLayout';
 
@@ -44,7 +44,7 @@ const FAQPage: NextPageWithLayout = () => {
             <p>
               Once your submission gets verified, all of the funds from the
               bounty wallets will be send to the wallet you signup with. You can{' '}
-              <Link href={GoToUserPage()}>
+              <Link href={GoToAccountPage()}>
                 <a className="underline text-purpleLight hover:text-purpleDark">
                   review your address here
                 </a>

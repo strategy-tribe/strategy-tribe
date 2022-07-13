@@ -1,7 +1,7 @@
 import { RequirementType } from '@/lib/models/requirement';
 import { GetWordCount } from '@/utils/StringHelpers';
 
-const CheckInput = (
+export const CheckInput = (
   s: string,
   type: RequirementType
 ): { isValid: boolean; errorMsg: string } => {
@@ -80,5 +80,3 @@ const EvaluateSocialMediaAccount = (s: string) => {
     errorMsg: 'Your input must be longer than 3 characters',
   };
 };
-
-export default CheckInput;

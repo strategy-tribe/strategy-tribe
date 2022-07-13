@@ -18,9 +18,9 @@ interface AuthContextInterface {
   LogIn: () => Promise<void>;
   LogOut: () => void;
   isStaff: boolean;
+  isFetchingIsStaff: boolean;
   account: string | null;
   userInfo: UserInfo | undefined;
-  isFetchingIsStaff: boolean;
 }
 
 const AuthContext = createContext<AuthContextInterface>({
@@ -29,9 +29,9 @@ const AuthContext = createContext<AuthContextInterface>({
   LogIn: async () => {},
   LogOut: () => {},
   isStaff: false,
+  isFetchingIsStaff: false,
   account: null,
   userInfo: undefined,
-  isFetchingIsStaff: true,
 });
 
 const AuthContextProvider = ({

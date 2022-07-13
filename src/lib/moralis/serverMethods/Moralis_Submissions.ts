@@ -5,7 +5,7 @@ import { CastSubmission } from '../utils/Helpers';
 import { SubmissionState } from '@/lib/models/status';
 import { Submission, SubmissionContent } from '@/lib/models/submission';
 import { SubmissionQueryParams } from '@/lib/models/queryParams';
-import { UserInput } from '@/components/pages/submission/UserInput';
+import { UserInput } from '@/components/pages/submission/new submission/UserInput';
 
 export const Molaris_useSaveSubmission = (
   owner: string,
@@ -143,7 +143,7 @@ export const Moralis_canSubmit = async (userId: string, bountyId: string) => {
 ///!----------
 
 export const Moralis_useGetSubmissions = (config: SubmissionQueryParams) => {
-  const fetch = async (page: number, orgName?: string) => {
+  const fetch = async (page: number) => {
     const {
       amount,
       order,
@@ -156,8 +156,6 @@ export const Moralis_useGetSubmissions = (config: SubmissionQueryParams) => {
     } = config;
 
     const q = new Moralis.Query(SUBMISSION_TABLE);
-
-    q.include('target');
 
     if (searchTerm) {
       q.fullText('title', searchTerm, {
@@ -186,7 +184,6 @@ export const Moralis_useGetSubmissions = (config: SubmissionQueryParams) => {
       } else {
         q.equalTo('review', undefined);
       }
-    } else {
     }
 
     if (states) {
@@ -195,7 +192,9 @@ export const Moralis_useGetSubmissions = (config: SubmissionQueryParams) => {
       });
     }
 
-    if (amount) q.limit(amount);
+    if (amount) {
+      q.limit(amount);
+    }
 
     if (paginate && page && amount) {
       const toSkip = (page - 1) * amount;

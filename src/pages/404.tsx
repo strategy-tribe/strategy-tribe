@@ -10,6 +10,7 @@ import React from 'react';
 import { HugeTitle } from '@/components/utils/HugeTitle';
 import LandingLayout from '@/components/layouts/LandingLayout';
 import { NextPageWithLayout } from './_app';
+import AppLayout from '@/components/layouts/AppLayout';
 
 const _404Page: NextPageWithLayout = () => {
   return (
@@ -52,13 +53,13 @@ const _404Page: NextPageWithLayout = () => {
                     <Link href={GoToBountiesPage()}>
                       <a className="text-white hover:text-purpleLight py-3 px-5 tablet:px-6 font-medium font-grotesk z-10 flex items-center justify-center gap-2 rounded-full min-w-[6rem] w-fit">
                         <Icon icon="arrow_forward" />
-                        <span>Go to the app</span>
+                        <span>Check the bounties</span>
                       </a>
                     </Link>
                     <Link href={GoToLandingPage()}>
                       <a className="text-white hover:text-purpleLight py-3 px-5 tablet:px-6 font-medium font-grotesk z-10 flex items-center justify-center gap-2 rounded-full min-w-[6rem] w-fit">
                         <Icon icon="arrow_forward" />
-                        <span>Landing page</span>
+                        <span>Home</span>
                       </a>
                     </Link>
                     <a
@@ -83,5 +84,5 @@ const _404Page: NextPageWithLayout = () => {
 
 export default _404Page;
 _404Page.getLayout = function getLayout(page) {
-  return <LandingLayout>{page}</LandingLayout>;
+  return <AppLayout>{page}</AppLayout>;
 };

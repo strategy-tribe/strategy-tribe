@@ -22,11 +22,7 @@ export const SubmissionEntry = ({
   return (
     <button
       className={`flex justify-between w-full group `}
-      onClick={() =>
-        router.push(
-          GoToSubmissionPage(submission.bountyId, submission.id as string)
-        )
-      }
+      onClick={() => router.push(GoToSubmissionPage(submission.id as string))}
     >
       <div className="flex flex-col text-left">
         {/* Submission ID */}
