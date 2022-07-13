@@ -46,10 +46,15 @@ Moralis.Cloud.job('generateMapData', async (request) => {
     mapDataRef.set('stats', countriesDataArray);
 
     const acl = new Moralis.ACL();
-    acl.setPublicReadAccess(true);
+
     acl.setPublicWriteAccess(false);
-    acl.setRoleWriteAccess('staff', false);
-    acl.setRoleReadAccess('staff', true);
+    acl.setPublicReadAccess(true);
+
+    acl.setRoleWriteAccess(STAFF_ROLE, false);
+    acl.setRoleReadAccess(STAFF_ROLE, true);
+
+    acl.setRoleWriteAccess(ADMIN_ROLE, false);
+    acl.setRoleReadAccess(ADMIN_ROLE, true);
     mapDataRef.setACL(acl);
 
     await mapDataRef.save(null, { useMasterKey: true });

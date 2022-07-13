@@ -13,7 +13,6 @@ import { Button, ButtonStyle } from '@/components/utils/Button';
 import { LandingPageLink } from './LandingPageLink';
 import { UserMenu } from './menus/UserMenu';
 import { NotifsMenu } from './menus/NotifsMenu';
-import { NavbarButton } from './NavbarButton';
 import useScrollPosition from '@/lib/hooks/useScrollPosition';
 
 export function Navbar({ hideBgOnScroll }: { hideBgOnScroll: boolean }) {
@@ -35,13 +34,19 @@ export function Navbar({ hideBgOnScroll }: { hideBgOnScroll: boolean }) {
     () => setShowElevation(false)
   );
 
-  const { userId, LogIn, isStaff } = useAuth();
+  const { userId, LogIn, isStaff, isAdmin } = useAuth();
 
   const padding = !!userId ? 'py-3' : 'py-1';
+
+  const borderColor = isAdmin
+    ? 'border-greenDark'
+    : isStaff
+    ? 'border-purpleDark'
+    : 'border-dark';
   return (
     <>
       <nav
-        className={`fixed top-0 text-text border-dark w-screen z-40 transition-colors duration-1000 ${
+        className={`fixed top-0 text-text ${borderColor} w-screen z-40 transition-colors duration-1000 ${
           showElevation ? 'border-b-[1px] ' : ''
         } ${navbarBackground ? 'bg-black' : ''}`}
       >
@@ -54,7 +59,7 @@ export function Navbar({ hideBgOnScroll }: { hideBgOnScroll: boolean }) {
             <NavLink url={GoToBountiesPage()} label="Bounties" />
             <NavLink url={GoToOrganizationsPage()} label="Organizations" />
             <NavLink url={GoToAboutusPage()} label="About" />
-            {isStaff && (
+            {(isStaff || isAdmin) && (
               <>
                 <NavLink label="To fund" url={GoToWaitingForFunds()} />
                 <NavLink label="To review" url={GoToReviewsPage()} />

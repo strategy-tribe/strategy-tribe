@@ -293,10 +293,15 @@ async function createOrganization(name, alsoKnownAs, countries, tags) {
   orgRef.set('funds', 0);
 
   const acl = new Moralis.ACL();
-  acl.setPublicReadAccess(true);
   acl.setPublicWriteAccess(false);
-  acl.setRoleWriteAccess('staff', true);
-  acl.setRoleReadAccess('staff', true);
+  acl.setPublicReadAccess(true);
+
+  acl.setRoleWriteAccess(STAFF_ROLE, false);
+  acl.setRoleReadAccess(STAFF_ROLE, true);
+
+  acl.setRoleWriteAccess(ADMIN_ROLE, true);
+  acl.setRoleReadAccess(ADMIN_ROLE, true);
+
   orgRef.setACL(acl);
 
   await orgRef.save(null, { useMasterKey: true });

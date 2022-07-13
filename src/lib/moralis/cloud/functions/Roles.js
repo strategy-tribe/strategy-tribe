@@ -1,19 +1,13 @@
 //*Cloud functions
 Moralis.Cloud.define('isStaff', async (request) => {
   const { userId } = request.params;
-  const q = new Moralis.Query(ROLES_TABLE);
-  q.equalTo('name', 'staff');
-  const results = await q.find({ useMasterKey: true });
 
-  const staffRole = results.at(0);
+  const isStaff = await CheckIfIsStaff(userId);
+  return { userId, isStaff, isAdmin: false };
+});
 
-  const users = await staffRole
-    .getUsers()
-    .query()
-    .equalTo('objectId', userId)
-    .find({ useMasterKey: true });
+Moralis.Cloud.define('getRole', async (request) => {
+  const { userId } = request.params;
 
-  const isStaff = users.length > 0;
-
-  return { userId, isStaff };
+  return await GetUserRole(userId);
 });

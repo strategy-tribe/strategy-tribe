@@ -48,10 +48,16 @@ async function SaveNotificationInDB(message, userId, url) {
     const acl = new Moralis.ACL();
     acl.setPublicReadAccess(true);
     acl.setPublicWriteAccess(false);
-    acl.setRoleWriteAccess('staff', false);
-    acl.setRoleReadAccess('staff', true);
+
+    acl.setRoleWriteAccess(STAFF_ROLE, false);
+    acl.setRoleReadAccess(STAFF_ROLE, true);
+
+    acl.setRoleWriteAccess(ADMIN_ROLE, false);
+    acl.setRoleReadAccess(ADMIN_ROLE, true);
+
     acl.setReadAccess(userId, true);
     acl.setWriteAccess(userId, true);
+
     notifRef.setACL(acl);
 
     //return

@@ -18,7 +18,8 @@ interface AuthContextInterface {
   LogIn: () => Promise<void>;
   LogOut: () => void;
   isStaff: boolean;
-  isFetchingIsStaff: boolean;
+  isAdmin: boolean;
+  isFetchingUserInfo: boolean;
   account: string | null;
   userInfo: UserInfo | undefined;
 }
@@ -29,7 +30,8 @@ const AuthContext = createContext<AuthContextInterface>({
   LogIn: async () => {},
   LogOut: () => {},
   isStaff: false,
-  isFetchingIsStaff: false,
+  isAdmin: false,
+  isFetchingUserInfo: false,
   account: null,
   userInfo: undefined,
 });
@@ -45,10 +47,9 @@ const AuthContextProvider = ({
     LogIn,
     LogOut,
     isAuthenticated,
-    isStaff,
     account,
     fetchUserInfo,
-    isFetchingIsStaff,
+    isFetchingUserInfo,
   } = useServerContext();
 
   //Queries
@@ -106,10 +107,11 @@ const AuthContextProvider = ({
         isAuthenticated,
         LogIn,
         LogOut,
-        isStaff,
+        isStaff: userInfo?.isStaff || false,
+        isAdmin: userInfo?.isAdmin || false,
         account,
         userInfo,
-        isFetchingIsStaff,
+        isFetchingUserInfo,
       }}
     >
       {children}

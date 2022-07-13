@@ -1,4 +1,5 @@
 import { Requirement, RequirementType } from './requirement';
+import { Review } from './Review';
 import { SubmissionState } from './status';
 
 export type SubmissionContent = {
@@ -16,15 +17,4 @@ export type Submission = {
   createdAt: Date;
   //
   review?: Review;
-};
-
-export type Review = {
-  //set by server
-  id?: string;
-  createdAt: Date;
-  //actual info
-  grade: SubmissionState.Accepted | SubmissionState.Rejected;
-  submissionId: string;
-  reviewerId: string;
-  reviewerComment?: string;
 };

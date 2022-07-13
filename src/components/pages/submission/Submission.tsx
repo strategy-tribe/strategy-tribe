@@ -6,17 +6,21 @@ import { RequirementType } from '@/lib/models/requirement';
 import { Stat } from './Stat';
 import { SubmissionStatus } from '../bounty/SubmissionStatus';
 import { Submission as SubmissionData } from '@/lib/models';
+import { useAuth } from 'auth/AuthContext';
+import { Button, ButtonStyle } from '@/components/utils/Button';
+import { GoToReviewSubmissionPage } from '@/lib/utils/Routes';
 
 export function Submission({ submission }: { submission: SubmissionData }) {
   const date = submission ? submission.createdAt : '';
 
+  const { isStaff } = useAuth();
+
   return (
     <div className="text-text space-y-6 p-2 pb-16 mx-auto max-w-5xl">
-      <FromBounty bountyId={submission.bountyId as string} />
-
-      {/* Stats */}
-      {submission && (
+      <header className="flex justify-between">
         <div className="space-y-6">
+          <FromBounty bountyId={submission.bountyId as string} />
+
           <Stat
             title="User ID"
             content={submission.owner}
@@ -39,7 +43,18 @@ export function Submission({ submission }: { submission: SubmissionData }) {
 
           <SubmissionStatus status={submission.state} />
         </div>
-      )}
+        {isStaff && (
+          <Button
+            info={{
+              className: 'h-fit',
+              icon: 'edit',
+              label: 'Review',
+              style: ButtonStyle.Filled,
+              isALink: GoToReviewSubmissionPage(submission.id!),
+            }}
+          />
+        )}
+      </header>
 
       <hr className="w-1/2 text-dark" />
 

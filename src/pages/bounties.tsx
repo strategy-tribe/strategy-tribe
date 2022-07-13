@@ -67,6 +67,7 @@ const BountiesPage: NextPageWithLayout<{
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+
       <Explore data={data} />
     </>
   );

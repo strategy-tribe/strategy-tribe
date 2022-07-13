@@ -1,12 +1,15 @@
-import { Review } from './../../../components/pages/review/Review';
+import { Review } from '@/components/pages/review/Review';
 import { useRouter } from 'next/router';
 import React from 'react';
 import Head from 'next/head';
 import { NextPageWithLayout } from '@/pages/_app';
 import AppLayout from '@/components/layouts/AppLayout';
 import { useGetSubmission } from '@/lib/hooks/submissionHooks';
+import { useBanRegularUsers } from '@/lib/hooks/useBanRegularUsers';
 
 const ReviewPage: NextPageWithLayout = () => {
+  useBanRegularUsers();
+
   const router = useRouter();
   const { id: submissionId } = router.query;
 

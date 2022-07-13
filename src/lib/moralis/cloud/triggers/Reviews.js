@@ -4,6 +4,36 @@ const ACCEPTED_STATE = 'Accepted';
 const REJECTED_STATE = 'Rejected';
 const WAITING_FOR_PAYMENT_STATE = 'Waiting for payment';
 
+Moralis.Cloud.beforeSave(REVIEWS_TABLE, async function (request) {
+  try {
+    const {
+      object: review,
+      context: { userId },
+    } = request;
+
+    const reviewACL = new Moralis.ACL();
+
+    //public
+    reviewACL.setPublicWriteAccess(false);
+    reviewACL.setPublicReadAccess(false);
+
+    //staff
+    reviewACL.setRoleWriteAccess(STAFF_ROLE, false);
+    reviewACL.setRoleReadAccess(STAFF_ROLE, true);
+
+    //user
+    reviewACL.setReadAccess(userId, true);
+
+    //admin
+    reviewACL.setRoleWriteAccess(ADMIN_ROLE, true);
+    reviewACL.setRoleReadAccess(ADMIN_ROLE, true);
+
+    review.setACL(reviewACL);
+  } catch (error) {
+    ERROR(`Error applying ACL to Review. Reason: ${error}`);
+  }
+});
+
 Moralis.Cloud.afterSave(REVIEWS_TABLE, async function (request) {
   //*Connect the review and the submission
   //get the submission

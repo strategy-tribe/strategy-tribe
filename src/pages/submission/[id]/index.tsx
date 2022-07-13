@@ -7,6 +7,7 @@ import { Submission } from '@/components/pages/submission/Submission';
 import { MessageForUser } from '@/components/utils/MessageForUser';
 import { useGetSubmission } from '@/lib/hooks/submissionHooks';
 import Loading from '@/components/utils/Loading';
+import { useBanRegularUsers } from '@/lib/hooks/useBanRegularUsers';
 
 const SubmissionPage: NextPageWithLayout = () => {
   const router = useRouter();
@@ -16,6 +17,8 @@ const SubmissionPage: NextPageWithLayout = () => {
     submissionId as string,
     !!(submissionId as string)
   );
+
+  useBanRegularUsers({ include: submission?.owner });
 
   return (
     <>

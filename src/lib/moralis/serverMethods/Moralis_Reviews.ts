@@ -1,4 +1,4 @@
-import { REVIEWS_TABLE, SUBMISSION_TABLE } from './tables';
+import { REVIEWS_TABLE } from './tables';
 import { Moralis } from 'moralis';
 import { SubmissionState } from '@/lib/models/status';
 import { Submission } from '@/lib/models/submission';
@@ -10,27 +10,20 @@ export const Moralis_useSaveReview = (
   reviewerComment?: string
 ): { save: () => Promise<string | undefined> } => {
   const save = async () => {
-    //!Save the review
-    const reviewRefObj = new Moralis.Object(REVIEWS_TABLE);
+    const reviewRef = new Moralis.Object(REVIEWS_TABLE);
     //data
-    reviewRefObj.set('grade', grade);
-    reviewRefObj.set('submissionId', submission.id);
-    reviewRefObj.set('reviewerId', reviewerId);
-    reviewRefObj.set('reviewerComment', reviewerComment);
-    //ACL
-    const acl = new Moralis.ACL();
-    acl.setPublicReadAccess(false);
-    acl.setPublicWriteAccess(false);
-    acl.setRoleWriteAccess('staff', false);
-    acl.setRoleReadAccess('staff', true);
-    acl.setReadAccess(submission.owner, true);
-    reviewRefObj.setACL(acl);
+    reviewRef.set('grade', grade);
+    reviewRef.set('submissionId', submission.id);
+    reviewRef.set('reviewerId', reviewerId);
+    reviewRef.set('reviewerComment', reviewerComment);
 
-    //Save to db
-    const response = await reviewRefObj.save();
-    const reviewId = response.id;
+    const reviewClass = Moralis.Object.extend(REVIEWS_TABLE);
+    const review = new reviewClass(reviewRef.attributes);
 
-    return reviewId;
+    const context = { userId: submission.owner };
+    const response = await review.save(null, { context: context });
+
+    return response.id;
   };
 
   return {

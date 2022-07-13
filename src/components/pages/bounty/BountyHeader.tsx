@@ -24,7 +24,7 @@ export function BountyHeader() {
   );
   const [showDonation, setShowDonation] = useState(false);
 
-  const { isStaff, isFetchingIsStaff } = useAuth();
+  const { isStaff, isFetchingUserInfo } = useAuth();
 
   const parsedTitle = bounty.title.replace(
     bounty.organizationName.toLocaleLowerCase(),
@@ -118,7 +118,7 @@ export function BountyHeader() {
             }}
           /> */}
 
-          {!isStaff && !isFetchingIsStaff && (
+          {!isStaff && !isFetchingUserInfo && (
             <div className="flex flex-col items-end gap-2">
               <SubmitButton />
               {/* warning messages */}

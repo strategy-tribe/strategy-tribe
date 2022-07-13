@@ -11,10 +11,15 @@ Moralis.Cloud.beforeSave(ORG_TABLE, async function (request) {
     orgSubsRef.set('subs', []);
 
     const acl = new Moralis.ACL();
-    acl.setPublicReadAccess(false);
     acl.setPublicWriteAccess(false);
-    acl.setRoleWriteAccess('staff', false);
-    acl.setRoleReadAccess('staff', true);
+    acl.setPublicReadAccess(false);
+
+    acl.setRoleWriteAccess(STAFF_ROLE, false);
+    acl.setRoleReadAccess(STAFF_ROLE, true);
+
+    acl.setRoleWriteAccess(ADMIN_ROLE, false);
+    acl.setRoleReadAccess(ADMIN_ROLE, true);
+
     orgSubsRef.setACL(acl);
     await orgSubsRef.save(null, { useMasterKey: true });
   }

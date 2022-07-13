@@ -20,6 +20,8 @@ Moralis.Cloud.define('getUserInfo', async (request) => {
     .filter((org) => org.get('subs').includes(userId))
     .map((org) => org.get('name'));
 
+  const { isAdmin, isStaff } = await GetUserRole(userId);
+
   const info = {
     userId: userId,
     mainWallet: user.get('ethAddress'),
@@ -27,6 +29,8 @@ Moralis.Cloud.define('getUserInfo', async (request) => {
     joined: user.get('createdAt'),
     email: user.get('email'),
     subscribedTo: orgSubscribedTo,
+    isAdmin,
+    isStaff,
   };
 
   return { data: info, success: true };

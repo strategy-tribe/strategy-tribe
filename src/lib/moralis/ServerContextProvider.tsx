@@ -25,6 +25,8 @@ export type UserInfo = {
   email?: string;
   joined: Date;
   watching?: Subscription[];
+  isAdmin: boolean;
+  isStaff: boolean;
 };
 
 interface ServerContextInterface {
@@ -33,9 +35,8 @@ interface ServerContextInterface {
   LogOut: () => void;
   isAuthenticated: boolean;
   account: string | null;
-  isStaff: boolean;
   fetchUserInfo(): Promise<UserInfo | undefined>;
-  isFetchingIsStaff: boolean;
+  isFetchingUserInfo: boolean;
 }
 
 const ServerContext = createContext<ServerContextInterface>({
@@ -44,9 +45,8 @@ const ServerContext = createContext<ServerContextInterface>({
   LogOut: () => {},
   isAuthenticated: false,
   account: null,
-  isStaff: false,
   fetchUserInfo: async () => undefined,
-  isFetchingIsStaff: true,
+  isFetchingUserInfo: true,
 });
 
 //* /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -66,32 +66,12 @@ const ServerContextProvider = ({
     isInitialized,
   } = useMoralis();
 
-  useAuthChanged((isAuth) => fetchIsStaff(isAuth));
-
-  const [isStaff, setIsStaff] = useState(false);
-  const [isFetchingIsStaff, setIsFetchingIsStaff] = useState(false);
+  const [isFetchingUserInfo, setIsFetchingUserInfo] = useState(false);
 
   const queryClient = useQueryClient();
 
   //*Notifications
   const { notify } = useNotification();
-
-  async function fetchIsStaff(isAuth: boolean) {
-    if (!isInitialized) return;
-
-    setIsFetchingIsStaff(true);
-    let value = false;
-
-    if (isAuth) {
-      const { isStaff: _ } = await Moralis.Cloud.run('isStaff', {
-        userId: user?.id,
-      });
-      value = _;
-    }
-    setIsStaff(value);
-
-    setIsFetchingIsStaff(false);
-  }
 
   async function fetchUserInfo() {
     if (!isInitialized) return;
@@ -100,6 +80,7 @@ const ServerContextProvider = ({
       console.error('User is not authenticated');
       return;
     }
+    setIsFetchingUserInfo(true);
 
     const response: CloudFunctionResponse = await Moralis.Cloud.run(
       'getUserInfo',
@@ -108,6 +89,7 @@ const ServerContextProvider = ({
       }
     );
 
+    setIsFetchingUserInfo(false);
     if (response.error) {
       console.error(`Error from server: ${response.error}`);
       return;
@@ -175,9 +157,8 @@ const ServerContextProvider = ({
         LogOut,
         isAuthenticated,
         account,
-        isStaff,
         fetchUserInfo,
-        isFetchingIsStaff,
+        isFetchingUserInfo: isFetchingUserInfo,
       }}
     >
       {children}

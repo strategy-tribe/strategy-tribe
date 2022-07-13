@@ -1,4 +1,4 @@
-import { BOUNTIES_TABLE, TARGETS_TABLE } from './tables';
+import { BOUNTIES_TABLE } from './tables';
 import { Moralis } from 'moralis';
 import { CastBounty } from '../utils/Helpers';
 import { Bounty } from '@/lib/models/bounty';
@@ -180,20 +180,6 @@ export const Moralis_useSaveBounty = (
   save: () => Promise<string>;
 } => {
   const save = async () => {
-    //target
-    const targetRef = new Moralis.Object(TARGETS_TABLE);
-    targetRef.set('name', target.name);
-    targetRef.set('organizationName', target.organizationName);
-    targetRef.set('description', target.description);
-    targetRef.set('type', target.type);
-    const targetACL = new Moralis.ACL();
-    targetACL.setPublicReadAccess(true);
-    targetACL.setPublicWriteAccess(false);
-    targetACL.setRoleWriteAccess('staff', true);
-    targetACL.setRoleReadAccess('staff', true);
-    targetRef.setACL(targetACL);
-
-    //bounty
     const bountyRef = new Moralis.Object(BOUNTIES_TABLE);
 
     bountyRef.set('state', BountyState.WaitingForFunds);
@@ -218,8 +204,8 @@ export const Moralis_useSaveBounty = (
     bountyRef.set('wallet', '');
     bountyRef.set('closesAt', closesAt);
 
-    const propClass = Moralis.Object.extend(BOUNTIES_TABLE);
-    const bounty = new propClass(bountyRef.attributes);
+    const bountyClass = Moralis.Object.extend(BOUNTIES_TABLE);
+    const bounty = new bountyClass(bountyRef.attributes);
 
     const context = { isNew: true };
     const response = await bounty.save(null, { context: context });

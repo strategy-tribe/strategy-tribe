@@ -122,11 +122,12 @@ function SubmitReviewButton({
   const { notify } = useNotification();
 
   const { SubmitReview } = useSubmitReview(
-    meetsRequirements ? SubmissionState.Accepted : SubmissionState['Rejected'],
+    meetsRequirements ? SubmissionState.Accepted : SubmissionState.Rejected,
     submission,
     reviewer,
     undefined, //TODO: reviewer message
     () => {
+      router.push(GoToBountiesPage());
       notify({
         title: 'Review submitted',
         style: NotificationStyle.success,
@@ -144,10 +145,7 @@ function SubmitReviewButton({
   return (
     <button
       className="text-purpleLight border-2 border-purpleDark py-3 px-6 text-base rounded-full flex space-x-2 disabled:hidden"
-      onClick={() => {
-        SubmitReview();
-        router.push(GoToBountiesPage());
-      }}
+      onClick={() => SubmitReview()}
     >
       <Icon icon="publish" />
       <span className="font-medium font-grotesk ">Submit Review</span>
