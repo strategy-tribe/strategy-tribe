@@ -8,7 +8,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 import { HugeTitle } from '@/components/utils/HugeTitle';
-import LandingLayout from '@/components/layouts/LandingLayout';
 import { NextPageWithLayout } from './_app';
 import AppLayout from '@/components/layouts/AppLayout';
 

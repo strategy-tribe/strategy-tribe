@@ -53,7 +53,12 @@ module.exports = {
 
       '4k': '3840px',
     },
-    extend: {},
+    extend: {
+      borderWidth: {
+        DEFAULT: '1px',
+        1: '1px',
+      },
+    },
   },
   plugins: [
     require('@tailwindcss/forms'),

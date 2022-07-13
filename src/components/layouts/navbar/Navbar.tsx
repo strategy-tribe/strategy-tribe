@@ -3,8 +3,6 @@ import {
   GoToFAQPage,
   GoToBountiesPage,
   GoToOrganizationsPage,
-  GoToWaitingForFunds,
-  GoToReviewsPage,
 } from '@/lib/utils/Routes';
 import { useState } from 'react';
 import { NavLink } from './NavLink';
@@ -59,12 +57,6 @@ export function Navbar({ hideBgOnScroll }: { hideBgOnScroll: boolean }) {
             <NavLink url={GoToBountiesPage()} label="Bounties" />
             <NavLink url={GoToOrganizationsPage()} label="Organizations" />
             <NavLink url={GoToAboutusPage()} label="About" />
-            {(isStaff || isAdmin) && (
-              <>
-                <NavLink label="To fund" url={GoToWaitingForFunds()} />
-                <NavLink label="To review" url={GoToReviewsPage()} />
-              </>
-            )}
           </div>
 
           {/* Left side */}

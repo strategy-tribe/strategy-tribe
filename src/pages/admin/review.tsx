@@ -7,7 +7,7 @@ import { useGetSubmissions } from '@/hooks/submissionHooks';
 import { Order, SubmissionQueryParams } from '@/lib/models/queryParams';
 import { SubmissionState } from '@/lib/models/status';
 import AppLayout from '@/components/layouts/AppLayout';
-import { NextPageWithLayout } from './_app';
+import { NextPageWithLayout } from '../_app';
 import { useBanRegularUsers } from '@/lib/hooks/useBanRegularUsers';
 import { SubmissionListEntry } from '@/components/submissions/SubmissionListEntry';
 
@@ -36,9 +36,20 @@ const SubmissionsToReviewPage: NextPageWithLayout = () => {
         extraInfo="Submissions waiting to be reviewed"
       />
       <div className="space-y-10">
-        {submissions.map((s, i) => {
-          return <SubmissionListEntry submission={s} key={i} />;
-        })}
+        <>
+          {submissions.length > 0 &&
+            submissions.map((s, i) => {
+              return <SubmissionListEntry submission={s} key={i} />;
+            })}
+        </>
+
+        <>
+          {submissions.length === 0 && (
+            <div className="label text-unactive py-4 border-y-2 px-4 border-dark">
+              No submissions to review
+            </div>
+          )}
+        </>
       </div>
 
       {submissions && hasMore && (

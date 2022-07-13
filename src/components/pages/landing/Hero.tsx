@@ -1,6 +1,6 @@
 import useWindowDimensions from '@/hooks/useWindowDimensions';
 import { GoToAboutusPage, GoToBountiesPage } from '@/utils/Routes';
-import { motion, useTransform, useViewportScroll } from 'framer-motion';
+import { motion, useTransform, useScroll } from 'framer-motion';
 import Image from 'next/image';
 import router from 'next/router';
 import React from 'react';
@@ -14,7 +14,7 @@ export default function Hero() {
 }
 
 function HeroDesktop() {
-  const { scrollY } = useViewportScroll();
+  const { scrollY } = useScroll();
 
   const y = 200;
 
@@ -215,7 +215,7 @@ function HeroDesktop() {
 }
 
 function HeroMobile() {
-  const { scrollY } = useViewportScroll();
+  const { scrollY } = useScroll();
 
   const y = 200;
 
