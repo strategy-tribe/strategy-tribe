@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { GetDateInString } from '@/lib/utils/DateHelpers';
 import { ServerNotification } from '@/components/notifications/iNotification';
-import { useReadNotification } from '@/lib/hooks/useReadNotification';
+import { useReadNotification } from '@/lib/hooks/serverNotificationHooks';
 
 export function NotificationListEntry({
   notification,
