@@ -21,9 +21,9 @@ export function SubmissionListEntry({
     <button
       key={submission.id}
       onClick={() => router.push(GoToSubmissionPage(submission.id!))}
-      className="relative w-full group grid grid-cols-4"
+      className="relative w-full group grid grid-cols-6 gap-x-8"
     >
-      <div className="flex flex-col items-start col-span-2">
+      <div className="flex flex-col items-start col-span-4">
         <div className="flex gap-2">
           {bounty.tags?.map((tag) => {
             return (
@@ -51,7 +51,9 @@ export function SubmissionListEntry({
 
       <div className="flex flex-col items-end">
         <span className="title">{bounty.funds} ETH</span>
-        <span>{GetDateInString(submission.createdAt)} ago</span>
+        <span className="text-unactive label-sm pt-1">
+          {GetDateInString(submission.createdAt)} ago
+        </span>
       </div>
     </button>
   );

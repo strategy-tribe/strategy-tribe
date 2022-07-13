@@ -45,7 +45,8 @@ export function Button({ info }: { info: ButtonInformation }) {
   const colors = style.toString();
   const font = 'label';
   const align = info.align ? info.align : 'justify-center';
-  const others = 'z-10 flex items-center gap-2 rounded-full group';
+  const others =
+    'z-10 flex items-center gap-2 rounded-full group whitespace-nowrap';
   const size = removeMinWidth ? `min-h-[24px]` : 'min-w-[6rem] min-h-[24px]';
 
   const innerContent = (
