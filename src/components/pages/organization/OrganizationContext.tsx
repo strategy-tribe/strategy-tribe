@@ -4,9 +4,9 @@ import { Bounty } from '@/lib/models';
 import { Organization } from '@/lib/models/organizations/organization';
 import {
   BountyQueryParams,
-  Order,
   BountyOrderBy,
-} from '@/lib/models/queryParams';
+} from '@/lib/models/queries/BountyQueryParams';
+import { Order } from '@/lib/models/queries/Order';
 import { TargetType } from '@/lib/models/targetType';
 import { useContext, createContext, ReactNode, useMemo, useState } from 'react';
 

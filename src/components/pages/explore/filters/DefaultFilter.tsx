@@ -1,5 +1,6 @@
 import { BountyState, QueryParams } from '@/lib/models';
-import { Order, BountyOrderBy } from '@/lib/models/queryParams';
+import { BountyOrderBy } from '@/lib/models/queries/BountyQueryParams';
+import { Order } from '@/lib/models/queries/Order';
 
 export type DefaultFilter = {
   type: string;

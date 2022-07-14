@@ -1,19 +1,35 @@
 import { Invoice, InvoiceStatus } from '@/lib/models/invoice';
 import { Moralis } from 'moralis';
 import { CastBounty, CastSubmission } from '../utils/Helpers';
+import { InvoiceQueryParams } from '@/lib/models/queries/InvoiceQueryParams';
 
 import { INVOICE_TABLE, SUBMISSION_TABLE } from './tables';
 
-export function Moralis_GetInvoices(userId: string) {
+export function Moralis_GetInvoices(filters?: InvoiceQueryParams) {
   const getInvoices = async () => {
+    const order = filters?.order;
+    const statuses = filters?.statuses;
+    const users = filters?.users;
+
     const invoiceQuery = new Moralis.Query(INVOICE_TABLE);
     invoiceQuery.include('bounty');
     invoiceQuery.include('submission');
 
-    const innerQuery = new Moralis.Query(SUBMISSION_TABLE);
-    innerQuery.equalTo('owner', userId);
+    if (users) {
+      const innerQuery = new Moralis.Query(SUBMISSION_TABLE);
+      innerQuery.containedIn('owner', users);
+      invoiceQuery.matchesQuery('submission', innerQuery);
+    }
 
-    invoiceQuery.matchesQuery('submission', innerQuery);
+    if (statuses) {
+      invoiceQuery.containedIn('status', statuses);
+    }
+
+    if (order && order === 'asc') {
+      invoiceQuery.ascending('createdAt');
+    } else {
+      invoiceQuery.descending('createdAt');
+    }
 
     const rawResult = await invoiceQuery.find();
 

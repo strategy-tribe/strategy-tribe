@@ -4,7 +4,7 @@ import { v4 as uuid } from 'uuid';
 import { CastSubmission } from '../utils/Helpers';
 import { SubmissionState } from '@/lib/models/status';
 import { Submission, SubmissionContent } from '@/lib/models/submission';
-import { SubmissionQueryParams } from '@/lib/models/queryParams';
+import { SubmissionQueryParams } from '@/lib/models/queries/SubmissionQueryParams';
 import { UserInput } from '@/components/pages/submission/new submission/UserInput';
 
 export const Molaris_useSaveSubmission = (
@@ -49,15 +49,6 @@ export const Molaris_useSaveSubmission = (
     submissionRef.set('owner', owner);
     submissionRef.set('content', submissionContents);
     submissionRef.set('state', SubmissionState['WaitingForReview']);
-
-    const acl = new Moralis.ACL();
-    acl.setPublicReadAccess(false);
-    acl.setPublicWriteAccess(false);
-    acl.setRoleWriteAccess('staff', true);
-    acl.setRoleReadAccess('staff', true);
-    acl.setReadAccess(owner, true);
-
-    submissionRef.setACL(acl);
 
     const subClass = Moralis.Object.extend(SUBMISSION_TABLE);
     const submission = new subClass(submissionRef.attributes);

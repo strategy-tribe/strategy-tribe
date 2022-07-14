@@ -1,7 +1,9 @@
 //*Submissions
 Moralis.Cloud.beforeSave(SUBMISSIONS_TABLE, async function (request) {
-  const bountyId = request.object.get('bountyId');
-  const userId = request.object.get('owner');
+  const submissionRef = request.object;
+
+  const bountyId = submissionRef.get('bountyId');
+  const userId = submissionRef.get('owner');
 
   const isNew = request.context.isNew;
 
@@ -21,6 +23,20 @@ Moralis.Cloud.beforeSave(SUBMISSIONS_TABLE, async function (request) {
       );
     } else {
       LOG('Submission passed checks');
+      const acl = new Moralis.ACL();
+
+      acl.setPublicWriteAccess(false);
+      acl.setPublicReadAccess(false);
+
+      acl.setRoleWriteAccess(STAFF_ROLE, true);
+      acl.setRoleReadAccess(STAFF_ROLE, true);
+
+      acl.setRoleWriteAccess(ADMIN_ROLE, true);
+      acl.setRoleReadAccess(ADMIN_ROLE, true);
+
+      acl.setReadAccess(userId, true);
+
+      submissionRef.setACL(acl);
     }
   }
 });

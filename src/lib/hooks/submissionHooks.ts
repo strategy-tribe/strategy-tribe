@@ -14,7 +14,7 @@ import {
   useQueryClient,
 } from 'react-query';
 
-import { SubmissionQueryParams } from '@/lib/models/queryParams';
+import { SubmissionQueryParams } from '@/lib/models/queries/SubmissionQueryParams';
 import { Submission } from '../models';
 import { UserInput } from '@/components/pages/submission/new submission/UserInput';
 

@@ -1,9 +1,9 @@
 import { DEFAULT_FILTER } from '@/components/pages/explore/filters/DefaultFilter';
 import {
-  Order,
   BountyOrderBy,
   BountyQueryParams,
-} from '@/lib/models/queryParams';
+} from '@/lib/models/queries/BountyQueryParams';
+import { Order } from '@/lib/models/queries/Order';
 import { BountyState } from '@/lib/models/status';
 import { TargetType } from '@/lib/models/targetType';
 import { GoToBountiesPage } from '@/utils/Routes';

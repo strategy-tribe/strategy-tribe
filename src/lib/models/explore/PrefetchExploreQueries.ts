@@ -1,7 +1,8 @@
 import CreateBountyQuery from '@/lib/moralis/serverMethods/CreateBountyQuery';
 import { Moralis as MoralisType } from 'moralis/types';
 import { QueryClient } from 'react-query';
-import { BountyQueryParams, Order, BountyOrderBy } from '../queryParams';
+import { BountyQueryParams, BountyOrderBy } from '../queries/BountyQueryParams';
+import { Order } from '../queries/Order';
 import { TargetType } from '../targetType';
 
 export const prefetchExploreQueries = async (moralisInstance: MoralisType) => {

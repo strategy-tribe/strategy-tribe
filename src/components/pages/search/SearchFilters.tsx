@@ -1,7 +1,7 @@
 import { Title } from '@/components/utils/Title';
 ('@/components/utils/Title');
 import { useEffect } from 'react';
-import { BountyQueryParams } from '@/lib/models/queryParams';
+import { BountyQueryParams } from '@/lib/models/queries/BountyQueryParams';
 import { FilterMenu } from '@/components/filters/FilterMenu';
 import Icon from '@/components/utils/Icon';
 import useWindowDimensions from '@/hooks/useWindowDimensions';

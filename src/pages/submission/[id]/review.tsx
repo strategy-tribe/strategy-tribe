@@ -5,11 +5,9 @@ import Head from 'next/head';
 import { NextPageWithLayout } from '@/pages/_app';
 import AppLayout from '@/components/layouts/AppLayout';
 import { useGetSubmission } from '@/lib/hooks/submissionHooks';
-import { useBanRegularUsers } from '@/lib/hooks/useBanRegularUsers';
+import ProtectedLayout from '@/components/layouts/ProtectedLayout';
 
 const ReviewPage: NextPageWithLayout = () => {
-  useBanRegularUsers();
-
   const router = useRouter();
   const { id: submissionId } = router.query;
 
@@ -37,5 +35,9 @@ const ReviewPage: NextPageWithLayout = () => {
 
 export default ReviewPage;
 ReviewPage.getLayout = function getLayout(page) {
-  return <AppLayout>{page}</AppLayout>;
+  return (
+    <ProtectedLayout>
+      <AppLayout>{page}</AppLayout>
+    </ProtectedLayout>
+  );
 };

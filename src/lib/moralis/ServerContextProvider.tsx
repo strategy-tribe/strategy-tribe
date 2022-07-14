@@ -89,11 +89,10 @@ const ServerContextProvider = ({
       }
     );
 
+    setIsFetchingUserInfo(false);
     if (response.error) {
       console.error(`Error from server: ${response.error}`);
-      setIsFetchingUserInfo(false);
     } else {
-      setIsFetchingUserInfo(false);
       return response.data as UserInfo;
     }
   }

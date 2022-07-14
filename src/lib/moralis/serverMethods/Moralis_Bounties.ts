@@ -3,7 +3,7 @@ import { Moralis } from 'moralis';
 import { CastBounty } from '../utils/Helpers';
 import { Bounty } from '@/lib/models/bounty';
 import { BountyState } from '@/lib/models/status';
-import { BountyQueryParams } from '@/lib/models/queryParams';
+import { BountyQueryParams } from '@/lib/models/queries/BountyQueryParams';
 import { Requirement } from '@/lib/models/requirement';
 import { Target } from '@/lib/models/target';
 
@@ -96,9 +96,7 @@ export const Moralis_useGetBounties = (
       }
     }
     if (states) {
-      states.forEach((s) => {
-        query.equalTo('state', s);
-      });
+      query.containedIn('state', states);
     }
 
     let skipped = 0;

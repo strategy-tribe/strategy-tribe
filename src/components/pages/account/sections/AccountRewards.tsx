@@ -1,18 +1,15 @@
-import { Button, ButtonStyle } from '@/components/utils/Button';
 import Loading from '@/components/utils/Loading';
 import { useGetInvoices } from '@/lib/hooks/useGetInvoices';
-import {
-  Invoice as InvoiceData,
-  InvoiceStatus as InvoiceStatusData,
-} from '@/lib/models/invoice';
-import { GetDateInString } from '@/lib/utils/DateHelpers';
-import { GoToBountyPage, GoToSubmissionPage } from '@/lib/utils/Routes';
+import { InvoiceStatus as InvoiceStatusData } from '@/lib/models/invoice';
 import { useAuth } from 'auth/AuthContext';
-import Link from 'next/link';
+import { InvoiceListEntry } from '../../../invoices/InvoiceListEntry';
 
 export function AccountRewards() {
   const { userId } = useAuth();
-  const { invoices, isLoading } = useGetInvoices(userId!, !!userId);
+  const { invoices, isLoading } = useGetInvoices(
+    { users: [userId!] },
+    !!userId
+  );
 
   return (
     <section className="w-full space-y-4">
@@ -22,46 +19,20 @@ export function AccountRewards() {
         </span>
       </div>
 
-      {invoices &&
-        invoices?.map((invoice) => {
-          return <Invoice invoice={invoice} key={invoice.id} />;
-        })}
+      <div className="space-y-10">
+        {invoices &&
+          invoices?.map((invoice) => {
+            return <InvoiceListEntry invoice={invoice} key={invoice.id} />;
+          })}
+      </div>
       {isLoading && <Loading small />}
     </section>
   );
 }
 
-function Invoice({
-  invoice: { bounty, status, submission },
-}: {
-  invoice: InvoiceData;
-}) {
-  return (
-    <div className="grid grid-cols-12 place-items-center w-full gap-x-8">
-      <Link href={GoToBountyPage(bounty.id!)}>
-        <a className="col-span-8 w-full group">
-          <span className="label-sm text-purpleLight ">{bounty.funds} ETH</span>
-          <h5 className="title-sm group-hover:underline">{bounty.title}</h5>
-        </a>
-      </Link>
-
-      <InvoiceStatus status={status} />
-
-      <Button
-        info={{
-          className: 'col-span-3 whitespace-nowrap justify-self-end',
-          isALink: GoToSubmissionPage(submission.id!),
-          style: ButtonStyle.TextPurple,
-          label: 'See submission',
-          removeMinWidth: true,
-          removePadding: true,
-        }}
-      />
-    </div>
-  );
-}
-
 export function InvoiceStatus({ status }: { status: InvoiceStatusData }) {
+  const { isAdmin, isStaff } = useAuth();
+
   const color = () => {
     switch (status) {
       case InvoiceStatusData.Paid:
@@ -73,13 +44,24 @@ export function InvoiceStatus({ status }: { status: InvoiceStatusData }) {
     }
   };
 
+  const label = () => {
+    switch (status) {
+      case InvoiceStatusData.Unpaid:
+        return isAdmin || isStaff ? 'Unpaid' : 'In progress';
+      case InvoiceStatusData.Error:
+        return isAdmin || isStaff ? 'Error' : 'Contact us';
+      case InvoiceStatusData.Paid:
+        return 'Paid';
+      default:
+        break;
+    }
+  };
+
   return (
     <div
       className={`${color()} border-2 rounded-full py-2 px-6 first-letter:capitalize label-sm w-fit whitespace-nowrap`}
     >
-      {status === InvoiceStatusData.Unpaid && 'In process'}
-      {status === InvoiceStatusData.Error && 'Contact us'}
-      {status === InvoiceStatusData.Paid && status}
+      {label()}
     </div>
   );
 }

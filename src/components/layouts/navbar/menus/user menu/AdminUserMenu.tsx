@@ -1,5 +1,6 @@
 import {
   GoToAccountPage,
+  GoToInvoicesPage,
   GoToReviewsPage,
   GoToWaitingForFunds,
 } from '@/lib/utils/Routes';
@@ -33,6 +34,12 @@ export function AdminUserMenu({
             <MenuItem
               label="Submissions to review"
               url={GoToReviewsPage()}
+              onClick={hide}
+            />
+
+            <MenuItem
+              label="Invoices"
+              url={GoToInvoicesPage()}
               onClick={hide}
             />
 

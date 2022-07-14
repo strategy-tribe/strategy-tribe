@@ -1,4 +1,4 @@
-import { BountyQueryParams } from '@/lib/models/queryParams';
+import { BountyQueryParams } from '@/lib/models/queries/BountyQueryParams';
 import Queries from '@/utils/Queries';
 import Moralis from 'moralis/types';
 import { Moralis_useGetBounties } from './Moralis_Bounties';

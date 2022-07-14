@@ -3,7 +3,7 @@ import {
   Moralis_useGetBounties,
   Moralis_useSaveBounty,
 } from '@/lib/moralis/serverMethods/Moralis_Bounties';
-import { BountyQueryParams } from '@/lib/models/queryParams';
+import { BountyQueryParams } from '@/lib/models/queries/BountyQueryParams';
 import { GoToBountyPage } from '@/utils/Routes';
 import { useRouter } from 'next/router';
 import { useMutation, useQuery, useQueryClient } from 'react-query';

@@ -11,14 +11,15 @@ import {
 } from '@tanstack/react-table';
 import { Bounty, BountyState } from '@/lib/models';
 import { useGetBounties } from '@/lib/hooks/bountyHooks';
-import { BountyOrderBy, Order } from '@/lib/models/queryParams';
+import { BountyOrderBy } from '@/lib/models/queries/BountyQueryParams';
+import { Order } from '@/lib/models/queries/Order';
 import { GetDateInString } from '@/lib/utils/DateHelpers';
 import { Section } from '@/components/pages/landing/Section';
 import { Button, ButtonStyle } from '@/components/utils/Button';
 import { useRouter } from 'next/router';
 import { GoToBountyPage } from '@/lib/utils/Routes';
 import { NextPageWithLayout } from '../_app';
-import { useBanRegularUsers } from '@/lib/hooks/useBanRegularUsers';
+import ProtectedLayout from '@/components/layouts/ProtectedLayout';
 
 const columns: ColumnDef<Bounty>[] = [
   {
@@ -56,9 +57,7 @@ const columns: ColumnDef<Bounty>[] = [
   },
 ];
 
-const AdminPage: NextPageWithLayout = () => {
-  useBanRegularUsers();
-
+const BountiesToFundPage: NextPageWithLayout = () => {
   const [size, setSize] = useState(10);
 
   const [page, setPage] = useState(0);
@@ -91,7 +90,7 @@ const AdminPage: NextPageWithLayout = () => {
   return (
     <div className="text-text space-y-8">
       <Head>
-        <title>ST | Admin</title>
+        <title>ST | Fund</title>
         <meta
           name="description"
           content="StrategyTribe was born from a need for higher quality, better scaled OSINT work on the
@@ -101,7 +100,7 @@ const AdminPage: NextPageWithLayout = () => {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Section className="space-y-8">
+      <div className="mx-auto max-w-5xl min-h-screen space-y-8">
         <table className="w-full">
           <thead>
             {table.getHeaderGroups().map((headerGroup, i) => {
@@ -193,12 +192,16 @@ const AdminPage: NextPageWithLayout = () => {
             onChange={(e) => setSize(parseFloat(e.target.value))}
           />
         </div>
-      </Section>
+      </div>
     </div>
   );
 };
 
-export default AdminPage;
-AdminPage.getLayout = function getLayout(page) {
-  return <AppLayout>{page}</AppLayout>;
+export default BountiesToFundPage;
+BountiesToFundPage.getLayout = function getLayout(page) {
+  return (
+    <ProtectedLayout>
+      <AppLayout>{page}</AppLayout>
+    </ProtectedLayout>
+  );
 };

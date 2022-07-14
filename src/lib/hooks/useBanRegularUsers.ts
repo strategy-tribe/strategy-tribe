@@ -1,6 +1,7 @@
 import { useAuth } from 'auth/AuthContext';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
+import { useState } from 'react';
+import { useQuery } from 'react-query';
 import { GoTo404Page } from '../utils/Routes';
 
 type UserID = string;
@@ -14,9 +15,30 @@ export const useBanRegularUsers = (options?: { include?: UserID }) => {
     : false;
 
   const hasPermissions = isAdmin || isStaff || isExceptionUser;
-  useEffect(() => {
-    if (!isFetchingUserInfo && !hasPermissions) {
-      router.push(GoTo404Page());
+
+  const [passes, setPasses] = useState(false);
+
+  function check() {
+    if (!hasPermissions && !isFetchingUserInfo) {
+      throw new Error('User has no permissions');
+    } else {
+      return;
     }
-  }, [router, userInfo]);
+  }
+
+  useQuery(
+    ['check permissions', hasPermissions, isFetchingUserInfo, options],
+    () => check(),
+    {
+      onSuccess: () => setPasses(true),
+      onError: () => {
+        setPasses(false);
+        router.push(GoTo404Page());
+      },
+      retry: 1,
+      retryDelay: 1,
+    }
+  );
+
+  return passes;
 };

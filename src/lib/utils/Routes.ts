@@ -44,9 +44,13 @@ export const GoToReviewSubmissionPage = (submissionId: string) =>
   `/submission/${submissionId}/review`;
 
 export const GoToWaitingForFunds = () => {
-  return `/admin/waiting`;
+  return `/admin/fund`;
 };
 
 export const GoToReviewsPage = () => {
   return `/admin/review`;
+};
+
+export const GoToInvoicesPage = () => {
+  return `/admin/invoices`;
 };
