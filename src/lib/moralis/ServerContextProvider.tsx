@@ -37,6 +37,7 @@ interface ServerContextInterface {
   account: string | null;
   fetchUserInfo(): Promise<UserInfo | undefined>;
   isFetchingUserInfo: boolean;
+  isInitialized: boolean;
 }
 
 const ServerContext = createContext<ServerContextInterface>({
@@ -47,9 +48,8 @@ const ServerContext = createContext<ServerContextInterface>({
   account: null,
   fetchUserInfo: async () => undefined,
   isFetchingUserInfo: true,
+  isInitialized: false,
 });
-
-//* /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 const ServerContextProvider = ({
   children,
@@ -89,11 +89,11 @@ const ServerContextProvider = ({
       }
     );
 
-    setIsFetchingUserInfo(false);
     if (response.error) {
       console.error(`Error from server: ${response.error}`);
-      return;
+      setIsFetchingUserInfo(false);
     } else {
+      setIsFetchingUserInfo(false);
       return response.data as UserInfo;
     }
   }
@@ -158,7 +158,8 @@ const ServerContextProvider = ({
         isAuthenticated,
         account,
         fetchUserInfo,
-        isFetchingUserInfo: isFetchingUserInfo,
+        isFetchingUserInfo: isInitialized ? isFetchingUserInfo : true,
+        isInitialized,
       }}
     >
       {children}

@@ -11,6 +11,7 @@ import {
   UserInfo,
   useServerContext,
 } from '@/lib/moralis/ServerContextProvider';
+import { GetDateInString } from '@/lib/utils/DateHelpers';
 
 interface AuthContextInterface {
   userId: string | undefined;
@@ -66,7 +67,11 @@ const AuthContextProvider = ({
   const { notify } = useNotification();
 
   useEffect(() => {
-    if (isAuthenticated) {
+    if (
+      isAuthenticated &&
+      userInfo &&
+      !GetDateInString(userInfo?.joined).includes('second')
+    ) {
       notify(
         { title: 'Welcome back', icon: '' },
         {

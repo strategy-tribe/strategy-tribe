@@ -18,6 +18,7 @@ import { Button, ButtonStyle } from '@/components/utils/Button';
 import { useRouter } from 'next/router';
 import { GoToBountyPage } from '@/lib/utils/Routes';
 import { NextPageWithLayout } from '../_app';
+import { useBanRegularUsers } from '@/lib/hooks/useBanRegularUsers';
 
 const columns: ColumnDef<Bounty>[] = [
   {
@@ -56,6 +57,8 @@ const columns: ColumnDef<Bounty>[] = [
 ];
 
 const AdminPage: NextPageWithLayout = () => {
+  useBanRegularUsers();
+
   const [size, setSize] = useState(10);
 
   const [page, setPage] = useState(0);
