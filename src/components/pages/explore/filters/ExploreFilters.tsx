@@ -72,18 +72,16 @@ export function ExploreFilters() {
           <div className="flex gap-4 items-center">
             {countries?.map((country, i) => {
               return (
-                <div
-                  className="border-[1px] rounded-full py-1 pl-3 pr-4 flex gap-2 items-center"
+                <button
+                  onClick={() => removeCountry(country)}
+                  className="border rounded-full py-1 pl-3 pr-4 flex gap-2 items-center group"
                   key={i}
                 >
-                  <button
-                    onClick={() => removeCountry(country)}
-                    className="grid place-items-center"
-                  >
+                  <div className="grid place-items-center group-hover:text-redLight">
                     <Icon icon="close" size={IconSize.Small} />
-                  </button>
+                  </div>
                   <span className="label-sm">{country}</span>
-                </div>
+                </button>
               );
             })}
 

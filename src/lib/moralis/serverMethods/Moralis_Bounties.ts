@@ -96,7 +96,11 @@ export const Moralis_useGetBounties = (
       }
     }
     if (states) {
-      query.containedIn('state', states);
+      let s = states;
+      if (typeof states === 'string') {
+        s = [states];
+      }
+      query.containedIn('state', s);
     }
 
     let skipped = 0;

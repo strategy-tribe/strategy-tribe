@@ -59,7 +59,7 @@ export const useUrlSearchParams = () => {
       orderBy: qry.orderBy as BountyOrderBy,
       minBounty: parseFloat(qry.minBounty as string),
       maxBounty: parseFloat(qry.maxBounty as string),
-      states: qry.states as BountyState[],
+      states: qry.states as string[] as BountyState[],
       targetType: qry.targetType as TargetType,
       orgName: qry.orgName as string,
       amount: parseFloat(qry.amount as string) || 4 * 4,
