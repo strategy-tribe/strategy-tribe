@@ -13,14 +13,8 @@ export function Goal() {
         <p className="max-w-lg body">
           Your anonymity should not come at the price of your safety.
           <br />
-          Our crowdsourced data is shared with a{' '}
-          <span
-            className="text-purpleLight underline font-semibold cursor-pointer"
-            onClick={() => alert('Coming soon')}
-          >
-            vetted collection of investigative journalists
-          </span>{' '}
-          working in the space.
+          Our crowdsourced data is shared with a vetted collection of
+          investigative journalists working in the space.
         </p>
       </div>
     </div>
