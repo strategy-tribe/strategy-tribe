@@ -21,7 +21,7 @@ export function OrganizationStats({
     <Section className="w-full flex gap-x-16 gap-y-8 flex-wrap">
       <Stat
         title="Total bounty on this organization"
-        content={`${totalFunds} ETH`}
+        content={`${totalFunds} MATIC`}
       />
 
       <Stat title="Funds address" content={`${org?.wallet}`} copyable />

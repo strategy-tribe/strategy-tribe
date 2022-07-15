@@ -73,7 +73,7 @@ export function Donate() {
       <div className="text-text rounded-lg space-y-6">
         <div className="space-y-4">
           <label className="flex flex-col">
-            <span className="label">Amount (ETH)</span>
+            <span className="label">Amount (MATIC)</span>
             <input
               type="number"
               step={0.001}

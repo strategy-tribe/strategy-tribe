@@ -99,7 +99,7 @@ export function DonationPopUp({
 
               <div className="space-y-4">
                 <label className="flex flex-col">
-                  <span className="label">Donation amount (ETH)</span>
+                  <span className="label">Donation amount (MATIC)</span>
                   <input
                     type="number"
                     step={0.001}

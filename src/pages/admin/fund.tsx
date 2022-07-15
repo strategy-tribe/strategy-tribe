@@ -49,7 +49,7 @@ const columns: ColumnDef<Bounty>[] = [
         cell: (info) => `${(info.getValue() as string).slice(0, 15)}...`,
       },
       {
-        header: 'Funds (ETH)',
+        header: 'Funds (MATIC)',
         accessorKey: 'funds',
         cell: (info) => info.getValue(),
       },

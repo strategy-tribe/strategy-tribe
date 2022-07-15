@@ -63,7 +63,7 @@ export default function MapProjection() {
             <div className="elevation-5 bg-dark text-white p-4 rounded space-y-1">
               <div className="flex justify-between items-center gap-6">
                 <span className="label-lg">{label}</span>
-                <span className="text-purpleDark">{totalFunds} ETH</span>
+                <span className="text-purpleDark">{totalFunds} MATIC</span>
               </div>
               <div className="flex justify-between items-center gap-6 label-sm text-unactive">
                 <span>{kFormatter(bounties)} bounties</span>

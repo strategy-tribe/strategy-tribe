@@ -44,7 +44,7 @@ export default function BountyStates({ bounty }: { bounty: Bounty }) {
           rel="noopener noreferrer"
           className="font-medium"
         >
-          {bounty.funds} ETH
+          {bounty.funds} MATIC
         </a>
       </div> */}
       <div className="flex gap-1 items-center  relative group cursor-default">

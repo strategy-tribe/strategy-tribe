@@ -44,7 +44,7 @@ export function Step4Details({
         >
           <h1 className="text-3xl font-bold font-grotesk">{bounty?.title}</h1>
           <div className="bg-purpleDark text-white w-fit rounded-sm p-2 ">
-            <span className="font-medium">{bounty.funds} ETH</span>
+            <span className="font-medium">{bounty.funds} MATIC</span>
           </div>
           <div className="flex gap-x-4 laptop:gap-x-8 gap-y-2 flex-wrap">
             {bounty.closesAt && (

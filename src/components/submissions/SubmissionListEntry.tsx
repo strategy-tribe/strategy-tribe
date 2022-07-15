@@ -50,7 +50,7 @@ export function SubmissionListEntry({
       </div>
 
       <div className="flex flex-col items-end">
-        <span className="title">{bounty.funds} ETH</span>
+        <span className="title">{bounty.funds} MATIC</span>
         <span className="text-unactive label-sm pt-1">
           {GetDateInString(submission.createdAt)} ago
         </span>

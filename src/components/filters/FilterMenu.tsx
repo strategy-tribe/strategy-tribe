@@ -107,7 +107,7 @@ function BountyPicker({
 }) {
   return (
     <div className="flex flex-col gap-1">
-      <FilterLabel label="Bounty (ETH)" />
+      <FilterLabel label="Bounty (MATIC)" />
 
       <div className="flex items-center gap-4">
         <div className="flex w-full justify-between items-center gap-4">
@@ -125,7 +125,7 @@ function BountyPicker({
             placeholder="Min"
             className="bg-black border-0 focus:border-b-2 focus:border-purpleDark focus:ring-0 w-full border-b-2 border-dark text-base placeholder:text-base pl-0 placeholder:text-unactive"
           />
-          {/* <span className="label">ETH</span> */}
+          {/* <span className="label">MATIC</span> */}
         </div>
 
         <span className="label-lg text-unactive">To</span>
@@ -145,7 +145,7 @@ function BountyPicker({
             placeholder="Max"
             className="bg-black border-0 focus:border-b-2 focus:ring-0 w-full border-b-2 border-dark focus:border-purpleDark pl-0 placeholder:text-unactive"
           />
-          {/* <span className="label">ETH</span> */}
+          {/* <span className="label">MATIC</span> */}
         </div>
       </div>
     </div>

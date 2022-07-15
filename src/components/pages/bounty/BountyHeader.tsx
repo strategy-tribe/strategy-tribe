@@ -74,7 +74,7 @@ export function BountyHeader() {
                 className="flex gap-4 items-center text-purpleLight hover:text-purpleDark cursor-pointer"
               >
                 <Icon icon="emoji_events" size={IconSize.Large} />
-                <span className="title">{bounty.funds} ETH</span>
+                <span className="title">{bounty.funds} MATIC</span>
               </a>
               <Button
                 info={{
