@@ -14,8 +14,10 @@ async function TrytoUpdate(address) {
   const walletObj = await q.first({ useMasterKey: true });
 
   if (!walletObj) {
-    ERROR(`wallet not found`);
+    ERROR(`wallet not found (${address})`);
     return undefined;
+  } else {
+    LOG(`wallet found (${address})`);
   }
 
   const type = walletObj.get('type');

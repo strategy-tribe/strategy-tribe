@@ -29,9 +29,13 @@ Moralis.Cloud.afterSave(BOUNTY_TABLE, async function (request) {
 
   //Check for wallet
   if (!bounty.get('wallet') || bounty.get('wallet') === '') {
-    const wallet = await CreateWallet('bounty', bounty.id);
-    bounty.set('wallet', wallet);
-    await bounty.save(null, { useMasterKey: true });
+    try {
+      const wallet = await CreateWallet('bounty', bounty.id);
+      bounty.set('wallet', wallet);
+      await bounty.save(null, { useMasterKey: true });
+    } catch (error) {
+      ERROR(`Error creating wallet for bounty. Reason: ${error}`);
+    }
   }
   if (bounty.get('state') === BOUNTY_OPEN_STATE && context.isNew) {
     const orgName = bounty.get('organizationName');

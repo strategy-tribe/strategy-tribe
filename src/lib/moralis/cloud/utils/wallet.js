@@ -1,44 +1,52 @@
-async function CreateWallet(type, id) {
+async function GenerateWallet() {
   const chainCode = await GetChainCode();
   const { ethers } = Moralis.ethersByChain(chainCode);
 
-  const wallet = ethers.Wallet.createRandom();
+  const { address, privateKey, mnemonic } = ethers.Wallet.createRandom();
 
-  //!save the wallet info in a table
-  const walletRef = new Moralis.Object(WALLET_TABLE);
-  walletRef.set('address', wallet.address.toLowerCase());
-  walletRef.set('privateKey', wallet.privateKey.toLowerCase());
-  walletRef.set('mnemonic', wallet.mnemonic.phrase.toLowerCase());
-  walletRef.set('type', type);
+  return {
+    address: address.toLowerCase(),
+    privateKey: privateKey.toLowerCase(),
+    mnemonic: mnemonic.phrase.toLowerCase(),
+  };
+}
 
-  walletRef.set('assigned', id);
+async function CreateWallet(type, id) {
+  try {
+    const { address, privateKey, mnemonic } = await GenerateWallet();
 
-  //security --- can only read
-  const acl = new Moralis.ACL();
-  acl.setPublicReadAccess(false);
-  acl.setPublicWriteAccess(false);
+    //!save the wallet info in a table
+    const walletRef = new Moralis.Object(WALLET_TABLE);
+    walletRef.set('address', address);
+    walletRef.set('privateKey', privateKey);
+    walletRef.set('mnemonic', mnemonic);
 
-  acl.setRoleWriteAccess(STAFF_ROLE, false);
-  acl.setRoleReadAccess(STAFF_ROLE, false);
+    walletRef.set('type', type);
+    walletRef.set('assigned', id);
 
-  acl.setRoleWriteAccess(ADMIN_ROLE, false);
-  acl.setRoleReadAccess(ADMIN_ROLE, true);
+    //security --- can only read
+    const acl = new Moralis.ACL();
+    acl.setPublicReadAccess(false);
+    acl.setPublicWriteAccess(false);
 
-  walletRef.setACL(acl);
+    acl.setRoleWriteAccess(STAFF_ROLE, false);
+    acl.setRoleReadAccess(STAFF_ROLE, false);
 
-  //!Save the wallet
-  await walletRef.save(null, { useMasterKey: true });
+    acl.setRoleWriteAccess(ADMIN_ROLE, false);
+    acl.setRoleReadAccess(ADMIN_ROLE, true);
 
-  //!Set the server to watch this addresses
-  await Moralis.Cloud.run(
-    'watchEthAddress',
-    {
-      address: wallet.address,
-    },
-    { useMasterKey: true }
-  );
+    walletRef.setACL(acl);
 
-  return wallet.address.toLowerCase();
+    //!Save the wallet
+    await walletRef.save(null, { useMasterKey: true });
+
+    return address;
+  } catch (error) {
+    ERROR(
+      `Error creating wallet of type (${type}) and id (${id}). Reason: ${error}`,
+      true
+    );
+  }
 }
 
 async function UnassignWallet(address) {
@@ -58,6 +66,7 @@ async function UnassignWallet(address) {
 }
 
 async function ArchiveWallet(wallet) {
+  LOG('Archiving wallet');
   try {
     const address = wallet.get('address');
     const type = wallet.get('type');

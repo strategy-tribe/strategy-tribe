@@ -4,7 +4,8 @@ function LOG(msg) {
 }
 
 function ERROR(msg, shouldThrow = false) {
+  LOG(`Error : ${msg}`);
   const logger = Moralis.Cloud.getLogger();
   logger.error(`XXXX ----> ${msg}\nThrowing: ${shouldThrow}`);
-  if (shouldThrow) throw msg;
+  if (shouldThrow) throw new Error(msg);
 }
