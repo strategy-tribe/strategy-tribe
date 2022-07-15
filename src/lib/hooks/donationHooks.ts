@@ -3,6 +3,8 @@ import { useMutation } from 'react-query';
 import Moralis from 'moralis';
 import { useState } from 'react';
 
+const CHAIN_ID = process.env.NEXT_PUBLIC_CHAIN_ID;
+
 async function newDonation(donation: Donation) {
   const {
     to: { wallet: to },
@@ -13,7 +15,6 @@ async function newDonation(donation: Donation) {
   // @ts-ignore`;
   const { ethereum } = window;
 
-
   if (!ethereum) {
     throw new Error("We could't connect to your wallet");
   }
@@ -23,13 +24,17 @@ async function newDonation(donation: Donation) {
 
   try {
     await ethereum.request({
+      method: 'wallet_switchEthereumChain',
+      params: [{ chainId: CHAIN_ID }],
+    });
+    await ethereum.request({
       method: 'eth_sendTransaction',
       params: [
         {
           from,
           value: amount.toHexString(),
           to,
-          chainId: '0x4',
+          chainId: CHAIN_ID,
         },
       ],
     });
