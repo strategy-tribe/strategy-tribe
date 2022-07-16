@@ -36,7 +36,7 @@ function ExploreContent() {
 
   return (
     <>
-      <div className="space-y-20">
+      <div>
         {!!error && (
           <p className="w-full text-center text-redLight label">
             There has been an error.
