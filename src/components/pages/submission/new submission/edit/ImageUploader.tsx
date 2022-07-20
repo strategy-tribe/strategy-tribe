@@ -1,6 +1,10 @@
 import Icon from '@/components/utils/Icon';
 import React, { useState } from 'react';
 
+function FileID(file: File) {
+  return `${file.name}-${file.size}`;
+}
+
 export function ImageUploader({
   files,
   setFiles,
@@ -8,7 +12,9 @@ export function ImageUploader({
   files: File[];
   setFiles: (s: File[]) => void;
 }) {
-  const [previewImages, setPreviewImages] = useState<string[]>([]);
+  const [previewImages, setPreviewImages] = useState<
+    { url: string; id: string }[]
+  >([]);
 
   return (
     <>
@@ -21,16 +27,19 @@ export function ImageUploader({
               if (!e.target.files) return;
               const reader = new FileReader();
 
-              reader.onload = () => {
-                if (reader.readyState === 2) {
-                  const newImage = reader.result as string;
-                  setPreviewImages([...previewImages, newImage]);
-                }
-              };
-
               const file = e.target?.files[0];
               reader.readAsDataURL(file);
               setFiles([...files, file]);
+
+              reader.onload = () => {
+                if (reader.readyState === 2) {
+                  const newImage = reader.result as string;
+                  setPreviewImages([
+                    ...previewImages,
+                    { url: newImage, id: FileID(file) },
+                  ]);
+                }
+              };
             }}
           />
           <Icon icon="image" />
@@ -38,17 +47,17 @@ export function ImageUploader({
         </label>
       </div>
 
-      <div className="flex items-start pr-2 space-x-4 snap-x overflow-x-auto ">
+      <div className="grid grid-cols-3">
         {previewImages &&
           previewImages.length > 0 &&
-          previewImages.map((image, imageIndex) => {
+          previewImages.map((image) => {
             return (
               <div
                 className="shrink-0 grow flex flex-col items-center space-y-2 max-w-md laptop:max-w-lg"
-                key={imageIndex}
+                key={image.id}
               >
                 <img
-                  src={image}
+                  src={image.url}
                   alt="file"
                   className="shrink-0 grow-0 aspect-video  snap-center object-cover w-full"
                 />
@@ -58,8 +67,8 @@ export function ImageUploader({
                     setPreviewImages(
                       previewImages.filter((img) => img !== image)
                     );
-                    const newFiles = files.filter((file, fileIndex) => {
-                      return imageIndex !== fileIndex;
+                    const newFiles = files.filter((file) => {
+                      return image.id !== FileID(file);
                     });
                     setFiles(newFiles);
                   }}

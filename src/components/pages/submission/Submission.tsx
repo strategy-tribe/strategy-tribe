@@ -99,13 +99,24 @@ export function Submission({ submission }: { submission: SubmissionData }) {
           })}
       </div>
       <div className="space-y-8">
-        {submission?.answers.map((x, i) => {
+        {submission?.answers.map((content, i) => {
           return (
             <div key={i}>
-              <p className="label text-unactive">{x.requirement.title}</p>
-              {typeof x.answer === 'string' && (
-                <p className="whitespace-pre-line">{x.answer}</p>
+              <p className="label text-unactive">{content.requirement.title}</p>
+              {content.requirement.type !== RequirementType.Image && (
+                <p className="whitespace-pre-line">{content.answer}</p>
               )}
+              <div className="grid grid-cols-3 gap-4 relative pt-4">
+                {content.requirement.type === RequirementType.Image &&
+                  !!(content.answer as string[]) &&
+                  (content.answer as string[]).map((url) => {
+                    return (
+                      <figure key={url} className="relative">
+                        <Image src={url} priority width={1920} height={1080} />
+                      </figure>
+                    );
+                  })}
+              </div>
             </div>
           );
         })}

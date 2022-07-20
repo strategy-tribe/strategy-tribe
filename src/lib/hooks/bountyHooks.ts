@@ -8,7 +8,7 @@ import { GoToBountyPage } from '@/utils/Routes';
 import { useRouter } from 'next/router';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import Queries from '@/utils/Queries';
-import { Requirement } from '@/lib/models/requirement';
+import { Requirement, RequirementType } from '@/lib/models/requirement';
 import { Target } from '@/lib/models/target';
 import { useEffect, useState } from 'react';
 import { useMoralis } from 'react-moralis';
@@ -69,7 +69,11 @@ export const useGetBounties = (filters: BountyQueryParams, enabled = true) => {
 };
 
 //!Get one
-export const useGetBounty = (id: string, enabled = true) => {
+export const useGetBounty = (
+  id: string,
+  enabled = true,
+  options?: { addAttachment: boolean }
+) => {
   const { fetch } = Moralis_useGetBounty(id);
   const { isInitialized } = useMoralis();
 
@@ -78,6 +82,20 @@ export const useGetBounty = (id: string, enabled = true) => {
     () => fetch(),
     {
       enabled: isInitialized && enabled,
+      select: (data) => {
+        if (
+          data?.requirements.find((r) => r.type === RequirementType.Image) ===
+            undefined &&
+          options?.addAttachment
+        ) {
+          data?.requirements.push({
+            title: 'Attachments',
+            type: RequirementType.Image,
+            optional: true,
+          });
+        }
+        return data;
+      },
     }
   );
 

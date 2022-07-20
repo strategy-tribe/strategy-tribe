@@ -2,7 +2,7 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: ['jz4l9x1unmld.usemoralis.com'],
+    domains: ['ul1np2i8ycs9.usemoralis.com', '8ujfwmevx5cc.usemoralis.com'],
   },
   i18n: {
     locales: ['en'],

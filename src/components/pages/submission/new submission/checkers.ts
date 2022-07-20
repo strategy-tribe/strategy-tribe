@@ -1,5 +1,6 @@
 import { RequirementType } from '@/lib/models/requirement';
 import { GetWordCount } from '@/utils/StringHelpers';
+import { MAIL_REGEX, PHONE_REGEX, URL_REGEX } from './regexs';
 
 export const CheckInput = (
   s: string,
@@ -29,11 +30,8 @@ export const CheckInput = (
 };
 
 const EvaluateEmail = (s: string) => {
-  const mailRegex =
-    /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-
   return {
-    isValid: mailRegex.test(s),
+    isValid: MAIL_REGEX.test(s),
     errorMsg: 'Your input must contain an email address.',
   };
 };
@@ -41,36 +39,29 @@ const EvaluateEmail = (s: string) => {
 const EvaluateReport = (s: string) => {
   const wordCount = GetWordCount(s as string);
   return {
-    isValid: wordCount > 200,
-    errorMsg: 'Your input must be longer than 200 words',
+    isValid: wordCount > 10,
+    errorMsg: 'Your input must be longer than 10 words',
   };
 };
 
 const EvaluateUrl = (s: string) => {
-  const urlRegex =
-    /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/;
-
   return {
-    isValid: urlRegex.test(s),
+    isValid: URL_REGEX.test(s),
     errorMsg: 'Your input must be a valid URL.',
   };
 };
 
 const EvaluatePhoneNumber = (s: string) => {
-  const phoneRegex = new RegExp(
-    /(\+\d{1,3}\s?)?((\(\d{3}\)\s?)|(\d{3})(\s|-?))(\d{3}(\s|-?))(\d{4})(\s?(([E|e]xt[:|.|]?)|x|X)(\s?\d+))?/g
-  );
-
   return {
-    isValid: phoneRegex.test(s),
+    isValid: PHONE_REGEX.test(s),
     errorMsg: 'Your input must a phone number.',
   };
 };
 
 const EvaluateWallet = (s: string) => {
   return {
-    isValid: s.length > 26,
-    errorMsg: 'Your input must contain only wallet address',
+    isValid: s.length > 20,
+    errorMsg: 'Wallet addresses are longer than that',
   };
 };
 

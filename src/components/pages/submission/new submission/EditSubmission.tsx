@@ -4,6 +4,7 @@ import { Title } from '@/components/utils/Title';
 import { useNewSubmissionContext } from './NewSubmissionContext';
 import { UserInput } from './UserInput';
 import { RequirementEditor } from './edit/RequirementEditor';
+import { RequirementType } from '@/lib/models/requirement';
 
 export function EditSubmission() {
   //*Context
@@ -32,13 +33,14 @@ export function EditSubmission() {
       ...userAnswers.slice(index + 1),
     ];
 
-    setUserAnswers(newList);
+    setUserAnswers([...newList]);
   }
 
   return (
     <div className="space-y-7">
       {/* Required  */}
       <div>
+        {/* Remove this commponent */}
         <Title title="Requirements" />
         {requirements.map((userAnswer, i) => {
           return (

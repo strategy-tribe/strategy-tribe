@@ -14,7 +14,7 @@ export function RequirementChecker({
   input?: string | File[];
 }): JSX.Element {
   const { title, type, optional } = requirement;
-  const [passed, setPassed] = useState<boolean>(false);
+  const [passed, setPassed] = useState(false);
   const [message, setMessage] = useState('');
 
   const { answerChanged } = useNewSubmissionContext();
@@ -62,14 +62,14 @@ export function RequirementChecker({
               {message}
             </span>
           </div>
-          {
+          {typeof input === 'string' && (
             <span
               className={`${type !== RequirementType.Report && 'invisible'}`}
             >
               {GetWordCount(input as string)}{' '}
               {GetWordCount(input as string) === 1 ? 'word' : 'words'}
             </span>
-          }
+          )}
         </p>
 
         {/* Error message for mobile */}

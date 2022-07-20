@@ -10,10 +10,9 @@ import { useGetBounty } from '@/lib/hooks/bountyHooks';
 import { useSaveSubmission } from '@/lib/hooks/submissionHooks';
 import { Bounty } from '@/lib/models';
 import { Requirement, RequirementType } from '@/lib/models/requirement';
-import { GoToSubmissionPage, GoToBountyPage } from '@/lib/utils/Routes';
+import { GoToSubmissionPage } from '@/lib/utils/Routes';
 import { useAuth } from 'auth/AuthContext';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
 import {
   createContext,
   ReactNode,
@@ -63,16 +62,19 @@ export const NewSubmissionContextProvider = ({
     );
   }, [userAnswers, checks]);
 
-  const { bounty } = useGetBounty(bountyId as string);
+  const { bounty } = useGetBounty(bountyId as string, true, {
+    addAttachment: true,
+  });
 
   useEffect(() => {
     if (bounty && userAnswers.length === 0) {
       setUserAnswers(
         bounty.requirements.map((req) => {
-          return {
+          const userInput: UserInput = {
             requirement: req,
             input: req.type === RequirementType.Image ? [] : '',
           };
+          return userInput;
         })
       );
 

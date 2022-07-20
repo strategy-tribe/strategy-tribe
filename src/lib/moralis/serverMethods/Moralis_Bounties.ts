@@ -98,7 +98,6 @@ export const Moralis_useGetBounties = (
     }
 
     if (relatedTo && relatedTo.length > 0) {
-      console.log('relatedTo', relatedTo);
       query.containedIn('organizationName', relatedTo);
     }
 
