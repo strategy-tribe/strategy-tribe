@@ -2,17 +2,13 @@ import { BountyState } from '../status';
 import { TargetType } from '../targetType';
 import { Order } from './Order';
 
-type OrgName = string;
-
 export interface BountyQueryParams {
   order: Order;
-  orderBy: BountyOrderBy;
   searchTerm?: string;
   paginate?: boolean;
   amount?: number;
   states?: BountyState[];
-  orgName?: string;
-  relatedTo?: OrgName[];
+  orgs?: string[];
   specificityOfOrgName?: 'Exact' | 'Loose';
   specificityOfTitle?: 'Exact' | 'Loose';
   targetType?: TargetType;
@@ -20,11 +16,4 @@ export interface BountyQueryParams {
   maxBounty?: number;
   countries?: string[];
   page?: number;
-}
-
-export enum BountyOrderBy {
-  CreatedAt = 'createdAt',
-  Bounty = 'funds',
-  Submissions = 'submissions',
-  ClosesAt = 'closesAt',
 }

@@ -2,7 +2,7 @@ import Moralis from 'moralis';
 
 type WalletType = 'org' | 'bounty';
 
-type Wallet = {
+export type Wallet = {
   id: string;
   createdAt: Date;
   updatedAt: Date;

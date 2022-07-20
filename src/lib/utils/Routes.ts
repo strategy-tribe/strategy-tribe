@@ -29,6 +29,9 @@ export const GoToAccountPage = (view?: AccountView) => {
 
 export const GoToOrgPage = (orgId: string) => `/organization/${orgId}`;
 
+export const GoToOrgBountiesPage = (orgId: string) =>
+  `/organization/${orgId}/bounties`;
+
 export const GoToBountyPage = (bountyId: string) => `/bounty/${bountyId}`;
 
 export const GoToSubmissionPage = (submissionId: string) =>

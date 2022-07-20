@@ -56,7 +56,7 @@ export const useGetBounties = (filters: BountyQueryParams, enabled = true) => {
 
   return {
     isLoading,
-    bounties: data?.bounties,
+    bounties: data?.bounties || [],
     isFetching,
     page,
     numOfPages,

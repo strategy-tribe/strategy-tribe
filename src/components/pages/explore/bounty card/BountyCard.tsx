@@ -36,3 +36,9 @@ export function BountyCard({ bounty }: { bounty: Bounty }) {
     </article>
   );
 }
+
+export function DummyBountyCard() {
+  return (
+    <div className="min-w-[18rem] w-full h-24 bg-darker animate-pulse rounded-lg" />
+  );
+}

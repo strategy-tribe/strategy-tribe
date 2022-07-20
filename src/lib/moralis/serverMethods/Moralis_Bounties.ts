@@ -27,6 +27,7 @@ export const Moralis_useGetBounties = (
       specificityOfTitle,
       countries,
       page,
+      relatedTo,
     } = config;
 
     const query = new moralis.Query(BOUNTIES_TABLE);
@@ -95,6 +96,12 @@ export const Moralis_useGetBounties = (
         query.fullText('organizationName', orgName.toLocaleLowerCase().trim());
       }
     }
+
+    if (relatedTo && relatedTo.length > 0) {
+      console.log('relatedTo', relatedTo);
+      query.containedIn('organizationName', relatedTo);
+    }
+
     if (states) {
       let s = states;
       if (typeof states === 'string') {

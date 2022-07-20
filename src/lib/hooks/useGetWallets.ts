@@ -17,5 +17,5 @@ export const useGetWallets = (filters: WalletQueryParams, enabled = true) => {
     }
   );
 
-  return { wallets: data, error, isLoading };
+  return { wallets: data || [], error, isLoading };
 };

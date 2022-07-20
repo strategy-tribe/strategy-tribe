@@ -3,7 +3,6 @@ import { Button, ButtonStyle } from '@/components/utils/Button';
 import { useScrollToTop } from '@/hooks/useScrollTo';
 import { ArrayOfNumbers } from '@/utils/ArrayHelpers';
 import useWindowDimensions from '@/hooks/useWindowDimensions';
-import { useGetBounties } from '@/lib/hooks/bountyHooks';
 import { useExploreContext } from '../explore/ExploreContext';
 import { useUrlSearchParams } from '@/lib/hooks/useUrlSearchParams';
 

@@ -1,4 +1,4 @@
-import { BountyView } from '../../../lib/models/bounty/BountyPage';
+import { BountyView } from '@/models/bounty/BountyPage';
 import { useBountyContext } from './BountyContext';
 
 export function BountySideMap() {

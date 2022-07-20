@@ -59,7 +59,7 @@ function createBountiesForIndividual(target, countries) {
   const bountiesData = [
     {
       type: 'Email',
-      title: 'Find emails associated with ',
+      title: 'Find emails associated with',
       label: 'Email address',
       extra: true,
       extraLabel: 'Extra email addresses',
@@ -68,7 +68,7 @@ function createBountiesForIndividual(target, countries) {
     },
     {
       type: 'Wallet',
-      title: 'Find wallets associated with ',
+      title: 'Find wallets associated with',
       label: 'Wallet address',
       extra: true,
       extraLabel: 'Extra Wallet addresses',
@@ -77,7 +77,7 @@ function createBountiesForIndividual(target, countries) {
     },
     {
       type: 'Domain',
-      title: 'Find domains associated with ',
+      title: 'Find domains associated with',
       label: 'Domains',
       extra: true,
       extraLabel: 'Extra domains',

@@ -4,8 +4,8 @@ import { useGetOrganization } from '@/hooks/organizationHooks';
 import { useRouter } from 'next/router';
 import AppLayout from '@/components/layouts/AppLayout';
 import { NextPageWithLayout } from '@/pages/_app';
-import { Organization } from '@/components/pages/organization/Organization';
 import { MessageForUser } from '@/components/utils/MessageForUser';
+import { Organization } from '@/components/pages/organization/Organization';
 
 const OrganizationPage: NextPageWithLayout = () => {
   //*Router
@@ -34,6 +34,7 @@ const OrganizationPage: NextPageWithLayout = () => {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+
       <Organization org={org} />
     </>
   );
