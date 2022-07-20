@@ -1,5 +1,5 @@
 import { Bounty as BountyData } from '@/lib/models';
-import { Stat } from '../submission/Stat';
+import { Stat } from '../../utils/Stat';
 import { useBountyContext } from './BountyContext';
 
 export function BountyMoreDetails() {

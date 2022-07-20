@@ -7,7 +7,7 @@ import BountyStates from '../bounty/BountyStates';
 import { Bounty } from '@/lib/models/bounty';
 import { DonationPopUp } from '../../donations/DonationPopUp';
 import { Button, ButtonStyle } from '../../utils/Button';
-import { Stat } from '../submission/Stat';
+import { Stat } from '../../utils/Stat';
 import { useGetBounty } from '@/lib/hooks/bountyHooks';
 import { ReviewSections } from './Review';
 

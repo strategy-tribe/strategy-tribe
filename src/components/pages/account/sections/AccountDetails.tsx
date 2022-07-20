@@ -1,6 +1,6 @@
 import { GetDateInString } from '@/lib/utils/DateHelpers';
 import { useAuth } from 'auth/AuthContext';
-import { Stat } from '../../submission/Stat';
+import { Stat } from '../../../utils/Stat';
 
 export function AccountDetails() {
   const { userId, userInfo, isStaff } = useAuth();

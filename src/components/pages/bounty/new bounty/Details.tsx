@@ -6,7 +6,7 @@ import { useAuth } from 'auth/AuthContext';
 import { Bounty } from '@/lib/models/bounty';
 import { GetDateInString } from '@/utils/DateHelpers';
 import Icon from '@/components/utils/Icon';
-import { Stat } from '../../submission/Stat';
+import { Stat } from '../../../utils/Stat';
 
 export function Step4Details({
   showSubmissions,

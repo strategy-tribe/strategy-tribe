@@ -72,7 +72,7 @@ export function Button({ info }: { info: ButtonInformation }) {
       <Link href={isALink}>
         <a
           onClick={onClick}
-          className={` ${padding} ${font} ${others} ${colors} ${className} ${align} ${size}`}
+          className={`${className} ${padding} ${font} ${others} ${colors} ${align} ${size}`}
         >
           {innerContent}
         </a>

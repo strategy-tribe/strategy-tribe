@@ -3,7 +3,7 @@ import { Bounty } from '@/lib/models/bounty';
 import { GetWordCount } from '@/utils/StringHelpers';
 import { Requirement, RequirementType } from '@/lib/models/requirement';
 import { MessageForUser } from './MessageForUser';
-import { Stat } from '../pages/submission/Stat';
+import { Stat } from './Stat';
 import Icon from './Icon';
 
 export function BountyRequirementsShowcase({

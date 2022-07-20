@@ -5,7 +5,7 @@ import { useAuth } from 'auth/AuthContext';
 import { useState } from 'react';
 import { useGetOrganizationByName } from '@/lib/hooks/organizationHooks';
 import BountyStates from '@/components/pages/bounty/BountyStates';
-import { Stat } from '../submission/Stat';
+import { Stat } from '../../utils/Stat';
 import FromOrganization from '@/components/utils/FromOrganization';
 import { Section } from '../landing/Section';
 import Icon, { IconSize } from '@/components/utils/Icon';
