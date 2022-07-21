@@ -1,4 +1,4 @@
-import React, { useId } from 'react';
+import React from 'react';
 import { Bounty } from '@/lib/models';
 import { useUrlSearchParams } from '@/lib/hooks/useUrlSearchParams';
 
@@ -13,9 +13,9 @@ export function BountyCardTags({ bounty }: { bounty: Bounty }) {
   }
 
   return (
-    <div className="flex gap-4 pb-2">
-      <Tag tag={org} onClick={addOrgToFilters} />
+    <div className="flex gap-5 pb-2">
       <Tag tag={type} />
+      <Tag tag={org} onClick={addOrgToFilters} />
     </div>
   );
 }
@@ -26,7 +26,7 @@ function Tag({ tag, onClick }: { tag: string; onClick?: () => void }) {
       className="label-sm text-unactive text-left capitalize"
       onClick={onClick}
     >
-      {tag?.length > 14 ? `${tag.slice(0, 14)}...` : tag}
+      {tag?.length > 14 ? `${tag.slice(0, 28)}...` : tag}
     </button>
   );
 }

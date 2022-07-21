@@ -8,6 +8,9 @@ import { TargetType } from '@/lib/models/targetType';
 import { useAuth } from 'auth/AuthContext';
 import { useState } from 'react';
 import { SubscriptionEntry } from '../SubscriptionEntry';
+import { ScrollableTabs } from '@/components/utils/ScrollableTabs';
+
+import { AnimatePresence, motion } from 'framer-motion';
 
 export function AccountWatching() {
   const { userId, userInfo } = useAuth();
@@ -34,40 +37,53 @@ export function AccountWatching() {
 
   return (
     <div className="w-full space-y-8">
-      <nav className="flex gap-6 items-start">
-        {Object.entries(TargetType).map((pair) => {
-          let label = pair[0];
-          const value = pair[1];
-
-          if (value === 'Individual') {
-            label = 'Bounties';
-          }
-
-          return (
-            <button
-              onClick={() => setView(value)}
-              key={value}
-              className={`label-lg pb-2 ${
-                value === view ? 'border-b-4 border-purpleDark' : ''
-              }`}
-            >
-              {label}
-            </button>
-          );
-        })}
-      </nav>
+      <ScrollableTabs
+        options={{
+          Organizations: TargetType.Organization,
+          Bounties: TargetType.Individual,
+        }}
+        isActive={(curr) => curr === view}
+        setView={(s) => setView(s as TargetType)}
+      />
 
       <div className="space-y-6">
-        {!!watchingList?.length &&
-          watchingList.map((subscription, i) => {
-            return <SubscriptionEntry key={i} subscription={subscription} />;
-          })}
+        <div className="min-h-[15rem]">
+          {!watchingList?.length && (
+            <p className="text-disabled label">
+              You are not subscribed to any notifications for{' '}
+              {view === TargetType.Individual ? 'bounties' : 'organizations'}
+            </p>
+          )}
 
-        {!watchingList?.length && (
-          <p className="text-disabled label">
-            You are not subscribed to any push notifications
-          </p>
-        )}
+          <AnimatePresence>
+            {watchingList?.map((subscription, i) => {
+              return (
+                <motion.div
+                  key={subscription.name}
+                  initial={{ x: 100, opacity: 0 }}
+                  animate={{
+                    x: 0,
+                    opacity: 1,
+                    transition: {
+                      ease: 'easeOut',
+                      duration: 0.075,
+                    },
+                  }}
+                  exit={{
+                    x: 100,
+                    opacity: 0,
+                    transition: {
+                      ease: 'easeOut',
+                      duration: 0.075,
+                    },
+                  }}
+                >
+                  <SubscriptionEntry subscription={subscription} />
+                </motion.div>
+              );
+            })}
+          </AnimatePresence>
+        </div>
 
         <div className="pt-4 border-t-2 border-darker label space-y-4">
           <div className=" text-disabled flex gap-2 items-center">
@@ -75,12 +91,35 @@ export function AccountWatching() {
             We'll notify you of changes to organizations and bounties in your
             watching list
           </div>
-          {view === TargetType.Individual && (
-            <div className=" text-redLight flex gap-2 items-center">
-              <Icon icon="report" size={IconSize.Small} />
-              Subscriptions to bounties is in development
-            </div>
-          )}
+          <AnimatePresence>
+            {view === TargetType.Individual && (
+              <motion.div
+                className=" text-redLight flex gap-2 items-center"
+                initial={{ y: 5, opacity: 0 }}
+                animate={{
+                  y: 0,
+                  opacity: 1,
+                  transition: {
+                    ease: 'easeIn',
+                    duration: 0.3,
+                    delay: 0.075,
+                  },
+                }}
+                exit={{
+                  y: 5,
+                  opacity: 0,
+                  transition: {
+                    ease: 'easeIn',
+                    duration: 0.3,
+                    delay: 0.075,
+                  },
+                }}
+              >
+                <Icon icon="report" size={IconSize.Small} />
+                Subscriptions to bounties is in development
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </div>
     </div>

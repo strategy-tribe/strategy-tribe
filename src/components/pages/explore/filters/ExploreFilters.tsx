@@ -6,7 +6,6 @@ import { useExploreContext } from '../ExploreContext';
 import { kFormatter } from '@/lib/utils/NumberHelpers';
 import Icon, { IconSize } from '@/components/utils/Icon';
 import { Searchbar } from '../../search/Searchbar';
-import { Button, ButtonStyle } from '@/components/utils/Button';
 
 export function ExploreFilters() {
   const { query, setQuery } = useUrlSearchParams();
@@ -40,16 +39,6 @@ export function ExploreFilters() {
             events={{ onBlur: () => setShowSearchbar(false) }}
           />
         }
-
-        {/* {!showSearchbar && (
-          <Button
-            info={{
-              icon: 'search',
-              style: ButtonStyle.Text,
-              onClick: () => setShowSearchbar(true),
-            }}
-          />
-        )} */}
       </div>
 
       <div className="flex items-center justify-between gap-6">

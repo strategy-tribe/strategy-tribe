@@ -14,6 +14,13 @@ export function AccountSubmissions() {
 
   return (
     <div className="w-full space-y-6">
+      <div className="pb-4 border-b-1 border-dark">
+        <span className="body translate-x-0.5 text-unactive">
+          {submissions.length}{' '}
+          {submissions.length === 1 ? 'submission' : 'submissions'}
+        </span>
+      </div>
+
       {submissions?.map((s, i) => {
         return <SubmissionListEntry submission={s} key={i} />;
       })}

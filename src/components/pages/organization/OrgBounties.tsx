@@ -6,6 +6,7 @@ import { BountyCard, DummyBountyCard } from '../explore/bounty card/BountyCard';
 import { ArrayOfNumbers } from '@/lib/utils/ArrayHelpers';
 import { Button, ButtonStyle } from '@/components/utils/Button';
 import { GoToOrgBountiesPage } from '@/lib/utils/Routes';
+import { AboutTitle } from './utils/AboutTitle';
 
 const AMOUNT_OF_BOUNTIES = 9;
 
@@ -24,7 +25,7 @@ export function OrgBounties() {
 
   return (
     <div className="space-y-8">
-      <h2 className="title">Bounties</h2>
+      <AboutTitle text="Bounties" />
 
       <div className="grid grid-cols-3 gap-x-16 gap-y-10 -translate-x-1">
         {isLoading &&

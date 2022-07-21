@@ -1,6 +1,6 @@
 import { GoToAccountPage } from '@/lib/utils/Routes';
-import { AccountView } from '../../../lib/models/account/AccountView';
-import { useAccountUrl } from '../../../lib/models/account/useAccountUrl';
+import { AccountView } from '@/lib/models/account/AccountView';
+import { useAccountUrl } from '@/lib/models/account/useAccountUrl';
 
 export function AccountSideMap() {
   const { query, setQuery } = useAccountUrl();

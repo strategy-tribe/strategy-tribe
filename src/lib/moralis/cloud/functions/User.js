@@ -13,12 +13,16 @@ Moralis.Cloud.define('getUserInfo', async (request) => {
 
   //get subscriptions
   const subscribersQuery = new Moralis.Query(ORG_SUBS_TABLE);
+  subscribersQuery.contains('subs', userId);
+  const orgs = await subscribersQuery.find({ useMasterKey: true });
 
-  const allOrg = await subscribersQuery.find({ useMasterKey: true });
-
-  const orgSubscribedTo = allOrg
-    .filter((org) => org.get('subs').includes(userId))
-    .map((org) => org.get('name'));
+  const orgSubscribedTo = orgs.map((org) => {
+    return {
+      name: org.get('name'),
+      type: 'Organization',
+      id: org.get('orgId'),
+    };
+  });
 
   const { isAdmin, isStaff } = await GetUserRole(userId);
 
@@ -26,9 +30,9 @@ Moralis.Cloud.define('getUserInfo', async (request) => {
     userId: userId,
     mainWallet: user.get('ethAddress'),
     wallets: user.get('accounts'),
-    joined: user.get('createdAt'),
     email: user.get('email'),
-    subscribedTo: orgSubscribedTo,
+    joined: user.get('createdAt'),
+    watching: orgSubscribedTo,
     isAdmin,
     isStaff,
   };

@@ -1,5 +1,9 @@
 Moralis.Cloud.beforeSave(ORG_TABLE, async function (request) {
   const { object: organization } = request;
+});
+
+Moralis.Cloud.afterSave(ORG_TABLE, async function (request) {
+  const { object: organization } = request;
 
   //*check if the org has a subs table
   const name = organization.get('name');
@@ -9,6 +13,7 @@ Moralis.Cloud.beforeSave(ORG_TABLE, async function (request) {
     orgSubsRef = new Moralis.Object(ORG_SUBS_TABLE);
     orgSubsRef.set('name', name);
     orgSubsRef.set('subs', []);
+    orgSubsRef.set('orgId', organization.id);
 
     const acl = new Moralis.ACL();
     acl.setPublicWriteAccess(false);
@@ -23,10 +28,6 @@ Moralis.Cloud.beforeSave(ORG_TABLE, async function (request) {
     orgSubsRef.setACL(acl);
     await orgSubsRef.save(null, { useMasterKey: true });
   }
-});
-
-Moralis.Cloud.afterSave(ORG_TABLE, async function (request) {
-  const { object: organization } = request;
 
   //*check if the org has a wallet
   let wallet = organization.get('wallet');

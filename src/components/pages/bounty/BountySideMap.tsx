@@ -17,7 +17,9 @@ export function BountySideMap() {
         return (
           <button
             className={`${
-              value === view ? 'bg-darker text-white' : 'hover:bg-darker'
+              value === view
+                ? 'border-purpleDark text-white'
+                : 'border-black hover:bg-darker'
             } rounded text-left pr-8 p-4 label`}
             key={i}
             onClick={() => goToPage(value as BountyView)}

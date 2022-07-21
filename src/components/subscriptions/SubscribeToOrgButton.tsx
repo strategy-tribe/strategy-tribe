@@ -1,20 +1,56 @@
-import { Button, ButtonStyle } from '@/components/utils/Button';
+import {
+  Button,
+  ButtonInformation,
+  ButtonStyle,
+} from '@/components/utils/Button';
 import { useIsSubscribed, useSubscribe } from '@/hooks/subscriptionHooks';
-import { MoreInfo } from '@/components/utils/MoreInfo';
+import { useAuth } from 'auth/AuthContext';
+import { useNotification } from '../notifications/NotificationContext';
+import { DelayType, NotificationType } from '../notifications/iNotification';
 
 export function SubToOrgButton({
-  userId,
   orgName,
-  onClick,
-  useLabel = false,
-  containerClass,
+  button,
+  useLabel = true,
 }: {
-  onClick?: (undo: () => void) => void;
-  userId?: string;
-  orgName?: string;
+  orgName: string;
   useLabel?: boolean;
-  containerClass?: string;
+  button: (isLoading: boolean, isSubscribed: boolean) => ButtonInformation;
 }) {
+  const { notify, hide } = useNotification();
+
+  function ManageNotification(undo: () => void) {
+    const notification = {
+      title: 'Success',
+      content: (
+        <div className="flex flex-col">
+          <Button
+            info={{
+              label: 'Undo',
+              onClick: () => {
+                undo();
+                hide();
+              },
+              style: ButtonStyle.TextPurple,
+              removePadding: true,
+              removeMinWidth: true,
+              className: 'w-fit',
+            }}
+          />
+        </div>
+      ),
+    };
+    const config = {
+      condition: false,
+      delayTime: 5,
+      delayType: DelayType.Condition,
+      type: NotificationType.Pill,
+    };
+    notify(notification, config);
+  }
+
+  const { userId } = useAuth();
+
   const { isLoading: isLoadingSubscriptionState, isSubscribed } =
     useIsSubscribed(
       userId as string,
@@ -33,43 +69,29 @@ export function SubToOrgButton({
   function ManageClick() {
     if (isSubscribed) {
       unsubscribe();
-      if (onClick) onClick(subscribe);
+      ManageNotification(subscribe);
     } else {
       subscribe();
-      if (onClick) onClick(unsubscribe);
+      ManageNotification(unsubscribe);
     }
   }
 
+  const buttonConfig = button(isLoading, !!isSubscribed);
+
+  if (!buttonConfig.label) {
+    buttonConfig.label = isSubscribed ? 'Watching' : 'Watch';
+  }
+
   return (
-    <div className={`group relative ${containerClass}`}>
-      <Button
-        info={{
-          onClick: ManageClick,
-          style: ButtonStyle.Text,
-          iconClasses: isLoading ? 'animate-spin' : '',
-          removeMinWidth: true,
-          icon: isLoading
-            ? 'sync'
-            : isSubscribed
-            ? 'notifications_active'
-            : 'notifications',
-          disabled: isLoading,
-          label: useLabel
-            ? isSubscribed
-              ? 'Subscribed'
-              : 'Subscribe'
-            : undefined,
-          className: 'h-fit',
-        }}
-      />
-      <MoreInfo
-        content={
-          !isSubscribed
-            ? "You're not subscribed to updates on this organization. Subscribe to receive push notifications."
-            : "You're subscribed to updates on this organization. We will notify you of new bounties."
-        }
-        translate="-translate-x-20 translate-y-10 text-center"
-      />
-    </div>
+    <Button
+      info={{
+        ...buttonConfig,
+        onClick: ManageClick,
+        iconClasses: isLoading ? 'animate-spin' : '',
+        icon: isLoading ? 'sync' : 'visibility',
+        disabled: isLoading,
+        label: useLabel ? buttonConfig.label : undefined,
+      }}
+    />
   );
 }

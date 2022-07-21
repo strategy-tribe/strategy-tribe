@@ -15,7 +15,7 @@ export function OrganizationLink({
 
   return (
     <Link href={GoToOrgPage(organization?.id ? organization.id : '')}>
-      <a className={className}>{orgName}</a>
+      <a className={`${className} capitalize`}>{orgName}</a>
     </Link>
   );
 }

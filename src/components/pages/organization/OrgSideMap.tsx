@@ -9,7 +9,7 @@ export function OrgSideMap() {
   return (
     <aside className="w-[160px] flex flex-col gap-2 shrink-0">
       <button
-        className={`bg-darker text-white rounded text-left pr-8 p-4 label capitalize`}
+        className={`border-2 border-purpleDark text-white rounded text-left pr-8 p-4 label capitalize`}
       >
         {OrgView.About}
       </button>

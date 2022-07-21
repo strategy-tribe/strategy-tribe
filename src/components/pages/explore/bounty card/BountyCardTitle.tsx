@@ -1,6 +1,4 @@
 import React from 'react';
-import Link from 'next/link';
-import { GoToBountyPage } from '@/lib/utils/Routes';
 import { CapitalizeFirstLetter } from '@/lib/utils/StringHelpers';
 import { Bounty } from '@/lib/models';
 
@@ -12,9 +10,5 @@ export function BountyCardTitle({ bounty }: { bounty: Bounty }) {
     CapitalizeFirstLetter(organizationName)
   );
 
-  return (
-    <Link href={GoToBountyPage(id!)}>
-      <a className="title-xs">{parsedTitle}</a>
-    </Link>
-  );
+  return <h4 className="title-xs group-hover:text-white">{parsedTitle}</h4>;
 }
