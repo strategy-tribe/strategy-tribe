@@ -6,7 +6,7 @@ import { useSubmissionContext } from './SubmissionContext';
 export function SubmissionReview() {
   const { submission } = useSubmissionContext();
 
-  if (!submission.review) return <>qojweoreqwkorew</>;
+  if (!submission.review) return <></>;
 
   return (
     <div className="mx-auto max-w-5xl space-y-4">
