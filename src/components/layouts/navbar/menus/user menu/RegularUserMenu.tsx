@@ -1,9 +1,27 @@
 import { GoToAccountPage } from '@/lib/utils/Routes';
 import { Overlay } from '@/components/utils/Overlay';
-import { NavbarButton } from '../../NavbarButton';
 import { AccountView } from '@/lib/models/account/AccountView';
 import { LogOutButton } from './LogOutButton';
 import { MenuItem } from './MenuItem';
+import { UserButton } from './UserButton';
+
+export function cutWallet(address: string) {
+  const firstPart = address
+    .split('')
+    .filter((_, i) => i < 6)
+    .join()
+    .replaceAll(',', '');
+
+  const secondPart = address
+    .split('')
+    .filter((_, i) => i > address.split('').length - 5)
+    .join()
+    .replaceAll(',', '');
+
+  const wallet = `${firstPart}...${secondPart}`;
+
+  return wallet;
+}
 
 export function RegularUserMenu({
   shouldShow,
@@ -16,11 +34,11 @@ export function RegularUserMenu({
 }) {
   return (
     <div className="relative">
-      <NavbarButton icon="account_circle" onClick={show} />
+      <UserButton show={show} />
 
       {shouldShow && (
         <aside>
-          <div className="bg-darker text-text rounded-lg overflow-hidden body-sm flex flex-col z-50 absolute top-6 right-0">
+          <div className="bg-darker text-text rounded overflow-hidden body-sm flex flex-col z-50 absolute top-10 right-0">
             <MenuItem label="Account" url={GoToAccountPage()} onClick={hide} />
             <MenuItem
               label="Watching"

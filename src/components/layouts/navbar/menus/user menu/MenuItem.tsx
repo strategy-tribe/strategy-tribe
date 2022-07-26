@@ -12,7 +12,7 @@ export function MenuItem({
   return (
     <Link href={url} className="w-full h-full">
       <a
-        className="px-6 py-4 w-full text-left hover:bg-dark whitespace-nowrap"
+        className="py-4 w-full text-right hover:bg-dark whitespace-nowrap pl-8 pr-4"
         onClick={onClick}
       >
         {label}

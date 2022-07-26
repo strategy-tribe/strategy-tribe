@@ -51,7 +51,7 @@ export function Navbar({ hideBgOnScroll }: { hideBgOnScroll: boolean }) {
         <div
           className={`flex justify-between items-center max-w-7xl mx-auto ${padding}`}
         >
-          {/* right side */}
+          {/* left side */}
           <div className="flex gap-8 items-center">
             <LandingPageLink />
             <NavLink url={GoToBountiesPage()} label="Bounties" />
@@ -59,7 +59,7 @@ export function Navbar({ hideBgOnScroll }: { hideBgOnScroll: boolean }) {
             <NavLink url={GoToAboutusPage()} label="About" />
           </div>
 
-          {/* Left side */}
+          {/* right side */}
           <div className="flex items-center gap-6">
             <NavLink url={GoToFAQPage()} label="FAQ" />
             {/* <NavbarButton icon="search" onClick={() => alert('to do')} /> */}

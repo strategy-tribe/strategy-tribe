@@ -5,9 +5,9 @@ import {
   GoToWaitingForFunds,
 } from '@/lib/utils/Routes';
 import { Overlay } from '@/components/utils/Overlay';
-import { NavbarButton } from '../../NavbarButton';
 import { LogOutButton } from './LogOutButton';
 import { MenuItem } from './MenuItem';
+import { UserButton } from './UserButton';
 
 export function AdminUserMenu({
   shouldShow,
@@ -20,7 +20,7 @@ export function AdminUserMenu({
 }) {
   return (
     <div className="relative">
-      <NavbarButton icon="account_circle" onClick={show} />
+      <UserButton show={show} />
 
       {shouldShow && (
         <aside>

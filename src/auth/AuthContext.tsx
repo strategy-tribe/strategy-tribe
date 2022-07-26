@@ -3,6 +3,7 @@ import { useQuery } from 'react-query';
 import { useNotification } from '@/components/notifications/NotificationContext';
 import {
   DelayType,
+  NotificationStyle,
   NotificationType,
 } from '@/components/notifications/iNotification';
 import Link from 'next/link';
@@ -12,6 +13,8 @@ import {
   useServerContext,
 } from '@/lib/moralis/ServerContextProvider';
 import { GetDateInString } from '@/lib/utils/DateHelpers';
+
+import Moralis from 'moralis';
 
 interface AuthContextInterface {
   userId: string | undefined;
@@ -23,19 +26,11 @@ interface AuthContextInterface {
   isFetchingUserInfo: boolean;
   account: string | null;
   userInfo: UserInfo | undefined;
+  balance: string | undefined;
 }
 
-const AuthContext = createContext<AuthContextInterface>({
-  userId: undefined,
-  isAuthenticated: false,
-  LogIn: async () => {},
-  LogOut: () => {},
-  isStaff: false,
-  isAdmin: false,
-  isFetchingUserInfo: false,
-  account: null,
-  userInfo: undefined,
-});
+//@ts-ignore-line
+const AuthContext = createContext<AuthContextInterface>();
 
 const AuthContextProvider = ({
   children,
@@ -65,6 +60,17 @@ const AuthContextProvider = ({
 
   //notifications
   const { notify } = useNotification();
+
+  const { data: balance } = useQuery(
+    ['user balance', userInfo],
+    async () => {
+      if (!userInfo) return;
+      return await getWalletMaticBalance();
+    },
+    {
+      refetchOnWindowFocus: false,
+    }
+  );
 
   useEffect(() => {
     if (
@@ -105,6 +111,62 @@ const AuthContextProvider = ({
     }
   }, [isAuthenticated]);
 
+  async function getWalletMaticBalance() {
+    if (!userId || !userInfo) {
+      return;
+    }
+
+    // @ts-ignore`;
+    const { ethereum } = window;
+
+    if (!ethereum) {
+      // throw new Error("We could't connect to your wallet");
+      notify(
+        {
+          title: "We could't connect to your wallet",
+          content: 'Please install MetaMask',
+          icon: 'warning',
+          style: NotificationStyle.error,
+        },
+        {
+          condition: false,
+          delayTime: 5,
+          type: NotificationType.Banner,
+          delayType: DelayType.Time,
+        }
+      );
+      return;
+    }
+
+    if (!isAuthenticated || !userInfo?.mainWallet || !ethereum) return;
+
+    try {
+      const ethers = Moralis.web3Library;
+
+      const provider = new ethers.providers.Web3Provider(ethereum);
+      const balance = await provider.getBalance(userInfo.mainWallet);
+      const balanceInEth = ethers.utils.formatEther(balance);
+      return balanceInEth;
+    } catch (error) {
+      console.error('error', error);
+      notify(
+        {
+          title: "We could't connect to your wallet",
+          content: `Reason: ${error}`,
+          icon: 'warning',
+          style: NotificationStyle.error,
+        },
+        {
+          condition: false,
+          delayTime: 5,
+          type: NotificationType.Banner,
+          delayType: DelayType.Time,
+        }
+      );
+      return;
+    }
+  }
+
   return (
     <AuthContext.Provider
       value={{
@@ -117,6 +179,7 @@ const AuthContextProvider = ({
         account,
         userInfo,
         isFetchingUserInfo,
+        balance,
       }}
     >
       {children}
