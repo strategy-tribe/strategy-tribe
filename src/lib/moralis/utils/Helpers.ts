@@ -2,9 +2,12 @@ import { Organization } from '@/lib/models/organizations/organization';
 import { Bounty } from '@/lib/models/bounty';
 import { Submission } from '@/lib/models/submission';
 import Moralis from 'moralis/types';
+import { Review } from '@/lib/models/Review';
 
 export function CastSubmission(subRef: Moralis.Object<Moralis.Attributes>) {
   const data = subRef.attributes;
+  const review = subRef.get('review').attributes as Review;
+
   const sub: Submission = {
     id: subRef.id,
     createdAt: subRef.createdAt,
@@ -12,6 +15,7 @@ export function CastSubmission(subRef: Moralis.Object<Moralis.Attributes>) {
     state: data['state'],
     bountyId: data['bountyId'],
     answers: data['content'],
+    review,
   };
 
   return sub;

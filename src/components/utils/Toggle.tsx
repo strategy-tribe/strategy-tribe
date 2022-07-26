@@ -16,7 +16,11 @@ export default function Toggle({
   setValue: (s: boolean) => void;
 }) {
   return (
-    <div className={`flex items-center ${usePadding && 'pt-4'}`}>
+    <div
+      className={`flex items-center ${
+        usePadding && 'pt-4'
+      } w-full justify-between`}
+    >
       <label htmlFor="required" className={`label-lg min-w-[7rem] ${size}`}>
         {value ? whenOn : whenOff}
       </label>

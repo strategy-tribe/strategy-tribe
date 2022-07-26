@@ -1,5 +1,4 @@
-import { Button, ButtonStyle } from '@/components/utils/Button';
-import { GoToReviewSubmissionPage } from '@/lib/utils/Routes';
+import { RenderMarkdown } from '@/components/utils/RenderMarkdown';
 import React from 'react';
 import { useSubmissionContext } from './SubmissionContext';
 
@@ -12,9 +11,9 @@ export function SubmissionReview() {
     <div className="mx-auto max-w-5xl space-y-4">
       <h2 className="title-sm text-white">Review</h2>
 
-      <p className="whitespace-pre-wrap body">
-        {submission.review.reviewerComment}
-      </p>
+      {!!submission.review.reviewerComment && (
+        <RenderMarkdown text={submission.review.reviewerComment} />
+      )}
     </div>
   );
 }

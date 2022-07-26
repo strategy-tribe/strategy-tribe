@@ -16,6 +16,7 @@ import { ImportantMessage } from '@/components/utils/Warning';
 import { Title } from '@/components/utils/Title';
 ('@/components/utils/Title');
 import { RadioInput } from '@/components/utils/RadioInput';
+import { Button, ButtonStyle } from '@/components/utils/Button';
 
 export default function Evaluate({ submissionId }: { submissionId: string }) {
   const [meetsRequirements, setGood] = useState<string | undefined>(undefined);
@@ -97,35 +98,41 @@ export default function Evaluate({ submissionId }: { submissionId: string }) {
 
       {canSubmit && user && submission && (
         <SubmitReviewButton
-          reviewer={user}
           submission={submission}
-          meetsRequirements={
-            (meetsRequirements as string) === 'Yes' ? true : false
-          }
+          review={{
+            feedback: '',
+            meetsRequirements:
+              (meetsRequirements as string) === 'Yes' ? true : false,
+            reviewer: user,
+          }}
         />
       )}
     </div>
   );
 }
 
-function SubmitReviewButton({
-  meetsRequirements,
-  reviewer,
+export function SubmitReviewButton({
   submission,
+  review,
 }: {
-  reviewer: string;
   submission: Submission;
-  meetsRequirements: boolean;
+  review: {
+    meetsRequirements: boolean;
+    reviewer: string;
+    feedback: string;
+  };
 }) {
   const router = useRouter();
 
   const { notify } = useNotification();
 
   const { SubmitReview } = useSubmitReview(
-    meetsRequirements ? SubmissionState.Accepted : SubmissionState.Rejected,
+    review.meetsRequirements
+      ? SubmissionState.Accepted
+      : SubmissionState.Rejected,
     submission,
-    reviewer,
-    undefined, //TODO: reviewer message
+    review.reviewer,
+    review.feedback,
     () => {
       router.push(GoToBountiesPage());
       notify({
@@ -143,12 +150,14 @@ function SubmitReviewButton({
     }
   );
   return (
-    <button
-      className="text-purpleLight border-2 border-purpleDark py-3 px-6 text-base rounded-full flex space-x-2 disabled:hidden"
-      onClick={() => SubmitReview()}
-    >
-      <Icon icon="publish" />
-      <span className="font-medium font-grotesk ">Submit Review</span>
-    </button>
+    <Button
+      info={{
+        icon: 'publish',
+        style: ButtonStyle.Filled,
+        onClick: SubmitReview,
+        label: 'Submit review',
+        disabled: !review.meetsRequirements,
+      }}
+    />
   );
 }

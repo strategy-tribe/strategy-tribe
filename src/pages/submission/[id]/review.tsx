@@ -5,16 +5,20 @@ import Head from 'next/head';
 import { NextPageWithLayout } from '@/pages/_app';
 import AppLayout from '@/components/layouts/AppLayout';
 import { useGetSubmission } from '@/lib/hooks/submissionHooks';
-import ProtectedLayout from '@/components/layouts/ProtectedLayout';
+import { GoToBountiesPage } from '@/lib/utils/Routes';
 
 const ReviewPage: NextPageWithLayout = () => {
   const router = useRouter();
   const { id: submissionId } = router.query;
 
-  const { submission } = useGetSubmission(
+  const { submission, error } = useGetSubmission(
     submissionId as string,
     !!(submissionId as string)
   );
+
+  if (error) {
+    router.push(GoToBountiesPage());
+  }
 
   return (
     <>
@@ -35,9 +39,5 @@ const ReviewPage: NextPageWithLayout = () => {
 
 export default ReviewPage;
 ReviewPage.getLayout = function getLayout(page) {
-  return (
-    <ProtectedLayout>
-      <AppLayout>{page}</AppLayout>
-    </ProtectedLayout>
-  );
+  return <AppLayout>{page}</AppLayout>;
 };

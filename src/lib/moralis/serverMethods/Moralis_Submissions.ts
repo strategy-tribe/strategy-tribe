@@ -67,6 +67,7 @@ export const Molaris_useSaveSubmission = (
 export const Moralis_useGetSubmission = (submissionId: string) => {
   const find = async () => {
     const q = new Moralis.Query(SUBMISSION_TABLE);
+    q.include('review');
     q.equalTo('objectId', submissionId);
     const response = await q.find();
 

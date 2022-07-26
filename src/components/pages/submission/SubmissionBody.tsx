@@ -6,7 +6,6 @@ import { SubmissionContent } from './SubmissionContent';
 import { SubmissionReview } from './SubmissionReview';
 
 export function SubmissionBody() {
-  const { submission } = useSubmissionContext();
   return (
     <div className="space-y-8">
       <SubmissionDetails />

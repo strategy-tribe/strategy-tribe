@@ -8,6 +8,7 @@ import { MessageForUser } from '@/components/utils/MessageForUser';
 import { useGetSubmission } from '@/lib/hooks/submissionHooks';
 import Loading from '@/components/utils/Loading';
 import { useBanRegularUsers } from '@/lib/hooks/useBanRegularUsers';
+import { GoTo404Page, GoToBountiesPage } from '@/lib/utils/Routes';
 
 const SubmissionPage: NextPageWithLayout = () => {
   const router = useRouter();
@@ -18,7 +19,9 @@ const SubmissionPage: NextPageWithLayout = () => {
     !!(submissionId as string)
   );
 
-  useBanRegularUsers({ include: submission?.owner });
+  if (error) {
+    router.push(GoTo404Page());
+  }
 
   return (
     <>

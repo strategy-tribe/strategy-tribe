@@ -6,12 +6,12 @@ import { GoTo404Page } from '../utils/Routes';
 
 type UserID = string;
 
-export const useBanRegularUsers = (options?: { include?: UserID }) => {
+export const useBanRegularUsers = (options?: { allowedUsers?: UserID[] }) => {
   const router = useRouter();
   const { isStaff, isAdmin, isFetchingUserInfo, userInfo } = useAuth();
 
-  const isExceptionUser = options?.include
-    ? userInfo?.userId === options?.include
+  const isExceptionUser = options?.allowedUsers
+    ? options?.allowedUsers?.find((id) => id === userInfo?.userId)
     : false;
 
   const hasPermissions = isAdmin || isStaff || isExceptionUser;

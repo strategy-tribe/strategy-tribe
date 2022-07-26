@@ -10,7 +10,7 @@ import { ReactElement, ReactNode, useState } from 'react';
 import MoralisContext from '@/lib/moralis/MoralisContext';
 
 export type NextPageWithLayout<T = {}> = NextPage<T> & {
-  getLayout?: (page: ReactElement) => ReactNode;
+  getLayout?: (page: ReactElement, pageProps?: any) => ReactNode;
 };
 
 type AppPropsWithLayout = AppProps & {
@@ -38,7 +38,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
             <MoralisContext>
               <AuthContextProvider>
                 <PushNotifsContextProvider appId={onesignal_appId as string}>
-                  {getLayout(<Component {...pageProps} />)}
+                  {getLayout(<Component {...pageProps} />, pageProps)}
                 </PushNotifsContextProvider>
               </AuthContextProvider>
             </MoralisContext>
