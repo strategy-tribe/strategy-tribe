@@ -1,0 +1,10 @@
+{
+  "extends": ["next", "next/core-web-vitals", "eslint:recommended"],
+  "ignorePatterns": ["src/lib/moralis/cloud/*/*.js", "index.d.ts", "regexs.ts"],
+  "globals": {
+    "React": "readonly"
+  },
+  "rules": {
+    "no-unused-vars": [0, { "args": "after-used", "argsIgnorePattern": "^_" }]
+  }
+}
