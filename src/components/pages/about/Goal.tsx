@@ -4,9 +4,11 @@ export function Goal() {
       <div className="space-y-6">
         {/* Title */}
         <div>
-          <h2 className="text-3xl font-inter font-bold text-white">Our goal</h2>
+          <h2 className="text-3xl font-inter font-bold text-on-surface-p0">
+            Our goal
+          </h2>
           <span
-            className={`bg-purpleDark h-1 inline-block -translate-y-2 w-16`}
+            className={`bg-main h-1 inline-block -translate-y-2 w-16`}
           ></span>
         </div>
         {/* Content */}

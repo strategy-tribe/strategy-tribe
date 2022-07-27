@@ -87,7 +87,7 @@ export function DonationPopUp({
           >
             <div
               className="z-50 min-w-[20rem] max-w-lg mx-auto absolute top-[50%] left-[50%] translate-y-[-50%] translate-x-[-50%]
-              bg-black border-purpleDark text-text border-2 rounded-lg
+              bg-bg border-main text-on-surface-p1 border-2 rounded-lg
               px-4 pt-6 pb-8
               space-y-6
           "
@@ -110,11 +110,11 @@ export function DonationPopUp({
                       setAmount(value);
                       setTyped(true);
                     }}
-                    className="bg-black border-0 border-b-2 border-dark focus:ring-0 focus:border-purpleDark pl-1"
+                    className="bg-bg border-0 border-b-2 border-surface focus:ring-0 focus:border-main pl-1"
                   />
                 </label>
                 {!canSubmit && typed && (
-                  <p className="label text-redLight">
+                  <p className="label text-error-light">
                     The donation must be greater than 0
                   </p>
                 )}

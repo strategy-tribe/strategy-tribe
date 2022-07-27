@@ -9,7 +9,7 @@ export function NavbarButton({
 }) {
   return (
     <button
-      className="grid place-items-center rounded-full p-1 hover:bg-dark"
+      className="grid place-items-center rounded-full p-1 hover:bg-surface"
       onClick={onClick}
     >
       <Icon icon={icon} size={IconSize.Small} />

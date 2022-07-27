@@ -23,7 +23,7 @@ export function Overlay({
       onClick={hide}
       className={`${
         showOverlay || 'hidden'
-      } ${responsiveClasses} ${zIndex} fixed inset-0 bg-black ${opacity}`}
+      } ${responsiveClasses} ${zIndex} fixed inset-0 bg-bg ${opacity}`}
     />
   );
 }

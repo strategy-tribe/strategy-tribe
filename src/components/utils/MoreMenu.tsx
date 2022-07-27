@@ -40,24 +40,27 @@ export function MoreMenu({ bountyId }: { bountyId: string }) {
 
   return (
     <div className="relative flex gap-1 items-center justify-end">
-      <button className="hover:text-white" onClick={() => setIsOpen(!isOpen)}>
+      <button
+        className="hover:text-on-surface-p0"
+        onClick={() => setIsOpen(!isOpen)}
+      >
         <Icon icon="more_vert" />
       </button>
       <AnimatePresence>
         {isOpen && (
           <motion.div
             key={`more menu for ${bountyId}`}
-            className="z-50 absolute top-0 bg-dark text-text py-4 pl-4 pr-6 translate-y-8 -translate-x-2 rounded-md flex flex-col items-start gap-6"
+            className="z-50 absolute top-0 bg-surface text-on-surface-p1 py-4 pl-4 pr-6 translate-y-8 -translate-x-2 rounded-md flex flex-col items-start gap-6"
           >
             <button
-              className="flex gap-2 items-center w-full hover:text-white"
+              className="flex gap-2 items-center w-full hover:text-on-surface-p0"
               onClick={ManageShare}
             >
               <Icon icon="reply" displayClasses="scale-x-[-1]" />
               <span className="font-semibold">Share</span>
             </button>
             <button
-              className="flex gap-2 items-center w-full hover:text-white"
+              className="flex gap-2 items-center w-full hover:text-on-surface-p0"
               onClick={ManageSubscribe}
             >
               <Icon icon="notifications" />

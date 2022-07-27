@@ -82,8 +82,8 @@ export function PageControls() {
           return (
             <button
               key={i}
-              className={`label p-2 bg-black border-b-2  hover:bg-dark rounded-sm disabled:hover:bg-black disabled:cursor-default cursor-pointer ${
-                isTheCurrentPage ? 'border-purpleDark' : 'border-black'
+              className={`label p-2 bg-bg border-b-2  hover:bg-surface rounded-sm disabled:hover:bg-bg disabled:cursor-default cursor-pointer ${
+                isTheCurrentPage ? 'border-main' : 'border-bg'
               }`}
               onClick={() => RunAndMoveToTop(() => goToPage(page))}
               disabled={isTheCurrentPage}

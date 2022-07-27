@@ -8,7 +8,7 @@ export function FAQuestion({
 }: {
   height?: string;
   question: string;
-  answer: string | JSX.Element;
+  answer: string | React.ReactNode;
 }) {
   const [expanded, setExpanded] = useState(false);
   const expandedHeight =
@@ -22,7 +22,7 @@ export function FAQuestion({
       className={`transition-all ease-out ${expanded ? expandedHeight : 'h-6'}`}
     >
       <div
-        className="flex gap-2 items-center w-full text-white cursor-pointer group"
+        className="flex gap-2 items-center w-full text-on-surface-p0 cursor-pointer group"
         onClick={() => setExpanded(!expanded)}
       >
         <Icon

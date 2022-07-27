@@ -20,7 +20,7 @@ export const SetBountyTitle = ({
 
         <ReactTextareaAutosize
           placeholder="Type here"
-          className="bg-black text-text border-0 w-full font-inter  focus:ring-0 first-letter:capitalize whitespace-pre-wrap"
+          className="bg-bg text-on-surface-p1 border-0 w-full font-inter  focus:ring-0 first-letter:capitalize whitespace-pre-wrap"
           onChange={(e) => setTitle(e.target.value)}
           value={title}
         />

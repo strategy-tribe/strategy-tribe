@@ -7,7 +7,7 @@ import { UserAnswer } from './UserAnswer';
 
 export function ReviewMap({ submission }: { submission: SubmissionData }) {
   return (
-    <aside className="max-w-sm sticky top-24 left-0 min-h-screen bg-darker space-y-8 p-8">
+    <aside className="max-w-sm sticky top-24 left-0 min-h-screen bg-surface-dark space-y-8 p-8">
       <Button
         info={{
           style: ButtonStyle.Text,
@@ -40,7 +40,7 @@ export function ReviewMap({ submission }: { submission: SubmissionData }) {
         {submission.answers
           .filter((a) => a.answer && a.answer.length > 0)
           .map((answer, i) => {
-            return <UserAnswer answer={answer} num={i + 1} />;
+            return <UserAnswer key={i} answer={answer} num={i + 1} />;
           })}
       </div>
     </aside>

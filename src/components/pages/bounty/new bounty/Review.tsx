@@ -22,7 +22,7 @@ export const Review = ({ target, title, requirements, date }: iStep4) => {
   const { userId } = useAuth();
 
   return (
-    <div className="space-y-8 text-text max-w-6xl">
+    <div className="space-y-8 text-on-surface-p1 max-w-6xl">
       <div className="-mb-4">
         <Title title="Review before publishing" />
       </div>

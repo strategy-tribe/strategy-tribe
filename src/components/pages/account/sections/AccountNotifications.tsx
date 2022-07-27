@@ -5,14 +5,11 @@ import { useAuth } from 'auth/AuthContext';
 export function AccountNotifications() {
   const { userId } = useAuth();
 
-  const { notifications, isLoading } = useGetUserServerNotifications(
-    userId as string,
-    {
-      amount: undefined,
-      onlyUnread: false,
-      enabled: !!(userId as string),
-    }
-  );
+  const { notifications } = useGetUserServerNotifications(userId as string, {
+    amount: undefined,
+    onlyUnread: true,
+    enabled: !!(userId as string),
+  });
 
   return (
     <div className="w-full h-fit space-y-4">
@@ -29,8 +26,8 @@ export function AccountNotifications() {
         })}
 
       {(notifications?.length ?? 1) === 0 && (
-        <div className="pb-4 border-b-1 border-dark">
-          <span className="body translate-x-0.5 text-unactive">
+        <div className="pb-4 border-b-1 border-surface">
+          <span className="body-sm translate-x-0.5 text-on-surface-unactive">
             You have no notifications
           </span>
         </div>

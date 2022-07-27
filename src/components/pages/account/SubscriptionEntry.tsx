@@ -18,7 +18,7 @@ export function SubscriptionEntry({
         <>
           <OrganizationLink
             orgName={subscription.name}
-            className="text-text body w-fit hover:underline"
+            className="text-on-surface-p1 body w-fit hover:underline"
           />
 
           <SubToOrgButton
@@ -35,7 +35,7 @@ export function SubscriptionEntry({
       {subscription.type === TargetType.Individual && (
         <BountyLink
           bountyId={subscription.id}
-          className="text-text body w-fit hover:underline"
+          className="text-on-surface-p1 body w-fit hover:underline"
         />
       )}
     </div>

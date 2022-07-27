@@ -28,15 +28,18 @@ export const SetRequirements = ({
                 <RequirementInput num={index} requirement={r} />
                 {requirements.length >= 2 && (
                   <button
-                    className="rounded-full h-10 w-10 grow-0 shrink-0 grid place-items-center bg-dark relative group"
+                    className="rounded-full h-10 w-10 grow-0 shrink-0 grid place-items-center bg-surface relative group"
                     onClick={() => {
                       setRequirements(
                         requirements.filter((f, j) => j !== index)
                       );
                     }}
-                    disabled={requirements.length < 2}
+                    on-surface-disabled={requirements.length < 2}
                   >
-                    <Icon icon="remove" className="group-hover:text-white" />
+                    <Icon
+                      icon="remove"
+                      className="group-hover:text-on-surface-p0"
+                    />
 
                     <p className="absolute translate-x-24 opacity-0 group-hover:opacity-100 label min-w-[10rem]">
                       Delete requirement
@@ -44,14 +47,14 @@ export const SetRequirements = ({
                   </button>
                 )}
               </div>
-              <hr className="w-full text-dark" />
+              <hr className="w-full text-surface" />
             </div>
           );
         })}
       </div>
 
       <button
-        className="flex items-center gap-4 text-purpleLight group "
+        className="flex items-center gap-4 text-main-light group "
         onClick={() => {
           setRequirements([
             ...requirements,
@@ -81,12 +84,12 @@ function RequirementInput({
     requirement.title = title;
     requirement.type = type;
     requirement.optional = optional;
-  }, [title, type, optional]);
+  }, [title, type, optional, requirement]);
 
   return (
     <div className="space-y-4 min-w-[40rem]">
       {/* Requirement num */}
-      <h2 className="font-grotesk font-semibold text-white">
+      <h2 className="font-grotesk font-semibold text-on-surface-p0">
         Condition #{num + 1}
       </h2>
 
@@ -98,16 +101,16 @@ function RequirementInput({
         >
           <Icon
             icon="close"
-            className={`text-redLight ${!!title && 'invisible'}`}
+            className={`text-error-light ${!!title && 'invisible'}`}
           />
-          <span className={`${!title && 'text-redLight'}`}>Label</span>
+          <span className={`${!title && 'text-error-light'}`}>Label</span>
         </label>
         <input
           type="text"
           name="label"
           id="label"
           placeholder="Wallet address, email address, url..."
-          className="border-0 p-0 pb-2 pt-2 border-b-2 border-disabled focus:border-purpleDark   bg-black placeholder:text-disabled text-white ring-0 w-full focus:ring-0  transition-all pr-0 first-letter:capitalize"
+          className="border-0 p-0 pb-2 pt-2 border-b-2 border-on-surface-disabled focus:border-main   bg-bg placeholder:text-on-surface-disabled text-on-surface-p0 ring-0 w-full focus:ring-0  transition-all pr-0 first-letter:capitalize"
           value={title}
           onChange={(e) => {
             const value = e.target.value;
@@ -124,7 +127,7 @@ function RequirementInput({
         <select
           name="type"
           id="type"
-          className="bg-black border-0 p-0 pb-2 pt-2 border-b-2 border-disabled focus:ring-0 focus:border-purpleDark shrink-0 grow-0 min-w-[14rem]"
+          className="bg-bg border-0 p-0 pb-2 pt-2 border-b-2 border-on-surface-disabled focus:ring-0 focus:border-main shrink-0 grow-0 min-w-[14rem]"
           value={type}
           onChange={(e) => {
             const value = e.target.value as RequirementType;
@@ -160,7 +163,7 @@ function RequirementInput({
           onChange={() => {
             if (num !== 0) setOptional(!optional);
           }}
-          disabled={num === 0}
+          on-surface-disabled={num === 0}
           checked={num === 0 ? false : !optional}
           onColor="#A29BFE"
           onHandleColor="#6C5CE7"
@@ -174,7 +177,7 @@ function RequirementInput({
         />
 
         {num === 0 && (
-          <p className="label text-unactive">
+          <p className="label text-on-surface-unactive">
             Bounties must have at least one required deliverable.
           </p>
         )}

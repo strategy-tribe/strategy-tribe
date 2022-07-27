@@ -6,7 +6,7 @@ import React from 'react';
 
 export function OrganizationLink({
   orgName,
-  className = 'text-purpleLight font-medium w-fit hover:underline',
+  className = 'text-main-light font-medium w-fit hover:underline',
 }: {
   orgName: string;
   className?: string;
@@ -22,7 +22,7 @@ export function OrganizationLink({
 
 export function BountyLink({
   bountyId: bountyId,
-  className = 'text-purpleLight font-medium w-fit hover:underline',
+  className = 'text-main-light font-medium w-fit hover:underline',
 }: {
   bountyId: string;
   className?: string;

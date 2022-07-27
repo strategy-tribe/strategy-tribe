@@ -13,12 +13,12 @@ export default function BountyStates({ bounty }: { bounty: Bounty }) {
     switch (bounty.state) {
       case BountyState.Open:
         return 'All findings being submitted will be taken into consideration until one matches the requirements.';
-        break;
+
       case BountyState.Closed:
         return 'The bounty has closed and is not accepting any submissions.';
-        break;
+
       case BountyState.PaymentNeeded:
-        return "The bounty's requirements have been fulfilled by a submission and it is currently trasnfering the rewards.";
+        return "The bounty's requirements have been fulfilled by a submission and it is currently transfering the rewards.";
 
       default:
         return 'The bounty will receive funds shortly.';
@@ -35,18 +35,7 @@ export default function BountyStates({ bounty }: { bounty: Bounty }) {
   };
 
   return (
-    <div className="flex gap-6 text-unactive">
-      {/* Funds
-      <div className="bg-purpleDark text-white w-fit rounded-sm p-2 hover:bg-purpleLight hover:text-black cursor-pointer">
-        <a
-          href={ETHERSCAN_LINK + bounty.wallet}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="font-medium"
-        >
-          {bounty.funds} MATIC
-        </a>
-      </div> */}
+    <div className="flex gap-6 text-on-surface-unactive">
       <div className="flex gap-1 items-center  relative group cursor-default">
         <Icon icon={calculateIcon()} />
         <span>{bounty.state}</span>

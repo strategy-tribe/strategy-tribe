@@ -40,10 +40,10 @@ export function Step4Details({
         <div
           className={`${
             isScrollingUp ? 'top-20' : 'top-4 laptop:top-20'
-          }             sticky transition-all ease-in-out duration-500  bg-black z-10 border-2 border-purpleDark text-text rounded-xl px-4 py-6 text-sm font-medium space-y-6 flex flex-col max-w-lg`}
+          }             sticky transition-all ease-in-out duration-500  bg-bg z-10 border-2 border-main text-on-surface-p1 rounded-xl px-4 py-6 text-sm font-medium space-y-6 flex flex-col max-w-lg`}
         >
           <h1 className="text-3xl font-bold font-grotesk">{bounty?.title}</h1>
-          <div className="bg-purpleDark text-white w-fit rounded-sm p-2 ">
+          <div className="bg-main text-on-surface-p0 w-fit rounded-sm p-2 ">
             <span className="font-medium">{bounty.funds} MATIC</span>
           </div>
           <div className="flex gap-x-4 laptop:gap-x-8 gap-y-2 flex-wrap">
@@ -70,7 +70,7 @@ export function Step4Details({
               <div className="flex items-center gap-6">
                 {/* Show less */}
                 <button
-                  className={`-translate-x-2 flex items-center space-x-2 bg-black text-purpleLight group  shrink-0`}
+                  className={`-translate-x-2 flex items-center space-x-2 bg-bg text-main-light group  shrink-0`}
                   onClick={() => {
                     scrollToTop();
                     setTimeout(() => {
@@ -86,7 +86,7 @@ export function Step4Details({
 
                 {/* Go to submissions in phone */}
                 <button
-                  className={`-translate-x-2 flex items-center space-x-2 bg-black text-purpleLight group laptop:hidden shrink-0`}
+                  className={`-translate-x-2 flex items-center space-x-2 bg-bg text-main-light group laptop:hidden shrink-0`}
                   onClick={() => {
                     if (showSubmissions) {
                       showSubmissions();
@@ -103,7 +103,7 @@ export function Step4Details({
 
                 {/* Go to submissions in desktop */}
                 <button
-                  className={`-translate-x-2 items-center space-x-2 bg-black text-purpleLight group hidden laptop:flex`}
+                  className={`-translate-x-2 items-center space-x-2 bg-bg text-main-light group hidden laptop:flex`}
                   onClick={() => {
                     scrollToTop();
                   }}
@@ -128,7 +128,7 @@ export function Step4Details({
 
             <Stat
               title="More details"
-              content={!!bounty.description ? bounty.description : 'None'}
+              content={bounty.description ? bounty.description : 'None'}
             />
           </div>
 

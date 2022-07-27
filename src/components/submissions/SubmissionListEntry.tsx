@@ -15,7 +15,9 @@ export function SubmissionListEntry({
   const { bounty, isLoading } = useGetBounty(submission.bountyId);
 
   if (isLoading || !bounty)
-    return <div className="w-full bg-darker animate-pulse h-16 rounded"></div>;
+    return (
+      <div className="w-full bg-surface-dark animate-pulse h-16 rounded"></div>
+    );
 
   return (
     <button
@@ -27,7 +29,10 @@ export function SubmissionListEntry({
         <div className="flex gap-2">
           {bounty.tags?.map((tag) => {
             return (
-              <span className="label-sm text-unactive capitalize" key={tag}>
+              <span
+                className="label-sm text-on-surface-unactive capitalize"
+                key={tag}
+              >
                 {tag}
               </span>
             );
@@ -38,11 +43,13 @@ export function SubmissionListEntry({
           {bounty.title}
         </h5>
 
-        <div className="bg-darker px-4 py-2 rounded absolute left-0 top-0 group-hover:visible invisible pointer-events-none group-hover:pointer-events-auto translate-x-12 -translate-y-8">
+        <div className="bg-surface-dark px-4 py-2 rounded absolute left-0 top-0 group-hover:visible invisible pointer-events-none group-hover:pointer-events-auto translate-x-12 -translate-y-8">
           Go to submission
         </div>
 
-        <p className="text-unactive">{submission.answers.at(0)?.answer}...</p>
+        <p className="text-on-surface-unactive">
+          {submission.answers.at(0)?.answer}...
+        </p>
       </div>
 
       <div className="place-self-center">
@@ -51,7 +58,7 @@ export function SubmissionListEntry({
 
       <div className="flex flex-col items-end">
         <span className="title">{bounty.funds} MATIC</span>
-        <span className="text-unactive label-sm pt-1">
+        <span className="text-on-surface-unactive label-sm pt-1">
           {GetDateInString(submission.createdAt)} ago
         </span>
       </div>

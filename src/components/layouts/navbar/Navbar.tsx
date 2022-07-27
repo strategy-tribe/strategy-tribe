@@ -16,7 +16,7 @@ import useScrollPosition from '@/lib/hooks/useScrollPosition';
 export function Navbar({ hideBgOnScroll }: { hideBgOnScroll: boolean }) {
   const [navbarBackground, setNavbarBackground] = useState(!hideBgOnScroll);
 
-  const {} = useScrollPosition(
+  useScrollPosition(
     300,
     () => setNavbarBackground(!hideBgOnScroll || true),
     () => setNavbarBackground(!hideBgOnScroll || false)
@@ -34,19 +34,19 @@ export function Navbar({ hideBgOnScroll }: { hideBgOnScroll: boolean }) {
 
   const { userId, LogIn, isStaff, isAdmin } = useAuth();
 
-  const padding = !!userId ? 'py-3' : 'py-1';
+  const padding = userId ? 'py-3' : 'py-1';
 
   const borderColor = isAdmin
-    ? 'border-greenDark'
+    ? 'border-success'
     : isStaff
-    ? 'border-purpleDark'
-    : 'border-dark';
+    ? 'border-main'
+    : 'border-surface';
   return (
     <>
       <nav
-        className={`fixed top-0 text-text ${borderColor} w-screen z-40 transition-colors duration-1000 ${
+        className={`fixed top-0 text-on-surface-p1 ${borderColor} w-screen z-40 transition-colors duration-1000 ${
           showElevation ? 'border-b-[1px] ' : ''
-        } ${navbarBackground ? 'bg-black' : ''}`}
+        } ${navbarBackground ? 'bg-bg' : ''}`}
       >
         <div
           className={`flex justify-between items-center max-w-7xl mx-auto ${padding}`}

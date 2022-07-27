@@ -95,7 +95,7 @@ const AuthContextProvider = ({
             <p>
               You can learn more{' '}
               <Link href={GoToAboutusPage()}>
-                <a className="underline text-purpleLight font-medium">here</a>
+                <a className="underline text-main-light font-medium">here</a>
               </Link>
             </p>
           ),
@@ -124,13 +124,13 @@ const AuthContextProvider = ({
       notify(
         {
           title: "We could't connect to your wallet",
-          content: 'Please install MetaMask',
+          content: 'Are you signed in in your wallet?',
           icon: 'warning',
           style: NotificationStyle.error,
         },
         {
           condition: false,
-          delayTime: 5,
+          delayTime: 15,
           type: NotificationType.Banner,
           delayType: DelayType.Time,
         }
@@ -151,7 +151,8 @@ const AuthContextProvider = ({
       console.error('error', error);
       notify(
         {
-          title: "We could't connect to your wallet",
+          title:
+            "We could't connect to your wallet. Are you signed in in your wallet?",
           content: `Reason: ${error}`,
           icon: 'warning',
           style: NotificationStyle.error,

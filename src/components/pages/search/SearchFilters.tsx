@@ -37,7 +37,7 @@ export function SearchFilters({
   return (
     <>
       {showFilters && (
-        <div className="z-50 bg-black p-8 laptop:p-0 rounded-2xl laptop:rounded-none overflow-hidden max-w-lg mx-auto border-2 border-purpleDark laptop:border-0">
+        <div className="z-50 bg-bg p-8 laptop:p-0 rounded-2xl laptop:rounded-none overflow-hidden max-w-lg mx-auto border-2 border-main laptop:border-0">
           <button
             className="flex laptop:hidden items-center justify-between w-full"
             onClick={() => setshowFilters(!showFilters)}

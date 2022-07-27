@@ -79,7 +79,7 @@ const DataPage: NextPageWithLayout = () => {
         <div className="flex flex-col gap-8 items-center">
           <input
             type="text"
-            className="w-full body-sm bg-black border-b-2 border-0 focus:border-purpleDark focus:ring-0"
+            className="w-full body-sm bg-bg border-b-2 border-0 focus:border-main focus:ring-0"
             placeholder="Search for an org"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
@@ -112,7 +112,7 @@ const DataPage: NextPageWithLayout = () => {
           </div>
         </div>
 
-        <div className="p-8 bg-darker space-y-4">
+        <div className="p-8 bg-surface-dark space-y-4">
           <p className="title-xs text-center">Filters</p>
           <div className="grid grid-cols-2 place-items-center">
             <div>
@@ -251,11 +251,11 @@ function Exporter({
 
   return (
     <div className="grid grid-cols-3 place-items-center gap-x-8">
-      <div className="flex flex-col items-center gap-4 p-8 bg-darker rounded-xl w-full">
+      <div className="flex flex-col items-center gap-4 p-8 bg-surface-dark rounded-xl w-full">
         <p className="label-lg text-center">
           Wallets
           <br />
-          <span className="text-purpleDark pt-1 block">{wallets?.length}</span>
+          <span className="text-main pt-1 block">{wallets?.length}</span>
         </p>
 
         <Button
@@ -268,11 +268,11 @@ function Exporter({
         />
       </div>
 
-      <div className="flex flex-col items-center gap-4 p-8 bg-darker rounded-xl w-full">
+      <div className="flex flex-col items-center gap-4 p-8 bg-surface-dark rounded-xl w-full">
         <p className="label-lg text-center">
           Bounties
           <br />
-          <span className="text-purpleDark pt-1 block">{bounties?.length}</span>
+          <span className="text-main pt-1 block">{bounties?.length}</span>
         </p>
 
         <Button
@@ -285,13 +285,11 @@ function Exporter({
         />
       </div>
 
-      <div className="flex flex-col items-center gap-4 p-8 bg-darker rounded-xl w-full">
+      <div className="flex flex-col items-center gap-4 p-8 bg-surface-dark rounded-xl w-full">
         <p className="label-lg text-center">
           Organisations
           <br />
-          <span className="text-purpleDark pt-1 block">
-            {organizations?.length}
-          </span>
+          <span className="text-main pt-1 block">{organizations?.length}</span>
         </p>
 
         <Button

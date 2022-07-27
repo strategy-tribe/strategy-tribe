@@ -27,9 +27,9 @@ export function BountyEntry({
       className={`space-y-1 bt:max-w-xl laptop:max-w-none ${className}`}
     >
       {/* Org and target into */}
-      <div className="label-sm flex items-center gap-4 text-unactive">
+      <div className="label-sm flex items-center gap-4 text-on-surface-unactive">
         <Link href={GoToOrgPage(organization?.id as string)}>
-          <a className="hover:text-purpleLight ">
+          <a className="hover:text-main-light ">
             Related to {bounty.organizationName}
           </a>
         </Link>
@@ -54,7 +54,7 @@ export function BountyEntry({
       </div>
 
       {/* Stats */}
-      <div className="flex gap-6 items-center text-unactive">
+      <div className="flex gap-6 items-center text-on-surface-unactive">
         <BountyStat
           label={
             <div className="flex gap-1 items-center">

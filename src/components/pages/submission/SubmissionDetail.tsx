@@ -12,7 +12,7 @@ export function SubmissionDetail({
 }) {
   return (
     <div>
-      <span className="label text-unactive">{label}</span>
+      <span className="label text-on-surface-unactive">{label}</span>
       <div className="flex items-center gap-2">
         {!!icon && <Icon icon={icon} size={IconSize.Small} />}
         <span className="label-sm">{value}</span>

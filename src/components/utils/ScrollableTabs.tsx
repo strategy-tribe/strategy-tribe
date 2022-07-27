@@ -30,12 +30,14 @@ export function ScrollableTabs<
             onClick={() => setView(value)}
             key={value.toString()}
             className={`label-lg ${
-              isActive(value) ? 'text-text' : 'text-unactive hover:text-text'
+              isActive(value)
+                ? 'text-on-surface-p1'
+                : 'text-on-surface-unactive hover:text-on-surface-p1'
             }`}
           >
             {label}
             <div
-              className={`pt-1.5 w-1/2 border-b-[3px] border-purpleDark transition-all ease-out ${
+              className={`pt-1.5 w-1/2 border-b-[3px] border-main transition-all ease-out ${
                 Math.abs(index - i) > 1 ? 'duration-75' : 'duration-300'
               }  ${
                 isActive(value)

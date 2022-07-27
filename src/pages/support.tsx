@@ -9,7 +9,7 @@ import LandingLayout from '@/components/layouts/LandingLayout';
 
 const GeneralDonationsPage: NextPageWithLayout = () => {
   return (
-    <div className="text-text space-y-8">
+    <div className="text-on-surface-p1 space-y-8">
       <Head>
         <title>ST | Support StrategyTribe</title>
         <meta
@@ -29,7 +29,7 @@ const GeneralDonationsPage: NextPageWithLayout = () => {
             initial={{ opacity: 0, y: 5 }}
             animate={{ opacity: 1, y: 0 }}
           >
-            <h2 className="h4 laptop:h3 font-inter font-bold text-white">
+            <h2 className="h4 laptop:h3 font-inter font-bold text-on-surface-p0">
               Submitting findings is not the only way to help
             </h2>
             {/* <Donate /> */}

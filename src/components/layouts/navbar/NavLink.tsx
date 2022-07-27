@@ -7,8 +7,8 @@ export function NavLink({ url, label }: { url: string; label: string }) {
   return (
     <Link href={url}>
       <a
-        className={`hover:text-white shrink-0 min-w-fit  ${
-          router.pathname === url && 'text-white font-medium'
+        className={`hover:text-on-surface-p0 shrink-0 min-w-fit  ${
+          router.pathname === url && 'text-on-surface-p0 font-medium'
         }`}
       >
         {label}

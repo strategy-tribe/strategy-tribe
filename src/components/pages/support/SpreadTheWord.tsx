@@ -4,12 +4,10 @@ export function SpreadTheWord() {
   return (
     <div id="support" className="space-y-8">
       <div>
-        <h2 className="text-3xl font-inter font-bold text-white">
+        <h2 className="text-3xl font-inter font-bold text-on-surface-p0">
           Spread the word
         </h2>
-        <span
-          className={`bg-purpleDark h-1 inline-block -translate-y-2 w-16`}
-        ></span>
+        <span className={`bg-main h-1 inline-block -translate-y-2 w-16`}></span>
       </div>
 
       {/* Why */}
@@ -17,8 +15,8 @@ export function SpreadTheWord() {
         We aim to make the web a safer place for everyone.
         <br />
         <br />
-        Not everybody is an OSINT expert, but we all benefit from bringing the
-        world's most important threat actors to the light.
+        {`Not everybody is an OSINT expert, but we all benefit from bringing the
+        world's most important threat actors to the light.`}
         <br />
         <br />
         All findings gathered by this project will be distributed to the
@@ -29,8 +27,8 @@ export function SpreadTheWord() {
         Spread the word, the hunt is open.
       </p>
 
-      <ul className="space-y-4 text-white">
-        <li className="label hover:text-purpleLight">
+      <ul className="space-y-4 text-on-surface-p0">
+        <li className="label hover:text-main-light">
           <a
             href="https://twitter.com/Strategy_Tribe"
             target="_blank"
@@ -42,7 +40,7 @@ export function SpreadTheWord() {
           </a>
         </li>
 
-        <li className="label hover:text-purpleLight">
+        <li className="label hover:text-main-light">
           <a
             href="https://github.com/strategy-tribe/strategy-tribe"
             target="_blank"

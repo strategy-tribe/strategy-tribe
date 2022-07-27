@@ -3,11 +3,11 @@ import React from 'react';
 import Icon, { IconSize } from './Icon';
 
 export enum ButtonStyle {
-  Hollow = 'text-white border-2 border-purpleDark hover:bg-purpleDark',
-  HollowDark = 'text-white border-2 border-black hover:bg-black hover:text-white',
-  Filled = 'bg-purpleDark text-white hover:bg-purpleLight hover:text-black border-2 border-purpleDark disabled:text-disabled disabled:bg-darker disabled:border-darker',
-  Text = 'text-text hover:text-purpleLight disabled:hover:text-text disabled:text-text',
-  TextPurple = 'text-purpleLight hover:text-purpleDark disabled:hover:text-unactive disabled:text-unactive',
+  Hollow = 'text-on-surface-p0 border-2 border-main hover:bg-main',
+  HollowDark = 'text-on-surface-p0 border-2 border-bg hover:bg-bg hover:text-on-surface-p0',
+  Filled = 'bg-main text-on-surface-p0 hover:bg-main-light hover:text-bg border-2 border-main on-surface-disabled:text-on-surface-disabled on-surface-disabled:bg-surface-dark on-surface-disabled:border-surface-dark',
+  Text = 'text-on-surface-p1 hover:text-main-light on-surface-disabled:hover:text-on-surface-p1 on-surface-disabled:text-on-surface-p1',
+  TextPurple = 'text-main-light hover:text-main on-surface-disabled:hover:text-on-surface-unactive on-surface-disabled:text-on-surface-unactive',
 }
 
 export interface ButtonInformation {

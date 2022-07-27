@@ -45,8 +45,8 @@ export const SetTimeLimit = ({
         <DatePicker
           selected={date}
           onChange={(date: Date) => setDate(date)}
-          disabled={!hasDeadline}
-          className="bg-black border-0 border-b-2 border-disabled focus:border-purpleDar"
+          on-surface-disabled={!hasDeadline}
+          className="bg-bg border-0 border-b-2 border-on-surface-disabled focus:border-purpleDar"
         />
       )}
 
@@ -59,7 +59,7 @@ export const SetTimeLimit = ({
             </p>
           )}
           {!dataIsValid && (
-            <p className="text-redLight font-semibold label">
+            <p className="text-error-light font-semibold label">
               Date must be after today
             </p>
           )}

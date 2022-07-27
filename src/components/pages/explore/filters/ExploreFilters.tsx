@@ -66,7 +66,7 @@ export function ExploreFilters() {
                   className="border rounded-full py-1 pl-3 pr-4 flex gap-2 items-center group"
                   key={i}
                 >
-                  <div className="grid place-items-center group-hover:text-redLight">
+                  <div className="grid place-items-center group-hover:text-error-light">
                     <Icon icon="close" size={IconSize.Small} />
                   </div>
                   <span className="label-sm">{country}</span>
@@ -100,7 +100,7 @@ export function ExploreFilters() {
           </div>
 
           <span
-            className={`label text-unactive ${
+            className={`label text-on-surface-unactive ${
               isLoading ? 'invisible' : 'visible'
             }`}
           >

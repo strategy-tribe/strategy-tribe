@@ -10,5 +10,5 @@ export function BountyCardTitle({ bounty }: { bounty: Bounty }) {
     CapitalizeFirstLetter(organizationName)
   );
 
-  return <h4 className="title-xs group-hover:text-white">{parsedTitle}</h4>;
+  return <h5 className="group-hover:text-on-surface-p0">{parsedTitle}</h5>;
 }

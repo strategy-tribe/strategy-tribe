@@ -88,7 +88,7 @@ const BountiesToFundPage: NextPageWithLayout = () => {
   const router = useRouter();
 
   return (
-    <div className="text-text space-y-8">
+    <div className="text-on-surface-p1 space-y-8">
       <Head>
         <title>ST | Fund</title>
         <meta
@@ -128,13 +128,13 @@ const BountiesToFundPage: NextPageWithLayout = () => {
             })}
           </thead>
 
-          <tbody className="bg-darker overflow-hidden">
+          <tbody className="bg-surface-dark overflow-hidden">
             {table.getRowModel().rows.map((row) => {
               const bounty = row.original;
               return (
                 <tr
                   key={row.id}
-                  className="hover:bg-dark w-full cursor-pointer"
+                  className="hover:bg-surface w-full cursor-pointer"
                   onClick={() => router.push(GoToBountyPage(bounty.id!))}
                 >
                   {row.getVisibleCells().map((cell, i) => {
@@ -156,7 +156,7 @@ const BountiesToFundPage: NextPageWithLayout = () => {
           </tbody>
         </table>
 
-        <div className="w-full bg-dark flex justify-center gap-8">
+        <div className="w-full bg-surface flex justify-center gap-8">
           <Button
             info={{
               label: 'Prev',
@@ -185,7 +185,7 @@ const BountiesToFundPage: NextPageWithLayout = () => {
             name="pagesize"
             id="pagesize"
             type="number"
-            className="border-0 border-b-2 border-dark bg-black body-sm w-fit placeholder:text-unactive text-text focus:ring-0 focus:border-purpleDark"
+            className="border-0 border-b-2 border-surface bg-bg body-sm w-fit placeholder:text-on-surface-unactive text-on-surface-p1 focus:ring-0 focus:border-main"
             placeholder="Page size"
             value={size}
             step={1}

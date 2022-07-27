@@ -92,7 +92,7 @@ function OrgNamePicker({
         }}
         type="text"
         placeholder="Name"
-        className="bg-black border-0 focus:border-b-2 focus:border-purpleDark focus:ring-0 w-full border-b-2 border-dark text-base placeholder:text-base pl-0"
+        className="bg-bg border-0 focus:border-b-2 focus:border-main focus:ring-0 w-full border-b-2 border-surface text-base placeholder:text-base pl-0"
       />
     </div>
   );
@@ -123,12 +123,12 @@ function BountyPicker({
             name="min"
             min={0}
             placeholder="Min"
-            className="bg-black border-0 focus:border-b-2 focus:border-purpleDark focus:ring-0 w-full border-b-2 border-dark text-base placeholder:text-base pl-0 placeholder:text-unactive"
+            className="bg-bg border-0 focus:border-b-2 focus:border-main focus:ring-0 w-full border-b-2 border-surface text-base placeholder:text-base pl-0 placeholder:text-on-surface-unactive"
           />
           {/* <span className="label">MATIC</span> */}
         </div>
 
-        <span className="label-lg text-unactive">To</span>
+        <span className="label-lg text-on-surface-unactive">To</span>
 
         <div className="flex w-full justify-between items-center gap-4">
           {/* <label htmlFor="max">Max</label> */}
@@ -143,7 +143,7 @@ function BountyPicker({
             name="max"
             min={0}
             placeholder="Max"
-            className="bg-black border-0 focus:border-b-2 focus:ring-0 w-full border-b-2 border-dark focus:border-purpleDark pl-0 placeholder:text-unactive"
+            className="bg-bg border-0 focus:border-b-2 focus:ring-0 w-full border-b-2 border-surface focus:border-main pl-0 placeholder:text-on-surface-unactive"
           />
           {/* <span className="label">MATIC</span> */}
         </div>
@@ -164,7 +164,7 @@ function TargetTypePicker({
       <FilterLabel label="Type" />
       <select
         name="targetType"
-        className="bg-black p-0 border-0 w-full focus:ring-0 cursor-pointer hover:underline"
+        className="bg-bg p-0 border-0 w-full focus:ring-0 cursor-pointer hover:underline"
         value={targetType}
         onChange={(e) => {
           const text = e.target.value === 'All' ? undefined : e.target.value;
@@ -216,7 +216,7 @@ function OrderByPicker({
       <FilterLabel label="Order by" />
       <select
         name="orderBy"
-        className="bg-black p-0 border-0 focus:ring-0 w-full cursor-pointer hover:underline"
+        className="bg-bg p-0 border-0 focus:ring-0 w-full cursor-pointer hover:underline"
         value={orderBy}
         onChange={(e) => setOrderBy(e.target.value as unknown as BountyOrderBy)}
       >
@@ -230,5 +230,5 @@ function OrderByPicker({
 }
 
 function FilterLabel({ label }: { label: string }) {
-  return <h6 className="label-lg text-unactive">{label}</h6>;
+  return <h6 className="label-lg text-on-surface-unactive">{label}</h6>;
 }

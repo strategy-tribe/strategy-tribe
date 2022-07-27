@@ -26,7 +26,7 @@ export function RequirementEditor({
       {requirement.type !== RequirementType.Image && (
         <ReactTextareaAutosize
           placeholder={requirement.title}
-          className="bg-black text-text body
+          className="bg-bg text-on-surface-p1 body
           -translate-y-4 border-0 w-full h-fit font-inter focus:ring-0 first-letter:capitalize whitespace-pre-wrap -ml-2"
           minRows={requirement.type === RequirementType.Report ? 10 : 1}
           value={input as string}

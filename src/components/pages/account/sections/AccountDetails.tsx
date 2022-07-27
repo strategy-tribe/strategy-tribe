@@ -9,7 +9,9 @@ export function AccountDetails() {
 
   return (
     <div className="w-full space-y-6">
-      {isStaff && <div className="label text-disabled">Staff account</div>}
+      {isStaff && (
+        <div className="label text-on-surface-disabled">Staff account</div>
+      )}
 
       <Stat title="User ID" content={userId as string} copyable={true} />
 

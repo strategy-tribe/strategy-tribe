@@ -33,37 +33,39 @@ export const SetTargetInfo = ({
   const { organizations } = useGetAllOrganizations();
 
   return (
-    <div className="space-y-16 text-text">
+    <div className="space-y-16 text-on-surface-p1">
       {/* Header */}
       <div className="space-y-4">
         <Title title="Describe the target" pos={2} />
 
         {/* Checks */}
         <div className="space-y-4">
-          <h4 className="text-white font-grotesk text-sm font-medium">
+          <h4 className="text-on-surface-p0 font-grotesk text-sm font-medium">
             Requirements
           </h4>
           {targetType === TargetType.Individual && (
             <>
               <div className="flex items-center gap-2">
-                <Icon icon={!!name ? 'check' : 'close'} />
+                <Icon icon={name ? 'check' : 'close'} />
                 <span
                   className={` text-sm font-medium w-fit ${
-                    !!name ? 'text-unactive' : 'text-redLight'
+                    name ? 'text-on-surface-unactive' : 'text-error-light'
                   }`}
                 >
-                  Target's Name
+                  {`Target's Name`}
                 </span>
               </div>
               <div className="flex items-center gap-2">
-                <Icon icon={!!organization ? 'check' : 'close'} />
+                <Icon icon={organization ? 'check' : 'close'} />
 
                 <span
                   className={` text-sm font-medium w-fit ${
-                    !!organization ? 'text-unactive' : 'text-redLight'
+                    organization
+                      ? 'text-on-surface-unactive'
+                      : 'text-error-light'
                   }`}
                 >
-                  Target's Affiliation
+                  {`Target's Affiliation`}
                 </span>
               </div>
             </>
@@ -71,20 +73,22 @@ export const SetTargetInfo = ({
           {targetType === TargetType.Organization && (
             <>
               <div className="flex items-center gap-2">
-                <Icon icon={!!organization ? 'check' : 'close'} />
+                <Icon icon={organization ? 'check' : 'close'} />
                 <span
                   className={` text-sm font-medium w-fit ${
-                    !!organization ? 'text-unactive' : 'text-redLight'
+                    organization
+                      ? 'text-on-surface-unactive'
+                      : 'text-error-light'
                   }`}
                 >
-                  Organization's Name
+                  {`Organization's Name`}
                 </span>
               </div>
               <div className="flex items-center gap-2">
-                <Icon icon={!!name ? 'check' : 'close'} />
+                <Icon icon={name ? 'check' : 'close'} />
                 <span
                   className={` text-sm font-medium w-fit ${
-                    !!name ? 'text-unactive' : 'text-redLight'
+                    name ? 'text-on-surface-unactive' : 'text-error-light'
                   }`}
                 >
                   Target information
@@ -95,7 +99,7 @@ export const SetTargetInfo = ({
         </div>
       </div>
 
-      <hr className="w-full h-0.5 text-dark" />
+      <hr className="w-full h-0.5 text-surface" />
 
       <div className="space-y-16">
         <Toggle
@@ -158,11 +162,13 @@ function IndividualTarget({
     <>
       {/* target name */}
       <div className="space-y-6">
-        <h2 className="text-text text-xl font-semibold">Target's Name</h2>
+        <h2 className="text-on-surface-p1 text-xl font-semibold">
+          {`Target's Name`}
+        </h2>
         {/* target description */}
         <TextareaAutosize
           placeholder="Type here"
-          className="bg-black text-text border-0 w-full font-inter  focus:ring-0 capitalize whitespace-pre-wrap"
+          className="bg-bg text-on-surface-p1 border-0 w-full font-inter  focus:ring-0 capitalize whitespace-pre-wrap"
           value={name}
           onChange={(e) => {
             setName(e.target.value);
@@ -171,15 +177,15 @@ function IndividualTarget({
       </div>
       {/* target affiliation */}
       <div className="space-y-6">
-        <h2 className="text-text text-xl font-semibold">
-          Target's Affiliation
+        <h2 className="text-on-surface-p1 text-xl font-semibold">
+          {`Target's Affiliation`}
         </h2>
 
         {existingOrganizations && !createNewOrg && (
           <select
             name="type"
             id="type"
-            className="bg-black border-0 p-0 pb-2 pt-2 border-b-2 border-disabled focus:ring-0 focus:border-purpleDark shrink-0 grow max-w-[30rem] w-1/2"
+            className="bg-bg border-0 p-0 pb-2 pt-2 border-b-2 border-on-surface-disabled focus:ring-0 focus:border-main shrink-0 grow max-w-[30rem] w-1/2"
             value={affiliation}
             onChange={(e) => {
               const value = e.target.value;
@@ -199,7 +205,7 @@ function IndividualTarget({
         {createNewOrg && (
           <TextareaAutosize
             placeholder="Type here"
-            className="bg-black text-text border-0 w-full font-inter  focus:ring-0 first-letter:capitalize whitespace-pre-wrap"
+            className="bg-bg text-on-surface-p1 border-0 w-full font-inter  focus:ring-0 first-letter:capitalize whitespace-pre-wrap"
             value={affiliation}
             onChange={(e) => {
               setAffiliation(e.target.value);
@@ -221,13 +227,13 @@ function IndividualTarget({
       </div>
       {/* target description */}
       <div className="space-y-6 ">
-        <h2 className="text-text text-xl font-semibold">
+        <h2 className="text-on-surface-p1 text-xl font-semibold">
           Extra information about the target
         </h2>
 
         <TextareaAutosize
           placeholder="Type here"
-          className="bg-black text-text border-0 w-full font-inter  focus:ring-0 first-letter:capitalize whitespace-pre-wrap"
+          className="bg-bg text-on-surface-p1 border-0 w-full font-inter  focus:ring-0 first-letter:capitalize whitespace-pre-wrap"
           value={content}
           onChange={(e) => {
             setContent(e.target.value);
@@ -260,15 +266,15 @@ function OrganizationTarget({
     <>
       {/* target affiliation */}
       <div className="space-y-6">
-        <h2 className="text-text text-xl font-semibold">
-          Target's Affiliation
+        <h2 className="text-on-surface-p1 text-xl font-semibold">
+          {`Target's Affiliation`}
         </h2>
 
         {existingOrganizations && !createNewOrg && (
           <select
             name="type"
             id="type"
-            className="bg-black border-0 p-0 pb-2 pt-2 border-b-2 border-disabled focus:ring-0 focus:border-purpleDark shrink-0 grow max-w-[30rem] w-1/2"
+            className="bg-bg border-0 p-0 pb-2 pt-2 border-b-2 border-on-surface-disabled focus:ring-0 focus:border-main shrink-0 grow max-w-[30rem] w-1/2"
             value={affiliation}
             onChange={(e) => {
               const value = e.target.value;
@@ -288,7 +294,7 @@ function OrganizationTarget({
         {createNewOrg && (
           <TextareaAutosize
             placeholder="Type here"
-            className="bg-black text-text border-0 w-full font-inter  focus:ring-0 first-letter:capitalize whitespace-pre-wrap"
+            className="bg-bg text-on-surface-p1 border-0 w-full font-inter  focus:ring-0 first-letter:capitalize whitespace-pre-wrap"
             value={affiliation}
             onChange={(e) => {
               setAffiliation(e.target.value);
@@ -310,13 +316,13 @@ function OrganizationTarget({
       </div>
       {/* target name */}
       <div className="space-y-6">
-        <h2 className="text-text text-xl font-semibold">
-          Organization's intelligence we are looking for
+        <h2 className="text-on-surface-p1 text-xl font-semibold">
+          {`Organization's intelligence we are looking for`}
         </h2>
         {/* target description */}
         <TextareaAutosize
           placeholder="Telegram account, wallet address, phone numbers..."
-          className="bg-black text-text border-0 w-full font-inter  focus:ring-0 whitespace-pre-wrap"
+          className="bg-bg text-on-surface-p1 border-0 w-full font-inter  focus:ring-0 whitespace-pre-wrap"
           value={name}
           onChange={(e) => {
             setName(e.target.value);
@@ -325,11 +331,13 @@ function OrganizationTarget({
       </div>
       {/* target description */}
       <div className="space-y-6">
-        <h2 className="text-text text-xl font-semibold">Extra information</h2>
+        <h2 className="text-on-surface-p1 text-xl font-semibold">
+          Extra information
+        </h2>
 
         <TextareaAutosize
           placeholder="Type here"
-          className="bg-black text-text border-0 w-full font-inter  focus:ring-0 first-letter:capitalize whitespace-pre-wrap"
+          className="bg-bg text-on-surface-p1 border-0 w-full font-inter  focus:ring-0 first-letter:capitalize whitespace-pre-wrap"
           value={content}
           onChange={(e) => {
             setContent(e.target.value);

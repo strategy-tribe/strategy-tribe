@@ -28,14 +28,16 @@ export const SubmissionEntry = ({
         {/* Submission ID */}
         <p className={fullSize ? 'body-lg' : 'body'}>
           <span>S#</span>
-          <span className="underline laptop:no-underline text-purpleLight laptop:text-text group-hover:underline group-hover:text-purpleLight">
+          <span className="underline laptop:no-underline text-main-light laptop:text-on-surface-p1 group-hover:underline group-hover:text-main-light">
             {submission.id}
           </span>
         </p>
         {/* How long ago */}
         {fullSize && (
           <span
-            className={`text-left ${isRecent ? 'text-white' : 'text-unactive'}`}
+            className={`text-left ${
+              isRecent ? 'text-on-surface-p0' : 'text-on-surface-unactive'
+            }`}
           >
             {'Submitted '}
             {howLongAgo}
@@ -58,7 +60,7 @@ export const SubmissionEntry = ({
 
 function SubmissionStateIconInfo({ state }: { state: SubmissionState }) {
   return (
-    <div className="text-unactive flex gap-2 items-center relative group">
+    <div className="text-on-surface-unactive flex gap-2 items-center relative group">
       <SubmissionStateIcon state={state} />
       <p>{state}</p>
     </div>

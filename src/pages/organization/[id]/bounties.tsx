@@ -54,7 +54,7 @@ const OrganizationBountiesPage: NextPageWithLayout = () => {
       </Head>
 
       <div className="flex max-w-[85rem] gap-x-16">
-        <aside className="w-fit min-h-screen border-purpleDark border-r-2 px-8">
+        <aside className="w-fit min-h-screen border-main border-r-2 px-8">
           <div className="h-fit sticky top-24">
             <Button
               info={{

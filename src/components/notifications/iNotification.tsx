@@ -1,3 +1,5 @@
+import { ReactNode } from 'react';
+
 export interface ServerNotification {
   id: string;
   userId: string;
@@ -11,7 +13,7 @@ export interface ServerNotification {
 export interface ClientNotification {
   icon?: string;
   title: string;
-  content?: JSX.Element | string;
+  content?: ReactNode | string;
   style?: NotificationStyle;
 }
 

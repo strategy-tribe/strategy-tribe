@@ -10,7 +10,7 @@ import { ButtonStyle } from '@/components/utils/Button';
 export function OrgHeader() {
   const { org } = useOrganizationContext();
   return (
-    <div className="bg-darker py-6">
+    <div className="bg-surface-dark py-6">
       <Section className="flex justify-between items-center gap-8">
         <div className="space-y-1">
           <OrgTags />
@@ -22,9 +22,9 @@ export function OrgHeader() {
 
         <div className="flex gap-8 items-center">
           <OrgStat value={org.bounties.toString()} label="Bounties" />
-          <div className="bg-dark w-0.5 h-10" />
+          <div className="bg-surface w-0.5 h-10" />
           <OrgStat value={`${org.funds} MATIC`} label="In bounties" />
-          <div className="bg-dark w-0.5 h-10" />
+          <div className="bg-surface w-0.5 h-10" />
           <SubToOrgButton
             orgName={org.name}
             button={(_, isSubscribed) => {

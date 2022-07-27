@@ -16,7 +16,7 @@ export function BountyCard({ bounty }: { bounty: Bounty }) {
   return (
     <article className={`relative group h-fit ${moveToLeft} ${animClasses}`}>
       <div
-        className={`absolute inset-0 group-hover:bg-dark z-0 rounded origin-left ${expandBg} ${animClasses} ${moveBgtoLeft}`}
+        className={`absolute inset-0 group-hover:bg-surface z-0 rounded origin-left ${expandBg} ${animClasses} ${moveBgtoLeft}`}
       ></div>
 
       <Link href={GoToBountyPage(bounty.id!)}>
@@ -42,6 +42,6 @@ export function BountyCard({ bounty }: { bounty: Bounty }) {
 
 export function DummyBountyCard() {
   return (
-    <div className="min-w-[18rem] w-full h-24 bg-darker animate-pulse rounded-lg" />
+    <div className="min-w-[18rem] w-full h-24 bg-surface-dark animate-pulse rounded-lg" />
   );
 }

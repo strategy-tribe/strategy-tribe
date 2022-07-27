@@ -38,7 +38,7 @@ export function RegularUserMenu({
 
       {shouldShow && (
         <aside>
-          <div className="bg-darker text-text rounded overflow-hidden body-sm flex flex-col z-50 absolute top-10 right-0">
+          <div className="bg-surface-dark text-on-surface-p1 rounded overflow-hidden body-sm flex flex-col z-50 absolute top-10 right-0">
             <MenuItem label="Account" url={GoToAccountPage()} onClick={hide} />
             <MenuItem
               label="Watching"
@@ -52,7 +52,7 @@ export function RegularUserMenu({
               onClick={hide}
             />
 
-            <hr className="w-full text-dark" />
+            <hr className="w-full text-surface" />
             <LogOutButton hide={hide} />
           </div>
 

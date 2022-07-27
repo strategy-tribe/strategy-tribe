@@ -2,13 +2,13 @@ import React from 'react';
 
 export function NumberSelector({
   num,
-  colors = 'bg-purpleDark text-white',
+  colors = 'bg-main text-on-surface-p0',
 }: {
   num: number;
   colors?:
-    | 'bg-purpleDark text-white'
-    | 'bg-dark text-white'
-    | 'bg-darker text-white';
+    | 'bg-main text-on-surface-p0'
+    | 'bg-surface text-on-surface-p0'
+    | 'bg-surface-dark text-on-surface-p0';
 }) {
   return (
     <span

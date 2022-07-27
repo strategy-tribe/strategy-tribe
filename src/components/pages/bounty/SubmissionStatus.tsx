@@ -4,15 +4,15 @@ export function SubmissionStatus({ status }: { status: SubmissionState }) {
   const color = () => {
     switch (status) {
       case SubmissionState.WaitingForReview:
-        return 'border-yellowDark text-yellowDark';
+        return 'border-waiting text-waiting';
       case SubmissionState.Accepted:
-        return 'border-purpleLight text-purpleLight';
+        return 'border-main-light text-main-light';
       case SubmissionState.WaitingForPayment:
-        return 'border-greenDark text-greenDark';
+        return 'border-success text-success';
       case SubmissionState.Rejected:
-        return 'border-disabled text-disabled';
+        return 'border-on-surface-disabled text-on-surface-disabled';
       default:
-        return 'border-disabled text-disabled';
+        return 'border-on-surface-disabled text-on-surface-disabled';
     }
   };
 

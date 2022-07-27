@@ -19,7 +19,7 @@ export default function Loading({ small = false }: { small?: boolean }) {
     <div
       className={`${
         !small && 'h-screen w-screen '
-      } flex items-center justify-center flex-col gap-8 text-unactive `}
+      } flex items-center justify-center flex-col gap-8 text-on-surface-unactive `}
     >
       <div className="flex items-center justify-center flex-col gap-4 animate-pulse">
         <Image

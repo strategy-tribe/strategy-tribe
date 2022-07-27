@@ -55,10 +55,10 @@ function HeroDesktop() {
       >
         {/* Text */}
         <div className="space-y-4">
-          <h1 className="h5 laptop:h4">
+          <h1 className="h2 laptop:h1">
             An{' '}
             <a
-              className="underline hover:text-purpleLight"
+              className="underline hover:text-main-light"
               href="https://github.com/strategy-tribe/strategy-tribe"
               target="_blank"
               rel="noopener noreferrer"
@@ -106,6 +106,7 @@ function HeroDesktop() {
           }}
         >
           <Image
+            alt="top illustration"
             priority={true}
             src="/illustrations/top.svg"
             width={560.9}
@@ -120,6 +121,7 @@ function HeroDesktop() {
           }}
         >
           <Image
+            alt="mid illustration"
             priority={true}
             src="/illustrations/mid.svg"
             width={562.03}
@@ -134,6 +136,7 @@ function HeroDesktop() {
           }}
         >
           <Image
+            alt="bot illustration"
             priority={true}
             src="/illustrations/bot.svg"
             width={560.15}
@@ -152,6 +155,7 @@ function HeroDesktop() {
         >
           <motion.figure className="relative z-0">
             <Image
+              alt="card"
               priority={true}
               src="/illustrations/card_pick.png"
               width={363 / 2}
@@ -161,6 +165,7 @@ function HeroDesktop() {
 
           <motion.figure className="-translate-y-16 relative z-10">
             <Image
+              alt="card"
               priority={true}
               src="/illustrations/card_investigate.png"
               width={363 / 2}
@@ -170,6 +175,7 @@ function HeroDesktop() {
 
           <motion.figure className="-translate-y-32 relative z-20">
             <Image
+              alt="card"
               priority={true}
               src="/illustrations/card_report.png"
               width={363 / 2}
@@ -187,6 +193,7 @@ function HeroDesktop() {
           }}
         >
           <Image
+            alt="card"
             priority={true}
             src="/illustrations/card_staff.png"
             width={363 / 2}
@@ -203,6 +210,7 @@ function HeroDesktop() {
           }}
         >
           <Image
+            alt="card"
             priority={true}
             src="/illustrations/card_paid.png"
             width={363 / 2}
@@ -302,7 +310,7 @@ function HeroMobile() {
         <div className="space-y-4">
           <h1 className="h4 laptop:h3">
             An{' '}
-            <a href="#" className="underline hover:text-purpleLight">
+            <a href="#" className="underline hover:text-main-light">
               open source project
             </a>{' '}
             dedicated to crowdsourcing and crowdfunding OSINT for locating the
@@ -340,6 +348,7 @@ function HeroMobile() {
             }}
           >
             <Image
+              alt="card"
               priority={true}
               src="/illustrations/top.svg"
               width={560.9}
@@ -355,6 +364,7 @@ function HeroMobile() {
             }}
           >
             <Image
+              alt="card"
               priority={true}
               src="/illustrations/mid.svg"
               width={562.03}
@@ -371,6 +381,7 @@ function HeroMobile() {
           >
             {' '}
             <Image
+              alt="card"
               priority={true}
               src="/illustrations/bot.svg"
               width={560.15}
@@ -393,6 +404,7 @@ function HeroMobile() {
           >
             <motion.figure className="relative z-0">
               <Image
+                alt="card"
                 priority={true}
                 src="/illustrations/card_pick.png"
                 width={363 / 2}
@@ -402,6 +414,7 @@ function HeroMobile() {
 
             <motion.figure className="-translate-y-16 relative z-10">
               <Image
+                alt="card"
                 priority={true}
                 src="/illustrations/card_investigate.png"
                 width={363 / 2}
@@ -411,6 +424,7 @@ function HeroMobile() {
 
             <motion.figure className="-translate-y-32 relative z-20">
               <Image
+                alt="card"
                 priority={true}
                 src="/illustrations/card_report.png"
                 width={363 / 2}
@@ -427,6 +441,7 @@ function HeroMobile() {
             }}
           >
             <Image
+              alt="card"
               priority={true}
               src="/illustrations/card_staff.png"
               width={363 / 2}
@@ -442,6 +457,7 @@ function HeroMobile() {
             }}
           >
             <Image
+              alt="card"
               priority={true}
               src="/illustrations/card_paid.png"
               width={363 / 2}

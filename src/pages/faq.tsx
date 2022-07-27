@@ -29,7 +29,7 @@ const FAQPage: NextPageWithLayout = () => {
             <p>
               Yes, you can see our rules{' '}
               <Link href={GoToRulesPage()}>
-                <a className="underline text-purpleLight hover:text-purpleDark">
+                <a className="underline text-main-light hover:text-main">
                   here
                 </a>
               </Link>
@@ -45,7 +45,7 @@ const FAQPage: NextPageWithLayout = () => {
               Once your submission gets verified, all of the funds from the
               bounty wallets will be send to the wallet you signup with. You can{' '}
               <Link href={GoToAccountPage()}>
-                <a className="underline text-purpleLight hover:text-purpleDark">
+                <a className="underline text-main-light hover:text-main">
                   review your address here
                 </a>
               </Link>
@@ -57,20 +57,20 @@ const FAQPage: NextPageWithLayout = () => {
           question="How many times I can submit my findings?"
           answer="Once per day."
         />
-        <FAQuestion
+        {/* <FAQuestion
           question="Where do I find example submissions?"
           answer={
             <p>
               You can see our examples{' '}
               <Link href={GoToRulesPage()}>
-                <a className="underline text-purpleLight hover:text-purpleDark">
+                <a className="underline text-main-light hover:text-main">
                   here
                 </a>
               </Link>
               .
             </p>
           }
-        />
+        /> */}
         <FAQuestion
           question="What is the maximum payout?"
           answer="There is no maximum."

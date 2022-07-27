@@ -10,12 +10,21 @@ export function AccountSubmissions() {
     Boolean(userId as string)
   );
 
-  if (!userInfo || !userId || !submissions) return <></>;
+  if (!userInfo || !userId || !submissions)
+    return (
+      <div className="w-full">
+        <div className="pb-4 border-b-1 border-surface">
+          <span className="body-sm text-on-surface-unactive">
+            Your submissions will show up here
+          </span>
+        </div>
+      </div>
+    );
 
   return (
     <div className="w-full space-y-6">
-      <div className="pb-4 border-b-1 border-dark">
-        <span className="body translate-x-0.5 text-unactive">
+      <div className="pb-4 border-b-1 border-surface">
+        <span className="body translate-x-0.5 text-on-surface-unactive">
           {submissions.length}{' '}
           {submissions.length === 1 ? 'submission' : 'submissions'}
         </span>

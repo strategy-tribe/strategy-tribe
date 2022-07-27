@@ -20,7 +20,7 @@ export function Stat({
   after?: string;
   size?: string;
   className?: string;
-}): JSX.Element {
+}) {
   const { notify: show } = useNotification();
 
   const showCopyIcon = !!content && !contents.length && copyable;
@@ -38,7 +38,7 @@ export function Stat({
         }
       }}
     >
-      <span className="font-grotesk font-semibold text-unactive capitalize">
+      <span className="font-grotesk font-semibold text-on-surface-unactive capitalize">
         {title}
       </span>
       <p

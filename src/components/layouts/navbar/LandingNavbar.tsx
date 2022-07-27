@@ -13,7 +13,7 @@ import useScrollPosition from '@/lib/hooks/useScrollPosition';
 export function LandingNavbar({ hideBgOnScroll }: { hideBgOnScroll: boolean }) {
   const [navbarBackground, setNavbarBackground] = useState(!hideBgOnScroll);
 
-  const {} = useScrollPosition(
+  useScrollPosition(
     1100,
     () => setNavbarBackground(!hideBgOnScroll || true),
     () => setNavbarBackground(!hideBgOnScroll || false)
@@ -22,8 +22,8 @@ export function LandingNavbar({ hideBgOnScroll }: { hideBgOnScroll: boolean }) {
   return (
     <>
       <nav
-        className={`fixed top-0 text-text w-screen z-40 ${
-          navbarBackground ? 'bg-black' : ''
+        className={`fixed top-0 text-on-surface-p1 w-screen z-40 ${
+          navbarBackground ? 'bg-bg' : ''
         }`}
       >
         <div className="flex justify-between items-center max-w-7xl mx-auto py-1">

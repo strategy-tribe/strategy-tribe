@@ -13,8 +13,8 @@ export function AccountRewards() {
 
   return (
     <section className="w-full space-y-4">
-      <div className="pb-4 border-b-1 border-dark">
-        <span className="body-sm text-unactive">
+      <div className="pb-4 border-b-1 border-surface">
+        <span className="body-sm text-on-surface-unactive">
           {invoices?.length} {invoices?.length === 1 ? 'invoice' : 'invoices'}
         </span>
       </div>
@@ -36,11 +36,11 @@ export function InvoiceStatus({ status }: { status: InvoiceStatusData }) {
   const color = () => {
     switch (status) {
       case InvoiceStatusData.Paid:
-        return 'border-greenDark text-greenDark';
+        return 'border-success text-success';
       case InvoiceStatusData.Error:
-        return 'border-redLight text-redLight';
+        return 'border-error-light text-error-light';
       default:
-        return 'border-yellowDark text-yellowDark';
+        return 'border-waiting text-waiting';
     }
   };
 

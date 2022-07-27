@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Bounty } from '@/lib/models/bounty';
 import { GetWordCount } from '@/utils/StringHelpers';
 import { Requirement, RequirementType } from '@/lib/models/requirement';
@@ -64,7 +64,7 @@ export function BountyRequirementsChecker({
   return (
     <>
       <div>
-        <h3 className={`font-grotesk font-semibold text-white`}>
+        <h3 className={`font-grotesk font-semibold text-on-surface-p0`}>
           Requirements
         </h3>
         {requeriedConditions.map((requirement, i) => {
@@ -82,7 +82,9 @@ export function BountyRequirementsChecker({
       </div>
       {optionalConditions.length > 0 && (
         <div>
-          <h3 className={`font-grotesk font-semibold text-white`}>Optional</h3>
+          <h3 className={`font-grotesk font-semibold text-on-surface-p0`}>
+            Optional
+          </h3>
           {optionalConditions.map((requirement, i) => {
             return (
               <RequirementChecker
@@ -118,14 +120,14 @@ function RequirementChecker({
   content: string;
   files: File[];
   size?: string;
-}): JSX.Element {
+}) {
   const { title, type, optional } = requirement;
   const [_passed, _setPassed] = useState<boolean>(false);
   const [message, setMessage] = useState('');
 
   useEffect(() => {
     setPassed(_passed);
-  }, [_passed]);
+  }, [_passed, setPassed]);
 
   useEffect(() => {
     switch (type) {
@@ -137,11 +139,12 @@ function RequirementChecker({
         _setPassed(optional ? true : files.length > 0);
         setMessage('You must attach at least one image.');
         break;
-      case RequirementType.Report:
+      case RequirementType.Report: {
         const wordCount = GetWordCount(content);
         _setPassed(optional ? true : wordCount > 200);
         setMessage('Your input must be longer than 200 words');
         break;
+      }
       case RequirementType.Domain:
         _setPassed(
           optional
@@ -157,7 +160,7 @@ function RequirementChecker({
       default:
         throw 'Unknown type ';
     }
-  }, [content, files]);
+  }, [content, files, optional, type]);
 
   return (
     <div
@@ -165,7 +168,7 @@ function RequirementChecker({
     >
       {/* Icon */}
       <Icon
-        className={`text-redLight ${!!_passed && 'invisible'} `}
+        className={`text-error-light ${!!_passed && 'invisible'} `}
         icon="close"
       />
 
@@ -173,7 +176,7 @@ function RequirementChecker({
       <p className={`${!_passed && ''} ${size}`}>
         <span className={`${!_passed && 'group-hover:hidden'}`}>{title}</span>
         <span
-          className={`text-redLight hidden ${
+          className={`text-error-light hidden ${
             !_passed && 'group-hover:inline '
           }`}
         >

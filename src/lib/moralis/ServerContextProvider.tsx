@@ -115,14 +115,14 @@ const ServerContextProvider = ({
               icon: 'warning',
               style: NotificationStyle.error,
               content: (
-                <div className="text-white">
+                <div className="text-on-surface-p0">
                   <p>
                     Please install MetaMask, is a simple and secure way to
                     connect to blockchain-based applications.
                   </p>
                   <br />
                   <a
-                    className="underline hover:text-black"
+                    className="underline hover:text-bg"
                     href="https://metamask.io/"
                     target="_blank"
                     rel="noopener noreferrer"

@@ -9,7 +9,7 @@ export function SubmissionReview() {
 
   return (
     <div className="mx-auto max-w-5xl space-y-4">
-      <h2 className="title-sm text-white">Review</h2>
+      <h2 className="title-sm text-on-surface-p0">Review</h2>
 
       {!!submission.review.reviewerComment && (
         <RenderMarkdown text={submission.review.reviewerComment} />

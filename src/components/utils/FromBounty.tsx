@@ -18,11 +18,11 @@ export default function FromBounty({
 
   return (
     <div className="flex flex-col">
-      <span className="text-unactive font-grotesk text-sm font-medium">
+      <span className="text-on-surface-unactive font-grotesk text-sm font-medium">
         {title}
       </span>
       <button
-        className="text-purpleLight text-sm font-medium w-fit hover:underline text-left"
+        className="text-main-light text-sm font-medium w-fit hover:underline text-left"
         onClick={() => router.push(GoToBountyPage(bountyId as string))}
       >
         {bounty?.title}

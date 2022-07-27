@@ -24,7 +24,7 @@ export function ReviewCheck({
     <div>
       <div className="flex items-center gap-2">
         <NumberSelector num={num} />
-        <h2 className="body text-white">{question}</h2>
+        <h2 className="body text-on-surface-p0">{question}</h2>
       </div>
 
       {check && (
@@ -35,7 +35,7 @@ export function ReviewCheck({
                 <Icon
                   icon="check"
                   size={IconSize.Small}
-                  className="text-greenDark"
+                  className="text-success"
                 />
                 <p>{check.whenOn}</p>
               </div>
@@ -45,7 +45,7 @@ export function ReviewCheck({
                 <Icon
                   icon="close"
                   size={IconSize.Small}
-                  className="text-redDark"
+                  className="text-error"
                 />
                 <p>{check.whenOff}</p>
               </div>

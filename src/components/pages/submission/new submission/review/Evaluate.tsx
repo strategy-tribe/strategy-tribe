@@ -64,7 +64,7 @@ export default function Evaluate({ submissionId }: { submissionId: string }) {
         <input
           type="checkbox"
           id="terms"
-          className="checked:bg-purpleDark focus:text-purpleDark hover:text-purpleDark border-0"
+          className="checked:bg-main focus:text-main hover:text-main border-0"
           onChange={(e) => {
             setAcceptedTerms(e.target.checked);
           }}
@@ -72,7 +72,7 @@ export default function Evaluate({ submissionId }: { submissionId: string }) {
         <label htmlFor="terms" className="w-full">
           {'I, '}
           <span
-            className="font-semibold text-purpleLight underline cursor-pointer"
+            className="font-semibold text-main-light underline cursor-pointer"
             onClick={() => {
               notify(
                 {

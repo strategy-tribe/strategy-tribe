@@ -49,7 +49,7 @@ export function AccountWatching() {
       <div className="space-y-6">
         <div className="min-h-[15rem]">
           {!watchingList?.length && (
-            <p className="text-disabled label">
+            <p className="text-on-surface-disabled label">
               You are not subscribed to any notifications for{' '}
               {view === TargetType.Individual ? 'bounties' : 'organizations'}
             </p>
@@ -85,16 +85,16 @@ export function AccountWatching() {
           </AnimatePresence>
         </div>
 
-        <div className="pt-4 border-t-2 border-darker label space-y-4">
-          <div className=" text-disabled flex gap-2 items-center">
+        <div className="pt-4 border-t-2 border-surface-dark label space-y-4">
+          <div className=" text-on-surface-disabled flex gap-2 items-center">
             <Icon icon="notifications" size={IconSize.Small} />
-            We'll notify you of changes to organizations and bounties in your
-            watching list
+            {`We'll notify you of changes to organizations and bounties in your
+            watching list`}
           </div>
           <AnimatePresence>
             {view === TargetType.Individual && (
               <motion.div
-                className=" text-redLight flex gap-2 items-center"
+                className=" text-error-light flex gap-2 items-center"
                 initial={{ y: 5, opacity: 0 }}
                 animate={{
                   y: 0,

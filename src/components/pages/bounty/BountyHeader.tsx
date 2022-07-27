@@ -33,7 +33,7 @@ export function BountyHeader() {
 
   return (
     <>
-      <header className="border-y-2 border-purpleDark py-14 space-y-14">
+      <header className="border-y-2 border-main py-14 space-y-14">
         <Section>
           <div className="flex gap-6">
             {organization && (
@@ -51,6 +51,7 @@ export function BountyHeader() {
             {bounty.tags?.map((tag, i) => {
               return (
                 <Button
+                  key={i}
                   info={{
                     style: ButtonStyle.TextPurple,
                     removeMinWidth: true,
@@ -71,7 +72,7 @@ export function BountyHeader() {
                 href={ETHERSCAN_LINK + bounty.wallet}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex gap-4 items-center text-purpleLight hover:text-purpleDark cursor-pointer"
+                className="flex gap-4 items-center text-main-light hover:text-main cursor-pointer"
               >
                 <Icon icon="emoji_events" size={IconSize.Large} />
                 <span className="title">{bounty.funds} MATIC</span>
@@ -151,13 +152,13 @@ function SubmitMessages() {
   return (
     <div className="pr-2">
       {!canSubmit && userId && (
-        <span className="text-redLight">
+        <span className="text-error-light">
           You need to wait 24 hours between submissions
         </span>
       )}
 
       {!userId && (
-        <span className="text-redLight">Log in to joint the hunt</span>
+        <span className="text-error-light">Log in to joint the hunt</span>
       )}
     </div>
   );

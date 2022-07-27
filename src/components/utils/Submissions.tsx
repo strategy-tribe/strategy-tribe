@@ -36,16 +36,20 @@ function Submissions({ bountyId }: { bountyId: string }) {
       {/* Filters */}
       <div className="flex items-center justify-between">
         {/* pick states of submissions */}
-        <div className="text-unactive flex space-x-6 items-center">
+        <div className="text-on-surface-unactive flex space-x-6 items-center">
           <button
-            className={`hover:text-white label ${!showAll && 'text-white'}`}
+            className={`hover:text-on-surface-p0 label ${
+              !showAll && 'text-on-surface-p0'
+            }`}
             onClick={() => setShowAll(false)}
           >
             {waitingForReview && <p> To Review ({waitingForReview?.length})</p>}
             {!waitingForReview && <span> To Review (...)</span>}
           </button>
           <button
-            className={`hover:text-white label ${showAll && 'text-white'}`}
+            className={`hover:text-on-surface-p0 label ${
+              showAll && 'text-on-surface-p0'
+            }`}
             onClick={() => setShowAll(true)}
           >
             {submissions && <span>All ({submissions?.length})</span>}
@@ -56,7 +60,7 @@ function Submissions({ bountyId }: { bountyId: string }) {
 
       {submissions && submissions.length < 1 && (
         <div className="">
-          <span className="text-disabled">0 submissions</span>
+          <span className="text-on-surface-disabled">0 submissions</span>
         </div>
       )}
 

@@ -24,7 +24,7 @@ export function AdminUserMenu({
 
       {shouldShow && (
         <aside>
-          <div className="bg-darker text-text rounded-lg overflow-hidden body-sm flex flex-col z-50 absolute top-6 right-0">
+          <div className="bg-surface-dark text-on-surface-p1 rounded-lg overflow-hidden body-sm flex flex-col z-50 absolute top-6 right-0">
             <MenuItem
               label="Bounties to fund"
               url={GoToWaitingForFunds()}
@@ -45,7 +45,7 @@ export function AdminUserMenu({
 
             <MenuItem label="Account" url={GoToAccountPage()} onClick={hide} />
 
-            <hr className="w-full text-dark" />
+            <hr className="w-full text-surface" />
             <LogOutButton hide={hide} />
           </div>
 

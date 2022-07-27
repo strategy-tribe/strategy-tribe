@@ -11,8 +11,8 @@ export function HomeLink({ className }: { className?: string }) {
       <a className={`flex gap-2 items-center shrink-0 group ${className}`}>
         <Logo />
         <div className="text-left">
-          <p className="label-lg text-white">StrategyTribe</p>
-          <span className="text-disabled label">
+          <p className="label-lg text-on-surface-p0">StrategyTribe</p>
+          <span className="text-on-surface-disabled label">
             {isStaff && 'Staff Account'}
           </span>
         </div>

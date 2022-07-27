@@ -4,7 +4,6 @@ import { AppearVariants } from '@/lib/framer/Variants';
 import { useGetAllOrganizations } from '@/lib/hooks/organizationHooks';
 import { MapOfOrgs } from '@/lib/models/organizations/MapOfOrgs';
 import { Organization } from '@/lib/models/organizations/organization';
-import { usePushNotifs } from '@/lib/onesignal/PushNotifsContext';
 import { useAuth } from 'auth/AuthContext';
 import { motion } from 'framer-motion';
 import { useState, useMemo } from 'react';
@@ -31,10 +30,7 @@ export const AllOrganizations = () => {
         onClick: () => LogIn(),
         style: ButtonStyle.Hollow,
       };
-  }, [user, isStaff]);
-
-  //*push notifs
-  const {} = usePushNotifs();
+  }, [user, LogIn]);
 
   //*order the orgs
   const mapOfOrg: MapOfOrgs = useMemo(() => {

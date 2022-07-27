@@ -13,7 +13,7 @@ import AppLayout from '@/components/layouts/AppLayout';
 
 const _404Page: NextPageWithLayout = () => {
   return (
-    <div className="text-text space-y-8">
+    <div className="text-on-surface-p1 space-y-8">
       <Head>
         <title>ST | 404</title>
         <meta
@@ -35,7 +35,12 @@ const _404Page: NextPageWithLayout = () => {
             {/* About us */}
             <div className="flex gap-16">
               <figure className="relative h-[10rem] min-w-[10rem]">
-                <Image src="/illustrations/goal.svg" layout="fill" priority />
+                <Image
+                  src="/illustrations/goal.svg"
+                  layout="fill"
+                  priority
+                  alt="illustration"
+                />
               </figure>
               <div className="space-y-6 ">
                 {/* Title */}
@@ -44,19 +49,19 @@ const _404Page: NextPageWithLayout = () => {
                 </div>
                 {/* Content */}
                 <div>
-                  <p className="max-w-lg body">Let's get you back on track.</p>
+                  <p className="max-w-lg body">{`Let's get you back on track.`}</p>
                 </div>
                 {/* CTA */}
                 <div>
                   <div className="-ml-6">
                     <Link href={GoToBountiesPage()}>
-                      <a className="text-white hover:text-purpleLight py-3 px-5 tablet:px-6 font-medium font-grotesk z-10 flex items-center justify-center gap-2 rounded-full min-w-[6rem] w-fit">
+                      <a className="text-on-surface-p0 hover:text-main-light py-3 px-5 tablet:px-6 font-medium font-grotesk z-10 flex items-center justify-center gap-2 rounded-full min-w-[6rem] w-fit">
                         <Icon icon="arrow_forward" />
                         <span>Check the bounties</span>
                       </a>
                     </Link>
                     <Link href={GoToLandingPage()}>
-                      <a className="text-white hover:text-purpleLight py-3 px-5 tablet:px-6 font-medium font-grotesk z-10 flex items-center justify-center gap-2 rounded-full min-w-[6rem] w-fit">
+                      <a className="text-on-surface-p0 hover:text-main-light py-3 px-5 tablet:px-6 font-medium font-grotesk z-10 flex items-center justify-center gap-2 rounded-full min-w-[6rem] w-fit">
                         <Icon icon="arrow_forward" />
                         <span>Home</span>
                       </a>
@@ -65,7 +70,7 @@ const _404Page: NextPageWithLayout = () => {
                       href="https://twitter.com/Strategy_Tribe"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-white hover:text-purpleLight py-3 px-5 tablet:px-6 font-medium font-grotesk z-10 flex items-center justify-center gap-2 rounded-full min-w-[6rem] w-fit"
+                      className="text-on-surface-p0 hover:text-main-light py-3 px-5 tablet:px-6 font-medium font-grotesk z-10 flex items-center justify-center gap-2 rounded-full min-w-[6rem] w-fit"
                     >
                       <Icon icon="arrow_forward" />
                       <span>Follow us on Twitter</span>

@@ -23,7 +23,7 @@ export function BountyCardTags({ bounty }: { bounty: Bounty }) {
 function Tag({ tag, onClick }: { tag: string; onClick?: () => void }) {
   return (
     <button
-      className="label-sm text-unactive text-left capitalize"
+      className="label-sm text-on-surface-unactive text-left capitalize"
       onClick={onClick}
     >
       {tag?.length > 14 ? `${tag.slice(0, 28)}...` : tag}

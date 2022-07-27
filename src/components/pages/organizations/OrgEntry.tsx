@@ -21,12 +21,14 @@ export function OrgEntry({
         <h3 className="title-sm group-hover:underline capitalize">
           {org.name}
         </h3>
-        <span className="text-purpleLight shrink-0 label mt-1">
+        <span className="text-main-light shrink-0 label mt-1">
           {org.bounties} {org.bounties === 1 ? 'bounty' : 'bounties'}
         </span>
       </div>
       {org.bio && (
-        <p className="text-unactive line-clamp-3 max-w-sm body">{org.bio}</p>
+        <p className="text-on-surface-unactive line-clamp-3 max-w-sm body">
+          {org.bio}
+        </p>
       )}
     </motion.div>
   );

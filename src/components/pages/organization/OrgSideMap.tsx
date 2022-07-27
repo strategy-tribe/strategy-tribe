@@ -9,13 +9,13 @@ export function OrgSideMap() {
   return (
     <aside className="w-[160px] flex flex-col gap-2 shrink-0">
       <button
-        className={`border-2 border-purpleDark text-white rounded text-left pr-8 p-4 label capitalize`}
+        className={`border-2 border-main text-on-surface-p0 rounded text-left pr-8 p-4 label capitalize`}
       >
         {OrgView.About}
       </button>
 
       <Link href={GoToOrgBountiesPage(org.id!)}>
-        <a className="hover:bg-darker rounded text-left pr-8 p-4 label capitalize">
+        <a className="hover:bg-surface-dark rounded text-left pr-8 p-4 label capitalize">
           {OrgView.Bounties}
         </a>
       </Link>

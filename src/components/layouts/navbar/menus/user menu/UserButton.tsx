@@ -1,10 +1,7 @@
 import { NavbarButton } from '../../NavbarButton';
 import { useAuth } from 'auth/AuthContext';
 import { cutWallet } from './RegularUserMenu';
-
-function roundToThree(num: number) {
-  return Math.round((num + Number.EPSILON) * 1000) / 1000;
-}
+import { roundToThree } from '@/lib/utils/NumberHelpers';
 
 export function UserButton({ show }: { show: () => void }) {
   const { userInfo, isAuthenticated, balance } = useAuth();
@@ -19,15 +16,15 @@ export function UserButton({ show }: { show: () => void }) {
 
       {isAuthenticated && (
         <button
-          className="pl-4 border border-dark rounded-full label-sm flex items-center gap-2 group"
+          className="pl-4 border border-surface rounded-full label-sm flex items-center gap-2 group"
           onClick={show}
         >
-          {!!balance ? (
+          {balance ? (
             <span>{roundToThree(parseFloat(balance))} MATIC</span>
           ) : (
-            <span className="w-5 h-5 bg-darker animate-pulse rounded"></span>
+            <span className="w-5 h-5 bg-surface-dark animate-pulse rounded"></span>
           )}
-          <span className="py-2 px-4 border border-unactive rounded-full label-sm group-hover:bg-purpleDark group-hover:text-white group-hover:border-purpleDark">
+          <span className="py-2 px-4 border border-on-surface-unactive rounded-full label-sm group-hover:bg-main group-hover:text-on-surface-p0 group-hover:border-main">
             {wallet}
           </span>
         </button>

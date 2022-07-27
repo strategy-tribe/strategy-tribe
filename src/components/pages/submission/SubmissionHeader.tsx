@@ -12,14 +12,16 @@ export function SubmissionHeader() {
   const { submission, bounty } = useSubmissionContext();
   const { isStaff, isAdmin } = useAuth();
   return (
-    <header className="border-y-2 border-purpleDark py-10">
+    <header className="border-y-2 border-main py-10">
       <Section className="text-center space-y-2">
         <div>
-          <span className="label text-unactive">
+          <span className="label text-on-surface-unactive">
             {isStaff ? 'Submission to' : 'Your submission to'}
           </span>
 
-          <h1 className="h4 text-white max-w-3xl mx-auto">{bounty?.title}</h1>
+          <h1 className="h4 text-on-surface-p0 max-w-3xl mx-auto">
+            {bounty?.title}
+          </h1>
         </div>
 
         <div className="flex flex-col items-center space-y-1">

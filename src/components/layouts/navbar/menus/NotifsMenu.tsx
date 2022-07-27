@@ -32,7 +32,7 @@ export function NotifsMenu({
       {/* menu */}
       {shouldShow && (
         <aside>
-          <div className="bg-darker text-text rounded-lg overflow-hidden body-sm flex flex-col z-50 absolute top-6 right-0 w-96">
+          <div className="bg-surface-dark text-on-surface-p1 rounded-lg overflow-hidden body-sm flex flex-col z-50 absolute top-6 right-0 w-96">
             <header className="flex justify-between px-6 py-4">
               <p className="title-xs">Notifications</p>
 
@@ -44,13 +44,13 @@ export function NotifsMenu({
                   style: ButtonStyle.Text,
                   removeMinWidth: true,
                   removePadding: true,
-                  isALink: GoToAccountPage(),
+                  isALink: GoToAccountPage(AccountView.Notifications),
                   onClick: hide,
                 }}
               />
             </header>
 
-            <hr className="w-full text-dark" />
+            <hr className="w-full text-surface" />
 
             {!!notifications && (
               <>
@@ -72,7 +72,7 @@ export function NotifsMenu({
 
             {isLoading && <Loading small />}
 
-            <hr className="w-full text-dark" />
+            <hr className="w-full text-surface" />
             <footer className="flex justify-between px-6 py-4">
               <Button
                 info={{

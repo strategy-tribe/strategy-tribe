@@ -75,7 +75,7 @@ export function Review({ submission }: { submission: SubmissionData }) {
                       key={entry[0]}
                       onClick={() => setView(entry[1])}
                       className={`py-2 px-5 rounded label ${
-                        active ? 'bg-dark' : 'hover:bg-darker'
+                        active ? 'bg-surface' : 'hover:bg-surface-dark'
                       }`}
                     >
                       {entry[1]}
@@ -88,7 +88,7 @@ export function Review({ submission }: { submission: SubmissionData }) {
                 {view === ReviewView.Edit && (
                   <ReactTextareaAutosize
                     placeholder="This input supports markdown"
-                    className="bg-black text-text border border-disabled focus:border-unactive rounded border-dashed w-full font-inter focus:ring-0 first-letter:capitalize whitespace-pre-wrap p-4 body"
+                    className="bg-bg text-on-surface-p1 border border-on-surface-disabled focus:border-on-surface-unactive rounded border-dashed w-full font-inter focus:ring-0 first-letter:capitalize whitespace-pre-wrap p-4 body"
                     onChange={(e) => setFeedback(e.target.value)}
                     value={feedback}
                     minRows={10}
@@ -97,12 +97,12 @@ export function Review({ submission }: { submission: SubmissionData }) {
 
                 {view === ReviewView.Preview && (
                   <div
-                    className={`p-4 border-dark rounded min-h-[17.1rem] ${
+                    className={`p-4 border-surface rounded min-h-[17.1rem] ${
                       feedback === '' ? '' : 'border'
                     }`}
                   >
                     {!feedback && (
-                      <div className="pb-4 border-b-1 border-dark text-unactive flex gap-2 items-center">
+                      <div className="pb-4 border-b-1 border-surface text-on-surface-unactive flex gap-2 items-center">
                         <Icon icon="info" size={IconSize.Small} />
                         <span className="label">
                           Swap to edit and start writing your review

@@ -6,7 +6,7 @@ export function Title({
   extraInfo = '',
   big = false,
   pos = 1,
-  color = 'text-white',
+  color = 'text-on-surface-p0',
   useBorder = true,
 }: {
   title: string;
@@ -35,7 +35,11 @@ export function Title({
         <h2 className="h6 font-bold">{title}</h2>
         {extraInfo && (
           <div className="relative group cursor-pointer pt-1 hidden laptop:block">
-            <Icon icon="info" className="text-unactive" size={IconSize.Small} />
+            <Icon
+              icon="info"
+              className="text-on-surface-unactive"
+              size={IconSize.Small}
+            />
 
             <MoreInfo
               content={extraInfo}
@@ -47,7 +51,7 @@ export function Title({
 
       {useBorder && (
         <span
-          className={`bg-purpleDark h-1 inline-block -translate-y-2  ${translate()} `}
+          className={`bg-main h-1 inline-block -translate-y-2  ${translate()} `}
         ></span>
       )}
     </div>

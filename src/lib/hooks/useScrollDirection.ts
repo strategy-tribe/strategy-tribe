@@ -19,7 +19,6 @@ export function useScrollDirection(
         }
 
         lastPosition.current = newPosition.current;
-      } else {
       }
     };
     window.addEventListener('scroll', handleScroll);
@@ -27,7 +26,7 @@ export function useScrollDirection(
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
-  }, [whenMovingDown, whenMovingUp]);
+  }, [whenMovingDown, whenMovingUp, minPosition]);
 
   return newPosition;
 }

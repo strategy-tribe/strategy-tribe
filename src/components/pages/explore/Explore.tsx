@@ -38,7 +38,7 @@ function ExploreContent() {
     <>
       <div>
         {!!error && (
-          <p className="w-full text-center text-redLight label">
+          <p className="w-full text-center text-error-light label">
             There has been an error.
             <br />
             {`${error}`}

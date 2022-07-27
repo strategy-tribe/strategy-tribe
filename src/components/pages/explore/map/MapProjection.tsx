@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { ResponsiveChoropleth } from '@nivo/geo';
 import { CountryData } from '@/lib/models/map/CountryData';
-import { kFormatter } from '@/lib/utils/NumberHelpers';
+import { kFormatter, roundToThree } from '@/lib/utils/NumberHelpers';
 import { useExploreContext } from '../ExploreContext';
 import useWindowDimensions from '@/lib/hooks/useWindowDimensions';
 
@@ -13,6 +13,14 @@ export default function MapProjection() {
   }).bounties;
 
   const { width } = useWindowDimensions();
+
+  console.log(
+    map.mapData.countries
+      .filter((c) => c.totalFunds > 0)
+      .map((c) => {
+        return { name: c.id, money: c.totalFunds };
+      })
+  );
 
   const mapSize = useMemo(() => {
     const factor = 180 / 1512;
@@ -60,12 +68,14 @@ export default function MapProjection() {
           const { bounties, organizations, totalFunds } =
             feature.data as CountryData;
           return (
-            <div className="elevation-5 bg-dark text-white p-4 rounded space-y-1">
+            <div className="elevation-5 bg-surface text-on-surface-p0 p-4 rounded space-y-1">
               <div className="flex justify-between items-center gap-6">
                 <span className="label-lg">{label}</span>
-                <span className="text-purpleDark">{totalFunds} MATIC</span>
+                <span className="text-main-light h5">
+                  {roundToThree(totalFunds)} MATIC
+                </span>
               </div>
-              <div className="flex justify-between items-center gap-6 label-sm text-unactive">
+              <div className="flex justify-between items-center gap-6 label-sm text-on-surface-unactive">
                 <span>{kFormatter(bounties)} bounties</span>
                 <span>{kFormatter(organizations)} organizations</span>
               </div>

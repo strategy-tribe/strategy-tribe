@@ -21,7 +21,7 @@ const InvoicesPage: NextPageWithLayout = () => {
   );
 
   return (
-    <div className="text-text space-y-8">
+    <div className="text-on-surface-p1 space-y-8">
       <Head>
         <title>ST | Invoices</title>
         <meta
@@ -42,7 +42,7 @@ const InvoicesPage: NextPageWithLayout = () => {
             {invoices?.map((invoice, i) => {
               return (
                 <div key={invoice.id} className="flex gap-4">
-                  <span className="label translate-y-1 text-disabled">
+                  <span className="label translate-y-1 text-on-surface-disabled">
                     {i + 1}
                   </span>
                   <InvoiceListEntry invoice={invoice} />

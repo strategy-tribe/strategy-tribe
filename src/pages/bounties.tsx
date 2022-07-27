@@ -36,17 +36,12 @@ const getMapData = async (): Promise<MapData> => {
 };
 
 export const getStaticProps: GetStaticProps = async () => {
-  //*Prefetch queries
-  // const queryClient = await prefetchExploreQueries(Moralis);
-  // const prefetchedQueries = dehydrate(queryClient);
-
   //*Map data
   const data = await getMapData();
 
   //*Return props
   return {
     props: {
-      // dehydratedState: JSON.parse(JSON.stringify(prefetchedQueries)),
       data: JSON.parse(JSON.stringify(data)),
     },
     revalidate: 10,

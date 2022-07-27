@@ -19,13 +19,13 @@ export function NotificationListEntry({
       <a
         className={`${
           notification.read
-            ? 'bg-black text-unactive hover:bg-dark hover:text-text'
-            : 'bg-darker text-text hover:bg-dark'
+            ? 'bg-bg text-on-surface-unactive hover:bg-surface hover:text-on-surface-p1'
+            : 'bg-surface-dark text-on-surface-p1 hover:bg-surface'
         } relative block py-5 px-6 w-full text-left rounded ${className}`}
         onClick={mutate}
       >
         {!notification.read && showDot && (
-          <span className="absolute top-0 left-0 rounded-full bg-purpleDark h-2 w-2 -translate-x-1 -translate-y-1"></span>
+          <span className="absolute top-0 left-0 rounded-full bg-main h-2 w-2 -translate-x-1 -translate-y-1"></span>
         )}
         <span>{notification.message}</span>
         <br />

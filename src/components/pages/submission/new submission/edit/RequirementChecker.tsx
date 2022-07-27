@@ -12,7 +12,7 @@ export function RequirementChecker({
 }: {
   requirement: Requirement;
   input?: string | File[];
-}): JSX.Element {
+}): React.ReactNode {
   const { title, type, optional } = requirement;
   const [passed, setPassed] = useState(false);
   const [message, setMessage] = useState('');
@@ -43,7 +43,7 @@ export function RequirementChecker({
     >
       <Icon
         icon="close"
-        className={`text-redLight ${!!passed && 'invisible'}`}
+        className={`text-error-light ${!!passed && 'invisible'}`}
       />
 
       <div className="space-y-4 label w-full">
@@ -55,7 +55,7 @@ export function RequirementChecker({
             </span>
 
             <span
-              className={`text-redLight hidden ${
+              className={`text-error-light hidden ${
                 !passed && 'group-hover:inline '
               }`}
             >
@@ -73,7 +73,9 @@ export function RequirementChecker({
         </p>
 
         {/* Error message for mobile */}
-        <span className={`text-redLight laptop:hidden ${passed && 'hidden'}`}>
+        <span
+          className={`text-error-light laptop:hidden ${passed && 'hidden'}`}
+        >
           {message}
         </span>
       </div>

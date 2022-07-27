@@ -6,21 +6,21 @@ function setStyle(style?: NotificationStyle) {
   switch (style) {
     case NotificationStyle.error:
       return {
-        container: 'bg-redDark',
-        title: 'text-white',
-        content: 'text-text',
+        container: 'bg-error',
+        title: 'text-on-surface-p0',
+        content: 'text-on-surface-p1',
       };
     case NotificationStyle.success:
       return {
-        container: 'bg-greenDark',
-        title: 'text-white',
-        content: 'text-white',
+        container: 'bg-success',
+        title: 'text-on-surface-p0',
+        content: 'text-on-surface-p0',
       };
     default:
       return {
-        container: 'bg-purpleDark',
-        title: 'text-white',
-        content: 'text-unactive',
+        container: 'bg-main',
+        title: 'text-on-surface-p0',
+        content: 'text-on-surface-unactive',
       };
   }
 }

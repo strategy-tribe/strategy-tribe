@@ -10,7 +10,7 @@ export function SubmissionContent() {
 
   return (
     <div className="mx-auto max-w-5xl space-y-4">
-      <h2 className="title-sm text-white">
+      <h2 className="title-sm text-on-surface-p0">
         {isStaff ? 'Submission' : 'Your submission'}
       </h2>
 
@@ -18,7 +18,7 @@ export function SubmissionContent() {
         {submission.answers.map((anw, i) => {
           return (
             <div key={i} className="space-y-1">
-              <span className="label text-unactive">
+              <span className="label text-on-surface-unactive">
                 {anw.requirement.title}
               </span>
 

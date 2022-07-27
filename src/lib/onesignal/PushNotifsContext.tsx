@@ -106,7 +106,10 @@ export default function PushNotifsContextProvider({
           icon: 'warning',
           style: NotificationStyle.error,
           content: (
-            <button onClick={LogIn} className="mt-4 label underline text-white">
+            <button
+              onClick={LogIn}
+              className="mt-4 label underline text-on-surface-p0"
+            >
               <span>Join the hunt here</span>
             </button>
           ),

@@ -15,11 +15,11 @@ export function UserAnswer({
   return (
     <div key={answer.requirement.title} className="space-y-2">
       <button
-        className="flex gap-2 label items-center group justify-between w-full text-unactive hover:text-white"
+        className="flex gap-2 label items-center group justify-between w-full text-on-surface-unactive hover:text-on-surface-p0"
         onClick={() => setExpanded(!expanded)}
       >
         <div className="flex gap-2 label items-center w-full">
-          <NumberSelector num={num} colors="bg-dark text-white" />
+          <NumberSelector num={num} colors="bg-surface text-on-surface-p0" />
           <p>{answer.requirement.title}</p>
         </div>
 

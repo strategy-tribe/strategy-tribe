@@ -9,32 +9,25 @@ module.exports = {
       grotesk: ['Space Grotesk', 'sans-serif'],
     },
     colors: {
-      black: '#000',
-      darker: '#121415',
-      dark: '#2D3436',
-      white: '#fff',
+      'main-light': '#A29BFE',
+      main: '#6C5CE7',
+      success: '#00B894',
+      'success-light': '#55EFC4',
+      waiting: '#FDCB6E',
+      'waiting-light': '#FFEAA7',
+      error: '#D63031',
+      'error-light': '#FF7675',
 
-      disabled: '#5C5C5C',
-      unactive: '#858585',
-      text: '#C2C2C2',
+      'on-color': '#FFFFFF',
+      'on-color-light': '#000000',
 
-      blueDark: '#0984E3',
-      blueLight: '#74B9FF',
-
-      greenDark: '#00B894',
-      greeLight: '#55EFC4',
-
-      yellowDark: '#FDCB6E',
-      yellowLight: '#FFEAA7',
-
-      redDark: '#D63031',
-      redLight: '#FF7675',
-
-      purpleDark: '#6C5CE7',
-      purpleLight: '#A29BFE',
-
-      pinkDark: '#E84393',
-      pinkLight: '#FD79A8',
+      bg: '#000000',
+      'surface-dark': '#191919',
+      surface: '#2D3436',
+      'on-surface-disabled': '#5C5C5C',
+      'on-surface-unactive': '#858585',
+      'on-surface-p1': '#C2C2C2',
+      'on-surface-p0': '#FFFFFF',
     },
     screens: {
       st: '500px',

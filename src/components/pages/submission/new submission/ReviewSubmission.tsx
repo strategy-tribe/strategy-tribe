@@ -15,7 +15,7 @@ export function ReviewSubmission() {
         const title = answer.requirement.title;
         return (
           <div key={i} className="space-y-1">
-            <h6 className="label text-white">{title}</h6>
+            <h6 className="label text-on-surface-p0">{title}</h6>
             {typeof input === 'string' && (
               <p className="whitespace-pre-line">
                 {input === '' ? 'None' : input}

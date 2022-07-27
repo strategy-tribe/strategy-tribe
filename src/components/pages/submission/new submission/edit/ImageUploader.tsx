@@ -19,7 +19,7 @@ export function ImageUploader({
   return (
     <>
       <div className="flex space-x-4 items-center">
-        <label className="flex items-center gap-2 cursor-pointer hover:text-purpleLight">
+        <label className="flex items-center gap-2 cursor-pointer hover:text-main-light">
           <input
             type="file"
             className="hidden"
@@ -62,7 +62,7 @@ export function ImageUploader({
                   className="shrink-0 grow-0 aspect-video  snap-center object-cover w-full"
                 />
                 <button
-                  className="flex space-x-2 items-center hover:text-purpleLight"
+                  className="flex space-x-2 items-center hover:text-main-light"
                   onClick={() => {
                     setPreviewImages(
                       previewImages.filter((img) => img !== image)

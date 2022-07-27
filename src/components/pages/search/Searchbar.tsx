@@ -14,7 +14,8 @@ export function Searchbar({
     onBlur?: () => void;
   };
 }) {
-  const colors = 'bg-black text-white placeholder:text-unactive';
+  const colors =
+    'bg-bg text-on-surface-p0 placeholder:text-on-surface-unactive';
   const borders = 'border-0 focus:border-0 focus:ring-0 ';
   const font = 'body-sm';
 
@@ -27,7 +28,7 @@ export function Searchbar({
 
   return (
     <div
-      className={`border-b-2 border-dark flex gap-4 items-center ${className}`}
+      className={`border-b-2 border-surface flex gap-4 items-center ${className}`}
       onBlur={() => {
         if (events?.onBlur) events.onBlur();
       }}

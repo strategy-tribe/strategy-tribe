@@ -30,11 +30,11 @@ const BeforeNewSubmission: NextPageWithLayout = () => {
           <FromBounty bountyId={id as string} title="You are submitting to" />
         </div>
 
-        <div className="bg-darker rounded space-y-10 px-8 pt-6 pb-10 mx-auto max-w-5xl">
+        <div className="bg-surface-dark rounded space-y-10 px-8 pt-6 pb-10 mx-auto max-w-5xl">
           <header className="space-y-1">
             <h1 className="h4">Rules for Submitting</h1>
 
-            <div className="flex items-center gap-3 text-redLight">
+            <div className="flex items-center gap-3 text-error-light">
               <Icon icon="report" />
               <span>
                 You need to read the rules before submitting your findings

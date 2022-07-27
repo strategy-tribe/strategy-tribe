@@ -2,13 +2,14 @@ import {
   GoToAboutusPage,
   GoToGeneralDonationsPage,
   GoToBountiesPage,
+  GoToRulesPage,
 } from '@/utils/Routes';
 import Image from 'next/image';
 import Link from 'next/link';
 
 const Footer = () => {
   return (
-    <footer className="bg-purpleDark w-full text-white">
+    <footer className="bg-main w-full text-on-surface-p0">
       <div className="px-8 laptop:px-2 pt-16 pb-24 space-y-16 mx-auto max-w-5xl">
         {/* LOGO */}
         <div className="flex items-center">
@@ -23,27 +24,27 @@ const Footer = () => {
         </div>
 
         <div className="grid bt:grid-cols-2 w-full gap-y-4">
-          <ul className="space-y-4  text-purpleLight">
-            <li className="cursor-pointer font-grotesk font-medium hover:text-white">
+          <ul className="space-y-4  text-main-light">
+            <li className="cursor-pointer font-grotesk font-medium hover:text-on-surface-p0">
               <Link href={GoToBountiesPage()}>Home</Link>
             </li>
-            <li className="cursor-pointer font-grotesk font-medium hover:text-white">
+            <li className="cursor-pointer font-grotesk font-medium hover:text-on-surface-p0">
               <Link href={GoToAboutusPage()}>About</Link>
             </li>
-            <li className="cursor-pointer font-grotesk font-medium hover:text-white">
-              Rules for submitting
+            <li className="cursor-pointer font-grotesk font-medium hover:text-on-surface-p0">
+              <Link href={GoToRulesPage()}> Rules for submitting</Link>
             </li>
-            <li className="cursor-pointer font-grotesk font-medium hover:text-white">
+            <li className="cursor-pointer font-grotesk font-medium hover:text-on-surface-p0">
               Terms of service
             </li>
-            <li className="cursor-pointer font-grotesk font-medium hover:text-white">
+            <li className="cursor-pointer font-grotesk font-medium hover:text-on-surface-p0">
               <Link href={GoToGeneralDonationsPage()}>
                 Submitting findings is not the only way to help
               </Link>
             </li>
           </ul>
-          <ul className="space-y-4  text-purpleLight">
-            <li className="font-grotesk font-medium hover:text-white">
+          <ul className="space-y-4  text-main-light">
+            <li className="font-grotesk font-medium hover:text-on-surface-p0">
               <a
                 href="https://twitter.com/Strategy_Tribe"
                 target="_blank"
@@ -53,7 +54,7 @@ const Footer = () => {
               </a>
             </li>
 
-            <li className="font-grotesk font-medium hover:text-white">
+            <li className="font-grotesk font-medium hover:text-on-surface-p0">
               <a
                 href="https://github.com/strategy-tribe/strategy-tribe"
                 target="_blank"

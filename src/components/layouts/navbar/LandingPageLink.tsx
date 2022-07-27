@@ -11,9 +11,9 @@ export function LandingPageLink({ className }: { className?: string }) {
       <a className={`flex gap-2 items-center shrink-0 group ${className}`}>
         <Logo />
         <div className="text-left">
-          <p className="label-lg text-white">StrategyTribe</p>
-          <span className="text-purpleDark label">{isStaff && 'Staff'}</span>
-          <span className="text-greenDark label">{isAdmin && 'Admin'}</span>
+          <p className="label-lg text-on-surface-p0">StrategyTribe</p>
+          <span className="text-main label">{isStaff && 'Staff'}</span>
+          <span className="text-success label">{isAdmin && 'Admin'}</span>
         </div>
       </a>
     </Link>

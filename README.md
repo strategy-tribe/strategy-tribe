@@ -19,7 +19,6 @@ This is a work in progress.
     git clone <repo_url>
     cd strategy-tribe
 
-
 ### 2. Set up the backend & env variables
 
 StrategyTribe runs with a Moralis backend. Create one [here](https://moralis.io/ 'here'). Once created, add the `server_url` and the `application_id` as env variables.

@@ -16,7 +16,7 @@ export const RenderMarkdown = ({
           return (
             <a
               href={href}
-              className="text-white underline"
+              className="text-on-surface-p0 underline"
               target="_blank"
               rel="noreferrer"
             >
@@ -39,7 +39,7 @@ export const RenderMarkdown = ({
         },
         th({ children }) {
           return (
-            <td className="label-lg border-1 border-surface py-2 pl-2 pr-8 text-unactive">
+            <td className="label-lg border-1 border-surface py-2 pl-2 pr-8 text-on-surface-unactive">
               {children}
             </td>
           );

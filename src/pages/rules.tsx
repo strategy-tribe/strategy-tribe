@@ -5,68 +5,43 @@ import { NextPageWithLayout } from './_app';
 
 const RulesPage: NextPageWithLayout = () => {
   return (
-    <div className="mx-auto max-w-5xl">
+    <div className="mx-auto max-w-5xl space-y-8 pt-16">
       <Section>
-        <div>
-          <h2 className="text-3xl font-inter font-bold text-white">
-            Rules for submitting findings
-          </h2>
-          <span
-            className={`bg-purpleDark h-1 inline-block -translate-y-2 w-16`}
-          ></span>
-        </div>
+        <h1>Submission rules</h1>
       </Section>
 
       <Section className="flex flex-col gap-6">
         <p className="max-w-xl">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minus soluta
-          sed sit fugit possimus voluptatem obcaecati laboriosam voluptatum
-          provident deserunt doloribus consequatur corporis numquam, illo sint
-          molestias. Voluptates, ullam ex.
+          When submitting your findings, you agree to StrategyTribe terms of
+          service. All the information in the findings you submit must be your
+          own, valid and correct.
           <br />
           <br />
-          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sapiente
-          debitis voluptatum magnam cupiditate temporibus laborum? Similique,
-          nemo voluptates ut a commodi necessitatibus? Officiis porro dolore
-          iste ut fugit, earum consequatur?
+          You must fill in all the required fields to successfully submit your
+          findings. Be mindful that StrategyTribe does not guarantee all
+          submissions will be reviewed. Bounties and their rewards are awarded
+          on a “first come, first served” basis; someone might have submitted
+          their findings before you and therefore be reviewed and awarded the
+          reward first.
           <br />
           <br />
-          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Temporibus,
-          tenetur voluptatibus. At perspiciatis omnis dolore blanditiis eos
-          iusto, quaerat harum sed quod maiores tenetur incidunt, sint
-          consectetur quo, nobis qui?
+          StrategyTribe has a strict no-bullying and no-harassment policy.
           <br />
           <br />
-          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Temporibus,
-          tenetur voluptatibus. At perspiciatis omnis dolore blanditiis eos
-          iusto, quaerat harum sed quod maiores tenetur incidunt, sint
-          consectetur quo, nobis qui?
+          StrategyTribe condemns any form of crime and theft of data, you must
+          have full ownership of your findings.
           <br />
           <br />
-          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Temporibus,
-          tenetur voluptatibus. At perspiciatis omnis dolore blanditiis eos
-          iusto, quaerat harum sed quod maiores tenetur incidunt, sint
-          consectetur quo, nobis qui?
-          <br />
-          <br />
-          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Temporibus,
-          tenetur voluptatibus. At perspiciatis omnis dolore blanditiis eos
-          iusto, quaerat harum sed quod maiores tenetur incidunt, sint
-          consectetur quo, nobis qui?
-          <br />
-          <br />
-          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Temporibus,
-          tenetur voluptatibus. At perspiciatis omnis dolore blanditiis eos
-          iusto, quaerat harum sed quod maiores tenetur incidunt, sint
-          consectetur quo, nobis qui? v
+          StrategyTribe reserves the right to sanction or expel any member at
+          any time if our code of conduct is not respected. When submitting your
+          findings, you agree to our terms of service. All the information in
+          the findings you submit must be your own, valid and correct. You must
+          fill in all the required fields to successfully submit your findings.
         </p>
 
-        <a
-          href="#"
-          className="underline text-purpleLight hover:text-purpleDark"
-        >
+        {/* <a href="#" className="text-main-light hover:text-main label-lg">
           See our full terms of service
-        </a>
+        </a> */}
       </Section>
     </div>
   );

@@ -9,7 +9,7 @@ import { NextPageWithLayout } from './_app';
 
 const AboutUsPage: NextPageWithLayout = () => {
   return (
-    <div className="text-text space-y-8">
+    <div className="text-on-surface-p1 space-y-8">
       <Head>
         <title>ST | About us</title>
         <meta
@@ -28,7 +28,7 @@ const AboutUsPage: NextPageWithLayout = () => {
             initial={{ opacity: 0, y: 5 }}
             animate={{ opacity: 1, y: 0 }}
           >
-            <h2 className="h4 laptop:h3 font-inter font-bold text-white">
+            <h2 className="h4 laptop:h3 font-inter font-bold text-on-surface-p0">
               Re: StrategyTribe
             </h2>
             <About />

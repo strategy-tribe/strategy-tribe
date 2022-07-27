@@ -2,7 +2,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import Icon from '../utils/Icon';
 import { ClientNotification } from './iNotification';
 
-const colors = 'bg-dark text-white';
+const colors = 'bg-surface text-on-surface-p0';
 const position = ' z-50 fixed bottom-4 mx-auto';
 const width = 'max-w-lg w-full';
 const padding = 'rounded-lg p-4 ';
@@ -21,7 +21,7 @@ export function Notification({
   return (
     <AnimatePresence>
       {show && (
-        <div className="max-w-5xl mx-auto border-2 border-purpleDark bg-redDark">
+        <div className="max-w-5xl mx-auto border-2 border-main bg-error">
           <motion.div
             initial={{ opacity: 0, y: 100 }}
             exit={{ opacity: 0, y: 100, transition: { duration: 0.4 } }}
@@ -37,12 +37,12 @@ export function Notification({
             <div className="flex justify-between gap-2 items-center ">
               {notif?.title && <span>{notif.title}</span>}
               <button onClick={() => close()}>
-                <Icon className="hover:text-purpleLight" icon="close" />
+                <Icon className="hover:text-main-light" icon="close" />
               </button>
             </div>
 
             {notif?.content && (
-              <div className="text-unactive text-xs shrink-0">
+              <div className="text-on-surface-unactive text-xs shrink-0">
                 {notif.content}
               </div>
             )}

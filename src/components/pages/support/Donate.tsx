@@ -54,12 +54,10 @@ export function Donate() {
   return (
     <div id="support" className="space-y-8">
       <div>
-        <h2 className="text-3xl font-inter font-bold text-white">
+        <h2 className="text-3xl font-inter font-bold text-on-surface-p0">
           Support StrategyTribe
         </h2>
-        <span
-          className={`bg-purpleDark h-1 inline-block -translate-y-2 w-16`}
-        ></span>
+        <span className={`bg-main h-1 inline-block -translate-y-2 w-16`}></span>
       </div>
 
       {/* Why */}
@@ -70,7 +68,7 @@ export function Donate() {
       </p>
 
       {/* Donation */}
-      <div className="text-text rounded-lg space-y-6">
+      <div className="text-on-surface-p1 rounded-lg space-y-6">
         <div className="space-y-4">
           <label className="flex flex-col">
             <span className="label">Amount (MATIC)</span>
@@ -84,11 +82,11 @@ export function Donate() {
                 setAmount(value);
                 setTyped(true);
               }}
-              className="bg-black border-0 border-b-2 border-dark focus:ring-0 focus:border-purpleDark"
+              className="bg-bg border-0 border-b-2 border-surface focus:ring-0 focus:border-main"
             />
           </label>
           {!canSubmit && typed && (
-            <p className="label text-redLight">
+            <p className="label text-error-light">
               The donation must be greater than 0
             </p>
           )}
@@ -105,7 +103,7 @@ export function Donate() {
                 onError: onDonationError,
                 onSuccess: onDonationSuccess,
               }}
-              disabled={amount <= 0}
+              on-surface-disabled={amount <= 0}
             />
           }
         </div>

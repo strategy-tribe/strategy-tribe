@@ -25,11 +25,11 @@ export function UserSubmissions({ id }: { id: string }) {
       {!userSubmissions ||
         (userSubmissions.length === 0 && (
           <>
-            <p className="text-unactive text-sm font-medium body">
+            <p className="text-on-surface-unactive text-sm font-medium body">
               {'You have not submitted findings to this bounty.'}
               <br />
               <Link href={GoToBeforeNewSubmissionPage(id)}>
-                <a className="underline text-purpleLight font-medium">
+                <a className="underline text-main-light font-medium">
                   You can submit your findings here.
                 </a>
               </Link>

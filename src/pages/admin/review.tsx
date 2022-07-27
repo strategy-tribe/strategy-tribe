@@ -57,7 +57,7 @@ const SubmissionsToReviewPage: NextPageWithLayout = () => {
 
           <>
             {submissions.length === 0 && (
-              <div className="label text-unactive py-4 border-y-2 px-4 border-dark">
+              <div className="label text-on-surface-unactive py-4 border-y-2 px-4 border-surface">
                 No submissions to review
               </div>
             )}
