@@ -58,6 +58,7 @@ const AuthContextProvider = ({
     {
       enabled: isAuthenticated && !!userId,
       staleTime: 1000 * 60 * 60 * 24,
+      cacheTime: Infinity,
     }
   );
 
@@ -112,7 +113,7 @@ const AuthContextProvider = ({
         }
       );
     }
-  }, [isAuthenticated, notify, userInfo]);
+  }, [isAuthenticated]);
 
   async function getWalletMaticBalance() {
     if (!userId || !userInfo) {
