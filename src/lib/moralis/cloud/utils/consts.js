@@ -10,6 +10,12 @@ async function GetChainPrefix() {
   return chainCode;
 }
 
+async function GetRevalidateEndpoint() {
+  const config = await Moralis.Config.get({ useMasterKey: true });
+  const chainCode = config.get('CLIENT_MAP_REVALIDATION_ENDPOINT');
+  return chainCode;
+}
+
 async function GetBaseUrl() {
   const config = await Moralis.Config.get({ useMasterKey: true });
   const chainCode = config.get('BASE_URL');

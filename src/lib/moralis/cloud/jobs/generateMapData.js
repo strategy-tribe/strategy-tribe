@@ -58,6 +58,8 @@ Moralis.Cloud.job('generateMapData', async (request) => {
     mapDataRef.setACL(acl);
 
     await mapDataRef.save(null, { useMasterKey: true });
+
+    await RevalidateClientMap();
   } catch (error) {
     ERROR(`Error generating map data: ${error}`);
   }
@@ -85,5 +87,17 @@ async function getFundsInBountiesFor(countryId, limit) {
       `Error getting the funds in bounties for ${countryId}. Error: ${error}`
     );
     return 0;
+  }
+}
+
+async function RevalidateClientMap() {
+  try {
+    const endpoint = await GetRevalidateEndpoint();
+    await Moralis.Cloud.httpRequest({
+      url: endpoint,
+    });
+    LOG('Revalidated client');
+  } catch (error) {
+    LOG(error);
   }
 }
