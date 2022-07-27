@@ -1,20 +1,22 @@
-import React, { useContext, createContext, useEffect } from 'react';
-import { useQuery } from 'react-query';
-import { useNotification } from '@/components/notifications/NotificationContext';
-import {
-  DelayType,
-  NotificationStyle,
-  NotificationType,
-} from '@/components/notifications/iNotification';
+import Moralis from 'moralis';
 import Link from 'next/link';
-import { GoToAboutusPage } from '@/utils/Routes';
+import React, { createContext, useContext, useEffect } from 'react';
+import { useQuery } from 'react-query';
+
 import {
   UserInfo,
   useServerContext,
 } from '@/lib/moralis/ServerContextProvider';
 import { GetDateInString } from '@/lib/utils/DateHelpers';
 
-import Moralis from 'moralis';
+import {
+  DelayType,
+  NotificationStyle,
+  NotificationType,
+} from '@/components/notifications/iNotification';
+import { useNotification } from '@/components/notifications/NotificationContext';
+
+import { GoToAboutusPage } from '@/utils/Routes';
 
 interface AuthContextInterface {
   userId: string | undefined;
@@ -29,7 +31,8 @@ interface AuthContextInterface {
   balance: string | undefined;
 }
 
-//@ts-ignore-line
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore`;
 const AuthContext = createContext<AuthContextInterface>();
 
 const AuthContextProvider = ({
@@ -109,18 +112,18 @@ const AuthContextProvider = ({
         }
       );
     }
-  }, [isAuthenticated]);
+  }, [isAuthenticated, notify, userInfo]);
 
   async function getWalletMaticBalance() {
     if (!userId || !userInfo) {
       return;
     }
 
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore`;
     const { ethereum } = window;
 
     if (!ethereum) {
-      // throw new Error("We could't connect to your wallet");
       notify(
         {
           title: "We could't connect to your wallet",
@@ -148,7 +151,7 @@ const AuthContextProvider = ({
       const balanceInEth = ethers.utils.formatEther(balance);
       return balanceInEth;
     } catch (error) {
-      console.error('error', error);
+      console.warn('error', error);
       notify(
         {
           title:

@@ -1,12 +1,16 @@
-import { Bounty } from '@/models/index';
-import { GoToOrgPage, GoToBountyPage } from '@/utils/Routes';
-import { GetDateInString } from '@/utils/DateHelpers';
-import { motion } from 'framer-motion';
-import Link from 'next/link';
-import { useGetOrganizationByName } from '@/hooks/organizationHooks';
+import { motion, Variants } from 'framer-motion';
 import Image from 'next/image';
-import { BountyStat } from './BountyStat';
+import Link from 'next/link';
+
+import { useGetOrganizationByName } from '@/hooks/organizationHooks';
+
 import { MoreMenu } from '@/components/utils//MoreMenu';
+
+import { Bounty } from '@/models/index';
+import { GetDateInString } from '@/utils/DateHelpers';
+import { GoToBountyPage, GoToOrgPage } from '@/utils/Routes';
+
+import { BountyStat } from './BountyStat';
 
 export function BountyEntry({
   className,
@@ -17,7 +21,7 @@ export function BountyEntry({
   className?: string;
   bounty: Bounty;
   fullSize?: boolean;
-  variants?: {};
+  variants?: Variants;
 }) {
   const { organization } = useGetOrganizationByName(bounty.organizationName);
 

@@ -1,7 +1,8 @@
-import { Donation } from '@/models/donation';
-import { useMutation } from 'react-query';
 import Moralis from 'moralis';
 import { useState } from 'react';
+import { useMutation } from 'react-query';
+
+import { Donation } from '@/models/donation';
 
 const CHAIN_ID = process.env.NEXT_PUBLIC_CHAIN_ID;
 
@@ -12,6 +13,7 @@ async function newDonation(donation: Donation) {
     amountInEth,
   } = donation;
 
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore`;
   const { ethereum } = window;
 
@@ -47,7 +49,7 @@ export const useCreateDonation = (
   donation: Donation,
   after?: {
     onSuccess?: () => void;
-    onError?: (e: any) => void;
+    onError?: (e: string | Error) => void;
   }
 ) => {
   const [isLoading, setisLoading] = useState(false);

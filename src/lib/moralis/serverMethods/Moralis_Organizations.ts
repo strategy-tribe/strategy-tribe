@@ -17,7 +17,7 @@ export const Moralis_useGetOrganizations = () => {
     const organizations: Organization[] | undefined = CastOrganizations(data);
 
     if (!organizations || !organizations.length)
-      console.error('No organization found');
+      console.warn('No organization found');
 
     return {
       organizations,

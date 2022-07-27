@@ -1,20 +1,22 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+
 import { useUrlSearchParams } from '@/lib/hooks/useUrlSearchParams';
 import { QueryParams } from '@/lib/models';
-import { DEFAULT_FILTERS } from './DefaultFilter';
-import { useExploreContext } from '../ExploreContext';
 import { kFormatter } from '@/lib/utils/NumberHelpers';
+
 import Icon, { IconSize } from '@/components/utils/Icon';
+
 import { Searchbar } from '../../search/Searchbar';
+import { useExploreContext } from '../ExploreContext';
+import { DEFAULT_FILTERS } from './DefaultFilter';
 
 export function ExploreFilters() {
   const { query, setQuery } = useUrlSearchParams();
 
-  const {
-    bountyFetch: { count, isLoading },
-    countries,
-    removeCountry,
-  } = useExploreContext();
+  const { bountyFetch, countries, removeCountry } = useExploreContext();
+
+  const isLoading = bountyFetch?.isLoading ?? true;
+  const count = bountyFetch?.count ?? 0;
 
   function setSearch(s: string) {
     setQuery({ ...query, searchTerm: s, specificityOfTitle: 'Exact' });
@@ -29,16 +31,14 @@ export function ExploreFilters() {
   return (
     <div className="space-y-4">
       <div className="flex justify-end">
-        {
-          <Searchbar
-            searchTerm={query.searchTerm || ''}
-            search={(s) => {
-              setSearch(s);
-              setShowSearchbar(false);
-            }}
-            events={{ onBlur: () => setShowSearchbar(false) }}
-          />
-        }
+        <Searchbar
+          searchTerm={query.searchTerm || ''}
+          search={(s) => {
+            setSearch(s);
+            setShowSearchbar(false);
+          }}
+          events={{ onBlur: () => setShowSearchbar(false) }}
+        />
       </div>
 
       <div className="flex items-center justify-between gap-6">

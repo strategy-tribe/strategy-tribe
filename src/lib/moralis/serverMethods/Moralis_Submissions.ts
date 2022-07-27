@@ -1,11 +1,14 @@
-import { SUBMISSION_TABLE } from './tables';
 import { Moralis } from 'moralis';
 import { v4 as uuid } from 'uuid';
-import { CastSubmission } from '../utils/Helpers';
+
+import { SubmissionQueryParams } from '@/lib/models/queries/SubmissionQueryParams';
 import { SubmissionState } from '@/lib/models/status';
 import { Submission, SubmissionContent } from '@/lib/models/submission';
-import { SubmissionQueryParams } from '@/lib/models/queries/SubmissionQueryParams';
+
 import { UserInput } from '@/components/pages/submission/new submission/UserInput';
+
+import { CastSubmission } from '../utils/Helpers';
+import { SUBMISSION_TABLE } from './tables';
 
 export const Molaris_useSaveSubmission = (
   owner: string,
@@ -114,7 +117,7 @@ export const Moralis_useGetUserSubmissions = (userId: string) => {
 
     const ref = response;
     if (!ref) {
-      console.error(`Unabled to find submissions for user ${userId}`);
+      console.warn(`Unabled to find submissions for user ${userId}`);
       return undefined;
     }
 

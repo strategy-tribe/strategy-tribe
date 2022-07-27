@@ -1,16 +1,18 @@
-import React from 'react';
-import { Section } from '../landing/Section';
-import { useExploreContext } from './ExploreContext';
-import { BountyCard } from './bounty card/BountyCard';
-import Loading from '@/components/utils/Loading';
-import { Button, ButtonStyle } from '@/components/utils/Button';
 import { useUrlSearchParams } from '@/lib/hooks/useUrlSearchParams';
+
+import { Button, ButtonStyle } from '@/components/utils/Button';
+import Loading from '@/components/utils/Loading';
+
+import { Section } from '../landing/Section';
+import { BountyCard } from './bounty card/BountyCard';
+import { useExploreContext } from './ExploreContext';
 import { DEFAULT_FILTER } from './filters/DefaultFilter';
 
 export function BountyBoard() {
-  const {
-    bountyFetch: { bounties, isPreviousData },
-  } = useExploreContext();
+  const { bountyFetch } = useExploreContext();
+
+  const isPreviousData = bountyFetch?.isPreviousData ?? false;
+  const bounties = bountyFetch?.bounties ?? [];
 
   const { setQuery } = useUrlSearchParams();
 
@@ -22,7 +24,7 @@ export function BountyBoard() {
 
   if (bounties?.length)
     return (
-      <Section className={`grid grid-cols-4 gap-x-16 gap-y-10`}>
+      <Section className="grid grid-cols-4 gap-x-16 gap-y-10">
         {bounties?.map((bounty, i) => {
           return <BountyCard bounty={bounty} key={i} />;
         })}
@@ -30,7 +32,7 @@ export function BountyBoard() {
     );
   else
     return (
-      <Section className={`grid place-items-center space-y-2`}>
+      <Section className="grid place-items-center space-y-2">
         <p className="text-center label">No results</p>
         <Button
           info={{

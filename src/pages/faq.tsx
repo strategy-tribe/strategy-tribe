@@ -1,12 +1,13 @@
 import Head from 'next/head';
-import React from 'react';
-import { NextPageWithLayout } from './_app';
-import LandingLayout from '@/components/layouts/LandingLayout';
+import Link from 'next/link';
+
+import { GoToAccountPage, GoToRulesPage } from '@/lib/utils/Routes';
+
+import AppLayout from '@/components/layouts/AppLayout';
 import { FAQuestion } from '@/components/pages/faq/FAQuestion';
 import { Title } from '@/components/utils/Title';
-import { GoToRulesPage, GoToAccountPage } from '@/lib/utils/Routes';
-import Link from 'next/link';
-import AppLayout from '@/components/layouts/AppLayout';
+
+import { NextPageWithLayout } from './_app';
 
 const FAQPage: NextPageWithLayout = () => {
   return (

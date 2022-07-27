@@ -1,24 +1,25 @@
-import { GoToBountiesPage } from '@/utils/Routes';
 import { useAuth } from 'auth/AuthContext';
-import { useRouter } from 'next/router';
-import { useEffect, useMemo, useState } from 'react';
-import { ButtonInformation, ButtonStyle } from '@/components/utils/Button';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
+
 import { Requirement, RequirementType } from '@/lib/models/requirement';
 import { TargetType } from '@/lib/models/targetType';
+
 import AppLayout from '@/components/layouts/AppLayout';
-import { NextPageWithLayout } from '@/pages/_app';
+import { Review } from '@/components/pages/bounty/new bounty/Review';
 import { SetBountyTitle } from '@/components/pages/bounty/new bounty/SetBountyTitle';
 import { SetRequirements } from '@/components/pages/bounty/new bounty/SetRequirements';
 import { SetTargetInfo } from '@/components/pages/bounty/new bounty/SetTargetInfo';
 import { SetTimeLimit } from '@/components/pages/bounty/new bounty/SetTimeLimit';
-import { Review } from '@/components/pages/bounty/new bounty/Review';
-import { useSaveBounty } from '@/lib/hooks/bountyHooks';
+
+import { NextPageWithLayout } from '@/pages/_app';
+import { GoToBountiesPage } from '@/utils/Routes';
 
 const NewBounty: NextPageWithLayout = () => {
-  const [step, setStep] = useState<number>(1);
+  const [step] = useState<number>(1);
   const router = useRouter();
-  const { isStaff, isAuthenticated, userId } = useAuth();
+  const { isStaff, userId } = useAuth();
   //title
   const [title, setTitle] = useState('');
   //Target
@@ -36,93 +37,11 @@ const NewBounty: NextPageWithLayout = () => {
   const [date, setDate] = useState<Date | undefined>(new Date());
   const [hasDeadline, setHaveDeadline] = useState(true);
 
-  const moveToNext = () => {
-    if (step === 5) {
-      router.push(GoToBountiesPage());
-    } else setStep(step + 1);
-  };
-
-  const moveToPrev = () => {
-    if (step === 1) {
-      router.back();
-    } else setStep(step - 1);
-  };
-
-  const canMoveNext: boolean = useMemo(() => {
-    switch (step) {
-      case 1:
-        return !!title;
-      case 2:
-        return !!targetName && !!targetAffiliation;
-      case 3:
-        return requirements.length > 0 && !!requirements[0].title;
-      case 4:
-        return hasDeadline
-          ? !!date && date?.getTime() > new Date().getTime()
-          : true;
-      case 5:
-        return !!title && !!targetName && !!targetAffiliation;
-      default:
-        return false;
-    }
-  }, [
-    title,
-    targetDescription,
-    step,
-    targetAffiliation,
-    targetName,
-    requirements,
-    date,
-    hasDeadline,
-  ]);
-
   useEffect(() => {
     if (!isStaff) {
       router.push(GoToBountiesPage());
     }
-  }, [isStaff, userId]);
-
-  const { Save, isLoading } = useSaveBounty(
-    title,
-    {
-      name: targetName,
-      description: targetDescription,
-      type: targetType,
-      organizationName: targetAffiliation,
-    },
-    requirements,
-    userId as string,
-    hasDeadline ? date : undefined
-  );
-
-  const ctaButton: ButtonInformation | undefined = useMemo(() => {
-    if (step < 5)
-      return {
-        icon: 'arrow_forward',
-        label: `Step ${step} of 5`,
-        onClick: () => moveToNext(),
-        style: ButtonStyle.Filled,
-        disabled: !canMoveNext,
-      };
-    else if (isLoading) {
-      return {
-        icon: 'sync',
-        iconClasses: ' animate-spin ',
-        label: `Uploading...`,
-        onClick: () => {},
-        style: ButtonStyle.Filled,
-        disabled: true,
-      };
-    } else {
-      return {
-        icon: 'publish',
-        label: `Publish`,
-        onClick: () => Save(),
-        style: ButtonStyle.Filled,
-        disabled: !canMoveNext,
-      };
-    }
-  }, [isAuthenticated, userId, step, canMoveNext, isLoading]);
+  }, [isStaff, userId, router]);
 
   return (
     <>

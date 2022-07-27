@@ -1,18 +1,28 @@
-import { useContext, createContext, ReactNode } from 'react';
-import { useUrlSearchParams } from '@/lib/hooks/useUrlSearchParams';
+import { createContext, ReactNode, useContext } from 'react';
+
 import { useGetBounties } from '@/lib/hooks/bountyHooks';
+import { useUrlSearchParams } from '@/lib/hooks/useUrlSearchParams';
 import { MapData } from '@/lib/models/map/MapData';
 
 interface iExploreContext {
-  bountyFetch: ReturnType<typeof useGetBounties>;
+  bountyFetch: ReturnType<typeof useGetBounties> | undefined;
   countries: string[];
   addCountry: (country: string) => void;
   removeCountry: (country: string) => void;
-  map: MapData;
+  map: MapData | undefined;
 }
 
-//@ts-ignore
-const ExploreContext = createContext<iExploreContext>();
+const ExploreContext = createContext<iExploreContext>({
+  bountyFetch: undefined,
+  countries: [],
+  addCountry: () => {
+    return;
+  },
+  removeCountry: () => {
+    return;
+  },
+  map: undefined,
+});
 
 export const ExploreContextProvider = ({
   children,

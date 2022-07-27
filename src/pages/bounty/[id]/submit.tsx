@@ -1,9 +1,10 @@
-import { NewSubmission } from '@/components/pages/submission/new submission/NewSubmission';
-import React from 'react';
 import Head from 'next/head';
-import { NextPageWithLayout } from '@/pages/_app';
-import AppLayout from '@/components/layouts/AppLayout';
 import { useRouter } from 'next/router';
+
+import AppLayout from '@/components/layouts/AppLayout';
+import { NewSubmission } from '@/components/pages/submission/new submission/NewSubmission';
+
+import { NextPageWithLayout } from '@/pages/_app';
 
 const NewSubmissionPage: NextPageWithLayout = () => {
   const router = useRouter();

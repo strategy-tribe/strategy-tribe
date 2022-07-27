@@ -1,21 +1,25 @@
 import { useEffect, useMemo, useState } from 'react';
-import { Button, ButtonStyle } from '@/components/utils/Button';
+
 import { useScrollToTop } from '@/hooks/useScrollTo';
-import { ArrayOfNumbers } from '@/utils/ArrayHelpers';
 import useWindowDimensions from '@/hooks/useWindowDimensions';
-import { useExploreContext } from '../explore/ExploreContext';
 import { useUrlSearchParams } from '@/lib/hooks/useUrlSearchParams';
+
+import { Button, ButtonStyle } from '@/components/utils/Button';
+
+import { ArrayOfNumbers } from '@/utils/ArrayHelpers';
+
+import { useExploreContext } from '../explore/ExploreContext';
 
 export function PageControls() {
   const { bountyFetch } = useExploreContext();
-  const {
-    hasNextPage,
-    hasPreviousPage,
-    isFetching,
-    numOfPages,
-    isLoading,
-    page: currPage,
-  } = bountyFetch;
+
+  const numOfPages = bountyFetch?.numOfPages ?? 0;
+  const currPage = bountyFetch?.page ?? 0;
+  const hasPreviousPage = bountyFetch?.hasPreviousPage ?? false;
+  const isFetching = bountyFetch?.isFetching ?? true;
+
+  const isLoading = bountyFetch?.isLoading ?? true;
+  const hasNextPage = bountyFetch?.hasNextPage ?? false;
 
   const { setQuery, query } = useUrlSearchParams();
 
@@ -51,7 +55,7 @@ export function PageControls() {
   const pages: number[] = useMemo(() => {
     if (numOfPages === 0) return [];
     const moreThan = numOfPages > amountOfPages;
-    const scrollPassed = currPage - amountOfPages / 2 > 0;
+    const scrollPassed = -amountOfPages / 2 > 0;
     const _pages: number[] = ArrayOfNumbers(
       amountOfPages,
       moreThan && scrollPassed ? currPage - amountOfPages / 2 : 0,

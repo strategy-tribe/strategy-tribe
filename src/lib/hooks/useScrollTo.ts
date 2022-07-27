@@ -1,7 +1,7 @@
 export function useScrollTo(
   ref: React.MutableRefObject<HTMLDivElement | null>,
-  offset: number = -100,
-  smooth: boolean = true
+  offset = -100,
+  smooth = true
 ) {
   function scroll() {
     if (!ref.current) return;
@@ -13,7 +13,7 @@ export function useScrollTo(
   return scroll;
 }
 
-export function useScrollToTop(offset: number = -100) {
+export function useScrollToTop(offset = -100) {
   function scroll() {
     const y = offset;
     window.scrollTo({ top: y, behavior: 'smooth' });

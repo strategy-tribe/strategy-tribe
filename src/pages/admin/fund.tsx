@@ -1,25 +1,26 @@
 ('@/components/utils/Title');
-import Head from 'next/head';
-import React, { useState } from 'react';
-import AppLayout from '@/components/layouts/AppLayout';
-
 import {
   ColumnDef,
   flexRender,
   getCoreRowModel,
   useReactTable,
 } from '@tanstack/react-table';
-import { Bounty, BountyState } from '@/lib/models';
+import Head from 'next/head';
+import { useRouter } from 'next/router';
+import { useState } from 'react';
+
 import { useGetBounties } from '@/lib/hooks/bountyHooks';
+import { Bounty, BountyState } from '@/lib/models';
 import { BountyOrderBy } from '@/lib/models/queries/BountyQueryParams';
 import { Order } from '@/lib/models/queries/Order';
 import { GetDateInString } from '@/lib/utils/DateHelpers';
-import { Section } from '@/components/pages/landing/Section';
-import { Button, ButtonStyle } from '@/components/utils/Button';
-import { useRouter } from 'next/router';
 import { GoToBountyPage } from '@/lib/utils/Routes';
-import { NextPageWithLayout } from '../_app';
+
+import AppLayout from '@/components/layouts/AppLayout';
 import ProtectedLayout from '@/components/layouts/ProtectedLayout';
+import { Button, ButtonStyle } from '@/components/utils/Button';
+
+import { NextPageWithLayout } from '../_app';
 
 const columns: ColumnDef<Bounty>[] = [
   {
@@ -135,7 +136,7 @@ const BountiesToFundPage: NextPageWithLayout = () => {
                 <tr
                   key={row.id}
                   className="hover:bg-surface w-full cursor-pointer"
-                  onClick={() => router.push(GoToBountyPage(bounty.id!))}
+                  onClick={() => router.push(GoToBountyPage(bounty.id))}
                 >
                   {row.getVisibleCells().map((cell, i) => {
                     const align = i === 0 ? 'text-left' : 'text-center';

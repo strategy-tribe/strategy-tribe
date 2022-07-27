@@ -1,14 +1,16 @@
-import React from 'react';
-import { Section } from '../landing/Section';
-import { ExploreContextProvider, useExploreContext } from './ExploreContext';
 import dynamic from 'next/dynamic';
-import Loading from '@/components/utils/Loading';
-import { ExploreFilters } from './filters/ExploreFilters';
-import { BountyBoard } from './BountyBoard';
-import { MapData } from '@/lib/models/map/MapData';
-import { PageControls } from '../search/PageControls';
 import { useRouter } from 'next/router';
+
+import { MapData } from '@/lib/models/map/MapData';
 import { GoTo404Page } from '@/lib/utils/Routes';
+
+import Loading from '@/components/utils/Loading';
+
+import { Section } from '../landing/Section';
+import { PageControls } from '../search/PageControls';
+import { BountyBoard } from './BountyBoard';
+import { ExploreContextProvider, useExploreContext } from './ExploreContext';
+import { ExploreFilters } from './filters/ExploreFilters';
 
 const Map = dynamic(import('./map/MapProjection'), {
   ssr: false,
@@ -26,7 +28,9 @@ export function Explore({ data }: { data: MapData }) {
 
 function ExploreContent() {
   const { bountyFetch } = useExploreContext();
-  const { isLoading, bounties, error } = bountyFetch;
+  const isLoading = bountyFetch?.isLoading ?? true;
+  const bounties = bountyFetch?.bounties ?? [];
+  const error = bountyFetch?.error ?? '';
 
   const router = useRouter();
 

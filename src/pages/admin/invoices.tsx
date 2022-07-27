@@ -1,17 +1,15 @@
 ('@/components/utils/Title');
-import Head from 'next/head';
-import React from 'react';
 import AppLayout from '@/components/layouts/AppLayout';
+import Head from 'next/head';
 
-import { Section } from '@/components/pages/landing/Section';
-import { NextPageWithLayout } from '../_app';
-import ProtectedLayout from '@/components/layouts/ProtectedLayout';
-import { useAuth } from 'auth/AuthContext';
-import Loading from '@/components/utils/Loading';
 import { InvoiceListEntry } from '@/components/invoices/InvoiceListEntry';
+import ProtectedLayout from '@/components/layouts/ProtectedLayout';
+import Loading from '@/components/utils/Loading';
 import { Title } from '@/components/utils/Title';
 import { useGetInvoices } from '@/lib/hooks/useGetInvoices';
 import { InvoiceStatus } from '@/lib/models/invoice';
+import { useAuth } from 'auth/AuthContext';
+import { NextPageWithLayout } from '../_app';
 
 const InvoicesPage: NextPageWithLayout = () => {
   const { isAdmin, isFetchingUserInfo } = useAuth();

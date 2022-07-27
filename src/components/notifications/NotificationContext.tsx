@@ -1,10 +1,9 @@
-import { GoToBountiesPage } from '@/utils/Routes';
-import { useRouter } from 'next/router';
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+
 import { Banner } from './Banner';
 import {
-  DelayType,
   ClientNotification,
+  DelayType,
   iNotificationConfig,
   NotificationType,
 } from './iNotification';
@@ -19,17 +18,21 @@ interface NotificationContextInterface {
   ) => void;
 }
 
-//@ts-ignore
-const NotificationContext = React.createContext<NotificationContextInterface>();
+const NotificationContext = React.createContext<NotificationContextInterface>({
+  isAvailable: false,
+  hide: () => {
+    return;
+  },
+  notify: () => {
+    return;
+  },
+});
 
 export const NotificationcontextProvider = ({
   children,
 }: {
   children: React.ReactNode;
 }) => {
-  //*Route
-  const router = useRouter();
-
   //*State
   const [notification, setNotification] = useState<
     ClientNotification | undefined

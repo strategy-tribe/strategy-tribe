@@ -1,11 +1,12 @@
-import { SpreadTheWord } from '@/components/pages/support/SpreadTheWord';
-import { Donate } from '../components/pages/support/Donate';
-import { Section } from '@/components/pages/landing/Section';
-import AppLayout from '@/components/layouts/AppLayout';
 import { motion } from 'framer-motion';
 import Head from 'next/head';
-import { NextPageWithLayout } from './_app';
+
+import AppLayout from '@/components/layouts/AppLayout';
 import LandingLayout from '@/components/layouts/LandingLayout';
+import { Section } from '@/components/pages/landing/Section';
+import { SpreadTheWord } from '@/components/pages/support/SpreadTheWord';
+
+import { NextPageWithLayout } from './_app';
 
 const GeneralDonationsPage: NextPageWithLayout = () => {
   return (

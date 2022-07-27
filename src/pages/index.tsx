@@ -1,9 +1,10 @@
-import { Privacy } from '../components/pages/landing/Privacy';
-import Hero from '@/components/pages/landing/Hero';
 import Head from 'next/head';
-import React from 'react';
-import { NextPageWithLayout } from './_app';
+
 import LandingLayout from '@/components/layouts/LandingLayout';
+import Hero from '@/components/pages/landing/Hero';
+
+import { Privacy } from '../components/pages/landing/Privacy';
+import { NextPageWithLayout } from './_app';
 
 const LandingPage: NextPageWithLayout = () => {
   return (

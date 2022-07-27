@@ -1,10 +1,12 @@
+import { useAuth } from 'auth/AuthContext';
+
 import { Requirement } from '@/lib/models/requirement';
 import { BountyState } from '@/lib/models/status';
 import { Target } from '@/lib/models/target';
-import React from 'react';
-import { useAuth } from 'auth/AuthContext';
-import { Step4Details } from './Details';
+
 import { Title } from '@/components/utils/Title';
+
+import { Step4Details } from './Details';
 ('../../utils/Title');
 
 interface iStep4 {
@@ -29,6 +31,7 @@ export const Review = ({ target, title, requirements, date }: iStep4) => {
 
       <Step4Details
         bounty={{
+          id: '',
           name: target.name,
           organizationName: target.organizationName,
           type: target.type,

@@ -1,9 +1,10 @@
-import { useBountyUrl } from '@/lib/hooks/useBountyUrl';
-import { Bounty } from '@/lib/models';
-import { BountyView } from '@/lib/models/bounty/BountyPage';
+import { createContext, ReactNode, useContext } from 'react';
 
+import { useBountyUrl } from '@/lib/hooks/useBountyUrl';
+import { Bounty, BountyState } from '@/lib/models';
+import { BountyView } from '@/lib/models/bounty/BountyPage';
+import { TargetType } from '@/lib/models/targetType';
 import { GoToBountyPage } from '@/lib/utils/Routes';
-import { useContext, createContext, ReactNode } from 'react';
 
 interface iBountyContext {
   bounty: Bounty;
@@ -11,8 +12,24 @@ interface iBountyContext {
   setView: (val: BountyView) => void;
 }
 
-//@ts-ignore
-const BountyContext = createContext<iBountyContext>();
+const BountyContext = createContext<iBountyContext>({
+  bounty: {
+    id: '',
+    name: '',
+    title: '',
+    wallet: '',
+    type: TargetType.Individual,
+    organizationName: '',
+    state: BountyState.Closed,
+    funds: 0,
+    requirements: [],
+    submissions: 0,
+  },
+  view: BountyView.Submissions,
+  setView: () => {
+    return;
+  },
+});
 
 export const BountyContextProvider = ({
   children,
@@ -24,7 +41,7 @@ export const BountyContextProvider = ({
   const { query, setQuery } = useBountyUrl();
 
   function setView(val: BountyView) {
-    setQuery({ ...query, view: val }, GoToBountyPage(bounty.id!));
+    setQuery({ ...query, view: val }, GoToBountyPage(bounty.id));
   }
 
   return (

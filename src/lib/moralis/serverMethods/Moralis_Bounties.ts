@@ -1,11 +1,13 @@
-import { BOUNTIES_TABLE } from './tables';
 import { Moralis } from 'moralis';
-import { CastBounty } from '../utils/Helpers';
+
 import { Bounty } from '@/lib/models/bounty';
-import { BountyState } from '@/lib/models/status';
 import { BountyQueryParams } from '@/lib/models/queries/BountyQueryParams';
 import { Requirement } from '@/lib/models/requirement';
+import { BountyState } from '@/lib/models/status';
 import { Target } from '@/lib/models/target';
+
+import { CastBounty } from '../utils/Helpers';
+import { BOUNTIES_TABLE } from './tables';
 
 export const Moralis_useGetBounties = (
   config: BountyQueryParams,
@@ -166,7 +168,7 @@ export const Moralis_useGetBounty = (
       const bounty: Bounty = CastBounty(firstDoc);
       return bounty;
     } catch (error) {
-      console.error(
+      console.warn(
         `Could not find the bounty of id: ${id}. Inner error: ${error}`
       );
       return undefined;

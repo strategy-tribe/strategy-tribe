@@ -1,6 +1,6 @@
-import { Section } from '@/components/pages/landing/Section';
 import AppLayout from '@/components/layouts/AppLayout';
-import React from 'react';
+import { Section } from '@/components/pages/landing/Section';
+
 import { NextPageWithLayout } from './_app';
 
 const RulesPage: NextPageWithLayout = () => {

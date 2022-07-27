@@ -1,12 +1,15 @@
-import { Explore } from '@/components/pages/explore/Explore';
-import AppLayout from '@/components/layouts/AppLayout';
-import { NextPageWithLayout } from './_app';
-import Head from 'next/head';
+import fs from 'fs';
+import Moralis from 'moralis/node';
 import { GetStaticProps } from 'next';
+import Head from 'next/head';
+
 import { CountriesData } from '@/lib/models/map/CountriesData';
 import { MapData } from '@/lib/models/map/MapData';
-import Moralis from 'moralis/node';
-import fs from 'fs';
+
+import AppLayout from '@/components/layouts/AppLayout';
+import { Explore } from '@/components/pages/explore/Explore';
+
+import { NextPageWithLayout } from './_app';
 
 const getMapData = async (): Promise<MapData> => {
   const moralis_serverUrl = process.env.NEXT_PUBLIC_SERVER_URL;

@@ -1,16 +1,21 @@
+import { createContext, ReactNode, useContext } from 'react';
+
 import { GoToAccountPage } from '@/lib/utils/Routes';
-import { useContext, createContext, ReactNode, useMemo, useState } from 'react';
-import { Query } from 'react-query';
-import { useAccountUrl } from '../../../lib/models/account/useAccountUrl';
+
 import { AccountView } from '../../../lib/models/account/AccountView';
+import { useAccountUrl } from '../../../lib/models/account/useAccountUrl';
 
 interface iAccountContext {
   view: AccountView;
   setView: (newView: AccountView) => void;
 }
 
-//@ts-ignore
-const AccountContext = createContext<iAccountContext>();
+const AccountContext = createContext<iAccountContext>({
+  view: AccountView.Notifications,
+  setView: () => {
+    return;
+  },
+});
 
 export const AccountContextProvider = ({
   children,

@@ -1,4 +1,4 @@
-import { Requirement, RequirementType } from './requirement';
+import { Requirement } from './requirement';
 import { Review } from './Review';
 import { SubmissionState } from './status';
 
@@ -13,7 +13,7 @@ export type Submission = {
   answers: SubmissionContent[];
   state: SubmissionState;
   //
-  id?: string;
+  id: string;
   createdAt: Date;
   //
   review?: Review;

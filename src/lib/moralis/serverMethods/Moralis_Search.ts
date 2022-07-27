@@ -1,10 +1,12 @@
-import { CastOrganization, CastBounty } from '@/lib/moralis/utils/Helpers';
 import { Moralis } from 'moralis';
-import { ORG_TABLE, BOUNTIES_TABLE } from './tables';
+
+import { CastBounty, CastOrganization } from '@/lib/moralis/utils/Helpers';
+
+import { BOUNTIES_TABLE, ORG_TABLE } from './tables';
 
 export async function Moralis_UseSearch(search: string) {
   //TODO: do in parallel
-  let bounties = await SearchBounties(search);
+  const bounties = await SearchBounties(search);
   const organizations = await SearchOrganizations(search);
 
   return { bounties, organizations };
@@ -14,7 +16,7 @@ export async function Moralis_UseSearch(search: string) {
 
 export async function Moralis_UseSearchBounties(search: string) {
   //TODO: do in parallel
-  let bounties = await SearchBounties(search);
+  const bounties = await SearchBounties(search);
 
   return { bounties };
 

@@ -1,16 +1,18 @@
-import React, { useContext, createContext, useState } from 'react';
 import { Moralis } from 'moralis';
+import React, { createContext, useContext, useState } from 'react';
 import { useMoralis } from 'react-moralis';
-import { useAuthChanged } from './utils/useAuthChanged';
+import { useQueryClient } from 'react-query';
+
 import { CloudFunctionResponse } from '@/lib/moralis/utils/CloudFunctionResponse';
-import { useNotification } from '@/components/notifications/NotificationContext';
+
 import {
   DelayType,
   NotificationStyle,
   NotificationType,
 } from '@/components/notifications/iNotification';
+import { useNotification } from '@/components/notifications/NotificationContext';
+
 import { TargetType } from '../models/targetType';
-import { useQueryClient } from 'react-query';
 
 export type Subscription = {
   name: string;
@@ -42,8 +44,12 @@ interface ServerContextInterface {
 
 const ServerContext = createContext<ServerContextInterface>({
   userId: undefined,
-  LogIn: async () => {},
-  LogOut: () => {},
+  LogIn: async () => {
+    return;
+  },
+  LogOut: () => {
+    return;
+  },
   isAuthenticated: false,
   account: null,
   fetchUserInfo: async () => undefined,
@@ -77,7 +83,7 @@ const ServerContextProvider = ({
     if (!isInitialized) return;
 
     if (!isAuthenticated || !user?.id) {
-      console.error('User is not authenticated');
+      console.warn('User is not authenticated');
       return;
     }
     setIsFetchingUserInfo(true);
@@ -91,7 +97,7 @@ const ServerContextProvider = ({
 
     setIsFetchingUserInfo(false);
     if (response.error) {
-      console.error(`Error from server: ${response.error}`);
+      console.warn(`Error from server: ${response.error}`);
     } else {
       return response.data as UserInfo;
     }
@@ -108,7 +114,7 @@ const ServerContextProvider = ({
           }
           queryClient.invalidateQueries();
         })
-        .catch(function (error) {
+        .catch(function () {
           notify(
             {
               title: 'We could not connect to your wallet.',

@@ -1,13 +1,23 @@
 import React, { createContext, useContext } from 'react';
+
 import { useGetBounty } from '@/lib/hooks/bountyHooks';
-import { Bounty, Submission } from '@/lib/models';
+import { Bounty, Submission, SubmissionState } from '@/lib/models';
 
 interface iSubmissionContext {
   submission: Submission;
   bounty: Bounty | undefined;
 }
-//@ts-ignore
-const SubmissionContext = createContext<iSubmissionContext>();
+const SubmissionContext = createContext<iSubmissionContext>({
+  submission: {
+    id: '',
+    answers: [],
+    bountyId: '',
+    createdAt: new Date(),
+    owner: '',
+    state: SubmissionState.Accepted,
+  },
+  bounty: undefined,
+});
 
 export const SubmissionContextProvider = ({
   children,

@@ -1,19 +1,23 @@
+import { useAuth } from 'auth/AuthContext';
+import { createContext, useContext, useState } from 'react';
+import OneSignal from 'react-onesignal';
+import { useQuery } from 'react-query';
+
+import { CloudFunctionResponse } from '@/lib/moralis/utils/CloudFunctionResponse';
+
 import {
   DelayType,
   NotificationStyle,
   NotificationType,
 } from '@/components/notifications/iNotification';
 import { useNotification } from '@/components/notifications/NotificationContext';
-import { CloudFunctionResponse } from '@/lib/moralis/utils/CloudFunctionResponse';
-import { createContext, useContext, useEffect, useState } from 'react';
-import OneSignal from 'react-onesignal';
-import { useAuth } from 'auth/AuthContext';
+
 import {
   addSubscriber,
-  isSubscribed,
-  removeSubscriber,
-  isSubscribedToAll,
   addSubscriberToAll,
+  isSubscribed,
+  isSubscribedToAll,
+  removeSubscriber,
   removeSubscriberFromAll,
 } from './methods';
 
@@ -41,7 +45,9 @@ interface PushNotifsContextInterface {
 
 const PushNotifsContext = createContext<PushNotifsContextInterface>({
   initialized: undefined,
-  activateNotifs: () => {},
+  activateNotifs: () => {
+    return;
+  },
   areNotifsEnabled: async () => false,
   subscribeToOrg: async () => {
     return { success: false };
@@ -55,10 +61,10 @@ const PushNotifsContext = createContext<PushNotifsContextInterface>({
   isSubscribedToAll: async () => {
     return false;
   },
-  subscribeToAllOrgs: async (id: string) => {
+  subscribeToAllOrgs: async () => {
     return { success: false };
   },
-  unsubscribeFromAllOrgs: async (id: string) => {
+  unsubscribeFromAllOrgs: async () => {
     return { success: false };
   },
 });
@@ -72,20 +78,23 @@ export default function PushNotifsContextProvider({
 }) {
   //*state
   const [initialized, setInitialized] = useState<boolean | undefined>();
-  useEffect(() => {
-    async function init() {
-      try {
-        if (initialized) return;
-        await OneSignal.init({ appId });
-        setInitialized(true);
-      } catch (error) {
-        console.error(`Error initializing OneSignal`, error);
-        setInitialized(false);
-      }
-    }
 
-    if (!initialized) init();
-  }, []);
+  async function initializeOneSignal() {
+    try {
+      if (initialized) return;
+      await OneSignal.init({ appId });
+      setInitialized(true);
+    } catch (error) {
+      console.warn(`Error initializing OneSignal`, error);
+      setInitialized(false);
+    }
+  }
+
+  useQuery('Initialize OneSignal', initializeOneSignal, {
+    enabled: !initialized,
+    cacheTime: Infinity,
+    staleTime: Infinity,
+  });
 
   //*Notifications
   const { notify } = useNotification();
@@ -132,14 +141,14 @@ export default function PushNotifsContextProvider({
       try {
         await OneSignal.setExternalUserId(userId);
       } catch (error) {
-        console.error('could not register the user to one signal:', error);
+        console.warn('could not register the user to one signal:', error);
         return;
       }
     }
     const serverResponse = await addSubscriber(userId, orgName);
 
     if (!serverResponse.success) {
-      console.error(
+      console.warn(
         'could not register the user to one signal: ',
         serverResponse.error
       );

@@ -1,14 +1,16 @@
-import { Organization } from '@/lib/models/organizations/organization';
+import { motion, Variants } from 'framer-motion';
 import { useRouter } from 'next/router';
+
+import { Organization } from '@/lib/models/organizations/organization';
+
 import { GoToOrgPage } from '@/utils/Routes';
-import { motion } from 'framer-motion';
 
 export function OrgEntry({
   org,
   variants,
 }: {
   org: Organization;
-  variants?: {};
+  variants?: Variants;
 }) {
   const router = useRouter();
   return (

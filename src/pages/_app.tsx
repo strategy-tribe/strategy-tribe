@@ -1,15 +1,18 @@
-import '../styles/globals.css';
-import { Hydrate, QueryClient, QueryClientProvider } from 'react-query';
-import type { AppProps } from 'next/app';
 import AuthContextProvider from 'auth/AuthContext';
-import Head from 'next/head';
-import { NotificationcontextProvider as NotificationContextProvider } from '@/components/notifications/NotificationContext';
-import PushNotifsContextProvider from '@/lib/onesignal/PushNotifsContext';
 import { NextPage } from 'next';
+import type { AppProps } from 'next/app';
+import Head from 'next/head';
 import { ReactElement, ReactNode, useState } from 'react';
-import MoralisContext from '@/lib/moralis/MoralisContext';
+import { Hydrate, QueryClient, QueryClientProvider } from 'react-query';
 
-export type NextPageWithLayout<T = {}> = NextPage<T> & {
+import '../styles/globals.css';
+
+import MoralisContext from '@/lib/moralis/MoralisContext';
+import PushNotifsContextProvider from '@/lib/onesignal/PushNotifsContext';
+
+import { NotificationcontextProvider as NotificationContextProvider } from '@/components/notifications/NotificationContext';
+
+export type NextPageWithLayout<T = Record<string, unknown>> = NextPage<T> & {
   getLayout?: (page: ReactElement, pageProps?: any) => ReactNode;
 };
 

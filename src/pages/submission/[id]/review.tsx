@@ -1,11 +1,13 @@
-import { Review } from '@/components/pages/review/Review';
-import { useRouter } from 'next/router';
-import React from 'react';
 import Head from 'next/head';
-import { NextPageWithLayout } from '@/pages/_app';
-import AppLayout from '@/components/layouts/AppLayout';
+import { useRouter } from 'next/router';
+
 import { useGetSubmission } from '@/lib/hooks/submissionHooks';
 import { GoToBountiesPage } from '@/lib/utils/Routes';
+
+import AppLayout from '@/components/layouts/AppLayout';
+import { Review } from '@/components/pages/review/Review';
+
+import { NextPageWithLayout } from '@/pages/_app';
 
 const ReviewPage: NextPageWithLayout = () => {
   const router = useRouter();

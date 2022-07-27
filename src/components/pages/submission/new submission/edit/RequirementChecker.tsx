@@ -1,10 +1,13 @@
-import Icon from '@/components/utils/Icon';
+import { useEffect, useState } from 'react';
+
 import { Requirement, RequirementType } from '@/lib/models/requirement';
 
+import Icon from '@/components/utils/Icon';
+
 import { GetWordCount } from '@/utils/StringHelpers';
-import React, { useEffect, useState } from 'react';
-import { useNewSubmissionContext } from '../NewSubmissionContext';
+
 import { CheckInput } from '../checkers';
+import { useNewSubmissionContext } from '../NewSubmissionContext';
 
 export function RequirementChecker({
   requirement,
@@ -12,7 +15,7 @@ export function RequirementChecker({
 }: {
   requirement: Requirement;
   input?: string | File[];
-}): React.ReactNode {
+}) {
   const { title, type, optional } = requirement;
   const [passed, setPassed] = useState(false);
   const [message, setMessage] = useState('');
@@ -31,16 +34,14 @@ export function RequirementChecker({
         setPassed(input ? input.length > 0 : false);
       }
     }
-  }, [input]);
+  }, [input, optional, type]);
 
   useEffect(() => {
     answerChanged(requirement, passed);
-  }, [passed]);
+  }, [passed, answerChanged, requirement]);
 
   return (
-    <div
-      className={`group cursor-default label-lg min-w-[10rem] flex items-center gap-4 -translate-x-10`}
-    >
+    <div className="group cursor-default label-lg min-w-[10rem] flex items-center gap-4 -translate-x-10">
       <Icon
         icon="close"
         className={`text-error-light ${!!passed && 'invisible'}`}

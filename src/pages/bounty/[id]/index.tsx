@@ -1,16 +1,19 @@
-import { useGetBounty } from '@/hooks/bountyHooks';
-import { useRouter } from 'next/router';
-import Loading from '@/components/utils/Loading';
+// const Moralis = require('moralis/node');
+import Moralis from 'moralis/node';
+import { GetStaticPaths, GetStaticProps } from 'next';
 import Head from 'next/head';
-import { NextPageWithLayout } from '@/pages/_app';
-import AppLayout from '@/components/layouts/AppLayout';
-import { GetStaticProps, GetStaticPaths } from 'next';
+import { useRouter } from 'next/router';
 import { dehydrate, QueryClient } from 'react-query';
-import Queries from '@/utils/Queries';
-import { Moralis_useGetBounty } from '@/lib/moralis/serverMethods/Moralis_Bounties';
-import { Bounty } from '@/components/pages/bounty/Bounty';
 
-const Moralis = require('moralis/node');
+import { useGetBounty } from '@/hooks/bountyHooks';
+import { Moralis_useGetBounty } from '@/lib/moralis/serverMethods/Moralis_Bounties';
+
+import AppLayout from '@/components/layouts/AppLayout';
+import { Bounty } from '@/components/pages/bounty/Bounty';
+import Loading from '@/components/utils/Loading';
+
+import { NextPageWithLayout } from '@/pages/_app';
+import Queries from '@/utils/Queries';
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const moralis_serverUrl = process.env.NEXT_PUBLIC_SERVER_URL;

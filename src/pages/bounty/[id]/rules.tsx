@@ -1,19 +1,18 @@
-import FromBounty from '@/components/utils/FromBounty';
-import { GoToNewSubmissionPage } from '@/utils/Routes';
-import { useRouter } from 'next/router';
-import React from 'react';
 import Head from 'next/head';
-import { NextPageWithLayout } from '@/pages/_app';
+import { useRouter } from 'next/router';
+
 import AppLayout from '@/components/layouts/AppLayout';
-import Icon, { IconSize } from '@/components/utils/Icon';
-import { Section } from '@/components/pages/landing/Section';
 import { Button, ButtonStyle } from '@/components/utils/Button';
+import FromBounty from '@/components/utils/FromBounty';
+import Icon from '@/components/utils/Icon';
+
+import { NextPageWithLayout } from '@/pages/_app';
+import { GoToNewSubmissionPage } from '@/utils/Routes';
 
 const BeforeNewSubmission: NextPageWithLayout = () => {
   const router = useRouter();
   const { id } = router.query;
 
-  const go = () => router.push(GoToNewSubmissionPage(id as string));
   return (
     <>
       <Head>

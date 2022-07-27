@@ -1,20 +1,22 @@
-import Loading from '@/components/utils/Loading';
 import Head from 'next/head';
-import { useGetOrganization } from '@/hooks/organizationHooks';
 import { useRouter } from 'next/router';
-import AppLayout from '@/components/layouts/AppLayout';
-import { NextPageWithLayout } from '@/pages/_app';
-import { MessageForUser } from '@/components/utils/MessageForUser';
-import { Button, ButtonStyle } from '@/components/utils/Button';
-import { GoToOrgPage } from '@/lib/utils/Routes';
+
+import { useGetOrganization } from '@/hooks/organizationHooks';
 import { useGetBounties } from '@/lib/hooks/bountyHooks';
 import { BountyOrderBy } from '@/lib/models/queries/BountyQueryParams';
 import { Order } from '@/lib/models/queries/Order';
+import { ArrayOfNumbers } from '@/lib/utils/ArrayHelpers';
+import { GoToOrgPage } from '@/lib/utils/Routes';
+
+import AppLayout from '@/components/layouts/AppLayout';
 import {
   BountyCard,
   DummyBountyCard,
 } from '@/components/pages/explore/bounty card/BountyCard';
-import { ArrayOfNumbers } from '@/lib/utils/ArrayHelpers';
+import { Button, ButtonStyle } from '@/components/utils/Button';
+import { MessageForUser } from '@/components/utils/MessageForUser';
+
+import { NextPageWithLayout } from '@/pages/_app';
 
 const OrganizationBountiesPage: NextPageWithLayout = () => {
   //*Router
@@ -22,11 +24,10 @@ const OrganizationBountiesPage: NextPageWithLayout = () => {
   const { id: orgId } = router.query;
 
   //*Queries
-  const {
-    organization: org,
-    isLoading,
-    error,
-  } = useGetOrganization(orgId as string, Boolean(orgId as string));
+  const { organization: org, error } = useGetOrganization(
+    orgId as string,
+    Boolean(orgId as string)
+  );
 
   const { bounties, isLoading: isLoadingBounties } = useGetBounties(
     {
@@ -63,7 +64,7 @@ const OrganizationBountiesPage: NextPageWithLayout = () => {
                 label: `${org.name}`,
                 icon: 'arrow_back',
                 style: ButtonStyle.Text,
-                isALink: GoToOrgPage(org.id!),
+                isALink: GoToOrgPage(org.id ?? ''),
               }}
             />
           </div>

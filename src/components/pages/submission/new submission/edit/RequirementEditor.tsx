@@ -1,6 +1,7 @@
-import { Requirement, RequirementType } from '@/lib/models/requirement';
-import React from 'react';
 import ReactTextareaAutosize from 'react-textarea-autosize';
+
+import { Requirement, RequirementType } from '@/lib/models/requirement';
+
 import { ImageUploader } from './ImageUploader';
 import { RequirementChecker } from './RequirementChecker';
 

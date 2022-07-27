@@ -3,7 +3,7 @@ import { useEffect, useRef } from 'react';
 export function useScrollDirection(
   whenMovingUp: () => void,
   whenMovingDown: () => void,
-  minPosition: number = 0
+  minPosition = 0
 ) {
   const lastPosition = useRef<number>(0);
   const newPosition = useRef<number>(0);

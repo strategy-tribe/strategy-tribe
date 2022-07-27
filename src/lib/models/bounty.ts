@@ -31,7 +31,7 @@ export type Bounty = {
   closesAt?: Date;
 
   //set by the server
-  id?: string;
+  id: string;
   createdAt?: Date;
   updatedAt?: Date;
 };

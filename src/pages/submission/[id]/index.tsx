@@ -1,14 +1,15 @@
-import { useRouter } from 'next/router';
-import React from 'react';
 import Head from 'next/head';
-import { NextPageWithLayout } from '@/pages/_app';
+import { useRouter } from 'next/router';
+
+import { useGetSubmission } from '@/lib/hooks/submissionHooks';
+import { GoTo404Page } from '@/lib/utils/Routes';
+
 import AppLayout from '@/components/layouts/AppLayout';
 import { Submission } from '@/components/pages/submission/Submission';
-import { MessageForUser } from '@/components/utils/MessageForUser';
-import { useGetSubmission } from '@/lib/hooks/submissionHooks';
 import Loading from '@/components/utils/Loading';
-import { useBanRegularUsers } from '@/lib/hooks/useBanRegularUsers';
-import { GoTo404Page, GoToBountiesPage } from '@/lib/utils/Routes';
+import { MessageForUser } from '@/components/utils/MessageForUser';
+
+import { NextPageWithLayout } from '@/pages/_app';
 
 const SubmissionPage: NextPageWithLayout = () => {
   const router = useRouter();

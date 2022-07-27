@@ -1,26 +1,21 @@
-import React, { useMemo } from 'react';
 import { ResponsiveChoropleth } from '@nivo/geo';
+import { useMemo } from 'react';
+
+import useWindowDimensions from '@/lib/hooks/useWindowDimensions';
 import { CountryData } from '@/lib/models/map/CountryData';
 import { kFormatter, roundToThree } from '@/lib/utils/NumberHelpers';
+
 import { useExploreContext } from '../ExploreContext';
-import useWindowDimensions from '@/lib/hooks/useWindowDimensions';
 
 export default function MapProjection() {
   const { addCountry, map } = useExploreContext();
 
-  const max = map.mapData.countries.reduce((acc, curr) => {
-    return acc.bounties > curr.bounties ? acc : curr;
-  }).bounties;
+  const max =
+    map?.mapData.countries.reduce((acc, curr) => {
+      return acc.bounties > curr.bounties ? acc : curr;
+    }).bounties ?? 0;
 
   const { width } = useWindowDimensions();
-
-  console.log(
-    map.mapData.countries
-      .filter((c) => c.totalFunds > 0)
-      .map((c) => {
-        return { name: c.id, money: c.totalFunds };
-      })
-  );
 
   const mapSize = useMemo(() => {
     const factor = 180 / 1512;
@@ -31,8 +26,8 @@ export default function MapProjection() {
     <div className="w-full h-[500px]">
       <ResponsiveChoropleth
         projectionType="naturalEarth1"
-        data={map.mapData.countries}
-        features={map.features}
+        data={map?.mapData.countries ?? []}
+        features={map?.features ?? []}
         margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
         colors={['#2E2A4D', '#423B80', '#574BB3', '#6C5CE7']}
         domain={[0, max + max * 0.05]}

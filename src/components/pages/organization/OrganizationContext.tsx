@@ -1,7 +1,8 @@
-import { Organization } from '@/lib/models/organizations/organization';
+import { createContext, ReactNode, useContext } from 'react';
 
+import { Organization } from '@/lib/models/organizations/organization';
 import { GoToBountyPage } from '@/lib/utils/Routes';
-import { useContext, createContext, ReactNode } from 'react';
+
 import { OrgView } from './OrgView';
 import { useOrgUrl } from './useOrgUrl';
 
@@ -11,7 +12,8 @@ interface iOrganizationContext {
   setView: (val: OrgView) => void;
 }
 
-//@ts-ignore
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore`;
 const OrganizationContext = createContext<iOrganizationContext>();
 
 export const OrganizationContextProvider = ({

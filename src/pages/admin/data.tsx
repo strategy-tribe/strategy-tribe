@@ -1,28 +1,27 @@
-import { Title } from '@/components/utils/Title';
-('@/components/utils/Title');
+import AppLayout from '@/components/layouts/AppLayout';
+import ProtectedLayout from '@/components/layouts/ProtectedLayout';
+import { Button, ButtonStyle } from '@/components/utils/Button';
 import Loading from '@/components/utils/Loading';
 import { ImportantMessage } from '@/components/utils/Warning';
-import AppLayout from '@/components/layouts/AppLayout';
-import { NextPageWithLayout } from '../_app';
-import Head from 'next/head';
-import ProtectedLayout from '@/components/layouts/ProtectedLayout';
+import { useGetBounties } from '@/lib/hooks/bountyHooks';
+import { useGetAllOrganizations } from '@/lib/hooks/organizationHooks';
 import { useGetWallets } from '@/lib/hooks/useGetWallets';
-import {
-  Wallet,
-  WalletQueryParams,
-} from '@/lib/moralis/serverMethods/getWallets';
-import { Button, ButtonStyle } from '@/components/utils/Button';
-import { useGetBounties, useGetBounty } from '@/lib/hooks/bountyHooks';
-import { Order } from '@/lib/models/queries/Order';
+import { Bounty } from '@/lib/models';
+import { Organization } from '@/lib/models/organizations/organization';
 import {
   BountyOrderBy,
   BountyQueryParams,
 } from '@/lib/models/queries/BountyQueryParams';
-import { useGetAllOrganizations } from '@/lib/hooks/organizationHooks';
-import { useState } from 'react';
-import { Bounty } from '@/lib/models';
-import { Organization } from '@/lib/models/organizations/organization';
+import { Order } from '@/lib/models/queries/Order';
+import {
+  Wallet,
+  WalletQueryParams,
+} from '@/lib/moralis/serverMethods/getWallets';
 import { GoToBountyPage } from '@/lib/utils/Routes';
+import Head from 'next/head';
+import { useState } from 'react';
+import { NextPageWithLayout } from '../_app';
+('@/components/utils/Title');
 
 const DataPage: NextPageWithLayout = () => {
   const [search, setSearch] = useState('');

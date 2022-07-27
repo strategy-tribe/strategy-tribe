@@ -21,7 +21,7 @@ export function GetDateInString(date: Date, forceDays = false) {
     return x + (x === 1 ? ' day' : ' days');
   }
 
-  let dataLabel: string = '';
+  let dataLabel: string;
   if (diffOfMonnths >= 1) {
     const x = Math.round(diffOfMonnths);
     dataLabel = x + (x === 1 ? ' month' : ' months');

@@ -1,26 +1,29 @@
-import {
-  DelayType,
-  NotificationType,
-  NotificationStyle,
-} from '@/components/notifications/iNotification';
-import { useNotification } from '@/components/notifications/NotificationContext';
-import { Check } from '@/components/utils/BountyRequirementsShowcase';
-import { ButtonInformation, ButtonStyle } from '@/components/utils/Button';
-import { useGetBounty } from '@/lib/hooks/bountyHooks';
-import { useSaveSubmission } from '@/lib/hooks/submissionHooks';
-import { Bounty } from '@/lib/models';
-import { Requirement, RequirementType } from '@/lib/models/requirement';
-import { GoToSubmissionPage } from '@/lib/utils/Routes';
 import { useAuth } from 'auth/AuthContext';
 import Link from 'next/link';
 import {
   createContext,
   ReactNode,
-  useState,
-  useMemo,
-  useEffect,
   useContext,
+  useEffect,
+  useMemo,
+  useState,
 } from 'react';
+
+import { useGetBounty } from '@/lib/hooks/bountyHooks';
+import { useSaveSubmission } from '@/lib/hooks/submissionHooks';
+import { Bounty } from '@/lib/models';
+import { Requirement, RequirementType } from '@/lib/models/requirement';
+import { GoToSubmissionPage } from '@/lib/utils/Routes';
+
+import {
+  DelayType,
+  NotificationStyle,
+  NotificationType,
+} from '@/components/notifications/iNotification';
+import { useNotification } from '@/components/notifications/NotificationContext';
+import { Check } from '@/components/utils/BountyRequirementsShowcase';
+import { ButtonInformation, ButtonStyle } from '@/components/utils/Button';
+
 import { UserInput } from './UserInput';
 
 interface iNewSubmissionContext {
@@ -35,8 +38,23 @@ interface iNewSubmissionContext {
   bounty: Bounty | undefined;
 }
 
-//@ts-ignore
-const NewSubmissionContext = createContext<iNewSubmissionContext>();
+const NewSubmissionContext = createContext<iNewSubmissionContext>({
+  bountyId: '',
+  userAnswers: [],
+  setUserAnswers: () => {
+    return;
+  },
+  answerChanged: () => {
+    return;
+  },
+  editPhase: false,
+  backToEdit: () => {
+    return;
+  },
+  requirementsFullfiled: false,
+  ctaButton: undefined,
+  bounty: undefined,
+});
 
 export const NewSubmissionContextProvider = ({
   children,
@@ -60,7 +78,7 @@ export const NewSubmissionContextProvider = ({
     return (
       checks.filter((c) => !c.passed && !c.requirement.optional).length === 0
     );
-  }, [userAnswers, checks]);
+  }, [checks]);
 
   const { bounty } = useGetBounty(bountyId as string, true, {
     addAttachment: true,
@@ -83,7 +101,7 @@ export const NewSubmissionContextProvider = ({
       });
       setChecks(newChecks);
     }
-  }, [bounty]);
+  }, [bounty, userAnswers]);
 
   //*Mutations
   const { Save } = useSaveSubmission(
@@ -175,7 +193,7 @@ export const NewSubmissionContextProvider = ({
         style: ButtonStyle.Filled,
         disabled: !requirementsFullfiled,
       };
-  }, [requirementsFullfiled, editPhase]);
+  }, [requirementsFullfiled, editPhase, Save]);
 
   return (
     <NewSubmissionContext.Provider

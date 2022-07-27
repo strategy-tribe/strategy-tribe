@@ -1,11 +1,13 @@
-import { useOrganizationContext } from './OrganizationContext';
 import { useGetBounties } from '@/lib/hooks/bountyHooks';
-import { Order } from '@/lib/models/queries/Order';
 import { BountyOrderBy } from '@/lib/models/queries/BountyQueryParams';
-import { BountyCard, DummyBountyCard } from '../explore/bounty card/BountyCard';
+import { Order } from '@/lib/models/queries/Order';
 import { ArrayOfNumbers } from '@/lib/utils/ArrayHelpers';
-import { Button, ButtonStyle } from '@/components/utils/Button';
 import { GoToOrgBountiesPage } from '@/lib/utils/Routes';
+
+import { Button, ButtonStyle } from '@/components/utils/Button';
+
+import { BountyCard, DummyBountyCard } from '../explore/bounty card/BountyCard';
+import { useOrganizationContext } from './OrganizationContext';
 import { AboutTitle } from './utils/AboutTitle';
 
 const AMOUNT_OF_BOUNTIES = 9;

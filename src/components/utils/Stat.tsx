@@ -1,6 +1,5 @@
 import { useNotification } from '@/components/notifications/NotificationContext';
 import Icon, { IconSize } from '@/components/utils/Icon';
-import React from 'react';
 
 export function Stat({
   title,
@@ -32,7 +31,7 @@ export function Stat({
       }`}
       onClick={() => {
         if (copyable && content) {
-          let x = copyThis ? copyThis : content;
+          const x = copyThis ? copyThis : content;
           navigator.clipboard.writeText(x);
           show({ title: 'Copied', content: x });
         }
