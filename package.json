@@ -3,12 +3,16 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "format": "prettier -w .",
+    "format:check": "prettier -c .",
+    "lint": "next lint",
+    "lint:fix": "eslint src --fix && npm run format",
+    "lint:strict": "eslint --max-warnings=0 src",
     "prepare": "husky install",
     "prettier": "prettier --write .",
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "start": "next start"
   },
   "dependencies": {
     "@nivo/core": "^0.79.0",
@@ -38,9 +42,14 @@
     "@types/react": "^18.0.4",
     "@types/react-dom": "^18.0.0",
     "@types/uuid": "^8.3.4",
+    "@typescript-eslint/eslint-plugin": "^5.31.0",
+    "@typescript-eslint/parser": "^5.31.0",
     "autoprefixer": "^10.4.4",
     "eslint": "^8.13.0",
     "eslint-config-next": "^12.1.5",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-simple-import-sort": "^7.0.0",
+    "eslint-plugin-unused-imports": "^2.0.0",
     "husky": "^8.0.1",
     "postcss": "^8.4.12",
     "prettier": "^2.7.1",
