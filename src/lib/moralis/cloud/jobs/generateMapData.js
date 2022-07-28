@@ -3,34 +3,6 @@ Moralis.Cloud.job('generateMapData', async () => {
   await revalidateClientMap();
 });
 
-async function getFundsInBountiesFor(countryId, limit) {
-  try {
-    const bountyQuery = new Moralis.Query(BOUNTY_TABLE);
-    bountyQuery.equalTo('countries', countryId);
-    bountyQuery.limit(limit);
-    const bountiesInCountry = await bountyQuery.find();
-
-    const fundsArray = bountiesInCountry.map((bountyRef) =>
-      bountyRef.get('funds')
-    );
-
-    const fundsInBounties = fundsArray.reduce((acc, curr) => (acc += curr));
-
-    if (!fundsInBounties) {
-      ERROR(`No funds for ${countryId}`);
-      return 0;
-    }
-    return fundsInBounties;
-  } catch (error) {
-    ERROR(
-      `Error getting the funds in bounties for ${countryId}. Error: ${JSON.stringify(
-        error
-      )}`
-    );
-    return 0;
-  }
-}
-
 async function generateMapData() {
   try {
     LOG('Starting to generate map data');
@@ -42,36 +14,36 @@ async function generateMapData() {
 
     const organizations = await q.find();
 
+    //make them unique
+    const countries = [
+      ...new Set(
+        organizations.reduce((acc, curr) => {
+          return [...acc, ...curr.get('countries')];
+        }, [])
+      ),
+    ];
+
     const countriesDataArray = [];
-
-    for (const org of organizations) {
-      const orgCountries = org.get('countries');
-
-      for (const countryId of orgCountries) {
-        let countryData = countriesDataArray.find((c) => c.id === countryId);
-
-        const fundsInBounties = await getFundsInBountiesFor(countryId, limit);
-
-        if (countryData) {
-          countryData.bounties += org.get('bounties');
-          countryData.totalFunds += fundsInBounties;
-          countryData.organizations++;
-        } else {
-          countryData = {
-            id: countryId,
-            bounties: org.get('bounties'),
-            totalFunds: fundsInBounties,
-            organizations: 1,
-          };
-          countriesDataArray.push(countryData);
-        }
-      }
-
-      LOG(
-        `checked organizations (${organizations.indexOf(org) + 1}/${
-          organizations.length
-        }).\n${countriesDataArray.length} countries.`
+    for (const country of countries) {
+      const { fundsInBounties, numOfBounties } = await getFundsInBountiesFor(
+        country,
+        limit
       );
+      const numOfOrgs = organizations.filter((org) =>
+        org.get('countries').includes(country)
+      ).length;
+
+      const countryData = {
+        id: country,
+        bounties: numOfBounties,
+        organizations: numOfOrgs,
+        totalFunds: fundsInBounties,
+      };
+      countriesDataArray.push(countryData);
+
+      if (country === 'rus' || country === 'RUS') {
+        LOG(`RUSSIA DATA:\n${JSON.stringify(countryData, null, 2)}`);
+      }
     }
 
     const mapDataRef = new Moralis.Object(MAP_DATA_TABLE);
@@ -92,6 +64,33 @@ async function generateMapData() {
     await mapDataRef.save(null, { useMasterKey: true });
   } catch (error) {
     ERROR(`Error generating map data: ${error}`);
+  }
+}
+
+async function getFundsInBountiesFor(countryId, limit) {
+  try {
+    const bountyQuery = new Moralis.Query(BOUNTY_TABLE);
+    bountyQuery.equalTo('countries', countryId);
+    bountyQuery.limit(limit);
+    const bountiesInCountry = await bountyQuery.find();
+
+    const fundsArray = bountiesInCountry.map((bountyRef) =>
+      bountyRef.get('funds')
+    );
+
+    const fundsInBounties = fundsArray.reduce((acc, curr) => (acc += curr));
+
+    if (!fundsInBounties) {
+      return { fundsInBounties: 0, numOfBounties: 0 };
+    }
+    return { fundsInBounties, numOfBounties: bountiesInCountry.length };
+  } catch (error) {
+    ERROR(
+      `Error getting the funds in bounties for ${countryId}. Error: ${JSON.stringify(
+        error
+      )}`
+    );
+    return { fundsInBounties: 0, numOfBounties: 0 };
   }
 }
 
