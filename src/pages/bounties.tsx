@@ -31,12 +31,11 @@ const getMapData = async (): Promise<MapData> => {
     countries: res.attributes.stats,
   };
 
-  const featuresRes = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/data/features.json`
-  );
+  const getEndpoint = `${process.env.NEXT_PUBLIC_BASE_URL}/data/features.json`;
+  const featuresRes = await fetch(getEndpoint);
   const features = await featuresRes.json();
 
-  return { mapData, features };
+  return { mapData, features: features.features };
 };
 
 export const getStaticProps: GetStaticProps = async () => {
@@ -52,6 +51,7 @@ export const getStaticProps: GetStaticProps = async () => {
       revalidate: 10,
     };
   } catch (error) {
+    console.error('error:\n', error);
     return {
       notFound: true,
     };

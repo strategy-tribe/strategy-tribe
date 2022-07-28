@@ -1,17 +1,19 @@
-import {
-  Moralis_useGetBounty,
-  Moralis_useGetBounties,
-  Moralis_useSaveBounty,
-} from '@/lib/moralis/serverMethods/Moralis_Bounties';
-import { BountyQueryParams } from '@/lib/models/queries/BountyQueryParams';
-import { GoToBountyPage } from '@/utils/Routes';
 import { useRouter } from 'next/router';
-import { useMutation, useQuery, useQueryClient } from 'react-query';
-import Queries from '@/utils/Queries';
-import { Requirement, RequirementType } from '@/lib/models/requirement';
-import { Target } from '@/lib/models/target';
 import { useEffect, useState } from 'react';
 import { useMoralis } from 'react-moralis';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
+
+import { BountyQueryParams } from '@/lib/models/queries/BountyQueryParams';
+import { Requirement, RequirementType } from '@/lib/models/requirement';
+import { Target } from '@/lib/models/target';
+import {
+  Moralis_useGetBounties,
+  Moralis_useGetBounty,
+  Moralis_useSaveBounty,
+} from '@/lib/moralis/serverMethods/Moralis_Bounties';
+
+import Queries from '@/utils/Queries';
+import { GoToBountyPage } from '@/utils/Routes';
 
 //!Get All
 export const useGetBounties = (filters: BountyQueryParams, enabled = true) => {

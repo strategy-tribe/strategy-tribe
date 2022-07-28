@@ -126,6 +126,7 @@ export const Moralis_useGetBounties = (
     const results = await Promise.all(promises);
 
     const data = results[0] as Moralis.Object<Moralis.Attributes>[];
+
     const count = results[1] as number;
 
     const bounties: Bounty[] | undefined = castMultipleBounties(data);
