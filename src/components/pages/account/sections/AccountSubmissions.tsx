@@ -1,6 +1,8 @@
-import { SubmissionListEntry } from '@/components/submissions/SubmissionListEntry';
-import { useGetUserSubmissions } from '@/lib/hooks/submissionHooks';
 import { useAuth } from 'auth/AuthContext';
+
+import { useGetUserSubmissions } from '@/lib/hooks/submissionHooks';
+
+import { SubmissionListEntry } from '@/components/submissions/SubmissionListEntry';
 
 export function AccountSubmissions() {
   const { userId, userInfo } = useAuth();
@@ -24,7 +26,7 @@ export function AccountSubmissions() {
   return (
     <div className="w-full space-y-6">
       <div className="pb-4 border-b-1 border-surface">
-        <span className="body translate-x-0.5 text-on-surface-unactive">
+        <span className="body-sm body translate-x-0.5 text-on-surface-unactive">
           {submissions.length}{' '}
           {submissions.length === 1 ? 'submission' : 'submissions'}
         </span>
