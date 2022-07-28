@@ -8,16 +8,13 @@ Moralis.Cloud.afterSave(TRANSACTIONS_TABLE, async function (request) {
 });
 
 async function TrytoUpdate(address) {
-  //FIND THE TYPE OF THE WALLET
   let q = new Moralis.Query(WALLET_TABLE);
   q.equalTo('address', address);
   const walletObj = await q.first({ useMasterKey: true });
 
   if (!walletObj) {
     ERROR(`wallet not found (${address})`);
-    return undefined;
-  } else {
-    LOG(`wallet found (${address})`);
+    return;
   }
 
   const type = walletObj.get('type');
@@ -33,7 +30,22 @@ async function TrytoUpdate(address) {
   objQuery.equalTo('wallet', address);
   obj = await objQuery.first({ useMasterKey: true });
 
-  return await UpdateObjectWallet(obj, address);
+  await UpdateObjectWallet(obj, address);
+
+  if (type === 'bounty') {
+    const orgName = obj.get('organizationName');
+
+    const orgQuery = new Moralis.Query(ORG_TABLE);
+    orgQuery.equalTo('name', orgName);
+    const orgRef = await orgQuery.first();
+
+    if (!orgRef) {
+      ERROR(`Org (${orgName}) not found when updating transactions`);
+      return;
+    }
+
+    await CalculateBountiesOnOrg(orgRef);
+  }
 }
 
 async function UpdateObjectWallet(obj, address) {

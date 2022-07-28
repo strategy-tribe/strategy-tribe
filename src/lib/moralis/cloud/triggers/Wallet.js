@@ -3,7 +3,10 @@ Moralis.Cloud.beforeDelete(WALLET_TABLE, async function (request) {
     const { object: wallet } = request;
     await ArchiveWallet(wallet);
   } catch (error) {
-    ERROR(`Unabled to archived wallet. Reason: "${error}"`, true);
+    ERROR(
+      `Unabled to delete wallet. Unabled to archived wallet. Reason: "${error}"`,
+      true
+    );
   }
 });
 
@@ -19,10 +22,12 @@ Moralis.Cloud.beforeSave('Wallet', async function (request) {
       funcName,
       {
         address: address,
+        syncHistorical: false,
       },
       { useMasterKey: true }
     );
   } catch (error) {
-    ERROR(`Error watching address ${address}. Reason: ${error}`, true);
+    const reason = JSON.stringify(error);
+    ERROR(`Error watching address ${address}.\nReason: ${reason}`, true);
   }
 });

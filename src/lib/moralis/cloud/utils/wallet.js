@@ -43,7 +43,7 @@ async function CreateWallet(type, id) {
     return address;
   } catch (error) {
     ERROR(
-      `Error creating wallet of type (${type}) and id (${id}). Reason: ${error}`,
+      `Error creating wallet of type (${type}) and id (${id}).\nReason: ${error}`,
       true
     );
   }

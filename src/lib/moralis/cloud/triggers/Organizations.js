@@ -38,6 +38,9 @@ Moralis.Cloud.afterSave(ORG_TABLE, async function (request) {
     organization.set('funds', 0);
     await organization.save(null, { useMasterKey: true });
   }
+
+  //*Check that the countries in the bounties are the same as in the org
+  await CheckBountiesCountries(organization);
 });
 
 Moralis.Cloud.beforeDelete(ORG_TABLE, async function (request) {
