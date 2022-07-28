@@ -1,14 +1,9 @@
-import React from 'react';
-import { CapitalizeFirstLetter } from '@/lib/utils/StringHelpers';
 import { Bounty } from '@/lib/models';
 
-export function BountyCardTitle({ bounty }: { bounty: Bounty }) {
-  const { title, id, organizationName } = bounty;
+import { ParseBountyTitle } from '../../../../lib/utils/BountyHelpers';
 
-  const parsedTitle = title.replace(
-    organizationName.toLocaleLowerCase(),
-    CapitalizeFirstLetter(organizationName)
-  );
+export function BountyCardTitle({ bounty }: { bounty: Bounty }) {
+  const parsedTitle = ParseBountyTitle(bounty);
 
   return <h5 className="group-hover:text-on-surface-p0">{parsedTitle}</h5>;
 }

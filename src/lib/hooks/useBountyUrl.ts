@@ -1,7 +1,8 @@
-import { BountyView } from '@/lib/models/bounty/BountyPage';
-import { BountyUrl } from '@/lib/models/bounty/BountyUrl';
 import { useRouter } from 'next/router';
 import { useMemo } from 'react';
+
+import { BountyUrl } from '@/lib/models/bounty/BountyUrl';
+import { BountyView } from '@/lib/models/bounty/BountyView';
 
 export const useBountyUrl = () => {
   const router = useRouter();

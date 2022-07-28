@@ -1,4 +1,5 @@
 import { Bounty as BountyData } from '@/lib/models';
+
 import { BountyContent } from './BountyContent';
 import { BountyContextProvider } from './BountyContext';
 import { BountyHeader } from './BountyHeader';

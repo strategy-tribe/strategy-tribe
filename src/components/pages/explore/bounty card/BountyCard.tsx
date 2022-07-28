@@ -1,11 +1,12 @@
-import React from 'react';
+import Link from 'next/link';
+
 import { Bounty } from '@/lib/models';
+import { GoToBountyPage } from '@/lib/utils/Routes';
+
 import { BountyCardFooter } from './BountyCardFooter';
 import { BountyCardReward } from './BountyCardReward';
-import { BountyCardTitle } from './BountyCardTitle';
 import { BountyCardTags } from './BountyCardTags';
-import { GoToBountyPage } from '@/lib/utils/Routes';
-import Link from 'next/link';
+import { BountyCardTitle } from './BountyCardTitle';
 
 export function BountyCard({ bounty }: { bounty: Bounty }) {
   const animClasses = 'transition-all duration-[250] ease-out';
@@ -19,7 +20,7 @@ export function BountyCard({ bounty }: { bounty: Bounty }) {
         className={`absolute inset-0 group-hover:bg-surface z-0 rounded origin-left ${expandBg} ${animClasses} ${moveBgtoLeft}`}
       ></div>
 
-      <Link href={GoToBountyPage(bounty.id!)}>
+      <Link href={GoToBountyPage(bounty.id)}>
         <a className={`relative flex flex-col gap-4 z-10 ${animClasses}`}>
           <header className="flex justify-between gap-4">
             <div>

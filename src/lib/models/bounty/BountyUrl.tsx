@@ -1,4 +1,4 @@
-import { BountyView } from './BountyPage';
+import { BountyView } from './BountyView';
 
 export type BountyUrl = {
   view: BountyView;

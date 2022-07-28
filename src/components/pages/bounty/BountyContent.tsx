@@ -1,10 +1,11 @@
 import { useAuth } from 'auth/AuthContext';
+
+import { BountyView } from '../../../lib/models/bounty/BountyView';
 import { Section } from '../landing/Section';
 import { useBountyContext } from './BountyContext';
 import { BountyMoreDetails } from './BountyMoreDetails';
 import { BountySideMap } from './BountySideMap';
 import { BountySubmissions } from './BountySubmissions';
-import { BountyView } from '../../../lib/models/bounty/BountyPage';
 
 export function BountyContent() {
   const { view } = useBountyContext();

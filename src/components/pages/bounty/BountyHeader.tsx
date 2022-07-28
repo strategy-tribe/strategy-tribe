@@ -1,18 +1,21 @@
-import { Button, ButtonStyle } from '@/components/utils/Button';
-import { useCanUserSubmit } from '@/lib/hooks/submissionHooks';
-import { GoToBeforeNewSubmissionPage, GoToOrgPage } from '@/lib/utils/Routes';
 import { useAuth } from 'auth/AuthContext';
-import { useState } from 'react';
-import { useGetOrganizationByName } from '@/lib/hooks/organizationHooks';
-import BountyStates from '@/components/pages/bounty/BountyStates';
-import { Stat } from '../../utils/Stat';
-import FromOrganization from '@/components/utils/FromOrganization';
-import { Section } from '../landing/Section';
-import Icon, { IconSize } from '@/components/utils/Icon';
-import { DonationPopUp } from '@/components/donations/DonationPopUp';
-import { useBountyContext } from './BountyContext';
-import { CapitalizeFirstLetter } from '@/lib/utils/StringHelpers';
 import { useRouter } from 'next/router';
+import { useState } from 'react';
+
+import { useGetOrganizationByName } from '@/lib/hooks/organizationHooks';
+import { useCanUserSubmit } from '@/lib/hooks/submissionHooks';
+import { ParseBountyTitle } from '@/lib/utils/BountyHelpers';
+import { GoToBeforeNewSubmissionPage, GoToOrgPage } from '@/lib/utils/Routes';
+
+import { DonationPopUp } from '@/components/donations/DonationPopUp';
+import BountyStates from '@/components/pages/bounty/BountyStates';
+import { Button, ButtonStyle } from '@/components/utils/Button';
+import FromOrganization from '@/components/utils/FromOrganization';
+import Icon, { IconSize } from '@/components/utils/Icon';
+
+import { Stat } from '../../utils/Stat';
+import { Section } from '../landing/Section';
+import { useBountyContext } from './BountyContext';
 
 export function BountyHeader() {
   const { bounty } = useBountyContext();
@@ -26,10 +29,7 @@ export function BountyHeader() {
 
   const { isStaff, isFetchingUserInfo } = useAuth();
 
-  const parsedTitle = bounty.title.replace(
-    bounty.organizationName.toLocaleLowerCase(),
-    CapitalizeFirstLetter(bounty.organizationName)
-  );
+  const parsedTitle = ParseBountyTitle(bounty);
 
   return (
     <>
@@ -110,19 +110,9 @@ export function BountyHeader() {
 
         {/* CTAs */}
         <Section className="flex justify-end gap-6">
-          {/* <Button
-            info={{
-              style: ButtonStyle.Text,
-              label: 'Watch this bounty',
-              icon: 'visibility',
-              removePadding: true,
-            }}
-          /> */}
-
           {!isStaff && !isFetchingUserInfo && (
             <div className="flex flex-col items-end gap-2">
               <SubmitButton />
-              {/* warning messages */}
               <SubmitMessages />
             </div>
           )}
@@ -158,7 +148,9 @@ function SubmitMessages() {
       )}
 
       {!userId && (
-        <span className="text-error-light">Log in to joint the hunt</span>
+        <span className="text-error-light">
+          Connect your wallet to join the hunt
+        </span>
       )}
     </div>
   );

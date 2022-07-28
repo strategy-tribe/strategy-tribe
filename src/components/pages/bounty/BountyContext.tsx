@@ -2,7 +2,7 @@ import { createContext, ReactNode, useContext } from 'react';
 
 import { useBountyUrl } from '@/lib/hooks/useBountyUrl';
 import { Bounty, BountyState } from '@/lib/models';
-import { BountyView } from '@/lib/models/bounty/BountyPage';
+import { BountyView } from '@/lib/models/bounty/BountyView';
 import { TargetType } from '@/lib/models/targetType';
 import { GoToBountyPage } from '@/lib/utils/Routes';
 
