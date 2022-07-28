@@ -41,7 +41,7 @@ export const ExploreContextProvider = ({
     if (query.countries?.includes(newCountry)) return;
     else {
       const oldCountries = query.countries || [];
-      setUrlFilter({ countries: [...oldCountries, newCountry] });
+      setUrlFilter({ countries: [...oldCountries, newCountry], page: 0 });
     }
   }
   function removeCountry(country: string) {
