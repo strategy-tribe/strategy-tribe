@@ -65,7 +65,7 @@ export function BountyHeader() {
           </div>
 
           <div className="flex justify-between gap-10">
-            <h1 className="h4 max-w-4xl">{parsedTitle}</h1>
+            <h1 className="laptop:h2 h3">{parsedTitle}</h1>
 
             <div className=" flex flex-col gap-4 items-end justify-start shrink-0">
               <a

@@ -1,7 +1,3 @@
 export function AboutTitle({ text }: { text: string }) {
-  return (
-    <div className="pb-2">
-      <h2 className="title-xs text-on-surface-unactive">{text}</h2>
-    </div>
-  );
+  return <h2 className="text-on-surface-unactive h5">{text}</h2>;
 }

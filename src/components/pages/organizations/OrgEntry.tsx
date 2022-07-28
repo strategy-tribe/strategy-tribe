@@ -20,7 +20,7 @@ export function OrgEntry({
       onClick={() => router.push(GoToOrgPage(org.id as string))}
     >
       <div className="flex justify-between font-grotesk items-start gap-2">
-        <h3 className="title-sm group-hover:underline capitalize">
+        <h3 className="h5 font-grotesk capitalize group-hover:underline">
           {org.name}
         </h3>
         <span className="text-main-light shrink-0 label mt-1">

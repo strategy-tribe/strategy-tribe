@@ -14,6 +14,7 @@ import {
   DummyBountyCard,
 } from '@/components/pages/explore/bounty card/BountyCard';
 import { Button, ButtonStyle } from '@/components/utils/Button';
+import { IconSize } from '@/components/utils/Icon';
 import { MessageForUser } from '@/components/utils/MessageForUser';
 
 import { NextPageWithLayout } from '@/pages/_app';
@@ -54,15 +55,16 @@ const OrganizationBountiesPage: NextPageWithLayout = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className="flex max-w-[85rem] gap-x-16">
-        <aside className="w-fit min-h-screen border-main border-r-2 px-8">
+      <div className="flex max-w-[85rem] gap-x-16 ">
+        <aside className="w-fit min-w-[20%]  min-h-screen border-main border-r-2 px-8 ">
           <div className="h-fit sticky top-24">
             <Button
               info={{
-                className: 'max-w-[10rem]',
+                className: 'max-w-[100%]',
                 labelClasses: 'capitalize whitespace-pre-wrap',
                 label: `${org.name}`,
                 icon: 'arrow_back',
+                iconSize: IconSize.Small,
                 style: ButtonStyle.Text,
                 isALink: GoToOrgPage(org.id ?? ''),
               }}
@@ -70,7 +72,7 @@ const OrganizationBountiesPage: NextPageWithLayout = () => {
           </div>
         </aside>
 
-        <div className="py-8 grid grid-cols-3 gap-16">
+        <div className="py-8 grid grid-cols-3 gap-16 h-fit">
           {!isLoadingBounties &&
             bounties &&
             bounties.map((b) => {

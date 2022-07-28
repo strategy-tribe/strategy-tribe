@@ -1,7 +1,8 @@
 import { Organization as OrganizationData } from '@/lib/models/organizations/organization';
-import { OrgHeader } from './OrgHeader';
+
 import { OrganizationContextProvider } from './OrganizationContext';
 import { OrgContent } from './OrgContent';
+import { OrgHeader } from './OrgHeader';
 
 export function Organization({ org }: { org: OrganizationData }) {
   return (

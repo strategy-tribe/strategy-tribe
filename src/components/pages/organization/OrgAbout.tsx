@@ -1,5 +1,5 @@
-import { AboutTitle } from './utils/AboutTitle';
 import { useOrganizationContext } from './OrganizationContext';
+import { AboutTitle } from './utils/AboutTitle';
 
 export function OrgAbout() {
   const { org } = useOrganizationContext();

@@ -1,36 +1,20 @@
-import { ButtonInformation, ButtonStyle } from '@/components/utils/Button';
-import Loading from '@/components/utils/Loading';
+import { motion } from 'framer-motion';
+import { useMemo } from 'react';
+
 import { AppearVariants } from '@/lib/framer/Variants';
 import { useGetAllOrganizations } from '@/lib/hooks/organizationHooks';
 import { MapOfOrgs } from '@/lib/models/organizations/MapOfOrgs';
 import { Organization } from '@/lib/models/organizations/organization';
-import { useAuth } from 'auth/AuthContext';
-import { motion } from 'framer-motion';
-import { useState, useMemo } from 'react';
+
+import Loading from '@/components/utils/Loading';
 import { Title } from '@/components/utils/Title';
-('@/components/utils/Title');
+
 import { Organizations } from './Organizations';
+('@/components/utils/Title');
 
 export const AllOrganizations = () => {
-  //*Scroll
-  const [forceHideNav, setForceHideNav] = useState(false);
-
   //*Queries
   const { organizations, isLoading } = useGetAllOrganizations();
-
-  //*Auth
-  const { isAuthenticated: user, isStaff, LogIn } = useAuth();
-
-  const ctaButton: ButtonInformation | undefined = useMemo(() => {
-    if (!user)
-      return {
-        label: 'Connect wallet',
-        icon: 'login',
-        iconClasses: 'laptop:hidden',
-        onClick: () => LogIn(),
-        style: ButtonStyle.Hollow,
-      };
-  }, [user, LogIn]);
 
   //*order the orgs
   const mapOfOrg: MapOfOrgs = useMemo(() => {

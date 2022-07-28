@@ -1,7 +1,8 @@
 import { Section } from '@/components/pages/landing/Section';
-import { OrgSideMap } from './OrgSideMap';
-import { OrgBounties } from './OrgBounties';
+
 import { OrgAbout } from './OrgAbout';
+import { OrgBounties } from './OrgBounties';
+import { OrgSideMap } from './OrgSideMap';
 
 export function OrgContent() {
   return (

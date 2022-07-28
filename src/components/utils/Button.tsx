@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import React from 'react';
+
 import Icon, { IconSize } from './Icon';
 
 export enum ButtonStyle {
@@ -72,7 +72,7 @@ export function Button({ info }: { info: ButtonInformation }) {
       <Link href={isALink}>
         <a
           onClick={onClick}
-          className={`${className} ${padding} ${font} ${others} ${colors} ${align} ${size}`}
+          className={`${className} ${labelClasses} ${padding} ${font} ${others} ${colors} ${align} ${size}`}
         >
           {innerContent}
         </a>
