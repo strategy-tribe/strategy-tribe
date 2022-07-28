@@ -9,6 +9,7 @@ export default async function handler(
   const secret = process.env.REVALIDATE_SECRET;
 
   if (req.query.secret !== secret) {
+    console.error('Error, invalid key');
     return res.status(400).json({ error: 'Invalid key' });
   }
 
@@ -16,6 +17,9 @@ export default async function handler(
     await res.revalidate(GoToBountiesPage());
     return res.status(200).json({ message: 'Client: Revalidating map' });
   } catch (error) {
-    return res.status(400).json({ error });
+    console.error(
+      `Error regenerating bounties page:\n${JSON.stringify(error, null, 2)}`
+    );
+    return res.status(500).json({ error });
   }
 }

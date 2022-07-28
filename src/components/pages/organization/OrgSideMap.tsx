@@ -14,11 +14,15 @@ export function OrgSideMap() {
         {OrgView.About}
       </button>
 
-      <Link href={GoToOrgBountiesPage(org.id)}>
-        <a className="hover:bg-surface-dark rounded text-left pr-8 p-4 label capitalize">
-          All bounties
-        </a>
-      </Link>
+      {org.id ? (
+        <Link href={GoToOrgBountiesPage(org.id)}>
+          <a className="hover:bg-surface-dark rounded text-left pr-8 p-4 label capitalize">
+            All bounties
+          </a>
+        </Link>
+      ) : (
+        <></>
+      )}
     </aside>
   );
 }

@@ -1,4 +1,3 @@
-import fs from 'fs';
 import Moralis from 'moralis/node';
 import { GetStaticProps } from 'next';
 import Head from 'next/head';
@@ -22,33 +21,41 @@ const getMapData = async (): Promise<MapData> => {
 
   const res = await Moralis.Cloud.run('getMapStats');
 
+  if (!res) {
+    throw new Error('Attemped to run "getMapStats". Got no response.');
+  }
+
   const mapData: CountriesData = {
     id: res.id,
     createdAt: res.attributes.createdAt,
     countries: res.attributes.stats,
   };
 
-  const path = './public/data/features.json';
-  const featuresRaw = fs.readFileSync(path, {
-    encoding: 'utf-8',
-  });
-
-  const features = JSON.parse(featuresRaw).features;
+  const featuresRes = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/data/features.json`
+  );
+  const features = await featuresRes.json();
 
   return { mapData, features };
 };
 
 export const getStaticProps: GetStaticProps = async () => {
-  //*Map data
-  const data = await getMapData();
+  try {
+    //*Map data
+    const data = await getMapData();
 
-  //*Return props
-  return {
-    props: {
-      data: JSON.parse(JSON.stringify(data)),
-    },
-    revalidate: 10,
-  };
+    //*Return props
+    return {
+      props: {
+        data: JSON.parse(JSON.stringify(data)),
+      },
+      revalidate: 10,
+    };
+  } catch (error) {
+    return {
+      notFound: true,
+    };
+  }
 };
 
 const BountiesPage: NextPageWithLayout<{
