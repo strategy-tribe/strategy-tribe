@@ -31,21 +31,24 @@ export const ExploreContextProvider = ({
   children: ReactNode;
   data: MapData;
 }) => {
-  const { query, setQuery } = useUrlSearchParams();
+  const {
+    urlFilter: { query },
+    setUrlFilter,
+  } = useUrlSearchParams();
   const bountyFetch = useGetBounties(query);
 
   function addCountry(newCountry: string) {
     if (query.countries?.includes(newCountry)) return;
     else {
       const oldCountries = query.countries || [];
-      setQuery({ ...query, countries: [...oldCountries, newCountry] });
+      setUrlFilter({ countries: [...oldCountries, newCountry] });
     }
   }
   function removeCountry(country: string) {
     if (!query.countries?.includes(country)) return;
     else {
       const countries = query.countries.filter((c) => c !== country) || [];
-      setQuery({ ...query, countries });
+      setUrlFilter({ ...query, countries });
     }
   }
 
@@ -54,7 +57,7 @@ export const ExploreContextProvider = ({
       value={{
         map: data,
         bountyFetch,
-        countries: query.countries || [],
+        countries: query?.countries ?? [],
         addCountry,
         removeCountry,
       }}

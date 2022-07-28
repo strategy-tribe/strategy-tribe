@@ -1,5 +1,6 @@
-import Icon, { IconSize } from '@/components/utils/Icon';
 import { useState } from 'react';
+
+import Icon from '@/components/utils/Icon';
 
 export function Searchbar({
   searchTerm,
@@ -17,7 +18,7 @@ export function Searchbar({
   const colors =
     'bg-bg text-on-surface-p0 placeholder:text-on-surface-unactive';
   const borders = 'border-0 focus:border-0 focus:ring-0 ';
-  const font = 'body-sm';
+  const font = 'body';
 
   const [input, setInput] = useState(searchTerm);
 

@@ -1,15 +1,14 @@
-import React from 'react';
-import { Bounty } from '@/lib/models';
 import { useUrlSearchParams } from '@/lib/hooks/useUrlSearchParams';
+import { Bounty } from '@/lib/models';
 
 export function BountyCardTags({ bounty }: { bounty: Bounty }) {
   const type = bounty.requirements.at(0)?.type || '';
   const org = bounty.organizationName;
 
-  const { query, setQuery } = useUrlSearchParams();
+  const { urlFilter, setUrlFilter } = useUrlSearchParams();
 
   function addOrgToFilters() {
-    setQuery({ ...query, orgName: org, specificityOfOrgName: 'Exact' });
+    setUrlFilter({ relatedTo: [...(urlFilter.query.relatedTo ?? []), org] });
   }
 
   return (

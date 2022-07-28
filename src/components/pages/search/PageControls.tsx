@@ -5,6 +5,7 @@ import useWindowDimensions from '@/hooks/useWindowDimensions';
 import { useUrlSearchParams } from '@/lib/hooks/useUrlSearchParams';
 
 import { Button, ButtonStyle } from '@/components/utils/Button';
+import { IconSize } from '@/components/utils/Icon';
 
 import { ArrayOfNumbers } from '@/utils/ArrayHelpers';
 
@@ -21,18 +22,32 @@ export function PageControls() {
   const isLoading = bountyFetch?.isLoading ?? true;
   const hasNextPage = bountyFetch?.hasNextPage ?? false;
 
-  const { setQuery, query } = useUrlSearchParams();
+  const { setUrlFilter, urlFilter } = useUrlSearchParams();
 
   function nextPage() {
-    setQuery({ ...query, page: (query.page || 0) + 1, paginate: true });
+    setUrlFilter({
+      page: urlFilter.query.page ? urlFilter.query.page + 1 : 0,
+    });
+  }
+
+  function firstPage() {
+    setUrlFilter({
+      page: 0,
+    });
+  }
+
+  function lastPage() {
+    setUrlFilter({
+      page: numOfPages,
+    });
   }
 
   function prevPage() {
-    setQuery({ ...query, page: (query.page || 0) - 1, paginate: true });
+    setUrlFilter({ page: urlFilter.query.page ? urlFilter.query.page - 1 : 0 });
   }
 
   function goToPage(page: number) {
-    setQuery({ ...query, page, paginate: true });
+    setUrlFilter({ page });
   }
 
   //*num of numbers in screen
@@ -54,19 +69,35 @@ export function PageControls() {
 
   const pages: number[] = useMemo(() => {
     if (numOfPages === 0) return [];
+
     const moreThan = numOfPages > amountOfPages;
-    const scrollPassed = -amountOfPages / 2 > 0;
+    const scrollPassed = amountOfPages / 2 > 0;
     const _pages: number[] = ArrayOfNumbers(
       amountOfPages,
       moreThan && scrollPassed ? currPage - amountOfPages / 2 : 0,
-      numOfPages
+      numOfPages + 1
     );
 
     return _pages;
   }, [currPage, numOfPages, amountOfPages]);
 
   return (
-    <div className="flex gap-4 flex-wrap justify-center laptop:justify-start pt-8 laptop:pt-0">
+    <div className="flex gap-5 flex-wrap justify-between pt-0">
+      {currPage === 0 ? (
+        <span></span>
+      ) : (
+        <Button
+          info={{
+            onClick: () => RunAndMoveToTop(firstPage),
+            style: ButtonStyle.Text,
+            iconSize: IconSize.Small,
+            icon: 'first_page',
+            removeMinWidth: true,
+            removePadding: true,
+            disabled: isFetching,
+          }}
+        />
+      )}
       {hasPreviousPage && (
         <Button
           info={{
@@ -86,7 +117,7 @@ export function PageControls() {
           return (
             <button
               key={i}
-              className={`label p-2 bg-bg border-b-2  hover:bg-surface rounded-sm disabled:hover:bg-bg disabled:cursor-default cursor-pointer ${
+              className={`shrink-0 label p-2 bg-bg border-b-2  hover:bg-surface rounded-sm disabled:hover:bg-bg disabled:cursor-default cursor-pointer ${
                 isTheCurrentPage ? 'border-main' : 'border-bg'
               }`}
               onClick={() => RunAndMoveToTop(() => goToPage(page))}
@@ -103,6 +134,21 @@ export function PageControls() {
             onClick: () => RunAndMoveToTop(nextPage),
             style: ButtonStyle.Text,
             icon: 'chevron_right',
+            removeMinWidth: true,
+            removePadding: true,
+            disabled: isFetching,
+          }}
+        />
+      )}
+      {currPage === numOfPages ? (
+        <> </>
+      ) : (
+        <Button
+          info={{
+            onClick: () => RunAndMoveToTop(lastPage),
+            style: ButtonStyle.Text,
+            icon: 'last_page',
+            iconSize: IconSize.Small,
             removeMinWidth: true,
             removePadding: true,
             disabled: isFetching,

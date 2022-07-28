@@ -1,7 +1,4 @@
-import { useState } from 'react';
-
 import { useUrlSearchParams } from '@/lib/hooks/useUrlSearchParams';
-import { QueryParams } from '@/lib/models';
 import { kFormatter } from '@/lib/utils/NumberHelpers';
 
 import Icon, { IconSize } from '@/components/utils/Icon';
@@ -11,7 +8,7 @@ import { useExploreContext } from '../ExploreContext';
 import { DEFAULT_FILTERS } from './DefaultFilter';
 
 export function ExploreFilters() {
-  const { query, setQuery } = useUrlSearchParams();
+  const { urlFilter, setUrlFilter: setUrlFilter } = useUrlSearchParams();
 
   const { bountyFetch, countries, removeCountry } = useExploreContext();
 
@@ -19,37 +16,34 @@ export function ExploreFilters() {
   const count = bountyFetch?.count ?? 0;
 
   function setSearch(s: string) {
-    setQuery({ ...query, searchTerm: s, specificityOfTitle: 'Exact' });
+    setUrlFilter({ search: s, page: 0 });
   }
 
   function resetOrgFromQuery() {
-    setQuery({ ...query, orgName: undefined });
+    setUrlFilter({ relatedTo: [] });
   }
-
-  const [showSearchbar, setShowSearchbar] = useState(false);
 
   return (
     <div className="space-y-4">
       <div className="flex justify-end">
         <Searchbar
-          searchTerm={query.searchTerm || ''}
+          searchTerm={urlFilter.query.searchTerm || ''}
           search={(s) => {
             setSearch(s);
-            setShowSearchbar(false);
           }}
-          events={{ onBlur: () => setShowSearchbar(false) }}
         />
       </div>
 
       <div className="flex items-center justify-between gap-6">
         <ul className="flex gap-6">
           {DEFAULT_FILTERS.map((filter, i) => {
-            const opacity = compareQueries(query, filter.query)
-              ? ''
-              : 'opacity-50 hover:opacity-90';
+            const opacity =
+              urlFilter.type === filter.type
+                ? ''
+                : 'opacity-50 hover:opacity-90';
             return (
               <li key={i} className={`${opacity}`}>
-                <button onClick={() => setQuery(filter.query)}>
+                <button onClick={() => setUrlFilter({ type: filter.type })}>
                   {filter.type}
                 </button>
               </li>
@@ -74,7 +68,7 @@ export function ExploreFilters() {
               );
             })}
 
-            {query.searchTerm && (
+            {urlFilter.query.searchTerm && (
               <div className="border-[1px] rounded-full py-1 pl-3 pr-4 flex gap-2 items-center">
                 <button
                   onClick={() => setSearch('')}
@@ -82,11 +76,11 @@ export function ExploreFilters() {
                 >
                   <Icon icon="close" size={IconSize.Small} />
                 </button>
-                <span className="label-sm">{query.searchTerm}</span>
+                <span className="label-sm">{urlFilter.query.searchTerm}</span>
               </div>
             )}
 
-            {query.orgName && (
+            {urlFilter.query.orgName && (
               <div className="border-[1px] rounded-full py-1 pl-3 pr-4 flex gap-2 items-center">
                 <button
                   onClick={resetOrgFromQuery}
@@ -94,7 +88,7 @@ export function ExploreFilters() {
                 >
                   <Icon icon="close" size={IconSize.Small} />
                 </button>
-                <span className="label-sm">{query.orgName}</span>
+                <span className="label-sm">{urlFilter.query.orgName}</span>
               </div>
             )}
           </div>
@@ -110,34 +104,4 @@ export function ExploreFilters() {
       </div>
     </div>
   );
-}
-
-function compareQueries(q1: QueryParams, q2: QueryParams) {
-  try {
-    const keyIndex = 0;
-    const valueIndex = 1;
-    const keys1 = Object.entries(q1);
-    const keys2 = Object.entries(q2);
-
-    const biggest = keys1.length > keys2.length ? keys1 : keys2;
-    const smallest = keys1.length > keys2.length ? keys2 : keys1;
-
-    let same = true;
-    biggest.forEach((pair) => {
-      if (!same) return;
-      const key = pair.at(keyIndex) as string;
-      const value = pair.at(valueIndex);
-
-      const otherEntries = smallest.find((entry) => entry.at(keyIndex) === key);
-
-      if (otherEntries) {
-        const otherValue = otherEntries?.at(valueIndex);
-        same = otherValue === value;
-      }
-    });
-
-    return same;
-  } catch (error) {
-    return false;
-  }
 }

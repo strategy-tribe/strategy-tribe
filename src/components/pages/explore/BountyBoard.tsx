@@ -14,10 +14,10 @@ export function BountyBoard() {
   const isPreviousData = bountyFetch?.isPreviousData ?? false;
   const bounties = bountyFetch?.bounties ?? [];
 
-  const { setQuery } = useUrlSearchParams();
+  const { setUrlFilter } = useUrlSearchParams();
 
   function resetFilters() {
-    setQuery(DEFAULT_FILTER.query);
+    setUrlFilter({ type: DEFAULT_FILTER.type });
   }
 
   if (isPreviousData) return <Loading />;

@@ -2,13 +2,20 @@ import { BountyState, QueryParams } from '@/lib/models';
 import { BountyOrderBy } from '@/lib/models/queries/BountyQueryParams';
 import { Order } from '@/lib/models/queries/Order';
 
+export enum DefaultFilterType {
+  Latest = 'Latest',
+  TopRewards = 'Top Rewards',
+  LowCompetition = 'Low competition',
+  ClosesSoon = 'Closes soon',
+}
+
 export type DefaultFilter = {
-  type: string;
+  type: DefaultFilterType;
   query: QueryParams;
 };
 
 const LATEST_FILTER: DefaultFilter = {
-  type: 'Latest',
+  type: DefaultFilterType.Latest,
   query: {
     order: Order.Asc,
     orderBy: BountyOrderBy.CreatedAt,
@@ -19,7 +26,8 @@ const LATEST_FILTER: DefaultFilter = {
   },
 };
 const TOP_REWARDS_FILTER: DefaultFilter = {
-  type: 'Top Rewards',
+  type: DefaultFilterType.TopRewards,
+
   query: {
     order: Order.Desc,
     orderBy: BountyOrderBy.Bounty,
@@ -30,7 +38,8 @@ const TOP_REWARDS_FILTER: DefaultFilter = {
   },
 };
 const LOW_COMPETITION_FILTER: DefaultFilter = {
-  type: 'Low competition',
+  type: DefaultFilterType.LowCompetition,
+
   query: {
     order: Order.Asc,
     orderBy: BountyOrderBy.Submissions,
@@ -41,7 +50,7 @@ const LOW_COMPETITION_FILTER: DefaultFilter = {
   },
 };
 const CLOSES_SOON_FILTER: DefaultFilter = {
-  type: 'Closes soon',
+  type: DefaultFilterType.ClosesSoon,
   query: {
     order: Order.Asc,
     orderBy: BountyOrderBy.ClosesAt,
