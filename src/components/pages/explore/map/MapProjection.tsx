@@ -3,7 +3,7 @@ import { useMemo } from 'react';
 
 import useWindowDimensions from '@/lib/hooks/useWindowDimensions';
 import { CountryData } from '@/lib/models/map/CountryData';
-import { kFormatter, roundToThree } from '@/lib/utils/NumberHelpers';
+import { kFormatter } from '@/lib/utils/NumberHelpers';
 
 import { useExploreContext } from '../ExploreContext';
 
@@ -22,6 +22,7 @@ export default function MapProjection() {
     const value = factor * width;
     return value;
   }, [width]);
+
   return (
     <div className="w-full h-[500px]">
       <ResponsiveChoropleth
@@ -67,7 +68,7 @@ export default function MapProjection() {
               <div className="flex justify-between items-center gap-6">
                 <span className="label-lg">{label}</span>
                 <span className="text-main-light h5">
-                  {roundToThree(totalFunds)} MATIC
+                  {kFormatter(totalFunds)} MATIC
                 </span>
               </div>
               <div className="flex justify-between items-center gap-6 label-sm text-on-surface-unactive">
