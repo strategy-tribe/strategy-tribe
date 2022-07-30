@@ -1,4 +1,4 @@
-Moralis.Cloud.job('doubleCheckWalletsACL', async (request) => {
+Moralis.Cloud.job('Check wallets security', async (request) => {
   try {
     const q = new Moralis.Query(WALLET_TABLE);
     const wallets = await q.find({ useMasterKey: true });

@@ -1,4 +1,4 @@
-Moralis.Cloud.job('resetDb', async (request) => {
+Moralis.Cloud.job('XXXXXXX - WARNING -> RESET DB', async (request) => {
   const tables = [
     BOUNTY_TABLE,
     SUBMISSIONS_TABLE,

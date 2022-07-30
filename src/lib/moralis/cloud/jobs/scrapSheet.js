@@ -150,7 +150,7 @@ async function clasificateOrgs(sheetOrgs) {
   return { newOrgs, oldOrgs };
 }
 
-Moralis.Cloud.job('scrapSheet', async () => {
+Moralis.Cloud.job('Grab data from spreadsheet', async () => {
   try {
     LOG('1) Scrapping');
     const { organizations: sheetOrgs, targets: sheetTargets } =

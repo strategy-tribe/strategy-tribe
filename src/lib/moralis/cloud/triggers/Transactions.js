@@ -49,15 +49,22 @@ async function TrytoUpdate(address) {
 }
 
 async function UpdateObjectWallet(obj, address) {
-  const chainCode = await GetChainCode();
-  const { ethers, provider } = Moralis.ethersByChain(chainCode);
-  const bigNumbalance = await provider.getBalance(address);
-  const balanceInString = ethers.utils.formatEther(bigNumbalance);
+  try {
+    const chainCode = await GetChainCode();
+    const { ethers, provider } = Moralis.ethersByChain(chainCode);
+    const bigNumbalance = await provider.getBalance(address);
+    const balanceInString = ethers.utils.formatEther(bigNumbalance);
 
-  const balance = Number.parseFloat(balanceInString);
+    const balance = Number.parseFloat(balanceInString);
 
-  obj.set('funds', balance);
-  await obj.save(null, { useMasterKey: true });
+    const oldBalance = obj.get('funds');
+    if (balance !== oldBalance) {
+      obj.set('funds', balance);
+      await obj.save(null, { useMasterKey: true });
+    }
 
-  return obj;
+    return balance;
+  } catch (error) {
+    ERROR(`Running UpdateObjectWallet. Reason:\n${error}`, true);
+  }
 }

@@ -1,4 +1,4 @@
-Moralis.Cloud.job('archiveWallets', async (request) => {
+Moralis.Cloud.job('XXXX - WARNING -> ARCHIVE WALLETS', async (request) => {
   try {
     const q = new Moralis.Query(WALLET_TABLE);
     const wallets = await q.find({ useMasterKey: true });

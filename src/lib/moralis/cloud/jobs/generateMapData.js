@@ -1,4 +1,4 @@
-Moralis.Cloud.job('generateMapData', async () => {
+Moralis.Cloud.job('Generate map data', async () => {
   await generateMapData();
   await revalidateClientMap();
 });
