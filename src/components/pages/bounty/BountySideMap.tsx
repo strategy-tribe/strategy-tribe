@@ -19,7 +19,7 @@ export function BountySideMap() {
           <button
             className={`${
               value === view
-                ? 'border-main text-on-surface-p0'
+                ? 'border-main text-on-surface-p0 border-2'
                 : 'border-bg hover:bg-surface-dark'
             } rounded text-left pr-8 p-4 label`}
             key={i}

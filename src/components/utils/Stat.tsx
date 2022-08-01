@@ -37,7 +37,7 @@ export function Stat({
         }
       }}
     >
-      <span className="font-grotesk font-semibold text-on-surface-unactive capitalize">
+      <span className="label-lg text-on-surface-unactive capitalize">
         {title}
       </span>
       <p

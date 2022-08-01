@@ -22,7 +22,7 @@ export function BountyContent() {
         </>
       )}
 
-      {view === BountyView['More details'] && (
+      {view === BountyView['Details'] && (
         <>
           <BountyMoreDetails />
         </>

@@ -22,7 +22,7 @@ export const useBountyUrl = () => {
     const urlQuery = router.query;
 
     if (!urlQuery.view) {
-      return { view: BountyView.Submissions };
+      return { view: BountyView.Details };
     }
 
     const query: BountyUrl = {
