@@ -53,13 +53,16 @@ function ExploreContent() {
           <>
             <Section>{!!Map && <Map />}</Section>
 
-            <div className="space-y-12 min-h-screen">
+            <div className="space-y-8 min-h-screen">
               {!!bounties && (
                 <>
                   <Section>
                     <ExploreFilters />
                   </Section>
-                  <BountyBoard />
+                  <div className="space-y-8">
+                    <PageNumber />
+                    <BountyBoard />
+                  </div>
                   <div className="flex justify-center">
                     <PageControls />
                   </div>
@@ -71,5 +74,19 @@ function ExploreContent() {
         )}
       </div>
     </>
+  );
+}
+
+function PageNumber() {
+  const { bountyFetch } = useExploreContext();
+
+  const lastPage = bountyFetch?.numOfPages ?? 0;
+
+  return (
+    <Section>
+      <span className="label text-main-light">
+        Page {(bountyFetch?.page ?? 0) + 1} of {lastPage}
+      </span>
+    </Section>
   );
 }
