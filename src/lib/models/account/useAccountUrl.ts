@@ -1,9 +1,15 @@
 import { useRouter } from 'next/router';
 import { useMemo } from 'react';
-import { AccountView } from './AccountView';
+
+import { useIsValidView } from '@/lib/hooks/isValidUrl';
+import { GoToAccountPage } from '@/lib/utils/Routes';
+
 import { AccountUrl } from './AccountUrl';
+import { AccountView } from './AccountView';
 
 export const useAccountUrl = () => {
+  useIsValidView(Object.values(AccountView), GoToAccountPage());
+
   const router = useRouter();
 
   function buildRoute(qry: AccountUrl, url: string) {
@@ -19,17 +25,18 @@ export const useAccountUrl = () => {
 
   const query: AccountUrl = useMemo(() => {
     const urlQuery = router.query;
+    const view = urlQuery?.view as string as AccountView;
 
-    if (!urlQuery.view) {
+    if (!urlQuery.view || !Object.values(AccountView).includes(view)) {
       return { view: AccountView.Account };
+    } else {
+      const query: AccountUrl = {
+        view,
+      };
+
+      return query;
     }
-
-    const query: AccountUrl = {
-      view: (urlQuery.view as string as AccountView) || AccountView.Account,
-    };
-
-    return query;
-  }, [router.query]);
+  }, [router]);
 
   return {
     setQuery: (
