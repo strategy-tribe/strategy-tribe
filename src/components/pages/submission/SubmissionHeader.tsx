@@ -1,12 +1,14 @@
-import React from 'react';
-import { SubmissionStatus } from '../bounty/SubmissionStatus';
 import { useAuth } from 'auth/AuthContext';
+
+import { SubmissionState } from '@/lib/models';
+import { GoToReviewSubmissionPage } from '@/lib/utils/Routes';
+
+import { Button, ButtonStyle } from '@/components/utils/Button';
+import Icon, { IconSize } from '@/components/utils/Icon';
+
+import { SubmissionStatus } from '../bounty/SubmissionStatus';
 import { Section } from '../landing/Section';
 import { useSubmissionContext } from './SubmissionContext';
-import { Button, ButtonStyle } from '@/components/utils/Button';
-import { GoToReviewSubmissionPage } from '@/lib/utils/Routes';
-import { SubmissionState } from '@/lib/models';
-import Icon from '@/components/utils/Icon';
 
 export function SubmissionHeader() {
   const { submission, bounty } = useSubmissionContext();
@@ -31,17 +33,17 @@ export function SubmissionHeader() {
 
         {(isAdmin || isStaff) &&
           submission.state === SubmissionState.WaitingForReview && (
-            <div className="grid place-items-center pt-4 group">
-              <Icon
-                icon="arrow_forward"
-                className="rotate-90 peer-hover:translate-y-1 transition-transform ease-in-out duration-300"
-              />
+            <div className="flex items-center justify-center flex-col pt-4 gap-4">
+              <div className="flex gap-2 items-center">
+                <Icon icon="check" size={IconSize.Small} />
+                <span className="label">You can review this submission</span>
+              </div>
 
               <Button
                 info={{
                   className: 'w-fit peer',
                   label: 'Review',
-                  style: ButtonStyle.Text,
+                  style: ButtonStyle.Filled,
                   icon: 'rule',
                   isALink: GoToReviewSubmissionPage(submission.id!),
                 }}

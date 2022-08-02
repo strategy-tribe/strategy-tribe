@@ -1,8 +1,8 @@
-import React from 'react';
 import { Submission as SubmissionData } from '@/lib/models';
-import { SubmissionHeader } from './SubmissionHeader';
+
 import { SubmissionBody } from './SubmissionBody';
 import { SubmissionContextProvider } from './SubmissionContext';
+import { SubmissionHeader } from './SubmissionHeader';
 
 export function Submission({ submission }: { submission: SubmissionData }) {
   return (

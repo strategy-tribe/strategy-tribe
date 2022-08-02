@@ -83,7 +83,7 @@ const SubmissionsToReviewPage: NextPageWithLayout = () => {
         {!!error && !isLoading && (
           <ImportantMessage
             message="There was an error."
-            content={error as string}
+            content={JSON.stringify(error, null, 2)}
             icon="warning"
           />
         )}

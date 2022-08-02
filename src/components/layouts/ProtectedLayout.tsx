@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { useBanRegularUsers } from '@/lib/hooks/useBanRegularUsers';
 
 export default function ProtectedLayout({
@@ -8,7 +9,7 @@ export default function ProtectedLayout({
   children: React.ReactNode;
   allowedUsers?: string[];
 }) {
-  const passes = useBanRegularUsers();
+  const passes = useBanRegularUsers({ allowedUsers });
 
   if (passes) return <>{children}</>;
   else return <></>;
