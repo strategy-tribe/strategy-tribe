@@ -1,10 +1,11 @@
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
+
 import { Title } from '@/components/utils/Title';
 ('@/components/utils/Title');
+
+import { RequirementEditor } from './edit/RequirementEditor';
 import { useNewSubmissionContext } from './NewSubmissionContext';
 import { UserInput } from './UserInput';
-import { RequirementEditor } from './edit/RequirementEditor';
-import { RequirementType } from '@/lib/models/requirement';
 
 export function EditSubmission() {
   //*Context

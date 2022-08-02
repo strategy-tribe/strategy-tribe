@@ -1,5 +1,7 @@
-import { Button, ButtonStyle } from '@/components/utils/Button';
 import { GoToBountyPage } from '@/lib/utils/Routes';
+
+import { Button, ButtonStyle } from '@/components/utils/Button';
+
 import { useNewSubmissionContext } from './NewSubmissionContext';
 
 export function NewSubmissionHeader() {

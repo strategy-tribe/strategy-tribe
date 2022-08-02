@@ -1,5 +1,7 @@
-import { GoToBountyPage } from '@/lib/utils/Routes';
 import { useRouter } from 'next/router';
+
+import { GoToBountyPage } from '@/lib/utils/Routes';
+
 import { Section } from '../../landing/Section';
 import { EditSubmission } from './EditSubmission';
 import {

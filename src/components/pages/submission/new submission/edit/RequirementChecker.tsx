@@ -36,9 +36,11 @@ export function RequirementChecker({
     }
   }, [input, optional, type]);
 
+  // console.log('this is running');
+
   useEffect(() => {
     answerChanged(requirement, passed);
-  }, [passed, answerChanged, requirement]);
+  }, [passed]);
 
   return (
     <div className="group cursor-default label-lg min-w-[10rem] flex items-center gap-4 -translate-x-10">
