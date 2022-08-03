@@ -5,10 +5,16 @@ import { AccountHeader } from './AccountHeader';
 export const Account = () => {
   return (
     <AccountContextProvider>
-      <div className="space-y-8">
-        <AccountHeader />
-        <AccountContent />
-      </div>
+      <Content />
     </AccountContextProvider>
   );
 };
+
+function Content() {
+  return (
+    <div className="space-y-8">
+      <AccountHeader />
+      <AccountContent />
+    </div>
+  );
+}

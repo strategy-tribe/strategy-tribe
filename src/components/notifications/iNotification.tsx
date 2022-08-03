@@ -10,10 +10,11 @@ export interface ServerNotification {
   url: string;
 }
 
+type CallableComponent = (onClose: () => void) => ReactNode | string;
 export interface ClientNotification {
   icon?: string;
   title: string;
-  content?: ReactNode | string;
+  content?: CallableComponent | string;
   style?: NotificationStyle;
 }
 

@@ -94,26 +94,29 @@ const AuthContextProvider = ({
     } else {
       notify(
         {
-          title: 'Earn money, get notified of updates, and more by signing in',
-          content: (
-            <p>
-              You can learn more{' '}
-              <Link href={GoToAboutusPage()}>
-                <a className="underline text-main-light font-medium">here</a>
-              </Link>
-            </p>
-          ),
+          title:
+            'Earn money, get notified of updates, and more, by connecting your wallet',
+          content: () => {
+            return (
+              <p>
+                You can learn more{' '}
+                <Link href={GoToAboutusPage()}>
+                  <a className="underline text-main-light font-medium">here</a>
+                </Link>
+              </p>
+            );
+          },
           icon: 'info',
         },
         {
           condition: false,
-          delayTime: 5,
+          delayTime: 10,
           type: NotificationType.Pill,
           delayType: DelayType.Time,
         }
       );
     }
-  }, [isAuthenticated]);
+  }, [isAuthenticated, userInfo]);
 
   async function getWalletMaticBalance() {
     if (!userId || !userInfo) {
@@ -128,7 +131,7 @@ const AuthContextProvider = ({
       notify(
         {
           title: "We could't connect to your wallet",
-          content: 'Are you signed in in your wallet?',
+          content: () => 'Are you signed in in your wallet?',
           icon: 'warning',
           style: NotificationStyle.error,
         },
@@ -157,7 +160,7 @@ const AuthContextProvider = ({
         {
           title:
             "We could't connect to your wallet. Are you signed in in your wallet?",
-          content: `Reason: ${error}`,
+          content: () => `Reason: ${error}`,
           icon: 'warning',
           style: NotificationStyle.error,
         },

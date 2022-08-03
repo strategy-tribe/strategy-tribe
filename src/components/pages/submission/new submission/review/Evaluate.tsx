@@ -1,22 +1,24 @@
-import { useNotification } from '@/components/notifications/NotificationContext';
-import { Submission, SubmissionState } from '@/models/index';
-import { useSubmitReview } from '@/hooks/reviewHooks';
-import { useGetSubmission } from '@/hooks/submissionHooks';
-import { GoToBountiesPage } from '@/utils/Routes';
 import { useAuth } from 'auth/AuthContext';
 import { useRouter } from 'next/router';
-import React, { useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
+
+import { useSubmitReview } from '@/hooks/reviewHooks';
+import { useGetSubmission } from '@/hooks/submissionHooks';
+
 import {
   DelayType,
   NotificationStyle,
   NotificationType,
 } from '@/components/notifications/iNotification';
-import Icon from '@/components/utils/Icon';
-import { ImportantMessage } from '@/components/utils/Warning';
-import { Title } from '@/components/utils/Title';
-('@/components/utils/Title');
-import { RadioInput } from '@/components/utils/RadioInput';
+import { useNotification } from '@/components/notifications/NotificationContext';
 import { Button, ButtonStyle } from '@/components/utils/Button';
+import { RadioInput } from '@/components/utils/RadioInput';
+import { Title } from '@/components/utils/Title';
+import { ImportantMessage } from '@/components/utils/Warning';
+
+import { Submission, SubmissionState } from '@/models/index';
+import { GoToBountiesPage } from '@/utils/Routes';
+('@/components/utils/Title');
 
 export default function Evaluate({ submissionId }: { submissionId: string }) {
   const [meetsRequirements, setGood] = useState<string | undefined>(undefined);
@@ -92,7 +94,7 @@ export default function Evaluate({ submissionId }: { submissionId: string }) {
           >
             of wallet address
           </span>
-          {', carefully read and evaluated this submission'}
+          , carefully read and evaluated this submission
         </label>
       </div>
 
@@ -114,6 +116,7 @@ export default function Evaluate({ submissionId }: { submissionId: string }) {
 export function SubmitReviewButton({
   submission,
   review,
+  disabled,
 }: {
   submission: Submission;
   review: {
@@ -121,6 +124,7 @@ export function SubmitReviewButton({
     reviewer: string;
     feedback: string;
   };
+  disabled?: boolean;
 }) {
   const router = useRouter();
 
@@ -156,7 +160,7 @@ export function SubmitReviewButton({
         style: ButtonStyle.Filled,
         onClick: SubmitReview,
         label: 'Submit review',
-        disabled: !review.meetsRequirements,
+        disabled: disabled,
       }}
     />
   );

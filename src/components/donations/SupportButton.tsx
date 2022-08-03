@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react';
-import { Button, ButtonStyle } from '../utils/Button';
-import { Bounty } from '@/lib/models/bounty';
-import { useCreateDonation } from '@/hooks/donationHooks';
-import { Donation, Recipient } from '@/models/donation';
 import { useAuth } from 'auth/AuthContext';
+
+import { useCreateDonation } from '@/hooks/donationHooks';
+
+import { Donation, Recipient } from '@/models/donation';
+
 import ConnectWalletButton from '../auth/ConnectWalletButton';
+import { Button, ButtonStyle } from '../utils/Button';
 
 export function SupportButton({
   amountInEth: amount,

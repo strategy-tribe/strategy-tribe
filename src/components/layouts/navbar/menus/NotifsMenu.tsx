@@ -1,12 +1,14 @@
-import { GoToAccountPage } from '@/lib/utils/Routes';
-import { IconSize } from '../../../utils/Icon';
-import { Button, ButtonStyle } from '@/components/utils/Button';
 import { useGetUserServerNotifications } from '@/lib/hooks/serverNotificationHooks';
+import { AccountView } from '@/lib/models/account/AccountView';
+import { GoToAccountPage } from '@/lib/utils/Routes';
+
+import { Button, ButtonStyle } from '@/components/utils/Button';
 import Loading from '@/components/utils/Loading';
 import { Overlay } from '@/components/utils/Overlay';
-import { NavbarButton } from '../NavbarButton';
+
 import { NotificationListEntry } from '../../../notifications/NotificationListEntry';
-import { AccountView } from '@/lib/models/account/AccountView';
+import { IconSize } from '../../../utils/Icon';
+import { NavbarButton } from '../NavbarButton';
 
 export function NotifsMenu({
   userId,
@@ -86,20 +88,6 @@ export function NotifsMenu({
                   onClick: hide,
                 }}
               />
-
-              {/* {!!notifications && notifications?.length > 0 && (
-                <Button
-                  info={{
-                    label: 'Mark all as read',
-                    style: ButtonStyle.Text,
-                    removeMinWidth: true,
-                    removePadding: true,
-                    onClick: () => {
-                      hide();
-                    },
-                  }}
-                />
-              )} */}
             </footer>
           </div>
 

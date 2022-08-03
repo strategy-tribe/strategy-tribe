@@ -1,12 +1,15 @@
+import { useAuth } from 'auth/AuthContext';
+
+import { useIsSubscribed, useSubscribe } from '@/hooks/subscriptionHooks';
+
 import {
   Button,
   ButtonInformation,
   ButtonStyle,
 } from '@/components/utils/Button';
-import { useIsSubscribed, useSubscribe } from '@/hooks/subscriptionHooks';
-import { useAuth } from 'auth/AuthContext';
-import { useNotification } from '../notifications/NotificationContext';
+
 import { DelayType, NotificationType } from '../notifications/iNotification';
+import { useNotification } from '../notifications/NotificationContext';
 
 export function SubToOrgButton({
   orgName,
@@ -22,7 +25,7 @@ export function SubToOrgButton({
   function ManageNotification(undo: () => void) {
     const notification = {
       title: 'Success',
-      content: (
+      content: () => (
         <div className="flex flex-col">
           <Button
             info={{

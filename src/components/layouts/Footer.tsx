@@ -1,11 +1,12 @@
-import {
-  GoToAboutusPage,
-  GoToGeneralDonationsPage,
-  GoToBountiesPage,
-  GoToRulesPage,
-} from '@/utils/Routes';
 import Image from 'next/image';
 import Link from 'next/link';
+
+import {
+  GoToAboutusPage,
+  GoToBountiesPage,
+  GoToGeneralDonationsPage,
+  GoToRulesPage,
+} from '@/utils/Routes';
 
 const Footer = () => {
   return (

@@ -1,13 +1,13 @@
-import React from 'react';
 import { SubmissionState } from '@/lib/models';
 import { GetDateInString } from '@/lib/utils/DateHelpers';
+
 import { useSubmissionContext } from './SubmissionContext';
 import { SubmissionDetail } from './SubmissionDetail';
 
 export function SubmissionDetails() {
   const { submission, bounty } = useSubmissionContext();
   return (
-    <div className="mx-auto max-w-[90rem] border-b-2 border-surface-dark pb-4">
+    <div className="mx-auto max-w-[90rem] border-b-2 border-surface-dark pb-6">
       <div className="mx-auto max-w-5xl flex items-center gap-8">
         <SubmissionDetail
           label="Submitted"
@@ -37,6 +37,12 @@ export function SubmissionDetails() {
         )}
 
         <SubmissionDetail label="Status" value={submission.state} />
+
+        <SubmissionDetail
+          label="Submission ID"
+          value={submission.id}
+          copyable
+        />
       </div>
     </div>
   );

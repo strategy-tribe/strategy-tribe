@@ -2,7 +2,6 @@ import { useAuth } from 'auth/AuthContext';
 
 import { roundToThree } from '@/lib/utils/NumberHelpers';
 
-import { NavbarButton } from '../../NavbarButton';
 import { cutWallet } from './RegularUserMenu';
 
 export function UserButton({ show }: { show: () => void }) {
@@ -12,10 +11,6 @@ export function UserButton({ show }: { show: () => void }) {
 
   return (
     <>
-      {!isAuthenticated && (
-        <NavbarButton icon="account_circle" onClick={show} />
-      )}
-
       {isAuthenticated && (
         <button
           className={`border border-surface rounded-full label-sm flex items-center gap-2 group ${

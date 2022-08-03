@@ -1,5 +1,7 @@
-import { Button, ButtonStyle } from '@/components/utils/Button';
 import { AnimatePresence, motion } from 'framer-motion';
+
+import { Button, ButtonStyle } from '@/components/utils/Button';
+
 import { ClientNotification, NotificationStyle } from './iNotification';
 
 function setStyle(style?: NotificationStyle) {
@@ -7,8 +9,8 @@ function setStyle(style?: NotificationStyle) {
     case NotificationStyle.error:
       return {
         container: 'bg-error',
-        title: 'text-on-surface-p0',
-        content: 'text-on-surface-p1',
+        title: 'text-on-color opacity-90',
+        content: 'text-on-color opacity-80',
       };
     case NotificationStyle.success:
       return {
@@ -35,7 +37,7 @@ export function Banner({
   close: () => void;
 }) {
   if (notif) {
-    const { title, content, icon, style } = notif;
+    const { title, content, style } = notif;
 
     return (
       <AnimatePresence>
@@ -44,7 +46,7 @@ export function Banner({
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0, transition: { duration: 0.5 } }}
             exit={{ opacity: 0, y: -10, transition: { duration: 0.3 } }}
-            className={`w-screen z-50 fixed ${setStyle(style).container}`}
+            className={`w-screen  bg z-50 fixed ${setStyle(style).container}`}
           >
             <div
               className="mx-auto flex items-center justify-between
@@ -52,9 +54,10 @@ export function Banner({
             py-2 px-8 laptop:p-0"
             >
               <div className="p-2">
-                <p className={`label ${setStyle(style).title}`}>{title}</p>
-                <div className={`text-xs ${setStyle(style).content}`}>
-                  {content}
+                <p className={`h5 ${setStyle(style).title}`}>{title}</p>
+                <div className={`body ${setStyle(style).content}`}>
+                  {content && typeof content === 'string' && content}
+                  {content && typeof content !== 'string' && content(close)}
                 </div>
               </div>
               <Button

@@ -45,7 +45,7 @@ export function SubmissionHeader() {
                   label: 'Review',
                   style: ButtonStyle.Filled,
                   icon: 'rule',
-                  isALink: GoToReviewSubmissionPage(submission.id!),
+                  isALink: GoToReviewSubmissionPage(submission.id),
                 }}
               />
             </div>

@@ -114,9 +114,12 @@ export default function PushNotifsContextProvider({
           title: 'Please sign in to get access to notifications and more',
           icon: 'warning',
           style: NotificationStyle.error,
-          content: (
+          content: (onClose) => (
             <button
-              onClick={LogIn}
+              onClick={() => {
+                LogIn();
+                onClose();
+              }}
               className="mt-4 label underline text-on-surface-p0"
             >
               <span>Join the hunt here</span>

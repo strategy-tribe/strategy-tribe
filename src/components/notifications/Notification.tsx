@@ -1,4 +1,5 @@
 import { AnimatePresence, motion } from 'framer-motion';
+
 import Icon from '../utils/Icon';
 import { ClientNotification } from './iNotification';
 
@@ -43,7 +44,14 @@ export function Notification({
 
             {notif?.content && (
               <div className="text-on-surface-unactive text-xs shrink-0">
-                {notif.content}
+                <>
+                  {notif?.content &&
+                    typeof notif?.content === 'string' &&
+                    notif?.content}
+                  {notif?.content &&
+                    typeof notif?.content !== 'string' &&
+                    notif?.content(close)}
+                </>
               </div>
             )}
           </motion.div>

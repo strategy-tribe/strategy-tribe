@@ -1,14 +1,15 @@
+import { useState } from 'react';
+
+import useScrollPosition from '@/lib/hooks/useScrollPosition';
 import {
   GoToAboutusPage,
   GoToBountiesPage,
   GoToOrganizationsPage,
 } from '@/lib/utils/Routes';
-import { useState } from 'react';
-import { NavLink } from './NavLink';
 
 import { Button, ButtonStyle } from '../../utils/Button';
 import { LandingPageLink } from './LandingPageLink';
-import useScrollPosition from '@/lib/hooks/useScrollPosition';
+import { NavLink } from './NavLink';
 
 export function LandingNavbar({ hideBgOnScroll }: { hideBgOnScroll: boolean }) {
   const [navbarBackground, setNavbarBackground] = useState(!hideBgOnScroll);

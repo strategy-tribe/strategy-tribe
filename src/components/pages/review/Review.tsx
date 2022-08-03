@@ -1,22 +1,27 @@
-import Icon, { IconSize } from '@/components/utils/Icon';
-import { Submission as SubmissionData } from '@/lib/models';
-import React, { useEffect, useState } from 'react';
-import ReactTextareaAutosize from 'react-textarea-autosize';
-import { SubmitReviewButton } from '../submission/new submission/review/Evaluate';
 import { useAuth } from 'auth/AuthContext';
+import { useEffect, useState } from 'react';
+import ReactTextareaAutosize from 'react-textarea-autosize';
+
+import { Submission as SubmissionData } from '@/lib/models';
 import { GetWordCount } from '@/lib/utils/StringHelpers';
+
+import Icon, { IconSize } from '@/components/utils/Icon';
+
 import { RenderMarkdown } from '../../utils/RenderMarkdown';
+import { SubmitReviewButton } from '../submission/new submission/review/Evaluate';
 import { ReviewCheck } from './ReviewCheck';
-import { ReviewView } from './ReviewView';
 import { ReviewMap } from './ReviewMap';
+import { ReviewView } from './ReviewView';
 
 export function Review({ submission }: { submission: SubmissionData }) {
+  const [carefullyRead, setCarefullyRead] = useState(false);
+
   const [feasible, setFeasible] = useState(false);
   const [correct, setCorrect] = useState(false);
   const [feedback, setFeedback] = useState('');
   const [view, setView] = useState(ReviewView.Edit);
 
-  const feedbackIsOk = !!feedback && GetWordCount(feedback) >= 10;
+  const feedbackIsOk = !!feedback && GetWordCount(feedback) >= 5;
 
   useEffect(() => {
     if (!feasible) {
@@ -24,7 +29,7 @@ export function Review({ submission }: { submission: SubmissionData }) {
     }
   }, [feasible]);
 
-  const { userId, isStaff } = useAuth();
+  const { userId, isStaff, isAdmin } = useAuth();
 
   return (
     <div className="flex gap-x-16">
@@ -36,12 +41,23 @@ export function Review({ submission }: { submission: SubmissionData }) {
         <div className="space-y-8">
           <ReviewCheck
             check={{
+              whenOn: 'I read the whole submission',
+              whenOff: 'I have not read the whole submission',
+              value: carefullyRead,
+              setValue: setCarefullyRead,
+            }}
+            num={1}
+            question="Read carefully the submission, can you replicate the steps of the user?"
+          />
+
+          <ReviewCheck
+            check={{
               whenOn: 'I can replicate the steps the user wrote',
               whenOff: 'I can not replicate the steps the user wrote',
               value: feasible,
               setValue: setFeasible,
             }}
-            num={1}
+            num={2}
             question="Read carefully the submission, can you replicate the steps of the user?"
           />
 
@@ -53,12 +69,12 @@ export function Review({ submission }: { submission: SubmissionData }) {
               setValue: setCorrect,
               disabled: !feasible,
             }}
-            num={2}
+            num={3}
             question="Did you arrived to the same results as the user?"
           />
 
           <ReviewCheck
-            num={3}
+            num={4}
             question="Read carefully the submission, can you replicate the steps of the user?"
             check={{
               whenOn: 'Feedback message',
@@ -117,15 +133,32 @@ export function Review({ submission }: { submission: SubmissionData }) {
           </ReviewCheck>
         </div>
 
-        {userId && isStaff && (
-          <SubmitReviewButton
-            submission={submission}
-            review={{
-              feedback: feedback,
-              meetsRequirements: feasible && correct && feedbackIsOk,
-              reviewer: userId,
-            }}
-          />
+        {userId && (isStaff || isAdmin) && (
+          <div className="space-y-4">
+            {!carefullyRead && (
+              <div className="flex items-center gap-2 body text-error-light">
+                <Icon icon="close" size={IconSize.Small} />
+                <span>Have you read the submission?</span>
+              </div>
+            )}
+
+            {!feedbackIsOk && (
+              <div className="flex items-center gap-2 body text-error-light">
+                <Icon icon="close" size={IconSize.Small} />
+                <span>The feedback must be longer than 5 words</span>
+              </div>
+            )}
+
+            <SubmitReviewButton
+              submission={submission}
+              review={{
+                feedback: feedback,
+                meetsRequirements: correct && feasible,
+                reviewer: userId,
+              }}
+              disabled={!carefullyRead || !feedbackIsOk}
+            />
+          </div>
         )}
       </div>
     </div>

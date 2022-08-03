@@ -4,7 +4,9 @@ import {
   GoToReviewsPage,
   GoToWaitingForFunds,
 } from '@/lib/utils/Routes';
+
 import { Overlay } from '@/components/utils/Overlay';
+
 import { LogOutButton } from './LogOutButton';
 import { MenuItem } from './MenuItem';
 import { UserButton } from './UserButton';

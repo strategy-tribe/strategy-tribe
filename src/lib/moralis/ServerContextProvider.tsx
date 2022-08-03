@@ -11,6 +11,7 @@ import {
   NotificationType,
 } from '@/components/notifications/iNotification';
 import { useNotification } from '@/components/notifications/NotificationContext';
+import Icon, { IconSize } from '@/components/utils/Icon';
 
 import { TargetType } from '../models/targetType';
 
@@ -107,7 +108,10 @@ const ServerContextProvider = ({
     if (!isInitialized) return;
 
     if (!isAuthenticated) {
-      authenticate({ signingMessage: 'Log in using Moralis' })
+      authenticate({
+        signingMessage:
+          'Connect your wallet and join the hunt at StrategyTribe',
+      })
         .then(function (user) {
           if (!user) {
             throw 'Nope';
@@ -120,27 +124,31 @@ const ServerContextProvider = ({
               title: 'We could not connect to your wallet.',
               icon: 'warning',
               style: NotificationStyle.error,
-              content: (
-                <div className="text-on-surface-p0">
+              content: () => (
+                <div>
                   <p>
                     Please install MetaMask, is a simple and secure way to
                     connect to blockchain-based applications.
                   </p>
                   <br />
-                  <a
-                    className="underline hover:text-bg"
-                    href="https://metamask.io/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    You can learn more here.
-                  </a>
+                  <div className="flex gap-2 items-center">
+                    <Icon icon="arrow_forward" size={IconSize.Small} />
+
+                    <a
+                      className="underline hover:text-bg label"
+                      href="https://metamask.io/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      You can learn more here.
+                    </a>
+                  </div>
                 </div>
               ),
             },
             {
               condition: false,
-              delayTime: 7,
+              delayTime: 15,
               delayType: DelayType.Time,
               type: NotificationType.Banner,
             }

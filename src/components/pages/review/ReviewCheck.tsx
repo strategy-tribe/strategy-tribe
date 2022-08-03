@@ -1,6 +1,8 @@
-import Icon, { IconSize } from '@/components/utils/Icon';
 import React from 'react';
 import Switch from 'react-switch';
+
+import Icon, { IconSize } from '@/components/utils/Icon';
+
 import { NumberSelector } from './NumberSelector';
 
 export function ReviewCheck({
@@ -24,11 +26,11 @@ export function ReviewCheck({
     <div>
       <div className="flex items-center gap-2">
         <NumberSelector num={num} />
-        <h2 className="body text-on-surface-p0">{question}</h2>
+        <h2 className="body text-on-surface-unactive">{question}</h2>
       </div>
 
       {check && (
-        <div className="flex justify-between items-center w-full space-y-2">
+        <div className="flex justify-between items-center w-full space-y-2 text-on-surface-p0">
           <div className="pl-2">
             {check.value && (
               <div className="flex gap-2 items-center">

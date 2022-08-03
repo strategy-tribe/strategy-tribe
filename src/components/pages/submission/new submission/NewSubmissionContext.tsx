@@ -129,7 +129,7 @@ export const NewSubmissionContextProvider = ({
         {
           style: NotificationStyle.success,
           title: 'Your Submission was uploaded successfully',
-          content: (
+          content: () => (
             <Link href={GoToSubmissionPage(newSubmissionId as string)}>
               <a
                 className="underline text-on-surface-p0 font-medium"

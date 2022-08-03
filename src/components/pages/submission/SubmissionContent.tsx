@@ -1,7 +1,8 @@
-import React from 'react';
 import { useAuth } from 'auth/AuthContext';
-import { RequirementType } from '@/lib/models/requirement';
 import Image from 'next/image';
+
+import { RequirementType } from '@/lib/models/requirement';
+
 import { useSubmissionContext } from './SubmissionContext';
 
 export function SubmissionContent() {
@@ -27,7 +28,13 @@ export function SubmissionContent() {
                   {(anw.answer as string[]).map((url) => {
                     return (
                       <figure key={url} className="relative">
-                        <Image src={url} priority width={1920} height={1080} />
+                        <Image
+                          src={url}
+                          priority
+                          width={1920}
+                          height={1080}
+                          alt="preview for image"
+                        />
                       </figure>
                     );
                   })}

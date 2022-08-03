@@ -1,8 +1,5 @@
-import React from 'react';
-import { useAuth } from 'auth/AuthContext';
-import { useSubmissionContext } from './SubmissionContext';
-import { SubmissionDetails } from './SubmissionDetails';
 import { SubmissionContent } from './SubmissionContent';
+import { SubmissionDetails } from './SubmissionDetails';
 import { SubmissionReview } from './SubmissionReview';
 
 export function SubmissionBody() {

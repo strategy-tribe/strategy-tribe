@@ -51,16 +51,21 @@ export const NotificationcontextProvider = ({
 
   //*Effects
   useEffect(() => {
+    let timeoutId: NodeJS.Timeout;
     if (showNotif) {
       if (delayType === DelayType.Time) {
-        setTimeout(() => {
+        timeoutId = setTimeout(() => {
           setShowNotif(false);
         }, upTime.current * 1000);
       } else if (delayType === DelayType.Condition && hideCondition) {
         setShowNotif(false);
       }
     }
-  }, [notification, showNotif, hideCondition, delayType, notificationType]);
+
+    return () => {
+      clearTimeout(timeoutId);
+    };
+  }, [showNotif, notification]);
 
   //!Main method
   function Notify(msg: ClientNotification, config?: iNotificationConfig) {
@@ -68,20 +73,10 @@ export const NotificationcontextProvider = ({
     setNotification(msg);
 
     //*Notification config
-    let _delayTime = 3;
-    let _condition = false;
-    let _notificationType = NotificationType.Pill;
-    let _delayType = DelayType.Time;
-    if (config) {
-      _delayTime = config.delayTime;
-      _condition = config.condition;
-      _notificationType = config.type;
-      _delayType = config.delayType;
-    }
-    upTime.current = _delayTime;
-    setDelayType(_delayType);
-    setCondition(_condition);
-    setNotificationType(_notificationType);
+    upTime.current = config?.delayTime ?? 5;
+    setCondition(config?.condition ?? false);
+    setNotificationType(config?.type ?? NotificationType.Pill);
+    setDelayType(config?.delayType ?? DelayType.Time);
     setShowNotif(true);
   }
 

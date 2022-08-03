@@ -1,9 +1,11 @@
-import AppLayout from '@/components/layouts/AppLayout';
-import { ImportantMessage } from '@/components/utils/Warning';
-import { NextPageWithLayout } from '@/pages/_app';
-import Head from 'next/head';
 import { useAuth } from 'auth/AuthContext';
+import Head from 'next/head';
+
+import AppLayout from '@/components/layouts/AppLayout';
 import { Account } from '@/components/pages/account/Account';
+import { ImportantMessage } from '@/components/utils/Warning';
+
+import { NextPageWithLayout } from '@/pages/_app';
 
 const UserPage: NextPageWithLayout = () => {
   const { userId, isAuthenticated, LogIn } = useAuth();

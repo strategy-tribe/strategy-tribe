@@ -1,19 +1,21 @@
-import { useState } from 'react';
-import { Button, ButtonStyle } from '@/components/utils/Button';
-
-import { Overlay } from '@/components/utils/Overlay';
 import { AnimatePresence, motion } from 'framer-motion';
+import { useState } from 'react';
+
+import { Button, ButtonStyle } from '@/components/utils/Button';
+import { Overlay } from '@/components/utils/Overlay';
+import { Title } from '@/components/utils/Title';
+
 import { Recipient } from '@/models/donation';
-import { SupportButton } from './SupportButton';
-import { useNotification } from '../notifications/NotificationContext';
+
 import {
-  DelayType,
   ClientNotification,
+  DelayType,
   iNotificationConfig,
   NotificationStyle,
   NotificationType,
 } from '../notifications/iNotification';
-import { Title } from '@/components/utils/Title';
+import { useNotification } from '../notifications/NotificationContext';
+import { SupportButton } from './SupportButton';
 ('../utils/Title');
 
 const lorem =
@@ -128,17 +130,15 @@ export function DonationPopUp({
                     onClick: hide,
                   }}
                 />
-                {
-                  <SupportButton
-                    amountInEth={amount}
-                    recipient={recipient}
-                    after={{
-                      onError: onDonationError,
-                      onSuccess: onDonationSuccess,
-                    }}
-                    disabled={amount <= 0}
-                  />
-                }
+                <SupportButton
+                  amountInEth={amount}
+                  recipient={recipient}
+                  after={{
+                    onError: onDonationError,
+                    onSuccess: onDonationSuccess,
+                  }}
+                  disabled={amount <= 0}
+                />
               </div>
             </div>
             <Overlay

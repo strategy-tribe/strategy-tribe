@@ -4,6 +4,7 @@ import {
 } from '@/lib/models/queries/BountyQueryParams';
 import { Order } from '@/lib/models/queries/Order';
 import { TargetType } from '@/lib/models/targetType';
+
 import Icon from '../utils/Icon';
 
 export function FilterMenu({

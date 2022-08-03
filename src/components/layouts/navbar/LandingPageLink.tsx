@@ -1,7 +1,8 @@
-import React from 'react';
-import Link from 'next/link';
-import { GoToLandingPage } from '@/utils/Routes';
 import { useAuth } from 'auth/AuthContext';
+import Link from 'next/link';
+
+import { GoToLandingPage } from '@/utils/Routes';
+
 import { Logo } from '../../utils/Logo';
 
 export function LandingPageLink({ className }: { className?: string }) {

@@ -1,17 +1,20 @@
+import { useAuth } from 'auth/AuthContext';
+import { useState } from 'react';
+
+import useScrollPosition from '@/lib/hooks/useScrollPosition';
 import {
   GoToAboutusPage,
-  GoToFAQPage,
   GoToBountiesPage,
+  GoToFAQPage,
   GoToOrganizationsPage,
 } from '@/lib/utils/Routes';
-import { useState } from 'react';
-import { NavLink } from './NavLink';
-import { useAuth } from 'auth/AuthContext';
+
 import { Button, ButtonStyle } from '@/components/utils/Button';
+
 import { LandingPageLink } from './LandingPageLink';
-import { UserMenu } from './menus/UserMenu';
 import { NotifsMenu } from './menus/NotifsMenu';
-import useScrollPosition from '@/lib/hooks/useScrollPosition';
+import { UserMenu } from './menus/UserMenu';
+import { NavLink } from './NavLink';
 
 export function Navbar({ hideBgOnScroll }: { hideBgOnScroll: boolean }) {
   const [navbarBackground, setNavbarBackground] = useState(!hideBgOnScroll);
@@ -73,13 +76,15 @@ export function Navbar({ hideBgOnScroll }: { hideBgOnScroll: boolean }) {
             )}
 
             {!userId ? (
-              <Button
-                info={{
-                  label: 'Connect wallet',
-                  style: ButtonStyle.Filled,
-                  onClick: LogIn,
-                }}
-              />
+              <div className="grid place-items-center py-1">
+                <Button
+                  info={{
+                    label: 'Connect wallet',
+                    style: ButtonStyle.Filled,
+                    onClick: LogIn,
+                  }}
+                />
+              </div>
             ) : (
               <UserMenu
                 shouldShow={showAccountMenu}

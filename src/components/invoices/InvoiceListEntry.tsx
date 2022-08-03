@@ -1,7 +1,10 @@
-import { Button, ButtonStyle } from '@/components/utils/Button';
+import Link from 'next/link';
+
 import { Invoice as InvoiceData } from '@/lib/models/invoice';
 import { GoToBountyPage, GoToSubmissionPage } from '@/lib/utils/Routes';
-import Link from 'next/link';
+
+import { Button, ButtonStyle } from '@/components/utils/Button';
+
 import { InvoiceStatus } from '../pages/account/sections/AccountRewards';
 
 export function InvoiceListEntry({
@@ -25,7 +28,7 @@ export function InvoiceListEntry({
       <Button
         info={{
           className: 'col-span-3 whitespace-nowrap justify-self-end',
-          isALink: GoToSubmissionPage(submission.id!),
+          isALink: GoToSubmissionPage(submission.id),
           style: ButtonStyle.TextPurple,
           label: 'See submission',
           removeMinWidth: true,
