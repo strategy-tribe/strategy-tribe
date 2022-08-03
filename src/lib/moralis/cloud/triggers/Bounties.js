@@ -17,10 +17,10 @@ Moralis.Cloud.beforeSave(BOUNTY_TABLE, async function (request) {
   bountyACL.setPublicWriteAccess(false);
   bountyACL.setPublicReadAccess(true);
 
-  bountyACL.setRoleWriteAccess(STAFF_ROLE, true);
+  bountyACL.setRoleWriteAccess(STAFF_ROLE, false);
   bountyACL.setRoleReadAccess(STAFF_ROLE, true);
 
-  bountyACL.setRoleWriteAccess(ADMIN_ROLE, true);
+  bountyACL.setRoleWriteAccess(ADMIN_ROLE, false);
   bountyACL.setRoleReadAccess(ADMIN_ROLE, true);
 
   bounty.setACL(bountyACL);

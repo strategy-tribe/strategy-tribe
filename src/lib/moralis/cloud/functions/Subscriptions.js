@@ -2,6 +2,8 @@
 
 Moralis.Cloud.define('isSubscribed', async (request) => {
   const { userId, orgName } = request.params;
+  IsAuthorized(request, userId);
+
   const q = new Moralis.Query(ORG_SUBS_TABLE);
   q.equalTo('name', orgName);
   const orgSubsRef = await q.first({ useMasterKey: true });
@@ -17,6 +19,9 @@ Moralis.Cloud.define('isSubscribed', async (request) => {
 
 Moralis.Cloud.define('addSubscriber', async (request) => {
   const { userId, orgName } = request.params;
+
+  IsAuthorized(request, userId);
+
   if (!userId || !orgName) {
     const errMsg = `Trying to subscribe null user (${userId}) or empty orgName (${orgName})`;
     return {
@@ -57,6 +62,7 @@ Moralis.Cloud.define('addSubscriber', async (request) => {
 
 Moralis.Cloud.define('removeSubscriber', async (request) => {
   const { userId, orgName } = request.params;
+  IsAuthorized(request, userId);
   const q = new Moralis.Query(ORG_SUBS_TABLE);
   q.equalTo('name', orgName);
   const orgSubsRef = await q.first({ useMasterKey: true });
@@ -91,6 +97,8 @@ Moralis.Cloud.define('removeSubscriber', async (request) => {
 //*Mass Subscriptions
 Moralis.Cloud.define('isSubscribedToAll', async (request) => {
   const { userId } = request.params;
+  IsAuthorized(request, userId);
+
   const qSubscribedto = new Moralis.Query(ORG_SUBS_TABLE);
   qSubscribedto.equalTo('subs', userId);
   const numOfSubscriptions = await qSubscribedto.count({ useMasterKey: true });
@@ -107,6 +115,8 @@ Moralis.Cloud.define('isSubscribedToAll', async (request) => {
 
 Moralis.Cloud.define('addSubscriberToAll', async (request) => {
   const { userId } = request.params;
+  IsAuthorized(request, userId);
+
   if (!userId) {
     const errMsg = `Trying to subscribe null user (${userId})`;
     ERROR(errMsg);
@@ -116,7 +126,11 @@ Moralis.Cloud.define('addSubscriberToAll', async (request) => {
     };
   }
   const q = new Moralis.Query(ORG_SUBS_TABLE);
-  const allOrgs = await q.find({ useMasterKey: true });
+  const allOrgs = await q.find();
+
+  if (!allOrgs) {
+    return { error: 'Unauthorized' };
+  }
 
   for await (const org of allOrgs) {
     const subs = org.get('subs');
@@ -136,6 +150,8 @@ Moralis.Cloud.define('addSubscriberToAll', async (request) => {
 
 Moralis.Cloud.define('removeSubscriberFromAll', async (request) => {
   const { userId } = request.params;
+  IsAuthorized(request, userId);
+
   if (!userId) {
     const errMsg = `Trying to subscribe null user (${userId})`;
     return {
@@ -144,7 +160,11 @@ Moralis.Cloud.define('removeSubscriberFromAll', async (request) => {
     };
   }
   const q = new Moralis.Query(ORG_SUBS_TABLE);
-  const allOrgs = await q.find({ useMasterKey: true });
+  const allOrgs = await q.find();
+
+  if (!allOrgs) {
+    return { error: 'Unauthorized' };
+  }
 
   for await (const org of allOrgs) {
     const subs = org.get('subs');

@@ -2,34 +2,34 @@
 Moralis.Cloud.beforeSave(INVOICE_TABLE, async function (request) {
   const {
     object: invoice,
-    context: { isNew, userId },
+    context: { isNew, userId, key },
   } = request;
 
-  if (isNew) {
-    if (!userId) {
-      ERROR(
-        `Error setting ACL for Invoice. Did not get the user id for the submission`,
-        true
-      );
-    }
-    try {
-      const invoiceACL = new Moralis.ACL();
+  LOG('beforeSave INVOICE_TABLE');
 
-      invoiceACL.setPublicWriteAccess(false);
-      invoiceACL.setPublicReadAccess(false);
+  const _key = await GetKey();
 
-      invoiceACL.setRoleWriteAccess(STAFF_ROLE, false);
-      invoiceACL.setRoleReadAccess(STAFF_ROLE, false);
+  if (!key || key !== _key || !isNew) {
+    ERROR('Unauthorized', true);
+  }
 
-      invoiceACL.setRoleWriteAccess(ADMIN_ROLE, true);
-      invoiceACL.setRoleReadAccess(ADMIN_ROLE, true);
-      invoiceACL.setWriteAccess(userId, false);
-      invoiceACL.setReadAccess(userId, true);
+  try {
+    const invoiceACL = new Moralis.ACL();
 
-      invoice.setACL(invoiceACL);
-    } catch (error) {
-      ERROR(`Error setting ACL for Invoice. Reason: ${error}`, true);
-    }
+    invoiceACL.setPublicWriteAccess(false);
+    invoiceACL.setPublicReadAccess(false);
+
+    invoiceACL.setRoleWriteAccess(STAFF_ROLE, false);
+    invoiceACL.setRoleReadAccess(STAFF_ROLE, false);
+
+    invoiceACL.setRoleWriteAccess(ADMIN_ROLE, true);
+    invoiceACL.setRoleReadAccess(ADMIN_ROLE, true);
+    invoiceACL.setWriteAccess(userId, false);
+    invoiceACL.setReadAccess(userId, true);
+
+    invoice.setACL(invoiceACL);
+  } catch (error) {
+    ERROR(`Error setting ACL for Invoice. Reason: ${error}`, true);
   }
 });
 

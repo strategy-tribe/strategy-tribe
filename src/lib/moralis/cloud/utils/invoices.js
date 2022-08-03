@@ -1,6 +1,7 @@
 async function CreateInvoice(submission) {
   const id = submission.id;
   const state = submission.get('state');
+
   try {
     if (state !== SUBMISSION_WAITING_FOR_PAYMENT_STATE) {
       ERROR(
@@ -18,12 +19,13 @@ async function CreateInvoice(submission) {
     invoiceRef.set('bounty', bounty);
     invoiceRef.set('status', INVOICE_UNPAID_STATE);
 
-    const invoiceClass = Moralis.Object.extend(INVOICE_TABLE);
-    const invoice = new invoiceClass(invoiceRef.attributes);
-
-    const context = { isNew: true, userId: submission.get('owner') };
-    const response = await invoice.save(null, { context: context });
-    await response.save(null, { useMasterKey: true });
+    const key = await GetKey();
+    const context = {
+      isNew: true,
+      userId: submission.get('owner'),
+      key,
+    };
+    await invoiceRef.save(null, { useMasterKey: true, context: context });
   } catch (error) {
     ERROR(
       `Error creating an invoice for submission: ${id}. Reason: ${error}`,

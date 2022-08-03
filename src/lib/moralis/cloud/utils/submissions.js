@@ -20,6 +20,13 @@ async function CountBountySubmissions(bountyId) {
 }
 
 async function UserCanSubmitChecks(userId, bountyId) {
+  if (!userId || !bountyId) {
+    return {
+      userHasUploadedInLessThanADay: true,
+      bountyIsClosed: true,
+    };
+  }
+
   //*1- check if the bounty is still available
   const bounty = await GetBountyByID(bountyId);
 

@@ -4,6 +4,12 @@ async function GetChainCode() {
   return chainCode;
 }
 
+async function GetKey() {
+  const config = await Moralis.Config.get({ useMasterKey: true });
+  const key = config.get('KEY');
+  return key;
+}
+
 async function GetChainPrefix() {
   const config = await Moralis.Config.get({ useMasterKey: true });
   const chainCode = config.get('CHAIN_PREFIX');
