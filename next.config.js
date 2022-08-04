@@ -5,8 +5,7 @@ const ContentSecurityPolicy = `
   style-src 'self' 'unsafe-inline' *;
   style-src-elem 'self' 'unsafe-inline' *;
   img-src 'self' data:;
-  script-src 'self' 'unsafe-eval' https://www.unpkg.com/moralis/package.json;
-  script-src-elem 'self' cdn.onesignal.com onesignal.com https://www.unpkg.com/moralis/package.json;
+  script-src 'self' 'unsafe-eval' 'unsafe-inline' cdn.onesignal.com onesignal.com  https://www.unpkg.com/moralis/package.json;
   connect-src 'self' https://www.unpkg.com/moralis/package.json https://8ujfwmevx5cc.usemoralis.com:2053 https://internal-api.moralis.io https://gb5qrt1xtz9b.usemoralis.com:2053;
   `
   .replace(/\s{2,}/g, ' ')
