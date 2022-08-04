@@ -9,6 +9,7 @@ import { SubmissionQueryParams } from '@/lib/models/queries/SubmissionQueryParam
 import {
   Molaris_useSaveSubmission,
   Moralis_canSubmit,
+  Moralis_submitterInfo,
   Moralis_useGetSubmission,
   Moralis_useGetSubmissions,
   Moralis_useGetSubmissionsFromBounty,
@@ -101,6 +102,20 @@ export const useCanUserSubmit = (
   const { data, isLoading, error } = useQuery(
     ['Can user submit', userId, bountyId],
     () => Moralis_canSubmit(userId, bountyId),
+    { enabled }
+  );
+
+  return { data, isLoading, error };
+};
+
+export const useSubmitterInfo = (
+  submitterId: string,
+  bountyId: string,
+  enabled = true
+) => {
+  const { data, isLoading, error } = useQuery(
+    ['submitterInfo', submitterId, bountyId],
+    () => Moralis_submitterInfo(submitterId, bountyId),
     { enabled }
   );
 

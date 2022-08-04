@@ -1,7 +1,7 @@
 import { useAuth } from 'auth/AuthContext';
 
 import { SubmissionState } from '@/lib/models';
-import { GoToReviewSubmissionPage } from '@/lib/utils/Routes';
+import { GoToBountyPage, GoToReviewSubmissionPage } from '@/lib/utils/Routes';
 
 import { Button, ButtonStyle } from '@/components/utils/Button';
 import Icon, { IconSize } from '@/components/utils/Icon';
@@ -13,17 +13,27 @@ import { useSubmissionContext } from './SubmissionContext';
 export function SubmissionHeader() {
   const { submission, bounty } = useSubmissionContext();
   const { isStaff, isAdmin } = useAuth();
+
+  const color = isAdmin || isStaff ? 'border-success' : 'border-main';
+
   return (
-    <header className="border-y-2 border-main py-10">
+    <header className={`${color} border-y-2 py-10`}>
       <Section className="text-center space-y-2">
         <div>
-          <span className="label text-on-surface-unactive">
+          <span className="label text-on-surface-unactive ">
             {isStaff ? 'Submission to' : 'Your submission to'}
           </span>
 
-          <h1 className="h4 text-on-surface-p0 max-w-3xl mx-auto">
-            {bounty?.title}
-          </h1>
+          {bounty && (
+            <a
+              href={GoToBountyPage(bounty?.id)}
+              rel="noopener noreferrer"
+              target="_blank"
+              className="h4 text-on-surface-p1 max-w-3xl mx-auto block hover:text-main-light"
+            >
+              {bounty?.title}
+            </a>
+          )}
         </div>
 
         <div className="flex flex-col items-center space-y-1">
@@ -33,7 +43,7 @@ export function SubmissionHeader() {
 
         {(isAdmin || isStaff) &&
           submission.state === SubmissionState.WaitingForReview && (
-            <div className="flex items-center justify-center flex-col pt-4 gap-4">
+            <div className="flex items-center justify-center flex-col pt-4 gap-4 h-fit">
               <div className="flex gap-2 items-center">
                 <Icon icon="check" size={IconSize.Small} />
                 <span className="label">You can review this submission</span>

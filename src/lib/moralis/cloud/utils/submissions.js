@@ -16,6 +16,7 @@ async function UserCanSubmitChecks(userId, bountyId) {
     return {
       userSubmittedTooSoon: true,
       bountyIsClosed: true,
+      spacesLeft: 0,
     };
   }
 
@@ -48,7 +49,7 @@ async function UserCanSubmitChecks(userId, bountyId) {
 
   //*2- check if user hasn't uploaded in a day
   const submissionsPerDay = await GetSubmissionsPerDay();
-  const spacesOccupied = await GetUserSubmissionsLeft(
+  const { spacesOccupied } = await GetUserSubmissionsLeft(
     userId,
     bountyId,
     submissionsPerDay
@@ -67,6 +68,7 @@ async function GetUserSubmissionsLeft(userId, bountyId, submissionsPerDay) {
   let q = new Moralis.Query(SUBMISSIONS_TABLE);
   q.equalTo('owner', userId);
   q.equalTo('bountyId', bountyId);
+
   q.descending('createdAt');
   q.limit(submissionsPerDay);
   const subs = await q.find({ useMasterKey: true });
@@ -86,5 +88,5 @@ async function GetUserSubmissionsLeft(userId, bountyId, submissionsPerDay) {
 
   const spacesOccupied = spaces.filter((occupiesSpace) => occupiesSpace).length;
 
-  return spacesOccupied;
+  return { spacesOccupied };
 }

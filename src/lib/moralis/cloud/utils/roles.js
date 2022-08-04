@@ -8,7 +8,7 @@ async function GetUserRole(userId, request) {
 }
 
 async function CheckIfIsStaff(userId, request) {
-  IsAuthorized(request, userId);
+  IsAuthorized(request, userId, 'Issue checking if user is staff');
 
   const staffQuery = new Moralis.Query(ROLES_TABLE);
   staffQuery.equalTo('name', STAFF_ROLE);
@@ -24,7 +24,7 @@ async function CheckIfIsStaff(userId, request) {
 }
 
 async function CheckIfIsAdmin(userId, request) {
-  IsAuthorized(request, userId);
+  IsAuthorized(request, userId, 'Issue checking if user is staff');
 
   const adminQuery = new Moralis.Query(ROLES_TABLE);
   adminQuery.equalTo('name', ADMIN_ROLE);

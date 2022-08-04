@@ -1,5 +1,5 @@
-async function IsAuthorized(request, userId) {
+async function IsAuthorized(request, userId, errorMsg = 'Unauthorized') {
   if (userId !== request.user.id) {
-    ERROR(`Unauthorized`, true);
+    ERROR(errorMsg, true);
   } else return true;
 }
