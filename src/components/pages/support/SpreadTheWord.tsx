@@ -1,13 +1,15 @@
 import Icon from '@/components/utils/Icon';
 
 export function SpreadTheWord() {
+  const twitterUrl = process.env.NEXT_PUBLIC_TWITTER;
+  const githubUrl = process.env.NEXT_PUBLIC_GITHUB;
   return (
     <div id="support" className="space-y-8">
       <div>
         <h2 className="text-3xl font-inter font-bold text-on-surface-p0">
           Spread the word
         </h2>
-        <span className={`bg-main h-1 inline-block -translate-y-2 w-16`}></span>
+        <div className="bg-main h-1 inline-block -translate-y-1 w-16"></div>
       </div>
 
       {/* Why */}
@@ -30,7 +32,7 @@ export function SpreadTheWord() {
       <ul className="space-y-4 text-on-surface-p0">
         <li className="label hover:text-main-light">
           <a
-            href="https://twitter.com/Strategy_Tribe"
+            href={twitterUrl}
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-3"
@@ -42,7 +44,7 @@ export function SpreadTheWord() {
 
         <li className="label hover:text-main-light">
           <a
-            href="https://github.com/strategy-tribe/strategy-tribe"
+            href={githubUrl}
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-3"

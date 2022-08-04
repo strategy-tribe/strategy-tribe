@@ -1,4 +1,5 @@
 import Icon, { IconSize } from '@/components/utils/Icon';
+
 import { MoreInfo } from './MoreInfo';
 
 export function Title({
@@ -43,7 +44,7 @@ export function Title({
 
             <MoreInfo
               content={extraInfo}
-              translate="translate-x-2 -translate-y-2"
+              translate="translate-x-2 -translate-y-1"
             />
           </div>
         )}
@@ -51,7 +52,7 @@ export function Title({
 
       {useBorder && (
         <span
-          className={`bg-main h-1 inline-block -translate-y-2  ${translate()} `}
+          className={`bg-main h-1 inline-block -translate-y-1  ${translate()} `}
         ></span>
       )}
     </div>

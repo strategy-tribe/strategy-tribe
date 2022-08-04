@@ -7,9 +7,7 @@ export function Goal() {
           <h2 className="text-3xl font-inter font-bold text-on-surface-p0">
             Our goal
           </h2>
-          <span
-            className={`bg-main h-1 inline-block -translate-y-2 w-16`}
-          ></span>
+          <span className="bg-main h-1 inline-block -translate-y-1 w-16"></span>
         </div>
         {/* Content */}
         <p className="max-w-lg body">

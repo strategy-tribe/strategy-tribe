@@ -26,7 +26,7 @@ const GeneralDonationsPage: NextPageWithLayout = () => {
         {/* Content */}
         <Section>
           <motion.div
-            className="space-y-24 pb-48 max-w-lg"
+            className="space-y-16 pb-48 max-w-lg"
             initial={{ opacity: 0, y: 5 }}
             animate={{ opacity: 1, y: 0 }}
           >

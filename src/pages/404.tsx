@@ -1,17 +1,20 @@
 import { Section } from '@/components/pages/landing/Section';
-('@/components/utils/Title');
-import Icon from '@/components/utils/Icon';
-import { GoToBountiesPage, GoToLandingPage } from '@/utils/Routes';
 import { motion } from 'framer-motion';
 import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
-import React from 'react';
-import { HugeTitle } from '@/components/utils/HugeTitle';
-import { NextPageWithLayout } from './_app';
+('@/components/utils/Title');
+
 import AppLayout from '@/components/layouts/AppLayout';
+import { HugeTitle } from '@/components/utils/HugeTitle';
+import Icon from '@/components/utils/Icon';
+
+import { GoToBountiesPage, GoToLandingPage } from '@/utils/Routes';
+
+import { NextPageWithLayout } from './_app';
 
 const _404Page: NextPageWithLayout = () => {
+  const twitterUrl = process.env.NEXT_PUBLIC_TWITTER;
   return (
     <div className="text-on-surface-p1 space-y-8">
       <Head>
@@ -67,7 +70,7 @@ const _404Page: NextPageWithLayout = () => {
                       </a>
                     </Link>
                     <a
-                      href="https://twitter.com/Strategy_Tribe"
+                      href={twitterUrl}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-on-surface-p0 hover:text-main-light py-3 px-5 tablet:px-6 font-medium font-grotesk z-10 flex items-center justify-center gap-2 rounded-full min-w-[6rem] w-fit"

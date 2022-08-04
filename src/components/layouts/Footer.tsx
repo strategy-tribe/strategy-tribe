@@ -9,6 +9,9 @@ import {
 } from '@/utils/Routes';
 
 const Footer = () => {
+  const twitterUrl = process.env.NEXT_PUBLIC_TWITTER;
+  const githubUrl = process.env.NEXT_PUBLIC_GITHUB;
+
   return (
     <footer className="bg-main w-full text-on-surface-p0">
       <div className="px-8 laptop:px-2 pt-16 pb-24 space-y-16 mx-auto max-w-5xl">
@@ -46,21 +49,13 @@ const Footer = () => {
           </ul>
           <ul className="space-y-4  text-main-light">
             <li className="font-grotesk font-medium hover:text-on-surface-p0">
-              <a
-                href="https://twitter.com/Strategy_Tribe"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
+              <a href={twitterUrl} target="_blank" rel="noopener noreferrer">
                 Twitter
               </a>
             </li>
 
             <li className="font-grotesk font-medium hover:text-on-surface-p0">
-              <a
-                href="https://github.com/strategy-tribe/strategy-tribe"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
+              <a href={githubUrl} target="_blank" rel="noopener noreferrer">
                 Github
               </a>
             </li>

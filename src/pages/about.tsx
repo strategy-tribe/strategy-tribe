@@ -1,10 +1,12 @@
+import { motion } from 'framer-motion';
+import Head from 'next/head';
+
 import AppLayout from '@/components/layouts/AppLayout';
 import { About } from '@/components/pages/about/About';
 import { Goal } from '@/components/pages/about/Goal';
 import { Mission } from '@/components/pages/about/Mission';
 import { Section } from '@/components/pages/landing/Section';
-import { motion } from 'framer-motion';
-import Head from 'next/head';
+
 import { NextPageWithLayout } from './_app';
 
 const AboutUsPage: NextPageWithLayout = () => {

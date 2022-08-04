@@ -1,13 +1,16 @@
 import Icon from '@/components/utils/Icon';
 
 export function About() {
+  const twitterUrl = process.env.NEXT_PUBLIC_TWITTER;
+  const githubUrl = process.env.NEXT_PUBLIC_GITHUB;
+
   return (
     <div id="about_us" className="space-y-6 ">
       <div>
         <h2 className="text-3xl font-inter font-bold text-on-surface-p0">
           About
         </h2>
-        <span className={`bg-main h-1 inline-block -translate-y-2 w-16`}></span>
+        <span className="bg-main h-1 inline-block -translate-y-1 w-16"></span>
       </div>
       {/* Content */}
       <div>
@@ -48,7 +51,7 @@ export function About() {
             <span>Our Terms of Service</span>
           </a>
           <a
-            href="https://twitter.com/Strategy_Tribe"
+            href={twitterUrl}
             target="_blank"
             rel="noopener noreferrer"
             className="text-on-surface-p0 hover:text-main-light py-3 px-5 tablet:px-6 label z-10 flex items-center justify-center gap-2 rounded-full min-w-[6rem] w-fit"
@@ -57,7 +60,7 @@ export function About() {
             <span>Follow us on Twitter</span>
           </a>
           <a
-            href="https://github.com/strategy-tribe/strategy-tribe"
+            href={githubUrl}
             target="_blank"
             rel="noopener noreferrer"
             className="text-on-surface-p0 hover:text-main-light py-3 px-5 tablet:px-6 label z-10 flex items-center justify-center gap-2 rounded-full min-w-[6rem] w-fit"

@@ -2,7 +2,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 
 export function MoreInfo({
   content,
-  translate = 'translate-x-2 -translate-y-20',
+  translate = 'translate-x-2 -translate-y-10',
 }: {
   content: string | React.ReactNode;
   translate?: string;
