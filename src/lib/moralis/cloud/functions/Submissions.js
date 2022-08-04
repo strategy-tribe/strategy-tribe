@@ -2,8 +2,19 @@ Moralis.Cloud.define('canSubmit', async (request) => {
   const { userId, bountyId } = request.params;
   IsAuthorized(request, userId);
 
-  const { userHasUploadedInLessThanADay, bountyIsClosed } =
+  const { userSubmittedTooSoon, bountyIsClosed, spacesLeft } =
     await UserCanSubmitChecks(userId, bountyId);
 
-  return !userHasUploadedInLessThanADay && !bountyIsClosed;
+  return {
+    canSubmit: !userSubmittedTooSoon && !bountyIsClosed,
+    spacesLeft,
+  };
+});
+
+Moralis.Cloud.define('submissionsPerDay', async () => {
+  const submissionsPerDay = await GetSubmissionsPerDay();
+
+  return {
+    submissionsPerDay,
+  };
 });

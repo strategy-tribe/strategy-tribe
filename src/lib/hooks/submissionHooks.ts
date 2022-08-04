@@ -98,17 +98,13 @@ export const useCanUserSubmit = (
   bountyId: string,
   enabled = true
 ) => {
-  const {
-    data: canSubmit,
-    isLoading,
-    error,
-  } = useQuery(
+  const { data, isLoading, error } = useQuery(
     ['Can user submit', userId, bountyId],
     () => Moralis_canSubmit(userId, bountyId),
     { enabled }
   );
 
-  return { canSubmit, isLoading, error };
+  return { data, isLoading, error };
 };
 
 export const useGetSubmissions = (

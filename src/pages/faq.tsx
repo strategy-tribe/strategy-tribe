@@ -1,3 +1,5 @@
+import Moralis from 'moralis/node';
+import { GetStaticProps } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
 
@@ -9,7 +11,48 @@ import { Title } from '@/components/utils/Title';
 
 import { NextPageWithLayout } from './_app';
 
-const FAQPage: NextPageWithLayout = () => {
+const getSubmissionsPerDay = async (): Promise<number> => {
+  const moralis_serverUrl = process.env.NEXT_PUBLIC_SERVER_URL;
+  const moralis_appId = process.env.NEXT_PUBLIC_APP_ID;
+
+  await Moralis.start({
+    serverUrl: moralis_serverUrl,
+    appId: moralis_appId,
+  });
+
+  const res = (await Moralis.Cloud.run('submissionsPerDay')) as {
+    submissionsPerDay: number;
+  };
+
+  if (!res) {
+    throw new Error('Attemped to run "getMapStats". Got no response.');
+  }
+
+  return res.submissionsPerDay;
+};
+
+export const getStaticProps: GetStaticProps = async () => {
+  try {
+    const submissionsPerDay = await getSubmissionsPerDay();
+
+    return {
+      props: {
+        submissionsPerDay,
+      },
+      revalidate: 30,
+    };
+  } catch (error) {
+    console.error('error:\n', error);
+    return {
+      props: { submissionsPerDay: 3 },
+      revalidate: 30,
+    };
+  }
+};
+
+const FAQPage: NextPageWithLayout<{ submissionsPerDay: number }> = ({
+  submissionsPerDay,
+}) => {
   return (
     <>
       <Head>
@@ -56,22 +99,11 @@ const FAQPage: NextPageWithLayout = () => {
         />
         <FAQuestion
           question="How many times I can submit my findings?"
-          answer="Once per day."
+          answer={`${submissionsPerDay} ${
+            submissionsPerDay === 1 ? 'time' : 'times'
+          } per day`}
         />
-        {/* <FAQuestion
-          question="Where do I find example submissions?"
-          answer={
-            <p>
-              You can see our examples{' '}
-              <Link href={GoToRulesPage()}>
-                <a className="underline text-main-light hover:text-main">
-                  here
-                </a>
-              </Link>
-              .
-            </p>
-          }
-        /> */}
+
         <FAQuestion
           question="What is the maximum payout?"
           answer="There is no maximum."

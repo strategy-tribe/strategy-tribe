@@ -4,6 +4,12 @@ async function GetChainCode() {
   return chainCode;
 }
 
+async function GetSubmissionsPerDay() {
+  const config = await Moralis.Config.get({ useMasterKey: true });
+  const key = config.get('SubmissionsPerDay');
+  return key;
+}
+
 async function GetKey() {
   const config = await Moralis.Config.get({ useMasterKey: true });
   const key = config.get('KEY');

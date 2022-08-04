@@ -18,10 +18,10 @@ Moralis.Cloud.beforeSave(SUBMISSIONS_TABLE, async function (request) {
 
       IsAuthorized(request, userId);
 
-      const { userHasUploadedInLessThanADay, bountyIsClosed } =
+      const { userSubmittedTooSoon, bountyIsClosed } =
         await UserCanSubmitChecks(userId, bountyId);
 
-      if (userHasUploadedInLessThanADay) {
+      if (userSubmittedTooSoon) {
         ERROR(
           'Validation Error: Users cannot submit findings to the same bounty more than once per day.',
           true

@@ -4,14 +4,6 @@ async function GetSubmissionByID(id) {
   return await q.first({ useMasterKey: true });
 }
 
-async function GetLatestUserSubmisson(userId, bountyId) {
-  let q = new Moralis.Query(SUBMISSIONS_TABLE);
-  q.equalTo('owner', userId);
-  q.equalTo('bountyId', bountyId);
-  q.descending('createdAt');
-  return await q.first({ useMasterKey: true });
-}
-
 async function CountBountySubmissions(bountyId) {
   let q = new Moralis.Query(SUBMISSIONS_TABLE);
   q.equalTo('bountyId', bountyId);
@@ -22,7 +14,7 @@ async function CountBountySubmissions(bountyId) {
 async function UserCanSubmitChecks(userId, bountyId) {
   if (!userId || !bountyId) {
     return {
-      userHasUploadedInLessThanADay: true,
+      userSubmittedTooSoon: true,
       bountyIsClosed: true,
     };
   }
@@ -55,21 +47,44 @@ async function UserCanSubmitChecks(userId, bountyId) {
   }
 
   //*2- check if user hasn't uploaded in a day
-  const latestSubmission = await GetLatestUserSubmisson(userId, bountyId);
+  const submissionsPerDay = await GetSubmissionsPerDay();
+  const spacesOccupied = await GetUserSubmissionsLeft(
+    userId,
+    bountyId,
+    submissionsPerDay
+  );
+  const userSubmittedTooSoon = spacesOccupied >= submissionsPerDay;
 
-  let userHasUploadedInLessThanADay = false;
-
-  if (latestSubmission) {
-    const today = new Date();
-    const diff = today.getTime() - latestSubmission.get('createdAt').getTime();
-    const aDayInMs = 1000 * 60 * 60 * 24;
-    const diffOfDays = diff / aDayInMs;
-
-    userHasUploadedInLessThanADay = diffOfDays < 1;
-  }
-
+  const spacesLeft = submissionsPerDay - spacesOccupied;
   return {
-    userHasUploadedInLessThanADay,
+    userSubmittedTooSoon,
     bountyIsClosed,
+    spacesLeft: spacesLeft > 0 ? spacesLeft : 0,
   };
+}
+
+async function GetUserSubmissionsLeft(userId, bountyId, submissionsPerDay) {
+  let q = new Moralis.Query(SUBMISSIONS_TABLE);
+  q.equalTo('owner', userId);
+  q.equalTo('bountyId', bountyId);
+  q.descending('createdAt');
+  q.limit(submissionsPerDay);
+  const subs = await q.find({ useMasterKey: true });
+
+  const today = new Date();
+  const spaces = [];
+
+  subs.forEach((sub) => {
+    const diff = today.getTime() - sub.get('createdAt').getTime();
+
+    const hoursInMs = 1000 * 60 * 60 * submissionsPerDay;
+    const diffOfDays = diff / hoursInMs;
+    const occupiesSpace = diffOfDays < 1;
+
+    spaces.push(occupiesSpace);
+  });
+
+  const spacesOccupied = spaces.filter((occupiesSpace) => occupiesSpace).length;
+
+  return spacesOccupied;
 }

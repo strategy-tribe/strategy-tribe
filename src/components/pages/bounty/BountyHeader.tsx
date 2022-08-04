@@ -133,17 +133,24 @@ function SubmitMessages() {
 
   const { userId } = useAuth();
 
-  const { canSubmit } = useCanUserSubmit(
+  const { data } = useCanUserSubmit(
     userId as string,
     bounty?.id as string,
     Boolean(userId as string) && Boolean(bounty?.id)
   );
 
+  const canSubmit = data?.canSubmit;
+  const spacesLeft = data?.spacesLeft;
+
   return (
-    <div className="pr-2">
+    <div className="pr-2 label text-right pt-1">
+      {(spacesLeft ?? 0) > 0 && (
+        <span>Submissions left today: {spacesLeft}</span>
+      )}
+
       {!canSubmit && userId && (
-        <span className="text-error-light">
-          You need to wait 24 hours between submissions
+        <span className="text-error-light whitespace-pre-wrap">
+          {`You have used all your submissions for today.\nPlease wait 24 hours.`}
         </span>
       )}
 
@@ -163,7 +170,7 @@ function SubmitButton() {
 
   const { userId } = useAuth();
 
-  const { canSubmit } = useCanUserSubmit(
+  const { data } = useCanUserSubmit(
     userId as string,
     bounty?.id as string,
     Boolean(userId as string) && Boolean(bounty?.id)
@@ -175,8 +182,8 @@ function SubmitButton() {
         style: ButtonStyle.Filled,
         label: 'Start new submission',
         icon: 'arrow_forward',
-        disabled: !canSubmit,
-        onClick: () => router.push(GoToBeforeNewSubmissionPage(bounty.id!)),
+        disabled: !data?.canSubmit,
+        onClick: () => router.push(GoToBeforeNewSubmissionPage(bounty.id)),
       }}
     />
   );

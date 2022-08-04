@@ -128,11 +128,12 @@ export const Moralis_useGetUserSubmissions = (userId: string) => {
 };
 
 export const Moralis_canSubmit = async (userId: string, bountyId: string) => {
-  const canSubmit: boolean = await Moralis.Cloud.run('canSubmit', {
-    userId,
-    bountyId,
-  });
-  return canSubmit;
+  const info: { canSubmit: boolean; spacesLeft: number } =
+    await Moralis.Cloud.run('canSubmit', {
+      userId,
+      bountyId,
+    });
+  return info;
 };
 
 ///!----------

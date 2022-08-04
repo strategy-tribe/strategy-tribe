@@ -1,15 +1,16 @@
-import Loading from '@/components/utils/Loading';
-import { MoreInfo } from '@/components/utils/MoreInfo';
 import { useGetSubmissionsFromBounty } from '@/lib/hooks/submissionHooks';
-import { useBountyContext } from './BountyContext';
+
+import Loading from '@/components/utils/Loading';
+
 import { SubmissionListEntry } from '../../submissions/SubmissionListEntry';
+import { useBountyContext } from './BountyContext';
 
 export function BountySubmissions({ userId }: { userId: string | undefined }) {
   const { bounty } = useBountyContext();
 
   const { submissions, isLoading } = useGetSubmissionsFromBounty(
     userId,
-    bounty.id!,
+    bounty.id,
     !!userId
   );
 
@@ -28,7 +29,9 @@ export function BountySubmissions({ userId }: { userId: string | undefined }) {
       </div>
 
       {/* Submissions */}
-      <div className={submissions?.length ? 'py-8' : ''}>
+      <div
+        className={`flex flex-col gap-8 ${submissions?.length ? 'py-6' : ''}`}
+      >
         {submissions?.map((s) => {
           return <SubmissionListEntry submission={s} key={s.id} />;
         })}

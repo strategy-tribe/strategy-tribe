@@ -1,8 +1,10 @@
+import { useRouter } from 'next/router';
+
 import { useGetBounty } from '@/lib/hooks/bountyHooks';
-import { Bounty, Submission } from '@/lib/models';
+import { Submission } from '@/lib/models';
 import { GetDateInString } from '@/lib/utils/DateHelpers';
 import { GoToSubmissionPage } from '@/lib/utils/Routes';
-import { useRouter } from 'next/router';
+
 import { SubmissionStatus } from '../pages/bounty/SubmissionStatus';
 
 export function SubmissionListEntry({
@@ -22,7 +24,7 @@ export function SubmissionListEntry({
   return (
     <button
       key={submission.id}
-      onClick={() => router.push(GoToSubmissionPage(submission.id!))}
+      onClick={() => router.push(GoToSubmissionPage(submission.id))}
       className="relative w-full group grid grid-cols-6 gap-x-8"
     >
       <div className="flex flex-col items-start col-span-4">
