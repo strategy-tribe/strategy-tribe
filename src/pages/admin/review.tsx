@@ -1,38 +1,23 @@
 import Head from 'next/head';
 
-import { Title } from '@/components/utils/Title';
 ('@/components/utils/Title');
-
-import { useGetSubmissions } from '@/hooks/submissionHooks';
-import { Order } from '@/lib/models/queries/Order';
-import { SubmissionQueryParams } from '@/lib/models/queries/SubmissionQueryParams';
-import { SubmissionState } from '@/lib/models/status';
 
 import AppLayout from '@/components/layouts/AppLayout';
 import ProtectedLayout from '@/components/layouts/ProtectedLayout';
-import { SubmissionListEntry } from '@/components/submissions/SubmissionListEntry';
-import { Button, ButtonStyle } from '@/components/utils/Button';
-import Loading from '@/components/utils/Loading';
+import {
+  ReviewDashboardFilters,
+  ReviewDashboardHeader,
+  ReviewDashboardPageControls,
+  ReviewDashboardSubmissions,
+} from '@/components/pages/admin/submissions/PageContent';
+import AdminReviewContextProvider, {
+  useAdminReview,
+} from '@/components/pages/admin/submissions/ReviewContext';
 import { ImportantMessage } from '@/components/utils/Warning';
 
 import { NextPageWithLayout } from '../_app';
 
 const SubmissionsToReviewPage: NextPageWithLayout = () => {
-  const query: SubmissionQueryParams = {
-    order: Order.Desc,
-    states: [SubmissionState.WaitingForReview],
-    amount: 15,
-    paginate: false,
-    reviewed: false,
-  };
-
-  const { submissions, error, isFetching, isLoading, hasMore, nextPage } =
-    useGetSubmissions(query);
-
-  if (isLoading) {
-    return <Loading />;
-  }
-
   return (
     <>
       <Head>
@@ -46,39 +31,24 @@ const SubmissionsToReviewPage: NextPageWithLayout = () => {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className="mx-auto max-w-5xl min-h-screen space-y-8">
-        <Title
-          title="Submissions to review"
-          extraInfo="Submissions waiting to be reviewed"
-        />
-        <div className="space-y-10">
-          <>
-            {submissions.length > 0 &&
-              submissions.map((s, i) => {
-                return <SubmissionListEntry submission={s} key={i} />;
-              })}
-          </>
+      <AdminReviewContextProvider>
+        <PageContent />
+      </AdminReviewContextProvider>
+    </>
+  );
+};
 
-          <>
-            {submissions.length === 0 && (
-              <div className="label text-on-surface-unactive py-4 border-y-2 px-4 border-surface">
-                No submissions to review
-              </div>
-            )}
-          </>
-        </div>
+function PageContent() {
+  const {
+    submissionFetch: { error, isLoading },
+  } = useAdminReview();
 
-        {submissions && hasMore && (
-          <Button
-            info={{
-              onClick: nextPage,
-              label: 'More',
-              icon: 'autorefresh',
-              style: ButtonStyle.Filled,
-              disabled: isFetching || isLoading,
-            }}
-          />
-        )}
+  return (
+    <>
+      <section className="mx-auto max-w-5xl min-h-screen space-y-8">
+        <ReviewDashboardHeader />
+
+        <ReviewDashboardFilters />
 
         {!!error && !isLoading && (
           <ImportantMessage
@@ -87,10 +57,14 @@ const SubmissionsToReviewPage: NextPageWithLayout = () => {
             icon="warning"
           />
         )}
-      </div>
+
+        <ReviewDashboardSubmissions />
+
+        <ReviewDashboardPageControls />
+      </section>
     </>
   );
-};
+}
 
 SubmissionsToReviewPage.getLayout = function getLayout(page) {
   return (
@@ -99,4 +73,5 @@ SubmissionsToReviewPage.getLayout = function getLayout(page) {
     </ProtectedLayout>
   );
 };
+
 export default SubmissionsToReviewPage;

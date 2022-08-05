@@ -3,14 +3,15 @@ import { SubmissionState } from '../status';
 import { Order } from './Order';
 
 export interface SubmissionQueryParams {
-  searchTerm?: string;
+  order: Order;
+  page?: number;
   paginate?: boolean;
   amount?: number;
-  order: Order;
-  //
-  bountyId?: string;
-  owner?: string;
-  requirements?: RequirementType[];
-  states?: SubmissionState[];
+  searchTerm?: string;
   reviewed?: boolean;
+  //
+  bounties?: string[];
+  owners?: string[];
+  states?: SubmissionState[];
+  requirements?: RequirementType[];
 }

@@ -16,14 +16,14 @@ import Queries from '@/utils/Queries';
 import { GoToBountyPage } from '@/utils/Routes';
 
 //!Get All
-export const useGetBounties = (filters: BountyQueryParams, enabled = true) => {
+export const useGetBounties = (config: BountyQueryParams, enabled = true) => {
   const { isInitialized } = useMoralis();
-  const page = filters.page || 0;
-  const { fetch } = Moralis_useGetBounties(filters);
+  const page = config.page || 0;
+  const { fetch } = Moralis_useGetBounties(config);
 
   const [numOfPages, setNumOfPages] = useState(0);
 
-  const queryId = [Queries.AllBounties, filters, filters.page];
+  const queryId = [Queries.AllBounties, config, config.page];
 
   const { error, isLoading, data, isFetching, isPreviousData } = useQuery(
     queryId,
@@ -40,21 +40,21 @@ export const useGetBounties = (filters: BountyQueryParams, enabled = true) => {
         else return false;
       },
       enabled: isInitialized && enabled,
-      keepPreviousData: filters.paginate,
+      keepPreviousData: config.paginate,
       refetchOnWindowFocus: false,
     }
   );
 
   useEffect(() => {
-    if (data && filters.amount && filters.paginate) {
+    if (data && config.amount && config.paginate) {
       const { count } = data;
-      const _numOfPages = Math.round(count / filters.amount);
+      const _numOfPages = Math.floor((count - 1) / config.amount + 1);
 
       setNumOfPages(_numOfPages);
     } else {
       setNumOfPages(0);
     }
-  }, [data]);
+  }, [data, config]);
 
   return {
     isLoading,

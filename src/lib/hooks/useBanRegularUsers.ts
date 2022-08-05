@@ -3,6 +3,8 @@ import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { useQuery } from 'react-query';
 
+import { useNotification } from '@/components/notifications/NotificationContext';
+
 import { GoTo404Page } from '../utils/Routes';
 
 type UserID = string;
@@ -22,22 +24,24 @@ export const useBanRegularUsers = (options?: { allowedUsers?: UserID[] }) => {
   function check() {
     if (!hasPermissions && !isFetchingUserInfo) {
       throw new Error('User has no permissions');
-    } else {
-      return;
     }
   }
+
+  const { notify } = useNotification();
 
   useQuery(
     ['check permissions', hasPermissions, isFetchingUserInfo, options],
     () => check(),
     {
       onSuccess: () => setPasses(true),
-      onError: () => {
+      onError: (error) => {
         setPasses(false);
+        notify({ title: 'Error', content: `${error}` });
         router.push(GoTo404Page());
       },
       retry: 1,
       retryDelay: 1,
+      useErrorBoundary: true,
     }
   );
 

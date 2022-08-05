@@ -1,9 +1,6 @@
-import {
-  useInfiniteQuery,
-  useMutation,
-  useQuery,
-  useQueryClient,
-} from 'react-query';
+import { useEffect, useState } from 'react';
+import { useMoralis } from 'react-moralis';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 
 import { SubmissionQueryParams } from '@/lib/models/queries/SubmissionQueryParams';
 import {
@@ -19,8 +16,6 @@ import {
 import { UserInput } from '@/components/pages/submission/new submission/UserInput';
 
 import Queries from '@/utils/Queries';
-
-import { Submission } from '../models';
 
 export const useSaveSubmission = (
   owner: string,
@@ -126,33 +121,57 @@ export const useGetSubmissions = (
   config: SubmissionQueryParams,
   enabled = true
 ) => {
+  const { isInitialized } = useMoralis();
+  const page = config.page || 0;
   const { fetch } = Moralis_useGetSubmissions(config);
 
-  const { error, isLoading, data, isFetching, isPreviousData, fetchNextPage } =
-    useInfiniteQuery(
-      [Queries.AllSubmissions, config],
-      ({ pageParam = 1 }) => fetch(pageParam),
-      {
-        getNextPageParam: (lastPackage) => {
-          if (lastPackage.hasMore) return lastPackage.page + 1;
-          else return false;
-        },
-        enabled,
-        keepPreviousData: config.paginate,
-      }
-    );
+  const [numOfPages, setNumOfPages] = useState(0);
 
-  let submissions: Submission[] = [];
-  data?.pages.forEach((d) => {
-    submissions = [...submissions, ...d.submissions];
-  });
+  const queryId = [Queries.AllSubmissions, config, config.page];
+
+  const { error, isLoading, data, isFetching, isPreviousData } = useQuery(
+    queryId,
+    () => {
+      return fetch();
+    },
+    {
+      getPreviousPageParam: (lastPackage) => {
+        const { hasLess, page } = lastPackage;
+        if (hasLess) return page - 1;
+        else return false;
+      },
+      getNextPageParam: (lastPackage) => {
+        const { hasMore, page } = lastPackage;
+        if (hasMore) return page + 1;
+        else return false;
+      },
+      enabled: isInitialized && enabled,
+      keepPreviousData: config.paginate,
+      refetchOnWindowFocus: false,
+    }
+  );
+
+  useEffect(() => {
+    if (data && config.amount && config.paginate) {
+      const { count } = data;
+
+      const _numOfPages = Math.floor((count - 1) / config.amount + 1);
+
+      setNumOfPages(_numOfPages);
+    } else {
+      setNumOfPages(0);
+    }
+  }, [data, config]);
 
   return {
     isLoading,
-    submissions,
+    submissions: data?.submissions || [],
     isFetching,
-    nextPage: fetchNextPage,
-    hasMore: data?.pages.at(-1)?.hasMore,
+    page,
+    numOfPages,
+    count: data?.count,
+    hasNextPage: data?.hasMore,
+    hasPreviousPage: data?.hasLess,
     isPreviousData,
     error,
   };

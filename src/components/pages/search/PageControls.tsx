@@ -62,21 +62,22 @@ export function PageControls() {
 
   const scrollToTop = useScrollToTop(500);
 
-  async function RunAndMoveToTop(move: (x?: any) => any) {
-    await move();
+  async function RunAndMoveToTop(move: () => void) {
+    move();
     scrollToTop();
   }
 
   const pages: number[] = useMemo(() => {
     if (numOfPages === 0) return [];
 
-    const moreThan = numOfPages > amountOfPages;
+    const dontFit = numOfPages > amountOfPages;
     const scrollPassed = amountOfPages / 2 > 0;
-    const _pages: number[] = ArrayOfNumbers(
-      amountOfPages,
-      moreThan && scrollPassed ? currPage - amountOfPages / 2 : 0,
-      numOfPages + 1
-    );
+
+    const length = amountOfPages;
+    const starts = dontFit && scrollPassed ? currPage - amountOfPages / 2 : 0;
+    const maxNum = numOfPages;
+
+    const _pages: number[] = ArrayOfNumbers(length, starts, maxNum);
 
     return _pages;
   }, [currPage, numOfPages, amountOfPages]);

@@ -1,6 +1,7 @@
 import { Moralis } from 'moralis';
 import { v4 as uuid } from 'uuid';
 
+import { Order } from '@/lib/models/queries/Order';
 import { SubmissionQueryParams } from '@/lib/models/queries/SubmissionQueryParams';
 import { SubmissionState } from '@/lib/models/status';
 import { Submission, SubmissionContent } from '@/lib/models/submission';
@@ -157,74 +158,88 @@ export const Moralis_submitterInfo = async (
 ///!----------
 
 export const Moralis_useGetSubmissions = (config: SubmissionQueryParams) => {
-  const fetch = async (page: number) => {
+  const fetch = async () => {
     const {
       amount,
       order,
       paginate,
       states,
       searchTerm,
-      bountyId,
-      owner,
+      bounties: bountyId,
+      owners,
       reviewed,
+      page,
     } = config;
 
-    const q = new Moralis.Query(SUBMISSION_TABLE);
+    const query = new Moralis.Query(SUBMISSION_TABLE);
 
     if (searchTerm) {
-      q.fullText('title', searchTerm, {
+      query.fullText('title', searchTerm, {
         caseSensitive: false,
         diacriticSensitive: true,
       });
     }
 
-    if (order === 'asc') {
-      q.ascending('submissions');
+    if (order === Order.Asc) {
+      query.ascending('createdAt');
     } else {
-      q.descending('submissions');
+      query.descending('createdAt');
     }
 
     if (bountyId) {
-      q.equalTo('bountyId', bountyId);
+      query.equalTo('bountyId', bountyId);
     }
 
-    if (owner) {
-      q.equalTo('owner', owner);
+    if (owners && owners.length > 0) {
+      query.containedIn('owner', owners);
     }
 
     if (typeof reviewed === 'boolean') {
       if (reviewed) {
-        q.notEqualTo('review', undefined);
+        query.notEqualTo('review', undefined);
       } else {
-        q.equalTo('review', undefined);
+        query.equalTo('review', undefined);
       }
     }
 
     if (states) {
-      states.forEach((s) => {
-        q.equalTo('state', s);
-      });
+      let s = states;
+      if (typeof states === 'string') {
+        s = [states];
+      }
+      query.containedIn('state', s);
+    }
+
+    let skipped = 0;
+    if (paginate && page && amount) {
+      skipped = page * amount;
+      query.skip(skipped);
     }
 
     if (amount) {
-      q.limit(amount);
+      query.limit(amount);
     }
 
-    if (paginate && page && amount) {
-      const toSkip = (page - 1) * amount;
-      q.skip(toSkip);
-    }
+    const promises = [query.find(), query.count()];
+    const results = await Promise.all(promises);
 
-    const data = await q.find();
+    const data = results[0] as Moralis.Object<Moralis.Attributes>[];
+
+    const count = results[1] as number;
+
+    const hasLess = skipped > 0;
+    const hasMore = config.amount
+      ? count - config.amount * (page || 0) > config.amount
+      : false;
 
     const submissions: Submission[] | undefined = castMultipleSubmissions(data);
-
-    const hasMore = config.amount ? submissions.length >= config.amount : false;
 
     return {
       submissions,
       hasMore,
-      page,
+      hasLess,
+      page: page ?? 0,
+      count,
     };
   };
 
