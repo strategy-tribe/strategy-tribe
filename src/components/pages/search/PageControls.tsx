@@ -38,7 +38,7 @@ export function PageControls() {
 
   function lastPage() {
     setUrlFilter({
-      page: numOfPages,
+      page: numOfPages - 1,
     });
   }
 

@@ -54,10 +54,10 @@ export function Navbar({
     <>
       <nav
         className={`${
-          keepNavbar ? 'fixed' : 'border-bg'
+          keepNavbar ? 'fixed w-screen' : 'border-bg'
         } top-0 text-on-surface-p1 ${
           keepNavbar ? borderColor : ''
-        } w-screen z-40 transition-colors duration-1000 ${
+        } z-40 transition-colors duration-1000 ${
           showElevation ? 'border-b-[1px] ' : ''
         } ${navbarBackground ? 'bg-bg' : ''}`}
       >
