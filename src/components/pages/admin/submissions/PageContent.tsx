@@ -184,77 +184,78 @@ export function ReviewDashboardPageControls() {
   }, [currPage, numOfPages, pagesPerScreen]);
 
   return (
-    <div className="bg-bg sticky bottom-0 pt-4 pb-1">
-      <div className="mx-auto max-w-xl space-y-4">
-        <div className="flex items-center gap-8 justify-between">
-          {/* Prev */}
-          <Button
-            info={{
-              onClick: prevPage,
-              label: 'Prev page',
-              icon: 'arrow_back',
-              style: ButtonStyle.Text,
-              removeMinWidth: true,
-              removePadding: true,
-              disabled: !hasPreviousPage,
-            }}
-          />
+    <>
+      <div className="bg-bg sticky bottom-0 pt-2 pb-2 border-t border-surface-dark">
+        <div className="mx-auto max-w-xl space-y-4">
+          <div className="flex items-center gap-8 justify-between">
+            {/* Prev */}
+            <Button
+              info={{
+                onClick: prevPage,
+                label: 'Prev page',
+                icon: 'arrow_back',
+                style: ButtonStyle.Text,
+                removeMinWidth: true,
+                removePadding: true,
+                disabled: !hasPreviousPage,
+              }}
+            />
 
-          <div className="flex grow items-center gap-4 justify-center">
-            {!isLoading &&
-              pages.map((page, i) => {
-                const isTheCurrentPage = currPage === page;
-                return (
-                  <button
-                    key={i}
-                    className={`shrink-0 label p-2 bg-bg border-b-2  hover:bg-surface rounded-sm disabled:hover:bg-bg disabled:cursor-default cursor-pointer ${
-                      isTheCurrentPage ? 'border-main' : 'border-bg'
-                    }`}
-                    onClick={() => goToPage(page)}
-                    disabled={isTheCurrentPage}
-                  >
-                    {page + 1}
-                  </button>
-                );
-              })}
+            <div className="flex grow items-center gap-4 justify-center">
+              {!isLoading &&
+                pages.map((page, i) => {
+                  const isTheCurrentPage = currPage === page;
+                  return (
+                    <button
+                      key={i}
+                      className={`shrink-0 label p-2 bg-bg border-b-2  hover:bg-surface rounded-sm disabled:hover:bg-bg disabled:cursor-default cursor-pointer ${
+                        isTheCurrentPage ? 'border-main' : 'border-bg'
+                      }`}
+                      onClick={() => goToPage(page)}
+                      disabled={isTheCurrentPage}
+                    >
+                      {page + 1}
+                    </button>
+                  );
+                })}
+            </div>
+
+            {/* Next */}
+            <Button
+              info={{
+                onClick: nextPage,
+                label: 'Next page',
+                icon: 'arrow_forward',
+                style: ButtonStyle.Text,
+                removeMinWidth: true,
+                removePadding: true,
+                disabled: !hasNextPage,
+              }}
+            />
           </div>
-
-          {/* Next */}
-          <Button
-            info={{
-              onClick: nextPage,
-              label: 'Next page',
-              icon: 'arrow_forward',
-              style: ButtonStyle.Text,
-              removeMinWidth: true,
-              removePadding: true,
-              disabled: !hasNextPage,
-            }}
-          />
-        </div>
-
-        <div className="text-on-surface-unactive ">
-          <label htmlFor="pagesize" className="body-sm">
-            Page size
-          </label>
-          <input
-            name="pagesize"
-            id="pagesize"
-            type="number"
-            placeholder="page Size"
-            value={query.amount}
-            onChange={(e) => {
-              const x = e.target.value;
-              setQuery({
-                ...query,
-                amount: parseInt(x) ?? 0,
-                page: 0,
-              });
-            }}
-            className="body-sm w-full bg-bg border-0 focus:ring-0 border-b focus:border-main"
-          />
         </div>
       </div>
-    </div>
+      <div className="text-on-surface-unactive ">
+        <label htmlFor="pagesize" className="body-sm">
+          Page size
+        </label>
+        <input
+          name="pagesize"
+          id="pagesize"
+          type="number"
+          placeholder="page Size"
+          value={query.amount}
+          onChange={(e) => {
+            const x = e.target.value;
+            setQuery({
+              ...query,
+              amount: parseInt(x) ?? 0,
+              page: 0,
+            });
+          }}
+          className="body-sm w-full bg-bg border-0 focus:ring-0 border-b focus:border-main"
+        />
+      </div>
+    </>
   );
 }
