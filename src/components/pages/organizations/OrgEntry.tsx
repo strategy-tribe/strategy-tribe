@@ -28,8 +28,10 @@ export function OrgEntry({
         </span>
       </div>
       {org.bio && (
-        <p className="text-on-surface-unactive line-clamp-3 max-w-sm body">
-          {org.bio}
+        <p className="text-on-surface-unactive line-clamp-3 max-w-lg body">
+          <p className="first-letter:capitalize whitespace-pre-wrap">
+            {org.bio}
+          </p>
         </p>
       )}
     </motion.div>

@@ -15,19 +15,46 @@ export function GetReadTimeInSeconds(text: string, speed = 200) {
   return Math.round((textLength / speed) * 60);
 }
 
-export function CapitalizeFirstLetter(s: string, eachWord = true): string {
-  if (eachWord) return toTitleCase(s);
-  else return capitalizeSentence(s);
+export function ParagrapIsTooLong(s: string, paragraphLenght = 30): string {
+  const breaker = '.\n\n';
+
+  let finalP = '';
+
+  const sentences = s.split('.').map((s) => s.trim());
+
+  let paragraph: string[] = [];
+  for (const sentence of sentences) {
+    const fitsAnotherOne = GetWordCount(paragraph.join()) < paragraphLenght;
+    if (fitsAnotherOne) {
+      paragraph.push(sentence);
+    } else {
+      finalP = finalP + paragraph.join('. ').trim() + breaker;
+      paragraph = [sentence];
+    }
+  }
+
+  if (paragraph.length) {
+    finalP = finalP + paragraph.join('. ').trim();
+    paragraph = [];
+  }
+
+  return finalP;
 }
 
-const capitalizeSentence = (word: string) => {
-  return word.charAt(0).toUpperCase() + word.slice(1);
+export function CapitalizeFirstLetter(s: string, eachWord = true): string {
+  if (eachWord) return toTitleCase(s);
+  else return capitalizeWord(s);
+}
+
+const capitalizeWord = (word: string) => {
+  const result = word.charAt(0).toUpperCase() + word.slice(1);
+  return result;
 };
 
 const toTitleCase = (phrase: string) => {
   return phrase
     .toLowerCase()
     .split(' ')
-    .map((word) => capitalizeSentence(word))
+    .map((word) => capitalizeWord(word))
     .join(' ');
 };

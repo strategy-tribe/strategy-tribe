@@ -59,13 +59,18 @@ function scrapOrganizations(rows) {
       alsoKnownAs: typeof cells[1] === 'string' ? cells[1].split(',') : [],
       tags: typeof cells[2] === 'string' ? cells[2].split(',') : [],
       countries: typeof cells[3] === 'string' ? cells[3].split(',') : [],
+      bio: cells[4],
+      why: cells[5],
+      links: typeof cells[6] === 'string' ? cells[6].split(',') : [],
     };
 
     org.alsoKnownAs =
-      org.alsoKnownAs?.map((word) => word.toLocaleLowerCase().trim()) || [];
-    org.tags = org.tags?.map((word) => word.toLocaleLowerCase().trim()) || [];
+      org.alsoKnownAs?.map((word) => word?.toLowerCase()?.trim()) || [];
+    org.tags = org.tags?.map((word) => word?.toLowerCase()?.trim()) || [];
     org.countries =
-      org.countries?.map((word) => word.toLocaleLowerCase().trim()) || [];
+      org.countries?.map((word) => word?.toUpperCase()?.trim()) || [];
+
+    org.links = org.links?.map((word) => word?.toLowerCase()?.trim()) || [];
 
     organizationsData.push(org);
   }

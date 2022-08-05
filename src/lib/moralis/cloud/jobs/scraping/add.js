@@ -144,7 +144,10 @@ async function createOrganizations(organizations) {
       org.organizationName,
       org.alsoKnownAs,
       org.countries,
-      org.tags
+      org.tags,
+      org.bio,
+      org.why,
+      org.links
     );
 
     if (name) orgsToCreateBountiesTo.push({ name, countries: org.countries });
@@ -157,7 +160,15 @@ async function createOrganizations(organizations) {
   return orgsToCreateBountiesTo;
 }
 
-async function createOrganization(name, alsoKnownAs, countries, tags) {
+async function createOrganization(
+  name,
+  alsoKnownAs,
+  countries,
+  tags,
+  bio,
+  why,
+  links
+) {
   //*Check if the org exists
   const q = new Moralis.Query(ORG_TABLE);
   q.equalTo('name', name);
@@ -180,6 +191,9 @@ async function createOrganization(name, alsoKnownAs, countries, tags) {
   orgRef.set('tags', tags.map((tag) => tag.toLowerCase().trim()) || []);
   orgRef.set('bounties', 0);
   orgRef.set('funds', 0);
+  orgRef.set('bio', bio);
+  orgRef.set('why', why);
+  orgRef.set('links', links);
 
   const acl = new Moralis.ACL();
   acl.setPublicWriteAccess(false);

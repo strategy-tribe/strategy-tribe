@@ -3,7 +3,6 @@ export type Organization = {
   bounties: number;
   wallet: string;
   funds: number;
-  bio?: string;
   //
   tags?: string[];
   countries?: string[];
@@ -11,4 +10,9 @@ export type Organization = {
   id?: string;
   createdAt?: Date;
   updatedAt?: Date;
+  //
+  bio?: string;
+  why?: string;
+  links?: string[];
+  alsoKnownAs?: string[];
 };

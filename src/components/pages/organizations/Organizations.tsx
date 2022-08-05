@@ -1,5 +1,6 @@
 import { AppearVariants } from '@/lib/framer/Variants';
 import { MapOfOrgs } from '@/lib/models/organizations/MapOfOrgs';
+
 import { OrgEntry } from './OrgEntry';
 
 export function Organizations({ map }: { map: MapOfOrgs }) {

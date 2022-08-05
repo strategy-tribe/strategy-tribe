@@ -16,7 +16,15 @@ async function updateOrgs(organizations) {
 
   const updateOrg = async (orgData) => {
     try {
-      const { organizationName, alsoKnownAs, tags, countries } = orgData;
+      const {
+        organizationName,
+        alsoKnownAs,
+        tags,
+        countries,
+        bio,
+        why,
+        links,
+      } = orgData;
 
       const query = new Moralis.Query(ORG_TABLE);
       query.equalTo('name', organizationName);
@@ -27,6 +35,10 @@ async function updateOrgs(organizations) {
       orgRef.set('tags', tags);
       orgRef.set('alsoKnownAs', alsoKnownAs);
       orgRef.set('countries', countries);
+      orgRef.set('bio', bio);
+      orgRef.set('why', why);
+      orgRef.set('links', links);
+
       await orgRef.save(null, { useMasterKey: true });
     } catch (error) {
       LOG(`Error updating org. Reason: ${error}`);
