@@ -4,6 +4,7 @@ import { useMemo, useState } from 'react';
 
 import { useSubmitReview } from '@/hooks/reviewHooks';
 import { useGetSubmission } from '@/hooks/submissionHooks';
+import { GoToReviewsPage } from '@/lib/utils/Routes';
 
 import {
   DelayType,
@@ -17,7 +18,6 @@ import { Title } from '@/components/utils/Title';
 import { ImportantMessage } from '@/components/utils/Warning';
 
 import { Submission, SubmissionState } from '@/models/index';
-import { GoToBountiesPage } from '@/utils/Routes';
 ('@/components/utils/Title');
 
 export default function Evaluate({ submissionId }: { submissionId: string }) {
@@ -89,7 +89,6 @@ export default function Evaluate({ submissionId }: { submissionId: string }) {
                   delayType: DelayType.Time,
                 }
               );
-              // notify("You're logged in as", user as string, DelayType.Time, 5);
             }}
           >
             of wallet address
@@ -138,29 +137,53 @@ export function SubmitReviewButton({
     review.reviewer,
     review.feedback,
     () => {
-      router.push(GoToBountiesPage());
-      notify({
-        title: 'Review submitted',
-        style: NotificationStyle.success,
-      });
+      router.push(GoToReviewsPage());
+      notify(
+        {
+          title: 'Review submitted',
+          style: NotificationStyle.success,
+        },
+        {
+          condition: false,
+          delayTime: 5,
+          delayType: DelayType.Time,
+          type: NotificationType.Pill,
+        }
+      );
     },
     (e) => {
-      notify({
-        title: 'There was an issue submitting the review',
-        content: e,
-        icon: 'warning',
-        style: NotificationStyle.error,
-      });
+      notify(
+        {
+          title: 'There was an issue submitting the review',
+          content: e,
+          icon: 'warning',
+          style: NotificationStyle.error,
+        },
+        {
+          condition: false,
+          delayTime: 5,
+          delayType: DelayType.Time,
+          type: NotificationType.Pill,
+        }
+      );
     }
   );
   return (
     <Button
       info={{
-        icon: 'publish',
+        icon: 'arrow_forward',
         style: ButtonStyle.Filled,
-        onClick: SubmitReview,
-        label: 'Submit review',
+        onClick: () => {
+          const confirmed = window.confirm(
+            `Your review will set this submission as ${
+              review.meetsRequirements ? 'Accepted' : 'Rejected'
+            }`
+          );
+          if (confirmed) SubmitReview();
+        },
+        label: 'Yes, this is the grade it deserves',
         disabled: disabled,
+        className: 'h-fit',
       }}
     />
   );

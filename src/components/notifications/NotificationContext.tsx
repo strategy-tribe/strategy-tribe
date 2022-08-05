@@ -7,7 +7,7 @@ import {
   iNotificationConfig,
   NotificationType,
 } from './iNotification';
-import { Notification } from './Notification';
+import { Pill } from './Pill';
 
 interface NotificationContextInterface {
   isAvailable: boolean;
@@ -94,7 +94,7 @@ export const NotificationcontextProvider = ({
         close={() => setShowNotif(false)}
       />
       {children}
-      <Notification
+      <Pill
         notif={notification}
         show={notificationType === NotificationType.Pill && showNotif}
         close={() => setShowNotif(false)}

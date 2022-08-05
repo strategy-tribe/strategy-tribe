@@ -20,7 +20,7 @@ function setStyle(style?: NotificationStyle) {
       };
     default:
       return {
-        container: 'bg-main',
+        container: 'bg-surface',
         title: 'text-on-surface-p0',
         content: 'text-on-surface-unactive',
       };

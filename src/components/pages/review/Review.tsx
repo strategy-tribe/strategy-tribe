@@ -2,12 +2,13 @@ import { useAuth } from 'auth/AuthContext';
 import { useEffect, useState } from 'react';
 import ReactTextareaAutosize from 'react-textarea-autosize';
 
-import { Submission as SubmissionData } from '@/lib/models';
+import { Submission as SubmissionData, SubmissionState } from '@/lib/models';
 import { GetWordCount } from '@/lib/utils/StringHelpers';
 
 import Icon, { IconSize } from '@/components/utils/Icon';
 
 import { RenderMarkdown } from '../../utils/RenderMarkdown';
+import { SubmissionStatus } from '../bounty/SubmissionStatus';
 import { SubmitReviewButton } from '../submission/new submission/review/Evaluate';
 import { ReviewCheck } from './ReviewCheck';
 import { ReviewMap } from './ReviewMap';
@@ -31,6 +32,7 @@ export function Review({ submission }: { submission: SubmissionData }) {
 
   const { userId, isStaff, isAdmin } = useAuth();
 
+  const meetsRequirements = correct && feasible;
   return (
     <div className="flex gap-x-16">
       <ReviewMap submission={submission} />
@@ -63,8 +65,8 @@ export function Review({ submission }: { submission: SubmissionData }) {
 
           <ReviewCheck
             check={{
-              whenOn: 'I can replicate the steps the user wrote',
-              whenOff: 'I can not replicate the steps the user wrote',
+              whenOn: 'Yes, I arrived at the same results',
+              whenOff: 'No, I did not arrive at the same results',
               value: correct,
               setValue: setCorrect,
               disabled: !feasible,
@@ -149,15 +151,30 @@ export function Review({ submission }: { submission: SubmissionData }) {
               </div>
             )}
 
-            <SubmitReviewButton
-              submission={submission}
-              review={{
-                feedback: feedback,
-                meetsRequirements: correct && feasible,
-                reviewer: userId,
-              }}
-              disabled={!carefullyRead || !feedbackIsOk}
-            />
+            <div className="flex justify-between items-center">
+              <div className="space-y-2">
+                <span>Your review will set this submission as: </span>
+                <>
+                  {meetsRequirements && (
+                    <SubmissionStatus
+                      status={SubmissionState.WaitingForPayment}
+                    />
+                  )}
+                  {!meetsRequirements && (
+                    <SubmissionStatus status={SubmissionState.Rejected} />
+                  )}
+                </>
+              </div>
+              <SubmitReviewButton
+                submission={submission}
+                review={{
+                  feedback: feedback,
+                  meetsRequirements,
+                  reviewer: userId,
+                }}
+                disabled={!carefullyRead || !feedbackIsOk}
+              />
+            </div>
           </div>
         )}
       </div>

@@ -1,13 +1,11 @@
 import Moralis from 'moralis';
-import Link from 'next/link';
-import React, { createContext, useContext, useEffect } from 'react';
+import React, { createContext, useContext } from 'react';
 import { useQuery } from 'react-query';
 
 import {
   UserInfo,
   useServerContext,
 } from '@/lib/moralis/ServerContextProvider';
-import { GetDateInString } from '@/lib/utils/DateHelpers';
 
 import {
   DelayType,
@@ -15,8 +13,6 @@ import {
   NotificationType,
 } from '@/components/notifications/iNotification';
 import { useNotification } from '@/components/notifications/NotificationContext';
-
-import { GoToAboutusPage } from '@/utils/Routes';
 
 interface AuthContextInterface {
   userId: string | undefined;
@@ -75,48 +71,6 @@ const AuthContextProvider = ({
       refetchOnWindowFocus: false,
     }
   );
-
-  useEffect(() => {
-    if (
-      isAuthenticated &&
-      userInfo &&
-      !GetDateInString(userInfo?.joined).includes('second')
-    ) {
-      notify(
-        { title: 'Welcome back', icon: '' },
-        {
-          condition: false,
-          delayTime: 3,
-          type: NotificationType.Banner,
-          delayType: DelayType.Time,
-        }
-      );
-    } else {
-      notify(
-        {
-          title:
-            'Earn money, get notified of updates, and more, by connecting your wallet',
-          content: () => {
-            return (
-              <p>
-                You can learn more{' '}
-                <Link href={GoToAboutusPage()}>
-                  <a className="underline text-main-light font-medium">here</a>
-                </Link>
-              </p>
-            );
-          },
-          icon: 'info',
-        },
-        {
-          condition: false,
-          delayTime: 10,
-          type: NotificationType.Pill,
-          delayType: DelayType.Time,
-        }
-      );
-    }
-  }, [isAuthenticated, userInfo]);
 
   async function getWalletMaticBalance() {
     if (!userId || !userInfo) {
