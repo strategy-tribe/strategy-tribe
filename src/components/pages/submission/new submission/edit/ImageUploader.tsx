@@ -1,5 +1,6 @@
-import Icon from '@/components/utils/Icon';
-import React, { useState } from 'react';
+import { useState } from 'react';
+
+import Icon, { IconSize } from '@/components/utils/Icon';
 
 function FileID(file: File) {
   return `${file.name}-${file.size}`;
@@ -23,6 +24,7 @@ export function ImageUploader({
           <input
             type="file"
             className="hidden"
+            accept="image/png, image/gif, image/jpeg"
             onChange={(e) => {
               if (!e.target.files) return;
               const reader = new FileReader();
@@ -47,14 +49,14 @@ export function ImageUploader({
         </label>
       </div>
 
-      <div className="grid grid-cols-3">
+      <div className="grid grid-cols-3 gap-4">
         {previewImages &&
           previewImages.length > 0 &&
           previewImages.map((image) => {
             return (
               <div
                 className="shrink-0 grow flex flex-col items-center space-y-2 max-w-md laptop:max-w-lg"
-                key={image.id}
+                key={image.id + Math.random()}
               >
                 <img
                   src={image.url}
@@ -73,8 +75,8 @@ export function ImageUploader({
                     setFiles(newFiles);
                   }}
                 >
-                  <Icon icon="delete" />
-                  <span>Delete image</span>
+                  <Icon icon="delete" size={IconSize.Small} />
+                  <span className="body-sm">Delete image</span>
                 </button>
               </div>
             );
