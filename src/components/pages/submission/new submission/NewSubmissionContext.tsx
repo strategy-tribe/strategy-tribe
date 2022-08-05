@@ -11,6 +11,7 @@ import {
 
 import { useGetBounty } from '@/lib/hooks/bountyHooks';
 import { useSaveSubmission } from '@/lib/hooks/submissionHooks';
+import { useLocalStorage } from '@/lib/hooks/useLocalStorage';
 import { Bounty } from '@/lib/models';
 import { Requirement, RequirementType } from '@/lib/models/requirement';
 import { GoToSubmissionPage } from '@/lib/utils/Routes';
@@ -36,25 +37,14 @@ interface iNewSubmissionContext {
   requirementsFullfiled: boolean;
   ctaButton: ButtonInformation | undefined;
   bounty: Bounty | undefined;
+  cleanSubmissionFromStorage: () => void;
+  attachments: File[];
+  setAttachments: (s: File[]) => void;
 }
 
-const NewSubmissionContext = createContext<iNewSubmissionContext>({
-  bountyId: '',
-  userAnswers: [],
-  setUserAnswers: () => {
-    return;
-  },
-  answerChanged: () => {
-    return;
-  },
-  editPhase: false,
-  backToEdit: () => {
-    return;
-  },
-  requirementsFullfiled: false,
-  ctaButton: undefined,
-  bounty: undefined,
-});
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore`;
+const NewSubmissionContext = createContext<iNewSubmissionContext>();
 
 export const NewSubmissionContextProvider = ({
   children,
@@ -71,8 +61,19 @@ export const NewSubmissionContextProvider = ({
   const [editPhase, setEditPhase] = useState(true);
 
   //*Submission State
-  const [userAnswers, setUserAnswers] = useState<UserInput[]>([]);
+  const { bounty } = useGetBounty(bountyId as string, true);
+  const [userAnswers, setUserAnswers, clean] = useLocalStorage<UserInput[]>(
+    `${user} - ${bountyId} `,
+    []
+  );
+
+  const [attachments, setAttachments] = useState<File[]>([]);
+
   const [checks, setChecks] = useState<Check[]>([]);
+
+  function ManageChangesToForm(userInput: UserInput[]) {
+    setUserAnswers(userInput);
+  }
 
   const requirementsFullfiled = useMemo(() => {
     return (
@@ -80,21 +81,19 @@ export const NewSubmissionContextProvider = ({
     );
   }, [checks]);
 
-  const { bounty } = useGetBounty(bountyId as string, true, {
-    addAttachment: true,
-  });
-
   useEffect(() => {
     if (bounty && userAnswers.length === 0) {
-      setUserAnswers(
-        bounty.requirements.map((req) => {
-          const userInput: UserInput = {
-            requirement: req,
-            input: req.type === RequirementType.Image ? [] : '',
-          };
-          return userInput;
-        })
-      );
+      const requirements = bounty.requirements;
+
+      const inputs = requirements.map((req) => {
+        const userInput: UserInput = {
+          requirement: req,
+          input: req.type === RequirementType.Image ? [] : '',
+        };
+        return userInput;
+      });
+
+      setUserAnswers(inputs);
 
       const newChecks = bounty.requirements.map((req) => {
         return { passed: false, requirement: req };
@@ -106,64 +105,77 @@ export const NewSubmissionContextProvider = ({
   //*Mutations
   const { Save } = useSaveSubmission(
     user as string,
-    userAnswers,
+    [
+      ...userAnswers,
+      {
+        input: attachments,
+        requirement: {
+          title: 'Attachments',
+          type: RequirementType.Image,
+          optional: true,
+        },
+      },
+    ],
     bountyId as string,
-    () => {
-      redirectToBounty();
-      notify(
-        {
-          title: 'Your Submission is being uploaded',
-          content: 'Please do not close this window',
-          icon: 'warning',
-        },
-        {
-          delayTime: 0,
-          delayType: DelayType.Condition,
-          condition: false,
-          type: NotificationType.Banner,
-        }
-      );
-    },
-    (newSubmissionId) => {
-      notify(
-        {
-          style: NotificationStyle.success,
-          title: 'Your Submission was uploaded successfully',
-          content: () => (
-            <Link href={GoToSubmissionPage(newSubmissionId as string)}>
-              <a
-                className="underline text-on-surface-p0 font-medium"
-                onClick={hide}
-              >
-                You can see it here
-              </a>
-            </Link>
-          ),
-          icon: 'done_all',
-        },
-        {
-          delayTime: 7,
-          delayType: DelayType.Time,
-          condition: false,
-          type: NotificationType.Banner,
-        }
-      );
-    },
-    (e) => {
-      notify(
-        {
-          title: 'There was an error submitting your findings',
-          content: e.message as string,
-          icon: 'error',
-          style: NotificationStyle.error,
-        },
-        {
-          delayTime: 10,
-          delayType: DelayType.Time,
-          condition: false,
-          type: NotificationType.Banner,
-        }
-      );
+    {
+      onMutate: () => {
+        redirectToBounty();
+        notify(
+          {
+            title: 'Your Submission is being uploaded',
+            content: 'Please do not close this window',
+            icon: 'warning',
+          },
+          {
+            delayTime: 0,
+            delayType: DelayType.Condition,
+            condition: false,
+            type: NotificationType.Banner,
+          }
+        );
+      },
+      onSuccess: (newSubmissionId) => {
+        clean();
+        notify(
+          {
+            style: NotificationStyle.success,
+            title: 'Your Submission was uploaded successfully',
+            content: () => (
+              <Link href={GoToSubmissionPage(newSubmissionId as string)}>
+                <a
+                  className="underline text-on-surface-p0 font-medium"
+                  onClick={hide}
+                >
+                  You can see it here
+                </a>
+              </Link>
+            ),
+            icon: 'done_all',
+          },
+          {
+            delayTime: 7,
+            delayType: DelayType.Time,
+            condition: false,
+            type: NotificationType.Banner,
+          }
+        );
+      },
+      onError: (e) => {
+        notify(
+          {
+            title: 'There was an error submitting your findings',
+            content: e.message as string,
+            icon: 'error',
+            style: NotificationStyle.error,
+          },
+          {
+            delayTime: 10,
+            delayType: DelayType.Time,
+            condition: false,
+            type: NotificationType.Banner,
+          }
+        );
+      },
     }
   );
 
@@ -189,7 +201,9 @@ export const NewSubmissionContextProvider = ({
       return {
         icon: 'publish',
         label: 'Submit',
-        onClick: Save,
+        onClick: () => {
+          Save();
+        },
         style: ButtonStyle.Filled,
         disabled: !requirementsFullfiled,
       };
@@ -199,7 +213,7 @@ export const NewSubmissionContextProvider = ({
     <NewSubmissionContext.Provider
       value={{
         userAnswers,
-        setUserAnswers,
+        setUserAnswers: ManageChangesToForm,
         bountyId: bountyId as string,
         answerChanged,
         editPhase,
@@ -207,6 +221,9 @@ export const NewSubmissionContextProvider = ({
         requirementsFullfiled,
         ctaButton,
         bounty,
+        cleanSubmissionFromStorage: clean,
+        attachments,
+        setAttachments,
       }}
     >
       {children}

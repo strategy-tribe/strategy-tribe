@@ -1,10 +1,10 @@
 import { ImageGallery } from '@/components/utils/ImageGallery';
-import React from 'react';
+
 import { useNewSubmissionContext } from './NewSubmissionContext';
 ('@/components/utils/Title');
 
 export function ReviewSubmission() {
-  const { userAnswers } = useNewSubmissionContext();
+  const { userAnswers, attachments } = useNewSubmissionContext();
 
   if (!userAnswers) return <span></span>;
 
@@ -25,6 +25,14 @@ export function ReviewSubmission() {
           </div>
         );
       })}
+
+      {attachments && (
+        <div className="space-y-2">
+          <h6 className="label text-on-surface-p0">Attachments</h6>
+          {!!attachments.length && <ImageGallery files={attachments ?? []} />}
+          {!attachments.length && <span className="block">None</span>}
+        </div>
+      )}
     </div>
   );
 }

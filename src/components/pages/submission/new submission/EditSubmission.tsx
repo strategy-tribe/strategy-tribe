@@ -3,13 +3,18 @@ import { useMemo } from 'react';
 import { Title } from '@/components/utils/Title';
 ('@/components/utils/Title');
 
+import { RequirementType } from '@/lib/models/requirement';
+
+import { ImageUploader } from './edit/ImageUploader';
+import { RequirementChecker } from './edit/RequirementChecker';
 import { RequirementEditor } from './edit/RequirementEditor';
 import { useNewSubmissionContext } from './NewSubmissionContext';
 import { UserInput } from './UserInput';
 
 export function EditSubmission() {
   //*Context
-  const { userAnswers, setUserAnswers } = useNewSubmissionContext();
+  const { userAnswers, setUserAnswers, setAttachments, attachments } =
+    useNewSubmissionContext();
 
   //*Memoized
   const requirements = useMemo(
@@ -36,6 +41,22 @@ export function EditSubmission() {
 
     setUserAnswers([...newList]);
   }
+
+  const Attachments = useMemo(() => {
+    return (
+      <div>
+        <RequirementChecker
+          requirement={{
+            title: 'Attachments',
+            type: RequirementType.Image,
+            optional: true,
+          }}
+          input={attachments}
+        />
+        <ImageUploader files={attachments} setFiles={setAttachments} />
+      </div>
+    );
+  }, [attachments, setAttachments]);
 
   return (
     <div className="space-y-7">
@@ -68,6 +89,8 @@ export function EditSubmission() {
             />
           );
         })}
+        {/* Attachments */}
+        {Attachments}
       </div>
     </div>
   );

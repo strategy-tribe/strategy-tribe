@@ -21,10 +21,14 @@ export const useSaveSubmission = (
   owner: string,
   content: UserInput[],
   bountyId: string,
-  onMutate: () => void,
-  onSuccess: (id?: string) => void,
-  onError: (e: any) => void
+  events: {
+    onMutate: () => void;
+    onSuccess: (id?: string) => void;
+    onError: (e: any) => void;
+  }
 ) => {
+  const { onError, onMutate, onSuccess } = events;
+
   const q = useQueryClient();
 
   const { save } = Molaris_useSaveSubmission(owner, content, bountyId);

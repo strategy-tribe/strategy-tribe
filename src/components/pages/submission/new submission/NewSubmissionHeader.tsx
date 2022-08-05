@@ -9,7 +9,7 @@ export function NewSubmissionHeader() {
     useNewSubmissionContext();
 
   return (
-    <header className="flex w-full justify-between pb-5 border-b-2 border-surface">
+    <header className="flex w-full justify-between py-5 border-b-2 border-surface sticky top-[3.8rem] z-50 bg-surface-dark">
       <div>
         <h2 className="title">New Submission</h2>
         <Button

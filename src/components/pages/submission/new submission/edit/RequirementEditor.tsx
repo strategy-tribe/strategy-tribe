@@ -15,7 +15,7 @@ export function RequirementEditor({
   setInput: (s: string | File[]) => void;
 }) {
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       {/* The type cheker */}
       <RequirementChecker requirement={requirement} input={input} />
 
@@ -28,7 +28,7 @@ export function RequirementEditor({
         <ReactTextareaAutosize
           placeholder={requirement.title}
           className="bg-bg text-on-surface-p1 body
-          -translate-y-4 border-0 w-full h-fit font-inter focus:ring-0 first-letter:capitalize whitespace-pre-wrap -ml-2"
+          -translate-y-4 border-0 w-full h-fit font-inter focus:ring-0 first-letter:capitalize whitespace-pre-wrap"
           minRows={requirement.type === RequirementType.Report ? 10 : 1}
           value={input as string}
           onChange={(e) => {

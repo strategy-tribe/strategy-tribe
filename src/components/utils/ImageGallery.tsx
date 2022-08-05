@@ -1,25 +1,33 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
+
+async function readFileAsDataURL(file: File) {
+  const result_base64 = await new Promise((resolve) => {
+    const fileReader = new FileReader();
+    fileReader.onload = () => resolve(fileReader.result);
+    fileReader.readAsDataURL(file);
+  });
+
+  return result_base64 as string;
+}
 
 export function ImageGallery({ files }: { files: File[] }) {
   const [previewImages, setPreviewImages] = useState<string[]>([]);
 
   useEffect(() => {
-    const reader = new FileReader();
-
-    reader.onload = () => {
-      if (reader.readyState === 2) {
-        const newImage = reader.result as string;
-        setPreviewImages([...previewImages, newImage]);
+    async function readFiles(files: File[]) {
+      const urls: string[] = [];
+      for await (const file of files) {
+        const url = await readFileAsDataURL(file);
+        urls.push(url);
       }
-    };
+      setPreviewImages(urls);
+    }
 
-    files.forEach((f) => {
-      reader.readAsDataURL(f);
-    });
+    readFiles(files);
   }, [files]);
 
   return (
-    <div className="flex items-start pr-2 space-x-4 snap-x overflow-x-auto ">
+    <div className="grid grid-cols-3 gap-8">
       {previewImages &&
         previewImages.length > 0 &&
         previewImages.map((image, imageIndex) => {

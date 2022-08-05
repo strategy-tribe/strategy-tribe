@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 import { Requirement, RequirementType } from '@/lib/models/requirement';
 
-import Icon from '@/components/utils/Icon';
+import Icon, { IconSize } from '@/components/utils/Icon';
 
 import { GetWordCount } from '@/utils/StringHelpers';
 
@@ -36,51 +36,52 @@ export function RequirementChecker({
     }
   }, [input, optional, type]);
 
-  // console.log('this is running');
-
   useEffect(() => {
     answerChanged(requirement, passed);
   }, [passed]);
 
   return (
-    <div className="group cursor-default label-lg min-w-[10rem] flex items-center gap-4 -translate-x-10">
-      <Icon
-        icon="close"
-        className={`text-error-light ${!!passed && 'invisible'}`}
-      />
+    <div className="min-w-[10rem] sticky top-40 z-30 bg-surface-dark py-2">
+      <div className="-translate-x-6 flex items-center gap-2 group cursor-default label-lg">
+        <Icon
+          icon="close"
+          className={`text-error-light ${!!passed && 'invisible'}`}
+          size={IconSize.Small}
+        />
 
-      <div className="space-y-4 label w-full">
-        {/* Label of the req */}
-        <div className="flex justify-between items-center">
-          <div>
-            <span className={`${!passed && 'group-hover:hidden'}`}>
-              {title}
-            </span>
+        <div className="space-y-4 label w-full">
+          {/* Label of the req */}
+          <div className="flex justify-between items-center">
+            <div>
+              <span className={`${!passed && 'group-hover:hidden'}`}>
+                {title}
+              </span>
 
-            <span
-              className={`text-error-light hidden ${
-                !passed && 'group-hover:inline '
-              }`}
-            >
-              {message}
-            </span>
+              <span
+                className={`text-error-light hidden ${
+                  !passed && 'group-hover:inline '
+                }`}
+              >
+                {message}
+              </span>
+            </div>
+            {typeof input === 'string' && (
+              <span
+                className={`${type !== RequirementType.Report && 'invisible'}`}
+              >
+                {GetWordCount(input as string)}{' '}
+                {GetWordCount(input as string) === 1 ? 'word' : 'words'}
+              </span>
+            )}
           </div>
-          {typeof input === 'string' && (
-            <span
-              className={`${type !== RequirementType.Report && 'invisible'}`}
-            >
-              {GetWordCount(input as string)}{' '}
-              {GetWordCount(input as string) === 1 ? 'word' : 'words'}
-            </span>
-          )}
-        </div>
 
-        {/* Error message for mobile */}
-        <span
-          className={`text-error-light laptop:hidden ${passed && 'hidden'}`}
-        >
-          {message}
-        </span>
+          {/* Error message for mobile */}
+          <span
+            className={`text-error-light laptop:hidden ${passed && 'hidden'}`}
+          >
+            {message}
+          </span>
+        </div>
       </div>
     </div>
   );
