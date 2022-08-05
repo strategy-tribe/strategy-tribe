@@ -25,10 +25,18 @@ export function ReviewDashboardHeader() {
 }
 
 export function ReviewDashboardFilters() {
-  const { query, setQuery } = useAdminReview();
+  const {
+    query,
+    setQuery,
+    submissionFetch: { count },
+  } = useAdminReview();
 
   return (
     <div className="flex items-center gap-8 py-4 border-b-2 border-surface sticky top-16 bg-bg z-20">
+      <div className="grow shrink text-center  text-main-light rounded-full label-sm">
+        {count} {count === 1 ? 'result' : 'results'}
+      </div>
+
       <Button
         info={{
           style: ButtonStyle.Text,
@@ -73,7 +81,7 @@ export function ReviewDashboardSearchbar() {
   }
 
   return (
-    <div className="grow">
+    <div className="grow-[10]">
       {query.owners && query.owners.at(0) && (
         <>
           <button
@@ -100,20 +108,28 @@ export function ReviewDashboardSearchbar() {
       )}
 
       {(!query.owners || !query?.owners?.at(0)) && (
-        <input
-          type="text"
-          className="body-sm font-medium w-full bg-bg border-0 focus:ring-0 border-b focus:border-main"
-          placeholder="Search by user id"
-          value={search}
-          onChange={(e) => {
-            setSearch(e.target.value);
-          }}
-          onKeyUp={(e) => {
-            if (e.key === 'Enter') {
-              hitSearch();
-            }
-          }}
-        />
+        <div className="flex items-center gap-4">
+          <input
+            type="text"
+            className="body-sm font-medium w-full bg-bg border-0 focus:ring-0 border-b focus:border-main"
+            placeholder="Search by user id"
+            value={search}
+            onChange={(e) => {
+              setSearch(e.target.value);
+            }}
+            onKeyUp={(e) => {
+              if (e.key === 'Enter') {
+                hitSearch();
+              }
+            }}
+          />
+          <button
+            className="grow shrink-0 text-center border bg-main border-bg text-on-color py-2 px-8 rounded-full label-sm"
+            onClick={() => hitSearch(false)}
+          >
+            Search
+          </button>
+        </div>
       )}
     </div>
   );
