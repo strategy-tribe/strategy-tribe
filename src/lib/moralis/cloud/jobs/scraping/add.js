@@ -99,7 +99,7 @@ function createBountiesForIndividual(target, countries) {
       },
       //report
       {
-        title: 'How did you found this information?',
+        title: 'How did you find this information?',
         type: 'Report',
         optional: reportRequired,
       },
@@ -288,7 +288,7 @@ function generateBountiesParams(organizationName, countries) {
       },
       //report
       {
-        title: 'How did you found this information?',
+        title: 'How did you find this information?',
         type: 'Report',
         optional: reportRequired,
       },
