@@ -32,7 +32,7 @@ export function ReviewDashboardFilters() {
   } = useAdminReview();
 
   return (
-    <div className="flex items-center gap-8 py-4 border-b-2 border-surface sticky top-16 bg-bg z-20">
+    <div className="flex items-center gap-8 py-4 border-b-2 border-surface sticky top-0 bg-bg z-20">
       <div className="text-center  text-main-light rounded-full label-sm">
         {count} {count === 1 ? 'result' : 'results'}
       </div>

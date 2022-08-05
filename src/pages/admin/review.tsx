@@ -45,9 +45,8 @@ function PageContent() {
 
   return (
     <>
-      <section className="mx-auto max-w-5xl min-h-screen space-y-8">
+      <section className="mx-auto max-w-5xl min-h-screen">
         <ReviewDashboardHeader />
-
         <ReviewDashboardFilters />
 
         {!!error && !isLoading && (
@@ -58,7 +57,9 @@ function PageContent() {
           />
         )}
 
-        <ReviewDashboardSubmissions />
+        <div className="py-8">
+          <ReviewDashboardSubmissions />
+        </div>
 
         <ReviewDashboardPageControls />
       </section>
@@ -69,7 +70,7 @@ function PageContent() {
 SubmissionsToReviewPage.getLayout = function getLayout(page) {
   return (
     <ProtectedLayout>
-      <AppLayout>{page}</AppLayout>
+      <AppLayout keepNavbar={false}>{page}</AppLayout>
     </ProtectedLayout>
   );
 };

@@ -16,7 +16,13 @@ import { NotifsMenu } from './menus/NotifsMenu';
 import { UserMenu } from './menus/UserMenu';
 import { NavLink } from './NavLink';
 
-export function Navbar({ hideBgOnScroll }: { hideBgOnScroll: boolean }) {
+export function Navbar({
+  hideBgOnScroll,
+  keepNavbar,
+}: {
+  hideBgOnScroll: boolean;
+  keepNavbar: boolean;
+}) {
   const [navbarBackground, setNavbarBackground] = useState(!hideBgOnScroll);
 
   useScrollPosition(
@@ -47,7 +53,11 @@ export function Navbar({ hideBgOnScroll }: { hideBgOnScroll: boolean }) {
   return (
     <>
       <nav
-        className={`fixed top-0 text-on-surface-p1 ${borderColor} w-screen z-40 transition-colors duration-1000 ${
+        className={`${
+          keepNavbar ? 'fixed' : 'border-bg'
+        } top-0 text-on-surface-p1 ${
+          keepNavbar ? borderColor : ''
+        } w-screen z-40 transition-colors duration-1000 ${
           showElevation ? 'border-b-[1px] ' : ''
         } ${navbarBackground ? 'bg-bg' : ''}`}
       >
