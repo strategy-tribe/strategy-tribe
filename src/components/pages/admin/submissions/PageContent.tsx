@@ -122,6 +122,7 @@ export function ReviewDashboardSearchbar() {
 export function ReviewDashboardSubmissions() {
   const {
     submissionFetch: { submissions, page },
+    query,
   } = useAdminReview();
 
   return (
@@ -142,8 +143,12 @@ export function ReviewDashboardSubmissions() {
 
       <>
         {submissions.length === 0 && (
-          <div className="label text-on-surface-unactive py-4 border-y-2 px-4 border-surface">
-            No submissions to review
+          <div className="label text-on-surface-unactive">
+            No submissions matches your filters
+            <div className="mt-4 border border-on-surface-disabled rounded p-4">
+              <span>query:</span>
+              <pre className="pt-2">{JSON.stringify(query, null, 2)}</pre>
+            </div>
           </div>
         )}
       </>

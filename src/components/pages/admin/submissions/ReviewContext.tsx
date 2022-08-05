@@ -31,7 +31,6 @@ const AdminReviewContextProvider = ({
     states: [SubmissionState.WaitingForReview],
     amount: 10,
     paginate: true,
-    reviewed: false,
     page: 0,
   });
 
