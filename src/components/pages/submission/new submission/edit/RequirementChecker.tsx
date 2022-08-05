@@ -51,7 +51,7 @@ export function RequirementChecker({
 
       <div className="space-y-4 label w-full">
         {/* Label of the req */}
-        <p className="flex justify-between items-center">
+        <div className="flex justify-between items-center">
           <div>
             <span className={`${!passed && 'group-hover:hidden'}`}>
               {title}
@@ -73,7 +73,7 @@ export function RequirementChecker({
               {GetWordCount(input as string) === 1 ? 'word' : 'words'}
             </span>
           )}
-        </p>
+        </div>
 
         {/* Error message for mobile */}
         <span
