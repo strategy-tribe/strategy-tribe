@@ -29,47 +29,49 @@ export function SubmissionListEntry({
     );
 
   return (
-    <div className="relative w-full grid grid-cols-6 gap-x-4 ">
-      <div className="flex flex-col items-start col-span-3">
-        <div className="flex gap-2">
-          {bounty.tags?.map((tag) => {
-            return (
-              <span
-                className="label-sm text-on-surface-unactive capitalize"
-                key={tag}
-              >
-                {tag}
-              </span>
-            );
-          })}
-        </div>
-
-        <div className="group">
-          <button
-            onClick={() => router.push(GoToSubmissionPage(submission.id))}
-            className="title-xs group-hover:underline text-left"
-          >
-            {bounty.title}
-          </button>
-
-          <div className="bg-surface-dark px-4 py-2 rounded absolute left-0 top-0 group-hover:visible invisible pointer-events-none group-hover:pointer-events-auto translate-x-12 -translate-y-8">
-            Go to submission
+    <div className="relative flex w-full">
+      <div className="grid grid-cols-6 gap-x-4 w-[66%]">
+        <div className="flex flex-col items-start col-span-4">
+          <div className="flex gap-2">
+            {bounty.tags?.map((tag) => {
+              return (
+                <span
+                  className="label-sm text-on-surface-unactive capitalize"
+                  key={tag}
+                >
+                  {tag}
+                </span>
+              );
+            })}
           </div>
+
+          <div className="group">
+            <button
+              onClick={() => router.push(GoToSubmissionPage(submission.id))}
+              className="title-xs group-hover:underline text-left"
+            >
+              {bounty.title}
+            </button>
+
+            <div className="bg-surface-dark px-4 py-2 rounded absolute left-0 top-0 group-hover:visible invisible pointer-events-none group-hover:pointer-events-auto translate-x-12 -translate-y-8">
+              Go to submission
+            </div>
+          </div>
+
+          <p className="text-on-surface-unactive">
+            {submission.answers.at(0)?.answer}...
+          </p>
         </div>
 
-        <p className="text-on-surface-unactive">
-          {submission.answers.at(0)?.answer}...
-        </p>
-      </div>
-
-      <div className="flex col-span-3 gap-x-8 justify-between">
-        <div className="place-self-center ">
+        <div className="place-self-center col-span-2">
           <SubmissionStatus status={submission.state} />
         </div>
+      </div>
 
+      <div className="flex items-center gap-x-4 shrink-0 grow">
         {(isAdmin || isStaff) && (
           <button
-            className="place-self-center group text-right grow"
+            className="place-self-center group text-right grow col-span-1"
             onClick={() => {
               navigator.clipboard.writeText(submission.owner);
               notify(
@@ -90,7 +92,7 @@ export function SubmissionListEntry({
           </button>
         )}
 
-        <div className="place-self-center flex flex-col items-end shrink-0 grow ">
+        <div className="place-self-center flex flex-col items-end shrink-0 grow col-span-3">
           <span className="title">{bounty.funds} MATIC</span>
           <span className="text-on-surface-unactive label-sm pt-1">
             {GetDateInString(submission.createdAt)} ago

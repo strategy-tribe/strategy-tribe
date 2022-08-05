@@ -33,7 +33,7 @@ export function ReviewDashboardFilters() {
 
   return (
     <div className="flex items-center gap-8 py-4 border-b-2 border-surface sticky top-16 bg-bg z-20">
-      <div className="grow shrink text-center  text-main-light rounded-full label-sm">
+      <div className="text-center  text-main-light rounded-full label-sm">
         {count} {count === 1 ? 'result' : 'results'}
       </div>
 
@@ -57,12 +57,30 @@ export function ReviewDashboardFilters() {
       />
 
       <Dropdown
-        options={Object.entries(SubmissionState).map((entry) => {
-          return { label: entry[1] };
-        })}
-        onSelect={({ label: newState }) => [
-          setQuery({ ...query, states: [newState], page: 0 }),
-        ]}
+        defaultOptionIndex={1}
+        options={[['All', 'All'], ...Object.entries(SubmissionState)].map(
+          (entry) => {
+            return { label: entry[1] };
+          }
+        )}
+        onSelect={({ label: newState }) => {
+          const isAState = Object.entries(SubmissionState).find(
+            (entry) => entry[1] === newState
+          );
+          if (isAState) {
+            setQuery({
+              ...query,
+              states: [newState as SubmissionState],
+              page: 0,
+            });
+          } else {
+            setQuery({
+              ...query,
+              states: [],
+              page: 0,
+            });
+          }
+        }}
       />
 
       <ReviewDashboardSearchbar />

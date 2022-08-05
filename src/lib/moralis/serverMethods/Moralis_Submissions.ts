@@ -202,7 +202,7 @@ export const Moralis_useGetSubmissions = (config: SubmissionQueryParams) => {
       }
     }
 
-    if (states) {
+    if (states && states.length) {
       let s = states;
       if (typeof states === 'string') {
         s = [states];
