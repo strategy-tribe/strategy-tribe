@@ -4,4 +4,7 @@ export enum AccountView {
   Submissions = 'submissions',
   Rewards = 'rewards',
   Notifications = 'notifications',
+  Reviews = 'reviews',
 }
+
+export const VIEWS_FOR_STAFF = [AccountView.Reviews];

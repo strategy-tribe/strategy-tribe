@@ -1,10 +1,19 @@
-import { GoToAccountPage } from '@/lib/utils/Routes';
-import { AccountView } from '@/lib/models/account/AccountView';
+import { useAuth } from 'auth/AuthContext';
+import { useMemo } from 'react';
+
+import { AccountView, VIEWS_FOR_STAFF } from '@/lib/models/account/AccountView';
 import { useAccountUrl } from '@/lib/models/account/useAccountUrl';
+import { GoToAccountPage } from '@/lib/utils/Routes';
 
 export function AccountSideMap() {
+  const { isAdmin, isStaff } = useAuth();
   const { query, setQuery } = useAccountUrl();
-  const pages = Object.entries(AccountView);
+  const pages = useMemo(() => {
+    const _pages = Object.entries(AccountView);
+
+    const filter = isAdmin || isStaff ? [] : VIEWS_FOR_STAFF;
+    return _pages.filter((p) => !filter.includes(p[1]));
+  }, [isAdmin, isStaff]);
 
   function goToPage(view: AccountView) {
     const url = GoToAccountPage();

@@ -23,6 +23,18 @@ export function CastSubmission(subRef: Moralis.Object<Moralis.Attributes>) {
   return sub;
 }
 
+export const CastReview = (
+  bountyRef: Moralis.Object<Moralis.Attributes>
+): Review => {
+  const mockBounty = bountyRef.attributes as Review;
+  const bounty: Review = {
+    ...mockBounty,
+    id: bountyRef.id,
+    createdAt: bountyRef.createdAt,
+  };
+  return bounty;
+};
+
 export const CastBounty = (
   bountyRef: Moralis.Object<Moralis.Attributes>
 ): Bounty => {

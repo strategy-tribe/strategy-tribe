@@ -8,6 +8,7 @@ enum Queries {
   OneSubmision = 'One Submission',
   Organizations = 'All organizations',
   isSubscribed = 'is user subscribed to',
+  Reviews = 'reviews',
 }
 
 export default Queries;

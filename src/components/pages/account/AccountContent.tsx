@@ -1,15 +1,20 @@
+import { useAuth } from 'auth/AuthContext';
+
+import { AccountView } from '../../../lib/models/account/AccountView';
 import { Section } from '../landing/Section';
 import { useAccountContext } from './AccountContext';
-import { AccountView } from '../../../lib/models/account/AccountView';
-import { AccountDetails } from './sections/AccountDetails';
 import { AccountSideMap } from './AccountSideMap';
+import { AccountDetails } from './sections/AccountDetails';
+import { AccountNotifications } from './sections/AccountNotifications';
+import { AccountReviews } from './sections/AccountReviews';
+import { AccountRewards } from './sections/AccountRewards';
 import { AccountSubmissions } from './sections/AccountSubmissions';
 import { AccountWatching } from './sections/AccountWatching';
-import { AccountRewards } from './sections/AccountRewards';
-import { AccountNotifications } from './sections/AccountNotifications';
 
 export function AccountContent() {
   const { view } = useAccountContext();
+
+  const { isAdmin, isStaff } = useAuth();
 
   return (
     <Section className="flex gap-24 min-h-[20rem]">
@@ -42,6 +47,12 @@ export function AccountContent() {
       {view === AccountView.Notifications && (
         <>
           <AccountNotifications />
+        </>
+      )}
+
+      {view === AccountView.Reviews && (isAdmin || isStaff) && (
+        <>
+          <AccountReviews />
         </>
       )}
     </Section>
