@@ -85,7 +85,7 @@ export function Pill({
                     typeof notif?.content === 'string' &&
                     notif?.content}
                   {notif?.content &&
-                    typeof notif?.content !== 'string' &&
+                    typeof notif?.content === 'function' &&
                     notif?.content(close)}
                 </>
               </div>

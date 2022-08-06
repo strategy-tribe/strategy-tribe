@@ -1,5 +1,7 @@
 //*Reviews
 Moralis.Cloud.beforeSave(REVIEWS_TABLE, async function (request) {
+  LOG(`REVIEWS_TABLE beforeSave running, ${request.object.id}`);
+
   async function GetOwnerOfSubmission(submissionId) {
     const q = new Moralis.Query(SUBMISSIONS_TABLE);
 
@@ -17,21 +19,31 @@ Moralis.Cloud.beforeSave(REVIEWS_TABLE, async function (request) {
   try {
     const {
       object: review,
-      context: { userId },
+      context: { userId, key },
       user: curr_user,
     } = request;
 
     //is the reviewer legit?
     const reviewer = review.get('reviewerId');
+    const _key = await GetKey();
 
-    if (!curr_user.id || curr_user.id !== reviewer) {
-      ERROR(`Unauthorized: user has no auth`, true);
+    const nokey = !key || key !== _key;
+    const wrongUser = !curr_user?.id || curr_user?.id !== reviewer;
+
+    if (nokey && wrongUser) {
+      ERROR(
+        `Unauthorized: user has no auth. ${JSON.stringify({
+          nokey,
+          wrongUser,
+        })}`,
+        true
+      );
     }
 
     const auth = await GetUserRole(reviewer, request);
 
-    if (!auth.isAdmin && !auth.isStaff) {
-      ERROR('Unauthorized: user has no auth', true);
+    if (nokey && !auth.isAdmin && !auth.isStaff) {
+      ERROR(`Unauthorized: user has no auth`, true);
     }
 
     //is the userId owner of the submission?
@@ -63,11 +75,13 @@ Moralis.Cloud.beforeSave(REVIEWS_TABLE, async function (request) {
     review.setACL(reviewACL);
   } catch (error) {
     ERROR(`Applying ACL to Review. Reason: \n${error}`, true);
+  } finally {
+    LOG('REVIEWS_TABLE beforeSave finished ran');
   }
 });
 
 Moralis.Cloud.afterSave(REVIEWS_TABLE, async function (request) {
-  LOG('REVIEWS_TABLE after save ran');
+  LOG(`REVIEWS_TABLE afterSave running, ${request.object.id}`);
 
   try {
     //*Connect the review and the submission
@@ -89,7 +103,7 @@ Moralis.Cloud.afterSave(REVIEWS_TABLE, async function (request) {
       reviewGrade !== SUBMISSION_ACCEPTED_STATE &&
       reviewGrade !== SUBMISSION_REJECTED_STATE
     ) {
-      ERROR(`Unauthorized: review grade not valid`, true);
+      ERROR(`Review not valid`, true);
     }
     if (reviewGrade === SUBMISSION_ACCEPTED_STATE) {
       submissionState = SUBMISSION_WAITING_FOR_PAYMENT_STATE;
@@ -98,23 +112,28 @@ Moralis.Cloud.afterSave(REVIEWS_TABLE, async function (request) {
     submissionRef.set('state', submissionState);
     submissionRef.set('review', reviewRef);
 
-    const key = await GetKey();
+    try {
+      //saving the submission
+      const key = await GetKey();
+      await submissionRef.save(null, { useMasterKey: true, context: { key } });
 
-    const context = {
-      key,
-    };
+      //notif
+      const userId = submissionRef.get('owner');
+      const users = [userId];
+      const message = 'Your submission has been reviewed';
+      const BASE_URL = await GetBaseUrl();
 
-    await submissionRef.save(null, { useMasterKey: true, context });
-
-    //notif
-    const bountyId = submissionRef.get('bountyId');
-    const userId = submissionRef.get('owner');
-    const users = [userId];
-    const message = 'Your submission has been reviewed';
-    const BASE_URL = await GetBaseUrl();
-    const url = `${BASE_URL}/bounty/${bountyId}/${submissionId}`;
-    await CreateNotification(users, message, url);
+      const url = `${BASE_URL}/submission/${submissionId}`;
+      await CreateNotification(users, message, url);
+    } catch (error) {
+      throw error;
+    } finally {
+      LOG('REVIEWS_TABLE afterSave finished ran');
+    }
   } catch (error) {
-    ERROR(`Error after save:\nReason:${JSON.stringify(error, null, 2)}`, true);
+    ERROR(
+      `REVIEWS_TABLE afterSave:\nReason:${JSON.stringify(error, null, 2)}`,
+      true
+    );
   }
 });

@@ -53,11 +53,11 @@ Moralis.Cloud.beforeSave(SUBMISSIONS_TABLE, async function (request) {
     if (!isNew) {
       const _key = await GetKey();
       if (!key || key !== _key) {
-        ERROR('Unauthorized', true);
+        ERROR(`Unauthorized.`, true);
       }
     }
   } catch (error) {
-    ERROR('beforeSave SUBMISSIONS_TABLE', true);
+    ERROR(`beforeSave SUBMISSIONS_TABLE\n${error}`, true);
   }
 });
 
@@ -81,9 +81,14 @@ Moralis.Cloud.afterSave(SUBMISSIONS_TABLE, async function (request) {
         ERROR('Unauthorized', true);
       }
 
-      bounty.set('state', BOUNTY_PAYMENT_NEEDED_STATE);
-      await bounty.save(null, { useMasterKey: true });
       await CreateInvoice(submission);
+
+      bounty.set('state', BOUNTY_PAYMENT_NEEDED_STATE);
+
+      await bounty.save(null, {
+        useMasterKey: true,
+        context: { acceptedSubmissionID: submission.id },
+      });
     } else if (submissionState === SUBMISSION_ACCEPTED_STATE) {
       //close
       bounty.set('state', BOUNTY_CLOSED_STATE);

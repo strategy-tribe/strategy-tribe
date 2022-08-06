@@ -1,9 +1,26 @@
 //*Bounties
 Moralis.Cloud.beforeSave(BOUNTY_TABLE, async function (request) {
-  const { object: bounty } = request;
+  const { object: bounty, context } = request;
+
+  LOG(`BOUNTY_TABLE beforeSave running\n ${request.object.id}`);
 
   //Check for funds and state
-  if (
+  if (bounty.get('state') === BOUNTY_PAYMENT_NEEDED_STATE) {
+    //close it
+    LOG(`Bounty to be closed detected.`);
+    const submissionThatPassed = context.acceptedSubmissionID;
+    if (!submissionThatPassed) {
+      ERROR(
+        `Error closing bounty. Did not get submission that closed it. ${JSON.stringify(
+          request,
+          null,
+          2
+        )}`
+      );
+    }
+    await CloseBounty(bounty.id, submissionThatPassed);
+    LOG(`Closed bounty`);
+  } else if (
     bounty.get('funds') > 0 &&
     bounty.get('state') === BOUNTY_WAITING_FUNDS_STATE
   ) {
@@ -24,6 +41,7 @@ Moralis.Cloud.beforeSave(BOUNTY_TABLE, async function (request) {
   bountyACL.setRoleReadAccess(ADMIN_ROLE, true);
 
   bounty.setACL(bountyACL);
+  LOG(`BOUNTY_TABLE beforeSave done`);
 });
 
 Moralis.Cloud.afterSave(BOUNTY_TABLE, async function (request) {
@@ -82,5 +100,42 @@ async function IncrementOrganizationCount(orgName) {
     ERROR(
       `Error tried incrementing of a organization that does not exists: ${error}`
     );
+  }
+}
+
+async function CloseBounty(bountyId, exception) {
+  LOG(`Closing bounty: ${bountyId}\nbc ${exception} got accepted`);
+
+  const q = new Moralis.Query(SUBMISSIONS_TABLE);
+  q.equalTo('bountyId', bountyId);
+  q.notEqualTo('objectId', exception);
+
+  const leftOverSubs = await q.find({ useMasterKey: true });
+
+  const key = await GetKey();
+
+  for (const sub of leftOverSubs) {
+    const submissionId = sub.id;
+    if (submissionId === exception) {
+      ERROR('Exception not working...', false);
+    } else {
+      //create a review
+      const userId = sub.get('owner');
+      const grade = SUBMISSION_REJECTED_STATE;
+      const reviewerComment =
+        'Unfortunately, the bounty you submitted to already accepted submission. Please try again next time.';
+
+      const reviewRef = new Moralis.Object(REVIEWS_TABLE);
+      reviewRef.set('grade', grade);
+      reviewRef.set('submissionId', submissionId);
+      reviewRef.set('reviewerId', 'NONE');
+      reviewRef.set('reviewerComment', reviewerComment);
+
+      const context = {
+        key,
+        userId,
+      };
+      reviewRef.save(null, { useMasterKey: true, context });
+    }
   }
 }
