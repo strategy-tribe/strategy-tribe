@@ -48,26 +48,28 @@ function UserStats() {
   );
 
   return (
-    <div className="space-y-2 border-2 border-surface rounded-lg p-4">
-      <h3 className="h5">User stats</h3>
+    <>
       {(isStaff || isAdmin) && submitterInfo && (
-        <div className="flex gap-8">
-          <SubmissionDetail
-            label="Has submitted to this bounty"
-            value={`${submitterInfo.subsToThisBounty} times`}
-          />
-          <SubmissionDetail
-            label="Total submissions"
-            value={`${submitterInfo.totalSubmissions}`}
-          />
+        <div className="space-y-2 border-2 border-surface rounded-lg p-4">
+          <h3 className="h5">User stats</h3>
+          <div className="flex gap-8">
+            <SubmissionDetail
+              label="Has submitted to this bounty"
+              value={`${submitterInfo.subsToThisBounty} times`}
+            />
+            <SubmissionDetail
+              label="Total submissions"
+              value={`${submitterInfo.totalSubmissions}`}
+            />
 
-          <SubmissionDetail
-            label="Submissions allowed for today"
-            value={`${submitterInfo.spacesLeft}`}
-          />
+            <SubmissionDetail
+              label="Submissions allowed for today"
+              value={`${submitterInfo.spacesLeft}`}
+            />
+          </div>
         </div>
       )}
-    </div>
+    </>
   );
 }
 
