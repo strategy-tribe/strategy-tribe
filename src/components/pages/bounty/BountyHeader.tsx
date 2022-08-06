@@ -4,6 +4,7 @@ import { useState } from 'react';
 
 import { useGetOrganizationByName } from '@/lib/hooks/organizationHooks';
 import { useCanUserSubmit } from '@/lib/hooks/submissionHooks';
+import { BountyState } from '@/lib/models';
 import { ParseBountyTitle } from '@/lib/utils/BountyHelpers';
 import { GoToBeforeNewSubmissionPage, GoToOrgPage } from '@/lib/utils/Routes';
 
@@ -142,24 +143,40 @@ function SubmitMessages() {
   const canSubmit = data?.canSubmit;
   const spacesLeft = data?.spacesLeft;
 
+  const isOpen =
+    bounty.state === BountyState.WaitingForFunds ||
+    bounty.state === BountyState.Open;
+
   return (
-    <div className="pr-2 label text-right pt-1">
-      {(spacesLeft ?? 0) > 0 && (
-        <span>Submissions left today: {spacesLeft}</span>
-      )}
+    <>
+      <div className="pr-2 label text-right pt-1">
+        {isOpen ? (
+          <>
+            {(spacesLeft ?? 0) > 0 && (
+              <span>Submissions left today: {spacesLeft}</span>
+            )}
 
-      {!canSubmit && userId && (
-        <span className="text-error-light whitespace-pre-wrap">
-          {`You have used all your submissions for today.\nPlease wait 24 hours.`}
-        </span>
-      )}
+            {!canSubmit && userId && (
+              <span className="text-error-light whitespace-pre-wrap">
+                {`You have used all your submissions for today.\nPlease wait 24 hours.`}
+              </span>
+            )}
 
-      {!userId && (
-        <span className="text-error-light">
-          Connect your wallet to join the hunt
-        </span>
-      )}
-    </div>
+            {!userId && (
+              <span className="text-error-light">
+                Connect your wallet to join the hunt
+              </span>
+            )}
+          </>
+        ) : (
+          <>
+            <span className="text-error-light whitespace-pre-wrap">
+              This bounty is closed
+            </span>
+          </>
+        )}
+      </div>
+    </>
   );
 }
 
