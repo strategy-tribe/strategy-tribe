@@ -25,9 +25,16 @@ function setStyle(style?: NotificationStyle) {
         content: 'text-on-surface-p0',
         icon: 'text-on-color hover:text-on-surface-disabled',
       };
-    default:
+    case NotificationStyle.lighter:
       return {
         container: 'bg-surface',
+        content: 'text-on-surface-p1',
+        title: 'text-on-surface-p0',
+        icon: 'text-on-color hover:text-on-surface-disabled',
+      };
+    default:
+      return {
+        container: 'bg-surface-dark',
         content: 'text-on-surface-p1',
         title: 'text-on-surface-p0',
         icon: 'text-on-color hover:text-on-surface-disabled',
@@ -47,7 +54,7 @@ export function Pill({
   return (
     <AnimatePresence>
       {show && (
-        <div className="max-w-5xl mx-auto border-2 border-main bg-error">
+        <div className="max-w-5xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 100 }}
             exit={{ opacity: 0, y: 100, transition: { duration: 0.4 } }}

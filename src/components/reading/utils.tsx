@@ -118,7 +118,7 @@ export function AfterRead() {
         <CallToAction
           internal
           link={GoToRulesPage()}
-          label="Rules for submitting"
+          label="Submission rules"
         />
       )}
 

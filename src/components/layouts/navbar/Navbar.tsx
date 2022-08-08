@@ -72,12 +72,11 @@ export function Navbar({
             <NavLink url={GoToOrganizationsPage()} label="Organizations" />
             <NavLink url={GoToAboutusPage()} label="About" />
             <NavLink url={GoToRulesPage()} label="Rules" />
+            <NavLink url={GoToFAQPage()} label="FAQ" />
           </div>
 
           {/* right side */}
           <div className="flex items-center gap-6">
-            <NavLink url={GoToFAQPage()} label="FAQ" />
-            {/* <NavbarButton icon="search" onClick={() => alert('to do')} /> */}
             {!!userId && (
               <NotifsMenu
                 userId={userId}

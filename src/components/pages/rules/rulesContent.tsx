@@ -6,17 +6,20 @@ export default function RulesContent() {
     <>
       <SectionContent
         content={`When submitting your findings, you agree to our terms of service.
-                      \n  All the information in the findings you submit must be valid and
-                      correct. To successfully submit your findings, you must fill in
-                      all the required fields.
-                      \n Bounties have required and optional fields. These fields vary
-                      depending on the bounty, but the chances of your findings being
-                      approved increase the more evidence you provide in your
-                      submission.
-                      \n The judging criteria for bounties are the same regardless of the
-                      type of bounty you have chosen to pursue. When reflecting on
-                      whether your submission meets the minimum standard required to be
-                      accepted:`}
+              
+                All the information in the findings you submit must be valid and
+                correct. To successfully submit your findings, you must fill in
+                all the required fields.
+                
+                Bounties have required and optional fields. These fields vary
+                depending on the bounty, but the chances of your findings being
+                approved increase the more evidence you provide in your
+                submission.
+                
+                The judging criteria for bounties are the same regardless of the
+                type of bounty you have chosen to pursue. When reflecting on
+                whether your submission meets the minimum standard required to be
+                accepted:`}
       />
 
       <ul className="py-2 space-y-4 max-w-xl">
@@ -47,12 +50,13 @@ export default function RulesContent() {
       </ul>
 
       <SectionContent
-        content={` The staff will judge your submission based on the evidence you
-                      have provided.
-                      \n StrategyTribe does not guarantee all submissions will be reviewed.
-                      Bounties and their rewards are awarded on a “first come, first
-                      served” basis; someone might have submitted their findings before
-                      you.`}
+        content={`The staff will judge your submission based on the evidence you
+                  have provided.
+                  
+                  StrategyTribe does not guarantee all submissions will be reviewed.
+                  Bounties and their rewards are awarded on a “first come, first
+                  served” basis; someone might have submitted their findings before
+                  you.`}
       />
     </>
   );

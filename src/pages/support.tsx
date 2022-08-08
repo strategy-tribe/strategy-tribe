@@ -30,15 +30,15 @@ const GeneralDonationsPage: NextPageWithLayout = () => {
 
       <ReadingSection title="Submitting findings is not the only way to help">
         <SectionContent
-          content={`  We aim to make the web a safer place for everyone.
-       \n
+          content={`We aim to make the web a safer place for everyone.
+       
         Not everybody is an OSINT expert, but we all benefit from bringing the
         world's most important threat actors to the light.
-       \n
+       
         All findings gathered by this project will be distributed to the
         community free of charge and we anticipate slowly decentralizing into a
         DAO where voting on bounties and findings can be seen publicly.
-       \n
+       
         Spread the word, the hunt is open.`}
         />
 

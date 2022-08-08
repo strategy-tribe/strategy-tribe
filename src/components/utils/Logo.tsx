@@ -1,13 +1,12 @@
 import Image from 'next/image';
-import React from 'react';
 
-export function Logo() {
+export function Logo({ size = 24 }: { size?: number }) {
   return (
     <Image
       src="/images/logo.svg"
       alt="logo"
-      width={24}
-      height={24}
+      width={size}
+      height={size}
       priority={true}
     />
   );

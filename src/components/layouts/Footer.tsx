@@ -1,69 +1,143 @@
-import Image from 'next/image';
 import Link from 'next/link';
 
 import {
   GoToAboutusPage,
+  GoToAccountPage,
   GoToBountiesPage,
+  GoToFAQPage,
   GoToGeneralDonationsPage,
+  GoToOrganizationsPage,
   GoToRulesPage,
 } from '@/utils/Routes';
+
+import { useNotification } from '../notifications/NotificationContext';
+import Icon from '../utils/Icon';
+import { Logo } from '../utils/Logo';
 
 const Footer = () => {
   const twitterUrl = process.env.NEXT_PUBLIC_TWITTER;
   const githubUrl = process.env.NEXT_PUBLIC_GITHUB;
 
+  const { notify } = useNotification();
+
   return (
-    <footer className="bg-main w-full text-on-surface-p0">
-      <div className="px-8 laptop:px-2 pt-16 pb-24 space-y-16 mx-auto max-w-5xl">
+    <footer className="bg-surface w-full text-on-surface-p0">
+      <div className="px-8 laptop:px-2 pt-16 pb-24 space-y-16 mx-auto max-w-4xl">
         {/* LOGO */}
-        <div className="flex items-center">
-          <Image
-            src="/images/logo.svg"
-            alt="logo"
-            width={40}
-            height={40}
-            className="-translate-x-1"
-          />
-          <span className="h5">StrategyTribe</span>
+        <div className="flex gap-2 items-center">
+          <Logo size={32} />
+          <p className="h3 text-on-surface-p0">StrategyTribe</p>
         </div>
 
-        <div className="grid bt:grid-cols-2 w-full gap-y-4">
-          <ul className="space-y-4  text-main-light">
-            <li className="cursor-pointer font-grotesk font-medium hover:text-on-surface-p0">
-              <Link href={GoToBountiesPage()}>Home</Link>
-            </li>
-            <li className="cursor-pointer font-grotesk font-medium hover:text-on-surface-p0">
-              <Link href={GoToAboutusPage()}>About</Link>
-            </li>
-            <li className="cursor-pointer font-grotesk font-medium hover:text-on-surface-p0">
-              <Link href={GoToRulesPage()}> Rules for submitting</Link>
-            </li>
-            <li className="cursor-pointer font-grotesk font-medium hover:text-on-surface-p0">
-              Terms of service
-            </li>
-            <li className="cursor-pointer font-grotesk font-medium hover:text-on-surface-p0">
-              <Link href={GoToGeneralDonationsPage()}>
-                Submitting findings is not the only way to help
-              </Link>
-            </li>
-          </ul>
-          <ul className="space-y-4  text-main-light">
-            <li className="font-grotesk font-medium hover:text-on-surface-p0">
-              <a href={twitterUrl} target="_blank" rel="noopener noreferrer">
-                Twitter
-              </a>
-            </li>
+        <div className="flex gap-8 w-full  text-on-surface-p1">
+          <ul className="space-y-4 grow shrink basis-[1]">
+            <p className="h5 font-grotesk pb-2 text-on-surface-unactive">
+              Navigate
+            </p>
 
-            <li className="font-grotesk font-medium hover:text-on-surface-p0">
-              <a href={githubUrl} target="_blank" rel="noopener noreferrer">
-                Github
-              </a>
-            </li>
+            <FooterItem
+              internal
+              label="Browse Bounties"
+              link={GoToBountiesPage()}
+            />
+            <FooterItem
+              internal
+              label="Browse Organizations"
+              link={GoToOrganizationsPage()}
+            />
+            <FooterItem
+              internal
+              label="Your Account"
+              link={GoToAccountPage()}
+            />
+            <FooterItem internal label="About" link={GoToAboutusPage()} />
+          </ul>
+
+          <div className="bg-on-surface-disabled shrink-0 w-0.5 h-48" />
+
+          <ul className="space-y-4 grow shrink basis-[2] ">
+            <p className="h5 font-grotesk pb-2 text-on-surface-unactive">
+              How ST works
+            </p>
+
+            <FooterItem internal label="FAQ" link={GoToFAQPage()} />
+            <FooterItem
+              internal
+              label="Submission Rules"
+              link={GoToRulesPage()}
+            />
+            <FooterItem
+              internal
+              label="Terms and Conditions"
+              onClick={() =>
+                notify({
+                  title: 'ToC coming soon',
+                })
+              }
+            />
+            <FooterItem
+              internal
+              label="Submissions are not the only way to help"
+              link={GoToGeneralDonationsPage()}
+            />
+          </ul>
+
+          <div className="bg-on-surface-disabled shrink-0 w-0.5 h-48" />
+
+          <ul className="space-y-4 grow shrink basis-[1]">
+            <p className="h5 font-grotesk pb-2 text-on-surface-unactive">
+              Social
+            </p>
+
+            <FooterItem label="Twitter" link={twitterUrl ?? ''} />
+            <FooterItem label="Github" link={githubUrl ?? ''} />
           </ul>
         </div>
       </div>
     </footer>
   );
 };
+
+export function FooterItem({
+  label,
+  link = '',
+  className,
+  internal = false,
+  onClick,
+}: {
+  internal?: boolean;
+  label: string;
+  link?: string;
+  className?: string;
+  onClick?: () => void;
+}) {
+  const containerCLass = `group text-on-surface-p1 hover:text-on-surface-p0 body flex items-center justify-center gap-2 w-fit ${className}`;
+
+  if (internal) {
+    return (
+      <Link href={link}>
+        <a onClick={onClick ?? undefined} className={containerCLass}>
+          <span>{label}</span>
+        </a>
+      </Link>
+    );
+  }
+
+  return (
+    <a
+      onClick={onClick ?? undefined}
+      href={link}
+      target="_blank"
+      rel="noopener noreferrer"
+      className={containerCLass}
+    >
+      <Icon
+        icon="north_east"
+        className="-translate-x-0.5 group-hover:-translate-y-0.5 group-hover:translate-x-0 transition-all ease-out"
+      />
+      <span>{label}</span>
+    </a>
+  );
+}
 
 export default Footer;
