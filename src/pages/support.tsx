@@ -1,12 +1,17 @@
-import { motion } from 'framer-motion';
 import Head from 'next/head';
 
 import AppLayout from '@/components/layouts/AppLayout';
-import LandingLayout from '@/components/layouts/LandingLayout';
-import { Section } from '@/components/pages/landing/Section';
-import { SpreadTheWord } from '@/components/pages/support/SpreadTheWord';
+import {
+  AfterRead,
+  CallToAction,
+  ReadingSection,
+  SectionContent,
+} from '@/components/reading/utils';
 
 import { NextPageWithLayout } from './_app';
+
+const twitterUrl = process.env.NEXT_PUBLIC_TWITTER;
+const githubUrl = process.env.NEXT_PUBLIC_GITHUB;
 
 const GeneralDonationsPage: NextPageWithLayout = () => {
   return (
@@ -22,22 +27,27 @@ const GeneralDonationsPage: NextPageWithLayout = () => {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <>
-        {/* Content */}
-        <Section>
-          <motion.div
-            className="space-y-16 pb-48 max-w-lg"
-            initial={{ opacity: 0, y: 5 }}
-            animate={{ opacity: 1, y: 0 }}
-          >
-            <h2 className="h4 laptop:h3 font-inter font-bold text-on-surface-p0">
-              Submitting findings is not the only way to help
-            </h2>
-            {/* <Donate /> */}
-            <SpreadTheWord />
-          </motion.div>
-        </Section>
-      </>
+
+      <ReadingSection title="Submitting findings is not the only way to help">
+        <SectionContent
+          content={`  We aim to make the web a safer place for everyone.
+       \n
+        Not everybody is an OSINT expert, but we all benefit from bringing the
+        world's most important threat actors to the light.
+       \n
+        All findings gathered by this project will be distributed to the
+        community free of charge and we anticipate slowly decentralizing into a
+        DAO where voting on bounties and findings can be seen publicly.
+       \n
+        Spread the word, the hunt is open.`}
+        />
+
+        <div className="space-y-8 pt-4">
+          <CallToAction label="Twitter" link={twitterUrl ?? ''} />
+          <CallToAction label="Github" link={githubUrl ?? ''} />
+        </div>
+      </ReadingSection>
+      <AfterRead />
     </div>
   );
 };
@@ -48,5 +58,5 @@ GeneralDonationsPage.getLayout = function getLayout(page) {
 
 export default GeneralDonationsPage;
 GeneralDonationsPage.getLayout = function getLayout(page) {
-  return <LandingLayout>{page}</LandingLayout>;
+  return <AppLayout>{page}</AppLayout>;
 };

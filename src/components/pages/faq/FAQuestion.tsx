@@ -1,5 +1,7 @@
-import Icon from '@/components/utils/Icon';
+import { motion } from 'framer-motion';
 import { useState } from 'react';
+
+import Icon from '@/components/utils/Icon';
 
 export function FAQuestion({
   question,
@@ -18,11 +20,15 @@ export function FAQuestion({
         : height
       : height;
   return (
-    <div
-      className={`transition-all ease-out ${expanded ? expandedHeight : 'h-6'}`}
+    <motion.div
+      className={`transition-all ease-out ${
+        expanded ? expandedHeight : 'h-6'
+      } max-w-lg`}
+      initial={{ opacity: 0, y: 5 }}
+      animate={{ opacity: 1, y: 0 }}
     >
       <div
-        className="flex gap-2 items-center w-full text-on-surface-p0 cursor-pointer group"
+        className="flex gap-2 items-center w-full cursor-pointer group text-on-surface-p0"
         onClick={() => setExpanded(!expanded)}
       >
         <Icon
@@ -35,24 +41,27 @@ export function FAQuestion({
           {question}
         </p>
       </div>
-      {typeof answer === 'string' && (
-        <p
-          className={`first-letter:capitalize ease-out transition-all ml-8 ${
-            expanded ? '' : '-translate-y-1 opacity-0 pointer-events-none'
-          }`}
-        >
-          {answer}
-        </p>
-      )}
-      {typeof answer !== 'string' && (
-        <div
-          className={`first-letter:capitalize ease-out transition-all ml-8 ${
-            expanded ? '' : '-translate-y-1 opacity-0 pointer-events-none'
-          }`}
-        >
-          {answer}
-        </div>
-      )}
-    </div>
+
+      <div className="text-on-surface-p1">
+        {typeof answer === 'string' && (
+          <p
+            className={`first-letter:capitalize ease-out transition-all ml-8 ${
+              expanded ? '' : '-translate-y-1 opacity-0 pointer-events-none'
+            }`}
+          >
+            {answer}
+          </p>
+        )}
+        {typeof answer !== 'string' && (
+          <div
+            className={`first-letter:capitalize ease-out transition-all ml-8 ${
+              expanded ? '' : '-translate-y-1 opacity-0 pointer-events-none'
+            }`}
+          >
+            {answer}
+          </div>
+        )}
+      </div>
+    </motion.div>
   );
 }

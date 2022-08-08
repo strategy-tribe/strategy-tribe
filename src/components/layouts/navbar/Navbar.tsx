@@ -7,6 +7,7 @@ import {
   GoToBountiesPage,
   GoToFAQPage,
   GoToOrganizationsPage,
+  GoToRulesPage,
 } from '@/lib/utils/Routes';
 
 import { Button, ButtonStyle } from '@/components/utils/Button';
@@ -70,6 +71,7 @@ export function Navbar({
             <NavLink url={GoToBountiesPage()} label="Bounties" />
             <NavLink url={GoToOrganizationsPage()} label="Organizations" />
             <NavLink url={GoToAboutusPage()} label="About" />
+            <NavLink url={GoToRulesPage()} label="Rules" />
           </div>
 
           {/* right side */}
