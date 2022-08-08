@@ -22,7 +22,7 @@ export enum NotificationStyle {
   default,
   error,
   success,
-  lighter,
+  dark,
 }
 
 export interface iNotificationConfig {

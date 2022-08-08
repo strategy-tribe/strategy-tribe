@@ -25,16 +25,16 @@ function setStyle(style?: NotificationStyle) {
         content: 'text-on-surface-p0',
         icon: 'text-on-color hover:text-on-surface-disabled',
       };
-    case NotificationStyle.lighter:
+    case NotificationStyle.dark:
       return {
-        container: 'bg-surface',
+        container: 'bg-surface-dark',
         content: 'text-on-surface-p1',
         title: 'text-on-surface-p0',
         icon: 'text-on-color hover:text-on-surface-disabled',
       };
     default:
       return {
-        container: 'bg-surface-dark',
+        container: 'bg-surface',
         content: 'text-on-surface-p1',
         title: 'text-on-surface-p0',
         icon: 'text-on-color hover:text-on-surface-disabled',

@@ -21,7 +21,7 @@ const Footer = () => {
   const { notify } = useNotification();
 
   return (
-    <footer className="bg-surface w-full text-on-surface-p0">
+    <footer className="bg-surface-dark w-full text-on-surface-p0">
       <div className="px-8 laptop:px-2 pt-16 pb-24 space-y-16 mx-auto max-w-4xl">
         {/* LOGO */}
         <div className="flex gap-2 items-center">
@@ -53,7 +53,7 @@ const Footer = () => {
             <FooterItem internal label="About" link={GoToAboutusPage()} />
           </ul>
 
-          <div className="bg-on-surface-disabled shrink-0 w-0.5 h-48" />
+          <div className="bg-surface shrink-0 w-0.5 h-48" />
 
           <ul className="space-y-4 grow shrink basis-[2] ">
             <p className="h5 font-grotesk pb-2 text-on-surface-unactive">
@@ -82,7 +82,7 @@ const Footer = () => {
             />
           </ul>
 
-          <div className="bg-on-surface-disabled shrink-0 w-0.5 h-48" />
+          <div className="bg-surface shrink-0 w-0.5 h-48" />
 
           <ul className="space-y-4 grow shrink basis-[1]">
             <p className="h5 font-grotesk pb-2 text-on-surface-unactive">
