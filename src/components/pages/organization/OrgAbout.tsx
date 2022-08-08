@@ -52,9 +52,13 @@ export function OrgAbout() {
             return (
               <li
                 key={link}
-                className="text-main-light hover:text-main flex items-center gap-2 -translate-x-6"
+                className="text-main-light group opacity-[90%] hover:opacity-100 flex items-center gap-2 -translate-x-6"
               >
-                <Icon icon="open_in_new" size={IconSize.Small} />
+                <Icon
+                  icon="north_east"
+                  size={IconSize.Small}
+                  className="group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-transform ease-in-out"
+                />
                 <a
                   href={link}
                   target="_blank"
