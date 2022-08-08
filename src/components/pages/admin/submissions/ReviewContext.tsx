@@ -27,7 +27,7 @@ const AdminReviewContextProvider = ({
   children: React.ReactNode[] | React.ReactNode;
 }) => {
   const [query, setQuery] = useState<SubmissionQueryParams>({
-    order: Order.Desc,
+    order: Order.Asc,
     states: [SubmissionState.WaitingForReview],
     amount: 10,
     paginate: true,
