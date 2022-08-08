@@ -97,7 +97,11 @@ export function ReadingSection({
 export function AfterRead() {
   const router = useRouter();
   return (
-    <section className="pt-12 mt-12 space-y-10 border-t-2 border-surface mx-auto max-w-4xl">
+    <motion.section
+      className="pt-12 mt-12 space-y-10 border-t-2 border-surface mx-auto max-w-4xl"
+      initial={{ opacity: 0, y: 5 }}
+      animate={{ opacity: 1, y: 0, transition: { delay: 1, duration: 1 } }}
+    >
       {router.pathname !== GoToBountiesPage() && (
         <CallToAction
           internal
@@ -129,6 +133,6 @@ export function AfterRead() {
           label="Submitting findings is not the only way to help"
         />
       )}
-    </section>
+    </motion.section>
   );
 }

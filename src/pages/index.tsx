@@ -1,6 +1,6 @@
 import Head from 'next/head';
 
-import LandingLayout from '@/components/layouts/LandingLayout';
+import AppLayout from '@/components/layouts/AppLayout';
 import Hero from '@/components/pages/landing/Hero';
 
 import { Privacy } from '../components/pages/landing/Privacy';
@@ -28,6 +28,6 @@ const LandingPage: NextPageWithLayout = () => {
 };
 
 LandingPage.getLayout = function getLayout(page) {
-  return <LandingLayout hideBgOnScroll>{page}</LandingLayout>;
+  return <AppLayout hideBgOnScroll>{page}</AppLayout>;
 };
 export default LandingPage;
