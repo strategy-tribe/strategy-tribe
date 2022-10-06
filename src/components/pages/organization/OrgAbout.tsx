@@ -22,7 +22,7 @@ export function OrgAbout() {
 
       {!!org.why && (
         <div className="space-y-2 max-w-lg">
-          <AboutTitle text="Thread" />
+          <AboutTitle text="Threat" />
 
           <p className="first-letter:capitalize whitespace-pre-wrap text-error-light">
             {ParagrapIsTooLong(org.why)}
