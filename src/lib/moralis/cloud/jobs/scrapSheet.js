@@ -143,13 +143,22 @@ async function classifyOrgs(sheetOrgs) {
   LOG('Classifying orgs');
   //find which orgs and bounties are new and which ones are to be updated.
   const query = new Moralis.Query(ORG_TABLE);
-  const dbOrgs = await query.find();
+  query.limit(1000);
+  const dbOrgs = await query.find({ useMasterKey: true });
   const newOrgs = sheetOrgs.filter((sheetOrg) => {
-    return !dbOrgs.find((org) => org.get('name') !== sheetOrg.orgName);
+    return !dbOrgs.find((org) => {
+      const name1 = org.get('name').trim().toLowerCase();
+      const name2 = sheetOrg.organizationName.toLowerCase().trim();
+      return name1 === name2;
+    });
   });
 
   const oldOrgs = sheetOrgs.filter((sheetOrg) => {
-    return dbOrgs.find((org) => org.get('name') !== sheetOrg.orgName);
+    return dbOrgs.find((org) => {
+      const name1 = org.get('name').trim().toLowerCase();
+      const name2 = sheetOrg.organizationName.toLowerCase().trim();
+      return name1 === name2;
+    });
   });
 
   return { newOrgs, oldOrgs };

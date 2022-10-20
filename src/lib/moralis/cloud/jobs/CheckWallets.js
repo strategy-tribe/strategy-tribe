@@ -11,6 +11,10 @@ Moralis.Cloud.job('Check bounties wallets', async (request) => {
       for await (const bounty of bounties) {
         const wallet = bounty.get('wallet');
         total += await UpdateObjectWallet(bounty, wallet);
+        const index = bounties.indexOf(bounty);
+        if (index % 10 === 0) {
+          LOG(`Checked (${index + 1}/${bounties.length}) bounties`);
+        }
       }
 
       LOG(`Done updating wallets.\nTotal funds: ${total}`);
@@ -40,8 +44,7 @@ Moralis.Cloud.job('Check bounties wallets', async (request) => {
     LOG(`Done bounties`);
     await CalculateOrgs();
     LOG(`Done orgs`);
-    await Moralis.Cloud.run('Generate map data');
-    LOG(`Done generating map data\nJob "Check bounties wallets" finished`);
+    LOG(`Done checking wallets`);
   } catch (error) {
     LOG(`Running "Check bounties wallets". Reason:\n${error}`);
   }

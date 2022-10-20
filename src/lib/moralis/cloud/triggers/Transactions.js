@@ -2,12 +2,19 @@
 Moralis.Cloud.afterSave(TRANSACTIONS_TABLE, async function (request) {
   const from = request.object.get('from_address');
   const to = request.object.get('to_address');
+  if (typeof from !== 'string' || typeof to !== 'string') {
+    throw new Error('Only accepting strings');
+  }
 
-  await TrytoUpdate(from);
-  await TrytoUpdate(to);
+  await TryToUpdate(from);
+  await TryToUpdate(to);
 });
-
-async function TrytoUpdate(address) {
+/**
+ *
+ * @param {string} address
+ * @returns
+ */
+async function TryToUpdate(address) {
   let q = new Moralis.Query(WALLET_TABLE);
   q.equalTo('address', address);
   const walletObj = await q.first({ useMasterKey: true });
@@ -27,8 +34,12 @@ async function TrytoUpdate(address) {
   }
 
   const objQuery = new Moralis.Query(table);
-  objQuery.equalTo('wallet', address);
+  objQuery.equalTo('wallet', address.toLowerCase().trim());
   obj = await objQuery.first({ useMasterKey: true });
+
+  if (!obj) {
+    throw new Error(`No ${type} found connected to ${address}`);
+  }
 
   await UpdateObjectWallet(obj, address);
 

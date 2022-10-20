@@ -51,15 +51,18 @@ async function FindAvailableWallet() {
  * @returns address of the created wallet
  */
 async function CreateWallet(type, id) {
-  const chainCode = await GetChainCode();
-  const { ethers } = Moralis.ethersByChain(chainCode);
+  const web3 = new Moralis.Web3(
+    new Moralis.Web3.providers.HttpProvider('https://polygon-rpc.com')
+  );
+  const { address: rawAddress, privateKey } = web3.eth.accounts.create();
 
-  const { address, privateKey, mnemonic } = ethers.Wallet.createRandom();
+  const address = rawAddress.toLowerCase();
+
   //!save the wallet info in a table
   const walletRef = new Moralis.Object(WALLET_TABLE);
   walletRef.set('address', address);
   walletRef.set('privateKey', privateKey);
-  walletRef.set('mnemonic', mnemonic);
+  walletRef.set('mnemonic', 'created w web3, no mnemonic available');
   walletRef.set('type', type);
   walletRef.set('assigned', id);
 

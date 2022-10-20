@@ -78,17 +78,18 @@ async function getFundsInBountiesFor(countryId, limit) {
       bountyRef.get('funds')
     );
 
-    const fundsInBounties = fundsArray.reduce((acc, curr) => (acc += curr));
+    const fundsInBounties = fundsArray.reduce((acc, curr) => (acc += curr), 0);
 
     if (!fundsInBounties) {
-      return { fundsInBounties: 0, numOfBounties: 0 };
+      return { fundsInBounties: 0, numOfBounties: bountiesInCountry.length };
     }
     return { fundsInBounties, numOfBounties: bountiesInCountry.length };
   } catch (error) {
     ERROR(
       `Error getting the funds in bounties for ${countryId}. Error: ${JSON.stringify(
         error
-      )}`
+      )}`,
+      false
     );
     return { fundsInBounties: 0, numOfBounties: 0 };
   }

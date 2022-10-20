@@ -7,9 +7,7 @@ async function CheckBountiesCountries(orgRef) {
   const bounties = await query.find();
 
   if (!bounties || bounties?.length === 0) {
-    LOG(
-      `Bounties not found related to org: ${organizationName}. Updating nothing.`
-    );
+    //`Bounties not found related to org: ${organizationName}. Updating nothing.`
     return;
   }
 
