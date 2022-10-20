@@ -106,7 +106,7 @@ function scrapTargets(rows) {
   return targetsData;
 }
 
-async function clasificateTargets(targets) {
+async function classifyTargets(targets) {
   LOG('Classifying targets');
 
   const newTargets = [];
@@ -139,7 +139,7 @@ async function clasificateTargets(targets) {
   return { newTargets, oldTargets };
 }
 
-async function clasificateOrgs(sheetOrgs) {
+async function classifyOrgs(sheetOrgs) {
   LOG('Classifying orgs');
   //find which orgs and bounties are new and which ones are to be updated.
   const query = new Moralis.Query(ORG_TABLE);
@@ -165,8 +165,8 @@ Moralis.Cloud.job('Grab data from spreadsheet', async () => {
     );
 
     LOG('2) Classifying data');
-    const { newOrgs, oldOrgs } = await clasificateOrgs(sheetOrgs);
-    const { newTargets, oldTargets } = await clasificateTargets(sheetTargets);
+    const { newOrgs, oldOrgs } = await classifyOrgs(sheetOrgs);
+    const { newTargets, oldTargets } = await classifyTargets(sheetTargets);
     LOG(
       `2.1) Done classifying data\nOrgs to create: ${newOrgs.length}\nOrgs to update: ${oldOrgs.length}\nTargets to create: ${newTargets.length}\nTargets to update: ${oldTargets.length}`
     );

@@ -33,7 +33,7 @@ Moralis.Cloud.afterSave(ORG_TABLE, async function (request) {
   let wallet = organization.get('wallet');
 
   if (!wallet) {
-    const wallet = await CreateWallet('org', organization.id);
+    const wallet = await AssignWallet('org', organization.id);
     organization.set('wallet', wallet);
     organization.set('funds', 0);
     await organization.save(null, { useMasterKey: true });

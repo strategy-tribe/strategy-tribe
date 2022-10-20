@@ -1,16 +1,18 @@
-import Icon, { IconSize } from '@/components/utils/Icon';
-import Loading from '@/components/utils/Loading';
+import { useAuth } from 'auth/AuthContext';
+import { AnimatePresence, motion } from 'framer-motion';
+import { useState } from 'react';
+
 import {
   useIsSubscribeToAll,
   useSubscribeToAll,
 } from '@/lib/hooks/subscriptionHooks';
 import { TargetType } from '@/lib/models/targetType';
-import { useAuth } from 'auth/AuthContext';
-import { useState } from 'react';
-import { SubscriptionEntry } from '../SubscriptionEntry';
+
+import Icon, { IconSize } from '@/components/utils/Icon';
+import Loading from '@/components/utils/Loading';
 import { ScrollableTabs } from '@/components/utils/ScrollableTabs';
 
-import { AnimatePresence, motion } from 'framer-motion';
+import { SubscriptionEntry } from '../SubscriptionEntry';
 
 export function AccountWatching() {
   const { userId, userInfo } = useAuth();

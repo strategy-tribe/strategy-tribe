@@ -42,7 +42,6 @@ export const getStaticProps: GetStaticProps = async () => {
   try {
     //*Map data
     const data = await getMapData();
-
     //*Return props
     return {
       props: {

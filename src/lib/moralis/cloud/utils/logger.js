@@ -3,6 +3,11 @@ function LOG(msg) {
   logger.info(`----> ${msg}`);
 }
 
+/**
+ * @param {string} msg message to send
+ * @param {boolean} shouldThrow default = `true`
+ *
+ */
 function ERROR(msg, shouldThrow = true) {
   LOG(`Error : ${msg}`);
   const logger = Moralis.Cloud.getLogger();

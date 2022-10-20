@@ -2,7 +2,7 @@
 Moralis.Cloud.beforeSave(BOUNTY_TABLE, async function (request) {
   const { object: bounty, context } = request;
 
-  LOG(`BOUNTY_TABLE beforeSave running\n ${request.object.id}`);
+  // LOG(`BOUNTY_TABLE beforeSave running\n ${request.object.id}`);
 
   //Check for funds and state
   if (bounty.get('state') === BOUNTY_PAYMENT_NEEDED_STATE) {
@@ -11,7 +11,7 @@ Moralis.Cloud.beforeSave(BOUNTY_TABLE, async function (request) {
     const submissionThatPassed = context.acceptedSubmissionID;
     if (!submissionThatPassed) {
       ERROR(
-        `Error closing bounty. Did not get submission that closed it. ${JSON.stringify(
+        `Error closing bounty. Did not get the submission that closed it. ${JSON.stringify(
           request,
           null,
           2
@@ -41,7 +41,7 @@ Moralis.Cloud.beforeSave(BOUNTY_TABLE, async function (request) {
   bountyACL.setRoleReadAccess(ADMIN_ROLE, true);
 
   bounty.setACL(bountyACL);
-  LOG(`BOUNTY_TABLE beforeSave done`);
+  // LOG(`BOUNTY_TABLE beforeSave done`);
 });
 
 Moralis.Cloud.afterSave(BOUNTY_TABLE, async function (request) {
@@ -50,7 +50,7 @@ Moralis.Cloud.afterSave(BOUNTY_TABLE, async function (request) {
   //Check for wallet
   if (!bounty.get('wallet') || bounty.get('wallet') === '') {
     try {
-      const wallet = await CreateWallet('bounty', bounty.id);
+      const wallet = await AssignWallet('bounty', bounty.id);
       bounty.set('wallet', wallet);
       await bounty.save(null, { useMasterKey: true });
     } catch (error) {

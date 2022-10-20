@@ -11,6 +11,9 @@ export function ParseBountyTitle(bounty: Bounty) {
       CapitalizeFirstLetter(organizationName)
     );
   } else {
-    return title.replace(name.toLocaleLowerCase(), CapitalizeFirstLetter(name));
+    return title?.replace(
+      name.toLocaleLowerCase(),
+      CapitalizeFirstLetter(name)
+    );
   }
 }

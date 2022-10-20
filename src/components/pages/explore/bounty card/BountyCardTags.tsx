@@ -2,7 +2,7 @@ import { useUrlSearchParams } from '@/lib/hooks/useUrlSearchParams';
 import { Bounty } from '@/lib/models';
 
 export function BountyCardTags({ bounty }: { bounty: Bounty }) {
-  const type = bounty.requirements.at(0)?.type || '';
+  const type = bounty.requirements?.at(0)?.type || '';
   const org = bounty.organizationName;
 
   const { urlFilter, setUrlFilter } = useUrlSearchParams();

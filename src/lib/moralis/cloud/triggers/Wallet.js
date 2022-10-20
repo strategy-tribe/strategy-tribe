@@ -14,6 +14,10 @@ Moralis.Cloud.beforeSave('Wallet', async function (request) {
   const { object: wallet } = request;
   const address = wallet.get('address');
 
+  //check if the address exists
+  const walletExists = await CheckIfWalletIsInDbAlready(address);
+  if (walletExists) return;
+
   try {
     const chainPrefix = titleCase(await GetChainPrefix());
     const funcName = `watch${chainPrefix}Address`;

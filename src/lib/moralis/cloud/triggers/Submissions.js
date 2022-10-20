@@ -3,9 +3,12 @@ Moralis.Cloud.beforeSave(SUBMISSIONS_TABLE, async function (request) {
   try {
     const { isNew, key } = request.context;
     const submissionRef = request.object;
+    const usedMasterKey = request.master;
     const userId = submissionRef.get('owner');
     const status = submissionRef.get('state');
     const bountyId = submissionRef.get('bountyId');
+
+    LOG(`Submission log:\n${JSON.stringify(request, null, 2)}`);
 
     if (isNew) {
       if (
@@ -52,7 +55,7 @@ Moralis.Cloud.beforeSave(SUBMISSIONS_TABLE, async function (request) {
 
     if (!isNew) {
       const _key = await GetKey();
-      if (!key || key !== _key) {
+      if (!usedMasterKey && (!key || key !== _key)) {
         ERROR(`Unauthorized.`, true);
       }
     }
@@ -105,6 +108,7 @@ Moralis.Cloud.afterSave(SUBMISSIONS_TABLE, async function (request) {
 });
 
 Moralis.Cloud.beforeDelete(SUBMISSIONS_TABLE, async function (request) {
+  ERROR(`Cannot delete a submission.`);
   const auth = await GetUserRole(request.user.id, request);
 
   if (!auth.isAdmin || !auth.isStaff) {
@@ -113,6 +117,8 @@ Moralis.Cloud.beforeDelete(SUBMISSIONS_TABLE, async function (request) {
 });
 
 Moralis.Cloud.afterDelete(SUBMISSIONS_TABLE, async function (request) {
+  ERROR(`Cannot delete a submission.`);
+
   const bountyId = request.object.get('bountyId');
   const bounty = await GetBountyByID(bountyId);
 

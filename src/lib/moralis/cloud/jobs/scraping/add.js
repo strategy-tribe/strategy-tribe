@@ -37,7 +37,9 @@ async function addToDb(organizations, targets) {
     }
 
     const index = targets.indexOf(target);
-    LOG(`(${index}/${targets.length - 1}) targets`);
+    if (index % 10 === 0) {
+      LOG(`(${index}/${targets.length - 1}) targets`);
+    }
   }
 
   LOG('5.1) Done');
@@ -340,6 +342,10 @@ function generateBountiesParams(organizationName, countries) {
 }
 
 //!For both
+/**
+ *
+ * @param {{title:string, name:string, organizationName:string, type : string, requirements : [], closesAt: Date, countries : [], tags : string[], alsoKnownAs:string[]}} bountyData
+ */
 async function saveBounty(bountyData) {
   const {
     title,

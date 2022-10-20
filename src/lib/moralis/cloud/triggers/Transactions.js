@@ -50,17 +50,31 @@ async function TrytoUpdate(address) {
 
 async function UpdateObjectWallet(obj, address) {
   try {
-    const chainCode = await GetChainCode();
-    const { ethers, provider } = Moralis.ethersByChain(chainCode);
-    const bigNumbalance = await provider.getBalance(address);
-    const balanceInString = ethers.utils.formatEther(bigNumbalance);
+    //get the wallet
+    const q = new Moralis.Query('Wallet');
+    q.equalTo('address', address);
+    const walletRef = await q.first({ useMasterKey: true });
 
-    const balance = Number.parseFloat(balanceInString);
+    if (!walletRef) {
+      throw new Error(
+        'Trying to obtain the balance of a wallet that does not exists in the db'
+      );
+    }
 
-    const oldBalance = obj.get('funds');
-    if (balance !== oldBalance) {
-      obj.set('funds', balance);
+    const newBalance = await GrabBalance(address);
+
+    //set it to the object (obj = Bounty / Org)
+    const funds = obj.get('funds');
+    if (newBalance !== funds) {
+      obj.set('funds', newBalance);
       await obj.save(null, { useMasterKey: true });
+    }
+
+    //set it to the walletRef
+    const balance = walletRef.get('funds');
+    if (newBalance !== balance) {
+      walletRef.set('balance', newBalance);
+      await walletRef.save(null, { useMasterKey: true });
     }
 
     return balance;

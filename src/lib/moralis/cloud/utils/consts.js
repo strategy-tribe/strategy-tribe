@@ -1,3 +1,4 @@
+/** Fetches the chain code for the current server configuration */
 async function GetChainCode() {
   const config = await Moralis.Config.get({ useMasterKey: true });
   const chainCode = config.get('CHAIN_CODE');
