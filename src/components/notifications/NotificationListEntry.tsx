@@ -16,7 +16,7 @@ export function NotificationListEntry({
 
   return (
     <Link href={notification.url}>
-      <a
+      <span
         className={`${
           notification.read
             ? 'bg-bg text-on-surface-unactive hover:bg-surface hover:text-on-surface-p1'
@@ -32,7 +32,7 @@ export function NotificationListEntry({
         <span className="label-sm opacity-50">
           {GetDateInString(notification.createdAt)} ago
         </span>
-      </a>
+      </span>
     </Link>
   );
 }

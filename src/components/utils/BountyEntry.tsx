@@ -25,9 +25,9 @@ export function BountyEntry({
   //     {/* Org and target into */}
   //     <div className="label-sm flex items-center gap-4 text-on-surface-unactive">
   //       <Link href={GoToOrgPage(organization?.id as string)}>
-  //         <a className="hover:text-main-light ">
+  //         <span className="hover:text-main-light ">
   //           Related to {bounty.target.org.name}
-  //         </a>
+  //         </span>
   //       </Link>
   //       {fullSize && (
   //         <BountyStat label={`${bounty.requirements.at(0)?.type}s`} />
@@ -37,13 +37,13 @@ export function BountyEntry({
   //     {/* Header */}
   //     <div className="flex justify-between w-full items-start ">
   //       <Link href={GoToBountyPage(bounty.id as string)}>
-  //         <a
+  //         <span
   //           className={`max-w-md hover:underline cursor-pointer w-full ${
   //             fullSize ? 'h7 laptop:h6 ' : 'h7 laptop:h6'
   //           }`}
   //         >
   //           {bounty.title}
-  //         </a>
+  //         </span>
   //       </Link>
 
   //       <MoreMenu bountyId={bounty.id as string} />

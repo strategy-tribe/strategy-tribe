@@ -60,21 +60,21 @@ function ReviewEntry({ review: r }: { review: Review }) {
         </p>
 
         <Link href={GoToSubmissionPage('not defined')}>
-          <a className="flex flex-col group">
+          <span className="flex flex-col group">
             <span className="text-main-light group-hover:text-main">
               id of the submission goes here
             </span>
             <span className="label text-on-surface-unactive">not defined</span>
-          </a>
+          </span>
         </Link>
 
         <Link href={GoToSubmissionPage('id of the bounty goes here')}>
-          <a className="flex flex-col group">
+          <span className="flex flex-col group">
             <span className="text-main-light group-hover:text-main">
               id of the bounty goes here
             </span>
             <span className="label text-on-surface-unactive">not defined</span>
-          </a>
+          </span>
         </Link>
       </div>
     );

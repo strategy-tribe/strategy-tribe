@@ -116,12 +116,12 @@ export const NewSubmissionContextProvider = ({
             title: 'Your Submission was uploaded successfully',
             content: () => (
               <Link href={GoToSubmissionPage(newSubmissionId as string)}>
-                <a
+                <span
                   className="underline text-on-surface-p0 font-medium"
                   onClick={hide}
                 >
                   You can see it here
-                </a>
+                </span>
               </Link>
             ),
             icon: 'done_all',

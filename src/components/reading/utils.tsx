@@ -41,7 +41,7 @@ export function CallToAction({
   if (internal) {
     return (
       <Link href={link}>
-        <a
+        <span
           className={`group text-on-surface-p0 hover:text-main-light label flex items-center justify-center gap-2 w-fit ${className}`}
         >
           <Icon
@@ -49,7 +49,7 @@ export function CallToAction({
             className="-translate-x-0.5 group-hover:translate-x-0 transition-all ease-out"
           />
           <span>{label}</span>
-        </a>
+        </span>
       </Link>
     );
   }

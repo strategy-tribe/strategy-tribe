@@ -30,9 +30,9 @@ export function UserSubmissions({ id }: { id: string }) {
               You have not submitted findings to this bounty.
               <br />
               <Link href={GoToBeforeNewSubmissionPage(id)}>
-                <a className="underline text-main-light font-medium">
+                <span className="underline text-main-light font-medium">
                   You can submit your findings here.
-                </a>
+                </span>
               </Link>
             </p>
           </>

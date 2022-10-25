@@ -21,7 +21,7 @@ export function BountyCard({ bounty }: { bounty: FullBounty }) {
       ></div>
 
       <Link href={GoToBountyPage(bounty.id)}>
-        <a className={`relative flex flex-col gap-4 z-10 ${animClasses}`}>
+        <span className={`relative flex flex-col gap-4 z-10 ${animClasses}`}>
           <header className="flex justify-between gap-4">
             <div>
               <BountyCardTags bounty={bounty} />
@@ -35,7 +35,7 @@ export function BountyCard({ bounty }: { bounty: FullBounty }) {
           <BountyCardReward reward={569} />
 
           <BountyCardFooter bounty={bounty} />
-        </a>
+        </span>
       </Link>
     </article>
   );

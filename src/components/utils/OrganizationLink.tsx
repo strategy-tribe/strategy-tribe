@@ -13,7 +13,7 @@ export function OrganizationLink({
 
   // return (
   //   <Link href={GoToOrgPage(organization?.id ? organization.id : '')}>
-  //     <a className={`${className} capitalize`}>{orgName}</a>
+  //     <span className={`${className} capitalize`}>{orgName}</span>
   //   </Link>
   // );
 }
@@ -31,7 +31,7 @@ export function BountyLink({
 
   // return (
   //   <Link href={GoToBountyPage(bounty.id)}>
-  //     <a className={className}>{bountyId}</a>
+  //     <span className={className}>{bountyId}</span>
   //   </Link>
   // );
 }

@@ -41,6 +41,8 @@ const _404Page: NextPageWithLayout = () => {
                   src="/illustrations/goal.svg"
                   priority
                   alt="illustration"
+                  width={150}
+                  height={100}
                 />
               </figure>
               <div className="space-y-6 ">
@@ -56,16 +58,16 @@ const _404Page: NextPageWithLayout = () => {
                 <div>
                   <div className="-ml-6">
                     <Link href={GoToBountiesPage()}>
-                      <a className="text-on-surface-p0 hover:text-main-light py-3 px-5 tablet:px-6 font-medium font-grotesk z-10 flex items-center justify-center gap-2 rounded-full min-w-[6rem] w-fit">
+                      <span className="text-on-surface-p0 hover:text-main-light py-3 px-5 tablet:px-6 font-medium font-grotesk z-10 flex items-center justify-center gap-2 rounded-full min-w-[6rem] w-fit">
                         <Icon icon="arrow_forward" />
                         <span>Check the bounties</span>
-                      </a>
+                      </span>
                     </Link>
                     <Link href={GoToLandingPage()}>
-                      <a className="text-on-surface-p0 hover:text-main-light py-3 px-5 tablet:px-6 font-medium font-grotesk z-10 flex items-center justify-center gap-2 rounded-full min-w-[6rem] w-fit">
+                      <span className="text-on-surface-p0 hover:text-main-light py-3 px-5 tablet:px-6 font-medium font-grotesk z-10 flex items-center justify-center gap-2 rounded-full min-w-[6rem] w-fit">
                         <Icon icon="arrow_forward" />
                         <span>Home</span>
-                      </a>
+                      </span>
                     </Link>
                     <a
                       href={twitterUrl}

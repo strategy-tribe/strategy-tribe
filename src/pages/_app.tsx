@@ -1,5 +1,6 @@
 import AuthContextProvider from 'auth/AuthContext';
 import { NextPage } from 'next';
+import { SessionProvider } from 'next-auth/react';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import { ReactElement, ReactNode, useState } from 'react';
@@ -34,17 +35,19 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
           content="width=device-width, initial-scale=1.0,minimum-scale=1.0"
         />
       </Head>
-      <QueryClientProvider client={queryClient}>
-        <Hydrate state={pageProps.dehydratedState}>
-          <NotificationContextProvider>
-            <AuthContextProvider>
-              <PushNotifsContextProvider appId={onesignal_appId as string}>
-                {getLayout(<Component {...pageProps} />, pageProps)}
-              </PushNotifsContextProvider>
-            </AuthContextProvider>
-          </NotificationContextProvider>
-        </Hydrate>
-      </QueryClientProvider>
+      <SessionProvider session={(pageProps as any).session}>
+        <QueryClientProvider client={queryClient}>
+          <Hydrate state={pageProps.dehydratedState}>
+            <NotificationContextProvider>
+              <AuthContextProvider>
+                <PushNotifsContextProvider appId={onesignal_appId as string}>
+                  {getLayout(<Component {...pageProps} />, pageProps)}
+                </PushNotifsContextProvider>
+              </AuthContextProvider>
+            </NotificationContextProvider>
+          </Hydrate>
+        </QueryClientProvider>
+      </SessionProvider>
     </>
   );
 }
