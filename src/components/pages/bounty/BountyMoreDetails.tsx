@@ -1,4 +1,5 @@
-import { Stat } from '../../utils/Stat';
+import { Stat } from '@/components/utils/Stat';
+
 import { useBountyContext } from './BountyContext';
 
 export function BountyMoreDetails() {
@@ -20,7 +21,7 @@ export function BountyMoreDetails() {
 
       <div className="p-4 space-y-8">
         <Stat title="Bounty ID" content={bounty.id} copyable />
-        <Stat title="Funds address" content={bounty.wallet} copyable />
+        <Stat title="Funds address" content={bounty.wallet.address} copyable />
 
         <Stat
           title="Additional info"
@@ -29,10 +30,13 @@ export function BountyMoreDetails() {
             .map((r) => r.title)}
         />
 
-        <Stat title="Tags" contents={bounty.tags} />
-        <Stat title="Regions" contents={bounty.countries} />
-        {!!bounty.alsoKnownAs && (
-          <Stat title="Also known as" contents={bounty.alsoKnownAs} />
+        <Stat title="Tags" contents={bounty.tags.map((t) => t.name)} />
+        <Stat
+          title="Regions"
+          contents={bounty.target.org.countries.map((c) => c.name)}
+        />
+        {!!bounty.target.alsoKnownAs && (
+          <Stat title="Also known as" contents={bounty.target.alsoKnownAs} />
         )}
       </div>
     </div>

@@ -1,14 +1,8 @@
 import { useGetBounties } from '@/lib/hooks/bountyHooks';
-import { BountyOrderBy } from '@/lib/models/queries/BountyQueryParams';
-import { Order } from '@/lib/models/queries/Order';
-import { ArrayOfNumbers } from '@/lib/utils/ArrayHelpers';
-import { GoToOrgBountiesPage } from '@/lib/utils/Routes';
+import { BountyOrderBy } from '@/lib/models/BountyQueryParams';
+import { Order } from '@/lib/models/Order';
 
-import { Button, ButtonStyle } from '@/components/utils/Button';
-
-import { BountyCard, DummyBountyCard } from '../explore/bounty card/BountyCard';
 import { useOrganizationContext } from './OrganizationContext';
-import { AboutTitle } from './utils/AboutTitle';
 
 const AMOUNT_OF_BOUNTIES = 9;
 
@@ -25,34 +19,36 @@ export function OrgBounties() {
 
   const theresMore = (count ?? 0) > AMOUNT_OF_BOUNTIES;
 
-  return (
-    <div className="space-y-8">
-      <AboutTitle text="Bounties" />
+  return <></>;
 
-      <div className="grid grid-cols-3 gap-x-16 gap-y-10 -translate-x-1">
-        {isLoading &&
-          ArrayOfNumbers(9).map((n) => {
-            return <DummyBountyCard key={n} />;
-          })}
-        {!isLoading &&
-          bounties.map((b) => {
-            return <BountyCard bounty={b} key={b.id} />;
-          })}
-      </div>
+  // return (
+  //   <div className="space-y-8">
+  //     <AboutTitle text="Bounties" />
 
-      {theresMore && !!count && (
-        <Button
-          info={{
-            className: '-translate-x-2 w-fit',
-            label: `${count - AMOUNT_OF_BOUNTIES} more`,
-            style: ButtonStyle.TextPurple,
-            icon: 'arrow_forward',
-            removeMinWidth: true,
-            removePadding: true,
-            isALink: GoToOrgBountiesPage(org.id!),
-          }}
-        />
-      )}
-    </div>
-  );
+  //     <div className="grid grid-cols-3 gap-x-16 gap-y-10 -translate-x-1">
+  //       {isLoading &&
+  //         ArrayOfNumbers(9).map((n) => {
+  //           return <DummyBountyCard key={n} />;
+  //         })}
+  //       {!isLoading &&
+  //         bounties.map((b) => {
+  //           return <BountyCard bounty={b} key={b.id} />;
+  //         })}
+  //     </div>
+
+  //     {theresMore && !!count && (
+  //       <Button
+  //         info={{
+  //           className: '-translate-x-2 w-fit',
+  //           label: `${count - AMOUNT_OF_BOUNTIES} more`,
+  //           style: ButtonStyle.TextPurple,
+  //           icon: 'arrow_forward',
+  //           removeMinWidth: true,
+  //           removePadding: true,
+  //           isALink: GoToOrgBountiesPage(org.id!),
+  //         }}
+  //       />
+  //     )}
+  //   </div>
+  // );
 }

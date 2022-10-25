@@ -1,9 +1,9 @@
 import { useUrlSearchParams } from '@/lib/hooks/useUrlSearchParams';
-import { Bounty } from '@/lib/models';
+import { FullBounty } from '@/lib/types';
 
-export function BountyCardTags({ bounty }: { bounty: Bounty }) {
+export function BountyCardTags({ bounty }: { bounty: FullBounty }) {
   const type = bounty.requirements?.at(0)?.type || '';
-  const org = bounty.organizationName;
+  const org = bounty.target.org.name;
 
   const { urlFilter, setUrlFilter } = useUrlSearchParams();
 

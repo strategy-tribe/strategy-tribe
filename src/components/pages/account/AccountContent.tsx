@@ -1,6 +1,6 @@
 import { useAuth } from 'auth/AuthContext';
 
-import { AccountView } from '../../../lib/models/account/AccountView';
+import { AccountView } from '../../../lib/models/AccountView';
 import { Section } from '../landing/Section';
 import { useAccountContext } from './AccountContext';
 import { AccountSideMap } from './AccountSideMap';

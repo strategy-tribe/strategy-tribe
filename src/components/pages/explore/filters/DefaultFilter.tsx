@@ -1,6 +1,5 @@
-import { QueryParams } from '@/lib/models';
-import { BountyOrderBy } from '@/lib/models/queries/BountyQueryParams';
-import { Order } from '@/lib/models/queries/Order';
+import { BountyOrderBy } from '@/lib/models/BountyQueryParams';
+import { Order } from '@/lib/models/Order';
 
 export enum DefaultFilterType {
   Latest = 'Latest',
@@ -11,7 +10,7 @@ export enum DefaultFilterType {
 
 export type DefaultFilter = {
   type: DefaultFilterType;
-  query: QueryParams;
+  query: any;
 };
 
 const LATEST_FILTER: DefaultFilter = {

@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-import { Bounty } from '@/lib/models';
+import { FullBounty } from '@/lib/types';
 import { GoToBountyPage } from '@/lib/utils/Routes';
 
 import { BountyCardFooter } from './BountyCardFooter';
@@ -8,7 +8,7 @@ import { BountyCardReward } from './BountyCardReward';
 import { BountyCardTags } from './BountyCardTags';
 import { BountyCardTitle } from './BountyCardTitle';
 
-export function BountyCard({ bounty }: { bounty: Bounty }) {
+export function BountyCard({ bounty }: { bounty: FullBounty }) {
   const animClasses = 'transition-all duration-[250] ease-out';
   const moveToLeft = 'hover:-translate-x-4';
   const moveBgtoLeft = 'group-hover:-translate-x-3';
@@ -32,7 +32,7 @@ export function BountyCard({ bounty }: { bounty: Bounty }) {
             {/* <BountyCardWatchButton animClasses={animClasses} /> */}
           </header>
 
-          <BountyCardReward reward={bounty.funds} />
+          <BountyCardReward reward={569} />
 
           <BountyCardFooter bounty={bounty} />
         </a>

@@ -1,25 +1,38 @@
-import React, { useState } from 'react';
+import { Requirement } from '@prisma/client';
+import { useAuth } from 'auth/AuthContext';
+import { useState } from 'react';
+
 import { useScrollDirection } from '@/hooks/useScrollDirection';
 import { useScrollToTop } from '@/hooks/useScrollTo';
-import { useAuth } from 'auth/AuthContext';
+import { FullTarget } from '@/lib/types';
 
-import { Bounty } from '@/lib/models/bounty';
-import { GetDateInString } from '@/utils/DateHelpers';
 import Icon from '@/components/utils/Icon';
-import { Stat } from '../../../utils/Stat';
+import { Stat } from '@/components/utils/Stat';
+
+import { GetDateInString } from '@/utils/DateHelpers';
 
 export function Step4Details({
   showSubmissions,
-  bounty,
   hidden = false,
+  requirements,
+  closesAt,
+  target,
+  description,
+  bountyTitle,
+  balance,
 }: {
   showSubmissions?: () => void;
-  bounty: Bounty;
   hidden?: boolean;
+  requirements: Requirement[];
+  closesAt: Date;
+  target: FullTarget;
+  description: string;
+  address: string;
+  balance: number;
+  bountyTitle: string;
 }) {
   const { isStaff } = useAuth();
   const [fullDescription, setFullDescription] = useState(false);
-
   //UI
   const [isScrollingUp, setIsScrollingUp] = useState(true);
   useScrollDirection(
@@ -30,8 +43,8 @@ export function Step4Details({
 
   const scrollToTop = useScrollToTop();
 
-  const requeriedConditions = bounty.requirements?.filter((f) => !f.optional);
-  const optionalConditions = bounty.requirements.filter((f) => f.optional);
+  const requeriedConditions = requirements.filter((f) => !f.optional);
+  const optionalConditions = requirements.filter((f) => f.optional);
 
   return (
     <>
@@ -42,21 +55,21 @@ export function Step4Details({
             isScrollingUp ? 'top-20' : 'top-4 laptop:top-20'
           }             sticky transition-all ease-in-out duration-500  bg-bg z-10 border-2 border-main text-on-surface-p1 rounded-xl px-4 py-6 text-sm font-medium space-y-6 flex flex-col max-w-lg`}
         >
-          <h1 className="text-3xl font-bold font-grotesk">{bounty?.title}</h1>
+          <h1 className="text-3xl font-bold font-grotesk">{bountyTitle}</h1>
           <div className="bg-main text-on-surface-p0 w-fit rounded-sm p-2 ">
-            <span className="font-medium">{bounty.funds} MATIC</span>
+            <span className="font-medium">{balance} MATIC</span>
           </div>
           <div className="flex gap-x-4 laptop:gap-x-8 gap-y-2 flex-wrap">
-            {bounty.closesAt && (
+            {closesAt && (
               <div className="flex space-x-1 items-center">
                 <Icon icon="hourglass_full" />
                 <span>
-                  Closes in {GetDateInString(bounty.closesAt)} (
-                  {GetDateInString(bounty.closesAt, true)})
+                  Closes in {GetDateInString(closesAt)} (
+                  {GetDateInString(closesAt, true)})
                 </span>
               </div>
             )}
-            {!bounty.closesAt && (
+            {!closesAt && (
               <div className="flex space-x-1 items-center">
                 <Icon icon="hourglass_full" />
                 <span>Has no time limit</span>
@@ -70,7 +83,7 @@ export function Step4Details({
               <div className="flex items-center gap-6">
                 {/* Show less */}
                 <button
-                  className={`-translate-x-2 flex items-center space-x-2 bg-bg text-main-light group  shrink-0`}
+                  className="-translate-x-2 flex items-center space-x-2 bg-bg text-main-light group  shrink-0"
                   onClick={() => {
                     scrollToTop();
                     setTimeout(() => {
@@ -86,7 +99,7 @@ export function Step4Details({
 
                 {/* Go to submissions in phone */}
                 <button
-                  className={`-translate-x-2 flex items-center space-x-2 bg-bg text-main-light group laptop:hidden shrink-0`}
+                  className="-translate-x-2 flex items-center space-x-2 bg-bg text-main-light group laptop:hidden shrink-0"
                   onClick={() => {
                     if (showSubmissions) {
                       showSubmissions();
@@ -103,7 +116,7 @@ export function Step4Details({
 
                 {/* Go to submissions in desktop */}
                 <button
-                  className={`-translate-x-2 items-center space-x-2 bg-bg text-main-light group hidden laptop:flex`}
+                  className="-translate-x-2 items-center space-x-2 bg-bg text-main-light group hidden laptop:flex"
                   onClick={() => {
                     scrollToTop();
                   }}
@@ -122,13 +135,13 @@ export function Step4Details({
         <div className="grid laptop:grid-cols-2 gap-32 w-full">
           {/* Details */}
           <div className="space-y-8">
-            <Stat title="Target" content={bounty.name} />
+            <Stat title="Target" content={target.name} />
 
-            <Stat title="Affiliated with" content={bounty.organizationName} />
+            <Stat title="Affiliated with" content={target.org.name} />
 
             <Stat
               title="More details"
-              content={bounty.description ? bounty.description : 'None'}
+              content={description ? description : 'None'}
             />
           </div>
 

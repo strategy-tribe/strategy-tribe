@@ -1,9 +1,9 @@
-import { SubmissionState } from '@/lib/models/status';
-import { Submission } from '@/lib/models/submission';
+import { Submission, SubmissionState } from '@prisma/client';
+import { useRouter } from 'next/router';
+
 import { GetDateInString } from '@/utils/DateHelpers';
 import { GoToSubmissionPage } from '@/utils/Routes';
-import { useRouter } from 'next/router';
-import React from 'react';
+
 import Icon from './Icon';
 
 export const SubmissionEntry = ({

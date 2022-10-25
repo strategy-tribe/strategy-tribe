@@ -1,15 +1,18 @@
+import { Requirement, RequirementType } from '@prisma/client';
 import { useEffect, useState } from 'react';
-import { Bounty } from '@/lib/models/bounty';
+
+import { FullBounty } from '@/lib/types';
+
 import { GetWordCount } from '@/utils/StringHelpers';
-import { Requirement, RequirementType } from '@/lib/models/requirement';
+
+import Icon from './Icon';
 import { MessageForUser } from './MessageForUser';
 import { Stat } from './Stat';
-import Icon from './Icon';
 
 export function BountyRequirementsShowcase({
   bounty,
 }: {
-  bounty: Bounty;
+  bounty: FullBounty;
   size?: string;
 }) {
   const requeriedConditions = bounty.requirements?.filter((f) => !f.optional);
@@ -64,7 +67,7 @@ export function BountyRequirementsChecker({
   return (
     <>
       <div>
-        <h3 className={`font-grotesk font-semibold text-on-surface-p0`}>
+        <h3 className="font-grotesk font-semibold text-on-surface-p0">
           Requirements
         </h3>
         {requeriedConditions.map((requirement, i) => {
@@ -82,7 +85,7 @@ export function BountyRequirementsChecker({
       </div>
       {optionalConditions.length > 0 && (
         <div>
-          <h3 className={`font-grotesk font-semibold text-on-surface-p0`}>
+          <h3 className="font-grotesk font-semibold text-on-surface-p0">
             Optional
           </h3>
           {optionalConditions.map((requirement, i) => {
@@ -131,21 +134,21 @@ function RequirementChecker({
 
   useEffect(() => {
     switch (type) {
-      case RequirementType.Email:
+      case RequirementType.EMAIL:
         _setPassed(optional ? true : content.includes('@'));
         setMessage('Your input must contain an email address.');
         break;
-      case RequirementType.Image:
+      case RequirementType.IMAGE:
         _setPassed(optional ? true : files.length > 0);
         setMessage('You must attach at least one image.');
         break;
-      case RequirementType.Report: {
+      case RequirementType.REPORT: {
         const wordCount = GetWordCount(content);
         _setPassed(optional ? true : wordCount > 200);
         setMessage('Your input must be longer than 200 words');
         break;
       }
-      case RequirementType.Domain:
+      case RequirementType.DOMAIN:
         _setPassed(
           optional
             ? true
@@ -153,7 +156,7 @@ function RequirementChecker({
         );
         setMessage('Your input must be http link');
         break;
-      case RequirementType.Wallet:
+      case RequirementType.WALLET:
         _setPassed(optional ? true : content.length > 12);
         setMessage('Your input must contain a wallet address');
         break;
@@ -163,9 +166,7 @@ function RequirementChecker({
   }, [content, files, optional, type]);
 
   return (
-    <div
-      className={`group cursor-default label-lg min-w-[10rem] flex items-center gap-4 -translate-x-10`}
-    >
+    <div className="group cursor-default label-lg min-w-[10rem] flex items-center gap-4 -translate-x-10">
       {/* Icon */}
       <Icon
         className={`text-error-light ${!!_passed && 'invisible'} `}

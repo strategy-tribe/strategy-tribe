@@ -1,19 +1,12 @@
+import { Requirement, RequirementType } from '@prisma/client';
 import { useAuth } from 'auth/AuthContext';
 import Link from 'next/link';
-import {
-  createContext,
-  ReactNode,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react';
+import { createContext, ReactNode, useContext, useMemo, useState } from 'react';
 
 import { useGetBounty } from '@/lib/hooks/bountyHooks';
 import { useSaveSubmission } from '@/lib/hooks/submissionHooks';
 import { useLocalStorage } from '@/lib/hooks/useLocalStorage';
-import { Bounty } from '@/lib/models';
-import { Requirement, RequirementType } from '@/lib/models/requirement';
+import { FullBounty } from '@/lib/types';
 import { GoToSubmissionPage } from '@/lib/utils/Routes';
 
 import {
@@ -36,7 +29,7 @@ interface iNewSubmissionContext {
   backToEdit: () => void;
   requirementsFullfiled: boolean;
   ctaButton: ButtonInformation | undefined;
-  bounty: Bounty | undefined;
+  bounty: FullBounty | undefined;
   cleanSubmissionFromStorage: () => void;
   attachments: File[];
   setAttachments: (s: File[]) => void;
@@ -81,27 +74,6 @@ export const NewSubmissionContextProvider = ({
     );
   }, [checks]);
 
-  useEffect(() => {
-    if (bounty && userAnswers.length === 0) {
-      const requirements = bounty.requirements;
-
-      const inputs = requirements.map((req) => {
-        const userInput: UserInput = {
-          requirement: req,
-          input: req.type === RequirementType.Image ? [] : '',
-        };
-        return userInput;
-      });
-
-      setUserAnswers(inputs);
-
-      const newChecks = bounty.requirements.map((req) => {
-        return { passed: false, requirement: req };
-      });
-      setChecks(newChecks);
-    }
-  }, [bounty, userAnswers]);
-
   //*Mutations
   const { Save } = useSaveSubmission(
     user as string,
@@ -111,8 +83,10 @@ export const NewSubmissionContextProvider = ({
         input: attachments,
         requirement: {
           title: 'Attachments',
-          type: RequirementType.Image,
+          type: RequirementType.IMAGE,
           optional: true,
+          bountyId: '',
+          id: '',
         },
       },
     ],

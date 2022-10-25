@@ -1,4 +1,5 @@
-import { Submission as SubmissionData } from '@/lib/models';
+import { Requirement, Submission } from '@prisma/client';
+
 import { GoToSubmissionPage } from '@/lib/utils/Routes';
 
 import { Button, ButtonStyle } from '@/components/utils/Button';
@@ -6,7 +7,13 @@ import FromBounty from '@/components/utils/FromBounty';
 
 import { UserAnswer } from './UserAnswer';
 
-export function ReviewMap({ submission }: { submission: SubmissionData }) {
+export function ReviewMap({
+  submission,
+  requirements,
+}: {
+  submission: Submission;
+  requirements: Requirement[];
+}) {
   return (
     <aside className="grow max-w-sm sticky top-24 left-0 min-h-screen bg-surface-dark space-y-8 p-8">
       <Button
@@ -20,7 +27,7 @@ export function ReviewMap({ submission }: { submission: SubmissionData }) {
       />
 
       <div className="space-y-2">
-        <FromBounty bountyId={submission.bountyId} />
+        <FromBounty bountyId={submission.bountyId ?? ''} />
         <div>
           <h3 className="title">User Submission</h3>
 
@@ -39,9 +46,16 @@ export function ReviewMap({ submission }: { submission: SubmissionData }) {
 
       <div className="space-y-4 w-full">
         {submission.answers
-          .filter((a) => a.answer && a.answer.length > 0)
+          .filter((a) => a.length > 0)
           .map((answer, i) => {
-            return <UserAnswer key={i} content={answer} num={i + 1} />;
+            return (
+              <UserAnswer
+                key={i}
+                content={answer}
+                requirement={requirements[i]}
+                num={i + 1}
+              />
+            );
           })}
       </div>
     </aside>

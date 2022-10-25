@@ -1,19 +1,28 @@
-import { Bounty } from '@/lib/models';
-import { TargetType } from '@/lib/models/targetType';
+import { TargetType } from '@prisma/client';
+
 import { CapitalizeFirstLetter } from '@/lib/utils/StringHelpers';
 
-export function ParseBountyTitle(bounty: Bounty) {
-  const { title, organizationName, type, name } = bounty;
+import { FullBounty } from '../types';
 
-  if (type === TargetType.Organization) {
+export function ParseBountyTitle(bounty: FullBounty) {
+  const {
+    title,
+    target: {
+      type,
+      name: targetName,
+      org: { name: orgName },
+    },
+  } = bounty;
+
+  if (type === TargetType.ORG) {
     return title.replace(
-      organizationName.toLocaleLowerCase(),
-      CapitalizeFirstLetter(organizationName)
+      orgName.toLocaleLowerCase(),
+      CapitalizeFirstLetter(orgName)
     );
   } else {
     return title?.replace(
-      name.toLocaleLowerCase(),
-      CapitalizeFirstLetter(name)
+      targetName.toLocaleLowerCase(),
+      CapitalizeFirstLetter(orgName)
     );
   }
 }

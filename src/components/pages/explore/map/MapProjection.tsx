@@ -2,7 +2,7 @@ import { ResponsiveChoropleth } from '@nivo/geo';
 import { useMemo } from 'react';
 
 import useWindowDimensions from '@/lib/hooks/useWindowDimensions';
-import { CountryData } from '@/lib/models/map/CountryData';
+import { CountryMapData } from '@/lib/models/CountriesData';
 import { kFormatter } from '@/lib/utils/NumberHelpers';
 
 import { useExploreContext } from '../ExploreContext';
@@ -12,8 +12,8 @@ export default function MapProjection() {
 
   const max =
     map?.mapData.countries.reduce((acc, curr) => {
-      return acc.bounties > curr.bounties ? acc : curr;
-    }).bounties ?? 0;
+      return acc.bountyCount > curr.bountyCount ? acc : curr;
+    }).bountyCount ?? 0;
 
   const { width } = useWindowDimensions();
 
@@ -36,8 +36,8 @@ export default function MapProjection() {
         value={(data) => {
           if (!data) {
             return 0;
-          } else if (data as CountryData) {
-            const value = (data as CountryData).bounties;
+          } else if (data as CountryMapData) {
+            const value = (data as CountryMapData).bountyCount;
             return value;
           } else {
             return 0;
@@ -53,7 +53,7 @@ export default function MapProjection() {
         borderWidth={0.2}
         borderColor="#5C5C5C"
         onClick={(thing) => {
-          const data = thing.data as CountryData;
+          const data = thing.data as CountryMapData;
           if (!data || !(data.id as string)) return;
           addCountry(data.id);
         }}
@@ -61,8 +61,8 @@ export default function MapProjection() {
           if (!feature?.data) return null;
 
           const label = feature.label;
-          const { bounties, organizations, totalFunds } =
-            feature.data as CountryData;
+          const { bountyCount, organizationCount, totalFunds } =
+            feature.data as CountryMapData;
           return (
             <div className="elevation-5 bg-surface text-on-surface-p0 p-4 rounded space-y-1">
               <div className="flex justify-between items-center gap-6">
@@ -72,8 +72,8 @@ export default function MapProjection() {
                 </span>
               </div>
               <div className="flex justify-between items-center gap-6 label-sm text-on-surface-unactive">
-                <span>{kFormatter(bounties)} bounties</span>
-                <span>{kFormatter(organizations)} organizations</span>
+                <span>{kFormatter(bountyCount)} bounties</span>
+                <span>{kFormatter(organizationCount)} organizations</span>
               </div>
             </div>
           );

@@ -1,13 +1,14 @@
+import { TargetType } from '@prisma/client';
+import { useState } from 'react';
+import ReactTextareaAutosize from 'react-textarea-autosize';
+
+import { useGetAllOrganizations } from '@/lib/hooks/organizationHooks';
+import { FullOrganization } from '@/lib/types';
+
 import { Button, ButtonStyle } from '@/components/utils/Button';
 import Icon from '@/components/utils/Icon';
-import Toggle from '@/components/utils/Toggle';
-import { useGetAllOrganizations } from '@/hooks/organizationHooks';
-import { Organization } from '@/lib/models/organizations/organization';
-import { TargetType } from '@/lib/models/targetType';
-import React, { useState } from 'react';
-import TextareaAutosize from 'react-textarea-autosize';
 import { Title } from '@/components/utils/Title';
-('../../utils/Title');
+import Toggle from '@/components/utils/Toggle';
 
 interface iTargetInfo {
   name: string;
@@ -43,7 +44,7 @@ export const SetTargetInfo = ({
           <h4 className="text-on-surface-p0 font-grotesk text-sm font-medium">
             Requirements
           </h4>
-          {targetType === TargetType.Individual && (
+          {targetType === 'INDIVIDUAL' && (
             <>
               <div className="flex items-center gap-2">
                 <Icon icon={name ? 'check' : 'close'} />
@@ -70,7 +71,7 @@ export const SetTargetInfo = ({
               </div>
             </>
           )}
-          {targetType === TargetType.Organization && (
+          {targetType === 'ORG' && (
             <>
               <div className="flex items-center gap-2">
                 <Icon icon={organization ? 'check' : 'close'} />
@@ -105,14 +106,13 @@ export const SetTargetInfo = ({
         <Toggle
           whenOn="The target is an individual"
           whenOff="The target is an organization"
-          value={targetType === TargetType.Individual}
+          value={targetType === 'INDIVIDUAL'}
           setValue={() => {
-            if (targetType === TargetType.Individual)
-              setTargetType(TargetType.Organization);
-            else setTargetType(TargetType.Individual);
+            if (targetType === 'INDIVIDUAL') setTargetType('ORG');
+            else setTargetType('INDIVIDUAL');
           }}
         />
-        {targetType === TargetType.Individual && (
+        {targetType === 'INDIVIDUAL' && (
           <IndividualTarget
             name={name}
             affiliation={organization}
@@ -123,7 +123,7 @@ export const SetTargetInfo = ({
             existingOrganizations={organizations}
           />
         )}
-        {targetType === TargetType.Organization && (
+        {targetType === 'ORG' && (
           <OrganizationTarget
             name={name}
             affiliation={organization}
@@ -154,7 +154,7 @@ function IndividualTarget({
   setAffiliation: (s: string) => void;
   content: string;
   setContent: (s: string) => void;
-  existingOrganizations?: Organization[];
+  existingOrganizations?: FullOrganization[];
 }) {
   const [createNewOrg, setCreateNewOrg] = useState(false);
 
@@ -166,7 +166,7 @@ function IndividualTarget({
           {`Target's Name`}
         </h2>
         {/* target description */}
-        <TextareaAutosize
+        <ReactTextareaAutosize
           placeholder="Type here"
           className="bg-bg text-on-surface-p1 border-0 w-full font-inter  focus:ring-0 capitalize whitespace-pre-wrap"
           value={name}
@@ -192,10 +192,10 @@ function IndividualTarget({
               setAffiliation(value);
             }}
           >
-            {existingOrganizations.map((o, i) => {
+            {existingOrganizations.map((org, i) => {
               return (
-                <option key={i} value={o.name}>
-                  {o.name} ({o.bounties})
+                <option key={i} value={org.name}>
+                  {org.name} ({org.amountOfBounties})
                 </option>
               );
             })}
@@ -203,7 +203,7 @@ function IndividualTarget({
         )}
 
         {createNewOrg && (
-          <TextareaAutosize
+          <ReactTextareaAutosize
             placeholder="Type here"
             className="bg-bg text-on-surface-p1 border-0 w-full font-inter  focus:ring-0 first-letter:capitalize whitespace-pre-wrap"
             value={affiliation}
@@ -231,7 +231,7 @@ function IndividualTarget({
           Extra information about the target
         </h2>
 
-        <TextareaAutosize
+        <ReactTextareaAutosize
           placeholder="Type here"
           className="bg-bg text-on-surface-p1 border-0 w-full font-inter  focus:ring-0 first-letter:capitalize whitespace-pre-wrap"
           value={content}
@@ -258,7 +258,7 @@ function OrganizationTarget({
   affiliation: string;
   setAffiliation: (s: string) => void;
   content: string;
-  existingOrganizations?: Organization[];
+  existingOrganizations?: FullOrganization[];
   setContent: (s: string) => void;
 }) {
   const [createNewOrg, setCreateNewOrg] = useState(false);
@@ -284,7 +284,7 @@ function OrganizationTarget({
             {existingOrganizations.map((o, i) => {
               return (
                 <option key={i} value={o.name}>
-                  {o.name} ({o.bounties})
+                  {o.name} ({o.amountOfBounties})
                 </option>
               );
             })}
@@ -292,7 +292,7 @@ function OrganizationTarget({
         )}
 
         {createNewOrg && (
-          <TextareaAutosize
+          <ReactTextareaAutosize
             placeholder="Type here"
             className="bg-bg text-on-surface-p1 border-0 w-full font-inter  focus:ring-0 first-letter:capitalize whitespace-pre-wrap"
             value={affiliation}
@@ -320,7 +320,7 @@ function OrganizationTarget({
           {`Organization's intelligence we are looking for`}
         </h2>
         {/* target description */}
-        <TextareaAutosize
+        <ReactTextareaAutosize
           placeholder="Telegram account, wallet address, phone numbers..."
           className="bg-bg text-on-surface-p1 border-0 w-full font-inter  focus:ring-0 whitespace-pre-wrap"
           value={name}
@@ -335,7 +335,7 @@ function OrganizationTarget({
           Extra information
         </h2>
 
-        <TextareaAutosize
+        <ReactTextareaAutosize
           placeholder="Type here"
           className="bg-bg text-on-surface-p1 border-0 w-full font-inter  focus:ring-0 first-letter:capitalize whitespace-pre-wrap"
           value={content}

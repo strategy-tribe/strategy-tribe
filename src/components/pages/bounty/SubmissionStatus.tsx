@@ -1,6 +1,10 @@
-import { SubmissionState } from '@/lib/models';
+import { SubmissionState } from '@prisma/client';
 
-export function SubmissionStatus({ status }: { status: SubmissionState }) {
+export function SubmissionStateDisplayer({
+  status,
+}: {
+  status: SubmissionState;
+}) {
   const color = () => {
     switch (status) {
       case SubmissionState.WaitingForReview:

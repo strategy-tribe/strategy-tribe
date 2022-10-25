@@ -1,3 +1,4 @@
+import { Submission, SubmissionState } from '@prisma/client';
 import { useAuth } from 'auth/AuthContext';
 import { useRouter } from 'next/router';
 import { useMemo, useState } from 'react';
@@ -17,7 +18,6 @@ import { RadioInput } from '@/components/utils/RadioInput';
 import { Title } from '@/components/utils/Title';
 import { ImportantMessage } from '@/components/utils/Warning';
 
-import { Submission, SubmissionState } from '@/models/index';
 ('@/components/utils/Title');
 
 export default function Evaluate({ submissionId }: { submissionId: string }) {

@@ -1,13 +1,13 @@
 import { useGetUserServerNotifications } from '@/lib/hooks/serverNotificationHooks';
-import { AccountView } from '@/lib/models/account/AccountView';
+import { AccountView } from '@/lib/models/AccountView';
 import { GoToAccountPage } from '@/lib/utils/Routes';
 
+import { NotificationListEntry } from '@/components/notifications/NotificationListEntry';
 import { Button, ButtonStyle } from '@/components/utils/Button';
+import { IconSize } from '@/components/utils/Icon';
 import Loading from '@/components/utils/Loading';
 import { Overlay } from '@/components/utils/Overlay';
 
-import { NotificationListEntry } from '../../../notifications/NotificationListEntry';
-import { IconSize } from '../../../utils/Icon';
 import { NavbarButton } from '../NavbarButton';
 
 export function NotifsMenu({

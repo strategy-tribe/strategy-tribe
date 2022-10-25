@@ -1,7 +1,7 @@
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 
-import { MapData } from '@/lib/models/map/MapData';
+import { MapData } from '@/lib/models/MapData';
 import { GoTo404Page } from '@/lib/utils/Routes';
 
 import Loading from '@/components/utils/Loading';

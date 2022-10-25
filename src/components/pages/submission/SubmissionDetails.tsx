@@ -1,4 +1,5 @@
-import { SubmissionState } from '@/lib/models';
+import { SubmissionState } from '@prisma/client';
+
 import { GetDateInString } from '@/lib/utils/DateHelpers';
 
 import { useSubmissionContext } from './SubmissionContext';
@@ -34,7 +35,10 @@ export function SubmissionDetails() {
         {submission.state ===
           (SubmissionState.Accepted || SubmissionState.WaitingForPayment) && (
           <>
-            <SubmissionDetail label="Reward" value={`${bounty?.funds} MATIC`} />
+            <SubmissionDetail
+              label="Reward"
+              value={`${bounty?.wallet.balance} MATIC`}
+            />
           </>
         )}
 
@@ -46,7 +50,11 @@ export function SubmissionDetails() {
           copyable
         />
 
-        <SubmissionDetail label="User ID" value={submission.owner} copyable />
+        <SubmissionDetail
+          label="User ID"
+          value={submission.authorId}
+          copyable
+        />
       </div>
     </div>
   );

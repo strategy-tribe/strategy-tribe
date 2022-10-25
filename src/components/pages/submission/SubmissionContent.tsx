@@ -1,8 +1,6 @@
 import { useAuth } from 'auth/AuthContext';
-import Image from 'next/image';
 
 import { useSubmitterInfo } from '@/lib/hooks/submissionHooks';
-import { RequirementType } from '@/lib/models/requirement';
 
 import { useSubmissionContext } from './SubmissionContext';
 import { SubmissionDetail } from './SubmissionDetail';
@@ -30,7 +28,7 @@ function Title() {
   return (
     <h2 className="title-sm text-on-surface-p0">
       {isStaff || isAdmin
-        ? `Submission by ${submission.owner}`
+        ? `Submission by ${submission.authorId}`
         : 'Your submission'}
     </h2>
   );
@@ -42,9 +40,9 @@ function UserStats() {
   const { isStaff, isAdmin } = useAuth();
 
   const { data: submitterInfo } = useSubmitterInfo(
-    submission.owner as string,
+    submission.authorId as string,
     bounty?.id as string,
-    Boolean(submission.owner as string) && Boolean(bounty?.id)
+    Boolean(submission.authorId as string) && Boolean(bounty?.id)
   );
 
   return (
@@ -55,16 +53,13 @@ function UserStats() {
           <div className="flex gap-8">
             <SubmissionDetail
               label="Has submitted to this bounty"
-              value={`${submitterInfo.subsToThisBounty} times`}
+              value={`${568} times`}
             />
-            <SubmissionDetail
-              label="Total submissions"
-              value={`${submitterInfo.totalSubmissions}`}
-            />
+            <SubmissionDetail label="Total submissions" value={`${568}`} />
 
             <SubmissionDetail
               label="Submissions allowed for today"
-              value={`${submitterInfo.spacesLeft}`}
+              value={`${568}`}
             />
           </div>
         </div>
@@ -78,7 +73,7 @@ function UserAnswers() {
 
   return (
     <>
-      {submission.answers.map((anw, i) => {
+      {/* {submission.answers.map((anw, i) => {
         return (
           <div key={i} className="space-y-1">
             <span className="label text-on-surface-unactive">
@@ -108,7 +103,7 @@ function UserAnswers() {
             )}
           </div>
         );
-      })}
+      })} */}
     </>
   );
 }

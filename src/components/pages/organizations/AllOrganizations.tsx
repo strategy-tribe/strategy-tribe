@@ -1,15 +1,11 @@
 import { motion } from 'framer-motion';
-import { useMemo } from 'react';
 
 import { AppearVariants } from '@/lib/framer/Variants';
 import { useGetAllOrganizations } from '@/lib/hooks/organizationHooks';
-import { MapOfOrgs } from '@/lib/models/organizations/MapOfOrgs';
-import { Organization } from '@/lib/models/organizations/organization';
 
 import Loading from '@/components/utils/Loading';
 import { Title } from '@/components/utils/Title';
 
-import { Organizations } from './Organizations';
 ('@/components/utils/Title');
 
 export const AllOrganizations = () => {
@@ -17,20 +13,20 @@ export const AllOrganizations = () => {
   const { organizations, isLoading } = useGetAllOrganizations();
 
   //*order the orgs
-  const mapOfOrg: MapOfOrgs = useMemo(() => {
-    const a: { letter: string; orgs: Organization[] }[] = [];
+  // const mapOfOrg: MapOfOrgs = useMemo(() => {
+  //   const a: { letter: string; orgs: FullOrganization[] }[] = [];
 
-    for (const org of organizations) {
-      let letter = org.name.charAt(0);
-      if (letter === '.') letter = org.name.charAt(1);
-      const i = a.findIndex((x) => x.letter === letter);
+  //   for (const org of organizations) {
+  //     let letter = org.name.charAt(0);
+  //     if (letter === '.') letter = org.name.charAt(1);
+  //     const i = a.findIndex((x) => x.letter === letter);
 
-      if (i >= 0) a[i].orgs = [...a[i].orgs, org];
-      else a.push({ letter: letter, orgs: [org] });
-    }
+  //     if (i >= 0) a[i].orgs = [...a[i].orgs, org];
+  //     else a.push({ letter: letter, orgs: [org] });
+  //   }
 
-    return a;
-  }, [organizations]);
+  //   return a;
+  // }, [organizations]);
 
   return (
     <>
@@ -48,7 +44,7 @@ export const AllOrganizations = () => {
           animate="visible"
         >
           <Title title="Organizations" />
-          <Organizations map={mapOfOrg} />
+          {/* <Organizations map={mapOfOrg} /> */}
         </motion.div>
       )}
     </>

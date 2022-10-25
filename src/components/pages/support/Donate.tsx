@@ -1,5 +1,7 @@
 import { useState } from 'react';
-import { SupportButton } from '../../donations/SupportButton';
+
+import { useNotification } from '@/components/notifications/NotificationContext';
+
 import {
   ClientNotification,
   DelayType,
@@ -7,7 +9,7 @@ import {
   NotificationStyle,
   NotificationType,
 } from '../../notifications/iNotification';
-import { useNotification } from '../../notifications/NotificationContext';
+
 export function Donate() {
   const ST_WALLET = process.env.NEXT_PUBLIC_ST_WALLET as string;
   const [amount, setAmount] = useState(0);
@@ -57,7 +59,7 @@ export function Donate() {
         <h2 className="text-3xl font-inter font-bold text-on-surface-p0">
           Support StrategyTribe
         </h2>
-        <span className={`bg-main h-1 inline-block -translate-y-1 w-16`}></span>
+        <span className="bg-main h-1 inline-block -translate-y-1 w-16"></span>
       </div>
 
       {/* Why */}
@@ -93,19 +95,17 @@ export function Donate() {
         </div>
 
         <div className="flex items-center gap-8 justify-end">
-          {
-            <SupportButton
-              amountInEth={amount}
-              recipient={{
-                wallet: ST_WALLET,
-              }}
-              after={{
-                onError: onDonationError,
-                onSuccess: onDonationSuccess,
-              }}
-              on-surface-disabled={amount <= 0}
-            />
-          }
+          {/* <SupportButton
+            amountInEth={amount}
+            recipient={{
+              wallet: ST_WALLET,
+            }}
+            after={{
+              onError: onDonationError,
+              onSuccess: onDonationSuccess,
+            }}
+            on-surface-disabled={amount <= 0}
+          /> */}
         </div>
       </div>
     </div>

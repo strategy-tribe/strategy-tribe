@@ -1,7 +1,7 @@
 import { motion, Variants } from 'framer-motion';
 import { useRouter } from 'next/router';
 
-import { Organization } from '@/lib/models/organizations/organization';
+import { FullOrganization } from '@/lib/types';
 
 import { GoToOrgPage } from '@/utils/Routes';
 
@@ -9,7 +9,7 @@ export function OrgEntry({
   org,
   variants,
 }: {
-  org: Organization;
+  org: FullOrganization;
   variants?: Variants;
 }) {
   const router = useRouter();
@@ -24,7 +24,8 @@ export function OrgEntry({
           {org.name}
         </h3>
         <span className="text-main-light shrink-0 label mt-1">
-          {org.bounties} {org.bounties === 1 ? 'bounty' : 'bounties'}
+          {org.amountOfBounties}{' '}
+          {org.amountOfBounties === 1 ? 'bounty' : 'bounties'}
         </span>
       </div>
       {org.bio && (

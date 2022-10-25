@@ -1,9 +1,8 @@
+import { SubmissionState } from '@prisma/client';
 import React, { createContext, useContext, useState } from 'react';
 
 import { useGetSubmissions } from '@/lib/hooks/submissionHooks';
-import { SubmissionState } from '@/lib/models';
-import { Order } from '@/lib/models/queries/Order';
-import { SubmissionQueryParams } from '@/lib/models/queries/SubmissionQueryParams';
+import { Order } from '@/lib/models/Order';
 
 const AMOUNT_OF_PAGES = 10;
 
@@ -12,8 +11,8 @@ interface AdminReviewInterface {
   nextPage: () => void;
   prevPage: () => void;
   goToPage: (v: number) => void;
-  setQuery: (q: SubmissionQueryParams) => void;
-  query: SubmissionQueryParams;
+  setQuery: (q: any) => void;
+  query: any;
   amountOfPages: number;
 }
 
@@ -26,9 +25,9 @@ const AdminReviewContextProvider = ({
 }: {
   children: React.ReactNode[] | React.ReactNode;
 }) => {
-  const [query, setQuery] = useState<SubmissionQueryParams>({
+  const [query, setQuery] = useState<any>({
     order: Order.Asc,
-    states: [SubmissionState.WaitingForReview],
+    states: ['WaitingForReview'] as SubmissionState[],
     amount: 10,
     paginate: true,
     page: 0,

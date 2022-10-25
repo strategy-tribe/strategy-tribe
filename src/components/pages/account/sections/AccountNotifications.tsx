@@ -1,6 +1,8 @@
-import { NotificationListEntry } from '@/components/notifications/NotificationListEntry';
-import { useGetUserServerNotifications } from '@/lib/hooks/serverNotificationHooks';
 import { useAuth } from 'auth/AuthContext';
+
+import { useGetUserServerNotifications } from '@/lib/hooks/serverNotificationHooks';
+
+import { NotificationListEntry } from '@/components/notifications/NotificationListEntry';
 
 export function AccountNotifications() {
   const { userId } = useAuth();
@@ -10,6 +12,8 @@ export function AccountNotifications() {
     onlyUnread: true,
     enabled: !!(userId as string),
   });
+
+  if (!notifications) return <>Fix useGetUserServerNotifications hook</>;
 
   return (
     <div className="w-full h-fit space-y-4">

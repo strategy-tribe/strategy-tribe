@@ -7,7 +7,6 @@ import { Hydrate, QueryClient, QueryClientProvider } from 'react-query';
 
 import '../styles/globals.css';
 
-import MoralisContext from '@/lib/moralis/MoralisContext';
 import PushNotifsContextProvider from '@/lib/onesignal/PushNotifsContext';
 
 import { NotificationcontextProvider as NotificationContextProvider } from '@/components/notifications/NotificationContext';
@@ -38,13 +37,11 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
       <QueryClientProvider client={queryClient}>
         <Hydrate state={pageProps.dehydratedState}>
           <NotificationContextProvider>
-            <MoralisContext>
-              <AuthContextProvider>
-                <PushNotifsContextProvider appId={onesignal_appId as string}>
-                  {getLayout(<Component {...pageProps} />, pageProps)}
-                </PushNotifsContextProvider>
-              </AuthContextProvider>
-            </MoralisContext>
+            <AuthContextProvider>
+              <PushNotifsContextProvider appId={onesignal_appId as string}>
+                {getLayout(<Component {...pageProps} />, pageProps)}
+              </PushNotifsContextProvider>
+            </AuthContextProvider>
           </NotificationContextProvider>
         </Hydrate>
       </QueryClientProvider>

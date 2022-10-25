@@ -1,8 +1,4 @@
 import { useGetOrganizationByName } from '@/hooks/organizationHooks';
-import { useGetBounty } from '@/lib/hooks/bountyHooks';
-import { GoToBountyPage, GoToOrgPage } from '@/utils/Routes';
-import Link from 'next/link';
-import React from 'react';
 
 export function OrganizationLink({
   orgName,
@@ -13,11 +9,13 @@ export function OrganizationLink({
 }) {
   const { organization } = useGetOrganizationByName(orgName);
 
-  return (
-    <Link href={GoToOrgPage(organization?.id ? organization.id : '')}>
-      <a className={`${className} capitalize`}>{orgName}</a>
-    </Link>
-  );
+  return <></>;
+
+  // return (
+  //   <Link href={GoToOrgPage(organization?.id ? organization.id : '')}>
+  //     <a className={`${className} capitalize`}>{orgName}</a>
+  //   </Link>
+  // );
 }
 
 export function BountyLink({
@@ -27,13 +25,13 @@ export function BountyLink({
   bountyId: string;
   className?: string;
 }) {
-  const { bounty } = useGetBounty(bountyId);
+  // const { bounty } = useGetBounty(bountyId);
 
-  if (!bounty?.id) return <></>;
+  return <></>;
 
-  return (
-    <Link href={GoToBountyPage(bounty.id)}>
-      <a className={className}>{bountyId}</a>
-    </Link>
-  );
+  // return (
+  //   <Link href={GoToBountyPage(bounty.id)}>
+  //     <a className={className}>{bountyId}</a>
+  //   </Link>
+  // );
 }

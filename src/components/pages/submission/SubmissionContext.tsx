@@ -1,23 +1,16 @@
+import { Submission } from '@prisma/client';
 import React, { createContext, useContext } from 'react';
 
 import { useGetBounty } from '@/lib/hooks/bountyHooks';
-import { Bounty, Submission, SubmissionState } from '@/lib/models';
+import { FullBounty, FullSubmission } from '@/lib/types';
 
 interface iSubmissionContext {
-  submission: Submission;
-  bounty: Bounty | undefined;
+  submission: FullSubmission;
+  bounty: FullBounty | undefined;
 }
-const SubmissionContext = createContext<iSubmissionContext>({
-  submission: {
-    id: '',
-    answers: [],
-    bountyId: '',
-    createdAt: new Date(),
-    owner: '',
-    state: SubmissionState.Accepted,
-  },
-  bounty: undefined,
-});
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+//@ts-ignore
+const SubmissionContext = createContext<iSubmissionContext>();
 
 export const SubmissionContextProvider = ({
   children,
@@ -26,7 +19,7 @@ export const SubmissionContextProvider = ({
   children: React.ReactNode;
   submission: Submission;
 }) => {
-  const { bounty } = useGetBounty(submission.bountyId);
+  const { bounty } = useGetBounty(submission.bountyId ?? '');
 
   return (
     <SubmissionContext.Provider value={{ bounty, submission }}>

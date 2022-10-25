@@ -1,11 +1,10 @@
-import { Section } from '@/components/pages/landing/Section';
 import { motion } from 'framer-motion';
 import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
-('@/components/utils/Title');
 
 import AppLayout from '@/components/layouts/AppLayout';
+import { Section } from '@/components/pages/landing/Section';
 import { HugeTitle } from '@/components/utils/HugeTitle';
 import Icon from '@/components/utils/Icon';
 
@@ -40,7 +39,6 @@ const _404Page: NextPageWithLayout = () => {
               <figure className="relative h-[10rem] min-w-[10rem]">
                 <Image
                   src="/illustrations/goal.svg"
-                  layout="fill"
                   priority
                   alt="illustration"
                 />

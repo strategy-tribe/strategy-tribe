@@ -7,8 +7,11 @@ export function OrgTags() {
     <div className="flex gap-4">
       {org.tags?.map((tag) => {
         return (
-          <span key={tag} className="label text-on-surface-unactive capitalize">
-            {tag}
+          <span
+            key={tag.name}
+            className="label text-on-surface-unactive capitalize"
+          >
+            {tag.name}
           </span>
         );
       })}

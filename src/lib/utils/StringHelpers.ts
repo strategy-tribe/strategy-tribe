@@ -51,10 +51,33 @@ const capitalizeWord = (word: string) => {
   return result;
 };
 
-const toTitleCase = (phrase: string) => {
+export const toTitleCase = (phrase: string) => {
   return phrase
     .toLowerCase()
     .split(' ')
-    .map((word) => capitalizeWord(word))
-    .join(' ');
+    .map((word) => capitalizeSentence(word))
+    .join(' ')
+    .trim();
 };
+
+const capitalizeSentence = (word: string) => {
+  return word.charAt(0).toUpperCase() + word.slice(1);
+};
+
+export function cutWallet(address: string) {
+  const firstPart = address
+    .split('')
+    .filter((_, i) => i < 8)
+    .join()
+    .replaceAll(',', '');
+
+  const secondPart = address
+    .split('')
+    .filter((_, i) => i > address.split('').length - 8)
+    .join()
+    .replaceAll(',', '');
+
+  const wallet = `${firstPart} ... ${secondPart}`;
+
+  return wallet;
+}

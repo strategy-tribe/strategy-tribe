@@ -1,13 +1,13 @@
+import { SubmissionState } from '@prisma/client';
 import { useAuth } from 'auth/AuthContext';
 
-import { SubmissionState } from '@/lib/models';
 import { GoToBountyPage, GoToReviewSubmissionPage } from '@/lib/utils/Routes';
 
+import { SubmissionStateDisplayer } from '@/components/pages/bounty/SubmissionStatus';
+import { Section } from '@/components/pages/landing/Section';
 import { Button, ButtonStyle } from '@/components/utils/Button';
 import Icon, { IconSize } from '@/components/utils/Icon';
 
-import { SubmissionStatus } from '../bounty/SubmissionStatus';
-import { Section } from '../landing/Section';
 import { useSubmissionContext } from './SubmissionContext';
 
 export function SubmissionHeader() {
@@ -38,7 +38,7 @@ export function SubmissionHeader() {
 
         <div className="flex flex-col items-center space-y-1">
           <span>is</span>
-          <SubmissionStatus status={submission.state} />
+          <SubmissionStateDisplayer status={submission.state} />
         </div>
 
         {(isAdmin || isStaff) &&

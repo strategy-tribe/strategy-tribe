@@ -1,4 +1,4 @@
-import { AccountView } from '@/lib/models/account/AccountView';
+import { AccountView } from '@/lib/models/AccountView';
 
 export const GoToLandingPage = () => '/';
 

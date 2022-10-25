@@ -1,13 +1,10 @@
+import { Requirement, RequirementType, TargetType } from '@prisma/client';
 import { useAuth } from 'auth/AuthContext';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
-import { Requirement, RequirementType } from '@/lib/models/requirement';
-import { TargetType } from '@/lib/models/targetType';
-
 import AppLayout from '@/components/layouts/AppLayout';
-import { Review } from '@/components/pages/bounty/new bounty/Review';
 import { SetBountyTitle } from '@/components/pages/bounty/new bounty/SetBountyTitle';
 import { SetRequirements } from '@/components/pages/bounty/new bounty/SetRequirements';
 import { SetTargetInfo } from '@/components/pages/bounty/new bounty/SetTargetInfo';
@@ -27,11 +24,17 @@ const NewBounty: NextPageWithLayout = () => {
   const [targetAffiliation, setTargetAffiliation] = useState('');
   const [targetDescription, setDescription] = useState('');
   const [targetType, setTargetType] = useState<TargetType>(
-    TargetType.Individual
+    TargetType.INDIVIDUAL
   );
   //requirements
   const [requirements, setRequirements] = useState<Requirement[]>([
-    { title: '', type: RequirementType.Wallet, optional: false },
+    {
+      title: '',
+      type: RequirementType.WALLET,
+      optional: false,
+      bountyId: '',
+      id: '',
+    },
   ]);
   //deadline
   const [date, setDate] = useState<Date | undefined>(new Date());
@@ -84,7 +87,7 @@ const NewBounty: NextPageWithLayout = () => {
               setHasDeadline={setHaveDeadline}
             />
           )}
-          {step === 5 && (
+          {/* {step === 5 && (
             <Review
               title={title}
               target={{
@@ -96,7 +99,7 @@ const NewBounty: NextPageWithLayout = () => {
               requirements={requirements}
               date={hasDeadline ? date : undefined}
             />
-          )}
+          )} */}
         </div>
       </div>
     </>

@@ -1,3 +1,4 @@
+import { TargetType } from '@prisma/client';
 import { useAuth } from 'auth/AuthContext';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useState } from 'react';
@@ -6,17 +7,14 @@ import {
   useIsSubscribeToAll,
   useSubscribeToAll,
 } from '@/lib/hooks/subscriptionHooks';
-import { TargetType } from '@/lib/models/targetType';
 
 import Icon, { IconSize } from '@/components/utils/Icon';
 import Loading from '@/components/utils/Loading';
 import { ScrollableTabs } from '@/components/utils/ScrollableTabs';
 
-import { SubscriptionEntry } from '../SubscriptionEntry';
-
 export function AccountWatching() {
   const { userId, userInfo } = useAuth();
-  const [view, setView] = useState<TargetType>(TargetType.Organization);
+  const [view, setView] = useState<TargetType>('ORG');
   const { isSubscribedToAll } = useIsSubscribeToAll(
     userId as string,
     Boolean(userId as string)
@@ -33,7 +31,7 @@ export function AccountWatching() {
     a.name.localeCompare(b.name)
   );
 
-  const watchingList = userInfo.watching?.filter((x) => x.type === view);
+  // const watchingList = userInfo.watching?.filter((x) => x.type === view);
 
   if (!userInfo || !userId) return <></>;
 
@@ -41,8 +39,8 @@ export function AccountWatching() {
     <div className="w-full space-y-8">
       <ScrollableTabs
         options={{
-          Organizations: TargetType.Organization,
-          Bounties: TargetType.Individual,
+          Organizations: 'ORG',
+          Bounties: 'INDIVIDUAL',
         }}
         isActive={(curr) => curr === view}
         setView={(s) => setView(s as TargetType)}
@@ -50,14 +48,14 @@ export function AccountWatching() {
 
       <div className="space-y-6">
         <div className="min-h-[15rem]">
-          {!watchingList?.length && (
+          {/* {!watchingList?.length && (
             <p className="text-on-surface-disabled label">
               You are not subscribed to any notifications for{' '}
               {view === TargetType.Individual ? 'bounties' : 'organizations'}
             </p>
-          )}
+          )} */}
 
-          <AnimatePresence>
+          {/* <AnimatePresence>
             {watchingList?.map((subscription, i) => {
               return (
                 <motion.div
@@ -84,7 +82,7 @@ export function AccountWatching() {
                 </motion.div>
               );
             })}
-          </AnimatePresence>
+          </AnimatePresence> */}
         </div>
 
         <div className="pt-4 border-t-2 border-surface-dark label space-y-4">
@@ -94,7 +92,7 @@ export function AccountWatching() {
             watching list`}
           </div>
           <AnimatePresence>
-            {view === TargetType.Individual && (
+            {view === 'INDIVIDUAL' && (
               <motion.div
                 className=" text-error-light flex gap-2 items-center"
                 initial={{ y: 5, opacity: 0 }}

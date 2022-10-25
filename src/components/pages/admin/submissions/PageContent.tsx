@@ -1,7 +1,7 @@
+import { SubmissionState } from '@prisma/client';
 import { useMemo, useState } from 'react';
 
-import { SubmissionState } from '@/lib/models';
-import { Order } from '@/lib/models/queries/Order';
+import { Order } from '@/lib/models/Order';
 import { ArrayOfNumbers } from '@/lib/utils/ArrayHelpers';
 
 import { useAdminReview } from '@/components/pages/admin/submissions/ReviewContext';

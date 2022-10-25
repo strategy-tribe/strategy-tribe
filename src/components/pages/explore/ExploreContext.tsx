@@ -2,7 +2,7 @@ import { createContext, ReactNode, useContext } from 'react';
 
 import { useGetBounties } from '@/lib/hooks/bountyHooks';
 import { useUrlSearchParams } from '@/lib/hooks/useUrlSearchParams';
-import { MapData } from '@/lib/models/map/MapData';
+import { MapData } from '@/lib/models/MapData';
 
 interface iExploreContext {
   bountyFetch: ReturnType<typeof useGetBounties> | undefined;
@@ -47,7 +47,8 @@ export const ExploreContextProvider = ({
   function removeCountry(country: string) {
     if (!query.countries?.includes(country)) return;
     else {
-      const countries = query.countries.filter((c) => c !== country) || [];
+      const countries =
+        query.countries.filter((c: string) => c !== country) || [];
       setUrlFilter({ ...query, countries });
     }
   }

@@ -1,0 +1,238 @@
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum TargetType {
+  ORG
+  INDIVIDUAL
+}
+
+enum BountyState {
+  WaitingForFunds
+  Open
+  PaymentNeeded
+  Closed
+}
+
+enum SubmissionState {
+  WaitingForReview
+  Rejected
+  WaitingForPayment
+  Accepted
+}
+
+model Target {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  name        String   @unique
+  alsoKnownAs String[]
+  description String?
+
+  bounties Bounty[]
+
+  org            Organization @relation(fields: [organizationId], references: [id])
+  organizationId String       @db.ObjectId
+
+  type TargetType
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+}
+
+model Country {
+  id   String @id @default(auto()) @map("_id") @db.ObjectId
+  name String @unique
+  code String @unique
+
+  organizations    Organization[] @relation(fields: [organizationsIds], references: [id])
+  organizationsIds String[]       @db.ObjectId
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+}
+
+model Tag {
+  id   String @id @default(auto()) @map("_id") @db.ObjectId
+  name String @unique
+
+  bountiesIDs String[] @db.ObjectId
+  bounties    Bounty[] @relation(fields: [bountiesIDs], references: [id])
+
+  orgsIDs String[]       @db.ObjectId
+  orgs    Organization[] @relation(fields: [orgsIDs], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+}
+
+model Wallet {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  address   String   @unique
+  bounty    Bounty?
+  key       Key?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+  balance   Int
+}
+
+model Key {
+  id       String @id @default(auto()) @map("_id") @db.ObjectId
+  key      String
+  wallet   Wallet @relation(fields: [walletId], references: [id])
+  walletId String @unique
+}
+
+model Bounty {
+  id    String @id @default(auto()) @map("_id") @db.ObjectId
+  slug  String @unique @default(uuid())
+  title String @unique
+
+  description String
+
+  requirements Requirement[]
+
+  target   Target @relation(fields: [targetId], references: [id])
+  targetId String @db.ObjectId
+
+  status BountyState
+
+  tags    Tag[]    @relation(fields: [tagsIDs], references: [id])
+  tagsIDs String[] @db.ObjectId
+
+  submissions Submission[]
+
+  wallet   Wallet? @relation(fields: [walletId], references: [id])
+  walletId String? @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+  closesAt  DateTime
+  Invoice   Invoice?
+}
+
+model Organization {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  name        String   @unique
+  alsoKnownAs String[]
+  bio         String?
+  why         String?
+  links       String[]
+
+  tags    Tag[]    @relation(fields: [tagsIDs], references: [id])
+  tagsIDs String[] @db.ObjectId
+
+  countries    Country[] @relation(fields: [countriesIDs], references: [id])
+  countriesIDs String[]  @db.ObjectId
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+
+  targets Target[]
+}
+
+model Submission {
+  id              String          @id @default(auto()) @map("_id") @db.ObjectId
+  author          User            @relation(fields: [authorId], references: [id])
+  authorId        String          @map("userId") @db.ObjectId
+  state SubmissionState
+
+  answers String[]
+
+  bounty   Bounty? @relation(fields: [bountyId], references: [id])
+  bountyId String? @db.ObjectId
+
+  review Review?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+
+  Invoice Invoice?
+}
+
+model Review {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  reviewer   User   @relation(fields: [reviewerId], references: [id])
+  reviewerId String @db.ObjectId
+
+  content String
+
+  submission   Submission @relation(fields: [submissionId], references: [id])
+  submissionId String     @unique
+
+  grade ReviewGrade
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+}
+
+model Invoice {
+  id           String     @id @default(auto()) @map("_id") @db.ObjectId
+  submission   Submission @relation(fields: [submissionId], references: [id])
+  submissionId String     @unique
+
+  bounty   Bounty @relation(fields: [bountyId], references: [id])
+  bountyId String @unique
+
+  status InvoiceStatus
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+}
+
+enum InvoiceStatus {
+  Paid
+  Unpaid
+  Error
+}
+
+enum ReviewGrade {
+  Accepted
+  Rejected
+}
+
+model Requirement {
+  id       String          @id @default(auto()) @map("_id") @db.ObjectId
+  title    String
+  type     RequirementType
+  optional Boolean
+  bounty   Bounty?         @relation(fields: [bountyId], references: [id])
+  bountyId String?         @db.ObjectId
+}
+
+enum RequirementType {
+  IMAGE
+  REPORT
+  WALLET
+  DOMAIN
+  PHONE_NUMBER
+  SOCIAL_MEDIA_ACCOUNT
+  EMAIL
+}
+
+//Users:--------------------------------------------------------------------------------
+model User {
+  id        String @id @default(auto()) @map("_id") @db.ObjectId
+  moralisId String @unique
+  signature String @unique
+
+  submissions Submission[]
+  address     String       @unique
+  rol         Rol
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+
+  review Review[]
+}
+
+enum Rol {
+  REGULAR
+  STAFF
+  ADMIN
+}

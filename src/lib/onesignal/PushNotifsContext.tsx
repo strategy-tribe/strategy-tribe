@@ -3,8 +3,6 @@ import { createContext, useContext, useState } from 'react';
 import OneSignal from 'react-onesignal';
 import { useQuery } from 'react-query';
 
-import { CloudFunctionResponse } from '@/lib/moralis/utils/CloudFunctionResponse';
-
 import {
   DelayType,
   NotificationStyle,
@@ -25,22 +23,15 @@ interface PushNotifsContextInterface {
   initialized: boolean | undefined;
   activateNotifs: () => void;
   areNotifsEnabled: () => Promise<boolean>;
-  subscribeToOrg: (
-    userId: string,
-    orgName: string
-  ) => Promise<CloudFunctionResponse | undefined>;
+  subscribeToOrg: (userId: string, orgName: string) => Promise<any | undefined>;
   unsubscribeToOrg: (
     userId: string,
     orgName: string
-  ) => Promise<CloudFunctionResponse | undefined>;
+  ) => Promise<any | undefined>;
   isSubscribed: (userId: string, orgName: string) => Promise<boolean>;
   isSubscribedToAll: (userId: string) => Promise<boolean>;
-  subscribeToAllOrgs: (
-    userId: string
-  ) => Promise<CloudFunctionResponse | undefined>;
-  unsubscribeFromAllOrgs: (
-    userId: string
-  ) => Promise<CloudFunctionResponse | undefined>;
+  subscribeToAllOrgs: (userId: string) => Promise<any | undefined>;
+  unsubscribeFromAllOrgs: (userId: string) => Promise<any | undefined>;
 }
 
 const PushNotifsContext = createContext<PushNotifsContextInterface>({

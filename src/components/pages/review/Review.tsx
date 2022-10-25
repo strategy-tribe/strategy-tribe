@@ -1,20 +1,20 @@
+import { Submission, SubmissionState } from '@prisma/client';
 import { useAuth } from 'auth/AuthContext';
 import { useEffect, useState } from 'react';
 import ReactTextareaAutosize from 'react-textarea-autosize';
 
-import { Submission as SubmissionData, SubmissionState } from '@/lib/models';
 import { GetWordCount } from '@/lib/utils/StringHelpers';
 
+import { SubmissionStateDisplayer } from '@/components/pages/bounty/SubmissionStatus';
+import { SubmitReviewButton } from '@/components/pages/submission/new submission/review/Evaluate';
 import Icon, { IconSize } from '@/components/utils/Icon';
+import { RenderMarkdown } from '@/components/utils/RenderMarkdown';
 
-import { RenderMarkdown } from '../../utils/RenderMarkdown';
-import { SubmissionStatus } from '../bounty/SubmissionStatus';
-import { SubmitReviewButton } from '../submission/new submission/review/Evaluate';
 import { ReviewCheck } from './ReviewCheck';
 import { ReviewMap } from './ReviewMap';
 import { ReviewView } from './ReviewView';
 
-export function Review({ submission }: { submission: SubmissionData }) {
+export function Review({ submission }: { submission: Submission }) {
   const [carefullyRead, setCarefullyRead] = useState(false);
 
   const [feasible, setFeasible] = useState(false);
@@ -35,7 +35,7 @@ export function Review({ submission }: { submission: SubmissionData }) {
   const meetsRequirements = correct && feasible;
   return (
     <div className="flex gap-x-16">
-      <ReviewMap submission={submission} />
+      <ReviewMap submission={submission} requirements={[]} />
 
       <div className="space-y-4 w-full max-w-4xl">
         <h1 className="h4">Reviewing submission</h1>
@@ -156,12 +156,14 @@ export function Review({ submission }: { submission: SubmissionData }) {
                 <span>Your review will set this submission as: </span>
                 <>
                   {meetsRequirements && (
-                    <SubmissionStatus
+                    <SubmissionStateDisplayer
                       status={SubmissionState.WaitingForPayment}
                     />
                   )}
                   {!meetsRequirements && (
-                    <SubmissionStatus status={SubmissionState.Rejected} />
+                    <SubmissionStateDisplayer
+                      status={SubmissionState.Rejected}
+                    />
                   )}
                 </>
               </div>

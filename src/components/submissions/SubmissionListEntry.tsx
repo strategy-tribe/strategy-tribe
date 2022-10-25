@@ -1,14 +1,14 @@
+import { Submission } from '@prisma/client';
 import { useAuth } from 'auth/AuthContext';
 import { useRouter } from 'next/router';
 
 import { useGetBounty } from '@/lib/hooks/bountyHooks';
-import { Submission } from '@/lib/models';
 import { GetDateInString } from '@/lib/utils/DateHelpers';
 import { GoToSubmissionPage } from '@/lib/utils/Routes';
 
 import { DelayType, NotificationType } from '../notifications/iNotification';
 import { useNotification } from '../notifications/NotificationContext';
-import { SubmissionStatus } from '../pages/bounty/SubmissionStatus';
+import { SubmissionStateDisplayer } from '../pages/bounty/SubmissionStatus';
 
 export function SubmissionListEntry({
   submission,
@@ -17,7 +17,7 @@ export function SubmissionListEntry({
 }) {
   const router = useRouter();
 
-  const { bounty, isLoading } = useGetBounty(submission.bountyId);
+  const { bounty, isLoading } = useGetBounty(submission.bountyId ?? '');
 
   const { isAdmin, isStaff } = useAuth();
 
@@ -33,7 +33,7 @@ export function SubmissionListEntry({
       <div className="grid grid-cols-6 gap-x-4 w-[66%]">
         <div className="flex flex-col items-start col-span-4">
           <div className="flex gap-2">
-            {bounty.tags?.map((tag) => {
+            {/* {bounty.tags?.map((tag) => {
               return (
                 <span
                   className="label-sm text-on-surface-unactive capitalize"
@@ -42,7 +42,7 @@ export function SubmissionListEntry({
                   {tag}
                 </span>
               );
-            })}
+            })} */}
           </div>
 
           <div className="group">
@@ -50,7 +50,7 @@ export function SubmissionListEntry({
               onClick={() => router.push(GoToSubmissionPage(submission.id))}
               className="title-xs group-hover:underline text-left"
             >
-              {bounty.title}
+              {/* {bounty.title} */}
             </button>
 
             <div className="bg-surface-dark px-4 py-2 rounded absolute left-0 top-0 group-hover:visible invisible pointer-events-none group-hover:pointer-events-auto translate-x-12 -translate-y-8">
@@ -59,12 +59,12 @@ export function SubmissionListEntry({
           </div>
 
           <p className="text-on-surface-unactive">
-            {submission.answers.at(0)?.answer}...
+            {submission.answers.at(0)}...
           </p>
         </div>
 
         <div className="place-self-center col-span-2">
-          <SubmissionStatus status={submission.state} />
+          <SubmissionStateDisplayer status={submission.state} />
         </div>
       </div>
 
@@ -73,9 +73,9 @@ export function SubmissionListEntry({
           <button
             className="place-self-center group text-right grow col-span-1"
             onClick={() => {
-              navigator.clipboard.writeText(submission.owner);
+              navigator.clipboard.writeText(submission.authorId);
               notify(
-                { title: 'Copied', content: submission.owner },
+                { title: 'Copied', content: submission.authorId },
                 {
                   condition: false,
                   delayTime: 2,
@@ -87,13 +87,13 @@ export function SubmissionListEntry({
           >
             <span className="block title">User ID:</span>
             <span className="group-hover:underline text-on-surface-unactive label-sm pt-1">
-              {cutString(submission.owner)}
+              {cutString(submission.authorId)}
             </span>
           </button>
         )}
 
         <div className="place-self-center flex flex-col items-end shrink-0 grow col-span-3">
-          <span className="title">{bounty.funds} MATIC</span>
+          {/* <span className="title">{bounty.funds} MATIC</span> */}
           <span className="text-on-surface-unactive label-sm pt-1">
             {GetDateInString(submission.createdAt)} ago
           </span>

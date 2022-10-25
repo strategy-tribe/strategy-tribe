@@ -1,8 +1,9 @@
-import { GoToBountiesPage } from '@/utils/Routes';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import router from 'next/router';
-import React from 'react';
+
+import { GoToBountiesPage } from '@/utils/Routes';
+
 import { Button, ButtonStyle } from '../../utils/Button';
 import { Section } from './Section';
 
@@ -30,7 +31,7 @@ export function Privacy() {
       >
         <Section className="flex flex-col items-center justify-center gap- text-center">
           <figure className=" translate-y-0  grow shrink-0 h-[10rem] laptop:h-[20rem] min-w-[10rem]">
-            <Image src="/illustrations/shield.svg" layout="fill" />
+            <Image src="/illustrations/shield.svg" alt="Shield illustration" />
           </figure>
 
           <div className="laptop:max-w-[50%] flex flex-col gap-6 items-center">
