@@ -29,7 +29,7 @@ interface iNewSubmissionContext {
   backToEdit: () => void;
   requirementsFullfiled: boolean;
   ctaButton: ButtonInformation | undefined;
-  bounty: FullBounty | undefined;
+  bounty: FullBounty | undefined | null;
   cleanSubmissionFromStorage: () => void;
   attachments: File[];
   setAttachments: (s: File[]) => void;

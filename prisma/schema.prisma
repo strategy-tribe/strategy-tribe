@@ -136,10 +136,10 @@ model Organization {
 }
 
 model Submission {
-  id              String          @id @default(auto()) @map("_id") @db.ObjectId
-  author          User            @relation(fields: [authorId], references: [id])
-  authorId        String          @map("userId") @db.ObjectId
-  state SubmissionState
+  id       String          @id @default(auto()) @map("_id") @db.ObjectId
+  author   User            @relation(fields: [authorId], references: [id])
+  authorId String          @map("userId") @db.ObjectId
+  state    SubmissionState
 
   answers String[]
 

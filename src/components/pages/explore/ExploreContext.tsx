@@ -29,7 +29,7 @@ export const ExploreContextProvider = ({
   data,
 }: {
   children: ReactNode;
-  data: MapData;
+  data: MapData | undefined;
 }) => {
   const {
     urlFilter: { query },

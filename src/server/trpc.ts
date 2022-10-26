@@ -13,7 +13,7 @@ export const publicProcedure = t.procedure;
  * Reusable middleware that checks if users are authenticated.
  * @note Example only, yours may vary depending on how your auth is setup
  **/
-const isAuthed = t.middleware(({ next }) => {
+const isAuthed = t.middleware(({ next, ctx }) => {
   return next({
     ctx: {
       // Infers the `session` as non-nullable

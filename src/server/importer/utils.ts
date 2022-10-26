@@ -3,7 +3,7 @@ export const IND_PREFIX = 'ind_';
 
 export function LOG(msg: string) {
   // eslint-disable-next-line no-console
-  console.log(msg);
+  // console.log(msg);
 }
 
 export function ERROR(msg: string, throwIt = true) {

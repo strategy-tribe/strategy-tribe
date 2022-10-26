@@ -14,6 +14,7 @@ export const useSignIn = () => {
 
   async function handleAuth() {
     try {
+      // console.log('trying to connect');
       if (isConnected) {
         await disconnectAsync();
       }

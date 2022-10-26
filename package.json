@@ -14,7 +14,8 @@
     "build": "next build",
     "start": "next start",
     "format": "yarn prisma format",
-    "generate": "yarn prisma generate"
+    "generate": "yarn prisma generate",
+    "studio": "yarn prisma studio"
   },
   "dependencies": {
     "@nivo/core": "^0.79.0",

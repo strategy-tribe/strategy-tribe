@@ -4,11 +4,8 @@ import { useMemo } from 'react';
 import { BountyUrl } from '@/lib/models/BountyUrl';
 import { BountyView } from '@/lib/models/BountyView';
 
-import { GoTo404Page } from '../utils/Routes';
-import { useIsValidView } from './isValidUrl';
-
 export const useBountyUrl = () => {
-  useIsValidView(Object.values(BountyView), GoTo404Page());
+  // useIsValidView(Object.values(BountyView), GoTo404Page());
 
   const router = useRouter();
 

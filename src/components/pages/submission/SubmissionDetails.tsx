@@ -1,5 +1,3 @@
-import { SubmissionState } from '@prisma/client';
-
 import { GetDateInString } from '@/lib/utils/DateHelpers';
 
 import { useSubmissionContext } from './SubmissionContext';
@@ -32,7 +30,7 @@ export function SubmissionDetails() {
           </>
         )}
 
-        {submission.state ===
+        {/* {submission.state ===
           (SubmissionState.Accepted || SubmissionState.WaitingForPayment) && (
           <>
             <SubmissionDetail
@@ -40,7 +38,7 @@ export function SubmissionDetails() {
               value={`${bounty?.wallet.balance} MATIC`}
             />
           </>
-        )}
+        )} */}
 
         <SubmissionDetail label="Status" value={submission.state} />
 

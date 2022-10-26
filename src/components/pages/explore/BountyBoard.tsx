@@ -1,18 +1,18 @@
 import { useUrlSearchParams } from '@/lib/hooks/useUrlSearchParams';
-import { FullBounty } from '@/lib/types';
 
 import { Button, ButtonStyle } from '@/components/utils/Button';
 import Loading from '@/components/utils/Loading';
 
 import { Section } from '../landing/Section';
 import { BountyCard } from './bounty card/BountyCard';
+import { useExploreContext } from './ExploreContext';
 import { DEFAULT_FILTER } from './filters/DefaultFilter';
 
 export function BountyBoard() {
-  // const { bountyFetch } = useExploreContext();
+  const { bountyFetch } = useExploreContext();
 
-  const isPreviousData = true;
-  const bounties: FullBounty[] = [];
+  const bounties = bountyFetch?.bounties;
+  const isLoading = bountyFetch?.isLoading;
 
   const { setUrlFilter } = useUrlSearchParams();
 
@@ -20,7 +20,7 @@ export function BountyBoard() {
     setUrlFilter({ type: DEFAULT_FILTER.type });
   }
 
-  if (isPreviousData) return <Loading />;
+  if (isLoading) return <Loading />;
 
   if (bounties?.length)
     return (

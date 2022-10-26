@@ -20,7 +20,7 @@ export function BountyCard({ bounty }: { bounty: FullBounty }) {
         className={`absolute inset-0 group-hover:bg-surface z-0 rounded origin-left ${expandBg} ${animClasses} ${moveBgtoLeft}`}
       ></div>
 
-      <Link href={GoToBountyPage(bounty.id)}>
+      <Link href={GoToBountyPage(bounty.slug)}>
         <span className={`relative flex flex-col gap-4 z-10 ${animClasses}`}>
           <header className="flex justify-between gap-4">
             <div>

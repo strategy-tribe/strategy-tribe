@@ -24,8 +24,8 @@ export function OrgEntry({
           {org.name}
         </h3>
         <span className="text-main-light shrink-0 label mt-1">
-          {org.amountOfBounties}{' '}
-          {org.amountOfBounties === 1 ? 'bounty' : 'bounties'}
+          {org._count.targets}{' '}
+          {org._count.targets === 1 ? 'bounty' : 'bounties'}
         </span>
       </div>
       {org.bio && (

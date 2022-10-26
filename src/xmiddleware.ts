@@ -9,12 +9,13 @@ export default withAuth({
   },
   callbacks: {
     authorized: ({ req, token }) => {
-      if (req.url.includes('api/admin') && token?.user.rol !== 'ADMIN') {
-        return false;
-      } else if (req.url.includes('/static')) {
-        return true;
-      }
-      return !!token;
+      return true;
+      // if (req.url.includes('api/admin') && token?.user.rol !== 'ADMIN') {
+      //   return false;
+      // } else if (req.url.includes('/static')) {
+      //   return true;
+      // }
+      // return !!token;
     },
   },
 });

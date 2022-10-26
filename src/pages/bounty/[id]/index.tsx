@@ -11,69 +11,6 @@ import Loading from '@/components/utils/Loading';
 
 import { NextPageWithLayout } from '@/pages/_app';
 
-// export const getStaticPaths: GetStaticPaths = async () => {
-//   const moralis_serverUrl = process.env.NEXT_PUBLIC_SERVER_URL;
-//   const moralis_appId = process.env.NEXT_PUBLIC_APP_ID;
-
-//   await Moralis.start({
-//     serverUrl: moralis_serverUrl,
-//     appId: moralis_appId,
-//   });
-
-//   const response = await Moralis.Cloud.run('getBountiesIds');
-//   const ids: string[] = response.ids;
-
-//   const paths = ids.map((id) => {
-//     return { params: { id } };
-//   });
-
-//   return {
-//     fallback: 'blocking',
-//     paths,
-//   };
-// };
-
-// export const getStaticProps: GetStaticProps = async (context) => {
-//   const id = context?.params?.id;
-
-//   if (id as string) {
-//     const queryClient = new QueryClient();
-
-//     const moralis_serverUrl = process.env.NEXT_PUBLIC_SERVER_URL;
-//     const moralis_appId = process.env.NEXT_PUBLIC_APP_ID;
-
-//     await Moralis.start({
-//       serverUrl: moralis_serverUrl,
-//       appId: moralis_appId,
-//     });
-
-//     const queryId = [Queries.OneBounty, id];
-//     const { fetch } = Moralis_useGetBounty(id as string, Moralis);
-
-//     let bounty: any;
-//     await queryClient.prefetchQuery(queryId, async () => {
-//       bounty = await fetch();
-//       return bounty;
-//     });
-
-//     if (!bounty) {
-//       return {
-//         notFound: true,
-//       };
-//     }
-//     return {
-//       props: {
-//         dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
-//       },
-//       revalidate: 10,
-//     };
-//   } else {
-//     return {
-//       notFound: true,
-//     };
-//   }
-// };
-
 const BountyPage: NextPageWithLayout = () => {
   //*Router
   const router = useRouter();

@@ -21,7 +21,7 @@ export function BountyMoreDetails() {
 
       <div className="p-4 space-y-8">
         <Stat title="Bounty ID" content={bounty.id} copyable />
-        <Stat title="Funds address" content={bounty.wallet.address} copyable />
+        {/* <Stat title="Funds address" content={bounty.wallet.address} copyable /> */}
 
         <Stat
           title="Additional info"

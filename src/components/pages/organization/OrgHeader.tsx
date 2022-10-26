@@ -21,7 +21,7 @@ export function OrgHeader() {
         </div>
 
         <div className="flex gap-8 items-center">
-          <OrgStat value={org.amountOfBounties.toString()} label="Bounties" />
+          <OrgStat value={org._count.targets.toString()} label="Bounties" />
           <div className="bg-surface-dark w-0.5 h-10" />
           {/* <OrgStat value={`${org.funds} MATIC`} label="In bounties" /> */}
           <div className="bg-surface-dark w-0.5 h-10" />

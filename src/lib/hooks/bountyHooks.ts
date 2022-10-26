@@ -1,76 +1,83 @@
 import { Requirement, Target } from '@prisma/client';
+import { useEffect, useState } from 'react';
 
 import { BountyQueryParams } from '@/lib/models/BountyQueryParams';
+import { trpc } from '@/lib/trpc';
+
+import { Order } from '../models/Order';
+import { FullBounty } from '../types';
 
 //!Get All
 export const useGetBounties = (config: BountyQueryParams, enabled = true) => {
-  // const { isInitialized } = useMoralis();
-  // const page = config.page || 0;
-  // const { fetch } = Moralis_useGetBounties(config);
+  const page = config.page || 0;
 
-  // const [numOfPages, setNumOfPages] = useState(0);
+  const [numOfPages, setNumOfPages] = useState(0);
 
-  // const queryId = [Queries.AllBounties, config, config.page];
+  const { error, isLoading, data, isFetching } =
+    trpc.bounty.getBounties.useQuery(
+      {
+        order: Order.Desc,
+        amount: 100,
+      },
+      {
+        getPreviousPageParam: (lastFecthResult) => {
+          // const { hasLess, page } = lastFecthResult;
+          // if (hasLess) return page - 1;
+          return false;
+        },
+        getNextPageParam: (lastFecthResult) => {
+          // const { hasMore, page } = lastFecthResult;
+          // if (hasMore) return page + 1;
+          return false;
+        },
+        enabled: true,
+        keepPreviousData: config.paginate,
+        refetchOnWindowFocus: false,
+      }
+    );
 
-  // const { error, isLoading, data, isFetching, isPreviousData } = useQuery(
-  //   queryId,
-  //   () => fetch(),
-  //   {
-  //     getPreviousPageParam: (lastPackage) => {
-  //       const { hasLess, page } = lastPackage;
-  //       if (hasLess) return page - 1;
-  //       else return false;
-  //     },
-  //     getNextPageParam: (lastPackage) => {
-  //       const { hasMore, page } = lastPackage;
-  //       if (hasMore) return page + 1;
-  //       else return false;
-  //     },
-  //     enabled: isInitialized && enabled,
-  //     keepPreviousData: config.paginate,
-  //     refetchOnWindowFocus: false,
-  //   }
-  // );
+  useEffect(() => {
+    if (data && config.amount && config.paginate) {
+      // const { count } = data;
+      const count = 10;
+      const _numOfPages = Math.floor((count - 1) / config.amount + 1);
 
-  // useEffect(() => {
-  //   if (data && config.amount && config.paginate) {
-  //     const { count } = data;
-  //     const _numOfPages = Math.floor((count - 1) / config.amount + 1);
+      setNumOfPages(_numOfPages);
+    } else {
+      setNumOfPages(0);
+    }
+  }, [data, config]);
 
-  //     setNumOfPages(_numOfPages);
-  //   } else {
-  //     setNumOfPages(0);
-  //   }
-  // }, [data, config]);
+  const bounties: FullBounty[] = data?.bounties ?? [];
 
   return {
-    isLoading: true,
-    bounties: [],
-    isFetching: true,
-    page: 0,
-    numOfPages: 0,
-    count: 0,
+    isLoading,
+    bounties,
+    isFetching: isFetching,
+    page,
+    numOfPages,
+    count: 10,
     hasNextPage: false,
     hasPreviousPage: false,
     isPreviousData: false,
-    error: undefined,
+    error,
   };
 };
 
 //!Get one
-export const useGetBounty = (id: string, enabled = true) => {
-  // const { fetch } = Moralis_useGetBounty(id);
-  // const { isInitialized } = useMoralis();
+export const useGetBounty = (slug: string, enabled = true) => {
+  const { error, isLoading, data } = trpc.bounty.getBounty.useQuery(
+    {
+      slug,
+    },
+    { enabled }
+  );
 
-  // const { data, isLoading, error } = useQuery(
-  //   [Queries.OneBounty, id],
-  //   () => fetch(),
-  //   {
-  //     enabled: isInitialized && enabled,
-  //   }
-  // );
-
-  return { bounty: undefined, isLoading: true, error: undefined };
+  return {
+    bounty: data?.bounty ?? undefined,
+    error,
+    isLoading,
+  };
 };
 
 //!Put one

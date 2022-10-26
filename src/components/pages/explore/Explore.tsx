@@ -1,8 +1,4 @@
-import dynamic from 'next/dynamic';
-import { useRouter } from 'next/router';
-
 import { MapData } from '@/lib/models/MapData';
-import { GoTo404Page } from '@/lib/utils/Routes';
 
 import Loading from '@/components/utils/Loading';
 
@@ -12,11 +8,11 @@ import { BountyBoard } from './BountyBoard';
 import { ExploreContextProvider, useExploreContext } from './ExploreContext';
 import { ExploreFilters } from './filters/ExploreFilters';
 
-const Map = dynamic(import('./map/MapProjection'), {
-  ssr: false,
-});
+// const Map = dynamic(import('./map/MapProjection'), {
+//   ssr: false,
+// });
 
-export function Explore({ data }: { data: MapData }) {
+export function Explore({ data }: { data: MapData | undefined }) {
   return (
     <>
       <ExploreContextProvider data={data}>
@@ -32,46 +28,37 @@ function ExploreContent() {
   const bounties = bountyFetch?.bounties ?? [];
   const error = bountyFetch?.error ?? '';
 
-  const router = useRouter();
+  // // const router = useRouter();
+  // console.log('here');
 
   if (error) {
-    router.push(GoTo404Page());
+    console.error(error);
+    // router.push(GoTo404Page());
+    return <></>;
   }
 
   return (
     <>
       <div>
-        {!!error && (
-          <p className="w-full text-center text-error-light label">
-            There has been an error.
-            <br />
-            {`${error}`}
-          </p>
-        )}
+        {/* <Section>{!!Map && <Map />}</Section> */}
 
-        {!error && (
-          <>
-            <Section>{!!Map && <Map />}</Section>
-
-            <div className="space-y-8 min-h-screen">
-              {!!bounties && (
-                <>
-                  <Section>
-                    <ExploreFilters />
-                  </Section>
-                  <div className="space-y-8">
-                    <PageNumber />
-                    <BountyBoard />
-                  </div>
-                  <div className="flex justify-center">
-                    <PageControls />
-                  </div>
-                </>
-              )}
-              {!!isLoading && <Loading small />}
-            </div>
-          </>
-        )}
+        <div className="space-y-8 min-h-screen">
+          {!!bounties && (
+            <>
+              <Section>
+                <ExploreFilters />
+              </Section>
+              <div className="space-y-8">
+                <PageNumber />
+                <BountyBoard />
+              </div>
+              <div className="flex justify-center">
+                <PageControls />
+              </div>
+            </>
+          )}
+          {!!isLoading && <Loading small />}
+        </div>
       </div>
     </>
   );

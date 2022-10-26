@@ -18,16 +18,20 @@ import {
  *  TODO: Remove the private key from the Wallet type
  */
 export type FullBounty = Bounty & {
-  wallet: Wallet;
+  wallet: Wallet | null;
   tags: Tag[];
   requirements: Requirement[];
   target: FullTarget;
-  submissionsCount: number;
+  _count: {
+    submissions: number;
+  };
 };
 
 export type FullOrganization = Organization & {
   countries: Country[];
-  amountOfBounties: number;
+  _count: {
+    targets: number;
+  };
   tags: Tag[];
 };
 

@@ -6,7 +6,7 @@ import { IND_PREFIX, LOG, ORG_PREFIX } from './utils';
 
 const FILE_NAME = resolve(
   __dirname.replace('/.next/server', ''),
-  `@/public/static/sheet_data.json`
+  `/public/static/sheet_data.json`
 );
 
 export async function DownloadData() {

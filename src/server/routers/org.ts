@@ -1,3 +1,4 @@
+import { Organization } from '@prisma/client';
 import { z } from 'zod';
 
 import prisma from '@/lib/prisma/prismaClient';
@@ -38,20 +39,21 @@ export const orgRouter = router({
       })
     )
     .query(async ({ input: { name } }) => {
-      const organization = await prisma.organization.findUnique({
-        where: {
-          name,
-        },
-        include: {
-          tags: true,
-          countries: true,
-          targets: {
-            include: {
-              bounties: true,
+      const organization: Organization | null =
+        await prisma.organization.findUnique({
+          where: {
+            name,
+          },
+          include: {
+            tags: true,
+            countries: true,
+            targets: {
+              include: {
+                bounties: true,
+              },
             },
           },
-        },
-      });
+        });
       return { organization };
     }),
 });

@@ -1,6 +1,8 @@
 import { TargetType } from '@prisma/client';
-import { signIn, signOut, useSession } from 'next-auth/react';
+import { signOut, useSession } from 'next-auth/react';
 import React, { createContext, useContext, useMemo } from 'react';
+
+import { useSignIn } from '@/lib/useSignIn';
 
 interface AuthContextInterface {
   userId: string | undefined;
@@ -42,7 +44,8 @@ const AuthContextProvider = ({
   children: React.ReactNode[] | React.ReactNode;
 }) => {
   const { data, status } = useSession();
-  signIn;
+
+  const { signIn } = useSignIn();
 
   const userInfo: UserInfo | undefined = useMemo(() => {
     if (!data) return undefined;

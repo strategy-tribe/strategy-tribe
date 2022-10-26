@@ -15,6 +15,7 @@ export const useIsValidView = (
     const value = urlQuery[key] as string;
 
     if (value && !validValues.includes(value)) {
+      // console.log('redirecting');
       router.push(redirect);
     }
   }, [router, redirect, validValues, key]);

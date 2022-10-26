@@ -1,3 +1,5 @@
+import { trpc } from '../trpc';
+
 export const useGetAllOrganizations = (enabled = true) => {
   // const { fetch } = Moralis_useGetOrganizations();
 
@@ -29,19 +31,17 @@ export const useGetOrganization = (orgId: string, enabled = true) => {
   };
 };
 
-export const useGetOrganizationByName = (orgName: string, enabled = true) => {
-  // const { fetch } = Moralis_useGetOrganizationByname(orgName);
-
-  // const { isLoading, data } = useQuery(
-  //   [Queries.Organizations, orgName],
-  //   () => fetch(),
-  //   {
-  //     enabled,
-  //   }
-  // );
+export const useGetOrganizationByName = (name: string, enabled = true) => {
+  const { error, isLoading, data } = trpc.orgs.getOrg.useQuery(
+    {
+      name,
+    },
+    { enabled }
+  );
 
   return {
-    isLoading: true,
-    organization: undefined,
+    error,
+    isLoading,
+    organization: data?.organization,
   };
 };
