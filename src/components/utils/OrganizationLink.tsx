@@ -1,13 +1,13 @@
-import { useGetOrganizationByName } from '@/hooks/organizationHooks';
+import { useGetOrganization } from '@/hooks/organizationHooks';
 
 export function OrganizationLink({
   orgName,
-  className = 'text-main-light font-medium w-fit hover:underline',
+  className = 'font-medium text-main-light w-fit hover:underline',
 }: {
   orgName: string;
   className?: string;
 }) {
-  const { organization } = useGetOrganizationByName(orgName);
+  const { organization } = useGetOrganization({name: orgName});
 
   return <></>;
 
@@ -20,7 +20,7 @@ export function OrganizationLink({
 
 export function BountyLink({
   bountyId: bountyId,
-  className = 'text-main-light font-medium w-fit hover:underline',
+  className = 'font-medium text-main-light w-fit hover:underline',
 }: {
   bountyId: string;
   className?: string;

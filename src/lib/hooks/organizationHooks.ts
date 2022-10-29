@@ -1,47 +1,47 @@
 import { trpc } from '../trpc';
+import { FullOrganization } from '../types';
 
 export const useGetAllOrganizations = (enabled = true) => {
-  // const { fetch } = Moralis_useGetOrganizations();
-
-  // const { isLoading, data } = useQuery([Queries.Organizations], () => fetch(), {
-  //   enabled,
-  // });
+  const { error, isLoading, data, isFetching } =
+    trpc.orgs.getOrgs.useQuery(
+      {
+      },
+      {
+        enabled
+      }
+    );
+  const organizations: FullOrganization[] = data?.organizations ?? [];
 
   return {
-    isLoading: true,
-    organizations: [],
+    isLoading: isLoading,
+    organizations: organizations,
   };
 };
 
-export const useGetOrganization = (orgId: string, enabled = true) => {
-  // const { fetch } = Moralis_useGetOrganization(orgId);
-
-  // const { isLoading, data, error } = useQuery(
-  //   [Queries.Organizations, orgId],
-  //   () => fetch(),
-  //   {
-  //     enabled,
-  //   }
-  // );
-
-  return {
-    isLoading: true,
-    organization: undefined,
-    error: undefined,
-  };
-};
-
-export const useGetOrganizationByName = (name: string, enabled = true) => {
+export const useGetOrganization = (where: {id?:string, name?:string}, enabled = true) => {
   const { error, isLoading, data } = trpc.orgs.getOrg.useQuery(
-    {
-      name,
-    },
+    where,
     { enabled }
   );
 
   return {
-    error,
-    isLoading,
-    organization: data?.organization,
+    isLoading: isLoading,
+    organization: data?.organization ?? [],
+    error: error,
   };
 };
+
+// export const useGetOrganizationByName = (name: string, enabled = true) => {
+//   const { error, isLoading, data } = trpc.orgs.getOrg.useQuery(
+//     {
+//       name,
+//     },
+//     { enabled }
+//   );
+
+//   return {
+//     error,
+//     isLoading,
+//     organization: data?.organization,
+//   };
+// };

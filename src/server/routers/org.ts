@@ -1,8 +1,6 @@
+import prisma from '@/lib/prisma/prismaClient';
 import { Organization } from '@prisma/client';
 import { z } from 'zod';
-
-import prisma from '@/lib/prisma/prismaClient';
-
 import { publicProcedure, router } from '../trpc';
 
 export const orgRouter = router({
@@ -19,6 +17,15 @@ export const orgRouter = router({
           include: {
             tags: true,
             countries: true,
+            targets: {
+              include: {
+                _count: {
+                  select: {
+                    bounties: true,
+                  },
+                },
+              },
+            },
           },
         });
         return { organizations };
@@ -27,6 +34,15 @@ export const orgRouter = router({
           include: {
             tags: true,
             countries: true,
+            targets: {
+              include: {
+                _count: {
+                  select: {
+                    bounties: true,
+                  },
+                },
+              },
+            },
           },
         });
         return { organizations };
@@ -35,21 +51,25 @@ export const orgRouter = router({
   getOrg: publicProcedure
     .input(
       z.object({
-        name: z.string(),
+        id: z.string().optional(),
+        name: z.string().optional(),
       })
     )
-    .query(async ({ input: { name } }) => {
+    .query(async ({ input }) => {
       const organization: Organization | null =
         await prisma.organization.findUnique({
-          where: {
-            name,
-          },
+          where: input,
           include: {
             tags: true,
             countries: true,
             targets: {
               include: {
                 bounties: true,
+                _count: {
+                  select: {
+                    bounties: true,
+                  },
+                },
               },
             },
           },

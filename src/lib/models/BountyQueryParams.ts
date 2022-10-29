@@ -1,17 +1,17 @@
 import { BountyState, TargetType } from '@prisma/client';
-
 import { Order } from './Order';
+
 
 type OrgName = string;
 
 export interface BountyQueryParams {
   order: Order;
-  orderBy: BountyOrderBy;
+  orderBy?: BountyOrderBy;
   searchTerm?: string;
   paginate?: boolean;
   amount?: number;
   states?: BountyState[];
-  orgName?: string;
+  orgId?: string;
   relatedTo?: OrgName[];
   specificityOfOrgName?: 'Exact' | 'Loose';
   specificityOfTitle?: 'Exact' | 'Loose';

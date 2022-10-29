@@ -1,8 +1,8 @@
-import { createContext, ReactNode, useContext } from 'react';
-
 import { useGetBounties } from '@/lib/hooks/bountyHooks';
 import { useUrlSearchParams } from '@/lib/hooks/useUrlSearchParams';
 import { MapData } from '@/lib/models/MapData';
+import { createContext, ReactNode, useContext } from 'react';
+
 
 interface iExploreContext {
   bountyFetch: ReturnType<typeof useGetBounties> | undefined;

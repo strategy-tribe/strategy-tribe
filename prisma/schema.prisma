@@ -70,13 +70,14 @@ model Tag {
 }
 
 model Wallet {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  address   String   @unique
-  bounty    Bounty?
-  key       Key?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now())
-  balance   Int
+  id           String        @id @default(auto()) @map("_id") @db.ObjectId
+  address      String        @unique
+  bounty       Bounty?
+  key          Key?
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @default(now())
+  balance      Int
+  Organization Organization?
 }
 
 model Key {
@@ -129,6 +130,8 @@ model Organization {
   countries    Country[] @relation(fields: [countriesIDs], references: [id])
   countriesIDs String[]  @db.ObjectId
 
+  wallet    Wallet   @relation(fields: [walletId], references: [id])
+  walletId  String   @unique
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
 

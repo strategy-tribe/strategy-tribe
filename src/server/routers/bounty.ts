@@ -1,12 +1,12 @@
-import { BountyState } from '@prisma/client';
-import { z } from 'zod';
-
 import { BountyOrderBy } from '@/lib/models/BountyQueryParams';
 import { Order } from '@/lib/models/Order';
 import prisma from '@/lib/prisma/prismaClient';
 import { FullBounty } from '@/lib/types';
-
+import { BountyState } from '@prisma/client';
+import { z } from 'zod';
 import { publicProcedure, router } from '../trpc';
+
+
 
 export const bountyRouter = router({
   getBounty: publicProcedure
@@ -61,15 +61,17 @@ export const bountyRouter = router({
         searchTerm: z.string().optional(),
         paginate: z.boolean().optional(),
         amount: z.number().optional(),
-        state: z
+        states: z
           .enum([
             BountyState.Closed,
             BountyState.Open,
             BountyState.PaymentNeeded,
             BountyState.WaitingForFunds,
           ])
+          .array()
           .optional(),
-        orgs: z.string().array().optional(),
+        orgId: z.string().optional(),
+        relatedTo: z.string().array().optional(),
         specificityOfOrgName: z.enum(['Exact', 'Loose']).optional(),
         specificityOfTitle: z.enum(['Exact', 'Loose']).optional(),
         minBounty: z.number().optional(),
@@ -80,8 +82,19 @@ export const bountyRouter = router({
     )
     .query(async ({ input }) => {
       try {
+        let where = {};
+        if (input.orgId) {
+          where = { 
+            target: {
+              org: {
+                id: input.orgId
+              },
+            },
+           }
+        }
         //TODO: Use the input params to filter the bounties
         const bounties: FullBounty[] = await prisma.bounty.findMany({
+          where,
           take: input.amount,
           include: {
             _count: {

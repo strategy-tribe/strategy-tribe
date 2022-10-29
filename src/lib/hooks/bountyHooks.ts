@@ -1,11 +1,10 @@
-import { Requirement, Target } from '@prisma/client';
-import { useEffect, useState } from 'react';
-
 import { BountyQueryParams } from '@/lib/models/BountyQueryParams';
 import { trpc } from '@/lib/trpc';
-
-import { Order } from '../models/Order';
+import { Requirement, Target } from '@prisma/client';
+import { useEffect, useState } from 'react';
 import { FullBounty } from '../types';
+
+
 
 //!Get All
 export const useGetBounties = (config: BountyQueryParams, enabled = true) => {
@@ -15,24 +14,8 @@ export const useGetBounties = (config: BountyQueryParams, enabled = true) => {
 
   const { error, isLoading, data, isFetching } =
     trpc.bounty.getBounties.useQuery(
-      {
-        order: Order.Desc,
-        amount: 100,
-      },
-      {
-        getPreviousPageParam: (lastFecthResult) => {
-          // const { hasLess, page } = lastFecthResult;
-          // if (hasLess) return page - 1;
-          return false;
-        },
-        getNextPageParam: (lastFecthResult) => {
-          // const { hasMore, page } = lastFecthResult;
-          // if (hasMore) return page + 1;
-          return false;
-        },
-        enabled: true,
-        keepPreviousData: config.paginate,
-        refetchOnWindowFocus: false,
+      config, {
+        enabled: true
       }
     );
 
