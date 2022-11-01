@@ -20,8 +20,8 @@ export function BountyHeader() {
 
   const ETHERSCAN_LINK = process.env.NEXT_PUBLIC_ETHERSCAN_URL;
   const { organization } = useGetOrganization(
-    {name: bounty?.target.org.name as string},
-    Boolean(bounty?.target.org.name as string)
+    {id: bounty?.target.org.id as string},
+    Boolean(bounty?.target.org.id as string)
   );
   const [showDonation, setShowDonation] = useState(false);
 
@@ -40,7 +40,7 @@ export function BountyHeader() {
                   style: ButtonStyle.TextPurple,
                   removeMinWidth: true,
                   removePadding: true,
-                  label: bounty.target.org.name,
+                  label: organization.name,
                   labelClasses: 'capitalize',
                   isALink: GoToOrgPage(organization?.id as string),
                 }}
@@ -105,7 +105,7 @@ export function BountyHeader() {
               .filter((r) => !r.optional)
               .map((r) => r.title)}
           />
-          <FromOrganization orgName={organization?.name as string} />
+          {organization && (<FromOrganization orgId={organization?.id as string} />)}
         </Section>
 
         {/* CTAs */}
@@ -197,8 +197,8 @@ function SubmitButton() {
         style: ButtonStyle.Filled,
         label: 'Start new submission',
         icon: 'arrow_forward',
-        disabled: true,
-        onClick: () => router.push(GoToBeforeNewSubmissionPage(bounty.id)),
+        // disabled: true,
+        onClick: () => router.push(GoToBeforeNewSubmissionPage(bounty.slug)),
       }}
     />
   );

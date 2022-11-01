@@ -1,21 +1,21 @@
-import { useGetOrganization } from '@/hooks/organizationHooks';
+import { useGetOrganization } from "@/lib/hooks/organizationHooks";
+import { GoToOrgPage } from "@/lib/utils/Routes";
+import Link from 'next/link';
 
 export function OrganizationLink({
-  orgName,
+  orgId,
   className = 'font-medium text-main-light w-fit hover:underline',
 }: {
-  orgName: string;
+  orgId: string;
   className?: string;
 }) {
-  const { organization } = useGetOrganization({name: orgName});
+  const { organization } = useGetOrganization({id: orgId});
 
-  return <></>;
-
-  // return (
-  //   <Link href={GoToOrgPage(organization?.id ? organization.id : '')}>
-  //     <span className={`${className} capitalize`}>{orgName}</span>
-  //   </Link>
-  // );
+  return (
+    <Link href={GoToOrgPage(organization?.id ? organization.id : '')}>
+      <span className={`${className} capitalize`}>{organization.name}</span>
+    </Link>
+  );
 }
 
 export function BountyLink({

@@ -70,14 +70,13 @@ model Tag {
 }
 
 model Wallet {
-  id           String        @id @default(auto()) @map("_id") @db.ObjectId
-  address      String        @unique
-  bounty       Bounty?
-  key          Key?
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @default(now())
-  balance      Int
-  Organization Organization?
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  address   String   @unique
+  bounty    Bounty?
+  key       Key?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+  balance   Int
 }
 
 model Key {
@@ -130,8 +129,6 @@ model Organization {
   countries    Country[] @relation(fields: [countriesIDs], references: [id])
   countriesIDs String[]  @db.ObjectId
 
-  wallet    Wallet   @relation(fields: [walletId], references: [id])
-  walletId  String   @unique
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
 
@@ -144,7 +141,7 @@ model Submission {
   authorId String          @map("userId") @db.ObjectId
   state    SubmissionState
 
-  answers String[]
+  answers Answer[]
 
   bounty   Bounty? @relation(fields: [bountyId], references: [id])
   bountyId String? @db.ObjectId
@@ -155,6 +152,19 @@ model Submission {
   updatedAt DateTime @default(now())
 
   Invoice Invoice?
+}
+
+model Answer {
+  id     String @id @default(auto()) @map("_id") @db.ObjectId
+  answer String
+
+  requirement   Requirement @relation(fields: [requirementId], references: [id])
+  requirementId String      @unique
+
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @default(now())
+  Submission   Submission? @relation(fields: [submissionId], references: [id])
+  submissionId String?     @db.ObjectId
 }
 
 model Review {
@@ -206,6 +216,7 @@ model Requirement {
   optional Boolean
   bounty   Bounty?         @relation(fields: [bountyId], references: [id])
   bountyId String?         @db.ObjectId
+  Answer   Answer?
 }
 
 enum RequirementType {

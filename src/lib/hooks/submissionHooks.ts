@@ -1,7 +1,9 @@
 import { UserInput } from '@/components/pages/submission/new submission/UserInput';
+import { useQueryClient } from 'react-query';
+import { trpc } from '../trpc';
 
 export const useSaveSubmission = (
-  owner: string,
+  address: string,
   content: UserInput[],
   bountyId: string,
   events: {
@@ -10,30 +12,30 @@ export const useSaveSubmission = (
     onError: (e: any) => void;
   }
 ) => {
-  // const { onError, onMutate, onSuccess } = events;
+  const { onError, onMutate, onSuccess } = events;
 
-  // const q = useQueryClient();
+  const q = useQueryClient();
 
-  // const { save } = Molaris_useSaveSubmission(owner, content, bountyId);
-
-  // const { mutate, isLoading, isSuccess, error } = useMutation(() => save(), {
-  //   onMutate,
-  //   onError,
-  //   onSuccess: (submissionId) => {
-  //     q.invalidateQueries();
-  //     onSuccess(submissionId);
-  //   },
-  // });
+  const mutation = trpc.submission.post.useMutation({
+    onMutate,
+    onError,
+    onSuccess: (data) => {
+      q.invalidateQueries();
+      onSuccess(data.submissionId);
+    },
+  })
 
   return {
-    Save: () => {
-      //
+    Save: async ()=>{
+      mutation.mutate({
+        slug: bountyId,
+        address,
+        answers: content
+      })
     },
-    isLoading: true,
-    isSuccess: false,
-    error: {
-      msg: 'this functionality needs refactoring ',
-    },
+    isLoading: mutation.isLoading,
+    isSuccess: mutation.isSuccess,
+    error: mutation.error,
   };
 };
 

@@ -18,7 +18,7 @@ export const useGetAllOrganizations = (enabled = true) => {
   };
 };
 
-export const useGetOrganization = (where: {id?:string, name?:string}, enabled = true) => {
+export const useGetOrganization = (where: {id:string, name?:string}, enabled = true) => {
   const { error, isLoading, data } = trpc.orgs.getOrg.useQuery(
     where,
     { enabled }
@@ -26,7 +26,7 @@ export const useGetOrganization = (where: {id?:string, name?:string}, enabled = 
 
   return {
     isLoading: isLoading,
-    organization: data?.organization ?? [],
+    organization: data?.organization,
     error: error,
   };
 };

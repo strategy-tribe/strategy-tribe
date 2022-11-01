@@ -1,24 +1,20 @@
-import { Requirement, RequirementType } from '@prisma/client';
-import { useAuth } from 'auth/AuthContext';
-import Link from 'next/link';
-import { createContext, ReactNode, useContext, useMemo, useState } from 'react';
-
+import { DelayType, NotificationStyle, NotificationType } from '@/components/notifications/iNotification';
+import { useNotification } from '@/components/notifications/NotificationContext';
+import { Check } from '@/components/utils/BountyRequirementsShowcase';
+import { ButtonInformation, ButtonStyle } from '@/components/utils/Button';
 import { useGetBounty } from '@/lib/hooks/bountyHooks';
 import { useSaveSubmission } from '@/lib/hooks/submissionHooks';
 import { useLocalStorage } from '@/lib/hooks/useLocalStorage';
 import { FullBounty } from '@/lib/types';
 import { GoToSubmissionPage } from '@/lib/utils/Routes';
-
-import {
-  DelayType,
-  NotificationStyle,
-  NotificationType,
-} from '@/components/notifications/iNotification';
-import { useNotification } from '@/components/notifications/NotificationContext';
-import { Check } from '@/components/utils/BountyRequirementsShowcase';
-import { ButtonInformation, ButtonStyle } from '@/components/utils/Button';
-
+import { Requirement, RequirementType } from '@prisma/client';
+import { useAuth } from 'auth/AuthContext';
+import Link from 'next/link';
+import { createContext, ReactNode, useContext, useEffect, useMemo, useState } from 'react';
 import { UserInput } from './UserInput';
+
+
+
 
 interface iNewSubmissionContext {
   bountyId: string;
@@ -48,7 +44,7 @@ export const NewSubmissionContextProvider = ({
   redirectToBounty: () => void;
   children: ReactNode;
 }) => {
-  const { userId: user } = useAuth();
+  const { userId: user, account } = useAuth();
 
   //*UI State
   const [editPhase, setEditPhase] = useState(true);
@@ -66,7 +62,7 @@ export const NewSubmissionContextProvider = ({
 
   function ManageChangesToForm(userInput: UserInput[]) {
     setUserAnswers(userInput);
-  }
+  } 
 
   const requirementsFullfiled = useMemo(() => {
     return (
@@ -74,21 +70,42 @@ export const NewSubmissionContextProvider = ({
     );
   }, [checks]);
 
-  //*Mutations
+  useEffect(() => {
+    if (bounty && userAnswers.length === 0) {
+      const requirements = bounty.requirements;
+
+      const inputs = requirements.map((req: any) => {
+        const userInput: UserInput = {
+          requirement: req,
+          input: req.type === RequirementType.Image ? [] : '',
+        };
+        return userInput;
+      });
+
+      setUserAnswers(inputs);
+
+      const newChecks = bounty.requirements.map((req: any) => {
+        return { passed: false, requirement: req };
+      });
+      setChecks(newChecks);
+    }
+  }, [bounty, userAnswers]);
+   
+   //*Mutations
   const { Save } = useSaveSubmission(
-    user as string,
+    account as string,
     [
       ...userAnswers,
-      {
-        input: attachments,
-        requirement: {
-          title: 'Attachments',
-          type: RequirementType.IMAGE,
-          optional: true,
-          bountyId: '',
-          id: '',
-        },
-      },
+      // {
+      //   input: attachments,
+      //   requirement: {
+      //     title: 'Attachments',
+      //     type: RequirementType.IMAGE,
+      //     optional: true,
+      //     bountyId: '',
+      //     id: '',
+      //   },
+      // },
     ],
     bountyId as string,
     {
@@ -117,7 +134,7 @@ export const NewSubmissionContextProvider = ({
             content: () => (
               <Link href={GoToSubmissionPage(newSubmissionId as string)}>
                 <span
-                  className="underline text-on-surface-p0 font-medium"
+                  className="font-medium underline text-on-surface-p0"
                   onClick={hide}
                 >
                   You can see it here

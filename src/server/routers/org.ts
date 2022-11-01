@@ -51,14 +51,14 @@ export const orgRouter = router({
   getOrg: publicProcedure
     .input(
       z.object({
-        id: z.string().optional(),
+        id: z.string(),
         name: z.string().optional(),
       })
     )
     .query(async ({ input }) => {
       const organization: Organization | null =
         await prisma.organization.findUnique({
-          where: input,
+          where: {id: input.id},
           include: {
             tags: true,
             countries: true,
