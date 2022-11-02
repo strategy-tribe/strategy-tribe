@@ -95,7 +95,8 @@ export const NewSubmissionContextProvider = ({
   const { Save } = useSaveSubmission(
     account as string,
     [
-      ...userAnswers,
+      ...userAnswers.filter(answer => answer.input && answer.input !== ''),
+      //TODO: add attachments
       // {
       //   input: attachments,
       //   requirement: {

@@ -32,7 +32,7 @@ export const GoToOrgPage = (orgId: string) => `/organization/${orgId}`;
 export const GoToOrgBountiesPage = (orgId: string) =>
   `/organization/${orgId}/bounties`;
 
-export const GoToBountyPage = (bountyId: string) => `/bounty/${bountyId}`;
+export const GoToBountyPage = (slug: string) => `/bounty/${slug}`;
 
 export const GoToSubmissionPage = (submissionId: string) =>
   `/submission/${submissionId}`;

@@ -39,24 +39,19 @@ export const useSaveSubmission = (
   };
 };
 
-export const useGetSubmission = (id: string, enabled = true, retries = 1) => {
-  // const { find } = Moralis_useGetSubmission(id);
-
-  // const {
-  //   data: submission,
-  //   isLoading,
-  //   error,
-  // } = useQuery([Queries.OneSubmision, id], () => find(), {
-  //   enabled,
-  //   retry: retries,
-  // });
+//!Get one
+export const useGetSubmission = (id: string, enabled = true) => {
+  const { error, isLoading, data } = trpc.submission.getSubmission.useQuery(
+    {
+      id,
+    },
+    { enabled }
+  );
 
   return {
-    submission: undefined,
-    isLoading: true,
-    error: {
-      msg: 'this functionality needs refactoring ',
-    },
+    submission: data?.submission,
+    error,
+    isLoading,
   };
 };
 
@@ -125,76 +120,43 @@ export const useSubmitterInfo = (
   bountyId: string,
   enabled = true
 ) => {
-  // const { data, isLoading, error } = useQuery(
-  //   ['submitterInfo', submitterId, bountyId],
-  //   () => Moralis_submitterInfo(submitterId, bountyId),
-  //   { enabled }
-  // );
+  const { error, isLoading, data, isFetching } =
+    trpc.submission.getSubmitterInfo.useQuery(
+      {
+        submitterId,
+        bountyId
+      },
+      {
+        enabled
+      }
+    );
 
-  return {
-    data: undefined,
-    isLoading: true,
-    error: {
-      msg: 'this functionality needs refactoring ',
-    },
-  };
+    return {
+      data,
+      error,
+      isLoading,
+    };
 };
 
 export const useGetSubmissions = (config: any, enabled = true) => {
-  // const { isInitialized } = useMoralis();
-  // const page = config.page || 0;
-  // const { fetch } = Moralis_useGetSubmissions(config);
-
-  // const [numOfPages, setNumOfPages] = useState(0);
-
-  // const queryId = [Queries.AllSubmissions, config, config.page];
-
-  // const { error, isLoading, data, isFetching, isPreviousData } = useQuery(
-  //   queryId,
-  //   () => {
-  //     return fetch();
-  //   },
-  //   {
-  //     getPreviousPageParam: (lastPackage) => {
-  //       const { hasLess, page } = lastPackage;
-  //       if (hasLess) return page - 1;
-  //       else return false;
-  //     },
-  //     getNextPageParam: (lastPackage) => {
-  //       const { hasMore, page } = lastPackage;
-  //       if (hasMore) return page + 1;
-  //       else return false;
-  //     },
-  //     enabled: isInitialized && enabled,
-  //     keepPreviousData: config.paginate,
-  //     refetchOnWindowFocus: false,
-  //   }
-  // );
-
-  // useEffect(() => {
-  //   if (data && config.amount && config.paginate) {
-  //     const { count } = data;
-
-  //     const _numOfPages = Math.floor((count - 1) / config.amount + 1);
-
-  //     setNumOfPages(_numOfPages);
-  //   } else {
-  //     setNumOfPages(0);
-  //   }
-  // }, [data, config]);
+  const { error, isLoading, data, isFetching } =
+    trpc.submission.getSubmissions.useQuery(
+      config,
+      {
+        enabled
+      }
+    );
 
   return {
-    isLoading: true,
-    submissions: [],
-    isFetching: false,
+    isLoading,
+    submissions: data?.submissions ?? [],
+    isFetching,
     page: 0,
     numOfPages: 0,
     count: 0,
     hasNextPage: false,
     hasPreviousPage: false,
     isPreviousData: false,
-    error: {
-      msg: 'this functionality needs refactoring ',
-    },
+    error: error,
   };
 };

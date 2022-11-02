@@ -1,23 +1,20 @@
 // const Moralis = require('moralis/node');
 
-import Head from 'next/head';
-import { useRouter } from 'next/router';
-
-import { useGetBounty } from '@/hooks/bountyHooks';
-
 import AppLayout from '@/components/layouts/AppLayout';
 import { Bounty } from '@/components/pages/bounty/Bounty';
 import Loading from '@/components/utils/Loading';
-
+import { useGetBounty } from '@/hooks/bountyHooks';
 import { NextPageWithLayout } from '@/pages/_app';
+import Head from 'next/head';
+import { useRouter } from 'next/router';
 
 const BountyPage: NextPageWithLayout = () => {
   //*Router
   const router = useRouter();
-  const { id: bountyId } = router.query;
+  const { id: slug } = router.query;
 
   //*Queires
-  const { bounty, isLoading } = useGetBounty(bountyId as string, !!bountyId);
+  const { bounty, isLoading } = useGetBounty(slug as string, !!slug);
 
   if (isLoading) return <Loading />;
 

@@ -6,8 +6,6 @@ import { BountyState } from '@prisma/client';
 import { z } from 'zod';
 import { publicProcedure, router } from '../trpc';
 
-
-
 export const bountyRouter = router({
   getBounty: publicProcedure
     .input(

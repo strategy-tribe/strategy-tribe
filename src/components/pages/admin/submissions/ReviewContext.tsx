@@ -1,8 +1,7 @@
-import { SubmissionState } from '@prisma/client';
-import React, { createContext, useContext, useState } from 'react';
-
 import { useGetSubmissions } from '@/lib/hooks/submissionHooks';
 import { Order } from '@/lib/models/Order';
+import { SubmissionState } from '@prisma/client';
+import React, { createContext, useContext, useState } from 'react';
 
 const AMOUNT_OF_PAGES = 10;
 
@@ -27,7 +26,7 @@ const AdminReviewContextProvider = ({
 }) => {
   const [query, setQuery] = useState<any>({
     order: Order.Asc,
-    states: ['WaitingForReview'] as SubmissionState[],
+    state: 'WaitingForReview' as SubmissionState,
     amount: 10,
     paginate: true,
     page: 0,

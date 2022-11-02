@@ -1,15 +1,12 @@
-import { Submission, SubmissionState } from '@prisma/client';
-import { useAuth } from 'auth/AuthContext';
-import { useEffect, useState } from 'react';
-import ReactTextareaAutosize from 'react-textarea-autosize';
-
-import { GetWordCount } from '@/lib/utils/StringHelpers';
-
 import { SubmissionStateDisplayer } from '@/components/pages/bounty/SubmissionStatus';
 import { SubmitReviewButton } from '@/components/pages/submission/new submission/review/Evaluate';
 import Icon, { IconSize } from '@/components/utils/Icon';
 import { RenderMarkdown } from '@/components/utils/RenderMarkdown';
-
+import { GetWordCount } from '@/lib/utils/StringHelpers';
+import { Submission, SubmissionState } from '@prisma/client';
+import { useAuth } from 'auth/AuthContext';
+import { useEffect, useState } from 'react';
+import ReactTextareaAutosize from 'react-textarea-autosize';
 import { ReviewCheck } from './ReviewCheck';
 import { ReviewMap } from './ReviewMap';
 import { ReviewView } from './ReviewView';
@@ -30,14 +27,14 @@ export function Review({ submission }: { submission: Submission }) {
     }
   }, [feasible]);
 
-  const { userId, isStaff, isAdmin } = useAuth();
+  const { account, isStaff, isAdmin } = useAuth();
 
   const meetsRequirements = correct && feasible;
   return (
     <div className="flex gap-x-16">
-      <ReviewMap submission={submission} requirements={[]} />
+      <ReviewMap submission={submission} />
 
-      <div className="space-y-4 w-full max-w-4xl">
+      <div className="w-full max-w-4xl space-y-4">
         <h1 className="h4">Reviewing submission</h1>
 
         <div className="space-y-8">
@@ -106,7 +103,7 @@ export function Review({ submission }: { submission: Submission }) {
                 {view === ReviewView.Edit && (
                   <ReactTextareaAutosize
                     placeholder="This input supports markdown"
-                    className="bg-bg text-on-surface-p1 border border-on-surface-disabled focus:border-on-surface-unactive rounded border-dashed w-full font-inter focus:ring-0 first-letter:capitalize whitespace-pre-wrap p-4 body"
+                    className="w-full p-4 whitespace-pre-wrap border border-dashed rounded bg-bg text-on-surface-p1 border-on-surface-disabled focus:border-on-surface-unactive font-inter focus:ring-0 first-letter:capitalize body"
                     onChange={(e) => setFeedback(e.target.value)}
                     value={feedback}
                     minRows={10}
@@ -120,7 +117,7 @@ export function Review({ submission }: { submission: Submission }) {
                     }`}
                   >
                     {!feedback && (
-                      <div className="pb-4 border-b-1 border-surface text-on-surface-unactive flex gap-2 items-center">
+                      <div className="flex items-center gap-2 pb-4 border-b-1 border-surface text-on-surface-unactive">
                         <Icon icon="info" size={IconSize.Small} />
                         <span className="label">
                           Swap to edit and start writing your review
@@ -135,7 +132,7 @@ export function Review({ submission }: { submission: Submission }) {
           </ReviewCheck>
         </div>
 
-        {userId && (isStaff || isAdmin) && (
+        {account && (isStaff || isAdmin) && (
           <div className="space-y-4">
             {!carefullyRead && (
               <div className="flex items-center gap-2 body text-error-light">
@@ -151,7 +148,7 @@ export function Review({ submission }: { submission: Submission }) {
               </div>
             )}
 
-            <div className="flex justify-between items-center">
+            <div className="flex items-center justify-between">
               <div className="space-y-2">
                 <span>Your review will set this submission as: </span>
                 <>
@@ -172,7 +169,7 @@ export function Review({ submission }: { submission: Submission }) {
                 review={{
                   feedback: feedback,
                   meetsRequirements,
-                  reviewer: userId,
+                  reviewer: account,
                 }}
                 disabled={!carefullyRead || !feedbackIsOk}
               />

@@ -1,13 +1,12 @@
-import { useAuth } from 'auth/AuthContext';
-
 import { useSubmitterInfo } from '@/lib/hooks/submissionHooks';
-
+import { RequirementType } from '@prisma/client';
+import { useAuth } from 'auth/AuthContext';
 import { useSubmissionContext } from './SubmissionContext';
 import { SubmissionDetail } from './SubmissionDetail';
 
 export function SubmissionContent() {
   return (
-    <div className="mx-auto max-w-5xl space-y-4">
+    <div className="max-w-5xl mx-auto space-y-4">
       <div className="space-y-4">
         <UserStats />
         <Title />
@@ -48,15 +47,16 @@ function UserStats() {
   return (
     <>
       {(isStaff || isAdmin) && submitterInfo && (
-        <div className="space-y-2 border-2 border-surface rounded-lg p-4">
+        <div className="p-4 space-y-2 border-2 rounded-lg border-surface">
           <h3 className="h5">User stats</h3>
           <div className="flex gap-8">
             <SubmissionDetail
               label="Has submitted to this bounty"
-              value={`${568} times`}
+              value={`${submitterInfo.bountySubmissions} times`}
             />
-            <SubmissionDetail label="Total submissions" value={`${568}`} />
+            <SubmissionDetail label="Total submissions" value={`${submitterInfo.totalSubmissions}`} />
 
+            {/* TODO: update right number */}
             <SubmissionDetail
               label="Submissions allowed for today"
               value={`${568}`}
@@ -73,14 +73,15 @@ function UserAnswers() {
 
   return (
     <>
-      {/* {submission.answers.map((anw, i) => {
+      {submission.answers.map((anw, i) => {
         return (
           <div key={i} className="space-y-1">
             <span className="label text-on-surface-unactive">
               {anw.requirement.title}
             </span>
 
-            {anw.requirement.type === RequirementType.Image && (
+            {/* TODO: make changes for images */}
+            {/* {anw.requirement.type === RequirementType.Image && (
               <div className="grid grid-cols-3 gap-4 pt-4">
                 {(anw.answer as string[]).map((url) => {
                   return (
@@ -96,14 +97,14 @@ function UserAnswers() {
                   );
                 })}
               </div>
-            )}
+            )} */}
 
             {anw.requirement.type !== RequirementType.Image && (
               <p className="whitespace-pre-wrap body">{anw.answer}</p>
             )}
           </div>
         );
-      })} */}
+      })}
     </>
   );
 }

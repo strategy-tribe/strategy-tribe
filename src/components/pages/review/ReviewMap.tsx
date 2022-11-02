@@ -1,25 +1,22 @@
-import { Requirement, Submission } from '@prisma/client';
-
-import { GoToSubmissionPage } from '@/lib/utils/Routes';
-
 import { Button, ButtonStyle } from '@/components/utils/Button';
 import FromBounty from '@/components/utils/FromBounty';
-
+import { GoToSubmissionPage } from '@/lib/utils/Routes';
+import { Submission } from '@prisma/client';
+import router from 'next/router';
 import { UserAnswer } from './UserAnswer';
 
 export function ReviewMap({
   submission,
-  requirements,
 }: {
   submission: Submission;
-  requirements: Requirement[];
 }) {
   return (
-    <aside className="grow max-w-sm sticky top-24 left-0 min-h-screen bg-surface-dark space-y-8 p-8">
+    <aside className="sticky left-0 max-w-sm min-h-screen p-8 space-y-8 grow top-24 bg-surface-dark">
       <Button
         info={{
           style: ButtonStyle.Text,
           icon: 'arrow_back',
+          onClick: () => router.push(GoToSubmissionPage(submission.id)),
           label: 'back',
           removePadding: true,
           removeMinWidth: true,
@@ -27,7 +24,7 @@ export function ReviewMap({
       />
 
       <div className="space-y-2">
-        <FromBounty bountyId={submission.bountyId ?? ''} />
+        <FromBounty bountyId={submission.bounty.slug ?? ''} />
         <div>
           <h3 className="title">User Submission</h3>
 
@@ -44,15 +41,15 @@ export function ReviewMap({
         </div>
       </div>
 
-      <div className="space-y-4 w-full">
+      <div className="w-full space-y-4">
         {submission.answers
-          .filter((a) => a.length > 0)
+          // .filter((a) => a.length > 0)
           .map((answer, i) => {
             return (
               <UserAnswer
                 key={i}
-                content={answer}
-                requirement={requirements[i]}
+                content={answer.answer}
+                requirement={answer.requirement}
                 num={i + 1}
               />
             );

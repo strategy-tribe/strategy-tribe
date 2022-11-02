@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react';
-
 import Icon from './Icon';
 import { Overlay } from './Overlay';
 
-interface HasLabel {
+export interface HasLabel {
   label: string;
 }
 
@@ -16,7 +15,7 @@ export function MenuItem<T extends HasLabel>({
 }) {
   return (
     <button
-      className="bg-surface-dark hover:bg-main hover:text-on-color py-3 pl-4 pr-8 min-w-fit w-full whitespace-nowrap text-left first-letter:capitalize label"
+      className="w-full py-3 pl-4 pr-8 text-left bg-surface-dark hover:bg-main hover:text-on-color min-w-fit whitespace-nowrap first-letter:capitalize label"
       onClick={() => onClick(opt)}
     >
       {opt.label}
@@ -32,7 +31,7 @@ export function Menu<T extends HasLabel>({
   select: (s: T) => void;
 }) {
   return (
-    <div className="z-50 absolute rounded overflow-hidden elevation-1">
+    <div className="absolute z-50 overflow-hidden rounded elevation-1">
       {menuItems.map((opt) => {
         return <MenuItem key={opt.label} onClick={select} opt={opt} />;
       })}

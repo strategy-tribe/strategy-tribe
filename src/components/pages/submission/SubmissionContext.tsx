@@ -1,8 +1,6 @@
+import { FullBounty, FullSubmission } from '@/lib/types';
 import { Submission } from '@prisma/client';
 import React, { createContext, useContext } from 'react';
-
-import { useGetBounty } from '@/lib/hooks/bountyHooks';
-import { FullBounty, FullSubmission } from '@/lib/types';
 
 interface iSubmissionContext {
   submission: FullSubmission;
@@ -19,10 +17,9 @@ export const SubmissionContextProvider = ({
   children: React.ReactNode;
   submission: Submission;
 }) => {
-  const { bounty } = useGetBounty(submission.bountyId ?? '');
 
   return (
-    <SubmissionContext.Provider value={{ bounty, submission }}>
+    <SubmissionContext.Provider value={{ bounty: submission.bounty, submission }}>
       {children}
     </SubmissionContext.Provider>
   );
