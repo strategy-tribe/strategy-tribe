@@ -64,7 +64,11 @@ export const orgRouter = router({
             countries: true,
             targets: {
               include: {
-                bounties: true,
+                bounties: {
+                  include: {
+                    wallet: true
+                  }
+                },
                 _count: {
                   select: {
                     bounties: true,
@@ -72,6 +76,7 @@ export const orgRouter = router({
                 },
               },
             },
+            wallet: true,
           },
         });
       return { organization };

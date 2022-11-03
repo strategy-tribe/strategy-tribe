@@ -1,5 +1,4 @@
 import { FullBounty, FullSubmission } from '@/lib/types';
-import { Submission } from '@prisma/client';
 import React, { createContext, useContext } from 'react';
 
 interface iSubmissionContext {
@@ -15,7 +14,7 @@ export const SubmissionContextProvider = ({
   submission,
 }: {
   children: React.ReactNode;
-  submission: Submission;
+  submission: FullSubmission;
 }) => {
 
   return (

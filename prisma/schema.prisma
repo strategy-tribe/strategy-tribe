@@ -70,20 +70,24 @@ model Tag {
 }
 
 model Wallet {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  address   String   @unique
-  bounty    Bounty?
-  key       Key?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now())
-  balance   Int
+  id           String        @id @default(auto()) @map("_id") @db.ObjectId
+  address      String        @unique
+  balance      Int
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @default(now())
+  bounty       Bounty?
+  Organization Organization?
 }
 
 model Key {
-  id       String @id @default(auto()) @map("_id") @db.ObjectId
-  key      String
-  wallet   Wallet @relation(fields: [walletId], references: [id])
-  walletId String @unique
+  id             String   @id @default(auto()) @map("_id") @db.ObjectId
+  address        String   @unique
+  balance        Int
+  privateKey     String
+  publicKey      String
+  mnemonicPhrase String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @default(now())
 }
 
 model Bounty {
@@ -105,8 +109,8 @@ model Bounty {
 
   submissions Submission[]
 
-  wallet   Wallet? @relation(fields: [walletId], references: [id])
-  walletId String? @unique
+  wallet   Wallet @relation(fields: [walletId], references: [id])
+  walletId String @unique
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
@@ -128,6 +132,9 @@ model Organization {
 
   countries    Country[] @relation(fields: [countriesIDs], references: [id])
   countriesIDs String[]  @db.ObjectId
+
+  wallet   Wallet @relation(fields: [walletId], references: [id])
+  walletId String @unique
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
@@ -159,7 +166,7 @@ model Answer {
   answer String
 
   requirement   Requirement @relation(fields: [requirementId], references: [id])
-  requirementId String      @unique
+  requirementId String      @db.ObjectId
 
   createdAt    DateTime    @default(now())
   updatedAt    DateTime    @default(now())
@@ -216,7 +223,7 @@ model Requirement {
   optional Boolean
   bounty   Bounty?         @relation(fields: [bountyId], references: [id])
   bountyId String?         @db.ObjectId
-  Answer   Answer?
+  Answer   Answer[]
 }
 
 enum RequirementType {

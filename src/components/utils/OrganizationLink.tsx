@@ -9,11 +9,11 @@ export function OrganizationLink({
   orgId: string;
   className?: string;
 }) {
-  const { organization } = useGetOrganization({id: orgId});
+  const { organization } = useGetOrganization(orgId);
 
   return (
     <Link href={GoToOrgPage(organization?.id ? organization.id : '')}>
-      <span className={`${className} capitalize`}>{organization.name}</span>
+      <span className={`${className} capitalize`}>{organization?.name}</span>
     </Link>
   );
 }

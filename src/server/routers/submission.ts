@@ -1,7 +1,7 @@
 import { Order } from '@/lib/models/Order';
 import { SubmissionFilters } from '@/lib/models/SubmissionQueryParams';
 import prisma from '@/lib/prisma/prismaClient';
-import { FullSubmission } from '@/lib/types';
+import { Submission } from '@prisma/client';
 import { z } from 'zod';
 import { publicProcedure, router } from '../trpc';
 
@@ -80,7 +80,7 @@ export const submissionRouter = router({
             }
           }
         }
-        const submissions: FullSubmission[] = await prisma.submission.findMany({
+        const submissions: Submission[] = await prisma.submission.findMany({
           where,
           take: input.amount ?? 10,
           orderBy: {
@@ -109,7 +109,7 @@ export const submissionRouter = router({
       })
     )
     .query(async ({ input: { id } }) => {
-      const submission: FullSubmission | null = await prisma.submission.findUnique({
+      const submission: Submission | null = await prisma.submission.findUnique({
         where: { id },
         include: {
           bounty: {

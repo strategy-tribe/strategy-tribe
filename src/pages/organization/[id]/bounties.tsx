@@ -21,7 +21,7 @@ const OrganizationBountiesPage: NextPageWithLayout = () => {
 
   //*Queries
   const { organization: org, error } = useGetOrganization(
-    {id: orgId as string},
+    orgId as string,
     Boolean(orgId as string)
   );
 
@@ -38,7 +38,7 @@ const OrganizationBountiesPage: NextPageWithLayout = () => {
   return (
     <>
       <Head>
-        <title className="capitalize">ST | {org.name} Bounties</title>
+        <title className="capitalize">ST | {org?.name} Bounties</title>
         <meta
           name="description"
           content="An open source project dedicated to crowdsourcing and crowdfunding
@@ -54,11 +54,11 @@ const OrganizationBountiesPage: NextPageWithLayout = () => {
               info={{
                 className: 'max-w-[100%]',
                 labelClasses: 'capitalize whitespace-pre-wrap',
-                label: `${org.name}`,
+                label: `${org?.name}`,
                 icon: 'arrow_back',
                 iconSize: IconSize.Small,
                 style: ButtonStyle.Text,
-                isALink: GoToOrgPage(org.id ?? ''),
+                isALink: GoToOrgPage(org?.id ?? ''),
               }}
             />
           </div>

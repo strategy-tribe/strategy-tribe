@@ -1,9 +1,11 @@
 import { initTRPC } from '@trpc/server';
+import { TRPC_Context } from './context';
+
 
 // Avoid exporting the entire t-object since it's not very
 // descriptive and can be confusing to newcomers used to t
 // meaning translation in i18n libraries.
-const t = initTRPC.create();
+const t = initTRPC.context<TRPC_Context>().create();
 
 // Base router and procedure helpers
 export const router = t.router;
@@ -15,10 +17,7 @@ export const publicProcedure = t.procedure;
  **/
 const isAuthed = t.middleware(({ next, ctx }) => {
   return next({
-    ctx: {
-      // Infers the `session` as non-nullable
-      session: 'hey, this is the session',
-    },
+    ctx,
   });
 });
 

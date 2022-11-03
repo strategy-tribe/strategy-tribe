@@ -1,9 +1,9 @@
-import { createContext, ReactNode, useContext } from 'react';
-
 import { useBountyUrl } from '@/lib/hooks/useBountyUrl';
 import { BountyView } from '@/lib/models/BountyView';
 import { FullBounty } from '@/lib/types';
 import { GoToBountyPage } from '@/lib/utils/Routes';
+import { createContext, ReactNode, useContext } from 'react';
+
 
 interface iBountyContext {
   bounty: FullBounty;
@@ -25,7 +25,7 @@ export const BountyContextProvider = ({
   const { query, setQuery } = useBountyUrl();
 
   function setView(val: BountyView) {
-    setQuery({ ...query, view: val }, GoToBountyPage(bounty.id));
+    setQuery({ ...query, view: val }, GoToBountyPage(bounty.slug));
   }
 
   return (

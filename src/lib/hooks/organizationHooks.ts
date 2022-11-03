@@ -1,5 +1,5 @@
+import { Organization } from '@prisma/client';
 import { trpc } from '../trpc';
-import { FullOrganization } from '../types';
 
 export const useGetAllOrganizations = (enabled = true) => {
   const { error, isLoading, data, isFetching } =
@@ -10,7 +10,7 @@ export const useGetAllOrganizations = (enabled = true) => {
         enabled
       }
     );
-  const organizations: FullOrganization[] = data?.organizations ?? [];
+  const organizations: Organization[] = data?.organizations ?? [];
 
   return {
     isLoading: isLoading,
@@ -18,9 +18,11 @@ export const useGetAllOrganizations = (enabled = true) => {
   };
 };
 
-export const useGetOrganization = (where: {id:string, name?:string}, enabled = true) => {
+export const useGetOrganization = (id: string, enabled = true) => {
   const { error, isLoading, data } = trpc.orgs.getOrg.useQuery(
-    where,
+    {
+      id
+    },
     { enabled }
   );
 

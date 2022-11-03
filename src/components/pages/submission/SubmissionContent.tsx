@@ -1,4 +1,5 @@
 import { useSubmitterInfo } from '@/lib/hooks/submissionHooks';
+import { FullSubmission } from '@/lib/types';
 import { RequirementType } from '@prisma/client';
 import { useAuth } from 'auth/AuthContext';
 import { useSubmissionContext } from './SubmissionContext';
@@ -20,7 +21,7 @@ export function SubmissionContent() {
 }
 
 function Title() {
-  const { submission } = useSubmissionContext();
+  const submission = useSubmissionContext().submission as FullSubmission;
 
   const { isStaff, isAdmin } = useAuth();
 
@@ -73,7 +74,7 @@ function UserAnswers() {
 
   return (
     <>
-      {submission.answers.map((anw, i) => {
+      {submission.answers?.map((anw, i) => {
         return (
           <div key={i} className="space-y-1">
             <span className="label text-on-surface-unactive">
@@ -99,7 +100,7 @@ function UserAnswers() {
               </div>
             )} */}
 
-            {anw.requirement.type !== RequirementType.Image && (
+            {anw.requirement.type !== RequirementType.IMAGE && (
               <p className="whitespace-pre-wrap body">{anw.answer}</p>
             )}
           </div>

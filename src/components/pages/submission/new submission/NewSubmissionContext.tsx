@@ -50,7 +50,7 @@ export const NewSubmissionContextProvider = ({
   const [editPhase, setEditPhase] = useState(true);
 
   //*Submission State
-  const { bounty } = useGetBounty(bountyId as string, true);
+  const bounty = useGetBounty(bountyId as string, true).bounty as FullBounty;
   const [userAnswers, setUserAnswers, clean] = useLocalStorage<UserInput[]>(
     `${user} - ${bountyId} `,
     []
@@ -74,20 +74,20 @@ export const NewSubmissionContextProvider = ({
     if (bounty && userAnswers.length === 0) {
       const requirements = bounty.requirements;
 
-      const inputs = requirements.map((req: any) => {
+      const inputs = requirements?.map((req: any) => {
         const userInput: UserInput = {
           requirement: req,
-          input: req.type === RequirementType.Image ? [] : '',
+          input: req.type === RequirementType.IMAGE ? [] : '',
         };
         return userInput;
       });
 
-      setUserAnswers(inputs);
+      setUserAnswers(inputs ?? []);
 
-      const newChecks = bounty.requirements.map((req: any) => {
+      const newChecks = bounty.requirements?.map((req: any) => {
         return { passed: false, requirement: req };
       });
-      setChecks(newChecks);
+      setChecks(newChecks ?? []);
     }
   }, [bounty, userAnswers]);
    

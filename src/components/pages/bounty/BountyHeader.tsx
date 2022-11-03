@@ -1,6 +1,7 @@
 import { useBountyContext } from '@/components/pages/bounty/BountyContext';
 import { Button, ButtonStyle } from '@/components/utils/Button';
 import FromOrganization from '@/components/utils/FromOrganization';
+import Icon, { IconSize } from '@/components/utils/Icon';
 import { Stat } from '@/components/utils/Stat';
 import { useGetOrganization } from '@/lib/hooks/organizationHooks';
 import { useCanUserSubmit } from '@/lib/hooks/submissionHooks';
@@ -20,8 +21,8 @@ export function BountyHeader() {
 
   const ETHERSCAN_LINK = process.env.NEXT_PUBLIC_ETHERSCAN_URL;
   const { organization } = useGetOrganization(
-    {id: bounty?.target.org.id as string},
-    Boolean(bounty?.target.org.id as string)
+    bounty?.target?.org.id as string,
+    Boolean(bounty?.target?.org.id as string)
   );
   const [showDonation, setShowDonation] = useState(false);
 
@@ -66,17 +67,17 @@ export function BountyHeader() {
             <h1 className="laptop:h2 h3">{parsedTitle}</h1>
 
             <div className="flex flex-col items-end justify-start gap-4 shrink-0">
-              {/* <a
-                href={ETHERSCAN_LINK + bounty.wallet.address}
+              <a
+                href={`${ETHERSCAN_LINK}${bounty.wallet?.address}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-4 cursor-pointer text-main-light hover:text-main"
               >
                 <Icon icon="emoji_events" size={IconSize.Large} />
                 <span className="font-medium h4">
-                  {bounty.wallet.balance} MATIC
+                  {bounty.wallet?.balance} MATIC
                 </span>
-              </a> */}
+              </a>
               <Button
                 info={{
                   label: 'Support this bounty',
@@ -98,12 +99,10 @@ export function BountyHeader() {
 
         {/* Details */}
         <Section className="space-y-8">
-          <Stat title="target" content={bounty.target.name} />
+          <Stat title="target" content={bounty?.target?.name} />
           <Stat
             title="requirements"
-            contents={bounty.requirements
-              .filter((r) => !r.optional)
-              .map((r) => r.title)}
+            contents={bounty.requirements?.filter((r) => !r.optional)?.map((r) => r.title)}
           />
           {organization && (<FromOrganization orgId={organization?.id as string} />)}
         </Section>

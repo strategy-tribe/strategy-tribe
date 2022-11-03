@@ -1,8 +1,8 @@
-import { GoToBountyPage } from '@/lib/utils/Routes';
-
 import { Button, ButtonStyle } from '@/components/utils/Button';
-
+import { GoToBountyPage } from '@/lib/utils/Routes';
 import { useNewSubmissionContext } from './NewSubmissionContext';
+
+
 
 export function NewSubmissionHeader() {
   const { bounty, ctaButton, backToEdit, editPhase } =
@@ -17,12 +17,12 @@ export function NewSubmissionHeader() {
             style: ButtonStyle.TextPurple,
             removePadding: true,
             label: bounty?.title,
-            isALink: GoToBountyPage(bounty?.id as string),
+            isALink: GoToBountyPage(bounty?.slug as string),
           }}
         />
       </div>
 
-      <div className="flex h-fit gap-8 items-center">
+      <div className="flex items-center gap-8 h-fit">
         {!editPhase && (
           <Button
             info={{

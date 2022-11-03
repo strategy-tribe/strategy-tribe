@@ -1,8 +1,7 @@
 import { BountyOrderBy } from '@/lib/models/BountyQueryParams';
 import { Order } from '@/lib/models/Order';
 import prisma from '@/lib/prisma/prismaClient';
-import { FullBounty } from '@/lib/types';
-import { BountyState } from '@prisma/client';
+import { Bounty, BountyState } from '@prisma/client';
 import { z } from 'zod';
 import { publicProcedure, router } from '../trpc';
 
@@ -14,7 +13,7 @@ export const bountyRouter = router({
       })
     )
     .query(async ({ input: { slug } }) => {
-      const bounty: FullBounty | null = await prisma.bounty.findUnique({
+      const bounty: Bounty | null = await prisma.bounty.findUnique({
         where: { slug },
         include: {
           _count: {
@@ -90,8 +89,16 @@ export const bountyRouter = router({
             },
            }
         }
+        if (input.states && input.states.length > 0) {
+          where = {
+            ...where,
+            status: {
+              in: input.states
+            }
+          }
+        }
         //TODO: Use the input params to filter the bounties
-        const bounties: FullBounty[] = await prisma.bounty.findMany({
+        const bounties: Bounty[] = await prisma.bounty.findMany({
           where,
           take: input.amount,
           include: {

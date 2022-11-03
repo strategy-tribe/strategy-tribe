@@ -3,7 +3,7 @@ import { useQueryClient } from 'react-query';
 import { trpc } from '../trpc';
 
 export const useSubmitReview = (
-  grade: ReviewGrade.Accepted | ReviewGrade.Rejected,
+  grade: ReviewGrade,
   submission: Submission,
   reviewerAddress: string,
   reviewerComment: string,

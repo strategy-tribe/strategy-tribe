@@ -1,6 +1,6 @@
+import { FullSubmission } from '@/lib/types';
 import { GetDateInString } from '@/lib/utils/DateHelpers';
 import { GoToSubmissionPage } from '@/lib/utils/Routes';
-import { Submission } from '@prisma/client';
 import { useAuth } from 'auth/AuthContext';
 import { useRouter } from 'next/router';
 import { DelayType, NotificationType } from '../notifications/iNotification';
@@ -10,7 +10,7 @@ import { SubmissionStateDisplayer } from '../pages/bounty/SubmissionStatus';
 export function SubmissionListEntry({
   submission,
 }: {
-  submission: Submission;
+  submission: FullSubmission;
 }) {
   const router = useRouter();
 
@@ -23,7 +23,7 @@ export function SubmissionListEntry({
       <div className="grid grid-cols-6 gap-x-4 w-[66%]">
         <div className="flex flex-col items-start col-span-4">
           <div className="flex gap-2">
-            {submission.bounty.tags?.map((tag, i) => {
+            {submission.bounty?.tags?.map((tag, i) => {
               return (
                 <span
                   className="capitalize label-sm text-on-surface-unactive"
@@ -40,7 +40,7 @@ export function SubmissionListEntry({
               onClick={() => router.push(GoToSubmissionPage(submission.id))}
               className="text-left title-xs group-hover:underline"
             >
-              {submission.bounty.title}
+              {submission.bounty?.title}
             </button>
 
             <div className="absolute top-0 left-0 invisible px-4 py-2 translate-x-12 -translate-y-8 rounded pointer-events-none bg-surface-dark group-hover:visible group-hover:pointer-events-auto">
@@ -49,7 +49,7 @@ export function SubmissionListEntry({
           </div>
 
           <p className="text-on-surface-unactive">
-            {submission.answers.at(0).answer}...
+            {submission.answers?.at(0)?.answer}...
           </p>
         </div>
 

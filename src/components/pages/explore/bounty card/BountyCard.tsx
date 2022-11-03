@@ -1,8 +1,6 @@
-import Link from 'next/link';
-
 import { FullBounty } from '@/lib/types';
 import { GoToBountyPage } from '@/lib/utils/Routes';
-
+import Link from 'next/link';
 import { BountyCardFooter } from './BountyCardFooter';
 import { BountyCardReward } from './BountyCardReward';
 import { BountyCardTags } from './BountyCardTags';
@@ -32,7 +30,7 @@ export function BountyCard({ bounty }: { bounty: FullBounty }) {
             {/* <BountyCardWatchButton animClasses={animClasses} /> */}
           </header>
 
-          <BountyCardReward reward={569} />
+          <BountyCardReward reward={bounty.wallet?.balance ?? 0} />
 
           <BountyCardFooter bounty={bounty} />
         </span>

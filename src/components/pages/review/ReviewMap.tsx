@@ -1,14 +1,14 @@
 import { Button, ButtonStyle } from '@/components/utils/Button';
 import FromBounty from '@/components/utils/FromBounty';
+import { FullSubmission } from '@/lib/types';
 import { GoToSubmissionPage } from '@/lib/utils/Routes';
-import { Submission } from '@prisma/client';
 import router from 'next/router';
 import { UserAnswer } from './UserAnswer';
 
 export function ReviewMap({
   submission,
 }: {
-  submission: Submission;
+  submission: FullSubmission;
 }) {
   return (
     <aside className="sticky left-0 max-w-sm min-h-screen p-8 space-y-8 grow top-24 bg-surface-dark">
@@ -24,7 +24,7 @@ export function ReviewMap({
       />
 
       <div className="space-y-2">
-        <FromBounty bountyId={submission.bounty.slug ?? ''} />
+        <FromBounty bountyId={submission.bounty?.slug ?? ''} />
         <div>
           <h3 className="title">User Submission</h3>
 
@@ -42,9 +42,7 @@ export function ReviewMap({
       </div>
 
       <div className="w-full space-y-4">
-        {submission.answers
-          // .filter((a) => a.length > 0)
-          .map((answer, i) => {
+        {submission.answers?.map((answer, i) => {
             return (
               <UserAnswer
                 key={i}
