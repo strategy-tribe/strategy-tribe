@@ -81,7 +81,7 @@ export const bountyRouter = router({
       try {
         let where = {};
         if (input.orgId) {
-          where = { 
+          where = {
             target: {
               org: {
                 id: input.orgId
@@ -100,6 +100,7 @@ export const bountyRouter = router({
         //TODO: Use the input params to filter the bounties
         const bounties: Bounty[] = await prisma.bounty.findMany({
           where,
+          skip: (input?.amount ?? 0) * (input?.page ?? 0),
           take: input.amount,
           include: {
             _count: {
@@ -129,6 +130,51 @@ export const bountyRouter = router({
         });
 
         return { bounties };
+      } catch (error) {
+        console.error(error);
+      }
+    }),
+    getTotalCount: publicProcedure
+    .input(
+      z.object({
+        searchTerm: z.string().optional(),
+        amount: z.number().optional(),
+        states: z
+          .enum([
+            BountyState.Closed,
+            BountyState.Open,
+            BountyState.PaymentNeeded,
+            BountyState.WaitingForFunds,
+          ])
+          .array()
+          .optional(),
+        orgId: z.string().optional(),
+        relatedTo: z.string().array().optional(),
+        specificityOfOrgName: z.enum(['Exact', 'Loose']).optional(),
+        specificityOfTitle: z.enum(['Exact', 'Loose']).optional(),
+        minBounty: z.number().optional(),
+        maxBounty: z.number().optional(),
+        countries: z.string().array().optional(),
+        page: z.number().optional(),
+      })
+    )
+    .query(async ({ input }) => {
+      try {
+        let where = {};
+        if (input.orgId) {
+          where = {
+            target: {
+              org: {
+                id: input.orgId
+              },
+            },
+           }
+        }
+        const bountiesCount: number = await prisma.bounty.count({
+          where
+        });
+
+        return { bountiesCount };
       } catch (error) {
         console.error(error);
       }
