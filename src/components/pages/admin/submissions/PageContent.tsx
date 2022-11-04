@@ -156,7 +156,7 @@ export function ReviewDashboardSubmissions() {
             return (
               <div key={i} className="flex items-center gap-4 -translate-x-5">
                 <span className="label text-on-surface-disabled">
-                  {(i + 1) * (page > 0 ? page : 1)}
+                  {(i + 1) + ((page > 0 ? page : 0)*(query?.amount ?? 10))}
                 </span>
                 <SubmissionListEntry submission={s} />
               </div>
