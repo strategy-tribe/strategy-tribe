@@ -168,6 +168,7 @@ export const useGetSubmissions = (config: any, enabled = true) => {
       setHasPreviousPage((config?.page ?? 0)!=0)
       setNumOfPages(_numOfPages);
     } else {
+      setNumOfPages(0);
     }
   }, [data, config, countData]);
 
