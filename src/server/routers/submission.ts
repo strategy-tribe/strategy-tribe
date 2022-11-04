@@ -61,6 +61,7 @@ export const submissionRouter = router({
           .optional(),
         reviewed: z.boolean().optional(),
         owners: z.string().array().optional(),
+        page: z.number().optional(),
       })
     )
     .query(async ({ input }) => {
@@ -82,6 +83,7 @@ export const submissionRouter = router({
         }
         const submissions: Submission[] = await prisma.submission.findMany({
           where,
+          skip: (input?.amount ?? 0) * (input?.page ?? 0),
           take: input.amount ?? 10,
           orderBy: {
             createdAt: input.order
@@ -100,6 +102,52 @@ export const submissionRouter = router({
       } catch (error) {
         console.error(error);
         return { submissions: [] };
+      }
+    }),
+    getTotalCount: publicProcedure
+    .input(
+      z.object({
+        order: z.enum([Order.Asc, Order.Desc]),
+        paginate: z.boolean().optional(),
+        amount: z.number().optional(),
+        state: z
+          .enum([
+            SubmissionFilters.All,
+            SubmissionFilters.Accepted,
+            SubmissionFilters.WaitingForReview,
+            SubmissionFilters.WaitingForPayment,
+            SubmissionFilters.Rejected,
+          ])
+          .optional(),
+        reviewed: z.boolean().optional(),
+        owners: z.string().array().optional(),
+      })
+    )
+    .query(async ({ input }) => {
+      try {
+        let where = {};
+        if (input.state !== SubmissionFilters.All) {
+          where = {
+            ...where,
+            state: input.state
+          }
+        }
+        if (input.owners && input.owners[0]) {
+          where = {
+            ...where,
+            authorId: {
+              in: input.owners
+            }
+          }
+        }
+        const submissionsCount: number = await prisma.submission.count({
+          where
+        });
+
+        return { submissionsCount};
+      } catch (error) {
+        console.error(error);
+        return { submissionsCount: 0 };
       }
     }),
   getSubmission: publicProcedure

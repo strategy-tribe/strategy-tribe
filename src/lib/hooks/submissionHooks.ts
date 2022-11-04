@@ -1,4 +1,5 @@
 import { UserInput } from '@/components/pages/submission/new submission/UserInput';
+import { useEffect, useState } from 'react';
 import { useQueryClient } from 'react-query';
 import { trpc } from '../trpc';
 
@@ -139,6 +140,12 @@ export const useSubmitterInfo = (
 };
 
 export const useGetSubmissions = (config: any, enabled = true) => {
+  const page = config.page || 0;
+
+  const [numOfPages, setNumOfPages] = useState(0);
+  const [hasNextPage, setHasNextPage] = useState(false);
+  const [hasPreviousPage, setHasPreviousPage] = useState(false);
+  
   const { error, isLoading, data, isFetching } =
     trpc.submission.getSubmissions.useQuery(
       config,
@@ -147,16 +154,33 @@ export const useGetSubmissions = (config: any, enabled = true) => {
       }
     );
 
+    const {data: countData} = trpc.submission.getTotalCount.useQuery(
+      config, {
+        enabled: true
+      }
+    );
+
+  useEffect(() => {
+    if (data && countData && config.amount) {
+      const count = countData?.submissionsCount;
+      const _numOfPages = Math.floor((count - 1) / config.amount + 1);
+      setHasNextPage((_numOfPages-1)>(config?.page ?? _numOfPages))
+      setHasPreviousPage((config?.page ?? 0)!=0)
+      setNumOfPages(_numOfPages);
+    } else {
+    }
+  }, [data, config, countData]);
+
   return {
     isLoading,
     submissions: data?.submissions ?? [],
     isFetching,
-    page: 0,
-    numOfPages: 0,
-    count: 0,
-    hasNextPage: false,
-    hasPreviousPage: false,
+    page,
+    numOfPages,
+    count: countData?.submissionsCount ?? 10,
+    hasNextPage,
+    hasPreviousPage,
     isPreviousData: false,
-    error: error,
+    error,
   };
 };
