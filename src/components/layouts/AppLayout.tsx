@@ -1,9 +1,8 @@
 import { useAuth } from 'auth/AuthContext';
 import React from 'react';
 
-import { Navbar } from '@/navbar/Navbar';
-
 import Footer from './Footer';
+import { Navbar } from './navbar/Navbar';
 
 export default function AppLayout({
   children,

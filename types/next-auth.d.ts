@@ -1,6 +1,5 @@
 import { Rol } from '@prisma/client';
 import 'next-auth';
-
 import 'next-auth/jwt';
 
 interface CustomUser {

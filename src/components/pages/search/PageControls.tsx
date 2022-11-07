@@ -1,8 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 
-import { useUrlSearchParams } from '@/lib/hooks/useUrlSearchParams';
-import { useScrollToTop } from '@/hooks/useScrollTo';
 import useWindowDimensions from '@/hooks/useWindowDimensions';
+import { useUrlSearchParams } from '@/lib/hooks/useUrlSearchParams';
 
 import { Button, ButtonStyle } from '@/components/utils/Button';
 import { IconSize } from '@/components/utils/Icon';
@@ -25,29 +24,41 @@ export function PageControls() {
   const { setUrlFilter, urlFilter } = useUrlSearchParams();
 
   function nextPage() {
-    setUrlFilter({
-      page: urlFilter.query.page ? urlFilter.query.page + 1 : 0,
-    });
+    setUrlFilter(
+      {
+        page: urlFilter.query.page ? urlFilter.query.page + 1 : 0,
+      },
+      { scroll: true }
+    );
   }
 
   function firstPage() {
-    setUrlFilter({
-      page: 0,
-    });
+    setUrlFilter(
+      {
+        page: 0,
+      },
+      { scroll: true }
+    );
   }
 
   function lastPage() {
-    setUrlFilter({
-      page: numOfPages - 1,
-    });
+    setUrlFilter(
+      {
+        page: numOfPages - 1,
+      },
+      { scroll: true }
+    );
   }
 
   function prevPage() {
-    setUrlFilter({ page: urlFilter.query.page ? urlFilter.query.page - 1 : 0 });
+    setUrlFilter(
+      { page: urlFilter.query.page ? urlFilter.query.page - 1 : 0 },
+      { scroll: true }
+    );
   }
 
   function goToPage(page: number) {
-    setUrlFilter({ page });
+    setUrlFilter({ page }, { scroll: true });
   }
 
   //*num of numbers in screen
@@ -59,13 +70,6 @@ export function PageControls() {
       setAmountOfPages(8);
     } else setAmountOfPages(10);
   }, [width, setAmountOfPages]);
-
-  const scrollToTop = useScrollToTop(500);
-
-  async function RunAndMoveToTop(move: () => void) {
-    move();
-    scrollToTop();
-  }
 
   const pages: number[] = useMemo(() => {
     if (numOfPages === 0) return [];
@@ -89,7 +93,7 @@ export function PageControls() {
       ) : (
         <Button
           info={{
-            onClick: () => RunAndMoveToTop(firstPage),
+            onClick: () => firstPage(),
             style: ButtonStyle.Text,
             iconSize: IconSize.Small,
             icon: 'first_page',
@@ -102,7 +106,7 @@ export function PageControls() {
       {hasPreviousPage && (
         <Button
           info={{
-            onClick: () => RunAndMoveToTop(prevPage),
+            onClick: () => prevPage(),
             style: ButtonStyle.Text,
             icon: 'chevron_left',
             removeMinWidth: true,
@@ -121,7 +125,7 @@ export function PageControls() {
               className={`shrink-0 label p-2 bg-bg border-b-2  hover:bg-surface rounded-sm disabled:hover:bg-bg disabled:cursor-default cursor-pointer ${
                 isTheCurrentPage ? 'border-main' : 'border-bg'
               }`}
-              onClick={() => RunAndMoveToTop(() => goToPage(page))}
+              onClick={() => goToPage(page)}
               disabled={isTheCurrentPage}
             >
               {page + 1}
@@ -132,7 +136,7 @@ export function PageControls() {
       {hasNextPage && (
         <Button
           info={{
-            onClick: () => RunAndMoveToTop(nextPage),
+            onClick: () => nextPage(),
             style: ButtonStyle.Text,
             icon: 'chevron_right',
             removeMinWidth: true,
@@ -146,7 +150,7 @@ export function PageControls() {
       ) : (
         <Button
           info={{
-            onClick: () => RunAndMoveToTop(lastPage),
+            onClick: () => lastPage(),
             style: ButtonStyle.Text,
             icon: 'last_page',
             iconSize: IconSize.Small,

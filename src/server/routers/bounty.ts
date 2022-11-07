@@ -79,8 +79,7 @@ export const bountyRouter = router({
         page: z.number().optional(),
       })
     )
-    .query(async ({ input, ctx }) => {
-      // console.log(ctx.session);
+    .query(async ({ input }) => {
       try {
         let where = {};
         if (input.orgId) {

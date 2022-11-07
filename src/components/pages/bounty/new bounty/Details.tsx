@@ -2,9 +2,9 @@ import { Requirement } from '@prisma/client';
 import { useAuth } from 'auth/AuthContext';
 import { useState } from 'react';
 
-import { FullTarget } from '@/lib/types';
 import { useScrollDirection } from '@/hooks/useScrollDirection';
 import { useScrollToTop } from '@/hooks/useScrollTo';
+import { FullTarget } from '@/lib/types';
 
 import Icon from '@/components/utils/Icon';
 import { Stat } from '@/components/utils/Stat';
@@ -41,7 +41,7 @@ export function Step4Details({
     100
   );
 
-  const scrollToTop = useScrollToTop();
+  const { goToTop } = useScrollToTop();
 
   const requeriedConditions = requirements.filter((f) => !f.optional);
   const optionalConditions = requirements.filter((f) => f.optional);
@@ -85,7 +85,7 @@ export function Step4Details({
                 <button
                   className="-translate-x-2 flex items-center space-x-2 bg-bg text-main-light group  shrink-0"
                   onClick={() => {
-                    scrollToTop();
+                    goToTop();
                     setTimeout(() => {
                       setFullDescription(false);
                     }, 1000);
@@ -118,7 +118,7 @@ export function Step4Details({
                 <button
                   className="-translate-x-2 items-center space-x-2 bg-bg text-main-light group hidden laptop:flex"
                   onClick={() => {
-                    scrollToTop();
+                    goToTop();
                   }}
                 >
                   <Icon icon="keyboard_double_arrow_up" />

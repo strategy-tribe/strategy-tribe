@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function Loading({ small = false }: { small?: boolean }) {
   const [errorMessage, setErrorMessage] = useState(false);
@@ -17,8 +17,9 @@ export default function Loading({ small = false }: { small?: boolean }) {
 
   return (
     <div
+      id="Loading component"
       className={`${
-        !small && 'h-screen w-screen '
+        small ? '' : 'h-screen w-[99vw]'
       } flex items-center justify-center flex-col gap-8 text-on-surface-unactive `}
     >
       <div className="flex items-center justify-center flex-col gap-4 animate-pulse">

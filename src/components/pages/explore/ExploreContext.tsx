@@ -35,6 +35,7 @@ export const ExploreContextProvider = ({
     urlFilter: { query },
     setUrlFilter,
   } = useUrlSearchParams();
+
   const bountyFetch = useGetBounties(query);
 
   function addCountry(newCountry: string) {

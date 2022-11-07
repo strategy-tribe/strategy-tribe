@@ -16,7 +16,7 @@ export const useGetBounties = (config: BountyQueryParams, enabled = true) => {
 
   const { error, isLoading, data, isFetching } =
     trpc.bounty.getBounties.useQuery(config, {
-      enabled: true,
+      enabled: enabled,
     });
   const { data: countData } = trpc.bounty.getTotalCount.useQuery(config, {
     enabled: true,
