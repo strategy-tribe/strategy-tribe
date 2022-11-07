@@ -1,26 +1,29 @@
+import { Requirement, Tag } from '@prisma/client';
 import { useAuth } from 'auth/AuthContext';
 
-import { Requirement } from '@/lib/models/requirement';
-import { BountyState } from '@/lib/models/status';
-import { Target } from '@/lib/models/target';
+import { FullTarget } from '@/lib/types';
 
 import { Title } from '@/components/utils/Title';
 
-import { Step4Details } from './Details';
-('../../utils/Title');
-
-interface iStep4 {
+interface iReviewStep {
   //target
-  target: Target;
+  target: FullTarget;
   //bounty
   title: string;
   //requirements
   requirements: Requirement[];
   //deadline
   date?: Date;
+  tags: Tag[];
 }
 
-export const Review = ({ target, title, requirements, date }: iStep4) => {
+export const Review = ({
+  target,
+  title,
+  requirements,
+  date,
+  tags,
+}: iReviewStep) => {
   const { userId } = useAuth();
 
   return (
@@ -29,26 +32,7 @@ export const Review = ({ target, title, requirements, date }: iStep4) => {
         <Title title="Review before publishing" />
       </div>
 
-      <Step4Details
-        bounty={{
-          id: '',
-          name: target.name,
-          organizationName: target.organizationName,
-          type: target.type,
-          alsoKnownAs: target.alsoKnownAs,
-          countries: target.countries,
-          tags: target.tags,
-          description: target.description,
-          requirements,
-          state: BountyState.WaitingForFunds,
-          title,
-          funds: 0,
-          staffCreatorId: userId as string,
-          submissions: 0,
-          wallet: '',
-          closesAt: date,
-        }}
-      />
+      {/* <Step4Details /> */}
     </div>
   );
 };

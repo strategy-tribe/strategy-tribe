@@ -1,11 +1,11 @@
-import { ButtonStyle } from '@/components/utils/Button';
+import { Subscription } from 'auth/AuthContext';
+
 import { SubToOrgButton } from '@/components/subscriptions/SubscribeToOrgButton';
+import { ButtonStyle } from '@/components/utils/Button';
 import {
   BountyLink,
   OrganizationLink,
 } from '@/components/utils/OrganizationLink';
-import { Subscription } from '@/lib/moralis/ServerContextProvider';
-import { TargetType } from '@/lib/models/targetType';
 
 export function SubscriptionEntry({
   subscription,
@@ -14,7 +14,7 @@ export function SubscriptionEntry({
 }) {
   return (
     <div className="flex w-full items-center justify-between">
-      {subscription.type === TargetType.Organization && (
+      {subscription.type === 'ORG' && (
         <>
           <OrganizationLink
             orgName={subscription.name}
@@ -32,7 +32,7 @@ export function SubscriptionEntry({
           />
         </>
       )}
-      {subscription.type === TargetType.Individual && (
+      {subscription.type === 'INDIVIDUAL' && (
         <BountyLink
           bountyId={subscription.id}
           className="text-on-surface-p1 body w-fit hover:underline"

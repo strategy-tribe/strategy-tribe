@@ -1,6 +1,5 @@
+import { Requirement, RequirementType } from '@prisma/client';
 import { useEffect, useState } from 'react';
-
-import { Requirement, RequirementType } from '@/lib/models/requirement';
 
 import Icon, { IconSize } from '@/components/utils/Icon';
 
@@ -67,7 +66,7 @@ export function RequirementChecker({
             </div>
             {typeof input === 'string' && (
               <span
-                className={`${type !== RequirementType.Report && 'invisible'}`}
+                className={`${type !== RequirementType.REPORT && 'invisible'}`}
               >
                 {GetWordCount(input as string)}{' '}
                 {GetWordCount(input as string) === 1 ? 'word' : 'words'}

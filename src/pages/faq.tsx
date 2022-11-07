@@ -1,5 +1,3 @@
-import Moralis from 'moralis/node';
-import { GetStaticProps } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
 
@@ -11,44 +9,44 @@ import { AfterRead, ReadingSection } from '@/components/reading/utils';
 
 import { NextPageWithLayout } from './_app';
 
-const getSubmissionsPerDay = async (): Promise<number> => {
-  const moralis_serverUrl = process.env.NEXT_PUBLIC_SERVER_URL;
-  const moralis_appId = process.env.NEXT_PUBLIC_APP_ID;
+// const getSubmissionsPerDay = async (): Promise<number> => {
+//   const moralis_serverUrl = process.env.NEXT_PUBLIC_SERVER_URL;
+//   const moralis_appId = process.env.NEXT_PUBLIC_APP_ID;
 
-  await Moralis.start({
-    serverUrl: moralis_serverUrl,
-    appId: moralis_appId,
-  });
+//   await Moralis.start({
+//     serverUrl: moralis_serverUrl,
+//     appId: moralis_appId,
+//   });
 
-  const res = (await Moralis.Cloud.run('submissionsPerDay')) as {
-    submissionsPerDay: number;
-  };
+//   const res = (await Moralis.Cloud.run('submissionsPerDay')) as {
+//     submissionsPerDay: number;
+//   };
 
-  if (!res) {
-    throw new Error('Attemped to run "getMapStats". Got no response.');
-  }
+//   if (!res) {
+//     throw new Error('Attemped to run "getMapStats". Got no response.');
+//   }
 
-  return res.submissionsPerDay;
-};
+//   return res.submissionsPerDay;
+// };
 
-export const getStaticProps: GetStaticProps = async () => {
-  try {
-    const submissionsPerDay = await getSubmissionsPerDay();
+// export const getStaticProps: GetStaticProps = async () => {
+//   try {
+//     const submissionsPerDay = await getSubmissionsPerDay();
 
-    return {
-      props: {
-        submissionsPerDay,
-      },
-      revalidate: 30,
-    };
-  } catch (error) {
-    console.error('error:\n', error);
-    return {
-      props: { submissionsPerDay: 3 },
-      revalidate: 30,
-    };
-  }
-};
+//     return {
+//       props: {
+//         submissionsPerDay,
+//       },
+//       revalidate: 30,
+//     };
+//   } catch (error) {
+//     console.error('error:\n', error);
+//     return {
+//       props: { submissionsPerDay: 3 },
+//       revalidate: 30,
+//     };
+//   }
+// };
 
 const FAQPage: NextPageWithLayout<{ submissionsPerDay: number }> = ({
   submissionsPerDay,
@@ -73,9 +71,9 @@ const FAQPage: NextPageWithLayout<{ submissionsPerDay: number }> = ({
               <p>
                 Yes, you can see our rules{' '}
                 <Link href={GoToRulesPage()}>
-                  <a className="underline text-main-light hover:text-main">
+                  <span className="underline text-main-light hover:text-main">
                     here
-                  </a>
+                  </span>
                 </Link>
                 .
               </p>
@@ -90,9 +88,9 @@ const FAQPage: NextPageWithLayout<{ submissionsPerDay: number }> = ({
                 bounty wallets will be send to the wallet you signup with. You
                 can{' '}
                 <Link href={GoToAccountPage()}>
-                  <a className="underline text-main-light hover:text-main">
+                  <span className="underline text-main-light hover:text-main">
                     review your address here
-                  </a>
+                  </span>
                 </Link>
                 .
               </p>

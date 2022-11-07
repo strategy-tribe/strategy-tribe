@@ -11,12 +11,12 @@ export function MenuItem({
 }) {
   return (
     <Link href={url} className="w-full h-full">
-      <a
+      <span
         className="py-4 w-full text-right hover:bg-surface whitespace-nowrap pl-8 pr-4"
         onClick={onClick}
       >
         {label}
-      </a>
+      </span>
     </Link>
   );
 }

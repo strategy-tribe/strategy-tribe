@@ -1,6 +1,6 @@
 import { useAuth } from 'auth/AuthContext';
 
-import { BountyView } from '../../../lib/models/bounty/BountyView';
+import { BountyView } from '../../../lib/models/BountyView';
 import { Section } from '../landing/Section';
 import { useBountyContext } from './BountyContext';
 import { BountyMoreDetails } from './BountyMoreDetails';

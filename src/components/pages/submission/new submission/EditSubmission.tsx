@@ -3,7 +3,7 @@ import { useMemo } from 'react';
 import { Title } from '@/components/utils/Title';
 ('@/components/utils/Title');
 
-import { RequirementType } from '@/lib/models/requirement';
+import { RequirementType } from '@prisma/client';
 
 import { ImageUploader } from './edit/ImageUploader';
 import { RequirementChecker } from './edit/RequirementChecker';
@@ -48,8 +48,10 @@ export function EditSubmission() {
         <RequirementChecker
           requirement={{
             title: 'Attachments',
-            type: RequirementType.Image,
+            type: RequirementType.IMAGE,
             optional: true,
+            bountyId: '',
+            id: '',
           }}
           input={attachments}
         />

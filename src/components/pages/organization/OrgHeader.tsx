@@ -1,7 +1,7 @@
 import { Section } from '@/components/pages/landing/Section';
 import { SubToOrgButton } from '@/components/subscriptions/SubscribeToOrgButton';
 import { ButtonStyle } from '@/components/utils/Button';
-
+import { FullOrganization } from '@/lib/types';
 import { useOrganizationContext } from './OrganizationContext';
 import { OrgCountries } from './OrgCountries';
 import { OrgStat } from './OrgStat';
@@ -11,7 +11,7 @@ export function OrgHeader() {
   const { org } = useOrganizationContext();
   return (
     <div className="py-16 border-y-2 border-surface">
-      <Section className="flex justify-between items-center gap-8">
+      <Section className="flex items-center justify-between gap-8">
         <div className="space-y-1">
           <OrgTags />
           <div className="space-y-2">
@@ -20,13 +20,13 @@ export function OrgHeader() {
           </div>
         </div>
 
-        <div className="flex gap-8 items-center">
-          <OrgStat value={org.bounties.toString()} label="Bounties" />
+        <div className="flex items-center gap-8">
+          <OrgStat value={org.targets?.map((target:any) => target._count.bounties)?.reduce((sum: any, count: any) => sum + count, 0)?.toString()} label="Bounties" />
           <div className="bg-surface-dark w-0.5 h-10" />
-          <OrgStat value={`${org.funds} MATIC`} label="In bounties" />
+          <OrgStat value={`${getBalance(org)} MATIC`} label="In bounties" />
           <div className="bg-surface-dark w-0.5 h-10" />
           <SubToOrgButton
-            orgName={org.name}
+            orgId={org.id}
             button={(_, isSubscribed) => {
               return {
                 removePadding: isSubscribed ?? true,
@@ -38,4 +38,14 @@ export function OrgHeader() {
       </Section>
     </div>
   );
+}
+
+function getBalance(org: FullOrganization) {
+  let totalBalance = org.wallet?.balance ?? 0;
+  org.targets?.forEach((target) => {
+    target.bounties.forEach(bounty => {
+      totalBalance = totalBalance + (bounty.wallet?.balance ?? 0);
+    })
+  })
+  return totalBalance;
 }

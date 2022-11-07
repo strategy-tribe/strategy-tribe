@@ -11,8 +11,8 @@ import { DEFAULT_FILTER } from './filters/DefaultFilter';
 export function BountyBoard() {
   const { bountyFetch } = useExploreContext();
 
-  const isPreviousData = bountyFetch?.isPreviousData ?? false;
-  const bounties = bountyFetch?.bounties ?? [];
+  const bounties = bountyFetch?.bounties;
+  const isLoading = bountyFetch?.isLoading;
 
   const { setUrlFilter } = useUrlSearchParams();
 
@@ -20,7 +20,7 @@ export function BountyBoard() {
     setUrlFilter({ type: DEFAULT_FILTER.type });
   }
 
-  if (isPreviousData) return <Loading />;
+  if (isLoading) return <Loading />;
 
   if (bounties?.length)
     return (

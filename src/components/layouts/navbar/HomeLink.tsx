@@ -9,7 +9,7 @@ export function HomeLink({ className }: { className?: string }) {
   const { isStaff } = useAuth();
   return (
     <Link href={GoToBountiesPage()}>
-      <a className={`flex gap-2 items-center shrink-0 group ${className}`}>
+      <span className={`flex gap-2 items-center shrink-0 group ${className}`}>
         <Logo />
         <div className="text-left">
           <p className="label-lg text-on-surface-p0">StrategyTribe</p>
@@ -17,7 +17,7 @@ export function HomeLink({ className }: { className?: string }) {
             {isStaff && 'Staff Account'}
           </span>
         </div>
-      </a>
+      </span>
     </Link>
   );
 }

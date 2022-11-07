@@ -1,11 +1,10 @@
-import { Section } from '@/components/pages/landing/Section';
 import { motion } from 'framer-motion';
 import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
-('@/components/utils/Title');
 
 import AppLayout from '@/components/layouts/AppLayout';
+import { Section } from '@/components/pages/landing/Section';
 import { HugeTitle } from '@/components/utils/HugeTitle';
 import Icon from '@/components/utils/Icon';
 
@@ -40,9 +39,10 @@ const _404Page: NextPageWithLayout = () => {
               <figure className="relative h-[10rem] min-w-[10rem]">
                 <Image
                   src="/illustrations/goal.svg"
-                  layout="fill"
                   priority
                   alt="illustration"
+                  width={150}
+                  height={100}
                 />
               </figure>
               <div className="space-y-6 ">
@@ -58,16 +58,16 @@ const _404Page: NextPageWithLayout = () => {
                 <div>
                   <div className="-ml-6">
                     <Link href={GoToBountiesPage()}>
-                      <a className="text-on-surface-p0 hover:text-main-light py-3 px-5 tablet:px-6 font-medium font-grotesk z-10 flex items-center justify-center gap-2 rounded-full min-w-[6rem] w-fit">
+                      <span className="text-on-surface-p0 hover:text-main-light py-3 px-5 tablet:px-6 font-medium font-grotesk z-10 flex items-center justify-center gap-2 rounded-full min-w-[6rem] w-fit">
                         <Icon icon="arrow_forward" />
                         <span>Check the bounties</span>
-                      </a>
+                      </span>
                     </Link>
                     <Link href={GoToLandingPage()}>
-                      <a className="text-on-surface-p0 hover:text-main-light py-3 px-5 tablet:px-6 font-medium font-grotesk z-10 flex items-center justify-center gap-2 rounded-full min-w-[6rem] w-fit">
+                      <span className="text-on-surface-p0 hover:text-main-light py-3 px-5 tablet:px-6 font-medium font-grotesk z-10 flex items-center justify-center gap-2 rounded-full min-w-[6rem] w-fit">
                         <Icon icon="arrow_forward" />
                         <span>Home</span>
-                      </a>
+                      </span>
                     </Link>
                     <a
                       href={twitterUrl}

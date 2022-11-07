@@ -16,9 +16,9 @@ export function OrgSideMap() {
 
       {org.id ? (
         <Link href={GoToOrgBountiesPage(org.id)}>
-          <a className="hover:bg-surface-dark rounded text-left pr-8 p-4 label capitalize">
+          <span className="hover:bg-surface-dark rounded text-left pr-8 p-4 label capitalize">
             All bounties
-          </a>
+          </span>
         </Link>
       ) : (
         <></>

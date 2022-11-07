@@ -1,5 +1,7 @@
-import { RequirementType } from '@/lib/models/requirement';
+import { RequirementType } from '@prisma/client';
+
 import { GetWordCount } from '@/utils/StringHelpers';
+
 import { MAIL_REGEX, PHONE_REGEX, URL_REGEX } from './regexs';
 
 export const CheckInput = (
@@ -7,22 +9,22 @@ export const CheckInput = (
   type: RequirementType
 ): { isValid: boolean; errorMsg: string } => {
   switch (type) {
-    case RequirementType.Email:
+    case RequirementType.EMAIL:
       return EvaluateEmail(s);
 
-    case RequirementType.Report:
+    case RequirementType.REPORT:
       return EvaluateReport(s);
 
-    case RequirementType.Domain:
+    case RequirementType.DOMAIN:
       return EvaluateUrl(s);
 
-    case RequirementType.Wallet:
+    case RequirementType.WALLET:
       return EvaluateWallet(s);
 
-    case RequirementType.PhoneNumber:
+    case RequirementType.PHONE_NUMBER:
       return EvaluatePhoneNumber(s);
 
-    case RequirementType.SocialMediaAccount:
+    case RequirementType.SOCIAL_MEDIA_ACCOUNT:
       return EvaluateSocialMediaAccount(s);
     default:
       throw 'Unknown type ';

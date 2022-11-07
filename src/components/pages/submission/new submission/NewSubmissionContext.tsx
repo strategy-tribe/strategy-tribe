@@ -1,31 +1,20 @@
-import { useAuth } from 'auth/AuthContext';
-import Link from 'next/link';
-import {
-  createContext,
-  ReactNode,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react';
-
-import { useGetBounty } from '@/lib/hooks/bountyHooks';
-import { useSaveSubmission } from '@/lib/hooks/submissionHooks';
-import { useLocalStorage } from '@/lib/hooks/useLocalStorage';
-import { Bounty } from '@/lib/models';
-import { Requirement, RequirementType } from '@/lib/models/requirement';
-import { GoToSubmissionPage } from '@/lib/utils/Routes';
-
-import {
-  DelayType,
-  NotificationStyle,
-  NotificationType,
-} from '@/components/notifications/iNotification';
+import { DelayType, NotificationStyle, NotificationType } from '@/components/notifications/iNotification';
 import { useNotification } from '@/components/notifications/NotificationContext';
 import { Check } from '@/components/utils/BountyRequirementsShowcase';
 import { ButtonInformation, ButtonStyle } from '@/components/utils/Button';
-
+import { useGetBounty } from '@/lib/hooks/bountyHooks';
+import { useSaveSubmission } from '@/lib/hooks/submissionHooks';
+import { useLocalStorage } from '@/lib/hooks/useLocalStorage';
+import { FullBounty } from '@/lib/types';
+import { GoToSubmissionPage } from '@/lib/utils/Routes';
+import { Requirement, RequirementType } from '@prisma/client';
+import { useAuth } from 'auth/AuthContext';
+import Link from 'next/link';
+import { createContext, ReactNode, useContext, useEffect, useMemo, useState } from 'react';
 import { UserInput } from './UserInput';
+
+
+
 
 interface iNewSubmissionContext {
   bountyId: string;
@@ -36,7 +25,7 @@ interface iNewSubmissionContext {
   backToEdit: () => void;
   requirementsFullfiled: boolean;
   ctaButton: ButtonInformation | undefined;
-  bounty: Bounty | undefined;
+  bounty: FullBounty | undefined | null;
   cleanSubmissionFromStorage: () => void;
   attachments: File[];
   setAttachments: (s: File[]) => void;
@@ -55,13 +44,13 @@ export const NewSubmissionContextProvider = ({
   redirectToBounty: () => void;
   children: ReactNode;
 }) => {
-  const { userId: user } = useAuth();
+  const { userId: user, account } = useAuth();
 
   //*UI State
   const [editPhase, setEditPhase] = useState(true);
 
   //*Submission State
-  const { bounty } = useGetBounty(bountyId as string, true);
+  const bounty = useGetBounty(bountyId as string, true).bounty as FullBounty;
   const [userAnswers, setUserAnswers, clean] = useLocalStorage<UserInput[]>(
     `${user} - ${bountyId} `,
     []
@@ -73,7 +62,7 @@ export const NewSubmissionContextProvider = ({
 
   function ManageChangesToForm(userInput: UserInput[]) {
     setUserAnswers(userInput);
-  }
+  } 
 
   const requirementsFullfiled = useMemo(() => {
     return (
@@ -85,36 +74,39 @@ export const NewSubmissionContextProvider = ({
     if (bounty && userAnswers.length === 0) {
       const requirements = bounty.requirements;
 
-      const inputs = requirements.map((req) => {
+      const inputs = requirements?.map((req: any) => {
         const userInput: UserInput = {
           requirement: req,
-          input: req.type === RequirementType.Image ? [] : '',
+          input: req.type === RequirementType.IMAGE ? [] : '',
         };
         return userInput;
       });
 
-      setUserAnswers(inputs);
+      setUserAnswers(inputs ?? []);
 
-      const newChecks = bounty.requirements.map((req) => {
+      const newChecks = bounty.requirements?.map((req: any) => {
         return { passed: false, requirement: req };
       });
-      setChecks(newChecks);
+      setChecks(newChecks ?? []);
     }
   }, [bounty, userAnswers]);
-
-  //*Mutations
+   
+   //*Mutations
   const { Save } = useSaveSubmission(
-    user as string,
+    account as string,
     [
-      ...userAnswers,
-      {
-        input: attachments,
-        requirement: {
-          title: 'Attachments',
-          type: RequirementType.Image,
-          optional: true,
-        },
-      },
+      ...userAnswers.filter(answer => answer.input && answer.input !== ''),
+      //TODO: add attachments
+      // {
+      //   input: attachments,
+      //   requirement: {
+      //     title: 'Attachments',
+      //     type: RequirementType.IMAGE,
+      //     optional: true,
+      //     bountyId: '',
+      //     id: '',
+      //   },
+      // },
     ],
     bountyId as string,
     {
@@ -142,12 +134,12 @@ export const NewSubmissionContextProvider = ({
             title: 'Your Submission was uploaded successfully',
             content: () => (
               <Link href={GoToSubmissionPage(newSubmissionId as string)}>
-                <a
-                  className="underline text-on-surface-p0 font-medium"
+                <span
+                  className="font-medium underline text-on-surface-p0"
                   onClick={hide}
                 >
                   You can see it here
-                </a>
+                </span>
               </Link>
             ),
             icon: 'done_all',

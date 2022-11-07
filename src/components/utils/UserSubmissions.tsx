@@ -1,11 +1,12 @@
-import { useGetSubmissionsFromBounty } from '@/hooks/submissionHooks';
-import { GoToBeforeNewSubmissionPage } from '@/utils/Routes';
-import Link from 'next/link';
 import { useAuth } from 'auth/AuthContext';
+import Link from 'next/link';
+
+import { useGetSubmissionsFromBounty } from '@/hooks/submissionHooks';
+
 import Loading from '@/components/utils/Loading';
 import { Title } from '@/components/utils/Title';
-('@/components/utils/Title');
-import { SubmissionEntry } from './SubmissionEntry';
+
+import { GoToBeforeNewSubmissionPage } from '@/utils/Routes';
 
 export function UserSubmissions({ id }: { id: string }) {
   const { userId } = useAuth();
@@ -26,17 +27,17 @@ export function UserSubmissions({ id }: { id: string }) {
         (userSubmissions.length === 0 && (
           <>
             <p className="text-on-surface-unactive text-sm font-medium body">
-              {'You have not submitted findings to this bounty.'}
+              You have not submitted findings to this bounty.
               <br />
               <Link href={GoToBeforeNewSubmissionPage(id)}>
-                <a className="underline text-main-light font-medium">
+                <span className="underline text-main-light font-medium">
                   You can submit your findings here.
-                </a>
+                </span>
               </Link>
             </p>
           </>
         ))}
-      {!!userSubmissions && (
+      {/* {!!userSubmissions && (
         <>
           {userSubmissions
             .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
@@ -44,7 +45,7 @@ export function UserSubmissions({ id }: { id: string }) {
               return <SubmissionEntry key={i} submission={s} />;
             })}
         </>
-      )}
+      )} */}
     </div>
   );
 }

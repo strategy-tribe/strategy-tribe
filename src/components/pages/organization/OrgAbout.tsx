@@ -36,8 +36,8 @@ export function OrgAbout() {
         <ul>
           {org.countries?.map((c) => {
             return (
-              <li key={c} className="uppercase">
-                {c}
+              <li key={c.code} className="uppercase">
+                {c.name}
               </li>
             );
           })}

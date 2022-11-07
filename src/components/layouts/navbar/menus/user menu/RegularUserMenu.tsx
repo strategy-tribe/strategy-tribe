@@ -1,4 +1,4 @@
-import { AccountView } from '@/lib/models/account/AccountView';
+import { AccountView } from '@/lib/models/AccountView';
 import { GoToAccountPage } from '@/lib/utils/Routes';
 
 import { Overlay } from '@/components/utils/Overlay';

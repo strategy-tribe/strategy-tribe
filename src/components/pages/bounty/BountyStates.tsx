@@ -1,23 +1,22 @@
-import { Bounty } from '@/lib/models/bounty';
-import { BountyState } from '@/lib/models/status';
-import { GetDateInString } from '@/utils/DateHelpers';
-import React from 'react';
+import { Bounty } from '@prisma/client';
 
-import { MoreInfo } from '@/components/utils/MoreInfo';
 import Icon from '@/components/utils/Icon';
+import { MoreInfo } from '@/components/utils/MoreInfo';
+
+import { GetDateInString } from '@/utils/DateHelpers';
 
 export default function BountyStates({ bounty }: { bounty: Bounty }) {
-  const ETHERSCAN_LINK = process.env.NEXT_PUBLIC_ETHERSCAN_URL;
+  // const ETHERSCAN_LINK = process.env.NEXT_PUBLIC_ETHERSCAN_URL;
 
   const stateInfo = () => {
-    switch (bounty.state) {
-      case BountyState.Open:
+    switch (bounty.status) {
+      case 'Open':
         return 'All findings being submitted will be taken into consideration until one matches the requirements.';
 
-      case BountyState.Closed:
+      case 'Closed':
         return 'The bounty has closed and is not accepting any submissions.';
 
-      case BountyState.PaymentNeeded:
+      case 'PaymentNeeded':
         return "The bounty's requirements have been fulfilled by a submission and it is currently transfering the rewards.";
 
       default:
@@ -26,19 +25,18 @@ export default function BountyStates({ bounty }: { bounty: Bounty }) {
   };
 
   const calculateIcon = () => {
-    if (bounty.state === BountyState.Closed) return 'lock';
-    else if (bounty.state === BountyState.Open) return 'travel_explore';
-    else if (bounty.state === BountyState.PaymentNeeded) return 'price_check';
-    else if (bounty.state === BountyState.WaitingForFunds)
-      return 'hourglass_empty';
-    else return 'iocn';
+    if (bounty.status === 'Closed') return 'lock';
+    else if (bounty.status === 'Open') return 'travel_explore';
+    else if (bounty.status === 'PaymentNeeded') return 'price_check';
+    else if (bounty.status === 'WaitingForFunds') return 'hourglass_empty';
+    else return 'icon';
   };
 
   return (
     <div className="flex gap-6 text-on-surface-unactive">
       <div className="flex gap-1 items-center  relative group cursor-default">
         <Icon icon={calculateIcon()} />
-        <span>{bounty.state}</span>
+        <span>{bounty.status}</span>
         <MoreInfo content={stateInfo()} />
       </div>
       <div className="flex gap-1 items-center  relative group cursor-default">

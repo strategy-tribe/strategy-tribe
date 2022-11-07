@@ -1,23 +1,18 @@
+import AppLayout from '@/components/layouts/AppLayout';
+import { BountyCard, DummyBountyCard } from '@/components/pages/explore/bounty card/BountyCard';
+import { Button, ButtonStyle } from '@/components/utils/Button';
+import { IconSize } from '@/components/utils/Icon';
+import { useGetOrganization } from '@/hooks/organizationHooks';
+import { useGetBounties } from '@/lib/hooks/bountyHooks';
+import { Order } from '@/lib/models/Order';
+import { ArrayOfNumbers } from '@/lib/utils/ArrayHelpers';
+import { GoToOrgPage } from '@/lib/utils/Routes';
+import { NextPageWithLayout } from '@/pages/_app';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 
-import { useGetOrganization } from '@/hooks/organizationHooks';
-import { useGetBounties } from '@/lib/hooks/bountyHooks';
-import { BountyOrderBy } from '@/lib/models/queries/BountyQueryParams';
-import { Order } from '@/lib/models/queries/Order';
-import { ArrayOfNumbers } from '@/lib/utils/ArrayHelpers';
-import { GoToOrgPage } from '@/lib/utils/Routes';
 
-import AppLayout from '@/components/layouts/AppLayout';
-import {
-  BountyCard,
-  DummyBountyCard,
-} from '@/components/pages/explore/bounty card/BountyCard';
-import { Button, ButtonStyle } from '@/components/utils/Button';
-import { IconSize } from '@/components/utils/Icon';
-import { MessageForUser } from '@/components/utils/MessageForUser';
 
-import { NextPageWithLayout } from '@/pages/_app';
 
 const OrganizationBountiesPage: NextPageWithLayout = () => {
   //*Router
@@ -33,20 +28,17 @@ const OrganizationBountiesPage: NextPageWithLayout = () => {
   const { bounties, isLoading: isLoadingBounties } = useGetBounties(
     {
       order: Order.Desc,
-      orderBy: BountyOrderBy.Bounty,
-
-      specificityOfOrgName: 'Exact',
-      orgName: org?.name,
+      orgId: orgId as string
     },
     !!org
   );
 
-  if (!org || error) return <MessageForUser text={`${error}`} />;
+  // if (!org || error) return <MessageForUser text={`${error}`} />;
 
   return (
     <>
       <Head>
-        <title className="capitalize">ST | {org.name} Bounties</title>
+        <title className="capitalize">ST | {org?.name} Bounties</title>
         <meta
           name="description"
           content="An open source project dedicated to crowdsourcing and crowdfunding
@@ -57,22 +49,22 @@ const OrganizationBountiesPage: NextPageWithLayout = () => {
 
       <div className="flex max-w-[85rem] gap-x-16 ">
         <aside className="w-fit min-w-[20%]  min-h-screen border-main border-r-2 px-8 ">
-          <div className="h-fit sticky top-24">
+          <div className="sticky h-fit top-24">
             <Button
               info={{
                 className: 'max-w-[100%]',
                 labelClasses: 'capitalize whitespace-pre-wrap',
-                label: `${org.name}`,
+                label: `${org?.name}`,
                 icon: 'arrow_back',
                 iconSize: IconSize.Small,
                 style: ButtonStyle.Text,
-                isALink: GoToOrgPage(org.id ?? ''),
+                isALink: GoToOrgPage(org?.id ?? ''),
               }}
             />
           </div>
         </aside>
 
-        <div className="py-8 grid grid-cols-3 gap-16 h-fit">
+        <div className="grid grid-cols-3 gap-16 py-8 h-fit">
           {!isLoadingBounties &&
             bounties &&
             bounties.map((b) => {

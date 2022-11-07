@@ -1,11 +1,10 @@
-import React from 'react';
+import { FullBounty } from '@/lib/types';
 import { GetDateInString } from '@/lib/utils/DateHelpers';
-import { Bounty } from '@/lib/models';
 
-export function BountyCardFooter({ bounty }: { bounty: Bounty }) {
+export function BountyCardFooter({ bounty }: { bounty: FullBounty }) {
   return (
     <footer className="label-sm flex gap-4 text-on-surface-unactive">
-      <span>{bounty.submissions} subs</span>
+      <span>{bounty._count.submissions} subs</span>
       <span>
         {bounty.closesAt
           ? `Closes in ${GetDateInString(bounty.closesAt)}`

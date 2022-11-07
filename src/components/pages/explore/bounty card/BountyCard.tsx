@@ -1,14 +1,12 @@
-import Link from 'next/link';
-
-import { Bounty } from '@/lib/models';
+import { FullBounty } from '@/lib/types';
 import { GoToBountyPage } from '@/lib/utils/Routes';
-
+import Link from 'next/link';
 import { BountyCardFooter } from './BountyCardFooter';
 import { BountyCardReward } from './BountyCardReward';
 import { BountyCardTags } from './BountyCardTags';
 import { BountyCardTitle } from './BountyCardTitle';
 
-export function BountyCard({ bounty }: { bounty: Bounty }) {
+export function BountyCard({ bounty }: { bounty: FullBounty }) {
   const animClasses = 'transition-all duration-[250] ease-out';
   const moveToLeft = 'hover:-translate-x-4';
   const moveBgtoLeft = 'group-hover:-translate-x-3';
@@ -20,8 +18,8 @@ export function BountyCard({ bounty }: { bounty: Bounty }) {
         className={`absolute inset-0 group-hover:bg-surface z-0 rounded origin-left ${expandBg} ${animClasses} ${moveBgtoLeft}`}
       ></div>
 
-      <Link href={GoToBountyPage(bounty.id)}>
-        <a className={`relative flex flex-col gap-4 z-10 ${animClasses}`}>
+      <Link href={GoToBountyPage(bounty.slug)}>
+        <span className={`relative flex flex-col gap-4 z-10 ${animClasses}`}>
           <header className="flex justify-between gap-4">
             <div>
               <BountyCardTags bounty={bounty} />
@@ -32,10 +30,10 @@ export function BountyCard({ bounty }: { bounty: Bounty }) {
             {/* <BountyCardWatchButton animClasses={animClasses} /> */}
           </header>
 
-          <BountyCardReward reward={bounty.funds} />
+          <BountyCardReward reward={bounty.wallet?.balance ?? 0} />
 
           <BountyCardFooter bounty={bounty} />
-        </a>
+        </span>
       </Link>
     </article>
   );

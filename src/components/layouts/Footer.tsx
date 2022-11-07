@@ -116,9 +116,9 @@ export function FooterItem({
   if (internal) {
     return (
       <Link href={link}>
-        <a onClick={onClick ?? undefined} className={containerCLass}>
+        <span onClick={onClick ?? undefined} className={containerCLass}>
           <span>{label}</span>
-        </a>
+        </span>
       </Link>
     );
   }

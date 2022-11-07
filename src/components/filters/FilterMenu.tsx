@@ -1,9 +1,10 @@
+import { TargetType } from '@prisma/client';
+
 import {
   BountyOrderBy,
   BountyQueryParams,
-} from '@/lib/models/queries/BountyQueryParams';
-import { Order } from '@/lib/models/queries/Order';
-import { TargetType } from '@/lib/models/targetType';
+} from '@/lib/models/BountyQueryParams';
+import { Order } from '@/lib/models/Order';
 
 import Icon from '../utils/Icon';
 
@@ -173,10 +174,8 @@ function TargetTypePicker({
         }}
       >
         <option value={undefined}>All</option>
-        <option value={TargetType.Individual}>{TargetType.Individual}s</option>
-        <option value={TargetType.Organization}>
-          {TargetType.Organization}s
-        </option>
+        <option value="INDIVIDUAL">INDIVIDUAL</option>
+        <option value="ORG">ORG</option>
       </select>
     </div>
   );

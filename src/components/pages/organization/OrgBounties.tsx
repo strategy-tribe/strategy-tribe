@@ -1,14 +1,13 @@
+import { Button, ButtonStyle } from '@/components/utils/Button';
 import { useGetBounties } from '@/lib/hooks/bountyHooks';
-import { BountyOrderBy } from '@/lib/models/queries/BountyQueryParams';
-import { Order } from '@/lib/models/queries/Order';
+import { BountyOrderBy } from '@/lib/models/BountyQueryParams';
+import { Order } from '@/lib/models/Order';
 import { ArrayOfNumbers } from '@/lib/utils/ArrayHelpers';
 import { GoToOrgBountiesPage } from '@/lib/utils/Routes';
-
-import { Button, ButtonStyle } from '@/components/utils/Button';
-
 import { BountyCard, DummyBountyCard } from '../explore/bounty card/BountyCard';
 import { useOrganizationContext } from './OrganizationContext';
 import { AboutTitle } from './utils/AboutTitle';
+
 
 const AMOUNT_OF_BOUNTIES = 9;
 
@@ -19,8 +18,7 @@ export function OrgBounties() {
     order: Order.Desc,
     orderBy: BountyOrderBy.Bounty,
     amount: AMOUNT_OF_BOUNTIES,
-    specificityOfOrgName: 'Exact',
-    orgName: org.name,
+    orgId: org.id,
   });
 
   const theresMore = (count ?? 0) > AMOUNT_OF_BOUNTIES;
@@ -29,9 +27,9 @@ export function OrgBounties() {
     <div className="space-y-8">
       <AboutTitle text="Bounties" />
 
-      <div className="grid grid-cols-3 gap-x-16 gap-y-10 -translate-x-1">
+      <div className="grid grid-cols-3 -translate-x-1 gap-x-16 gap-y-10">
         {isLoading &&
-          ArrayOfNumbers(9).map((n) => {
+            ArrayOfNumbers(9).map((n) => {
             return <DummyBountyCard key={n} />;
           })}
         {!isLoading &&

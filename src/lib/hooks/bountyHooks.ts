@@ -1,89 +1,74 @@
-import { useRouter } from 'next/router';
+import { BountyQueryParams } from '@/lib/models/BountyQueryParams';
+import { trpc } from '@/lib/trpc';
+import { Requirement, Target } from '@prisma/client';
 import { useEffect, useState } from 'react';
-import { useMoralis } from 'react-moralis';
-import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { FullBounty } from '../types';
 
-import { BountyQueryParams } from '@/lib/models/queries/BountyQueryParams';
-import { Requirement } from '@/lib/models/requirement';
-import { Target } from '@/lib/models/target';
-import {
-  Moralis_useGetBounties,
-  Moralis_useGetBounty,
-  Moralis_useSaveBounty,
-} from '@/lib/moralis/serverMethods/Moralis_Bounties';
 
-import Queries from '@/utils/Queries';
-import { GoToBountyPage } from '@/utils/Routes';
 
 //!Get All
 export const useGetBounties = (config: BountyQueryParams, enabled = true) => {
-  const { isInitialized } = useMoralis();
   const page = config.page || 0;
-  const { fetch } = Moralis_useGetBounties(config);
 
   const [numOfPages, setNumOfPages] = useState(0);
+  const [hasNextPage, setHasNextPage] = useState(false);
+  const [hasPreviousPage, setHasPreviousPage] = useState(false);
 
-  const queryId = [Queries.AllBounties, config, config.page];
-
-  const { error, isLoading, data, isFetching, isPreviousData } = useQuery(
-    queryId,
-    () => fetch(),
-    {
-      getPreviousPageParam: (lastPackage) => {
-        const { hasLess, page } = lastPackage;
-        if (hasLess) return page - 1;
-        else return false;
-      },
-      getNextPageParam: (lastPackage) => {
-        const { hasMore, page } = lastPackage;
-        if (hasMore) return page + 1;
-        else return false;
-      },
-      enabled: isInitialized && enabled,
-      keepPreviousData: config.paginate,
-      refetchOnWindowFocus: false,
+  const { error, isLoading, data, isFetching } =
+    trpc.bounty.getBounties.useQuery(
+      config, {
+        enabled: true
+      }
+    );
+  const {data: countData} = trpc.bounty.getTotalCount.useQuery(
+    config, {
+      enabled: true
     }
   );
 
   useEffect(() => {
-    if (data && config.amount && config.paginate) {
-      const { count } = data;
+    if (data && countData && config.amount && config.paginate) {
+      // const { count } = data;
+      const count = countData.bountiesCount;
       const _numOfPages = Math.floor((count - 1) / config.amount + 1);
-
+      setHasNextPage((_numOfPages-1)>(config?.page ?? _numOfPages))
+      setHasPreviousPage((config?.page ?? 0)!=0)
       setNumOfPages(_numOfPages);
     } else {
       setNumOfPages(0);
     }
-  }, [data, config]);
+  }, [data, config, countData]);
+
+  const bounties: FullBounty[] = data?.bounties ?? [];
 
   return {
     isLoading,
-    bounties: data?.bounties || [],
-    isFetching,
+    bounties,
+    isFetching: isFetching,
     page,
     numOfPages,
-    count: data?.count,
-    hasNextPage: data?.hasMore,
-    hasPreviousPage: data?.hasLess,
-    isPreviousData,
+    count: countData?.bountiesCount ?? 10,
+    hasNextPage,
+    hasPreviousPage,
+    isPreviousData: false,
     error,
   };
 };
 
 //!Get one
-export const useGetBounty = (id: string, enabled = true) => {
-  const { fetch } = Moralis_useGetBounty(id);
-  const { isInitialized } = useMoralis();
-
-  const { data, isLoading, error } = useQuery(
-    [Queries.OneBounty, id],
-    () => fetch(),
+export const useGetBounty = (slug: string, enabled = true) => {
+  const { error, isLoading, data } = trpc.bounty.getBounty.useQuery(
     {
-      enabled: isInitialized && enabled,
-    }
+      slug,
+    },
+    { enabled }
   );
 
-  return { bounty: data, isLoading, error };
+  return {
+    bounty: data?.bounty ?? undefined,
+    error,
+    isLoading,
+  };
 };
 
 //!Put one
@@ -94,27 +79,29 @@ export const useSaveBounty = (
   staffCreatorId: string,
   closesAt?: Date
 ) => {
-  const q = useQueryClient();
-  const router = useRouter();
+  // const q = useQueryClient();
+  // const router = useRouter();
 
-  const { save } = Moralis_useSaveBounty(
-    title,
-    target,
-    requirements,
-    staffCreatorId,
-    closesAt
-  );
+  // const { save } = Moralis_useSaveBounty(
+  //   title,
+  //   target,
+  //   requirements,
+  //   staffCreatorId,
+  //   closesAt
+  // );
 
-  const { mutate, isLoading, error } = useMutation(() => save(), {
-    onSuccess: (bountyId) => {
-      router.push(GoToBountyPage(bountyId));
-      q.invalidateQueries();
-    },
-  });
+  // const { mutate, isLoading, error } = useMutation(() => save(), {
+  //   onSuccess: (bountyId) => {
+  //     router.push(GoToBountyPage(bountyId));
+  //     q.invalidateQueries();
+  //   },
+  // });
 
   return {
-    Save: mutate,
-    isLoading,
-    error,
+    Save: () => {
+      //
+    },
+    isLoading: true,
+    error: undefined,
   };
 };

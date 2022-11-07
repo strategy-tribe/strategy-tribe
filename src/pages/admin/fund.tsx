@@ -1,4 +1,4 @@
-('@/components/utils/Title');
+import { Bounty, BountyState } from '@prisma/client';
 import {
   ColumnDef,
   flexRender,
@@ -10,9 +10,8 @@ import { useRouter } from 'next/router';
 import { useState } from 'react';
 
 import { useGetBounties } from '@/lib/hooks/bountyHooks';
-import { Bounty, BountyState } from '@/lib/models';
-import { BountyOrderBy } from '@/lib/models/queries/BountyQueryParams';
-import { Order } from '@/lib/models/queries/Order';
+import { BountyOrderBy } from '@/lib/models/BountyQueryParams';
+import { Order } from '@/lib/models/Order';
 import { GetDateInString } from '@/lib/utils/DateHelpers';
 import { GoToBountyPage } from '@/lib/utils/Routes';
 

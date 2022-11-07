@@ -1,45 +1,35 @@
-import { useAuth } from 'auth/AuthContext';
-import { useRouter } from 'next/router';
-
-import { useGetBounty } from '@/lib/hooks/bountyHooks';
-import { Submission } from '@/lib/models';
+import { FullSubmission } from '@/lib/types';
 import { GetDateInString } from '@/lib/utils/DateHelpers';
 import { GoToSubmissionPage } from '@/lib/utils/Routes';
-
+import { useAuth } from 'auth/AuthContext';
+import { useRouter } from 'next/router';
 import { DelayType, NotificationType } from '../notifications/iNotification';
 import { useNotification } from '../notifications/NotificationContext';
-import { SubmissionStatus } from '../pages/bounty/SubmissionStatus';
+import { SubmissionStateDisplayer } from '../pages/bounty/SubmissionStatus';
 
 export function SubmissionListEntry({
   submission,
 }: {
-  submission: Submission;
+  submission: FullSubmission;
 }) {
   const router = useRouter();
-
-  const { bounty, isLoading } = useGetBounty(submission.bountyId);
 
   const { isAdmin, isStaff } = useAuth();
 
   const { notify } = useNotification();
-
-  if (isLoading || !bounty)
-    return (
-      <div className="w-full bg-surface-dark animate-pulse h-16 rounded"></div>
-    );
 
   return (
     <div className="relative flex w-full">
       <div className="grid grid-cols-6 gap-x-4 w-[66%]">
         <div className="flex flex-col items-start col-span-4">
           <div className="flex gap-2">
-            {bounty.tags?.map((tag) => {
+            {submission.bounty?.tags?.map((tag, i) => {
               return (
                 <span
-                  className="label-sm text-on-surface-unactive capitalize"
-                  key={tag}
+                  className="capitalize label-sm text-on-surface-unactive"
+                  key={i}
                 >
-                  {tag}
+                  {tag.name}
                 </span>
               );
             })}
@@ -48,34 +38,34 @@ export function SubmissionListEntry({
           <div className="group">
             <button
               onClick={() => router.push(GoToSubmissionPage(submission.id))}
-              className="title-xs group-hover:underline text-left"
+              className="text-left title-xs group-hover:underline"
             >
-              {bounty.title}
+              {submission.bounty?.title}
             </button>
 
-            <div className="bg-surface-dark px-4 py-2 rounded absolute left-0 top-0 group-hover:visible invisible pointer-events-none group-hover:pointer-events-auto translate-x-12 -translate-y-8">
+            <div className="absolute top-0 left-0 invisible px-4 py-2 translate-x-12 -translate-y-8 rounded pointer-events-none bg-surface-dark group-hover:visible group-hover:pointer-events-auto">
               Go to submission
             </div>
           </div>
 
           <p className="text-on-surface-unactive">
-            {submission.answers.at(0)?.answer}...
+            {submission.answers?.at(0)?.answer}...
           </p>
         </div>
 
-        <div className="place-self-center col-span-2">
-          <SubmissionStatus status={submission.state} />
+        <div className="col-span-2 place-self-center">
+          <SubmissionStateDisplayer status={submission.state} />
         </div>
       </div>
 
       <div className="flex items-center gap-x-4 shrink-0 grow">
         {(isAdmin || isStaff) && (
           <button
-            className="place-self-center group text-right grow col-span-1"
+            className="col-span-1 text-right place-self-center group grow"
             onClick={() => {
-              navigator.clipboard.writeText(submission.owner);
+              navigator.clipboard.writeText(submission.authorId);
               notify(
-                { title: 'Copied', content: submission.owner },
+                { title: 'Copied', content: submission.authorId },
                 {
                   condition: false,
                   delayTime: 2,
@@ -86,15 +76,16 @@ export function SubmissionListEntry({
             }}
           >
             <span className="block title">User ID:</span>
-            <span className="group-hover:underline text-on-surface-unactive label-sm pt-1">
-              {cutString(submission.owner)}
+            <span className="pt-1 group-hover:underline text-on-surface-unactive label-sm">
+              {cutString(submission.authorId)}
             </span>
           </button>
         )}
 
-        <div className="place-self-center flex flex-col items-end shrink-0 grow col-span-3">
-          <span className="title">{bounty.funds} MATIC</span>
-          <span className="text-on-surface-unactive label-sm pt-1">
+        <div className="flex flex-col items-end col-span-3 place-self-center shrink-0 grow">
+          {/* TODO: update MATIC */}
+          {/* <span className="title">{bounty.funds} MATIC</span> */}
+          <span className="pt-1 text-on-surface-unactive label-sm">
             {GetDateInString(submission.createdAt)} ago
           </span>
         </div>

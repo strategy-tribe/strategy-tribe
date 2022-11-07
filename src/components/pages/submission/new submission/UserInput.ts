@@ -1,4 +1,4 @@
-import { Requirement } from '@/lib/models/requirement';
+import { Requirement } from '@prisma/client';
 
 export type UserInput = {
   requirement: Requirement;

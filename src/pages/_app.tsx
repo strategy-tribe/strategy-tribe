@@ -1,16 +1,25 @@
 import AuthContextProvider from 'auth/AuthContext';
 import { NextPage } from 'next';
+import { SessionProvider } from 'next-auth/react';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import { ReactElement, ReactNode, useState } from 'react';
-import { Hydrate, QueryClient, QueryClientProvider } from 'react-query';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import {
+  configureChains,
+  createClient,
+  defaultChains,
+  WagmiConfig,
+} from 'wagmi';
+import { publicProvider } from 'wagmi/providers/public';
 
 import '../styles/globals.css';
 
-import MoralisContext from '@/lib/moralis/MoralisContext';
-import PushNotifsContextProvider from '@/lib/onesignal/PushNotifsContext';
+import { trpc } from '@/lib/trpc';
 
-import { NotificationcontextProvider as NotificationContextProvider } from '@/components/notifications/NotificationContext';
+const { provider, webSocketProvider } = configureChains(defaultChains, [
+  publicProvider(),
+]);
 
 export type NextPageWithLayout<T = Record<string, unknown>> = NextPage<T> & {
   getLayout?: (page: ReactElement, pageProps?: any) => ReactNode;
@@ -19,6 +28,12 @@ export type NextPageWithLayout<T = Record<string, unknown>> = NextPage<T> & {
 type AppPropsWithLayout = AppProps & {
   Component: NextPageWithLayout;
 };
+
+const wagmiClient = createClient({
+  provider,
+  webSocketProvider,
+  autoConnect: true,
+});
 
 function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const [queryClient] = useState(() => new QueryClient());
@@ -35,21 +50,23 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
           content="width=device-width, initial-scale=1.0,minimum-scale=1.0"
         />
       </Head>
-      <QueryClientProvider client={queryClient}>
-        <Hydrate state={pageProps.dehydratedState}>
-          <NotificationContextProvider>
-            <MoralisContext>
-              <AuthContextProvider>
-                <PushNotifsContextProvider appId={onesignal_appId as string}>
-                  {getLayout(<Component {...pageProps} />, pageProps)}
-                </PushNotifsContextProvider>
-              </AuthContextProvider>
-            </MoralisContext>
-          </NotificationContextProvider>
-        </Hydrate>
-      </QueryClientProvider>
+      <WagmiConfig client={wagmiClient}>
+        <SessionProvider session={(pageProps as any).session}>
+          <QueryClientProvider client={queryClient}>
+            {/* <Hydrate state={pageProps.dehydratedState}> */}
+            {/* <NotificationContextProvider> */}
+            <AuthContextProvider>
+              {/* <PushNotifsContextProvider appId={onesignal_appId as string}> */}
+              {getLayout(<Component {...pageProps} />, pageProps)}
+              {/* </PushNotifsContextProvider> */}
+            </AuthContextProvider>
+            {/* </NotificationContextProvider> */}
+            {/* </Hydrate> */}
+          </QueryClientProvider>
+        </SessionProvider>
+      </WagmiConfig>
     </>
   );
 }
 
-export default MyApp;
+export default trpc.withTRPC(MyApp);

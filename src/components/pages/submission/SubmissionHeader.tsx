@@ -1,13 +1,10 @@
-import { useAuth } from 'auth/AuthContext';
-
-import { SubmissionState } from '@/lib/models';
-import { GoToBountyPage, GoToReviewSubmissionPage } from '@/lib/utils/Routes';
-
+import { SubmissionStateDisplayer } from '@/components/pages/bounty/SubmissionStatus';
+import { Section } from '@/components/pages/landing/Section';
 import { Button, ButtonStyle } from '@/components/utils/Button';
 import Icon, { IconSize } from '@/components/utils/Icon';
-
-import { SubmissionStatus } from '../bounty/SubmissionStatus';
-import { Section } from '../landing/Section';
+import { GoToBountyPage, GoToReviewSubmissionPage } from '@/lib/utils/Routes';
+import { SubmissionState } from '@prisma/client';
+import { useAuth } from 'auth/AuthContext';
 import { useSubmissionContext } from './SubmissionContext';
 
 export function SubmissionHeader() {
@@ -18,7 +15,7 @@ export function SubmissionHeader() {
 
   return (
     <header className={`${color} border-y-2 py-10`}>
-      <Section className="text-center space-y-2">
+      <Section className="space-y-2 text-center">
         <div>
           <span className="label text-on-surface-unactive ">
             {isStaff ? 'Submission to' : 'Your submission to'}
@@ -26,10 +23,10 @@ export function SubmissionHeader() {
 
           {bounty && (
             <a
-              href={GoToBountyPage(bounty?.id)}
+              href={GoToBountyPage(bounty?.slug)}
               rel="noopener noreferrer"
               target="_blank"
-              className="h4 text-on-surface-p1 max-w-3xl mx-auto block hover:text-main-light"
+              className="block max-w-3xl mx-auto h4 text-on-surface-p1 hover:text-main-light"
             >
               {bounty?.title}
             </a>
@@ -38,13 +35,13 @@ export function SubmissionHeader() {
 
         <div className="flex flex-col items-center space-y-1">
           <span>is</span>
-          <SubmissionStatus status={submission.state} />
+          <SubmissionStateDisplayer status={submission.state} />
         </div>
 
         {(isAdmin || isStaff) &&
           submission.state === SubmissionState.WaitingForReview && (
-            <div className="flex items-center justify-center flex-col pt-4 gap-4 h-fit">
-              <div className="flex gap-2 items-center">
+            <div className="flex flex-col items-center justify-center gap-4 pt-4 h-fit">
+              <div className="flex items-center gap-2">
                 <Icon icon="check" size={IconSize.Small} />
                 <span className="label">You can review this submission</span>
               </div>

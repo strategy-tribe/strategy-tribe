@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { Title } from '@/components/utils/Title';
-('../../utils/Title');
+import { Requirement, RequirementType } from '@prisma/client';
+import { useEffect, useState } from 'react';
 import Switch from 'react-switch';
-import { Requirement, RequirementType } from '@/lib/models/requirement';
+
 import Icon from '@/components/utils/Icon';
+import { Title } from '@/components/utils/Title';
 
 interface iSetRequirements {
   requirements: Requirement[];
@@ -58,12 +58,11 @@ export const SetRequirements = ({
         onClick={() => {
           setRequirements([
             ...requirements,
-            { title: '', type: RequirementType.Wallet },
+            { title: '', type: 'WALLET', id: '', optional: true, bountyId: '' },
           ]);
         }}
       >
         <Icon icon="add" />
-
         <span className="group-hover:underline">Add condition</span>
       </button>
     </div>
@@ -134,23 +133,13 @@ function RequirementInput({
             setType(value);
           }}
         >
-          <option value={RequirementType.Email}>{RequirementType.Email}</option>
-          <option value={RequirementType.Wallet}>
-            {RequirementType.Wallet}
-          </option>
-          <option value={RequirementType.Domain}>
-            {RequirementType.Domain}
-          </option>
-          <option value={RequirementType.Image}>{RequirementType.Image}</option>
-          <option value={RequirementType.Report}>
-            {RequirementType.Report}
-          </option>
-          <option value={RequirementType.PhoneNumber}>
-            {RequirementType.PhoneNumber}
-          </option>
-          <option value={RequirementType.SocialMediaAccount}>
-            {RequirementType.SocialMediaAccount}
-          </option>
+          <option value="EMAILS">EMAILS</option>
+          <option value="WALLET">WALLET</option>
+          <option value="DOMAIN">DOMAIN</option>
+          <option value="IMAGE">IMAGE</option>
+          <option value="REPORT">REPORT</option>
+          <option value="PHONE_NUMBER">PHONE_NUMBER</option>
+          <option value="SOCIAL_MEDIA_ACCOUNT">SOCIAL_MEDIA_ACCOUNT</option>
         </select>
       </div>
 

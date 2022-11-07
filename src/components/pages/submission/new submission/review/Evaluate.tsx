@@ -1,23 +1,21 @@
-import { useAuth } from 'auth/AuthContext';
-import { useRouter } from 'next/router';
-import { useMemo, useState } from 'react';
-
-import { useSubmitReview } from '@/hooks/reviewHooks';
-import { useGetSubmission } from '@/hooks/submissionHooks';
-import { GoToReviewsPage } from '@/lib/utils/Routes';
-
 import {
   DelayType,
   NotificationStyle,
-  NotificationType,
+  NotificationType
 } from '@/components/notifications/iNotification';
 import { useNotification } from '@/components/notifications/NotificationContext';
 import { Button, ButtonStyle } from '@/components/utils/Button';
 import { RadioInput } from '@/components/utils/RadioInput';
 import { Title } from '@/components/utils/Title';
 import { ImportantMessage } from '@/components/utils/Warning';
+import { useSubmitReview } from '@/hooks/reviewHooks';
+import { useGetSubmission } from '@/hooks/submissionHooks';
+import { GoToReviewsPage } from '@/lib/utils/Routes';
+import { ReviewGrade, Submission } from '@prisma/client';
+import { useAuth } from 'auth/AuthContext';
+import { useRouter } from 'next/router';
+import { useMemo, useState } from 'react';
 
-import { Submission, SubmissionState } from '@/models/index';
 ('@/components/utils/Title');
 
 export default function Evaluate({ submissionId }: { submissionId: string }) {
@@ -33,8 +31,8 @@ export default function Evaluate({ submissionId }: { submissionId: string }) {
   }, [meetsRequirements, acceptedTerms]);
 
   return (
-    <div className="space-y-6 max-w-xl">
-      <div className="space-y-6 py-2">
+    <div className="max-w-xl space-y-6">
+      <div className="py-2 space-y-6">
         <Title
           title="Does the findings meet the bounty requirements?"
           big={true}
@@ -62,11 +60,11 @@ export default function Evaluate({ submissionId }: { submissionId: string }) {
       <ImportantMessage message="All reviews and transactions are stored along with your staff address." />
 
       {/* Checkbox */}
-      <div className="flex items-center space-x-4 pr-2">
+      <div className="flex items-center pr-2 space-x-4">
         <input
           type="checkbox"
           id="terms"
-          className="checked:bg-main focus:text-main hover:text-main border-0"
+          className="border-0 checked:bg-main focus:text-main hover:text-main"
           onChange={(e) => {
             setAcceptedTerms(e.target.checked);
           }}
@@ -74,7 +72,7 @@ export default function Evaluate({ submissionId }: { submissionId: string }) {
         <label htmlFor="terms" className="w-full">
           {'I, '}
           <span
-            className="font-semibold text-main-light underline cursor-pointer"
+            className="font-semibold underline cursor-pointer text-main-light"
             onClick={() => {
               notify(
                 {
@@ -131,8 +129,8 @@ export function SubmitReviewButton({
 
   const { SubmitReview } = useSubmitReview(
     review.meetsRequirements
-      ? SubmissionState.Accepted
-      : SubmissionState.Rejected,
+      ? ReviewGrade.Accepted
+      : ReviewGrade.Rejected,
     submission,
     review.reviewer,
     review.feedback,

@@ -1,5 +1,5 @@
 import { AppearVariants } from '@/lib/framer/Variants';
-import { MapOfOrgs } from '@/lib/models/organizations/MapOfOrgs';
+import { MapOfOrgs } from '@/lib/models/MapOfOrgs';
 
 import { OrgEntry } from './OrgEntry';
 

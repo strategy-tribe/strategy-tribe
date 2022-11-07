@@ -1,10 +1,10 @@
-import { Submission as SubmissionData } from '@/lib/models';
+import { Submission } from '@prisma/client';
 
 import { SubmissionBody } from './SubmissionBody';
 import { SubmissionContextProvider } from './SubmissionContext';
 import { SubmissionHeader } from './SubmissionHeader';
 
-export function Submission({ submission }: { submission: SubmissionData }) {
+export function Submission({ submission }: { submission: Submission }) {
   return (
     <SubmissionContextProvider submission={submission}>
       <div className="space-y-6">

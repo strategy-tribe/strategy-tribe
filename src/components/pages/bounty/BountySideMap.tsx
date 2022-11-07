@@ -1,4 +1,4 @@
-import { BountyView } from '@/lib/models/bounty/BountyView';
+import { BountyView } from '@/lib/models/BountyView';
 
 import { useBountyContext } from './BountyContext';
 

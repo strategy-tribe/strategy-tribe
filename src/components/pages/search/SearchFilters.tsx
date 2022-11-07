@@ -1,10 +1,10 @@
-import { Title } from '@/components/utils/Title';
-('@/components/utils/Title');
-import { useEffect } from 'react';
-import { BountyQueryParams } from '@/lib/models/queries/BountyQueryParams';
 import { FilterMenu } from '@/components/filters/FilterMenu';
 import Icon from '@/components/utils/Icon';
+import { Title } from '@/components/utils/Title';
 import useWindowDimensions from '@/hooks/useWindowDimensions';
+import { BountyQueryParams } from '@/lib/models/BountyQueryParams';
+import { useEffect } from 'react';
+('@/components/utils/Title');
 
 export function SearchFilters({
   className,

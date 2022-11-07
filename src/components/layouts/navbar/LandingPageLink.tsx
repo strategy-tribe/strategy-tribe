@@ -9,14 +9,14 @@ export function LandingPageLink({ className }: { className?: string }) {
   const { isStaff, isAdmin } = useAuth();
   return (
     <Link href={GoToLandingPage()}>
-      <a className={`flex gap-2 items-center shrink-0 group ${className}`}>
+      <span className={`flex gap-2 items-center shrink-0 group ${className}`}>
         <Logo />
         <div className="text-left">
           <p className="label-lg text-on-surface-p0">StrategyTribe</p>
           <span className="text-main label">{isStaff && 'Staff'}</span>
           <span className="text-success label">{isAdmin && 'Admin'}</span>
         </div>
-      </a>
+      </span>
     </Link>
   );
 }

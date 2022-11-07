@@ -1,4 +1,4 @@
-import { AccountView } from '@/lib/models/account/AccountView';
+import { AccountView } from '@/lib/models/AccountView';
 
 export const GoToLandingPage = () => '/';
 
@@ -32,7 +32,7 @@ export const GoToOrgPage = (orgId: string) => `/organization/${orgId}`;
 export const GoToOrgBountiesPage = (orgId: string) =>
   `/organization/${orgId}/bounties`;
 
-export const GoToBountyPage = (bountyId: string) => `/bounty/${bountyId}`;
+export const GoToBountyPage = (slug: string) => `/bounty/${slug}`;
 
 export const GoToSubmissionPage = (submissionId: string) =>
   `/submission/${submissionId}`;

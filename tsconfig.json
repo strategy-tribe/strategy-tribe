@@ -16,6 +16,7 @@
     "incremental": true,
     "baseUrl": "./src",
     "paths": {
+      "@/*": ["./src/*"],
       "@/components/*": ["components/*"],
       "@/navbar/*": ["components/layouts/navbar/*"],
       "@/pages/*": ["pages/*"],

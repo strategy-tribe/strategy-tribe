@@ -1,31 +1,31 @@
+import { Requirement, RequirementType } from '@prisma/client';
 import Image from 'next/image';
 import { useState } from 'react';
-
-import { RequirementType } from '@/lib/models/requirement';
-import { SubmissionContent } from '@/lib/models/submission';
 
 import Icon from '@/components/utils/Icon';
 
 import { NumberSelector } from './NumberSelector';
 
 export function UserAnswer({
-  content,
+  content: answer,
   num,
+  requirement,
 }: {
-  content: SubmissionContent;
+  requirement: Requirement;
+  content: string | string[];
   num: number;
 }) {
   const [expanded, setExpanded] = useState(true);
 
   return (
-    <div key={content.requirement.title} className="space-y-2">
+    <div key={requirement.title} className="space-y-2">
       <button
         className="flex gap-2 label items-center group justify-between w-full text-on-surface-unactive hover:text-on-surface-p0"
         onClick={() => setExpanded(!expanded)}
       >
         <div className="flex gap-2 label items-center w-full">
           <NumberSelector num={num} colors="bg-surface text-on-surface-p0" />
-          <p>{content.requirement.title}</p>
+          <p>{requirement.title}</p>
         </div>
 
         <Icon icon={expanded ? 'expand_less' : 'expand_more'} />
@@ -33,15 +33,15 @@ export function UserAnswer({
 
       {expanded && (
         <>
-          {typeof content.answer === 'string' ? (
+          {typeof answer === 'string' ? (
             <p className="pl-8 body">
-              <span className="inline">{content.answer}</span>
+              <span className="inline">{answer}</span>
             </p>
           ) : (
             <>
-              {content.requirement.type === RequirementType.Image && (
+              {requirement.type === RequirementType.IMAGE && (
                 <div className="flex flex-col gap-4 pt-4">
-                  {(content.answer ?? []).map((url) => {
+                  {(answer ?? []).map((url) => {
                     return (
                       <figure key={url} className="relative">
                         <Image

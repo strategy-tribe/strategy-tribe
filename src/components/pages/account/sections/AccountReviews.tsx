@@ -1,10 +1,8 @@
+import { Review } from '@prisma/client';
 import { useAuth } from 'auth/AuthContext';
 import Link from 'next/link';
 
-import { useGetBounty } from '@/lib/hooks/bountyHooks';
 import { useGetReviews } from '@/lib/hooks/reviewHooks';
-import { useGetSubmission } from '@/lib/hooks/submissionHooks';
-import { Review } from '@/lib/models/Review';
 import { GoToSubmissionPage } from '@/lib/utils/Routes';
 
 export function AccountReviews() {
@@ -50,10 +48,10 @@ export function AccountReviews() {
 }
 
 function ReviewEntry({ review: r }: { review: Review }) {
-  const { submission: s } = useGetSubmission(r.submissionId, !!r.submissionId);
-  const { bounty: b } = useGetBounty(s?.bountyId ?? '', !!s);
+  // const { submission: s } = useGetSubmission(r.submissionId, !!r.submissionId);
+  // const { bounty: b } = useGetBounty(s?.bountyId ?? '', !!s);
 
-  if (b && s) {
+  if (r.id === 'this-needs-refactoring') {
     return (
       <div className="grid grid-cols-3 w-full gap-x-8 body-sm items-center py-1">
         <p className="flex flex-col">
@@ -61,22 +59,22 @@ function ReviewEntry({ review: r }: { review: Review }) {
           <span className="label text-on-surface-unactive">{r.grade}</span>
         </p>
 
-        <Link href={GoToSubmissionPage(s.id)}>
-          <a className="flex flex-col group">
+        <Link href={GoToSubmissionPage('not defined')}>
+          <span className="flex flex-col group">
             <span className="text-main-light group-hover:text-main">
-              {s.id}
+              id of the submission goes here
             </span>
-            <span className="label text-on-surface-unactive">{s.state}</span>
-          </a>
+            <span className="label text-on-surface-unactive">not defined</span>
+          </span>
         </Link>
 
-        <Link href={GoToSubmissionPage(b.id)}>
-          <a className="flex flex-col group">
+        <Link href={GoToSubmissionPage('id of the bounty goes here')}>
+          <span className="flex flex-col group">
             <span className="text-main-light group-hover:text-main">
-              {b.id}
+              id of the bounty goes here
             </span>
-            <span className="label text-on-surface-unactive">{b.state}</span>
-          </a>
+            <span className="label text-on-surface-unactive">not defined</span>
+          </span>
         </Link>
       </div>
     );

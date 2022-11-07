@@ -2,8 +2,8 @@ import { createContext, ReactNode, useContext } from 'react';
 
 import { GoToAccountPage } from '@/lib/utils/Routes';
 
-import { AccountView } from '../../../lib/models/account/AccountView';
-import { useAccountUrl } from '../../../lib/models/account/useAccountUrl';
+import { AccountView } from '../../../lib/models/AccountView';
+import { useAccountUrl } from '../../../lib/models/useAccountUrl';
 
 interface iAccountContext {
   view: AccountView;

@@ -1,8 +1,8 @@
 import { useAuth } from 'auth/AuthContext';
 import { useMemo } from 'react';
 
-import { AccountView, VIEWS_FOR_STAFF } from '@/lib/models/account/AccountView';
-import { useAccountUrl } from '@/lib/models/account/useAccountUrl';
+import { AccountView, VIEWS_FOR_STAFF } from '@/lib/models/AccountView';
+import { useAccountUrl } from '@/lib/models/useAccountUrl';
 import { GoToAccountPage } from '@/lib/utils/Routes';
 
 export function AccountSideMap() {

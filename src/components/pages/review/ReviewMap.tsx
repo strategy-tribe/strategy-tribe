@@ -1,18 +1,22 @@
-import { Submission as SubmissionData } from '@/lib/models';
-import { GoToSubmissionPage } from '@/lib/utils/Routes';
-
 import { Button, ButtonStyle } from '@/components/utils/Button';
 import FromBounty from '@/components/utils/FromBounty';
-
+import { FullSubmission } from '@/lib/types';
+import { GoToSubmissionPage } from '@/lib/utils/Routes';
+import router from 'next/router';
 import { UserAnswer } from './UserAnswer';
 
-export function ReviewMap({ submission }: { submission: SubmissionData }) {
+export function ReviewMap({
+  submission,
+}: {
+  submission: FullSubmission;
+}) {
   return (
-    <aside className="grow max-w-sm sticky top-24 left-0 min-h-screen bg-surface-dark space-y-8 p-8">
+    <aside className="sticky left-0 max-w-sm min-h-screen p-8 space-y-8 grow top-24 bg-surface-dark">
       <Button
         info={{
           style: ButtonStyle.Text,
           icon: 'arrow_back',
+          onClick: () => router.push(GoToSubmissionPage(submission.id)),
           label: 'back',
           removePadding: true,
           removeMinWidth: true,
@@ -20,7 +24,7 @@ export function ReviewMap({ submission }: { submission: SubmissionData }) {
       />
 
       <div className="space-y-2">
-        <FromBounty bountyId={submission.bountyId} />
+        <FromBounty bountyId={submission.bounty?.slug ?? ''} />
         <div>
           <h3 className="title">User Submission</h3>
 
@@ -37,11 +41,16 @@ export function ReviewMap({ submission }: { submission: SubmissionData }) {
         </div>
       </div>
 
-      <div className="space-y-4 w-full">
-        {submission.answers
-          .filter((a) => a.answer && a.answer.length > 0)
-          .map((answer, i) => {
-            return <UserAnswer key={i} content={answer} num={i + 1} />;
+      <div className="w-full space-y-4">
+        {submission.answers?.map((answer, i) => {
+            return (
+              <UserAnswer
+                key={i}
+                content={answer.answer}
+                requirement={answer.requirement}
+                num={i + 1}
+              />
+            );
           })}
       </div>
     </aside>

@@ -1,30 +1,28 @@
-import { useAuth } from 'auth/AuthContext';
-import { useRouter } from 'next/router';
-import { useState } from 'react';
-
-import { useGetOrganizationByName } from '@/lib/hooks/organizationHooks';
-import { useCanUserSubmit } from '@/lib/hooks/submissionHooks';
-import { BountyState } from '@/lib/models';
-import { ParseBountyTitle } from '@/lib/utils/BountyHelpers';
-import { GoToBeforeNewSubmissionPage, GoToOrgPage } from '@/lib/utils/Routes';
-
-import { DonationPopUp } from '@/components/donations/DonationPopUp';
-import BountyStates from '@/components/pages/bounty/BountyStates';
+import { useBountyContext } from '@/components/pages/bounty/BountyContext';
 import { Button, ButtonStyle } from '@/components/utils/Button';
 import FromOrganization from '@/components/utils/FromOrganization';
 import Icon, { IconSize } from '@/components/utils/Icon';
-
-import { Stat } from '../../utils/Stat';
+import { Stat } from '@/components/utils/Stat';
+import { useGetOrganization } from '@/lib/hooks/organizationHooks';
+import { useCanUserSubmit } from '@/lib/hooks/submissionHooks';
+import { ParseBountyTitle } from '@/lib/utils/BountyHelpers';
+import { GoToBeforeNewSubmissionPage, GoToOrgPage } from '@/lib/utils/Routes';
+import { useAuth } from 'auth/AuthContext';
+import { useRouter } from 'next/router';
+import { useState } from 'react';
 import { Section } from '../landing/Section';
-import { useBountyContext } from './BountyContext';
+import BountyStates from './BountyStates';
+
+
+
 
 export function BountyHeader() {
   const { bounty } = useBountyContext();
 
   const ETHERSCAN_LINK = process.env.NEXT_PUBLIC_ETHERSCAN_URL;
-  const { organization } = useGetOrganizationByName(
-    bounty?.organizationName as string,
-    Boolean(bounty?.organizationName as string)
+  const { organization } = useGetOrganization(
+    bounty?.target?.org.id as string,
+    Boolean(bounty?.target?.org.id as string)
   );
   const [showDonation, setShowDonation] = useState(false);
 
@@ -43,7 +41,7 @@ export function BountyHeader() {
                   style: ButtonStyle.TextPurple,
                   removeMinWidth: true,
                   removePadding: true,
-                  label: bounty.organizationName,
+                  label: organization.name,
                   labelClasses: 'capitalize',
                   isALink: GoToOrgPage(organization?.id as string),
                 }}
@@ -57,7 +55,7 @@ export function BountyHeader() {
                     style: ButtonStyle.TextPurple,
                     removeMinWidth: true,
                     removePadding: true,
-                    label: tag,
+                    label: tag.name,
                     labelClasses: 'capitalize',
                   }}
                 />
@@ -68,15 +66,17 @@ export function BountyHeader() {
           <div className="flex justify-between gap-10">
             <h1 className="laptop:h2 h3">{parsedTitle}</h1>
 
-            <div className=" flex flex-col gap-4 items-end justify-start shrink-0">
+            <div className="flex flex-col items-end justify-start gap-4 shrink-0">
               <a
-                href={ETHERSCAN_LINK + bounty.wallet}
+                href={`${ETHERSCAN_LINK}${bounty.wallet?.address}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex gap-4 items-center text-main-light hover:text-main cursor-pointer"
+                className="flex items-center gap-4 cursor-pointer text-main-light hover:text-main"
               >
                 <Icon icon="emoji_events" size={IconSize.Large} />
-                <span className="h4 font-medium">{bounty.funds} MATIC</span>
+                <span className="font-medium h4">
+                  {bounty.wallet?.balance} MATIC
+                </span>
               </a>
               <Button
                 info={{
@@ -99,14 +99,12 @@ export function BountyHeader() {
 
         {/* Details */}
         <Section className="space-y-8">
-          <Stat title="target" content={bounty.name} />
+          <Stat title="target" content={bounty?.target?.name} />
           <Stat
             title="requirements"
-            contents={bounty.requirements
-              .filter((r) => !r.optional)
-              .map((r) => r.title)}
+            contents={bounty.requirements?.filter((r) => !r.optional)?.map((r) => r.title)}
           />
-          <FromOrganization orgName={organization?.name as string} />
+          {organization && (<FromOrganization orgId={organization?.id as string} />)}
         </Section>
 
         {/* CTAs */}
@@ -119,12 +117,12 @@ export function BountyHeader() {
           )}
         </Section>
       </header>
-      <DonationPopUp
+      {/* <DonationPopUp
         show={showDonation}
         hide={() => setShowDonation(false)}
         recipient={bounty}
         description={`Bigger rewards mean more eyes and more OSINT hunters.\nBy donating to this bounty you're directly contributing to bringing this bounty to fruition.\n\nAll donations go directly to the hunter who fulfills the bounty requirements.`}
-      />
+      /> */}
     </>
   );
 }
@@ -134,22 +132,21 @@ function SubmitMessages() {
 
   const { userId } = useAuth();
 
-  const { data } = useCanUserSubmit(
-    userId as string,
-    bounty?.id as string,
-    Boolean(userId as string) && Boolean(bounty?.id)
-  );
+  // const { data } = useCanUserSubmit(
+  //   userId as string,
+  //   bounty?.id as string,
+  //   Boolean(userId as string) && Boolean(bounty?.id)
+  // );
 
-  const canSubmit = data?.canSubmit;
-  const spacesLeft = data?.spacesLeft;
+  const canSubmit = false;
+  const spacesLeft = 0;
 
   const isOpen =
-    bounty.state === BountyState.WaitingForFunds ||
-    bounty.state === BountyState.Open;
+    bounty.status === 'WaitingForFunds' || bounty.status === 'Open';
 
   return (
     <>
-      <div className="pr-2 label text-right pt-1">
+      <div className="pt-1 pr-2 text-right label">
         {isOpen ? (
           <>
             {(spacesLeft ?? 0) > 0 && (
@@ -157,7 +154,7 @@ function SubmitMessages() {
             )}
 
             {!canSubmit && userId && (
-              <span className="text-error-light whitespace-pre-wrap">
+              <span className="whitespace-pre-wrap text-error-light">
                 {`You have used all your submissions for today.\nPlease wait 24 hours.`}
               </span>
             )}
@@ -170,7 +167,7 @@ function SubmitMessages() {
           </>
         ) : (
           <>
-            <span className="text-error-light whitespace-pre-wrap">
+            <span className="whitespace-pre-wrap text-error-light">
               This bounty is closed
             </span>
           </>
@@ -199,8 +196,8 @@ function SubmitButton() {
         style: ButtonStyle.Filled,
         label: 'Start new submission',
         icon: 'arrow_forward',
-        disabled: !data?.canSubmit,
-        onClick: () => router.push(GoToBeforeNewSubmissionPage(bounty.id)),
+        // disabled: true,
+        onClick: () => router.push(GoToBeforeNewSubmissionPage(bounty.slug)),
       }}
     />
   );

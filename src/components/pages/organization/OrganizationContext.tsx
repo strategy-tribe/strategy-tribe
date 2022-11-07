@@ -1,13 +1,13 @@
 import { createContext, ReactNode, useContext } from 'react';
 
-import { Organization } from '@/lib/models/organizations/organization';
+import { FullOrganization } from '@/lib/types';
 import { GoToBountyPage } from '@/lib/utils/Routes';
 
 import { OrgView } from './OrgView';
 import { useOrgUrl } from './useOrgUrl';
 
 interface iOrganizationContext {
-  org: Organization;
+  org: FullOrganization;
   view: OrgView;
   setView: (val: OrgView) => void;
 }
@@ -21,7 +21,7 @@ export const OrganizationContextProvider = ({
   org,
 }: {
   children: ReactNode;
-  org: Organization;
+  org: FullOrganization;
 }) => {
   const { query, setQuery } = useOrgUrl();
 
