@@ -1,3 +1,4 @@
+import { DonationPopUp } from '@/components/donations/DonationPopUp';
 import { useBountyContext } from '@/components/pages/bounty/BountyContext';
 import { Button, ButtonStyle } from '@/components/utils/Button';
 import FromOrganization from '@/components/utils/FromOrganization';
@@ -117,12 +118,12 @@ export function BountyHeader() {
           )}
         </Section>
       </header>
-      {/* <DonationPopUp
+      <DonationPopUp
         show={showDonation}
         hide={() => setShowDonation(false)}
-        recipient={bounty}
+        recipient={{wallet: bounty.wallet!}}
         description={`Bigger rewards mean more eyes and more OSINT hunters.\nBy donating to this bounty you're directly contributing to bringing this bounty to fruition.\n\nAll donations go directly to the hunter who fulfills the bounty requirements.`}
-      /> */}
+      />
     </>
   );
 }
