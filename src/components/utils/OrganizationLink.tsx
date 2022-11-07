@@ -1,6 +1,7 @@
-import { useGetOrganization } from "@/lib/hooks/organizationHooks";
-import { GoToOrgPage } from "@/lib/utils/Routes";
 import Link from 'next/link';
+
+import { useGetOrganization } from '@/lib/hooks/organizationHooks';
+import { GoToOrgPage } from '@/lib/utils/Routes';
 
 export function OrganizationLink({
   orgId,

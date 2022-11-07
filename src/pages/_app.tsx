@@ -1,8 +1,8 @@
 import AuthContextProvider from 'auth/AuthContext';
 import { NextPage } from 'next';
-import { SessionProvider } from 'next-auth/react';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
+import { SessionProvider } from 'next-auth/react';
 import { ReactElement, ReactNode, useState } from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import {

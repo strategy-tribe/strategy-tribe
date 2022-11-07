@@ -1,6 +1,6 @@
 import { BountyState, TargetType } from '@prisma/client';
-import { Order } from './Order';
 
+import { Order } from './Order';
 
 type OrgName = string;
 

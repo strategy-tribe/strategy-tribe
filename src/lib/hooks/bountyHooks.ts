@@ -1,10 +1,10 @@
-import { BountyQueryParams } from '@/lib/models/BountyQueryParams';
-import { trpc } from '@/lib/trpc';
 import { Requirement, Target } from '@prisma/client';
 import { useEffect, useState } from 'react';
+
+import { BountyQueryParams } from '@/lib/models/BountyQueryParams';
+import { trpc } from '@/lib/trpc';
+
 import { FullBounty } from '../types';
-
-
 
 //!Get All
 export const useGetBounties = (config: BountyQueryParams, enabled = true) => {
@@ -15,24 +15,20 @@ export const useGetBounties = (config: BountyQueryParams, enabled = true) => {
   const [hasPreviousPage, setHasPreviousPage] = useState(false);
 
   const { error, isLoading, data, isFetching } =
-    trpc.bounty.getBounties.useQuery(
-      config, {
-        enabled: true
-      }
-    );
-  const {data: countData} = trpc.bounty.getTotalCount.useQuery(
-    config, {
-      enabled: true
-    }
-  );
+    trpc.bounty.getBounties.useQuery(config, {
+      enabled: true,
+    });
+  const { data: countData } = trpc.bounty.getTotalCount.useQuery(config, {
+    enabled: true,
+  });
 
   useEffect(() => {
     if (data && countData && config.amount && config.paginate) {
       // const { count } = data;
       const count = countData.bountiesCount;
       const _numOfPages = Math.floor((count - 1) / config.amount + 1);
-      setHasNextPage((_numOfPages-1)>(config?.page ?? _numOfPages))
-      setHasPreviousPage((config?.page ?? 0)!=0)
+      setHasNextPage(_numOfPages - 1 > (config?.page ?? _numOfPages));
+      setHasPreviousPage((config?.page ?? 0) != 0);
       setNumOfPages(_numOfPages);
     } else {
       setNumOfPages(0);

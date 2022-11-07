@@ -1,6 +1,8 @@
-import { UserInput } from '@/components/pages/submission/new submission/UserInput';
 import { useEffect, useState } from 'react';
 import { useQueryClient } from 'react-query';
+
+import { UserInput } from '@/components/pages/submission/new submission/UserInput';
+
 import { trpc } from '../trpc';
 
 export const useSaveSubmission = (
@@ -24,15 +26,15 @@ export const useSaveSubmission = (
       q.invalidateQueries();
       onSuccess(data.submissionId);
     },
-  })
+  });
 
   return {
-    Save: async ()=>{
+    Save: async () => {
       mutation.mutate({
         slug: bountyId,
         address,
-        answers: content
-      })
+        answers: content,
+      });
     },
     isLoading: mutation.isLoading,
     isSuccess: mutation.isSuccess,
@@ -125,18 +127,18 @@ export const useSubmitterInfo = (
     trpc.submission.getSubmitterInfo.useQuery(
       {
         submitterId,
-        bountyId
+        bountyId,
       },
       {
-        enabled
+        enabled,
       }
     );
 
-    return {
-      data,
-      error,
-      isLoading,
-    };
+  return {
+    data,
+    error,
+    isLoading,
+  };
 };
 
 export const useGetSubmissions = (config: any, enabled = true) => {
@@ -145,27 +147,22 @@ export const useGetSubmissions = (config: any, enabled = true) => {
   const [numOfPages, setNumOfPages] = useState(0);
   const [hasNextPage, setHasNextPage] = useState(false);
   const [hasPreviousPage, setHasPreviousPage] = useState(false);
-  
-  const { error, isLoading, data, isFetching } =
-    trpc.submission.getSubmissions.useQuery(
-      config,
-      {
-        enabled
-      }
-    );
 
-    const {data: countData} = trpc.submission.getTotalCount.useQuery(
-      config, {
-        enabled: true
-      }
-    );
+  const { error, isLoading, data, isFetching } =
+    trpc.submission.getSubmissions.useQuery(config, {
+      enabled,
+    });
+
+  const { data: countData } = trpc.submission.getTotalCount.useQuery(config, {
+    enabled: true,
+  });
 
   useEffect(() => {
     if (data && countData && config.amount) {
       const count = countData?.submissionsCount;
       const _numOfPages = Math.floor((count - 1) / config.amount + 1);
-      setHasNextPage((_numOfPages-1)>(config?.page ?? _numOfPages))
-      setHasPreviousPage((config?.page ?? 0)!=0)
+      setHasNextPage(_numOfPages - 1 > (config?.page ?? _numOfPages));
+      setHasPreviousPage((config?.page ?? 0) != 0);
       setNumOfPages(_numOfPages);
     } else {
       setNumOfPages(0);

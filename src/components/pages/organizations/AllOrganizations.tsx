@@ -1,14 +1,15 @@
-import Loading from '@/components/utils/Loading';
-import { Title } from '@/components/utils/Title';
+import { motion } from 'framer-motion';
+import { useMemo } from 'react';
+
 import { AppearVariants } from '@/lib/framer/Variants';
 import { useGetAllOrganizations } from '@/lib/hooks/organizationHooks';
 import { MapOfOrgs } from '@/lib/models/MapOfOrgs';
 import { FullOrganization } from '@/lib/types';
-import { motion } from 'framer-motion';
-import { useMemo } from 'react';
+
+import Loading from '@/components/utils/Loading';
+import { Title } from '@/components/utils/Title';
+
 import { Organizations } from './Organizations';
-
-
 
 ('@/components/utils/Title');
 

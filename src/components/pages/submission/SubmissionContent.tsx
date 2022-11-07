@@ -1,7 +1,9 @@
-import { useSubmitterInfo } from '@/lib/hooks/submissionHooks';
-import { FullSubmission } from '@/lib/types';
 import { RequirementType } from '@prisma/client';
 import { useAuth } from 'auth/AuthContext';
+
+import { useSubmitterInfo } from '@/lib/hooks/submissionHooks';
+import { FullSubmission } from '@/lib/types';
+
 import { useSubmissionContext } from './SubmissionContext';
 import { SubmissionDetail } from './SubmissionDetail';
 
@@ -55,7 +57,10 @@ function UserStats() {
               label="Has submitted to this bounty"
               value={`${submitterInfo.bountySubmissions} times`}
             />
-            <SubmissionDetail label="Total submissions" value={`${submitterInfo.totalSubmissions}`} />
+            <SubmissionDetail
+              label="Total submissions"
+              value={`${submitterInfo.totalSubmissions}`}
+            />
 
             {/* TODO: update right number */}
             <SubmissionDetail

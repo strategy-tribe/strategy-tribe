@@ -1,9 +1,9 @@
-import { FullOrganization } from '@/lib/types';
-import { GoToOrgPage } from '@/utils/Routes';
 import { motion, Variants } from 'framer-motion';
 import { useRouter } from 'next/router';
 
+import { FullOrganization } from '@/lib/types';
 
+import { GoToOrgPage } from '@/utils/Routes';
 
 export function OrgEntry({
   org,
@@ -24,8 +24,15 @@ export function OrgEntry({
           {org.name}
         </h3>
         <span className="mt-1 text-main-light shrink-0 label">
-          {org.targets?.map((target:any) => target._count.bounties)?.reduce((sum: any, count: any) => sum + count, 0)?.toString()}{' '}
-          {org.targets?.map((target:any) => target._count.bounties)?.reduce((sum: any, count: any) => sum + count, 0) === 1 ? 'bounty' : 'bounties'}
+          {org.targets
+            ?.map((target: any) => target._count.bounties)
+            ?.reduce((sum: any, count: any) => sum + count, 0)
+            ?.toString()}{' '}
+          {org.targets
+            ?.map((target: any) => target._count.bounties)
+            ?.reduce((sum: any, count: any) => sum + count, 0) === 1
+            ? 'bounty'
+            : 'bounties'}
         </span>
       </div>
       {org.bio && (

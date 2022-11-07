@@ -1,7 +1,7 @@
 import { AnimatePresence, motion } from 'framer-motion';
 
-import Icon from '../utils/Icon';
 import { ClientNotification, NotificationStyle } from './iNotification';
+import Icon from '../utils/Icon';
 
 const position = ' z-50 fixed bottom-4 mx-auto';
 const width = 'max-w-lg w-full';

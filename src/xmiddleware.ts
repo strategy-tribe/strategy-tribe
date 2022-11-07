@@ -8,7 +8,7 @@ export default withAuth({
     signOut: '/',
   },
   callbacks: {
-    authorized: ({ req, token }) => {
+    authorized: () => {
       return true;
       // if (req.url.includes('api/admin') && token?.user.rol !== 'ADMIN') {
       //   return false;

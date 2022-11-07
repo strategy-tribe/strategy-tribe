@@ -4,8 +4,8 @@ import router from 'next/router';
 
 import { GoToBountiesPage } from '@/utils/Routes';
 
-import { Button, ButtonStyle } from '../../utils/Button';
 import { Section } from './Section';
+import { Button, ButtonStyle } from '../../utils/Button';
 
 export function Privacy() {
   const variants = {

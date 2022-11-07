@@ -1,14 +1,14 @@
+import Head from 'next/head';
+import { useRouter } from 'next/router';
+
+import { useGetOrganization } from '@/hooks/organizationHooks';
+
 import AppLayout from '@/components/layouts/AppLayout';
 import { Organization } from '@/components/pages/organization/Organization';
 import Loading from '@/components/utils/Loading';
 import { MessageForUser } from '@/components/utils/MessageForUser';
-import { useGetOrganization } from '@/hooks/organizationHooks';
+
 import { NextPageWithLayout } from '@/pages/_app';
-import Head from 'next/head';
-import { useRouter } from 'next/router';
-
-
-
 
 const OrganizationPage: NextPageWithLayout = () => {
   //*Router

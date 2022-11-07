@@ -103,9 +103,13 @@ export function BountyHeader() {
           <Stat title="target" content={bounty?.target?.name} />
           <Stat
             title="requirements"
-            contents={bounty.requirements?.filter((r) => !r.optional)?.map((r) => r.title)}
+            contents={bounty.requirements
+              ?.filter((r) => !r.optional)
+              ?.map((r) => r.title)}
           />
-          {organization && (<FromOrganization orgId={organization?.id as string} />)}
+          {organization && (
+            <FromOrganization orgId={organization?.id as string} />
+          )}
         </Section>
 
         {/* CTAs */}

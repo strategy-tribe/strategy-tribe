@@ -1,8 +1,10 @@
+import { Bounty, BountyState } from '@prisma/client';
+import { z } from 'zod';
+
 import { BountyOrderBy } from '@/lib/models/BountyQueryParams';
 import { Order } from '@/lib/models/Order';
 import prisma from '@/lib/prisma/prismaClient';
-import { Bounty, BountyState } from '@prisma/client';
-import { z } from 'zod';
+
 import { publicProcedure, router } from '../trpc';
 
 export const bountyRouter = router({
@@ -77,25 +79,26 @@ export const bountyRouter = router({
         page: z.number().optional(),
       })
     )
-    .query(async ({ input }) => {
+    .query(async ({ input, ctx }) => {
+      // console.log(ctx.session);
       try {
         let where = {};
         if (input.orgId) {
           where = {
             target: {
               org: {
-                id: input.orgId
+                id: input.orgId,
               },
             },
-           }
+          };
         }
         if (input.states && input.states.length > 0) {
           where = {
             ...where,
             status: {
-              in: input.states
-            }
-          }
+              in: input.states,
+            },
+          };
         }
         //TODO: Use the input params to filter the bounties
         const bounties: Bounty[] = await prisma.bounty.findMany({
@@ -134,7 +137,7 @@ export const bountyRouter = router({
         console.error(error);
       }
     }),
-    getTotalCount: publicProcedure
+  getTotalCount: publicProcedure
     .input(
       z.object({
         searchTerm: z.string().optional(),
@@ -165,13 +168,13 @@ export const bountyRouter = router({
           where = {
             target: {
               org: {
-                id: input.orgId
+                id: input.orgId,
               },
             },
-           }
+          };
         }
         const bountiesCount: number = await prisma.bounty.count({
-          where
+          where,
         });
 
         return { bountiesCount };

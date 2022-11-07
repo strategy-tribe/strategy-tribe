@@ -1,5 +1,6 @@
-import { FullBounty, FullSubmission } from '@/lib/types';
 import React, { createContext, useContext } from 'react';
+
+import { FullBounty, FullSubmission } from '@/lib/types';
 
 interface iSubmissionContext {
   submission: FullSubmission;
@@ -16,9 +17,10 @@ export const SubmissionContextProvider = ({
   children: React.ReactNode;
   submission: FullSubmission;
 }) => {
-
   return (
-    <SubmissionContext.Provider value={{ bounty: submission.bounty, submission }}>
+    <SubmissionContext.Provider
+      value={{ bounty: submission.bounty, submission }}
+    >
       {children}
     </SubmissionContext.Provider>
   );

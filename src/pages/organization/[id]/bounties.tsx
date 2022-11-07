@@ -1,18 +1,21 @@
-import AppLayout from '@/components/layouts/AppLayout';
-import { BountyCard, DummyBountyCard } from '@/components/pages/explore/bounty card/BountyCard';
-import { Button, ButtonStyle } from '@/components/utils/Button';
-import { IconSize } from '@/components/utils/Icon';
-import { useGetOrganization } from '@/hooks/organizationHooks';
+import Head from 'next/head';
+import { useRouter } from 'next/router';
+
 import { useGetBounties } from '@/lib/hooks/bountyHooks';
 import { Order } from '@/lib/models/Order';
 import { ArrayOfNumbers } from '@/lib/utils/ArrayHelpers';
 import { GoToOrgPage } from '@/lib/utils/Routes';
+import { useGetOrganization } from '@/hooks/organizationHooks';
+
+import AppLayout from '@/components/layouts/AppLayout';
+import {
+  BountyCard,
+  DummyBountyCard,
+} from '@/components/pages/explore/bounty card/BountyCard';
+import { Button, ButtonStyle } from '@/components/utils/Button';
+import { IconSize } from '@/components/utils/Icon';
+
 import { NextPageWithLayout } from '@/pages/_app';
-import Head from 'next/head';
-import { useRouter } from 'next/router';
-
-
-
 
 const OrganizationBountiesPage: NextPageWithLayout = () => {
   //*Router
@@ -28,7 +31,7 @@ const OrganizationBountiesPage: NextPageWithLayout = () => {
   const { bounties, isLoading: isLoadingBounties } = useGetBounties(
     {
       order: Order.Desc,
-      orgId: orgId as string
+      orgId: orgId as string,
     },
     !!org
   );

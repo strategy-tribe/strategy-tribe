@@ -1,15 +1,15 @@
+import { SubmissionState } from '@prisma/client';
+import { useMemo, useState } from 'react';
+
+import { Order } from '@/lib/models/Order';
+import { ArrayOfNumbers } from '@/lib/utils/ArrayHelpers';
+
 import { useAdminReview } from '@/components/pages/admin/submissions/ReviewContext';
 import { SubmissionListEntry } from '@/components/submissions/SubmissionListEntry';
 import { Button, ButtonStyle } from '@/components/utils/Button';
 import Dropdown, { HasLabel } from '@/components/utils/Dropdown';
 import Icon, { IconSize } from '@/components/utils/Icon';
 import { Title } from '@/components/utils/Title';
-import { Order } from '@/lib/models/Order';
-import { ArrayOfNumbers } from '@/lib/utils/ArrayHelpers';
-import { SubmissionState } from '@prisma/client';
-import { useMemo, useState } from 'react';
-
-
 
 export function ReviewDashboardHeader() {
   const { submissionFetch } = useAdminReview();
@@ -156,7 +156,7 @@ export function ReviewDashboardSubmissions() {
             return (
               <div key={i} className="flex items-center gap-4 -translate-x-5">
                 <span className="label text-on-surface-disabled">
-                  {(i + 1) + ((page > 0 ? page : 0)*(query?.amount ?? 10))}
+                  {i + 1 + (page > 0 ? page : 0) * (query?.amount ?? 10)}
                 </span>
                 <SubmissionListEntry submission={s} />
               </div>

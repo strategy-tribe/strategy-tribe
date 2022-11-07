@@ -195,7 +195,7 @@ function IndividualTarget({
             {existingOrganizations.map((org, i) => {
               return (
                 <option key={i} value={org.name}>
-                  {org.name} ({org._count.targets})
+                  {org.name} ({org?._count?.targets})
                 </option>
               );
             })}
@@ -284,7 +284,7 @@ function OrganizationTarget({
             {existingOrganizations.map((o, i) => {
               return (
                 <option key={i} value={o.name}>
-                  {o.name} ({o._count.targets})
+                  {o.name} ({o?._count?.targets})
                 </option>
               );
             })}

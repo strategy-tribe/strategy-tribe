@@ -17,12 +17,12 @@ export function SubscriptionEntry({
       {subscription.type === 'ORG' && (
         <>
           <OrganizationLink
-            orgName={subscription.name}
+            orgId={subscription.id}
             className="text-on-surface-p1 body w-fit hover:underline"
           />
 
           <SubToOrgButton
-            orgName={subscription.name}
+            orgId={subscription.id}
             button={(_, isSubscribed) => {
               return {
                 removeMinWidth: true,

@@ -1,5 +1,6 @@
 import { ReviewGrade, Submission } from '@prisma/client';
 import { useQueryClient } from 'react-query';
+
 import { trpc } from '../trpc';
 
 export const useSubmitReview = (
@@ -18,16 +19,16 @@ export const useSubmitReview = (
       q.invalidateQueries();
       onSuccess();
     },
-  })
+  });
 
   return {
-    SubmitReview: async ()=>{
+    SubmitReview: async () => {
       mutation.mutate({
         grade,
         submissionId: submission.id,
         reviewerAddress,
-        reviewerComment
-      })
+        reviewerComment,
+      });
     },
     isLoading: mutation.isLoading,
     isSuccess: mutation.isSuccess,

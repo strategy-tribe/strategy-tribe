@@ -1,11 +1,14 @@
-import useWindowDimensions from '@/hooks/useWindowDimensions';
-import { GoToAboutusPage, GoToBountiesPage } from '@/utils/Routes';
-import { motion, useTransform, useScroll } from 'framer-motion';
+import { motion, useScroll,useTransform } from 'framer-motion';
 import Image from 'next/image';
 import router from 'next/router';
 import React from 'react';
-import { Button, ButtonStyle } from '../../utils/Button';
+
+import useWindowDimensions from '@/hooks/useWindowDimensions';
+
+import { GoToAboutusPage, GoToBountiesPage } from '@/utils/Routes';
+
 import { Section } from './Section';
+import { Button, ButtonStyle } from '../../utils/Button';
 
 export default function Hero() {
   const { width } = useWindowDimensions();

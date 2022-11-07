@@ -2,9 +2,9 @@ import { Requirement } from '@prisma/client';
 import { useAuth } from 'auth/AuthContext';
 import { useState } from 'react';
 
+import { FullTarget } from '@/lib/types';
 import { useScrollDirection } from '@/hooks/useScrollDirection';
 import { useScrollToTop } from '@/hooks/useScrollTo';
-import { FullTarget } from '@/lib/types';
 
 import Icon from '@/components/utils/Icon';
 import { Stat } from '@/components/utils/Stat';

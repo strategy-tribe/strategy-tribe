@@ -1,3 +1,8 @@
+import { useAuth } from 'auth/AuthContext';
+import React from 'react';
+
+import { useSubscribeToAll } from '@/hooks/subscriptionHooks';
+
 import {
   DelayType,
   NotificationStyle,
@@ -7,11 +12,7 @@ import { useNotification } from '@/components/notifications/NotificationContext'
 import {
   Button,
   ButtonInformation,
-  ButtonStyle,
 } from '@/components/utils/Button';
-import { useSubscribeToAll } from '@/hooks/subscriptionHooks';
-import React from 'react';
-import { useAuth } from 'auth/AuthContext';
 
 export function SubscribedToAllButton({ info }: { info: ButtonInformation }) {
   const { notify } = useNotification();

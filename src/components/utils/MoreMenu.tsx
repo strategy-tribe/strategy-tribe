@@ -1,10 +1,12 @@
-import { GoToBountyPage } from '@/utils/Routes';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useState } from 'react';
-import { useNotification } from '../notifications/NotificationContext';
+
+import { GoToBountyPage } from '@/utils/Routes';
+
+import Icon from './Icon';
 import { Overlay } from './Overlay';
 import { DelayType, NotificationType } from '../notifications/iNotification';
-import Icon from './Icon';
+import { useNotification } from '../notifications/NotificationContext';
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 

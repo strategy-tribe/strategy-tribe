@@ -1,4 +1,5 @@
 import { Stat } from '@/components/utils/Stat';
+
 import { useBountyContext } from './BountyContext';
 
 export function BountyMoreDetails() {
@@ -24,7 +25,8 @@ export function BountyMoreDetails() {
 
         <Stat
           title="Additional info"
-          contents={bounty.requirements?.filter((r) => r.optional)
+          contents={bounty.requirements
+            ?.filter((r) => r.optional)
             .map((r) => r.title)}
         />
 

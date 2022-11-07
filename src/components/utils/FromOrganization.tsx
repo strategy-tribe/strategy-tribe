@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { OrganizationLink } from './OrganizationLink';
 
 export default function FromOrganization({
@@ -9,7 +10,7 @@ export default function FromOrganization({
   title?: string;
 }) {
   return (
-    <div className={`flex flex-col`}>
+    <div className="flex flex-col">
       <span className="text-on-surface-unactive label">{title}</span>
       <OrganizationLink orgId={orgId} />
     </div>

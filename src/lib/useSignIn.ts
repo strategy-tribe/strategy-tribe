@@ -1,6 +1,6 @@
 import axios from 'axios';
-import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/router';
+import { signIn } from 'next-auth/react';
 import { useAccount, useConnect, useDisconnect, useSignMessage } from 'wagmi';
 import { MetaMaskConnector } from 'wagmi/connectors/metaMask';
 

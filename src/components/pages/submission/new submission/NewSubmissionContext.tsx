@@ -1,20 +1,31 @@
-import { DelayType, NotificationStyle, NotificationType } from '@/components/notifications/iNotification';
-import { useNotification } from '@/components/notifications/NotificationContext';
-import { Check } from '@/components/utils/BountyRequirementsShowcase';
-import { ButtonInformation, ButtonStyle } from '@/components/utils/Button';
+import { Requirement, RequirementType } from '@prisma/client';
+import { useAuth } from 'auth/AuthContext';
+import Link from 'next/link';
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
+
 import { useGetBounty } from '@/lib/hooks/bountyHooks';
 import { useSaveSubmission } from '@/lib/hooks/submissionHooks';
 import { useLocalStorage } from '@/lib/hooks/useLocalStorage';
 import { FullBounty } from '@/lib/types';
 import { GoToSubmissionPage } from '@/lib/utils/Routes';
-import { Requirement, RequirementType } from '@prisma/client';
-import { useAuth } from 'auth/AuthContext';
-import Link from 'next/link';
-import { createContext, ReactNode, useContext, useEffect, useMemo, useState } from 'react';
+
+import {
+  DelayType,
+  NotificationStyle,
+  NotificationType,
+} from '@/components/notifications/iNotification';
+import { useNotification } from '@/components/notifications/NotificationContext';
+import { Check } from '@/components/utils/BountyRequirementsShowcase';
+import { ButtonInformation, ButtonStyle } from '@/components/utils/Button';
+
 import { UserInput } from './UserInput';
-
-
-
 
 interface iNewSubmissionContext {
   bountyId: string;
@@ -62,7 +73,7 @@ export const NewSubmissionContextProvider = ({
 
   function ManageChangesToForm(userInput: UserInput[]) {
     setUserAnswers(userInput);
-  } 
+  }
 
   const requirementsFullfiled = useMemo(() => {
     return (
@@ -90,12 +101,12 @@ export const NewSubmissionContextProvider = ({
       setChecks(newChecks ?? []);
     }
   }, [bounty, userAnswers]);
-   
-   //*Mutations
+
+  //*Mutations
   const { Save } = useSaveSubmission(
     account as string,
     [
-      ...userAnswers.filter(answer => answer.input && answer.input !== ''),
+      ...userAnswers.filter((answer) => answer.input && answer.input !== ''),
       //TODO: add attachments
       // {
       //   input: attachments,

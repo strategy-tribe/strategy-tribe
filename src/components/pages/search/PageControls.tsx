@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useState } from 'react';
 
+import { useUrlSearchParams } from '@/lib/hooks/useUrlSearchParams';
 import { useScrollToTop } from '@/hooks/useScrollTo';
 import useWindowDimensions from '@/hooks/useWindowDimensions';
-import { useUrlSearchParams } from '@/lib/hooks/useUrlSearchParams';
 
 import { Button, ButtonStyle } from '@/components/utils/Button';
 import { IconSize } from '@/components/utils/Icon';

@@ -16,7 +16,7 @@ export function BountyRequirementsShowcase({
   size?: string;
 }) {
   const requeriedConditions = bounty.requirements?.filter((f) => !f.optional);
-  const optionalConditions = bounty.requirements.filter((f) => f.optional);
+  const optionalConditions = bounty?.requirements?.filter((f) => f.optional);
 
   return (
     <div className="space-y-8">

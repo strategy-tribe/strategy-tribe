@@ -1,6 +1,6 @@
 import { RequirementType, SubmissionState } from '@prisma/client';
-import { Order } from './Order';
 
+import { Order } from './Order';
 
 export interface SubmissionQueryParams {
   order: Order;
@@ -15,10 +15,10 @@ export interface SubmissionQueryParams {
   requirements?: RequirementType[];
 }
 
-export enum SubmissionFilters  {
-  All = "All",
-  WaitingForReview = "WaitingForReview",
-  Rejected = "Rejected",
-  WaitingForPayment = "WaitingForPayment",
-  Accepted = "Accepted"
+export enum SubmissionFilters {
+  All = 'All',
+  WaitingForReview = 'WaitingForReview',
+  Rejected = 'Rejected',
+  WaitingForPayment = 'WaitingForPayment',
+  Accepted = 'Accepted',
 }
