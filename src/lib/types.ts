@@ -9,7 +9,7 @@ import {
   Submission,
   Tag,
   Target,
-  Wallet
+  Wallet,
 } from '@prisma/client';
 
 /** A bounty with most of its data added to it
@@ -30,8 +30,8 @@ export type FullBounty = Bounty & {
 
 export type FullOrganization = Organization & {
   countries?: Country[];
-  targets?: FullTarget[],
-  wallet?: Wallet,
+  targets?: FullTarget[];
+  wallet?: Wallet;
   _count?: {
     targets: number;
   };
@@ -40,7 +40,7 @@ export type FullOrganization = Organization & {
 
 export type FullTarget = Target & {
   org: FullOrganization;
-  bounties: FullBounty[]
+  bounties: FullBounty[];
 };
 
 export type FullInvoice = Invoice & {
@@ -50,7 +50,7 @@ export type FullInvoice = Invoice & {
 
 export type FullAnswer = Answer & {
   requirement: Requirement;
-}
+};
 
 export type FullSubmission = Submission & {
   review?: Review;

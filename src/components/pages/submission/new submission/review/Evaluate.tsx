@@ -1,20 +1,22 @@
+import { ReviewGrade, Submission } from '@prisma/client';
+import { useAuth } from 'auth/AuthContext';
+import { useRouter } from 'next/router';
+import { useMemo, useState } from 'react';
+
+import { GoToReviewsPage } from '@/lib/utils/Routes';
+import { useSubmitReview } from '@/hooks/reviewHooks';
+import { useGetSubmission } from '@/hooks/submissionHooks';
+
 import {
   DelayType,
   NotificationStyle,
-  NotificationType
+  NotificationType,
 } from '@/components/notifications/iNotification';
 import { useNotification } from '@/components/notifications/NotificationContext';
 import { Button, ButtonStyle } from '@/components/utils/Button';
 import { RadioInput } from '@/components/utils/RadioInput';
 import { Title } from '@/components/utils/Title';
 import { ImportantMessage } from '@/components/utils/Warning';
-import { useSubmitReview } from '@/hooks/reviewHooks';
-import { useGetSubmission } from '@/hooks/submissionHooks';
-import { GoToReviewsPage } from '@/lib/utils/Routes';
-import { ReviewGrade, Submission } from '@prisma/client';
-import { useAuth } from 'auth/AuthContext';
-import { useRouter } from 'next/router';
-import { useMemo, useState } from 'react';
 
 ('@/components/utils/Title');
 
@@ -128,9 +130,7 @@ export function SubmitReviewButton({
   const { notify } = useNotification();
 
   const { SubmitReview } = useSubmitReview(
-    review.meetsRequirements
-      ? ReviewGrade.Accepted
-      : ReviewGrade.Rejected,
+    review.meetsRequirements ? ReviewGrade.Accepted : ReviewGrade.Rejected,
     submission,
     review.reviewer,
     review.feedback,

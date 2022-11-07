@@ -1,8 +1,8 @@
-import { CapitalizeFirstLetter } from '@/lib/utils/StringHelpers';
 import { TargetType } from '@prisma/client';
+
+import { CapitalizeFirstLetter } from '@/lib/utils/StringHelpers';
+
 import { FullBounty } from '../types';
-
-
 
 export function ParseBountyTitle(bounty: FullBounty) {
   const title = bounty.title;

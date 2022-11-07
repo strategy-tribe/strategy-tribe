@@ -7,9 +7,9 @@ import {
   GoToOrganizationsPage,
 } from '@/lib/utils/Routes';
 
-import { Button, ButtonStyle } from '../../utils/Button';
 import { LandingPageLink } from './LandingPageLink';
 import { NavLink } from './NavLink';
+import { Button, ButtonStyle } from '../../utils/Button';
 
 export function LandingNavbar({ hideBgOnScroll }: { hideBgOnScroll: boolean }) {
   const [navbarBackground, setNavbarBackground] = useState(!hideBgOnScroll);

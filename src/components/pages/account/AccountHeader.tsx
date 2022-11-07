@@ -1,5 +1,5 @@
-import { Section } from '../landing/Section';
 import { useAccountContext } from './AccountContext';
+import { Section } from '../landing/Section';
 
 export function AccountHeader() {
   const { view } = useAccountContext();

@@ -1,10 +1,13 @@
+import { SubmissionState } from '@prisma/client';
+import { useAuth } from 'auth/AuthContext';
+
+import { GoToBountyPage, GoToReviewSubmissionPage } from '@/lib/utils/Routes';
+
 import { SubmissionStateDisplayer } from '@/components/pages/bounty/SubmissionStatus';
 import { Section } from '@/components/pages/landing/Section';
 import { Button, ButtonStyle } from '@/components/utils/Button';
 import Icon, { IconSize } from '@/components/utils/Icon';
-import { GoToBountyPage, GoToReviewSubmissionPage } from '@/lib/utils/Routes';
-import { SubmissionState } from '@prisma/client';
-import { useAuth } from 'auth/AuthContext';
+
 import { useSubmissionContext } from './SubmissionContext';
 
 export function SubmissionHeader() {

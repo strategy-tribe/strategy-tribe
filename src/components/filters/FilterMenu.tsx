@@ -29,7 +29,7 @@ export function FilterMenu({
       />
 
       <OrderByPicker
-        orderBy={query.orderBy}
+        orderBy={query.orderBy ?? BountyOrderBy.Bounty}
         setOrderBy={(o) => {
           const newQ: BountyQueryParams = {
             ...query,
@@ -62,8 +62,8 @@ export function FilterMenu({
         }}
       />
 
-      <OrgNamePicker
-        orgName={query.orgName || ''}
+      {/* <OrgNamePicker
+        orgName={query. || ''}
         setOrgName={(o) => {
           const newQ: BountyQueryParams = {
             ...query,
@@ -71,7 +71,7 @@ export function FilterMenu({
           };
           setQuery(newQ);
         }}
-      />
+      /> */}
     </div>
   );
 }

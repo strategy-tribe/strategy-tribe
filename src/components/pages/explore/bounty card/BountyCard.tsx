@@ -1,6 +1,8 @@
+import Link from 'next/link';
+
 import { FullBounty } from '@/lib/types';
 import { GoToBountyPage } from '@/lib/utils/Routes';
-import Link from 'next/link';
+
 import { BountyCardFooter } from './BountyCardFooter';
 import { BountyCardReward } from './BountyCardReward';
 import { BountyCardTags } from './BountyCardTags';

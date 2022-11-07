@@ -1,20 +1,20 @@
+import { useAuth } from 'auth/AuthContext';
+import { useRouter } from 'next/router';
+import { useState } from 'react';
+
+import { useGetOrganization } from '@/lib/hooks/organizationHooks';
+import { useCanUserSubmit } from '@/lib/hooks/submissionHooks';
+import { ParseBountyTitle } from '@/lib/utils/BountyHelpers';
+import { GoToBeforeNewSubmissionPage, GoToOrgPage } from '@/lib/utils/Routes';
+
 import { useBountyContext } from '@/components/pages/bounty/BountyContext';
 import { Button, ButtonStyle } from '@/components/utils/Button';
 import FromOrganization from '@/components/utils/FromOrganization';
 import Icon, { IconSize } from '@/components/utils/Icon';
 import { Stat } from '@/components/utils/Stat';
-import { useGetOrganization } from '@/lib/hooks/organizationHooks';
-import { useCanUserSubmit } from '@/lib/hooks/submissionHooks';
-import { ParseBountyTitle } from '@/lib/utils/BountyHelpers';
-import { GoToBeforeNewSubmissionPage, GoToOrgPage } from '@/lib/utils/Routes';
-import { useAuth } from 'auth/AuthContext';
-import { useRouter } from 'next/router';
-import { useState } from 'react';
-import { Section } from '../landing/Section';
+
 import BountyStates from './BountyStates';
-
-
-
+import { Section } from '../landing/Section';
 
 export function BountyHeader() {
   const { bounty } = useBountyContext();
@@ -102,9 +102,13 @@ export function BountyHeader() {
           <Stat title="target" content={bounty?.target?.name} />
           <Stat
             title="requirements"
-            contents={bounty.requirements?.filter((r) => !r.optional)?.map((r) => r.title)}
+            contents={bounty.requirements
+              ?.filter((r) => !r.optional)
+              ?.map((r) => r.title)}
           />
-          {organization && (<FromOrganization orgId={organization?.id as string} />)}
+          {organization && (
+            <FromOrganization orgId={organization?.id as string} />
+          )}
         </Section>
 
         {/* CTAs */}

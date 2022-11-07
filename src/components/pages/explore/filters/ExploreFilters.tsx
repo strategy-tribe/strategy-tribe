@@ -3,9 +3,9 @@ import { kFormatter } from '@/lib/utils/NumberHelpers';
 
 import Icon, { IconSize } from '@/components/utils/Icon';
 
-import { Searchbar } from '../../search/Searchbar';
-import { useExploreContext } from '../ExploreContext';
 import { DEFAULT_FILTERS } from './DefaultFilter';
+import { useExploreContext } from '../ExploreContext';
+import { Searchbar } from '../../search/Searchbar';
 
 export function ExploreFilters() {
   const { urlFilter, setUrlFilter: setUrlFilter } = useUrlSearchParams();

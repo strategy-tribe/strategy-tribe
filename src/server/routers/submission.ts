@@ -1,49 +1,51 @@
+import { Submission } from '@prisma/client';
+import { z } from 'zod';
+
 import { Order } from '@/lib/models/Order';
 import { SubmissionFilters } from '@/lib/models/SubmissionQueryParams';
 import prisma from '@/lib/prisma/prismaClient';
-import { Submission } from '@prisma/client';
-import { z } from 'zod';
+
 import { publicProcedure, router } from '../trpc';
 
 export const submissionRouter = router({
   post: publicProcedure
-  .input(
-    z.object({
-      slug: z.string(),
-      address: z.string(),
-      answers: z.any().array(),
-    })
-  )
-  .mutation(async ({ input }) => {
-    const { slug, address, answers } = input;
-    const { id } = await prisma.submission.create({
-      data: {
-        state: 'WaitingForReview',
-        answers: {
-          createMany: {
-            data: answers.map((a) => ({
-              answer: a.input,
-              requirementId: a.requirement.id
-            })),
+    .input(
+      z.object({
+        slug: z.string(),
+        address: z.string(),
+        answers: z.any().array(),
+      })
+    )
+    .mutation(async ({ input }) => {
+      const { slug, address, answers } = input;
+      const { id } = await prisma.submission.create({
+        data: {
+          state: 'WaitingForReview',
+          answers: {
+            createMany: {
+              data: answers.map((a) => ({
+                answer: a.input,
+                requirementId: a.requirement.id,
+              })),
+            },
+          },
+          author: {
+            connect: {
+              address: address,
+            },
+          },
+          bounty: {
+            connect: {
+              slug,
+            },
           },
         },
-        author: {
-          connect: {
-            address: address,
-          },
-        },
-        bounty: {
-          connect: {
-            slug,
-          },
-        },
-      },
-    });
+      });
 
-    return {
-      submissionId: id
-    };
-  }),
+      return {
+        submissionId: id,
+      };
+    }),
   getSubmissions: publicProcedure
     .input(
       z.object({
@@ -70,32 +72,32 @@ export const submissionRouter = router({
         if (input.state !== SubmissionFilters.All) {
           where = {
             ...where,
-            state: input.state
-          }
+            state: input.state,
+          };
         }
         if (input.owners && input.owners[0]) {
           where = {
             ...where,
             authorId: {
-              in: input.owners
-            }
-          }
+              in: input.owners,
+            },
+          };
         }
         const submissions: Submission[] = await prisma.submission.findMany({
           where,
           skip: (input?.amount ?? 0) * (input?.page ?? 0),
           take: input.amount ?? 10,
           orderBy: {
-            createdAt: input.order
+            createdAt: input.order,
           },
           include: {
             bounty: {
               include: {
-                tags: true
-              }
+                tags: true,
+              },
             },
-            answers: true
-          }
+            answers: true,
+          },
         });
 
         return { submissions: submissions ?? [] };
@@ -104,7 +106,7 @@ export const submissionRouter = router({
         return { submissions: [] };
       }
     }),
-    getTotalCount: publicProcedure
+  getTotalCount: publicProcedure
     .input(
       z.object({
         order: z.enum([Order.Asc, Order.Desc]),
@@ -129,22 +131,22 @@ export const submissionRouter = router({
         if (input.state !== SubmissionFilters.All) {
           where = {
             ...where,
-            state: input.state
-          }
+            state: input.state,
+          };
         }
         if (input.owners && input.owners[0]) {
           where = {
             ...where,
             authorId: {
-              in: input.owners
-            }
-          }
+              in: input.owners,
+            },
+          };
         }
         const submissionsCount: number = await prisma.submission.count({
-          where
+          where,
         });
 
-        return { submissionsCount};
+        return { submissionsCount };
       } catch (error) {
         console.error(error);
         return { submissionsCount: 0 };
@@ -162,16 +164,16 @@ export const submissionRouter = router({
         include: {
           bounty: {
             include: {
-              tags: true
-            }
+              tags: true,
+            },
           },
           answers: {
             include: {
-              requirement: true
-            }
+              requirement: true,
+            },
           },
-          review: true
-        }
+          review: true,
+        },
       });
       return { submission };
     }),
@@ -186,19 +188,19 @@ export const submissionRouter = router({
       try {
         const totalSubmissions: number = await prisma.submission.count({
           where: {
-            authorId: input.submitterId
-          }
+            authorId: input.submitterId,
+          },
         });
         const bountySubmissions: number = await prisma.submission.count({
           where: {
             authorId: input.submitterId,
-            bountyId: input.bountyId
-          }
+            bountyId: input.bountyId,
+          },
         });
-  
+
         return {
           totalSubmissions,
-          bountySubmissions
+          bountySubmissions,
         };
       } catch (error) {
         console.error(error);
@@ -219,7 +221,7 @@ export const submissionRouter = router({
   //         },
   //         data: input.updates
   //       });
-  
+
   //       return update;
   //     } catch (error) {
   //       console.error(error);

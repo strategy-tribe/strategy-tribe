@@ -7,6 +7,7 @@ import { Title } from '@/components/utils/Title';
 
 import { Recipient } from '@/models/donation';
 
+import { SupportButton } from './SupportButton';
 import {
   ClientNotification,
   DelayType,
@@ -15,7 +16,6 @@ import {
   NotificationType,
 } from '../notifications/iNotification';
 import { useNotification } from '../notifications/NotificationContext';
-import { SupportButton } from './SupportButton';
 ('../utils/Title');
 
 const lorem =

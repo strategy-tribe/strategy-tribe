@@ -10,7 +10,7 @@ export function HugeTitle({
       <h2 className={`text-on-surface-p0 ${size} font-inter font-bold`}>
         {title}
       </h2>
-      <span className={`bg-main h-2 inline-block -translate-y-1 w-32`}></span>
+      <span className="bg-main h-2 inline-block -translate-y-1 w-32"></span>
     </div>
   );
 }

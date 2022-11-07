@@ -1,4 +1,5 @@
 import React from 'react';
+
 import Icon, { IconSize } from '@/components/utils/Icon';
 
 export function BountyCardWatchButton({

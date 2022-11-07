@@ -1,6 +1,6 @@
 import prisma from '@/lib/prisma/prismaClient';
-import { LOG } from './utils';
 
+import { LOG } from './utils';
 
 export async function ResetDB() {
   await prisma.$connect();

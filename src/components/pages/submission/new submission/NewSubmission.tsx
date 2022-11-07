@@ -2,7 +2,6 @@ import { useRouter } from 'next/router';
 
 import { GoToBountyPage } from '@/lib/utils/Routes';
 
-import { Section } from '../../landing/Section';
 import { EditSubmission } from './EditSubmission';
 import {
   NewSubmissionContextProvider,
@@ -10,6 +9,7 @@ import {
 } from './NewSubmissionContext';
 import { NewSubmissionHeader } from './NewSubmissionHeader';
 import { ReviewSubmission } from './ReviewSubmission';
+import { Section } from '../../landing/Section';
 
 export function NewSubmission({ bountyId }: { bountyId: string }) {
   const router = useRouter();

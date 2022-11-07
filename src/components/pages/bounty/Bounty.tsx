@@ -1,4 +1,5 @@
 import { FullBounty } from '@/lib/types';
+
 import { BountyContent } from './BountyContent';
 import { BountyContextProvider } from './BountyContext';
 import { BountyHeader } from './BountyHeader';

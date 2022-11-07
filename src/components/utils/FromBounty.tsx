@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 
-import { useGetBounty } from '@/hooks/bountyHooks';
 import { ParseBountyTitle } from '@/lib/utils/BountyHelpers';
+import { useGetBounty } from '@/hooks/bountyHooks';
 
 import { GoToBountyPage } from '@/utils/Routes';
 

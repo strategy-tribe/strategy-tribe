@@ -1,7 +1,9 @@
+import { FullOrganization } from '@/lib/types';
+
 import { Section } from '@/components/pages/landing/Section';
 import { SubToOrgButton } from '@/components/subscriptions/SubscribeToOrgButton';
 import { ButtonStyle } from '@/components/utils/Button';
-import { FullOrganization } from '@/lib/types';
+
 import { useOrganizationContext } from './OrganizationContext';
 import { OrgCountries } from './OrgCountries';
 import { OrgStat } from './OrgStat';
@@ -21,7 +23,13 @@ export function OrgHeader() {
         </div>
 
         <div className="flex items-center gap-8">
-          <OrgStat value={org.targets?.map((target:any) => target._count.bounties)?.reduce((sum: any, count: any) => sum + count, 0)?.toString()} label="Bounties" />
+          <OrgStat
+            value={org.targets
+              ?.map((target: any) => target._count.bounties)
+              ?.reduce((sum: any, count: any) => sum + count, 0)
+              ?.toString()}
+            label="Bounties"
+          />
           <div className="bg-surface-dark w-0.5 h-10" />
           <OrgStat value={`${getBalance(org)} MATIC`} label="In bounties" />
           <div className="bg-surface-dark w-0.5 h-10" />
@@ -43,9 +51,9 @@ export function OrgHeader() {
 function getBalance(org: FullOrganization) {
   let totalBalance = org.wallet?.balance ?? 0;
   org.targets?.forEach((target) => {
-    target.bounties.forEach(bounty => {
+    target.bounties.forEach((bounty) => {
       totalBalance = totalBalance + (bounty.wallet?.balance ?? 0);
-    })
-  })
+    });
+  });
   return totalBalance;
 }

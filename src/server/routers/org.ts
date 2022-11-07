@@ -1,6 +1,8 @@
-import prisma from '@/lib/prisma/prismaClient';
 import { Organization } from '@prisma/client';
 import { z } from 'zod';
+
+import prisma from '@/lib/prisma/prismaClient';
+
 import { publicProcedure, router } from '../trpc';
 
 export const orgRouter = router({
@@ -58,7 +60,7 @@ export const orgRouter = router({
     .query(async ({ input }) => {
       const organization: Organization | null =
         await prisma.organization.findUnique({
-          where: {id: input.id},
+          where: { id: input.id },
           include: {
             tags: true,
             countries: true,
@@ -66,8 +68,8 @@ export const orgRouter = router({
               include: {
                 bounties: {
                   include: {
-                    wallet: true
-                  }
+                    wallet: true,
+                  },
                 },
                 _count: {
                   select: {

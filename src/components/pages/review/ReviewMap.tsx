@@ -1,15 +1,14 @@
-import { Button, ButtonStyle } from '@/components/utils/Button';
-import FromBounty from '@/components/utils/FromBounty';
+import router from 'next/router';
+
 import { FullSubmission } from '@/lib/types';
 import { GoToSubmissionPage } from '@/lib/utils/Routes';
-import router from 'next/router';
+
+import { Button, ButtonStyle } from '@/components/utils/Button';
+import FromBounty from '@/components/utils/FromBounty';
+
 import { UserAnswer } from './UserAnswer';
 
-export function ReviewMap({
-  submission,
-}: {
-  submission: FullSubmission;
-}) {
+export function ReviewMap({ submission }: { submission: FullSubmission }) {
   return (
     <aside className="sticky left-0 max-w-sm min-h-screen p-8 space-y-8 grow top-24 bg-surface-dark">
       <Button
@@ -43,15 +42,15 @@ export function ReviewMap({
 
       <div className="w-full space-y-4">
         {submission.answers?.map((answer, i) => {
-            return (
-              <UserAnswer
-                key={i}
-                content={answer.answer}
-                requirement={answer.requirement}
-                num={i + 1}
-              />
-            );
-          })}
+          return (
+            <UserAnswer
+              key={i}
+              content={answer.answer}
+              requirement={answer.requirement}
+              num={i + 1}
+            />
+          );
+        })}
       </div>
     </aside>
   );

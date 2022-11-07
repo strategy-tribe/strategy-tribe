@@ -3,7 +3,7 @@ import { FullBounty } from '@/lib/types';
 
 export function BountyCardTags({ bounty }: { bounty: FullBounty }) {
   const type = bounty.requirements?.at(0)?.type || '';
-  const org = bounty.target.org.name;
+  const org = bounty?.target?.org.name;
 
   const { urlFilter, setUrlFilter } = useUrlSearchParams();
 
@@ -14,7 +14,7 @@ export function BountyCardTags({ bounty }: { bounty: FullBounty }) {
   return (
     <div className="flex gap-5 pb-2">
       <Tag tag={type} />
-      <Tag tag={org} onClick={addOrgToFilters} />
+      {!!org && <Tag tag={org} onClick={addOrgToFilters} />}
     </div>
   );
 }

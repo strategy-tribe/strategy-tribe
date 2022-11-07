@@ -1,7 +1,9 @@
-import prisma from '@/lib/prisma/prismaClient';
-import { toTitleCase } from '@/lib/utils/StringHelpers';
 import { RequirementType } from '@prisma/client';
 import { Wallet } from 'ethers';
+
+import prisma from '@/lib/prisma/prismaClient';
+import { toTitleCase } from '@/lib/utils/StringHelpers';
+
 import { LOG, OrgData, TargetData } from './utils';
 
 function addDays(date: Date, days: number) {
@@ -165,9 +167,9 @@ async function CreateBounty({
       wallet: {
         create: {
           address: address,
-          balance: 0
-        }
-      }
+          balance: 0,
+        },
+      },
     },
   });
 }
@@ -203,9 +205,9 @@ async function CreateOrganization(o: OrgData) {
       wallet: {
         create: {
           address: address,
-          balance: 0
-        }
-      }
+          balance: 0,
+        },
+      },
     },
   });
 }
@@ -230,9 +232,9 @@ async function CreateTarget(t: TargetData) {
             wallet: {
               create: {
                 address: address,
-                balance: 0
-              }
-            }
+                balance: 0,
+              },
+            },
           },
           where: {
             name: t.organizationName,
@@ -251,8 +253,8 @@ async function getNewAddress() {
       balance: 0,
       privateKey,
       publicKey,
-      mnemonicPhrase: mnemonic.phrase
-    }
-  })
+      mnemonicPhrase: mnemonic.phrase,
+    },
+  });
   return address;
 }

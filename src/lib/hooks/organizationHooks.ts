@@ -1,15 +1,14 @@
 import { Organization } from '@prisma/client';
+
 import { trpc } from '../trpc';
 
 export const useGetAllOrganizations = (enabled = true) => {
-  const { error, isLoading, data, isFetching } =
-    trpc.orgs.getOrgs.useQuery(
-      {
-      },
-      {
-        enabled
-      }
-    );
+  const { error, isLoading, data, isFetching } = trpc.orgs.getOrgs.useQuery(
+    {},
+    {
+      enabled,
+    }
+  );
   const organizations: Organization[] = data?.organizations ?? [];
 
   return {
@@ -21,7 +20,7 @@ export const useGetAllOrganizations = (enabled = true) => {
 export const useGetOrganization = (id: string, enabled = true) => {
   const { error, isLoading, data } = trpc.orgs.getOrg.useQuery(
     {
-      id
+      id,
     },
     { enabled }
   );

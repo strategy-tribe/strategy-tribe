@@ -5,8 +5,8 @@
   "scripts": {
     "prettier": "prettier --write .",
     "format:check": "prettier -c .",
-    "lint": "yarn prettier && next lint",
-    "lint:fix": "yarn format && eslint src --fix",
+    "lint": "next lint",
+    "lint:fix": "yarn prettier && yarn format && eslint src --fix",
     "lint:strict": "eslint --max-warnings=0 src",
     "prepare": "husky install",
     "dev": "next dev",
