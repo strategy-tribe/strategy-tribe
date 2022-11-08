@@ -6,6 +6,7 @@ import { useCanUserSubmit } from '@/lib/hooks/submissionHooks';
 import { ParseBountyTitle } from '@/lib/utils/BountyHelpers';
 import { GoToBeforeNewSubmissionPage, GoToOrgPage } from '@/lib/utils/Routes';
 
+import { DonationPopUp } from '@/components/donations/DonationPopUp';
 import { useBountyContext } from '@/components/pages/bounty/BountyContext';
 import { Button, ButtonStyle } from '@/components/utils/Button';
 import FromOrganization from '@/components/utils/FromOrganization';
@@ -14,8 +15,8 @@ import { Stat } from '@/components/utils/Stat';
 
 import { useAuth } from '@/auth/AuthContext';
 
-import { Section } from '../landing/Section';
 import BountyStates from './BountyStates';
+import { Section } from '../landing/Section';
 
 export function BountyHeader() {
   const { bounty } = useBountyContext();
@@ -122,12 +123,12 @@ export function BountyHeader() {
           )}
         </Section>
       </header>
-      {/* <DonationPopUp
+      <DonationPopUp
         show={showDonation}
         hide={() => setShowDonation(false)}
-        recipient={bounty}
+        recipient={{ wallet: bounty.wallet! }}
         description={`Bigger rewards mean more eyes and more OSINT hunters.\nBy donating to this bounty you're directly contributing to bringing this bounty to fruition.\n\nAll donations go directly to the hunter who fulfills the bounty requirements.`}
-      /> */}
+      />
     </>
   );
 }

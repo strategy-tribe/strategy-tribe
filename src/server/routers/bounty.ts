@@ -98,9 +98,9 @@ export const bountyRouter = router({
             },
           };
         }
-        //TODO: Use the input params to filter the bounties
         const bounties: Bounty[] = await prisma.bounty.findMany({
           where,
+          orderBy: getOrderBy(input.order, input.orderBy),
           skip: (input?.amount ?? 0) * (input?.page ?? 0),
           take: input.amount,
           include: {
@@ -171,6 +171,14 @@ export const bountyRouter = router({
             },
           };
         }
+        if (input.states && input.states.length > 0) {
+          where = {
+            ...where,
+            status: {
+              in: input.states,
+            },
+          };
+        }
         const bountiesCount: number = await prisma.bounty.count({
           where,
         });
@@ -181,3 +189,31 @@ export const bountyRouter = router({
       }
     }),
 });
+
+const getOrderBy = (order: Order, orderBy?: BountyOrderBy) => {
+  if (orderBy) {
+    switch (orderBy) {
+      case BountyOrderBy.Bounty:
+        return {
+          wallet: {
+            balance: order,
+          },
+        };
+      case BountyOrderBy.CreatedAt:
+        return {
+          createdAt: order,
+        };
+      case BountyOrderBy.ClosesAt:
+        return {
+          closesAt: order,
+        };
+      case BountyOrderBy.Submissions:
+        return {
+          submissions: {
+            _count: order,
+          },
+        };
+    }
+  }
+  return {};
+};

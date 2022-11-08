@@ -1,3 +1,8 @@
+import {
+  DelayType,
+  NotificationType,
+} from '@/components/notifications/iNotification';
+import { useNotification } from '@/components/notifications/NotificationContext';
 import Icon, { IconSize } from '@/components/utils/Icon';
 
 export function SubmissionDetail({
@@ -11,8 +16,20 @@ export function SubmissionDetail({
   icon?: string;
   copyable?: boolean;
 }) {
+  const { notify } = useNotification();
   function copy() {
-    if (copyable) navigator.clipboard.writeText(value);
+    if (copyable) {
+      navigator.clipboard.writeText(value);
+      notify(
+        { title: 'Copied', content: value },
+        {
+          condition: false,
+          delayTime: 2,
+          delayType: DelayType.Time,
+          type: NotificationType.Pill,
+        }
+      );
+    }
   }
 
   return (

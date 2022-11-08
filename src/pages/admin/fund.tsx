@@ -32,7 +32,7 @@ const columns: ColumnDef<Bounty>[] = [
       },
       {
         header: 'Status',
-        accessorKey: 'state',
+        accessorKey: 'status',
         cell: (info) => info.getValue(),
       },
       {
@@ -45,12 +45,12 @@ const columns: ColumnDef<Bounty>[] = [
       },
       {
         header: 'Wallet',
-        accessorKey: 'wallet',
+        accessorKey: 'wallet.address',
         cell: (info) => `${(info.getValue() as string).slice(0, 15)}...`,
       },
       {
         header: 'Funds (MATIC)',
-        accessorKey: 'funds',
+        accessorKey: 'wallet.balance',
         cell: (info) => info.getValue(),
       },
     ],
