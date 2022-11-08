@@ -88,7 +88,7 @@ const BountiesToFundPage: NextPageWithLayout = () => {
   const router = useRouter();
 
   return (
-    <div className="text-on-surface-p1 space-y-8">
+    <div className="space-y-8 text-on-surface-p1">
       <Head>
         <title>ST | Fund</title>
         <meta
@@ -100,7 +100,7 @@ const BountiesToFundPage: NextPageWithLayout = () => {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className="mx-auto max-w-5xl min-h-screen space-y-8">
+      <div className="mx-auto min-h-screen max-w-5xl space-y-8">
         <table className="w-full">
           <thead>
             {table.getHeaderGroups().map((headerGroup, i) => {
@@ -112,7 +112,7 @@ const BountiesToFundPage: NextPageWithLayout = () => {
                       <th
                         key={header.id}
                         colSpan={header.colSpan}
-                        className="text-xs p-4 uppercase"
+                        className="p-4 text-xs uppercase"
                       >
                         {header.isPlaceholder
                           ? null
@@ -128,13 +128,13 @@ const BountiesToFundPage: NextPageWithLayout = () => {
             })}
           </thead>
 
-          <tbody className="bg-surface-dark overflow-hidden">
+          <tbody className="overflow-hidden bg-surface-dark">
             {table.getRowModel().rows.map((row) => {
               const bounty = row.original;
               return (
                 <tr
                   key={row.id}
-                  className="hover:bg-surface w-full cursor-pointer"
+                  className="w-full cursor-pointer hover:bg-surface"
                   onClick={() => router.push(GoToBountyPage(bounty.id))}
                 >
                   {row.getVisibleCells().map((cell, i) => {
@@ -156,7 +156,7 @@ const BountiesToFundPage: NextPageWithLayout = () => {
           </tbody>
         </table>
 
-        <div className="w-full bg-surface flex justify-center gap-8">
+        <div className="flex w-full justify-center gap-8 bg-surface">
           <Button
             info={{
               label: 'Prev',
@@ -185,7 +185,7 @@ const BountiesToFundPage: NextPageWithLayout = () => {
             name="pagesize"
             id="pagesize"
             type="number"
-            className="border-0 border-b-2 border-surface bg-bg body-sm w-fit placeholder:text-on-surface-unactive text-on-surface-p1 focus:ring-0 focus:border-main"
+            className="body-sm w-fit border-0 border-b-2 border-surface bg-bg text-on-surface-p1 placeholder:text-on-surface-unactive focus:border-main focus:ring-0"
             placeholder="Page size"
             value={size}
             step={1}

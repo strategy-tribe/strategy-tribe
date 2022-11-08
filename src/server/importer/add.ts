@@ -1,4 +1,5 @@
 import { RequirementType } from '@prisma/client';
+import { Wallet } from 'ethers';
 
 import prisma from '@/lib/prisma/prismaClient';
 import { toTitleCase } from '@/lib/utils/StringHelpers';
@@ -132,6 +133,7 @@ async function CreateBounty({
   closesAt: Date;
   tags?: string[];
 }) {
+  const address = await getNewAddress();
   await prisma.bounty.create({
     data: {
       title,
@@ -162,11 +164,18 @@ async function CreateBounty({
           },
         })),
       },
+      wallet: {
+        create: {
+          address: address,
+          balance: 0,
+        },
+      },
     },
   });
 }
 
 async function CreateOrganization(o: OrgData) {
+  const address = await getNewAddress();
   await prisma.organization.create({
     data: {
       name: o.name,
@@ -193,11 +202,18 @@ async function CreateOrganization(o: OrgData) {
           where: { code: c },
         })),
       },
+      wallet: {
+        create: {
+          address: address,
+          balance: 0,
+        },
+      },
     },
   });
 }
 
 async function CreateTarget(t: TargetData) {
+  const address = await getNewAddress();
   await prisma.target.create({
     data: {
       name: t.name,
@@ -213,6 +229,12 @@ async function CreateTarget(t: TargetData) {
                 where: { name: t },
               })),
             },
+            wallet: {
+              create: {
+                address: address,
+                balance: 0,
+              },
+            },
           },
           where: {
             name: t.organizationName,
@@ -221,4 +243,18 @@ async function CreateTarget(t: TargetData) {
       },
     },
   });
+}
+
+async function getNewAddress() {
+  const { address, privateKey, publicKey, mnemonic } = Wallet.createRandom();
+  await prisma.key.create({
+    data: {
+      address,
+      balance: 0,
+      privateKey,
+      publicKey,
+      mnemonicPhrase: mnemonic.phrase,
+    },
+  });
+  return address;
 }

@@ -63,10 +63,10 @@ export function Navbar({
         } ${navbarBackground ? 'bg-bg' : ''}`}
       >
         <div
-          className={`flex justify-between items-center max-w-7xl mx-auto ${padding}`}
+          className={`mx-auto flex max-w-7xl items-center justify-between ${padding}`}
         >
           {/* left side */}
-          <div className="flex gap-8 items-center">
+          <div className="flex items-center gap-8">
             <LandingPageLink />
             <NavLink url={GoToBountiesPage()} label="Bounties" />
             <NavLink url={GoToOrganizationsPage()} label="Organizations" />

@@ -71,7 +71,7 @@ const FAQPage: NextPageWithLayout<{ submissionsPerDay: number }> = ({
               <p>
                 Yes, you can see our rules{' '}
                 <Link href={GoToRulesPage()}>
-                  <span className="underline text-main-light hover:text-main">
+                  <span className="text-main-light underline hover:text-main">
                     here
                   </span>
                 </Link>
@@ -88,7 +88,7 @@ const FAQPage: NextPageWithLayout<{ submissionsPerDay: number }> = ({
                 bounty wallets will be send to the wallet you signup with. You
                 can{' '}
                 <Link href={GoToAccountPage()}>
-                  <span className="underline text-main-light hover:text-main">
+                  <span className="text-main-light underline hover:text-main">
                     review your address here
                   </span>
                 </Link>

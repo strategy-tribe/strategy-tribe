@@ -4,16 +4,30 @@ module.exports = {
     es2021: true,
     node: true,
   },
-  plugins: ['@typescript-eslint', 'simple-import-sort', 'unused-imports'],
+  plugins: [
+    '@typescript-eslint',
+    'simple-import-sort',
+    'unused-imports',
+    'jest',
+    'testing-library',
+    'prettier',
+  ],
+  parser: '@typescript-eslint/parser',
+  parserOptions: {
+    ecmaVersion: 'latest',
+    sourceType: 'module',
+    project: ['./tsconfig.json'],
+  },
   extends: [
     'eslint:recommended',
     'next',
     'next/core-web-vitals',
     'plugin:@typescript-eslint/recommended',
     'prettier',
+    'plugin:prettier/recommended',
   ],
   rules: {
-    'no-unused-vars': 'off',
+    'no-unused-vars': [1, { args: 'after-used', argsIgnorePattern: '^_' }],
     'no-console': ['error', { allow: ['warn', 'error'] }],
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     'react/display-name': 'off',
@@ -70,5 +84,8 @@ module.exports = {
   globals: {
     React: true,
     JSX: true,
+  },
+  env: {
+    'jest/globals': true,
   },
 };

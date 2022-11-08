@@ -30,14 +30,14 @@ export function Review({ submission }: { submission: Submission }) {
     }
   }, [feasible]);
 
-  const { userId, isStaff, isAdmin } = useAuth();
+  const { account, isStaff, isAdmin } = useAuth();
 
   const meetsRequirements = correct && feasible;
   return (
     <div className="flex gap-x-16">
-      <ReviewMap submission={submission} requirements={[]} />
+      <ReviewMap submission={submission} />
 
-      <div className="space-y-4 w-full max-w-4xl">
+      <div className="w-full max-w-4xl space-y-4">
         <h1 className="h4">Reviewing submission</h1>
 
         <div className="space-y-8">
@@ -92,7 +92,7 @@ export function Review({ submission }: { submission: Submission }) {
                     <button
                       key={entry[0]}
                       onClick={() => setView(entry[1])}
-                      className={`py-2 px-5 rounded label ${
+                      className={`label rounded py-2 px-5 ${
                         active ? 'bg-surface' : 'hover:bg-surface-dark'
                       }`}
                     >
@@ -106,7 +106,7 @@ export function Review({ submission }: { submission: Submission }) {
                 {view === ReviewView.Edit && (
                   <ReactTextareaAutosize
                     placeholder="This input supports markdown"
-                    className="bg-bg text-on-surface-p1 border border-on-surface-disabled focus:border-on-surface-unactive rounded border-dashed w-full font-inter focus:ring-0 first-letter:capitalize whitespace-pre-wrap p-4 body"
+                    className="body w-full whitespace-pre-wrap rounded border border-dashed border-on-surface-disabled bg-bg p-4 font-inter text-on-surface-p1 first-letter:capitalize focus:border-on-surface-unactive focus:ring-0"
                     onChange={(e) => setFeedback(e.target.value)}
                     value={feedback}
                     minRows={10}
@@ -115,12 +115,12 @@ export function Review({ submission }: { submission: Submission }) {
 
                 {view === ReviewView.Preview && (
                   <div
-                    className={`p-4 border-surface rounded min-h-[17.1rem] ${
+                    className={`min-h-[17.1rem] rounded border-surface p-4 ${
                       feedback === '' ? '' : 'border'
                     }`}
                   >
                     {!feedback && (
-                      <div className="pb-4 border-b-1 border-surface text-on-surface-unactive flex gap-2 items-center">
+                      <div className="flex items-center gap-2 border-b-1 border-surface pb-4 text-on-surface-unactive">
                         <Icon icon="info" size={IconSize.Small} />
                         <span className="label">
                           Swap to edit and start writing your review
@@ -135,23 +135,23 @@ export function Review({ submission }: { submission: Submission }) {
           </ReviewCheck>
         </div>
 
-        {userId && (isStaff || isAdmin) && (
+        {account && (isStaff || isAdmin) && (
           <div className="space-y-4">
             {!carefullyRead && (
-              <div className="flex items-center gap-2 body text-error-light">
+              <div className="body flex items-center gap-2 text-error-light">
                 <Icon icon="close" size={IconSize.Small} />
                 <span>Have you read the submission?</span>
               </div>
             )}
 
             {!feedbackIsOk && (
-              <div className="flex items-center gap-2 body text-error-light">
+              <div className="body flex items-center gap-2 text-error-light">
                 <Icon icon="close" size={IconSize.Small} />
                 <span>The feedback must be longer than 5 words</span>
               </div>
             )}
 
-            <div className="flex justify-between items-center">
+            <div className="flex items-center justify-between">
               <div className="space-y-2">
                 <span>Your review will set this submission as: </span>
                 <>
@@ -172,7 +172,7 @@ export function Review({ submission }: { submission: Submission }) {
                 review={{
                   feedback: feedback,
                   meetsRequirements,
-                  reviewer: userId,
+                  reviewer: account,
                 }}
                 disabled={!carefullyRead || !feedbackIsOk}
               />

@@ -18,7 +18,7 @@ export function SubmissionHeader() {
 
   return (
     <header className={`${color} border-y-2 py-10`}>
-      <Section className="text-center space-y-2">
+      <Section className="space-y-2 text-center">
         <div>
           <span className="label text-on-surface-unactive ">
             {isStaff ? 'Submission to' : 'Your submission to'}
@@ -26,10 +26,10 @@ export function SubmissionHeader() {
 
           {bounty && (
             <a
-              href={GoToBountyPage(bounty?.id)}
+              href={GoToBountyPage(bounty?.slug)}
               rel="noopener noreferrer"
               target="_blank"
-              className="h4 text-on-surface-p1 max-w-3xl mx-auto block hover:text-main-light"
+              className="h4 mx-auto block max-w-3xl text-on-surface-p1 hover:text-main-light"
             >
               {bounty?.title}
             </a>
@@ -43,8 +43,8 @@ export function SubmissionHeader() {
 
         {(isAdmin || isStaff) &&
           submission.state === SubmissionState.WaitingForReview && (
-            <div className="flex items-center justify-center flex-col pt-4 gap-4 h-fit">
-              <div className="flex gap-2 items-center">
+            <div className="flex h-fit flex-col items-center justify-center gap-4 pt-4">
+              <div className="flex items-center gap-2">
                 <Icon icon="check" size={IconSize.Small} />
                 <span className="label">You can review this submission</span>
               </div>

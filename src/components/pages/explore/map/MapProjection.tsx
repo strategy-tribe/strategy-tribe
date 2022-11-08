@@ -24,7 +24,7 @@ export default function MapProjection() {
   }, [width]);
 
   return (
-    <div className="w-full h-[500px]">
+    <div className="h-[500px] w-full">
       <ResponsiveChoropleth
         projectionType="naturalEarth1"
         data={map?.mapData.countries ?? []}
@@ -64,14 +64,14 @@ export default function MapProjection() {
           const { bountyCount, organizationCount, totalFunds } =
             feature.data as CountryMapData;
           return (
-            <div className="elevation-5 bg-surface text-on-surface-p0 p-4 rounded space-y-1">
-              <div className="flex justify-between items-center gap-6">
+            <div className="elevation-5 space-y-1 rounded bg-surface p-4 text-on-surface-p0">
+              <div className="flex items-center justify-between gap-6">
                 <span className="label-lg">{label}</span>
-                <span className="text-main-light h5">
+                <span className="h5 text-main-light">
                   {kFormatter(totalFunds)} MATIC
                 </span>
               </div>
-              <div className="flex justify-between items-center gap-6 label-sm text-on-surface-unactive">
+              <div className="label-sm flex items-center justify-between gap-6 text-on-surface-unactive">
                 <span>{kFormatter(bountyCount)} bounties</span>
                 <span>{kFormatter(organizationCount)} organizations</span>
               </div>

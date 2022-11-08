@@ -19,6 +19,15 @@ export const orgRouter = router({
           include: {
             tags: true,
             countries: true,
+            targets: {
+              include: {
+                _count: {
+                  select: {
+                    bounties: true,
+                  },
+                },
+              },
+            },
           },
         });
         return { organizations };
@@ -27,6 +36,15 @@ export const orgRouter = router({
           include: {
             tags: true,
             countries: true,
+            targets: {
+              include: {
+                _count: {
+                  select: {
+                    bounties: true,
+                  },
+                },
+              },
+            },
           },
         });
         return { organizations };
@@ -35,23 +53,32 @@ export const orgRouter = router({
   getOrg: publicProcedure
     .input(
       z.object({
-        name: z.string(),
+        id: z.string(),
+        name: z.string().optional(),
       })
     )
-    .query(async ({ input: { name } }) => {
+    .query(async ({ input }) => {
       const organization: Organization | null =
         await prisma.organization.findUnique({
-          where: {
-            name,
-          },
+          where: { id: input.id },
           include: {
             tags: true,
             countries: true,
             targets: {
               include: {
-                bounties: true,
+                bounties: {
+                  include: {
+                    wallet: true,
+                  },
+                },
+                _count: {
+                  select: {
+                    bounties: true,
+                  },
+                },
               },
             },
+            wallet: true,
           },
         });
       return { organization };

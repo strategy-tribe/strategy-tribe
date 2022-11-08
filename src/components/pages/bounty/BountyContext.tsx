@@ -25,7 +25,7 @@ export const BountyContextProvider = ({
   const { query, setQuery } = useBountyUrl();
 
   function setView(val: BountyView) {
-    setQuery({ ...query, view: val }, GoToBountyPage(bounty.id));
+    setQuery({ ...query, view: val }, GoToBountyPage(bounty.slug));
   }
 
   return (

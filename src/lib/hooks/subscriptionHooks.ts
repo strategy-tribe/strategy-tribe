@@ -16,12 +16,12 @@ const queryForUserSubsToAll = (userId: string) => {
 
 export const useIsSubscribed = (
   userId: string,
-  orgName: string,
+  orgId: string,
   enabled = true
 ) => {
   // const { isSubscribed } = usePushNotifs();
 
-  // const queryId = queryForSubs(userId, orgName);
+  // const queryId = queryForSubs(userId, orgId);
 
   // const { isLoading, data, error } = useQuery(
   //   queryId,
@@ -41,7 +41,7 @@ export const useIsSubscribed = (
   };
 };
 
-export const useSubscribe = (userId: string, orgName: string) => {
+export const useSubscribe = (userId: string, orgId: string) => {
   // const { subscribeToOrg, unsubscribeToOrg } = usePushNotifs();
   // const q = useQueryClient();
 

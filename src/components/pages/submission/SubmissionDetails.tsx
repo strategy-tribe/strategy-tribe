@@ -8,7 +8,7 @@ export function SubmissionDetails() {
 
   return (
     <div className="mx-auto max-w-[90rem] border-b-2 border-surface-dark pb-6">
-      <div className="mx-auto max-w-5xl flex items-center  gap-8">
+      <div className="mx-auto flex max-w-5xl items-center  gap-8">
         <SubmissionDetail
           label="Submitted"
           value={GetDateInString(submission.createdAt) + ' ago'}

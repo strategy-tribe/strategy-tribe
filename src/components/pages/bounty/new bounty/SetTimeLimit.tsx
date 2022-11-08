@@ -1,11 +1,14 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import ReactTextareaAutosize from 'react-textarea-autosize';
+import React, { useMemo } from 'react';
+
 import { Title } from '@/components/utils/Title';
 ('../../utils/Title');
 import DatePicker from 'react-datepicker';
+
 import 'react-datepicker/dist/react-datepicker.css';
-import { GetDateInString } from '@/utils/DateHelpers';
+
 import Toggle from '@/components/utils/Toggle';
+
+import { GetDateInString } from '@/utils/DateHelpers';
 
 export const SetTimeLimit = ({
   date,
@@ -46,7 +49,7 @@ export const SetTimeLimit = ({
           selected={date}
           onChange={(date: Date) => setDate(date)}
           on-surface-disabled={!hasDeadline}
-          className="bg-bg border-0 border-b-2 border-on-surface-disabled focus:border-purpleDar"
+          className="focus:border-purpleDar border-0 border-b-2 border-on-surface-disabled bg-bg"
         />
       )}
 
@@ -59,7 +62,7 @@ export const SetTimeLimit = ({
             </p>
           )}
           {!dataIsValid && (
-            <p className="text-error-light font-semibold label">
+            <p className="label font-semibold text-error-light">
               Date must be after today
             </p>
           )}

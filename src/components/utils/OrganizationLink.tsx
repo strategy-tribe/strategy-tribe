@@ -1,26 +1,27 @@
-import { useGetOrganizationByName } from '@/hooks/organizationHooks';
+import Link from 'next/link';
+
+import { useGetOrganization } from '@/lib/hooks/organizationHooks';
+import { GoToOrgPage } from '@/lib/utils/Routes';
 
 export function OrganizationLink({
-  orgName,
-  className = 'text-main-light font-medium w-fit hover:underline',
+  orgId,
+  className = 'font-medium text-main-light w-fit hover:underline',
 }: {
-  orgName: string;
+  orgId: string;
   className?: string;
 }) {
-  const { organization } = useGetOrganizationByName(orgName);
+  const { organization } = useGetOrganization(orgId);
 
-  return <></>;
-
-  // return (
-  //   <Link href={GoToOrgPage(organization?.id ? organization.id : '')}>
-  //     <span className={`${className} capitalize`}>{orgName}</span>
-  //   </Link>
-  // );
+  return (
+    <Link href={GoToOrgPage(organization?.id ? organization.id : '')}>
+      <span className={`${className} capitalize`}>{organization?.name}</span>
+    </Link>
+  );
 }
 
 export function BountyLink({
   bountyId: bountyId,
-  className = 'text-main-light font-medium w-fit hover:underline',
+  className = 'font-medium text-main-light w-fit hover:underline',
 }: {
   bountyId: string;
   className?: string;

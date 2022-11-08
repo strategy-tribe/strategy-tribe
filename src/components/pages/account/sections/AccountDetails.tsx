@@ -1,5 +1,7 @@
-import { GetDateInString } from '@/lib/utils/DateHelpers';
 import { useAuth } from 'auth/AuthContext';
+
+import { GetDateInString } from '@/lib/utils/DateHelpers';
+
 import { Stat } from '../../../utils/Stat';
 
 export function AccountDetails() {

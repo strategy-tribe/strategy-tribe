@@ -27,9 +27,9 @@ const UserPage: NextPageWithLayout = () => {
         {(!isAuthenticated || !userId) && (
           <ImportantMessage
             message="You're not signed in."
-            className="w-full mx-auto max-w-xs"
+            className="mx-auto w-full max-w-xs"
             content={
-              <button onClick={LogIn} className="mt-4 label">
+              <button onClick={LogIn} className="label mt-4">
                 Join the hunt,
                 <br />
                 <span className="underline">you only need your wallet</span>

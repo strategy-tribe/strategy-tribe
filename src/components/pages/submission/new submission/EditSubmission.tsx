@@ -9,7 +9,7 @@ import { ImageUploader } from './edit/ImageUploader';
 import { RequirementChecker } from './edit/RequirementChecker';
 import { RequirementEditor } from './edit/RequirementEditor';
 import { useNewSubmissionContext } from './NewSubmissionContext';
-import { UserInput } from './UserInput';
+import { UserInput } from '../../../../server/common/submission/UserInput';
 
 export function EditSubmission() {
   //*Context

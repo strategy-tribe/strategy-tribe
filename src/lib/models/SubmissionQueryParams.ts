@@ -9,7 +9,6 @@ export interface SubmissionQueryParams {
   amount?: number;
   searchTerm?: string;
   reviewed?: boolean;
-  //
   bounties?: string[];
   owners?: string[];
   states?: SubmissionState[];

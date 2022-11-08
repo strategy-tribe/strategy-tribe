@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import ReactTextareaAutosize from 'react-textarea-autosize';
+
 import { Title } from '@/components/utils/Title';
 ('../../utils/Title');
 
@@ -20,7 +21,7 @@ export const SetBountyTitle = ({
 
         <ReactTextareaAutosize
           placeholder="Type here"
-          className="bg-bg text-on-surface-p1 border-0 w-full font-inter  focus:ring-0 first-letter:capitalize whitespace-pre-wrap"
+          className="w-full whitespace-pre-wrap border-0 bg-bg font-inter  text-on-surface-p1 first-letter:capitalize focus:ring-0"
           onChange={(e) => setTitle(e.target.value)}
           value={title}
         />

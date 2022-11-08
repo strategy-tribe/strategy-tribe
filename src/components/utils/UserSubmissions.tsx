@@ -1,7 +1,6 @@
-import { useAuth } from 'auth/AuthContext';
 import Link from 'next/link';
 
-import { useGetSubmissionsFromBounty } from '@/hooks/submissionHooks';
+import { useGetSubmissions } from '@/hooks/submissionHooks';
 
 import Loading from '@/components/utils/Loading';
 import { Title } from '@/components/utils/Title';
@@ -9,28 +8,23 @@ import { Title } from '@/components/utils/Title';
 import { GoToBeforeNewSubmissionPage } from '@/utils/Routes';
 
 export function UserSubmissions({ id }: { id: string }) {
-  const { userId } = useAuth();
-
-  const { submissions: userSubmissions, isLoading } =
-    useGetSubmissionsFromBounty(
-      userId as string,
-      id,
-      Boolean(userId as string)
-    );
+  const { submissions: userSubmissions, isLoading } = useGetSubmissions({
+    bounties: [id],
+  });
 
   if (isLoading) return <Loading small={true} />;
 
   return (
-    <div className="space-y-4 laptop:pb-32 px-2">
+    <div className="space-y-4 px-2 laptop:pb-32">
       <Title title="Your Submissions" />
       {!userSubmissions ||
         (userSubmissions.length === 0 && (
           <>
-            <p className="text-on-surface-unactive text-sm font-medium body">
+            <p className="body text-sm font-medium text-on-surface-unactive">
               You have not submitted findings to this bounty.
               <br />
               <Link href={GoToBeforeNewSubmissionPage(id)}>
-                <span className="underline text-main-light font-medium">
+                <span className="font-medium text-main-light underline">
                   You can submit your findings here.
                 </span>
               </Link>

@@ -34,12 +34,12 @@ export default function BountyStates({ bounty }: { bounty: Bounty }) {
 
   return (
     <div className="flex gap-6 text-on-surface-unactive">
-      <div className="flex gap-1 items-center  relative group cursor-default">
+      <div className="group relative flex  cursor-default items-center gap-1">
         <Icon icon={calculateIcon()} />
         <span>{bounty.status}</span>
         <MoreInfo content={stateInfo()} />
       </div>
-      <div className="flex gap-1 items-center  relative group cursor-default">
+      <div className="group relative flex  cursor-default items-center gap-1">
         <Icon icon="timer" />
         <span>
           {bounty.closesAt

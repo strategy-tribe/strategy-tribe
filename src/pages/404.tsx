@@ -15,7 +15,7 @@ import { NextPageWithLayout } from './_app';
 const _404Page: NextPageWithLayout = () => {
   const twitterUrl = process.env.NEXT_PUBLIC_TWITTER;
   return (
-    <div className="text-on-surface-p1 space-y-8">
+    <div className="space-y-8 text-on-surface-p1">
       <Head>
         <title>ST | 404</title>
         <meta
@@ -52,19 +52,19 @@ const _404Page: NextPageWithLayout = () => {
                 </div>
                 {/* Content */}
                 <div>
-                  <p className="max-w-lg body">{`Let's get you back on track.`}</p>
+                  <p className="body max-w-lg">{`Let's get you back on track.`}</p>
                 </div>
                 {/* CTA */}
                 <div>
                   <div className="-ml-6">
                     <Link href={GoToBountiesPage()}>
-                      <span className="text-on-surface-p0 hover:text-main-light py-3 px-5 tablet:px-6 font-medium font-grotesk z-10 flex items-center justify-center gap-2 rounded-full min-w-[6rem] w-fit">
+                      <span className="z-10 flex w-fit min-w-[6rem] items-center justify-center gap-2 rounded-full py-3 px-5 font-grotesk font-medium text-on-surface-p0 hover:text-main-light tablet:px-6">
                         <Icon icon="arrow_forward" />
                         <span>Check the bounties</span>
                       </span>
                     </Link>
                     <Link href={GoToLandingPage()}>
-                      <span className="text-on-surface-p0 hover:text-main-light py-3 px-5 tablet:px-6 font-medium font-grotesk z-10 flex items-center justify-center gap-2 rounded-full min-w-[6rem] w-fit">
+                      <span className="z-10 flex w-fit min-w-[6rem] items-center justify-center gap-2 rounded-full py-3 px-5 font-grotesk font-medium text-on-surface-p0 hover:text-main-light tablet:px-6">
                         <Icon icon="arrow_forward" />
                         <span>Home</span>
                       </span>
@@ -73,7 +73,7 @@ const _404Page: NextPageWithLayout = () => {
                       href={twitterUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-on-surface-p0 hover:text-main-light py-3 px-5 tablet:px-6 font-medium font-grotesk z-10 flex items-center justify-center gap-2 rounded-full min-w-[6rem] w-fit"
+                      className="z-10 flex w-fit min-w-[6rem] items-center justify-center gap-2 rounded-full py-3 px-5 font-grotesk font-medium text-on-surface-p0 hover:text-main-light tablet:px-6"
                     >
                       <Icon icon="arrow_forward" />
                       <span>Follow us on Twitter</span>

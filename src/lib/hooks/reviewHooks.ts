@@ -1,35 +1,41 @@
-import { Submission } from '@prisma/client';
+import { ReviewGrade, Submission } from '@prisma/client';
+import { useQueryClient } from 'react-query';
+
+import { trpc } from '../trpc';
 
 export const useSubmitReview = (
-  grade: 'Accepted' | 'Rejected',
+  grade: ReviewGrade,
   submission: Submission,
-  reviewerId: string,
-  reviewerComment?: string,
-  onSuccess?: () => void,
-  onError?: (e: any) => void
+  reviewerAddress: string,
+  reviewerComment: string,
+  onSuccess: () => void,
+  onError: (e: any) => void
 ) => {
-  // const q = useQueryClient();
-  // const { save } = Moralis_useSaveReview(
-  //   grade,
-  //   submission,
-  //   reviewerId,
-  //   reviewerComment
-  // );
+  const q = useQueryClient();
 
-  // const { mutate } = useMutation(() => save(), {
-  //   onSuccess: () => {
-  //     q.invalidateQueries();
-  //     if (onSuccess) onSuccess();
-  //   },
-  //   onError,
-  // });
+  const mutation = trpc.review.post.useMutation({
+    onError,
+    onSuccess: (data) => {
+      q.invalidateQueries();
+      onSuccess();
+    },
+  });
 
   return {
-    SubmitReview: () => {
-      //
+    SubmitReview: async () => {
+      mutation.mutate({
+        grade,
+        submissionId: submission.id,
+        reviewerAddress,
+        reviewerComment,
+      });
     },
+    isLoading: mutation.isLoading,
+    isSuccess: mutation.isSuccess,
+    error: mutation.error,
   };
 };
+
 export const useGetReviews = (config: any, enabled = true) => {
   // const { isInitialized } = useMoralis();
   // const page = config.page || 0;

@@ -18,7 +18,7 @@ export function SectionTitle({ title }: { title: string }) {
   return (
     <div>
       <h2 className=" text-on-surface-p0">{title}</h2>
-      <span className="bg-main h-1 inline-block -translate-y-1 w-16"></span>
+      <span className="inline-block h-1 w-16 -translate-y-1 bg-main"></span>
     </div>
   );
 }
@@ -42,11 +42,11 @@ export function CallToAction({
     return (
       <Link href={link}>
         <span
-          className={`group text-on-surface-p0 hover:text-main-light label flex items-center justify-center gap-2 w-fit ${className}`}
+          className={`label group flex w-fit items-center justify-center gap-2 text-on-surface-p0 hover:text-main-light ${className}`}
         >
           <Icon
             icon="arrow_forward"
-            className="-translate-x-0.5 group-hover:translate-x-0 transition-all ease-out"
+            className="-translate-x-0.5 transition-all ease-out group-hover:translate-x-0"
           />
           <span>{label}</span>
         </span>
@@ -59,11 +59,11 @@ export function CallToAction({
       href={link}
       target="_blank"
       rel="noopener noreferrer"
-      className={`group text-on-surface-p0 hover:text-main-light label flex items-center justify-center gap-2 w-fit ${className}`}
+      className={`label group flex w-fit items-center justify-center gap-2 text-on-surface-p0 hover:text-main-light ${className}`}
     >
       <Icon
         icon="north_east"
-        className="-translate-x-0.5 group-hover:-translate-y-0.5 group-hover:translate-x-0 transition-all ease-out"
+        className="-translate-x-0.5 transition-all ease-out group-hover:-translate-y-0.5 group-hover:translate-x-0"
       />
       <span>{label}</span>
     </a>
@@ -98,7 +98,7 @@ export function AfterRead() {
   const router = useRouter();
   return (
     <motion.section
-      className="pt-12 mt-12 space-y-10 border-t-2 border-surface mx-auto max-w-4xl"
+      className="mx-auto mt-12 max-w-4xl space-y-10 border-t-2 border-surface pt-12"
       initial={{ opacity: 0, y: 5 }}
       animate={{ opacity: 1, y: 0, transition: { delay: 1, duration: 1 } }}
     >

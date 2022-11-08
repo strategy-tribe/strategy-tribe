@@ -20,10 +20,10 @@ export function UserAnswer({
   return (
     <div key={requirement.title} className="space-y-2">
       <button
-        className="flex gap-2 label items-center group justify-between w-full text-on-surface-unactive hover:text-on-surface-p0"
+        className="label group flex w-full items-center justify-between gap-2 text-on-surface-unactive hover:text-on-surface-p0"
         onClick={() => setExpanded(!expanded)}
       >
-        <div className="flex gap-2 label items-center w-full">
+        <div className="label flex w-full items-center gap-2">
           <NumberSelector num={num} colors="bg-surface text-on-surface-p0" />
           <p>{requirement.title}</p>
         </div>
@@ -34,7 +34,7 @@ export function UserAnswer({
       {expanded && (
         <>
           {typeof answer === 'string' ? (
-            <p className="pl-8 body">
+            <p className="body pl-8">
               <span className="inline">{answer}</span>
             </p>
           ) : (

@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import { BountyQueryParams } from '@/lib/models/BountyQueryParams';
 import { trpc } from '@/lib/trpc';
 
-import { Order } from '../models/Order';
 import { FullBounty } from '../types';
 
 //!Get All
@@ -12,41 +11,29 @@ export const useGetBounties = (config: BountyQueryParams, enabled = true) => {
   const page = config.page || 0;
 
   const [numOfPages, setNumOfPages] = useState(0);
+  const [hasNextPage, setHasNextPage] = useState(false);
+  const [hasPreviousPage, setHasPreviousPage] = useState(false);
 
   const { error, isLoading, data, isFetching } =
-    trpc.bounty.getBounties.useQuery(
-      {
-        order: Order.Desc,
-        amount: 100,
-      },
-      {
-        getPreviousPageParam: (lastFecthResult) => {
-          // const { hasLess, page } = lastFecthResult;
-          // if (hasLess) return page - 1;
-          return false;
-        },
-        getNextPageParam: (lastFecthResult) => {
-          // const { hasMore, page } = lastFecthResult;
-          // if (hasMore) return page + 1;
-          return false;
-        },
-        enabled: true,
-        keepPreviousData: config.paginate,
-        refetchOnWindowFocus: false,
-      }
-    );
+    trpc.bounty.getBounties.useQuery(config, {
+      enabled: enabled,
+    });
+  const { data: countData } = trpc.bounty.getTotalCount.useQuery(config, {
+    enabled: true,
+  });
 
   useEffect(() => {
-    if (data && config.amount && config.paginate) {
+    if (data && countData && config.amount && config.paginate) {
       // const { count } = data;
-      const count = 10;
+      const count = countData.bountiesCount;
       const _numOfPages = Math.floor((count - 1) / config.amount + 1);
-
+      setHasNextPage(_numOfPages - 1 > (config?.page ?? _numOfPages));
+      setHasPreviousPage((config?.page ?? 0) != 0);
       setNumOfPages(_numOfPages);
     } else {
       setNumOfPages(0);
     }
-  }, [data, config]);
+  }, [data, config, countData]);
 
   const bounties: FullBounty[] = data?.bounties ?? [];
 
@@ -56,9 +43,9 @@ export const useGetBounties = (config: BountyQueryParams, enabled = true) => {
     isFetching: isFetching,
     page,
     numOfPages,
-    count: 10,
-    hasNextPage: false,
-    hasPreviousPage: false,
+    count: countData?.bountiesCount ?? 10,
+    hasNextPage,
+    hasPreviousPage,
     isPreviousData: false,
     error,
   };

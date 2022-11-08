@@ -3,8 +3,8 @@ import Head from 'next/head';
 import AppLayout from '@/components/layouts/AppLayout';
 import Hero from '@/components/pages/landing/Hero';
 
-import { Privacy } from '../components/pages/landing/Privacy';
 import { NextPageWithLayout } from './_app';
+import { Privacy } from '../components/pages/landing/Privacy';
 
 const LandingPage: NextPageWithLayout = () => {
   return (

@@ -1,6 +1,8 @@
+import { RequirementType } from '@prisma/client';
 import { useAuth } from 'auth/AuthContext';
 
 import { useSubmitterInfo } from '@/lib/hooks/submissionHooks';
+import { FullSubmission } from '@/lib/types';
 
 import { useSubmissionContext } from './SubmissionContext';
 import { SubmissionDetail } from './SubmissionDetail';
@@ -21,7 +23,7 @@ export function SubmissionContent() {
 }
 
 function Title() {
-  const { submission } = useSubmissionContext();
+  const submission = useSubmissionContext().submission as FullSubmission;
 
   const { isStaff, isAdmin } = useAuth();
 
@@ -48,15 +50,19 @@ function UserStats() {
   return (
     <>
       {(isStaff || isAdmin) && submitterInfo && (
-        <div className="space-y-2 border-2 border-surface rounded-lg p-4">
+        <div className="space-y-2 rounded-lg border-2 border-surface p-4">
           <h3 className="h5">User stats</h3>
           <div className="flex gap-8">
             <SubmissionDetail
               label="Has submitted to this bounty"
-              value={`${568} times`}
+              value={`${submitterInfo.bountySubmissions} times`}
             />
-            <SubmissionDetail label="Total submissions" value={`${568}`} />
+            <SubmissionDetail
+              label="Total submissions"
+              value={`${submitterInfo.totalSubmissions}`}
+            />
 
+            {/* TODO: update right number */}
             <SubmissionDetail
               label="Submissions allowed for today"
               value={`${568}`}
@@ -73,14 +79,15 @@ function UserAnswers() {
 
   return (
     <>
-      {/* {submission.answers.map((anw, i) => {
+      {submission.answers?.map((anw, i) => {
         return (
           <div key={i} className="space-y-1">
             <span className="label text-on-surface-unactive">
               {anw.requirement.title}
             </span>
 
-            {anw.requirement.type === RequirementType.Image && (
+            {/* TODO: make changes for images */}
+            {/* {anw.requirement.type === RequirementType.Image && (
               <div className="grid grid-cols-3 gap-4 pt-4">
                 {(anw.answer as string[]).map((url) => {
                   return (
@@ -96,14 +103,14 @@ function UserAnswers() {
                   );
                 })}
               </div>
-            )}
+            )} */}
 
-            {anw.requirement.type !== RequirementType.Image && (
-              <p className="whitespace-pre-wrap body">{anw.answer}</p>
+            {anw.requirement.type !== RequirementType.IMAGE && (
+              <p className="body whitespace-pre-wrap">{anw.answer}</p>
             )}
           </div>
         );
-      })} */}
+      })}
     </>
   );
 }

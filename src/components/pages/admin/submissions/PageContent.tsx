@@ -7,7 +7,7 @@ import { ArrayOfNumbers } from '@/lib/utils/ArrayHelpers';
 import { useAdminReview } from '@/components/pages/admin/submissions/ReviewContext';
 import { SubmissionListEntry } from '@/components/submissions/SubmissionListEntry';
 import { Button, ButtonStyle } from '@/components/utils/Button';
-import Dropdown from '@/components/utils/Dropdown';
+import Dropdown, { HasLabel } from '@/components/utils/Dropdown';
 import Icon, { IconSize } from '@/components/utils/Icon';
 import { Title } from '@/components/utils/Title';
 
@@ -32,8 +32,8 @@ export function ReviewDashboardFilters() {
   } = useAdminReview();
 
   return (
-    <div className="flex items-center gap-8 py-4 border-b-2 border-surface sticky top-0 bg-bg z-20">
-      <div className="text-center  text-main-light rounded-full label-sm">
+    <div className="sticky top-0 z-20 flex items-center gap-8 border-b-2 border-surface bg-bg py-4">
+      <div className="label-sm rounded-full text-center text-main-light">
         {count} {count === 1 ? 'result' : 'results'}
       </div>
 
@@ -60,26 +60,15 @@ export function ReviewDashboardFilters() {
         defaultOptionIndex={1}
         options={[['All', 'All'], ...Object.entries(SubmissionState)].map(
           (entry) => {
-            return { label: entry[1] };
+            return { label: entry[1] } as HasLabel;
           }
         )}
         onSelect={({ label: newState }) => {
-          const isAState = Object.entries(SubmissionState).find(
-            (entry) => entry[1] === newState
-          );
-          if (isAState) {
-            setQuery({
-              ...query,
-              states: [newState as SubmissionState],
-              page: 0,
-            });
-          } else {
-            setQuery({
-              ...query,
-              states: [],
-              page: 0,
-            });
-          }
+          setQuery({
+            ...query,
+            state: newState as SubmissionState,
+            page: 0,
+          });
         }}
       />
 
@@ -103,7 +92,7 @@ export function ReviewDashboardSearchbar() {
       {query.owners && query.owners.at(0) && (
         <>
           <button
-            className="flex items-center gap-2 border rounded-full py-2 px-4 group"
+            className="group flex items-center gap-2 rounded-full border px-4 py-2"
             onClick={() => {
               setSearch('');
               hitSearch(true);
@@ -114,7 +103,7 @@ export function ReviewDashboardSearchbar() {
               size={IconSize.Small}
               className="group-hover:text-error-light"
             />
-            <div className="body-sm flex gap-1 items-center">
+            <div className="body-sm flex items-center gap-1">
               <span className="text-left ">User ID:</span>
 
               <span className="group-hover:text-error-light">
@@ -129,7 +118,7 @@ export function ReviewDashboardSearchbar() {
         <div className="flex items-center gap-4">
           <input
             type="text"
-            className="body-sm font-medium w-full bg-bg border-0 focus:ring-0 border-b focus:border-main"
+            className="body-sm w-full border-0 border-b bg-bg font-medium focus:border-main focus:ring-0"
             placeholder="Search by user id"
             value={search}
             onChange={(e) => {
@@ -142,7 +131,7 @@ export function ReviewDashboardSearchbar() {
             }}
           />
           <button
-            className="grow shrink-0 text-center border bg-main border-bg text-on-color py-2 px-8 rounded-full label-sm"
+            className="label-sm shrink-0 grow rounded-full border border-bg bg-main px-8 py-2 text-center text-on-color"
             onClick={() => hitSearch(false)}
           >
             Search
@@ -160,14 +149,15 @@ export function ReviewDashboardSubmissions() {
   } = useAdminReview();
 
   return (
-    <div className="space-y-10 min-h-screen">
+    <div className="min-h-screen space-y-10">
       <>
-        {submissions.length > 0 &&
-          submissions.map((s, i) => {
+        {submissions &&
+          submissions.length > 0 &&
+          submissions?.map((s, i) => {
             return (
-              <div key={i} className="flex items-center gap-4 -translate-x-5">
+              <div key={i} className="flex -translate-x-5 items-center gap-4">
                 <span className="label text-on-surface-disabled">
-                  {(i + 1) * (page > 0 ? page : 1)}
+                  {i + 1 + (page > 0 ? page : 0) * (query?.amount ?? 10)}
                 </span>
                 <SubmissionListEntry submission={s} />
               </div>
@@ -176,10 +166,10 @@ export function ReviewDashboardSubmissions() {
       </>
 
       <>
-        {submissions.length === 0 && (
+        {submissions && submissions.length === 0 && (
           <div className="label text-on-surface-unactive">
             No submissions matches your filters
-            <div className="mt-4 border border-on-surface-disabled rounded p-4">
+            <div className="mt-4 rounded border border-on-surface-disabled p-4">
               <span>query:</span>
               <pre className="pt-2">{JSON.stringify(query, null, 2)}</pre>
             </div>
@@ -224,9 +214,9 @@ export function ReviewDashboardPageControls() {
 
   return (
     <>
-      <div className="bg-bg sticky bottom-0 pt-2 pb-2 border-t border-surface-dark">
+      <div className="sticky bottom-0 border-t border-surface-dark bg-bg pt-2 pb-2">
         <div className="mx-auto max-w-xl space-y-4">
-          <div className="flex items-center gap-8 justify-between">
+          <div className="flex items-center justify-between gap-8">
             {/* Prev */}
             <Button
               info={{
@@ -240,14 +230,14 @@ export function ReviewDashboardPageControls() {
               }}
             />
 
-            <div className="flex grow items-center gap-4 justify-center">
+            <div className="flex grow items-center justify-center gap-4">
               {!isLoading &&
                 pages.map((page, i) => {
                   const isTheCurrentPage = currPage === page;
                   return (
                     <button
                       key={i}
-                      className={`shrink-0 label p-2 bg-bg border-b-2  hover:bg-surface rounded-sm disabled:hover:bg-bg disabled:cursor-default cursor-pointer ${
+                      className={`label shrink-0 cursor-pointer rounded-sm border-b-2  bg-bg p-2 hover:bg-surface disabled:cursor-default disabled:hover:bg-bg ${
                         isTheCurrentPage ? 'border-main' : 'border-bg'
                       }`}
                       onClick={() => goToPage(page)}
@@ -292,7 +282,7 @@ export function ReviewDashboardPageControls() {
               page: 0,
             });
           }}
-          className="body-sm w-full bg-bg border-0 focus:ring-0 border-b focus:border-main"
+          className="body-sm w-full border-0 border-b bg-bg focus:border-main focus:ring-0"
         />
       </div>
     </>

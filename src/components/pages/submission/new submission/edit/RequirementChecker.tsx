@@ -40,24 +40,24 @@ export function RequirementChecker({
   }, [passed]);
 
   return (
-    <div className="min-w-[10rem] sticky top-40 z-30 bg-surface-dark py-2">
-      <div className="-translate-x-6 flex items-center gap-2 group cursor-default label-lg">
+    <div className="sticky top-40 z-30 min-w-[10rem] bg-surface-dark py-2">
+      <div className="label-lg group flex -translate-x-6 cursor-default items-center gap-2">
         <Icon
           icon="close"
           className={`text-error-light ${!!passed && 'invisible'}`}
           size={IconSize.Small}
         />
 
-        <div className="space-y-4 label w-full">
+        <div className="label w-full space-y-4">
           {/* Label of the req */}
-          <div className="flex justify-between items-center">
+          <div className="flex items-center justify-between">
             <div>
               <span className={`${!passed && 'group-hover:hidden'}`}>
                 {title}
               </span>
 
               <span
-                className={`text-error-light hidden ${
+                className={`hidden text-error-light ${
                   !passed && 'group-hover:inline '
                 }`}
               >

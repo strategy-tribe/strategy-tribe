@@ -1,47 +1,48 @@
+import { Organization } from '@prisma/client';
+
 import { trpc } from '../trpc';
 
 export const useGetAllOrganizations = (enabled = true) => {
-  // const { fetch } = Moralis_useGetOrganizations();
-
-  // const { isLoading, data } = useQuery([Queries.Organizations], () => fetch(), {
-  //   enabled,
-  // });
+  const { error, isLoading, data, isFetching } = trpc.orgs.getOrgs.useQuery(
+    {},
+    {
+      enabled,
+    }
+  );
+  const organizations: Organization[] = data?.organizations ?? [];
 
   return {
-    isLoading: true,
-    organizations: [],
+    isLoading: isLoading,
+    organizations: organizations,
   };
 };
 
-export const useGetOrganization = (orgId: string, enabled = true) => {
-  // const { fetch } = Moralis_useGetOrganization(orgId);
-
-  // const { isLoading, data, error } = useQuery(
-  //   [Queries.Organizations, orgId],
-  //   () => fetch(),
-  //   {
-  //     enabled,
-  //   }
-  // );
-
-  return {
-    isLoading: true,
-    organization: undefined,
-    error: undefined,
-  };
-};
-
-export const useGetOrganizationByName = (name: string, enabled = true) => {
+export const useGetOrganization = (id: string, enabled = true) => {
   const { error, isLoading, data } = trpc.orgs.getOrg.useQuery(
     {
-      name,
+      id,
     },
     { enabled }
   );
 
   return {
-    error,
-    isLoading,
+    isLoading: isLoading,
     organization: data?.organization,
+    error: error,
   };
 };
+
+// export const useGetOrganizationByName = (name: string, enabled = true) => {
+//   const { error, isLoading, data } = trpc.orgs.getOrg.useQuery(
+//     {
+//       name,
+//     },
+//     { enabled }
+//   );
+
+//   return {
+//     error,
+//     isLoading,
+//     organization: data?.organization,
+//   };
+// };

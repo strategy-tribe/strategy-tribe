@@ -6,36 +6,36 @@ export function BountyMoreDetails() {
   const { bounty } = useBountyContext();
 
   return (
-    <div className="space-y-4 -translate-x-4">
+    <div className="-translate-x-4 space-y-4">
       {!!bounty.description && (
-        <div className="px-4 pt-4  rounded">
-          <span className="label-lg text-on-surface-unactive capitalize">
+        <div className="rounded px-4 pt-4">
+          <span className="label-lg capitalize text-on-surface-unactive">
             More
           </span>
 
-          <p className="whitespace-pre text-error-light font-medium">
+          <p className="whitespace-pre font-medium text-error-light">
             {bounty.description}
           </p>
         </div>
       )}
 
-      <div className="p-4 space-y-8">
+      <div className="space-y-8 p-4">
         <Stat title="Bounty ID" content={bounty.id} copyable />
         {/* <Stat title="Funds address" content={bounty.wallet.address} copyable /> */}
 
         <Stat
           title="Additional info"
           contents={bounty.requirements
-            .filter((r) => r.optional)
+            ?.filter((r) => r.optional)
             .map((r) => r.title)}
         />
 
-        <Stat title="Tags" contents={bounty.tags.map((t) => t.name)} />
+        <Stat title="Tags" contents={bounty.tags?.map((t) => t.name)} />
         <Stat
           title="Regions"
-          contents={bounty.target.org.countries.map((c) => c.name)}
+          contents={bounty.target?.org?.countries?.map((c) => c.name)}
         />
-        {!!bounty.target.alsoKnownAs && (
+        {!!bounty.target?.alsoKnownAs && (
           <Stat title="Also known as" contents={bounty.target.alsoKnownAs} />
         )}
       </div>

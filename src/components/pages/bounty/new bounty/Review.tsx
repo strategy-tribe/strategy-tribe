@@ -27,7 +27,7 @@ export const Review = ({
   const { userId } = useAuth();
 
   return (
-    <div className="space-y-8 text-on-surface-p1 max-w-6xl">
+    <div className="max-w-6xl space-y-8 text-on-surface-p1">
       <div className="-mb-4">
         <Title title="Review before publishing" />
       </div>

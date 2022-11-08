@@ -21,17 +21,17 @@ const Footer = () => {
   const { notify } = useNotification();
 
   return (
-    <footer className="bg-surface-dark w-full text-on-surface-p0">
-      <div className="px-8 laptop:px-2 pt-16 pb-24 space-y-16 mx-auto max-w-4xl">
+    <footer className="w-full bg-surface-dark text-on-surface-p0">
+      <div className="mx-auto max-w-4xl space-y-16 px-8 pt-16 pb-24 laptop:px-2">
         {/* LOGO */}
-        <div className="flex gap-2 items-center">
+        <div className="flex items-center gap-2">
           <Logo size={32} />
           <p className="h3 text-on-surface-p0">StrategyTribe</p>
         </div>
 
-        <div className="flex gap-8 w-full  text-on-surface-p1">
-          <ul className="space-y-4 grow shrink basis-[1]">
-            <p className="h5 font-grotesk pb-2 text-on-surface-unactive">
+        <div className="flex w-full gap-8  text-on-surface-p1">
+          <ul className="shrink grow basis-[1] space-y-4">
+            <p className="h5 pb-2 font-grotesk text-on-surface-unactive">
               Navigate
             </p>
 
@@ -53,10 +53,10 @@ const Footer = () => {
             <FooterItem internal label="About" link={GoToAboutusPage()} />
           </ul>
 
-          <div className="bg-surface shrink-0 w-0.5 h-48" />
+          <div className="h-48 w-0.5 shrink-0 bg-surface" />
 
-          <ul className="space-y-4 grow shrink basis-[2] ">
-            <p className="h5 font-grotesk pb-2 text-on-surface-unactive">
+          <ul className="shrink grow basis-[2] space-y-4 ">
+            <p className="h5 pb-2 font-grotesk text-on-surface-unactive">
               How ST works
             </p>
 
@@ -82,10 +82,10 @@ const Footer = () => {
             />
           </ul>
 
-          <div className="bg-surface shrink-0 w-0.5 h-48" />
+          <div className="h-48 w-0.5 shrink-0 bg-surface" />
 
-          <ul className="space-y-4 grow shrink basis-[1]">
-            <p className="h5 font-grotesk pb-2 text-on-surface-unactive">
+          <ul className="shrink grow basis-[1] space-y-4">
+            <p className="h5 pb-2 font-grotesk text-on-surface-unactive">
               Social
             </p>
 
@@ -133,7 +133,7 @@ export function FooterItem({
     >
       <Icon
         icon="north_east"
-        className="-translate-x-0.5 group-hover:-translate-y-0.5 group-hover:translate-x-0 transition-all ease-out"
+        className="-translate-x-0.5 transition-all ease-out group-hover:-translate-y-0.5 group-hover:translate-x-0"
       />
       <span>{label}</span>
     </a>

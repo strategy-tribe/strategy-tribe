@@ -1,10 +1,9 @@
-import { BountyState } from '@prisma/client';
+import { Bounty, BountyState } from '@prisma/client';
 import { z } from 'zod';
 
 import { BountyOrderBy } from '@/lib/models/BountyQueryParams';
 import { Order } from '@/lib/models/Order';
 import prisma from '@/lib/prisma/prismaClient';
-import { FullBounty } from '@/lib/types';
 
 import { publicProcedure, router } from '../trpc';
 
@@ -16,7 +15,7 @@ export const bountyRouter = router({
       })
     )
     .query(async ({ input: { slug } }) => {
-      const bounty: FullBounty | null = await prisma.bounty.findUnique({
+      const bounty: Bounty | null = await prisma.bounty.findUnique({
         where: { slug },
         include: {
           _count: {
@@ -49,7 +48,7 @@ export const bountyRouter = router({
   getBounties: publicProcedure
     .input(
       z.object({
-        order: z.enum([Order.Asc, Order.Desc]),
+        order: z.nativeEnum(Order),
         orderBy: z
           .enum([
             BountyOrderBy.Bounty,
@@ -61,15 +60,17 @@ export const bountyRouter = router({
         searchTerm: z.string().optional(),
         paginate: z.boolean().optional(),
         amount: z.number().optional(),
-        state: z
+        states: z
           .enum([
             BountyState.Closed,
             BountyState.Open,
             BountyState.PaymentNeeded,
             BountyState.WaitingForFunds,
           ])
+          .array()
           .optional(),
-        orgs: z.string().array().optional(),
+        orgId: z.string().optional(),
+        relatedTo: z.string().array().optional(),
         specificityOfOrgName: z.enum(['Exact', 'Loose']).optional(),
         specificityOfTitle: z.enum(['Exact', 'Loose']).optional(),
         minBounty: z.number().optional(),
@@ -80,8 +81,28 @@ export const bountyRouter = router({
     )
     .query(async ({ input }) => {
       try {
+        let where = {};
+        if (input.orgId) {
+          where = {
+            target: {
+              org: {
+                id: input.orgId,
+              },
+            },
+          };
+        }
+        if (input.states && input.states.length > 0) {
+          where = {
+            ...where,
+            status: {
+              in: input.states,
+            },
+          };
+        }
         //TODO: Use the input params to filter the bounties
-        const bounties: FullBounty[] = await prisma.bounty.findMany({
+        const bounties: Bounty[] = await prisma.bounty.findMany({
+          where,
+          skip: (input?.amount ?? 0) * (input?.page ?? 0),
           take: input.amount,
           include: {
             _count: {
@@ -111,6 +132,51 @@ export const bountyRouter = router({
         });
 
         return { bounties };
+      } catch (error) {
+        console.error(error);
+      }
+    }),
+  getTotalCount: publicProcedure
+    .input(
+      z.object({
+        searchTerm: z.string().optional(),
+        amount: z.number().optional(),
+        states: z
+          .enum([
+            BountyState.Closed,
+            BountyState.Open,
+            BountyState.PaymentNeeded,
+            BountyState.WaitingForFunds,
+          ])
+          .array()
+          .optional(),
+        orgId: z.string().optional(),
+        relatedTo: z.string().array().optional(),
+        specificityOfOrgName: z.enum(['Exact', 'Loose']).optional(),
+        specificityOfTitle: z.enum(['Exact', 'Loose']).optional(),
+        minBounty: z.number().optional(),
+        maxBounty: z.number().optional(),
+        countries: z.string().array().optional(),
+        page: z.number().optional(),
+      })
+    )
+    .query(async ({ input }) => {
+      try {
+        let where = {};
+        if (input.orgId) {
+          where = {
+            target: {
+              org: {
+                id: input.orgId,
+              },
+            },
+          };
+        }
+        const bountiesCount: number = await prisma.bounty.count({
+          where,
+        });
+
+        return { bountiesCount };
       } catch (error) {
         console.error(error);
       }

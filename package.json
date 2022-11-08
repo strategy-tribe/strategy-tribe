@@ -3,19 +3,20 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "format": "prettier -w .",
-    "format:check": "prettier -c .",
+    "prettier": "prettier --write .",
+    "prettier:check": "prettier -c .",
     "lint": "next lint",
-    "lint:fix": "eslint src --fix && npm run format",
+    "lint:fix": "yarn prettier && yarn format && eslint src --fix",
     "lint:strict": "eslint --max-warnings=0 src",
     "prepare": "husky install",
-    "prettier": "prettier --write .",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "format": "yarn prisma format",
     "generate": "yarn prisma generate",
-    "studio": "yarn prisma studio"
+    "studio": "yarn prisma format && yarn prisma generate && yarn prisma studio",
+    "test": "jest",
+    "t": "jest"
   },
   "dependencies": {
     "@nivo/core": "^0.79.0",
@@ -50,8 +51,14 @@
   "devDependencies": {
     "@commitlint/cli": "^17.0.3",
     "@commitlint/config-conventional": "^17.0.3",
+    "@faker-js/faker": "^7.6.0",
     "@tailwindcss/forms": "^0.5.0",
     "@tailwindcss/line-clamp": "^0.3.1",
+    "@testing-library/dom": "^8.19.0",
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^14.4.3",
+    "@types/jest": "^29.2.2",
     "@types/node": "^17.0.23",
     "@types/react": "^18.0.4",
     "@types/react-dom": "^18.0.0",
@@ -62,12 +69,22 @@
     "eslint": "^8.13.0",
     "eslint-config-next": "^12.1.5",
     "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-jest": "^27.1.3",
+    "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-simple-import-sort": "^7.0.0",
+    "eslint-plugin-testing-library": "^5.9.1",
     "eslint-plugin-unused-imports": "^2.0.0",
     "husky": "^8.0.1",
+    "isomorphic-fetch": "^3.0.0",
+    "jest": "^29.0.3",
+    "jest-environment-jsdom": "^29.0.3",
+    "jest-mock-extended": "2.0.4",
     "postcss": "^8.4.12",
     "prettier": "^2.7.1",
+    "prettier-plugin-tailwindcss": "^0.1.13",
     "tailwindcss": "^3.1.6",
+    "ts-jest": "^29.0.3",
+    "ts-node": "^10.9.1",
     "typescript": "^4.6.3"
   },
   "overrides": {
@@ -87,5 +104,8 @@
       "react": "$react",
       "react-dom": "$react-dom"
     }
+  },
+  "transform": {
+    "\\.js$": "<rootDir>/node_modules/babel-jest"
   }
 }

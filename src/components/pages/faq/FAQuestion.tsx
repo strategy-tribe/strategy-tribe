@@ -28,7 +28,7 @@ export function FAQuestion({
       animate={{ opacity: 1, y: 0 }}
     >
       <div
-        className="flex gap-2 items-center w-full cursor-pointer group text-on-surface-p0"
+        className="group flex w-full cursor-pointer items-center gap-2 text-on-surface-p0"
         onClick={() => setExpanded(!expanded)}
       >
         <Icon
@@ -45,8 +45,8 @@ export function FAQuestion({
       <div className="text-on-surface-p1">
         {typeof answer === 'string' && (
           <p
-            className={`first-letter:capitalize ease-out transition-all ml-8 ${
-              expanded ? '' : '-translate-y-1 opacity-0 pointer-events-none'
+            className={`ml-8 transition-all ease-out first-letter:capitalize ${
+              expanded ? '' : 'pointer-events-none -translate-y-1 opacity-0'
             }`}
           >
             {answer}
@@ -54,8 +54,8 @@ export function FAQuestion({
         )}
         {typeof answer !== 'string' && (
           <div
-            className={`first-letter:capitalize ease-out transition-all ml-8 ${
-              expanded ? '' : '-translate-y-1 opacity-0 pointer-events-none'
+            className={`ml-8 transition-all ease-out first-letter:capitalize ${
+              expanded ? '' : 'pointer-events-none -translate-y-1 opacity-0'
             }`}
           >
             {answer}

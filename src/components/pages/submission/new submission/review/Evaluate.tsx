@@ -1,11 +1,11 @@
-import { Submission, SubmissionState } from '@prisma/client';
+import { ReviewGrade, Submission } from '@prisma/client';
 import { useAuth } from 'auth/AuthContext';
 import { useRouter } from 'next/router';
 import { useMemo, useState } from 'react';
 
+import { GoToReviewsPage } from '@/lib/utils/Routes';
 import { useSubmitReview } from '@/hooks/reviewHooks';
 import { useGetSubmission } from '@/hooks/submissionHooks';
-import { GoToReviewsPage } from '@/lib/utils/Routes';
 
 import {
   DelayType,
@@ -33,7 +33,7 @@ export default function Evaluate({ submissionId }: { submissionId: string }) {
   }, [meetsRequirements, acceptedTerms]);
 
   return (
-    <div className="space-y-6 max-w-xl">
+    <div className="max-w-xl space-y-6">
       <div className="space-y-6 py-2">
         <Title
           title="Does the findings meet the bounty requirements?"
@@ -66,7 +66,7 @@ export default function Evaluate({ submissionId }: { submissionId: string }) {
         <input
           type="checkbox"
           id="terms"
-          className="checked:bg-main focus:text-main hover:text-main border-0"
+          className="border-0 checked:bg-main hover:text-main focus:text-main"
           onChange={(e) => {
             setAcceptedTerms(e.target.checked);
           }}
@@ -74,7 +74,7 @@ export default function Evaluate({ submissionId }: { submissionId: string }) {
         <label htmlFor="terms" className="w-full">
           {'I, '}
           <span
-            className="font-semibold text-main-light underline cursor-pointer"
+            className="cursor-pointer font-semibold text-main-light underline"
             onClick={() => {
               notify(
                 {
@@ -130,9 +130,7 @@ export function SubmitReviewButton({
   const { notify } = useNotification();
 
   const { SubmitReview } = useSubmitReview(
-    review.meetsRequirements
-      ? SubmissionState.Accepted
-      : SubmissionState.Rejected,
+    review.meetsRequirements ? ReviewGrade.Accepted : ReviewGrade.Rejected,
     submission,
     review.reviewer,
     review.feedback,

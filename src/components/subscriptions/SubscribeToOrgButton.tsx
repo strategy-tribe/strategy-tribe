@@ -12,11 +12,11 @@ import { DelayType, NotificationType } from '../notifications/iNotification';
 import { useNotification } from '../notifications/NotificationContext';
 
 export function SubToOrgButton({
-  orgName,
+  orgId,
   button,
   useLabel = true,
 }: {
-  orgName: string;
+  orgId: string;
   useLabel?: boolean;
   button: (isLoading: boolean, isSubscribed: boolean) => ButtonInformation;
 }) {
@@ -57,15 +57,15 @@ export function SubToOrgButton({
   const { isLoading: isLoadingSubscriptionState, isSubscribed } =
     useIsSubscribed(
       userId as string,
-      orgName as string,
-      Boolean(userId as string) && Boolean(orgName as string)
+      orgId as string,
+      Boolean(userId as string) && Boolean(orgId as string)
     );
 
   const {
     subscribe,
     unsubscribe,
     isLoading: isLoadingSubs,
-  } = useSubscribe(userId as string, orgName as string);
+  } = useSubscribe(userId as string, orgId as string);
 
   const isLoading = isLoadingSubscriptionState || isLoadingSubs;
 

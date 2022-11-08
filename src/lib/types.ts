@@ -1,4 +1,5 @@
 import {
+  Answer,
   Bounty,
   Country,
   Invoice,
@@ -18,25 +19,28 @@ import {
  *  TODO: Remove the private key from the Wallet type
  */
 export type FullBounty = Bounty & {
-  wallet: Wallet | null;
-  tags: Tag[];
-  requirements: Requirement[];
-  target: FullTarget;
-  _count: {
+  wallet?: Wallet | null;
+  tags?: Tag[];
+  requirements?: Requirement[];
+  target?: FullTarget;
+  _count?: {
     submissions: number;
   };
 };
 
 export type FullOrganization = Organization & {
-  countries: Country[];
-  _count: {
+  countries?: Country[];
+  targets?: FullTarget[];
+  wallet?: Wallet;
+  _count?: {
     targets: number;
   };
-  tags: Tag[];
+  tags?: Tag[];
 };
 
 export type FullTarget = Target & {
   org: FullOrganization;
+  bounties: FullBounty[];
 };
 
 export type FullInvoice = Invoice & {
@@ -44,6 +48,12 @@ export type FullInvoice = Invoice & {
   bounty: FullBounty;
 };
 
+export type FullAnswer = Answer & {
+  requirement: Requirement;
+};
+
 export type FullSubmission = Submission & {
   review?: Review;
+  answers?: FullAnswer[];
+  bounty?: FullBounty;
 };

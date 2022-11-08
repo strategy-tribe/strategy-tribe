@@ -1,7 +1,14 @@
 import { Requirement, RequirementType } from '@prisma/client';
 import { useAuth } from 'auth/AuthContext';
 import Link from 'next/link';
-import { createContext, ReactNode, useContext, useMemo, useState } from 'react';
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 
 import { useGetBounty } from '@/lib/hooks/bountyHooks';
 import { useSaveSubmission } from '@/lib/hooks/submissionHooks';
@@ -18,7 +25,7 @@ import { useNotification } from '@/components/notifications/NotificationContext'
 import { Check } from '@/components/utils/BountyRequirementsShowcase';
 import { ButtonInformation, ButtonStyle } from '@/components/utils/Button';
 
-import { UserInput } from './UserInput';
+import { UserInput } from '../../../../server/common/submission/UserInput';
 
 interface iNewSubmissionContext {
   bountyId: string;
@@ -48,15 +55,15 @@ export const NewSubmissionContextProvider = ({
   redirectToBounty: () => void;
   children: ReactNode;
 }) => {
-  const { userId: user } = useAuth();
+  const { userId } = useAuth();
 
   //*UI State
   const [editPhase, setEditPhase] = useState(true);
 
   //*Submission State
-  const { bounty } = useGetBounty(bountyId as string, true);
+  const bounty = useGetBounty(bountyId as string, true).bounty as FullBounty;
   const [userAnswers, setUserAnswers, clean] = useLocalStorage<UserInput[]>(
-    `${user} - ${bountyId} `,
+    `${userId} - ${bountyId} `,
     []
   );
 
@@ -74,21 +81,42 @@ export const NewSubmissionContextProvider = ({
     );
   }, [checks]);
 
+  useEffect(() => {
+    if (bounty && userAnswers.length === 0) {
+      const requirements = bounty.requirements;
+
+      const inputs = requirements?.map((req) => {
+        const userInput: UserInput = {
+          requirement: req,
+          input: req.type === RequirementType.IMAGE ? [] : '',
+        };
+        return userInput;
+      });
+
+      setUserAnswers(inputs ?? []);
+
+      const newChecks = bounty.requirements?.map((req) => {
+        return { passed: false, requirement: req };
+      });
+      setChecks(newChecks ?? []);
+    }
+  }, [bounty, userAnswers, setUserAnswers]);
+
   //*Mutations
   const { Save } = useSaveSubmission(
-    user as string,
     [
-      ...userAnswers,
-      {
-        input: attachments,
-        requirement: {
-          title: 'Attachments',
-          type: RequirementType.IMAGE,
-          optional: true,
-          bountyId: '',
-          id: '',
-        },
-      },
+      ...userAnswers.filter((answer) => answer.input && answer.input !== ''),
+      //TODO: add attachments
+      // {
+      //   input: attachments,
+      //   requirement: {
+      //     title: 'Attachments',
+      //     type: RequirementType.IMAGE,
+      //     optional: true,
+      //     bountyId: '',
+      //     id: '',
+      //   },
+      // },
     ],
     bountyId as string,
     {
@@ -117,7 +145,7 @@ export const NewSubmissionContextProvider = ({
             content: () => (
               <Link href={GoToSubmissionPage(newSubmissionId as string)}>
                 <span
-                  className="underline text-on-surface-p0 font-medium"
+                  className="font-medium text-on-surface-p0 underline"
                   onClick={hide}
                 >
                   You can see it here

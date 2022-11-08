@@ -14,10 +14,10 @@ import { NextPageWithLayout } from '@/pages/_app';
 const BountyPage: NextPageWithLayout = () => {
   //*Router
   const router = useRouter();
-  const { id: bountyId } = router.query;
+  const { id: slug } = router.query;
 
   //*Queires
-  const { bounty, isLoading } = useGetBounty(bountyId as string, !!bountyId);
+  const { bounty, isLoading } = useGetBounty(slug as string, !!slug);
 
   if (isLoading) return <Loading />;
 

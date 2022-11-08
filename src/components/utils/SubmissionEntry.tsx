@@ -21,14 +21,14 @@ export const SubmissionEntry = ({
   const isRecent = howLongAgo.includes('second');
   return (
     <button
-      className={`flex justify-between w-full group `}
+      className={`group flex w-full justify-between `}
       onClick={() => router.push(GoToSubmissionPage(submission.id as string))}
     >
       <div className="flex flex-col text-left">
         {/* Submission ID */}
         <p className={fullSize ? 'body-lg' : 'body'}>
           <span>S#</span>
-          <span className="underline laptop:no-underline text-main-light laptop:text-on-surface-p1 group-hover:underline group-hover:text-main-light">
+          <span className="text-main-light underline group-hover:text-main-light group-hover:underline laptop:text-on-surface-p1 laptop:no-underline">
             {submission.id}
           </span>
         </p>
@@ -50,7 +50,7 @@ export const SubmissionEntry = ({
       </div>
       {fullSize && (
         <Icon
-          className="group-hover:translate-x-2 transition-transform ease-in-out"
+          className="transition-transform ease-in-out group-hover:translate-x-2"
           icon="arrow_forward"
         />
       )}
@@ -60,7 +60,7 @@ export const SubmissionEntry = ({
 
 function SubmissionStateIconInfo({ state }: { state: SubmissionState }) {
   return (
-    <div className="text-on-surface-unactive flex gap-2 items-center relative group">
+    <div className="group relative flex items-center gap-2 text-on-surface-unactive">
       <SubmissionStateIcon state={state} />
       <p>{state}</p>
     </div>

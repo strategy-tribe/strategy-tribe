@@ -16,7 +16,7 @@ export function AccountNotifications() {
   if (!notifications) return <>Fix useGetUserServerNotifications hook</>;
 
   return (
-    <div className="w-full h-fit space-y-4">
+    <div className="h-fit w-full space-y-4">
       {(notifications?.length ?? 0) > 0 &&
         notifications?.map((n, i) => {
           return (
@@ -30,7 +30,7 @@ export function AccountNotifications() {
         })}
 
       {(notifications?.length ?? 1) === 0 && (
-        <div className="pb-4 border-b-1 border-surface">
+        <div className="border-b-1 border-surface pb-4">
           <span className="body-sm translate-x-0.5 text-on-surface-unactive">
             You have no notifications
           </span>

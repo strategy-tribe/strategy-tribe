@@ -6,7 +6,7 @@ import { OrgSideMap } from './OrgSideMap';
 
 export function OrgContent() {
   return (
-    <Section className="flex gap-24 min-h-[20rem]">
+    <Section className="flex min-h-[20rem] gap-24">
       <OrgSideMap />
       <div className="space-y-16">
         <OrgAbout />

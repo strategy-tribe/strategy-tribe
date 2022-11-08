@@ -12,7 +12,7 @@ export default function LandingLayout({
   hideBgOnScroll?: boolean;
 }) {
   return (
-    <div className="scroll-smooth min-h-screen">
+    <div className="min-h-screen scroll-smooth">
       <LandingNavbar hideBgOnScroll={hideBgOnScroll} />
       <main className="min-h-[calc(100vh-10rem)] pt-20">{children}</main>
       <Footer />

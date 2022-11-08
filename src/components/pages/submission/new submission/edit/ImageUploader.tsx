@@ -45,8 +45,8 @@ export function ImageUploader({
 
   return (
     <div className="space-y-4">
-      <div className="flex space-x-4 items-center">
-        <label className="flex items-center gap-2 cursor-pointer hover:text-main-light">
+      <div className="flex items-center space-x-4">
+        <label className="flex cursor-pointer items-center gap-2 hover:text-main-light">
           <input
             type="file"
             className="hidden"
@@ -69,16 +69,16 @@ export function ImageUploader({
           previewImages.map((image, imgIndex) => {
             return (
               <div
-                className="shrink-0 grow flex flex-col items-center space-y-2 max-w-md laptop:max-w-lg"
+                className="flex max-w-md shrink-0 grow flex-col items-center space-y-2 laptop:max-w-lg"
                 key={image.id + imgIndex}
               >
                 <img
                   src={image.url}
                   alt="file"
-                  className="shrink-0 grow-0 aspect-video  snap-center object-cover w-full"
+                  className="aspect-video w-full shrink-0  grow-0 snap-center object-cover"
                 />
                 <button
-                  className="flex space-x-2 items-center hover:text-main-light"
+                  className="flex items-center space-x-2 hover:text-main-light"
                   onClick={() => {
                     const newFiles = [
                       ...files.slice(0, imgIndex),

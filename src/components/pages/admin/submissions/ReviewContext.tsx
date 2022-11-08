@@ -27,7 +27,7 @@ const AdminReviewContextProvider = ({
 }) => {
   const [query, setQuery] = useState<any>({
     order: Order.Asc,
-    states: ['WaitingForReview'] as SubmissionState[],
+    state: 'WaitingForReview' as SubmissionState,
     amount: 10,
     paginate: true,
     page: 0,

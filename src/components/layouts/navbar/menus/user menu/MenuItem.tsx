@@ -10,9 +10,9 @@ export function MenuItem({
   onClick?: () => void;
 }) {
   return (
-    <Link href={url} className="w-full h-full">
+    <Link href={url} className="h-full w-full">
       <span
-        className="py-4 w-full text-right hover:bg-surface whitespace-nowrap pl-8 pr-4"
+        className="w-full whitespace-nowrap py-4 pl-8 pr-4 text-right hover:bg-surface"
         onClick={onClick}
       >
         {label}

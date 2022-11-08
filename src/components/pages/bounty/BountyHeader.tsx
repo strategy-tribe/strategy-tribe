@@ -2,7 +2,7 @@ import { useAuth } from 'auth/AuthContext';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 
-import { useGetOrganizationByName } from '@/lib/hooks/organizationHooks';
+import { useGetOrganization } from '@/lib/hooks/organizationHooks';
 import { useCanUserSubmit } from '@/lib/hooks/submissionHooks';
 import { ParseBountyTitle } from '@/lib/utils/BountyHelpers';
 import { GoToBeforeNewSubmissionPage, GoToOrgPage } from '@/lib/utils/Routes';
@@ -10,18 +10,19 @@ import { GoToBeforeNewSubmissionPage, GoToOrgPage } from '@/lib/utils/Routes';
 import { useBountyContext } from '@/components/pages/bounty/BountyContext';
 import { Button, ButtonStyle } from '@/components/utils/Button';
 import FromOrganization from '@/components/utils/FromOrganization';
+import Icon, { IconSize } from '@/components/utils/Icon';
 import { Stat } from '@/components/utils/Stat';
 
-import { Section } from '../landing/Section';
 import BountyStates from './BountyStates';
+import { Section } from '../landing/Section';
 
 export function BountyHeader() {
   const { bounty } = useBountyContext();
 
   const ETHERSCAN_LINK = process.env.NEXT_PUBLIC_ETHERSCAN_URL;
-  const { organization } = useGetOrganizationByName(
-    bounty?.target.org.name as string,
-    Boolean(bounty?.target.org.name as string)
+  const { organization } = useGetOrganization(
+    bounty?.target?.org.id as string,
+    Boolean(bounty?.target?.org.id as string)
   );
   const [showDonation, setShowDonation] = useState(false);
 
@@ -31,7 +32,7 @@ export function BountyHeader() {
 
   return (
     <>
-      <header className="border-y-2 border-main py-14 space-y-14">
+      <header className="space-y-14 border-y-2 border-main py-14">
         <Section>
           <div className="flex gap-6">
             {organization && (
@@ -40,9 +41,9 @@ export function BountyHeader() {
                   style: ButtonStyle.TextPurple,
                   removeMinWidth: true,
                   removePadding: true,
-                  label: bounty.target.org.name,
+                  label: organization.name,
                   labelClasses: 'capitalize',
-                  isALink: GoToOrgPage(organization?.name as string),
+                  isALink: GoToOrgPage(organization?.id as string),
                 }}
               />
             )}
@@ -65,18 +66,18 @@ export function BountyHeader() {
           <div className="flex justify-between gap-10">
             <h1 className="laptop:h2 h3">{parsedTitle}</h1>
 
-            <div className=" flex flex-col gap-4 items-end justify-start shrink-0">
-              {/* <a
-                href={ETHERSCAN_LINK + bounty.wallet.address}
+            <div className="flex shrink-0 flex-col items-end justify-start gap-4">
+              <a
+                href={`${ETHERSCAN_LINK}${bounty.wallet?.address}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex gap-4 items-center text-main-light hover:text-main cursor-pointer"
+                className="flex cursor-pointer items-center gap-4 text-main-light hover:text-main"
               >
                 <Icon icon="emoji_events" size={IconSize.Large} />
                 <span className="h4 font-medium">
-                  {bounty.wallet.balance} MATIC
+                  {bounty.wallet?.balance} MATIC
                 </span>
-              </a> */}
+              </a>
               <Button
                 info={{
                   label: 'Support this bounty',
@@ -98,14 +99,16 @@ export function BountyHeader() {
 
         {/* Details */}
         <Section className="space-y-8">
-          <Stat title="target" content={bounty.target.name} />
+          <Stat title="target" content={bounty?.target?.name} />
           <Stat
             title="requirements"
             contents={bounty.requirements
-              .filter((r) => !r.optional)
-              .map((r) => r.title)}
+              ?.filter((r) => !r.optional)
+              ?.map((r) => r.title)}
           />
-          <FromOrganization orgName={organization?.name as string} />
+          {organization && (
+            <FromOrganization orgId={organization?.id as string} />
+          )}
         </Section>
 
         {/* CTAs */}
@@ -147,7 +150,7 @@ function SubmitMessages() {
 
   return (
     <>
-      <div className="pr-2 label text-right pt-1">
+      <div className="label pt-1 pr-2 text-right">
         {isOpen ? (
           <>
             {(spacesLeft ?? 0) > 0 && (
@@ -155,7 +158,7 @@ function SubmitMessages() {
             )}
 
             {!canSubmit && userId && (
-              <span className="text-error-light whitespace-pre-wrap">
+              <span className="whitespace-pre-wrap text-error-light">
                 {`You have used all your submissions for today.\nPlease wait 24 hours.`}
               </span>
             )}
@@ -168,7 +171,7 @@ function SubmitMessages() {
           </>
         ) : (
           <>
-            <span className="text-error-light whitespace-pre-wrap">
+            <span className="whitespace-pre-wrap text-error-light">
               This bounty is closed
             </span>
           </>
@@ -197,8 +200,8 @@ function SubmitButton() {
         style: ButtonStyle.Filled,
         label: 'Start new submission',
         icon: 'arrow_forward',
-        disabled: true,
-        onClick: () => router.push(GoToBeforeNewSubmissionPage(bounty.id)),
+        // disabled: true,
+        onClick: () => router.push(GoToBeforeNewSubmissionPage(bounty.slug)),
       }}
     />
   );

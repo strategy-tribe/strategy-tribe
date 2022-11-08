@@ -17,12 +17,12 @@ export function SubscriptionEntry({
       {subscription.type === 'ORG' && (
         <>
           <OrganizationLink
-            orgName={subscription.name}
-            className="text-on-surface-p1 body w-fit hover:underline"
+            orgId={subscription.id}
+            className="body w-fit text-on-surface-p1 hover:underline"
           />
 
           <SubToOrgButton
-            orgName={subscription.name}
+            orgId={subscription.id}
             button={(_, isSubscribed) => {
               return {
                 removeMinWidth: true,
@@ -35,7 +35,7 @@ export function SubscriptionEntry({
       {subscription.type === 'INDIVIDUAL' && (
         <BountyLink
           bountyId={subscription.id}
-          className="text-on-surface-p1 body w-fit hover:underline"
+          className="body w-fit text-on-surface-p1 hover:underline"
         />
       )}
     </div>

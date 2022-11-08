@@ -9,7 +9,7 @@ export function OrgTags() {
         return (
           <span
             key={tag.name}
-            className="label text-on-surface-unactive capitalize"
+            className="label capitalize text-on-surface-unactive"
           >
             {tag.name}
           </span>

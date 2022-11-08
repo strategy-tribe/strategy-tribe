@@ -111,7 +111,7 @@ export default function PushNotifsContextProvider({
                 LogIn();
                 onClose();
               }}
-              className="mt-4 label underline text-on-surface-p0"
+              className="label mt-4 text-on-surface-p0 underline"
             >
               <span>Join the hunt here</span>
             </button>

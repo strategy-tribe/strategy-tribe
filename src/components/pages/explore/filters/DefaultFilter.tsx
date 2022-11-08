@@ -28,7 +28,7 @@ const TOP_REWARDS_FILTER: DefaultFilter = {
 
   query: {
     order: Order.Desc,
-    orderBy: BountyOrderBy.Bounty,
+    orderBy: BountyOrderBy.CreatedAt,
     amount: 16,
     paginate: true,
     page: 0,

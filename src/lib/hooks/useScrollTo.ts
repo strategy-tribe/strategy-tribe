@@ -1,3 +1,5 @@
+import { useCallback } from 'react';
+
 export function useScrollTo(
   ref: React.MutableRefObject<HTMLDivElement | null>,
   offset = -100,
@@ -13,11 +15,11 @@ export function useScrollTo(
   return scroll;
 }
 
-export function useScrollToTop(offset = -100) {
-  function scroll() {
+export function useScrollToTop() {
+  const goToTop = useCallback((offset = -100) => {
     const y = offset;
     window.scrollTo({ top: y, behavior: 'smooth' });
-  }
+  }, []);
 
-  return scroll;
+  return { goToTop };
 }
