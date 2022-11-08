@@ -1,4 +1,3 @@
-import { useAuth } from 'auth/AuthContext';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 
@@ -12,6 +11,8 @@ import { Button, ButtonStyle } from '@/components/utils/Button';
 import FromOrganization from '@/components/utils/FromOrganization';
 import Icon, { IconSize } from '@/components/utils/Icon';
 import { Stat } from '@/components/utils/Stat';
+
+import { useAuth } from '@/auth/AuthContext';
 
 import BountyStates from './BountyStates';
 import { Section } from '../landing/Section';

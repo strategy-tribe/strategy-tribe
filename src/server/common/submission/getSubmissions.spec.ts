@@ -2,9 +2,10 @@ import {
   Context,
   createMockContext,
   MockContext,
-} from '@/lib/prisma/prismaContext';
+} from '@/server/prisma/prismaContext';
 import { faker } from '@faker-js/faker';
 import { Rol } from '@prisma/client';
+
 import { getSubmissions } from './getSubmissions';
 import { iGetSubmissionsSchema } from './schemas';
 

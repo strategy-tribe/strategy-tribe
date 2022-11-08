@@ -2,8 +2,7 @@ import { motion, Variants } from 'framer-motion';
 import { useRouter } from 'next/router';
 
 import { FullOrganization } from '@/lib/types';
-
-import { GoToOrgPage } from '@/utils/Routes';
+import { GoToOrgPage } from '@/lib/utils/Routes';
 
 export function OrgEntry({
   org,

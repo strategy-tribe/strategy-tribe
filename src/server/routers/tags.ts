@@ -1,11 +1,9 @@
 import { z } from 'zod';
 
-import prisma from '@/lib/prisma/prismaClient';
-
-import { publicProcedure, router } from '../trpc';
+import { publicProcedure, router } from '../procedures';
 
 export const tagRouter = router({
-  getTags: publicProcedure.query(async () => {
+  getTags: publicProcedure.query(async ({ ctx: { prisma } }) => {
     const tags = await prisma.tag.findMany({
       include: {
         _count: true,
@@ -19,7 +17,7 @@ export const tagRouter = router({
         name: z.string(),
       })
     )
-    .query(async ({ input: { name } }) => {
+    .query(async ({ input: { name }, ctx: { prisma } }) => {
       const tag = await prisma.tag.findUnique({
         where: {
           name,

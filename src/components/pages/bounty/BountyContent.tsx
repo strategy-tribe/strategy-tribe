@@ -1,4 +1,4 @@
-import { useAuth } from 'auth/AuthContext';
+import { useAuth } from '@/auth/AuthContext';
 
 import { useBountyContext } from './BountyContext';
 import { BountyMoreDetails } from './BountyMoreDetails';

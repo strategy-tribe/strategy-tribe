@@ -1,5 +1,4 @@
 import { Requirement, RequirementType } from '@prisma/client';
-import { useAuth } from 'auth/AuthContext';
 import Link from 'next/link';
 import {
   createContext,
@@ -24,6 +23,8 @@ import {
 import { useNotification } from '@/components/notifications/NotificationContext';
 import { Check } from '@/components/utils/BountyRequirementsShowcase';
 import { ButtonInformation, ButtonStyle } from '@/components/utils/Button';
+
+import { useAuth } from '@/auth/AuthContext';
 
 import { UserInput } from '../../../../server/common/submission/UserInput';
 

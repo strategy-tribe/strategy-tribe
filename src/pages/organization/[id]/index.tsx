@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 
-import { useGetOrganization } from '@/hooks/organizationHooks';
+import { useGetOrganization } from '@/lib/hooks/organizationHooks';
 
 import AppLayout from '@/components/layouts/AppLayout';
 import { Organization } from '@/components/pages/organization/Organization';

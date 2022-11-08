@@ -1,6 +1,5 @@
-import { UserInput } from 'server/common/submission/UserInput';
+import { PrismaClient } from '@prisma/client';
 
-import prisma from '@/lib/prisma/prismaClient';
 import {
   isEmailValid,
   isPhoneNumberValid,
@@ -10,11 +9,14 @@ import {
   isWalletValid,
 } from '@/lib/utils/regexChecks';
 
+import { UserInput } from '@/server/common/submission/UserInput';
+
 type AnswerData = UserInput;
 
 export const areAnswersValid = async (
   bountySlug: string,
-  answers: AnswerData[]
+  answers: AnswerData[],
+  prisma: PrismaClient
 ): Promise<boolean> => {
   const bounty = await prisma.bounty.findUnique({
     where: { slug: bountySlug },

@@ -1,9 +1,9 @@
 import { Requirement, RequirementType } from '@prisma/client';
 import { useEffect, useState } from 'react';
 
-import Icon, { IconSize } from '@/components/utils/Icon';
+import { GetWordCount } from '@/lib/utils/StringHelpers';
 
-import { GetWordCount } from '@/utils/StringHelpers';
+import Icon, { IconSize } from '@/components/utils/Icon';
 
 import { CheckInput } from '../checkers';
 import { useNewSubmissionContext } from '../NewSubmissionContext';

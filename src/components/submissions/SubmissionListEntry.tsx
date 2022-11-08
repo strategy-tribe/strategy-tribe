@@ -1,9 +1,10 @@
-import { useAuth } from 'auth/AuthContext';
 import { useRouter } from 'next/router';
 
 import { FullSubmission } from '@/lib/types';
 import { GetDateInString } from '@/lib/utils/DateHelpers';
 import { GoToSubmissionPage } from '@/lib/utils/Routes';
+
+import { useAuth } from '@/auth/AuthContext';
 
 import { DelayType, NotificationType } from '../notifications/iNotification';
 import { useNotification } from '../notifications/NotificationContext';

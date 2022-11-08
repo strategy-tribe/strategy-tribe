@@ -1,4 +1,4 @@
-import prisma from '@/lib/prisma/prismaClient';
+import prisma from '@/server/prisma/prismaClient';
 
 import { addToDb } from './add';
 import { updateDb } from './update';

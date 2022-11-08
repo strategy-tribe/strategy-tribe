@@ -1,7 +1,8 @@
 import { InvoiceStatus } from '@prisma/client';
-import { useAuth } from 'auth/AuthContext';
 
 import { useGetInvoices } from '@/lib/hooks/useGetInvoices';
+
+import { useAuth } from '@/auth/AuthContext';
 
 export function AccountRewards() {
   const { userId } = useAuth();

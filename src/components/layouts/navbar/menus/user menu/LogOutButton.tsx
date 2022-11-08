@@ -1,4 +1,4 @@
-import { useAuth } from 'auth/AuthContext';
+import { useAuth } from '@/auth/AuthContext';
 
 export function LogOutButton({ hide }: { hide: () => void }) {
   const { LogOut } = useAuth();

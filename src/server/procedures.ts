@@ -1,13 +1,16 @@
 import { initTRPC, TRPCError } from '@trpc/server';
 
-import prisma from '@/lib/prisma/prismaClient';
+import prisma from '@/server/prisma/prismaClient';
 
 import { TRPC_Context } from './context';
+import { Custom_tRPC_Transformer } from './transformer';
 
 // Avoid exporting the entire t-object since it's not very
 // descriptive and can be confusing to newcomers used to t
 // meaning translation in i18n libraries.
-const t = initTRPC.context<TRPC_Context>().create();
+const t = initTRPC
+  .context<TRPC_Context>()
+  .create({ transformer: Custom_tRPC_Transformer });
 
 // Base router and procedure helpers
 export const router = t.router;

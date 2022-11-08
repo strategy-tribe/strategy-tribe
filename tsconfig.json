@@ -15,17 +15,9 @@
     "strictNullChecks": true,
     "jsx": "preserve",
     "incremental": true,
-    "baseUrl": "./src",
+    "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"],
-      "@/components/*": ["components/*"],
-      "@/navbar/*": ["components/layouts/navbar/*"],
-      "@/pages/*": ["pages/*"],
-      "@/assets/*": ["assets/*"],
-      "@/lib/*": ["lib/*"],
-      "@/hooks/*": ["lib/hooks/*"],
-      "@/models/*": ["lib/models/*"],
-      "@/utils/*": ["lib/utils/*"]
+      "@/*": ["./src/*"]
     }
   },
   "include": [

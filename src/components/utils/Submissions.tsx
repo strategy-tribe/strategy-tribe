@@ -1,8 +1,8 @@
 import { SubmissionState } from '@prisma/client';
 import { useMemo, useState } from 'react';
 
+import { useGetSubmissions } from '@/lib/hooks/submissionHooks';
 import { Order } from '@/lib/models/Order';
-import { useGetSubmissions } from '@/hooks/submissionHooks';
 
 import Loading from '@/components/utils/Loading';
 

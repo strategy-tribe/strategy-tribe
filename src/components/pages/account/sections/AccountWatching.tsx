@@ -1,5 +1,4 @@
 import { TargetType } from '@prisma/client';
-import { useAuth } from 'auth/AuthContext';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useState } from 'react';
 
@@ -11,6 +10,8 @@ import {
 import Icon, { IconSize } from '@/components/utils/Icon';
 import Loading from '@/components/utils/Loading';
 import { ScrollableTabs } from '@/components/utils/ScrollableTabs';
+
+import { useAuth } from '@/auth/AuthContext';
 
 export function AccountWatching() {
   const { userId, userInfo } = useAuth();

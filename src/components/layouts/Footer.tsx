@@ -8,7 +8,7 @@ import {
   GoToGeneralDonationsPage,
   GoToOrganizationsPage,
   GoToRulesPage,
-} from '@/utils/Routes';
+} from '@/lib/utils/Routes';
 
 import { useNotification } from '../notifications/NotificationContext';
 import Icon from '../utils/Icon';

@@ -1,8 +1,9 @@
 import { RequirementType } from '@prisma/client';
 import { Wallet } from 'ethers';
 
-import prisma from '@/lib/prisma/prismaClient';
 import { toTitleCase } from '@/lib/utils/StringHelpers';
+
+import prisma from '@/server/prisma/prismaClient';
 
 import { LOG, OrgData, TargetData } from './utils';
 

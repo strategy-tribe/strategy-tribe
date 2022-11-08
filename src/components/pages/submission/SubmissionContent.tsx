@@ -1,8 +1,9 @@
 import { RequirementType } from '@prisma/client';
-import { useAuth } from 'auth/AuthContext';
 
 import { useSubmitterInfo } from '@/lib/hooks/submissionHooks';
 import { FullSubmission } from '@/lib/types';
+
+import { useAuth } from '@/auth/AuthContext';
 
 import { useSubmissionContext } from './SubmissionContext';
 import { SubmissionDetail } from './SubmissionDetail';

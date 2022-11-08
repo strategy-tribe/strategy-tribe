@@ -1,15 +1,15 @@
 import { Requirement } from '@prisma/client';
-import { useAuth } from 'auth/AuthContext';
 import { useState } from 'react';
 
+import { useScrollDirection } from '@/lib/hooks/useScrollDirection';
+import { useScrollToTop } from '@/lib/hooks/useScrollTo';
 import { FullTarget } from '@/lib/types';
-import { useScrollDirection } from '@/hooks/useScrollDirection';
-import { useScrollToTop } from '@/hooks/useScrollTo';
+import { GetDateInString } from '@/lib/utils/DateHelpers';
 
 import Icon from '@/components/utils/Icon';
 import { Stat } from '@/components/utils/Stat';
 
-import { GetDateInString } from '@/utils/DateHelpers';
+import { useAuth } from '@/auth/AuthContext';
 
 export function Step4Details({
   showSubmissions,

@@ -1,8 +1,7 @@
 import React from 'react';
 
-import { LandingNavbar } from '@/navbar/LandingNavbar';
-
 import Footer from './Footer';
+import { LandingNavbar } from './navbar/LandingNavbar';
 
 export default function LandingLayout({
   children,

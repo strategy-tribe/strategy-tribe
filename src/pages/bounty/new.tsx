@@ -1,8 +1,9 @@
 import { Requirement, RequirementType, TargetType } from '@prisma/client';
-import { useAuth } from 'auth/AuthContext';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+
+import { GoToBountiesPage } from '@/lib/utils/Routes';
 
 import AppLayout from '@/components/layouts/AppLayout';
 import { SetBountyTitle } from '@/components/pages/bounty/new bounty/SetBountyTitle';
@@ -10,8 +11,8 @@ import { SetRequirements } from '@/components/pages/bounty/new bounty/SetRequire
 import { SetTargetInfo } from '@/components/pages/bounty/new bounty/SetTargetInfo';
 import { SetTimeLimit } from '@/components/pages/bounty/new bounty/SetTimeLimit';
 
+import { useAuth } from '@/auth/AuthContext';
 import { NextPageWithLayout } from '@/pages/_app';
-import { GoToBountiesPage } from '@/utils/Routes';
 
 const NewBounty: NextPageWithLayout = () => {
   const [step] = useState<number>(1);

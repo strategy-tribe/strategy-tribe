@@ -1,9 +1,9 @@
 import { Bounty } from '@prisma/client';
 
+import { GetDateInString } from '@/lib/utils/DateHelpers';
+
 import Icon from '@/components/utils/Icon';
 import { MoreInfo } from '@/components/utils/MoreInfo';
-
-import { GetDateInString } from '@/utils/DateHelpers';
 
 export default function BountyStates({ bounty }: { bounty: Bounty }) {
   // const ETHERSCAN_LINK = process.env.NEXT_PUBLIC_ETHERSCAN_URL;

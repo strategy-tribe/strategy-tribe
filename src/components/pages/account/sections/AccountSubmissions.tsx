@@ -1,8 +1,8 @@
-import { useAuth } from 'auth/AuthContext';
-
 import { useGetSubmissions } from '@/lib/hooks/submissionHooks';
 
 import { SubmissionListEntry } from '@/components/submissions/SubmissionListEntry';
+
+import { useAuth } from '@/auth/AuthContext';
 
 export function AccountSubmissions() {
   const { userId, userInfo } = useAuth();

@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { DownloadData } from 'server/importer/downloadData';
+
+import { DownloadData } from '@/server/importer/downloadData';
 
 export default async function handler(
   req: NextApiRequest,

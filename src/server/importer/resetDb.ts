@@ -1,4 +1,4 @@
-import prisma from '@/lib/prisma/prismaClient';
+import prisma from '@/server/prisma/prismaClient';
 
 import { LOG } from './utils';
 

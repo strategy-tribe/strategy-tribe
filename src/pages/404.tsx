@@ -3,12 +3,12 @@ import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
 
+import { GoToBountiesPage, GoToLandingPage } from '@/lib/utils/Routes';
+
 import AppLayout from '@/components/layouts/AppLayout';
 import { Section } from '@/components/pages/landing/Section';
 import { HugeTitle } from '@/components/utils/HugeTitle';
 import Icon from '@/components/utils/Icon';
-
-import { GoToBountiesPage, GoToLandingPage } from '@/utils/Routes';
 
 import { NextPageWithLayout } from './_app';
 

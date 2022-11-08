@@ -1,5 +1,4 @@
 import { Submission, SubmissionState } from '@prisma/client';
-import { useAuth } from 'auth/AuthContext';
 import { useEffect, useState } from 'react';
 import ReactTextareaAutosize from 'react-textarea-autosize';
 
@@ -9,6 +8,8 @@ import { SubmissionStateDisplayer } from '@/components/pages/bounty/SubmissionSt
 import { SubmitReviewButton } from '@/components/pages/submission/new submission/review/Evaluate';
 import Icon, { IconSize } from '@/components/utils/Icon';
 import { RenderMarkdown } from '@/components/utils/RenderMarkdown';
+
+import { useAuth } from '@/auth/AuthContext';
 
 import { ReviewCheck } from './ReviewCheck';
 import { ReviewMap } from './ReviewMap';

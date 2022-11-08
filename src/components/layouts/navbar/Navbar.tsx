@@ -1,4 +1,3 @@
-import { useAuth } from 'auth/AuthContext';
 import { useState } from 'react';
 
 import useScrollPosition from '@/lib/hooks/useScrollPosition';
@@ -11,6 +10,8 @@ import {
 } from '@/lib/utils/Routes';
 
 import { Button, ButtonStyle } from '@/components/utils/Button';
+
+import { useAuth } from '@/auth/AuthContext';
 
 import { LandingPageLink } from './LandingPageLink';
 import { NotifsMenu } from './menus/NotifsMenu';

@@ -1,8 +1,6 @@
 import { z } from 'zod';
 
-import prisma from '@/lib/prisma/prismaClient';
-
-import { publicProcedure, router } from '../trpc';
+import { publicProcedure, router } from '../procedures';
 
 export const targetRouter = router({
   getTargets: publicProcedure
@@ -11,7 +9,7 @@ export const targetRouter = router({
         amount: z.number().optional(),
       })
     )
-    .query(async ({ input: { amount } }) => {
+    .query(async ({ input: { amount }, ctx: { prisma } }) => {
       if (amount) {
         const targets = await prisma.target.findMany({
           take: amount,
@@ -37,7 +35,7 @@ export const targetRouter = router({
         name: z.string(),
       })
     )
-    .query(async ({ input: { name } }) => {
+    .query(async ({ input: { name }, ctx: { prisma } }) => {
       const target = await prisma.target.findUnique({
         where: {
           name,

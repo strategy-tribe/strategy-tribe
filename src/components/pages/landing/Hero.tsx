@@ -1,11 +1,9 @@
 import { motion, useScroll, useTransform } from 'framer-motion';
 import Image from 'next/image';
 import router from 'next/router';
-import React from 'react';
 
-import useWindowDimensions from '@/hooks/useWindowDimensions';
-
-import { GoToAboutusPage, GoToBountiesPage } from '@/utils/Routes';
+import useWindowDimensions from '@/lib/hooks/useWindowDimensions';
+import { GoToAboutusPage, GoToBountiesPage } from '@/lib/utils/Routes';
 
 import { Section } from './Section';
 import { Button, ButtonStyle } from '../../utils/Button';

@@ -1,4 +1,4 @@
-import Queries from '@/utils/Queries';
+import Queries from '@/lib/utils/Queries';
 
 const queryForSubs = (userId: string, orgName: string) => [
   Queries.isSubscribed,

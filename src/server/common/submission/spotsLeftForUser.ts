@@ -1,4 +1,4 @@
-import prisma from '@/lib/prisma/prismaClient';
+import { PrismaClient } from '@prisma/client';
 
 /** Returns a date X days behind today */
 function getThisManyDaysBehind(days = 1) {
@@ -12,7 +12,8 @@ const SUBMISSION_PER_DAY = 3;
 /** Returns the amount of submissions left for a user in regards to a bounty. */
 export const spotsLeftForUser = async (
   bountySlug: string,
-  userAddress: string
+  userAddress: string,
+  prisma: PrismaClient
 ): Promise<number> => {
   const last24Hours = getThisManyDaysBehind(1);
 

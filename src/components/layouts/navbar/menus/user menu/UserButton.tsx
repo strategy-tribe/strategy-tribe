@@ -1,6 +1,6 @@
-import { useAuth } from 'auth/AuthContext';
-
 import { roundToThree } from '@/lib/utils/NumberHelpers';
+
+import { useAuth } from '@/auth/AuthContext';
 
 import { cutWallet } from './RegularUserMenu';
 

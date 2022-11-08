@@ -2,10 +2,10 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 
 import { useGetBounties } from '@/lib/hooks/bountyHooks';
+import { useGetOrganization } from '@/lib/hooks/organizationHooks';
 import { Order } from '@/lib/models/Order';
 import { ArrayOfNumbers } from '@/lib/utils/ArrayHelpers';
 import { GoToOrgPage } from '@/lib/utils/Routes';
-import { useGetOrganization } from '@/hooks/organizationHooks';
 
 import AppLayout from '@/components/layouts/AppLayout';
 import {

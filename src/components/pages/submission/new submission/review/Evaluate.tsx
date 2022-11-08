@@ -1,11 +1,10 @@
 import { ReviewGrade, Submission } from '@prisma/client';
-import { useAuth } from 'auth/AuthContext';
 import { useRouter } from 'next/router';
 import { useMemo, useState } from 'react';
 
+import { useSubmitReview } from '@/lib/hooks/reviewHooks';
+import { useGetSubmission } from '@/lib/hooks/submissionHooks';
 import { GoToReviewsPage } from '@/lib/utils/Routes';
-import { useSubmitReview } from '@/hooks/reviewHooks';
-import { useGetSubmission } from '@/hooks/submissionHooks';
 
 import {
   DelayType,
@@ -17,6 +16,8 @@ import { Button, ButtonStyle } from '@/components/utils/Button';
 import { RadioInput } from '@/components/utils/RadioInput';
 import { Title } from '@/components/utils/Title';
 import { ImportantMessage } from '@/components/utils/Warning';
+
+import { useAuth } from '@/auth/AuthContext';
 
 ('@/components/utils/Title');
 

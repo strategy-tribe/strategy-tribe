@@ -1,11 +1,11 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import { useState } from 'react';
 
+import { Recipient } from '@/lib/models/donation';
+
 import { Button, ButtonStyle } from '@/components/utils/Button';
 import { Overlay } from '@/components/utils/Overlay';
-import { Title } from '@/components/utils/Title';
-
-import { Recipient } from '@/models/donation';
+import * as Title from '@/components/utils/Title';
 
 import { SupportButton } from './SupportButton';
 import {
@@ -95,7 +95,7 @@ export function DonationPopUp({
           "
             >
               <div className="space-y-2">
-                <Title title={title} />
+                <Title.Title title={title} />
                 <p className="whitespace-pre-line">{description}</p>
               </div>
 

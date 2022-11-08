@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useMutation } from 'react-query';
 
-import { Donation } from '@/models/donation';
+import { Donation } from '@/lib/models/donation';
 
 const CHAIN_ID = process.env.NEXT_PUBLIC_CHAIN_ID;
 

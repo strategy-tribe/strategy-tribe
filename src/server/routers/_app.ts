@@ -6,7 +6,7 @@ import { reviewRouter } from './review';
 import { submissionRouter } from './submission';
 import { tagRouter } from './tags';
 import { targetRouter } from './targets';
-import { publicProcedure, router } from '../trpc';
+import { publicProcedure, router } from '../procedures';
 
 export const appRouter = router({
   bounty: bountyRouter,

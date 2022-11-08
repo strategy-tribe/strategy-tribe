@@ -1,11 +1,12 @@
 ('@/components/utils/Title');
 import { InvoiceStatus } from '@prisma/client';
-import { useAuth } from 'auth/AuthContext';
 
 import { useGetInvoices } from '@/lib/hooks/useGetInvoices';
 
 import AppLayout from '@/components/layouts/AppLayout';
 import ProtectedLayout from '@/components/layouts/ProtectedLayout';
+
+import { useAuth } from '@/auth/AuthContext';
 
 import { NextPageWithLayout } from '../_app';
 

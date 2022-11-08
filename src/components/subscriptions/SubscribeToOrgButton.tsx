@@ -1,12 +1,12 @@
-import { useAuth } from 'auth/AuthContext';
-
-import { useIsSubscribed, useSubscribe } from '@/hooks/subscriptionHooks';
+import { useIsSubscribed, useSubscribe } from '@/lib/hooks/subscriptionHooks';
 
 import {
   Button,
   ButtonInformation,
   ButtonStyle,
 } from '@/components/utils/Button';
+
+import { useAuth } from '@/auth/AuthContext';
 
 import { DelayType, NotificationType } from '../notifications/iNotification';
 import { useNotification } from '../notifications/NotificationContext';

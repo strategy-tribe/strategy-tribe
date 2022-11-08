@@ -1,9 +1,10 @@
 import { Requirement, Tag } from '@prisma/client';
-import { useAuth } from 'auth/AuthContext';
 
 import { FullTarget } from '@/lib/types';
 
 import { Title } from '@/components/utils/Title';
+
+import { useAuth } from '@/auth/AuthContext';
 
 interface iReviewStep {
   //target

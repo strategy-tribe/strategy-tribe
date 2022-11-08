@@ -1,6 +1,8 @@
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 
+import { GoToNewSubmissionPage } from '@/lib/utils/Routes';
+
 import AppLayout from '@/components/layouts/AppLayout';
 import RulesContent from '@/components/pages/rules/rulesContent';
 import { ReadingSection } from '@/components/reading/utils';
@@ -8,7 +10,6 @@ import { Button, ButtonStyle } from '@/components/utils/Button';
 import FromBounty from '@/components/utils/FromBounty';
 
 import { NextPageWithLayout } from '@/pages/_app';
-import { GoToNewSubmissionPage } from '@/utils/Routes';
 
 const BeforeNewSubmission: NextPageWithLayout = () => {
   const router = useRouter();

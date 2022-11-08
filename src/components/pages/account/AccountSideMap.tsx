@@ -1,9 +1,10 @@
-import { useAuth } from 'auth/AuthContext';
 import { useMemo } from 'react';
 
 import { AccountView, VIEWS_FOR_STAFF } from '@/lib/models/AccountView';
 import { useAccountUrl } from '@/lib/models/useAccountUrl';
 import { GoToAccountPage } from '@/lib/utils/Routes';
+
+import { useAuth } from '@/auth/AuthContext';
 
 export function AccountSideMap() {
   const { isAdmin, isStaff } = useAuth();

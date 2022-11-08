@@ -1,9 +1,7 @@
 import { Organization } from '@prisma/client';
 import { z } from 'zod';
 
-import prisma from '@/lib/prisma/prismaClient';
-
-import { publicProcedure, router } from '../trpc';
+import { publicProcedure, router } from '../procedures';
 
 export const orgRouter = router({
   getOrgs: publicProcedure
@@ -12,7 +10,7 @@ export const orgRouter = router({
         amount: z.number().optional(),
       })
     )
-    .query(async ({ input: { amount } }) => {
+    .query(async ({ input: { amount }, ctx: { prisma } }) => {
       if (amount) {
         const organizations = await prisma.organization.findMany({
           take: amount,
@@ -57,7 +55,7 @@ export const orgRouter = router({
         name: z.string().optional(),
       })
     )
-    .query(async ({ input }) => {
+    .query(async ({ input, ctx: { prisma } }) => {
       const organization: Organization | null =
         await prisma.organization.findUnique({
           where: { id: input.id },

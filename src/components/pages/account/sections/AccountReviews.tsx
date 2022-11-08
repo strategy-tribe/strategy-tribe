@@ -1,9 +1,10 @@
 import { Review } from '@prisma/client';
-import { useAuth } from 'auth/AuthContext';
 import Link from 'next/link';
 
 import { useGetReviews } from '@/lib/hooks/reviewHooks';
 import { GoToSubmissionPage } from '@/lib/utils/Routes';
+
+import { useAuth } from '@/auth/AuthContext';
 
 export function AccountReviews() {
   const { userId } = useAuth();

@@ -1,13 +1,18 @@
 import { RequirementType, Submission } from '@prisma/client';
 import { TRPCError } from '@trpc/server';
-import { isBountyOpen } from 'server/common/bounties/isBountyOpen';
-import { areAnswersValid } from 'server/common/submission/areAnswersValid';
-import { getSubmissions } from 'server/common/submission/getSubmissions';
-import { spotsLeftForUser } from 'server/common/submission/spotsLeftForUser';
 import { z } from 'zod';
 
+import { isBountyOpen } from '@/server/common/bounties/isBountyOpen';
+import { areAnswersValid } from '@/server/common/submission/areAnswersValid';
+import { getSubmissions } from '@/server/common/submission/getSubmissions';
+import { spotsLeftForUser } from '@/server/common/submission/spotsLeftForUser';
+
 import { GetSubmissionsSchema } from '../common/submission/schemas';
-import { router, signedInOnlyProcedure, staffOnlyProcedure } from '../trpc';
+import {
+  router,
+  signedInOnlyProcedure,
+  staffOnlyProcedure,
+} from '../procedures';
 
 export const submissionRouter = router({
   post: signedInOnlyProcedure
@@ -31,14 +36,13 @@ export const submissionRouter = router({
     .mutation(async ({ input, ctx }) => {
       const { slug, answers } = input;
       const address = ctx.session.user.address;
-      const prisma = ctx.prisma;
 
       //#region  //*=========== 1) User is valid? ===========
       //procedure should take care of this part
       //#endregion  //*=========== 0) User is valid? ===========
 
       //#region  //*=========== 2) Is the bounty open? ===========
-      const canAcceptSubmissions = await isBountyOpen(slug);
+      const canAcceptSubmissions = await isBountyOpen(slug, ctx.prisma);
       if (!canAcceptSubmissions) {
         throw new TRPCError({
           code: 'FORBIDDEN',
@@ -48,7 +52,7 @@ export const submissionRouter = router({
       //#endregion  //*=========== 1) Is the bounty open? ===========
 
       //#region  //*=========== 3) Does the user have submissions left for the day? ===========
-      const amount = await spotsLeftForUser(slug, address);
+      const amount = await spotsLeftForUser(slug, address, ctx.prisma);
       if (amount < 1) {
         throw new TRPCError({
           code: 'FORBIDDEN',
@@ -59,7 +63,11 @@ export const submissionRouter = router({
       //#endregion  //*=========== 2) Does the user have submissions left for the day? ===========
 
       //#region  //*=========== 4) Are the answers submitted valid? ===========
-      const areTheAnswersValid = await areAnswersValid(slug, answers);
+      const areTheAnswersValid = await areAnswersValid(
+        slug,
+        answers,
+        ctx.prisma
+      );
       if (!areTheAnswersValid) {
         throw new TRPCError({
           code: 'FORBIDDEN',
@@ -68,7 +76,7 @@ export const submissionRouter = router({
       }
       //#endregion  //*=========== 3) Are the answers submitted valid? ===========
 
-      const { id } = await prisma.submission.create({
+      const { id } = await ctx.prisma.submission.create({
         data: {
           state: 'WaitingForReview',
           answers: {

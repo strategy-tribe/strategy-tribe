@@ -1,11 +1,11 @@
-import { Subscription } from 'auth/AuthContext';
-
 import { SubToOrgButton } from '@/components/subscriptions/SubscribeToOrgButton';
 import { ButtonStyle } from '@/components/utils/Button';
 import {
   BountyLink,
   OrganizationLink,
 } from '@/components/utils/OrganizationLink';
+
+import { Subscription } from '@/auth/AuthContext';
 
 export function SubscriptionEntry({
   subscription,

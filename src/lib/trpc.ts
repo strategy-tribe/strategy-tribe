@@ -1,6 +1,8 @@
 import { httpBatchLink } from '@trpc/client';
 import { createTRPCNext } from '@trpc/next';
 
+import { Custom_tRPC_Transformer } from '@/server/transformer';
+
 import type { AppRouter } from '../server/routers/_app';
 
 function getBaseUrl() {
@@ -21,10 +23,10 @@ function getBaseUrl() {
 }
 
 export const trpc = createTRPCNext<AppRouter>({
-  config({ ctx }) {
+  config() {
     //first thing that gets called
-
     return {
+      transformer: Custom_tRPC_Transformer,
       links: [
         httpBatchLink({
           /**
@@ -45,4 +47,3 @@ export const trpc = createTRPCNext<AppRouter>({
    **/
   ssr: false,
 });
-// => { useQuery: ..., useMutation: ...}

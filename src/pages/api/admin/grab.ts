@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { GrabData } from 'server/importer/scrapSheet';
+
+import { GrabData } from '@/server/importer/scrapSheet';
 
 export default async function handler(
   req: NextApiRequest,

@@ -1,8 +1,8 @@
-import { useAuth } from 'auth/AuthContext';
-
 import { useGetUserServerNotifications } from '@/lib/hooks/serverNotificationHooks';
 
 import { NotificationListEntry } from '@/components/notifications/NotificationListEntry';
+
+import { useAuth } from '@/auth/AuthContext';
 
 export function AccountNotifications() {
   const { userId } = useAuth();

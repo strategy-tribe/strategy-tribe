@@ -1,9 +1,7 @@
 import { ReviewGrade, SubmissionState } from '@prisma/client';
 import { z } from 'zod';
 
-import prisma from '@/lib/prisma/prismaClient';
-
-import { publicProcedure, router } from '../trpc';
+import { publicProcedure, router } from '../procedures';
 
 export const reviewRouter = router({
   post: publicProcedure
@@ -15,7 +13,7 @@ export const reviewRouter = router({
         reviewerComment: z.string(),
       })
     )
-    .mutation(async ({ input }) => {
+    .mutation(async ({ input, ctx: { prisma } }) => {
       const { grade, submissionId, reviewerAddress, reviewerComment } = input;
       const { id } = await prisma.review.create({
         data: {

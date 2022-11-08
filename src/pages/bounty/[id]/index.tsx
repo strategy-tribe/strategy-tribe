@@ -3,7 +3,7 @@
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 
-import { useGetBounty } from '@/hooks/bountyHooks';
+import { useGetBounty } from '@/lib/hooks/bountyHooks';
 
 import AppLayout from '@/components/layouts/AppLayout';
 import { Bounty } from '@/components/pages/bounty/Bounty';

@@ -1,11 +1,10 @@
 import Link from 'next/link';
 
-import { useGetSubmissions } from '@/hooks/submissionHooks';
+import { useGetSubmissions } from '@/lib/hooks/submissionHooks';
+import { GoToBeforeNewSubmissionPage } from '@/lib/utils/Routes';
 
 import Loading from '@/components/utils/Loading';
 import { Title } from '@/components/utils/Title';
-
-import { GoToBeforeNewSubmissionPage } from '@/utils/Routes';
 
 export function UserSubmissions({ id }: { id: string }) {
   const { submissions: userSubmissions, isLoading } = useGetSubmissions({

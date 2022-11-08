@@ -1,4 +1,3 @@
-import { useAuth } from 'auth/AuthContext';
 import { createContext, useContext, useState } from 'react';
 import OneSignal from 'react-onesignal';
 import { useQuery } from 'react-query';
@@ -9,6 +8,8 @@ import {
   NotificationType,
 } from '@/components/notifications/iNotification';
 import { useNotification } from '@/components/notifications/NotificationContext';
+
+import { useAuth } from '@/auth/AuthContext';
 
 import {
   addSubscriber,

@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useQueryClient } from 'react-query';
-import { GetSubmissionsSchema } from 'server/common/submission/schemas';
-import { UserInput } from 'server/common/submission/UserInput';
 import { z } from 'zod';
+
+import { GetSubmissionsSchema } from '@/server/common/submission/schemas';
+import { UserInput } from '@/server/common/submission/UserInput';
 
 import { trpc } from '../trpc';
 

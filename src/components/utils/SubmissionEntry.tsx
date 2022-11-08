@@ -1,8 +1,8 @@
 import { Submission, SubmissionState } from '@prisma/client';
 import { useRouter } from 'next/router';
 
-import { GetDateInString } from '@/utils/DateHelpers';
-import { GoToSubmissionPage } from '@/utils/Routes';
+import { GetDateInString } from '@/lib/utils/DateHelpers';
+import { GoToSubmissionPage } from '@/lib/utils/Routes';
 
 import Icon from './Icon';
 

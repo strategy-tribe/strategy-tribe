@@ -1,14 +1,14 @@
 import { useRouter } from 'next/router';
 import { useMemo } from 'react';
 
+import { GoToBountiesPage } from '@/lib/utils/Routes';
+
 import {
   DEFAULT_FILTER,
   DEFAULT_FILTERS,
   DefaultFilter,
   DefaultFilterType,
 } from '@/components/pages/explore/filters/DefaultFilter';
-
-import { GoToBountiesPage } from '@/utils/Routes';
 
 type UrlParams = {
   type?: DefaultFilterType;

@@ -1,7 +1,8 @@
 import Moralis from 'moralis';
 import NextAuth, { User } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
-import { LogUser } from 'server/auth/logUser';
+
+import { LogUser } from '@/server/auth/logUser';
 
 export default NextAuth({
   pages: {

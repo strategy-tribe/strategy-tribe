@@ -1,10 +1,10 @@
-import { useAuth } from 'auth/AuthContext';
 import Head from 'next/head';
 
 import AppLayout from '@/components/layouts/AppLayout';
 import { Account } from '@/components/pages/account/Account';
 import { ImportantMessage } from '@/components/utils/Warning';
 
+import { useAuth } from '@/auth/AuthContext';
 import { NextPageWithLayout } from '@/pages/_app';
 
 const UserPage: NextPageWithLayout = () => {

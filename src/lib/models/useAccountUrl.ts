@@ -1,9 +1,10 @@
-import { useAuth } from 'auth/AuthContext';
 import { useRouter } from 'next/router';
 import { useMemo } from 'react';
 
 import { useIsValidView } from '@/lib/hooks/isValidUrl';
 import { GoToAccountPage } from '@/lib/utils/Routes';
+
+import { useAuth } from '@/auth/AuthContext';
 
 import { AccountUrl } from './AccountUrl';
 import { AccountView, VIEWS_FOR_STAFF } from './AccountView';

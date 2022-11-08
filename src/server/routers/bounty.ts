@@ -3,9 +3,8 @@ import { z } from 'zod';
 
 import { BountyOrderBy } from '@/lib/models/BountyQueryParams';
 import { Order } from '@/lib/models/Order';
-import prisma from '@/lib/prisma/prismaClient';
 
-import { publicProcedure, router } from '../trpc';
+import { publicProcedure, router } from '../procedures';
 
 export const bountyRouter = router({
   getBounty: publicProcedure
@@ -14,7 +13,7 @@ export const bountyRouter = router({
         slug: z.string(),
       })
     )
-    .query(async ({ input: { slug } }) => {
+    .query(async ({ input: { slug }, ctx: { prisma } }) => {
       const bounty: Bounty | null = await prisma.bounty.findUnique({
         where: { slug },
         include: {
@@ -79,7 +78,7 @@ export const bountyRouter = router({
         page: z.number().optional(),
       })
     )
-    .query(async ({ input }) => {
+    .query(async ({ input, ctx: { prisma } }) => {
       try {
         let where = {};
         if (input.orgId) {
@@ -160,7 +159,7 @@ export const bountyRouter = router({
         page: z.number().optional(),
       })
     )
-    .query(async ({ input }) => {
+    .query(async ({ input, ctx: { prisma } }) => {
       try {
         let where = {};
         if (input.orgId) {

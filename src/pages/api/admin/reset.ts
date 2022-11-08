@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { ResetDB } from 'server/importer/resetDb';
+
+import { ResetDB } from '@/server/importer/resetDb';
 
 export default async function handler(
   req: NextApiRequest,

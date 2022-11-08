@@ -1,4 +1,3 @@
-import AuthContextProvider from 'auth/AuthContext';
 import { NextPage } from 'next';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
@@ -16,6 +15,8 @@ import { publicProvider } from 'wagmi/providers/public';
 import '../styles/globals.css';
 
 import { trpc } from '@/lib/trpc';
+
+import AuthContextProvider from '@/auth/AuthContext';
 
 const { provider, webSocketProvider } = configureChains(defaultChains, [
   publicProvider(),

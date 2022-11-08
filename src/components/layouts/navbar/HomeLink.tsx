@@ -1,7 +1,8 @@
-import { useAuth } from 'auth/AuthContext';
 import Link from 'next/link';
 
-import { GoToBountiesPage } from '@/utils/Routes';
+import { GoToBountiesPage } from '@/lib/utils/Routes';
+
+import { useAuth } from '@/auth/AuthContext';
 
 import { Logo } from '../../utils/Logo';
 

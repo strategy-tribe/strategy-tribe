@@ -1,4 +1,4 @@
-import { useAuth } from 'auth/AuthContext';
+import { useAuth } from '@/auth/AuthContext';
 
 import { Button, ButtonStyle } from '../utils/Button';
 

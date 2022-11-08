@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 
+import useWindowDimensions from '@/lib/hooks/useWindowDimensions';
 import { BountyQueryParams } from '@/lib/models/BountyQueryParams';
-import useWindowDimensions from '@/hooks/useWindowDimensions';
 
 import { FilterMenu } from '@/components/filters/FilterMenu';
 import Icon from '@/components/utils/Icon';

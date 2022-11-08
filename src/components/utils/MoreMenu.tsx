@@ -1,7 +1,7 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import { useState } from 'react';
 
-import { GoToBountyPage } from '@/utils/Routes';
+import { GoToBountyPage } from '@/lib/utils/Routes';
 
 import Icon from './Icon';
 import { Overlay } from './Overlay';

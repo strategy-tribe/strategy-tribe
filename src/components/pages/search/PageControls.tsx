@@ -1,12 +1,11 @@
 import { useEffect, useMemo, useState } from 'react';
 
 import { useUrlSearchParams } from '@/lib/hooks/useUrlSearchParams';
-import useWindowDimensions from '@/hooks/useWindowDimensions';
+import useWindowDimensions from '@/lib/hooks/useWindowDimensions';
+import { ArrayOfNumbers } from '@/lib/utils/ArrayHelpers';
 
 import { Button, ButtonStyle } from '@/components/utils/Button';
 import { IconSize } from '@/components/utils/Icon';
-
-import { ArrayOfNumbers } from '@/utils/ArrayHelpers';
 
 import { useExploreContext } from '../explore/ExploreContext';
 

@@ -1,9 +1,10 @@
-import { useAuth } from 'auth/AuthContext';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { useQuery } from 'react-query';
 
 import { useNotification } from '@/components/notifications/NotificationContext';
+
+import { useAuth } from '@/auth/AuthContext';
 
 import { GoTo404Page } from '../utils/Routes';
 

@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 import Image from 'next/image';
 import router from 'next/router';
 
-import { GoToBountiesPage } from '@/utils/Routes';
+import { GoToBountiesPage } from '@/lib/utils/Routes';
 
 import { Section } from './Section';
 import { Button, ButtonStyle } from '../../utils/Button';

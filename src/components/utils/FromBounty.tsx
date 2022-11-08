@@ -1,9 +1,8 @@
 import { useRouter } from 'next/router';
 
+import { useGetBounty } from '@/lib/hooks/bountyHooks';
 import { ParseBountyTitle } from '@/lib/utils/BountyHelpers';
-import { useGetBounty } from '@/hooks/bountyHooks';
-
-import { GoToBountyPage } from '@/utils/Routes';
+import { GoToBountyPage } from '@/lib/utils/Routes';
 
 export default function FromBounty({
   bountyId,
