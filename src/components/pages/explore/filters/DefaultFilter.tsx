@@ -16,7 +16,7 @@ export type DefaultFilter = {
 const LATEST_FILTER: DefaultFilter = {
   type: DefaultFilterType.Latest,
   query: {
-    order: Order.Asc,
+    order: Order.Desc,
     orderBy: BountyOrderBy.CreatedAt,
     amount: 16,
     paginate: true,
@@ -28,7 +28,7 @@ const TOP_REWARDS_FILTER: DefaultFilter = {
 
   query: {
     order: Order.Desc,
-    orderBy: BountyOrderBy.CreatedAt,
+    orderBy: BountyOrderBy.Bounty,
     amount: 16,
     paginate: true,
     page: 0,

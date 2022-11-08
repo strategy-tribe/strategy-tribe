@@ -1,21 +1,21 @@
+import { NotificationcontextProvider as NotificationContextProvider } from '@/components/notifications/NotificationContext';
+import { trpc } from '@/lib/trpc';
 import AuthContextProvider from 'auth/AuthContext';
 import { NextPage } from 'next';
+import { SessionProvider } from 'next-auth/react';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
-import { SessionProvider } from 'next-auth/react';
 import { ReactElement, ReactNode, useState } from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import {
   configureChains,
   createClient,
   defaultChains,
-  WagmiConfig,
+  WagmiConfig
 } from 'wagmi';
 import { publicProvider } from 'wagmi/providers/public';
-
 import '../styles/globals.css';
 
-import { trpc } from '@/lib/trpc';
 
 const { provider, webSocketProvider } = configureChains(defaultChains, [
   publicProvider(),
@@ -54,13 +54,13 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
         <SessionProvider session={(pageProps as any).session}>
           <QueryClientProvider client={queryClient}>
             {/* <Hydrate state={pageProps.dehydratedState}> */}
-            {/* <NotificationContextProvider> */}
-            <AuthContextProvider>
-              {/* <PushNotifsContextProvider appId={onesignal_appId as string}> */}
-              {getLayout(<Component {...pageProps} />, pageProps)}
-              {/* </PushNotifsContextProvider> */}
-            </AuthContextProvider>
-            {/* </NotificationContextProvider> */}
+            <NotificationContextProvider>
+              <AuthContextProvider>
+                {/* <PushNotifsContextProvider appId={onesignal_appId as string}> */}
+                {getLayout(<Component {...pageProps} />, pageProps)}
+                {/* </PushNotifsContextProvider> */}
+              </AuthContextProvider>
+            </NotificationContextProvider>
             {/* </Hydrate> */}
           </QueryClientProvider>
         </SessionProvider>

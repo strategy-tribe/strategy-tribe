@@ -1,24 +1,21 @@
-import { Bounty, BountyState } from '@prisma/client';
-import {
-  ColumnDef,
-  flexRender,
-  getCoreRowModel,
-  useReactTable,
-} from '@tanstack/react-table';
-import Head from 'next/head';
-import { useRouter } from 'next/router';
-import { useState } from 'react';
-
+import AppLayout from '@/components/layouts/AppLayout';
+import ProtectedLayout from '@/components/layouts/ProtectedLayout';
+import { Button, ButtonStyle } from '@/components/utils/Button';
 import { useGetBounties } from '@/lib/hooks/bountyHooks';
 import { BountyOrderBy } from '@/lib/models/BountyQueryParams';
 import { Order } from '@/lib/models/Order';
 import { GetDateInString } from '@/lib/utils/DateHelpers';
 import { GoToBountyPage } from '@/lib/utils/Routes';
-
-import AppLayout from '@/components/layouts/AppLayout';
-import ProtectedLayout from '@/components/layouts/ProtectedLayout';
-import { Button, ButtonStyle } from '@/components/utils/Button';
-
+import { Bounty, BountyState } from '@prisma/client';
+import {
+  ColumnDef,
+  flexRender,
+  getCoreRowModel,
+  useReactTable
+} from '@tanstack/react-table';
+import Head from 'next/head';
+import { useRouter } from 'next/router';
+import { useState } from 'react';
 import { NextPageWithLayout } from '../_app';
 
 const columns: ColumnDef<Bounty>[] = [
@@ -32,7 +29,7 @@ const columns: ColumnDef<Bounty>[] = [
       },
       {
         header: 'Status',
-        accessorKey: 'state',
+        accessorKey: 'status',
         cell: (info) => info.getValue(),
       },
       {
@@ -45,12 +42,12 @@ const columns: ColumnDef<Bounty>[] = [
       },
       {
         header: 'Wallet',
-        accessorKey: 'wallet',
+        accessorKey: 'wallet.address',
         cell: (info) => `${(info.getValue() as string).slice(0, 15)}...`,
       },
       {
         header: 'Funds (MATIC)',
-        accessorKey: 'funds',
+        accessorKey: 'wallet.balance',
         cell: (info) => info.getValue(),
       },
     ],
