@@ -164,6 +164,7 @@ export const NewSubmissionContextProvider = ({
         );
       },
       onError: (e) => {
+        console.error('here', e);
         notify(
           {
             title: 'There was an error submitting your findings',
@@ -183,7 +184,7 @@ export const NewSubmissionContextProvider = ({
   );
 
   //*Notifications
-  const { notify: notify, hide } = useNotification();
+  const { notify, hide } = useNotification();
 
   function answerChanged(requirement: Requirement, passed: boolean) {
     const newChecks = checks.filter((c) => c.requirement !== requirement);

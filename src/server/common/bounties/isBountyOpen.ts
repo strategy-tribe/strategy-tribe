@@ -7,5 +7,5 @@ export const isBountyOpen = async (
 ): Promise<boolean> => {
   const bounty = await prisma.bounty.findUnique({ where: { slug: slug } });
   if (!bounty) return false;
-  return bounty.status === 'Open';
+  return bounty.status === 'Open' || bounty.status === 'WaitingForFunds';
 };

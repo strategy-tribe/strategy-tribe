@@ -63,5 +63,5 @@ export const areAnswersValid = async (
     }
   }
 
-  return invalidAnswers.length > 0;
+  return invalidAnswers.length === 0;
 };
