@@ -29,9 +29,10 @@ export function AccountSubmissions() {
         </span>
       </div>
 
-      {submissions?.map((s, i) => {
-        return <SubmissionListEntry submission={s} key={i} />;
-      })}
+      {submissions &&
+        submissions?.map((s, i) => {
+          return <SubmissionListEntry submission={s} key={i} />;
+        })}
     </div>
   );
 }

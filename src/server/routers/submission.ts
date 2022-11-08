@@ -105,7 +105,8 @@ export const submissionRouter = router({
   getSubmissions: signedInOnlyProcedure
     .input(GetSubmissionsSchema)
     .query(async ({ input, ctx }) => {
-      await getSubmissions(input, ctx.session.user, ctx.prisma);
+      const res = await getSubmissions(input, ctx.session.user, ctx.prisma);
+      return res;
     }),
   getSubmission: signedInOnlyProcedure
     .input(

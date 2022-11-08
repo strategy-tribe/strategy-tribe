@@ -31,14 +31,15 @@ export const getSubmissions = async (
   input: iGetSubmissionsSchema,
   user: User,
   prisma: PrismaClient
-) => {
+): Promise<
+  { submissions: Submission[] | undefined; count: number } | undefined
+> => {
   if (!isRequestForSubmissionsValid(input, user)) {
     throw new TRPCError({ code: 'UNAUTHORIZED' });
   }
 
-  // const owners: string[] | undefined =
-  //   user.rol === 'REGULAR' ? [user.profileId] : input.owners;
-  const owners = input.owners;
+  const owners: string[] | undefined =
+    user.rol === 'REGULAR' ? [user.profileId] : input.owners;
 
   try {
     const filters = {
