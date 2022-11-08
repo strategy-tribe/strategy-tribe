@@ -21,7 +21,7 @@ export const submissionRouter = router({
         slug: z.string(),
         answers: z
           .object({
-            input: z.union([z.string(), z.instanceof(File).array()]),
+            input: z.union([z.string(), z.instanceof(Buffer).array()]),
             requirement: z.object({
               id: z.string(),
               title: z.string(),
