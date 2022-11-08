@@ -1,4 +1,5 @@
 import { PrismaClient } from '@prisma/client';
+import { TRPCError } from '@trpc/server';
 
 /** Returns a date X days behind today */
 function getThisManyDaysBehind(days = 1) {
@@ -6,8 +7,6 @@ function getThisManyDaysBehind(days = 1) {
   date.setDate(date.getDate() - days);
   return date;
 }
-
-const SUBMISSION_PER_DAY = 3;
 
 /** Returns the amount of submissions left for a user in regards to a bounty. */
 export const spotsLeftForUser = async (
@@ -30,7 +29,17 @@ export const spotsLeftForUser = async (
     },
   });
 
-  const spotsLeft = SUBMISSION_PER_DAY - subs;
+  const subsPerDay = parseInt(process.env.SUBMISSION_PER_DAY as string);
+
+  if (!subsPerDay) {
+    throw new TRPCError({
+      code: 'INTERNAL_SERVER_ERROR',
+      cause: 'Unable to assess submissions per day',
+      message: process.env.SUBMISSION_PER_DAY,
+    });
+  }
+
+  const spotsLeft = subsPerDay - subs;
 
   return spotsLeft;
 };
