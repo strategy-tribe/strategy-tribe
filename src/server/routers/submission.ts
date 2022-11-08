@@ -183,4 +183,21 @@ export const submissionRouter = router({
         console.error(error);
       }
     }),
+  canUserSubmit: signedInOnlyProcedure
+    .input(
+      z.object({
+        bountySlug: z.string(),
+      })
+    )
+    .query(async ({ input, ctx }) => {
+      const left = await spotsLeftForUser(
+        input.bountySlug,
+        ctx.session.user.address,
+        ctx.prisma
+      );
+      return {
+        canSubmit: left > 0,
+        spacesLeft: left,
+      };
+    }),
 });

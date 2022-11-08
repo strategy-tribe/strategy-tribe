@@ -58,12 +58,19 @@ export const useGetSubmission = (id: string, enabled = true) => {
   };
 };
 
-export const useCanUserSubmit = (
-  userId: string,
-  bountyId: string,
-  enabled = true
-) => {
-  throw new Error('useCanUserSubmit not implemented');
+export const useCanUserSubmit = (slug: string, enabled = true) => {
+  const { data, isLoading, error } = trpc.submission.canUserSubmit.useQuery(
+    {
+      bountySlug: slug,
+    },
+    { enabled }
+  );
+
+  return {
+    ...data,
+    isLoading,
+    error,
+  };
 };
 
 export const useSubmitterInfo = (

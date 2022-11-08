@@ -14,8 +14,8 @@ import { Stat } from '@/components/utils/Stat';
 
 import { useAuth } from '@/auth/AuthContext';
 
-import BountyStates from './BountyStates';
 import { Section } from '../landing/Section';
+import BountyStates from './BountyStates';
 
 export function BountyHeader() {
   const { bounty } = useBountyContext();
@@ -137,14 +137,10 @@ function SubmitMessages() {
 
   const { userId } = useAuth();
 
-  // const { data } = useCanUserSubmit(
-  //   userId as string,
-  //   bounty?.id as string,
-  //   Boolean(userId as string) && Boolean(bounty?.id)
-  // );
-
-  const canSubmit = false;
-  const spacesLeft = 0;
+  const { canSubmit, spacesLeft } = useCanUserSubmit(
+    bounty.slug,
+    Boolean(userId as string) && Boolean(bounty?.id)
+  );
 
   const isOpen =
     bounty.status === 'WaitingForFunds' || bounty.status === 'Open';
@@ -189,11 +185,12 @@ function SubmitButton() {
 
   const { userId } = useAuth();
 
-  const { data } = useCanUserSubmit(
-    userId as string,
-    bounty?.id as string,
+  const { canSubmit, isLoading } = useCanUserSubmit(
+    bounty?.slug,
     Boolean(userId as string) && Boolean(bounty?.id)
   );
+
+  if (isLoading) return <></>;
 
   return (
     <Button
@@ -201,7 +198,7 @@ function SubmitButton() {
         style: ButtonStyle.Filled,
         label: 'Start new submission',
         icon: 'arrow_forward',
-        // disabled: true,
+        disabled: !canSubmit,
         onClick: () => router.push(GoToBeforeNewSubmissionPage(bounty.slug)),
       }}
     />
