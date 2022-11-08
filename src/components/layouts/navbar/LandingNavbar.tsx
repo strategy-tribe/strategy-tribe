@@ -23,13 +23,13 @@ export function LandingNavbar({ hideBgOnScroll }: { hideBgOnScroll: boolean }) {
   return (
     <>
       <nav
-        className={`fixed top-0 text-on-surface-p1 w-screen z-40 ${
+        className={`fixed top-0 z-40 w-screen text-on-surface-p1 ${
           navbarBackground ? 'bg-bg' : ''
         }`}
       >
-        <div className="flex justify-between items-center max-w-7xl mx-auto py-1">
+        <div className="mx-auto flex max-w-7xl items-center justify-between py-1">
           {/* right side */}
-          <div className="flex gap-8 items-center">
+          <div className="flex items-center gap-8">
             <LandingPageLink />
             <NavLink url={GoToBountiesPage()} label="Bounties" />
             <NavLink url={GoToOrganizationsPage()} label="Organizations" />

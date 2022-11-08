@@ -145,7 +145,7 @@ export const NewSubmissionContextProvider = ({
             content: () => (
               <Link href={GoToSubmissionPage(newSubmissionId as string)}>
                 <span
-                  className="font-medium underline text-on-surface-p0"
+                  className="font-medium text-on-surface-p0 underline"
                   onClick={hide}
                 >
                   You can see it here

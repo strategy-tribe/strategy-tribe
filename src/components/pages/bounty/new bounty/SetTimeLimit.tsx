@@ -49,7 +49,7 @@ export const SetTimeLimit = ({
           selected={date}
           onChange={(date: Date) => setDate(date)}
           on-surface-disabled={!hasDeadline}
-          className="bg-bg border-0 border-b-2 border-on-surface-disabled focus:border-purpleDar"
+          className="focus:border-purpleDar border-0 border-b-2 border-on-surface-disabled bg-bg"
         />
       )}
 
@@ -62,7 +62,7 @@ export const SetTimeLimit = ({
             </p>
           )}
           {!dataIsValid && (
-            <p className="text-error-light font-semibold label">
+            <p className="label font-semibold text-error-light">
               Date must be after today
             </p>
           )}

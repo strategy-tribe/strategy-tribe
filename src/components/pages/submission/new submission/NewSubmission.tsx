@@ -33,7 +33,7 @@ function Content() {
 
   return (
     <Section>
-      <div className="mx-auto max-w-5xl bg-surface-dark rounded-xl px-8 pb-8 space-y-7">
+      <div className="mx-auto max-w-5xl space-y-7 rounded-xl bg-surface-dark px-8 pb-8">
         <NewSubmissionHeader />
         {editPhase && <EditSubmission />}
         {!editPhase && <ReviewSubmission />}

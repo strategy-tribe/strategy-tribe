@@ -11,7 +11,7 @@ export function MessageForUser({
 }) {
   return (
     <div
-      className={`p-4 bg-on-surface-disabled text-on-surface-p1 font-semibold ${size} ${className} rounded-sm max-w-sm leading-6`}
+      className={`bg-on-surface-disabled p-4 font-semibold text-on-surface-p1 ${size} ${className} max-w-sm rounded-sm leading-6`}
     >
       <p>{text}</p>
     </div>

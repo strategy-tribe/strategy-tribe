@@ -9,10 +9,7 @@ import {
   NotificationType,
 } from '@/components/notifications/iNotification';
 import { useNotification } from '@/components/notifications/NotificationContext';
-import {
-  Button,
-  ButtonInformation,
-} from '@/components/utils/Button';
+import { Button, ButtonInformation } from '@/components/utils/Button';
 
 export function SubscribedToAllButton({ info }: { info: ButtonInformation }) {
   const { notify } = useNotification();

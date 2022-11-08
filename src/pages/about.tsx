@@ -20,7 +20,7 @@ const githubUrl = process.env.NEXT_PUBLIC_GITHUB;
 
 const AboutUsPage: NextPageWithLayout = () => {
   return (
-    <div className="text-on-surface-p1 space-y-8">
+    <div className="space-y-8 text-on-surface-p1">
       <Head>
         <title>ST | About us</title>
         <meta
@@ -33,7 +33,7 @@ const AboutUsPage: NextPageWithLayout = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <motion.main
-        className="space-y-8 mx-auto max-w-4xl"
+        className="mx-auto max-w-4xl space-y-8"
         initial={{ opacity: 0, y: 5 }}
         animate={{ opacity: 1, y: 0 }}
       >
@@ -60,7 +60,7 @@ const AboutUsPage: NextPageWithLayout = () => {
             </div>
           </ReadingSection>
           <ReadingSection title="Values">
-            <div className="flex items-center gap-2 -translate-x-6">
+            <div className="flex -translate-x-6 items-center gap-2">
               <Icon
                 icon="check"
                 size={IconSize.Small}
@@ -72,7 +72,7 @@ const AboutUsPage: NextPageWithLayout = () => {
               </span>
             </div>
 
-            <div className="flex items-center gap-2 -translate-x-6">
+            <div className="flex -translate-x-6 items-center gap-2">
               <Icon
                 icon="check"
                 size={IconSize.Small}
@@ -99,7 +99,7 @@ const AboutUsPage: NextPageWithLayout = () => {
             <p className={CONTENT_STYLE}>
               <span>{`We are open source - feel free to `}</span>
               <a
-                className="text-main-light inline-flex items-center gap-1 translate-y-1 translate-x-0.5 group"
+                className="group inline-flex translate-y-1 translate-x-0.5 items-center gap-1 text-main-light"
                 href={githubUrl}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -107,7 +107,7 @@ const AboutUsPage: NextPageWithLayout = () => {
                 <Icon
                   icon="north_east"
                   size={IconSize.Small}
-                  className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform ease-in-out"
+                  className="transition-transform ease-in-out group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
                 />
                 <span className="group-hover:underline">check us out</span>
               </a>

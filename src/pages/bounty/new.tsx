@@ -58,7 +58,7 @@ const NewBounty: NextPageWithLayout = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className="px-2 space-y-8 text-on-surface-p1 mx-auto max-w-5xl pb-40">
+      <div className="mx-auto max-w-5xl space-y-8 px-2 pb-40 text-on-surface-p1">
         <div className="px-2">
           {step === 1 && <SetBountyTitle setTitle={setTitle} title={title} />}
           {step === 2 && (

@@ -22,13 +22,13 @@ export function SubmissionListEntry({
 
   return (
     <div className="relative flex w-full">
-      <div className="grid grid-cols-6 gap-x-4 w-[66%]">
-        <div className="flex flex-col items-start col-span-4">
+      <div className="grid w-[66%] grid-cols-6 gap-x-4">
+        <div className="col-span-4 flex flex-col items-start">
           <div className="flex gap-2">
             {submission.bounty?.tags?.map((tag, i) => {
               return (
                 <span
-                  className="capitalize label-sm text-on-surface-unactive"
+                  className="label-sm capitalize text-on-surface-unactive"
                   key={i}
                 >
                   {tag.name}
@@ -40,12 +40,12 @@ export function SubmissionListEntry({
           <div className="group">
             <button
               onClick={() => router.push(GoToSubmissionPage(submission.id))}
-              className="text-left title-xs group-hover:underline"
+              className="title-xs text-left group-hover:underline"
             >
               {submission.bounty?.title}
             </button>
 
-            <div className="absolute top-0 left-0 invisible px-4 py-2 translate-x-12 -translate-y-8 rounded pointer-events-none bg-surface-dark group-hover:visible group-hover:pointer-events-auto">
+            <div className="pointer-events-none invisible absolute top-0 left-0 translate-x-12 -translate-y-8 rounded bg-surface-dark px-4 py-2 group-hover:pointer-events-auto group-hover:visible">
               Go to submission
             </div>
           </div>
@@ -60,10 +60,10 @@ export function SubmissionListEntry({
         </div>
       </div>
 
-      <div className="flex items-center gap-x-4 shrink-0 grow">
+      <div className="flex shrink-0 grow items-center gap-x-4">
         {(isAdmin || isStaff) && (
           <button
-            className="col-span-1 text-right place-self-center group grow"
+            className="group col-span-1 grow place-self-center text-right"
             onClick={() => {
               navigator.clipboard.writeText(submission.authorId);
               notify(
@@ -77,17 +77,17 @@ export function SubmissionListEntry({
               );
             }}
           >
-            <span className="block title">User ID:</span>
-            <span className="pt-1 group-hover:underline text-on-surface-unactive label-sm">
+            <span className="title block">User ID:</span>
+            <span className="label-sm pt-1 text-on-surface-unactive group-hover:underline">
               {cutString(submission.authorId)}
             </span>
           </button>
         )}
 
-        <div className="flex flex-col items-end col-span-3 place-self-center shrink-0 grow">
+        <div className="col-span-3 flex shrink-0 grow flex-col items-end place-self-center">
           {/* TODO: update MATIC */}
           {/* <span className="title">{bounty.funds} MATIC</span> */}
-          <span className="pt-1 text-on-surface-unactive label-sm">
+          <span className="label-sm pt-1 text-on-surface-unactive">
             {GetDateInString(submission.createdAt)} ago
           </span>
         </div>

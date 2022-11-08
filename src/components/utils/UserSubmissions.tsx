@@ -15,16 +15,16 @@ export function UserSubmissions({ id }: { id: string }) {
   if (isLoading) return <Loading small={true} />;
 
   return (
-    <div className="space-y-4 laptop:pb-32 px-2">
+    <div className="space-y-4 px-2 laptop:pb-32">
       <Title title="Your Submissions" />
       {!userSubmissions ||
         (userSubmissions.length === 0 && (
           <>
-            <p className="text-on-surface-unactive text-sm font-medium body">
+            <p className="body text-sm font-medium text-on-surface-unactive">
               You have not submitted findings to this bounty.
               <br />
               <Link href={GoToBeforeNewSubmissionPage(id)}>
-                <span className="underline text-main-light font-medium">
+                <span className="font-medium text-main-light underline">
                   You can submit your findings here.
                 </span>
               </Link>

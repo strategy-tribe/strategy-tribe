@@ -9,7 +9,7 @@ import { SubmissionDetail } from './SubmissionDetail';
 
 export function SubmissionContent() {
   return (
-    <div className="max-w-5xl mx-auto space-y-4">
+    <div className="mx-auto max-w-5xl space-y-4">
       <div className="space-y-4">
         <UserStats />
         <Title />
@@ -50,7 +50,7 @@ function UserStats() {
   return (
     <>
       {(isStaff || isAdmin) && submitterInfo && (
-        <div className="p-4 space-y-2 border-2 rounded-lg border-surface">
+        <div className="space-y-2 rounded-lg border-2 border-surface p-4">
           <h3 className="h5">User stats</h3>
           <div className="flex gap-8">
             <SubmissionDetail
@@ -106,7 +106,7 @@ function UserAnswers() {
             )} */}
 
             {anw.requirement.type !== RequirementType.IMAGE && (
-              <p className="whitespace-pre-wrap body">{anw.answer}</p>
+              <p className="body whitespace-pre-wrap">{anw.answer}</p>
             )}
           </div>
         );

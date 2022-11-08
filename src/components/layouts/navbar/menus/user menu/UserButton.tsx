@@ -13,7 +13,7 @@ export function UserButton({ show }: { show: () => void }) {
     <>
       {isAuthenticated && (
         <button
-          className={`border border-surface rounded-full label-sm flex items-center gap-2 group ${
+          className={`label-sm group flex items-center gap-2 rounded-full border border-surface ${
             balance ? 'pl-4 ' : ''
           }`}
           onClick={show}
@@ -24,7 +24,7 @@ export function UserButton({ show }: { show: () => void }) {
             <></>
           )}
 
-          <span className="py-2 px-4 border border-on-surface-unactive rounded-full label-sm group-hover:bg-main group-hover:text-on-surface-p0 group-hover:border-main">
+          <span className="label-sm rounded-full border border-on-surface-unactive py-2 px-4 group-hover:border-main group-hover:bg-main group-hover:text-on-surface-p0">
             {wallet}
           </span>
         </button>

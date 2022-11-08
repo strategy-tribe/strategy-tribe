@@ -29,7 +29,7 @@ export function SubmissionHeader() {
               href={GoToBountyPage(bounty?.slug)}
               rel="noopener noreferrer"
               target="_blank"
-              className="block max-w-3xl mx-auto h4 text-on-surface-p1 hover:text-main-light"
+              className="h4 mx-auto block max-w-3xl text-on-surface-p1 hover:text-main-light"
             >
               {bounty?.title}
             </a>
@@ -43,7 +43,7 @@ export function SubmissionHeader() {
 
         {(isAdmin || isStaff) &&
           submission.state === SubmissionState.WaitingForReview && (
-            <div className="flex flex-col items-center justify-center gap-4 pt-4 h-fit">
+            <div className="flex h-fit flex-col items-center justify-center gap-4 pt-4">
               <div className="flex items-center gap-2">
                 <Icon icon="check" size={IconSize.Small} />
                 <span className="label">You can review this submission</span>

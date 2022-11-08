@@ -7,7 +7,7 @@ export function AccountHeader() {
   return (
     <div className="w-full border-y-2 border-main py-14">
       <Section>
-        <h1 className="capitalize title">{view}</h1>
+        <h1 className="title capitalize">{view}</h1>
       </Section>
     </div>
   );

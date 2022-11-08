@@ -6,20 +6,20 @@ export function BountyMoreDetails() {
   const { bounty } = useBountyContext();
 
   return (
-    <div className="space-y-4 -translate-x-4">
+    <div className="-translate-x-4 space-y-4">
       {!!bounty.description && (
-        <div className="px-4 pt-4 rounded">
-          <span className="capitalize label-lg text-on-surface-unactive">
+        <div className="rounded px-4 pt-4">
+          <span className="label-lg capitalize text-on-surface-unactive">
             More
           </span>
 
-          <p className="font-medium whitespace-pre text-error-light">
+          <p className="whitespace-pre font-medium text-error-light">
             {bounty.description}
           </p>
         </div>
       )}
 
-      <div className="p-4 space-y-8">
+      <div className="space-y-8 p-4">
         <Stat title="Bounty ID" content={bounty.id} copyable />
         {/* <Stat title="Funds address" content={bounty.wallet.address} copyable /> */}
 

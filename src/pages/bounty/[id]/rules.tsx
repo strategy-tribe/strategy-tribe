@@ -28,7 +28,7 @@ const BeforeNewSubmission: NextPageWithLayout = () => {
       <div className="space-y-6">
         <ReadingSection
           title="Read before continuing"
-          className="bg-surface px-8 py-6 rounded-xl"
+          className="rounded-xl bg-surface px-8 py-6"
         >
           <RulesContent />
         </ReadingSection>
@@ -38,7 +38,7 @@ const BeforeNewSubmission: NextPageWithLayout = () => {
             <FromBounty bountyId={id as string} title="You are submitting to" />
           </div>
 
-          <div className="flex gap-8 items-center -translate-x-6">
+          <div className="flex -translate-x-6 items-center gap-8">
             <Button
               info={{
                 icon: 'arrow_back',

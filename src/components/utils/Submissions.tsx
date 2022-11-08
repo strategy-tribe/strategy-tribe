@@ -1,8 +1,8 @@
 import { SubmissionState } from '@prisma/client';
 import { useMemo, useState } from 'react';
 
-import { useGetSubmissions } from '@/hooks/submissionHooks';
 import { Order } from '@/lib/models/Order';
+import { useGetSubmissions } from '@/hooks/submissionHooks';
 
 import Loading from '@/components/utils/Loading';
 
@@ -41,9 +41,9 @@ function Submissions({ bountyId }: { bountyId: string }) {
       {/* Filters */}
       <div className="flex items-center justify-between">
         {/* pick states of submissions */}
-        <div className="text-on-surface-unactive flex space-x-6 items-center">
+        <div className="flex items-center space-x-6 text-on-surface-unactive">
           <button
-            className={`hover:text-on-surface-p0 label ${
+            className={`label hover:text-on-surface-p0 ${
               !showAll && 'text-on-surface-p0'
             }`}
             onClick={() => setShowAll(false)}
@@ -52,7 +52,7 @@ function Submissions({ bountyId }: { bountyId: string }) {
             {!waitingForReview && <span> To Review (...)</span>}
           </button>
           <button
-            className={`hover:text-on-surface-p0 label ${
+            className={`label hover:text-on-surface-p0 ${
               showAll && 'text-on-surface-p0'
             }`}
             onClick={() => setShowAll(true)}

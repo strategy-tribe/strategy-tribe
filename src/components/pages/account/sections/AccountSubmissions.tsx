@@ -12,7 +12,7 @@ export function AccountSubmissions() {
   if (!userInfo || !userId || !submissions)
     return (
       <div className="w-full">
-        <div className="pb-4 border-b-1 border-surface">
+        <div className="border-b-1 border-surface pb-4">
           <span className="body-sm text-on-surface-unactive">
             Your submissions will show up here
           </span>
@@ -22,7 +22,7 @@ export function AccountSubmissions() {
 
   return (
     <div className="w-full space-y-6">
-      <div className="pb-4 border-b-1 border-surface">
+      <div className="border-b-1 border-surface pb-4">
         <span className="body-sm body translate-x-0.5 text-on-surface-unactive">
           {submissions.length}{' '}
           {submissions.length === 1 ? 'submission' : 'submissions'}

@@ -11,7 +11,7 @@ export default function FromOrganization({
 }) {
   return (
     <div className="flex flex-col">
-      <span className="text-on-surface-unactive label">{title}</span>
+      <span className="label text-on-surface-unactive">{title}</span>
       <OrganizationLink orgId={orgId} />
     </div>
   );

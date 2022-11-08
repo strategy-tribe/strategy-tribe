@@ -1,5 +1,7 @@
 import { initTRPC, TRPCError } from '@trpc/server';
 
+import prisma from '@/lib/prisma/prismaClient';
+
 import { TRPC_Context } from './context';
 
 // Avoid exporting the entire t-object since it's not very
@@ -9,7 +11,17 @@ const t = initTRPC.context<TRPC_Context>().create();
 
 // Base router and procedure helpers
 export const router = t.router;
-export const publicProcedure = t.procedure;
+
+/**
+ * Checks if the user has a session
+ **/
+const passesPrisma = t.middleware(({ next, ctx }) => {
+  const newCtx = { ...ctx, prisma };
+
+  return next({
+    ctx: newCtx,
+  });
+});
 
 /**
  * Checks if the user has a session
@@ -20,10 +32,9 @@ const isRegularUser = t.middleware(({ next, ctx }) => {
   if (!session || (!session?.user && session?.user.rol !== 'REGULAR')) {
     throw new TRPCError({ code: 'UNAUTHORIZED' });
   }
-  const newCtx = { ...ctx, session };
 
   return next({
-    ctx: newCtx,
+    ctx: { ...ctx, session, prisma },
   });
 });
 
@@ -42,7 +53,7 @@ const isStaff = t.middleware(({ next, ctx }) => {
   }
 
   return next({
-    ctx: { ...ctx, session },
+    ctx: { ...ctx, session, prisma },
   });
 });
 
@@ -55,12 +66,19 @@ const isAdmin = t.middleware(({ next, ctx }) => {
     throw new TRPCError({ code: 'UNAUTHORIZED' });
   }
 
-  const newCtx = { ...ctx, session };
+  const newCtx = {
+    ...ctx,
+    session,
+    prisma,
+  };
 
   return next({
     ctx: newCtx,
   });
 });
+
+/** It allows all requests to pass through. It passes a prisma instance*/
+export const publicProcedure = t.procedure.use(passesPrisma);
 
 /** Protects a route. It only allows signed in users */
 export const signedInOnlyProcedure = t.procedure.use(isRegularUser);

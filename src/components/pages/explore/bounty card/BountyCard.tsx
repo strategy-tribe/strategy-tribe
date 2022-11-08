@@ -15,13 +15,13 @@ export function BountyCard({ bounty }: { bounty: FullBounty }) {
   const expandBg = 'group-hover:scale-x-[1.15] group-hover:scale-y-[1.15]';
 
   return (
-    <article className={`relative group h-fit ${moveToLeft} ${animClasses}`}>
+    <article className={`group relative h-fit ${moveToLeft} ${animClasses}`}>
       <div
-        className={`absolute inset-0 group-hover:bg-surface z-0 rounded origin-left ${expandBg} ${animClasses} ${moveBgtoLeft}`}
+        className={`absolute inset-0 z-0 origin-left rounded group-hover:bg-surface ${expandBg} ${animClasses} ${moveBgtoLeft}`}
       ></div>
 
       <Link href={GoToBountyPage(bounty.slug)}>
-        <span className={`relative flex flex-col gap-4 z-10 ${animClasses}`}>
+        <span className={`relative z-10 flex flex-col gap-4 ${animClasses}`}>
           <header className="flex justify-between gap-4">
             <div>
               <BountyCardTags bounty={bounty} />
@@ -43,6 +43,6 @@ export function BountyCard({ bounty }: { bounty: FullBounty }) {
 
 export function DummyBountyCard() {
   return (
-    <div className="min-w-[18rem] w-full h-24 bg-surface-dark animate-pulse rounded-lg" />
+    <div className="h-24 w-full min-w-[18rem] animate-pulse rounded-lg bg-surface-dark" />
   );
 }

@@ -1,10 +1,10 @@
 import { MapData } from '@/lib/models/MapData';
 
-import { Section } from '../landing/Section';
-import { PageControls } from '../search/PageControls';
 import { BountyBoard } from './BountyBoard';
 import { ExploreContextProvider, useExploreContext } from './ExploreContext';
 import { ExploreFilters } from './filters/ExploreFilters';
+import { Section } from '../landing/Section';
+import { PageControls } from '../search/PageControls';
 
 // const Map = dynamic(import('./map/MapProjection'), {
 //   ssr: false,
@@ -36,7 +36,7 @@ function ExploreContent() {
       <div>
         {/* <Section>{!!Map && <Map />}</Section> */}
 
-        <div className="gap-y-8 flex flex-col w-full min-h-screen ">
+        <div className="flex min-h-screen w-full flex-col gap-y-8 ">
           <>
             <Section className="w-full">
               <ExploreFilters />
@@ -45,7 +45,7 @@ function ExploreContent() {
               <PageNumber />
               <BountyBoard />
             </div>
-            <div className="flex justify-center items-end basis-0 grow ">
+            <div className="flex grow basis-0 items-end justify-center ">
               <PageControls />
             </div>
           </>

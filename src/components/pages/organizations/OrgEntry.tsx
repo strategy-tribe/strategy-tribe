@@ -16,14 +16,14 @@ export function OrgEntry({
   return (
     <motion.div
       variants={variants}
-      className="space-y-2 cursor-pointer bt:max-w-xl laptop:max-w-none group"
+      className="group cursor-pointer space-y-2 bt:max-w-xl laptop:max-w-none"
       onClick={() => router.push(GoToOrgPage(org.id as string))}
     >
       <div className="flex items-start justify-between gap-2 font-grotesk">
-        <h3 className="capitalize h5 font-grotesk group-hover:underline">
+        <h3 className="h5 font-grotesk capitalize group-hover:underline">
           {org.name}
         </h3>
-        <span className="mt-1 text-main-light shrink-0 label">
+        <span className="label mt-1 shrink-0 text-main-light">
           {org.targets
             ?.map((target: any) => target._count.bounties)
             ?.reduce((sum: any, count: any) => sum + count, 0)
@@ -36,7 +36,7 @@ export function OrgEntry({
         </span>
       </div>
       {org.bio && (
-        <p className="max-w-lg text-on-surface-unactive line-clamp-3 body">
+        <p className="body max-w-lg text-on-surface-unactive line-clamp-3">
           <p className="whitespace-pre-wrap first-letter:capitalize">
             {org.bio}
           </p>

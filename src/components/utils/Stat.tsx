@@ -26,7 +26,7 @@ export function Stat({
 
   return (
     <div
-      className={`flex flex-col group items-start ${size} ${
+      className={`group flex flex-col items-start ${size} ${
         copyable && 'cursor-pointer'
       }`}
       onClick={() => {
@@ -37,7 +37,7 @@ export function Stat({
         }
       }}
     >
-      <span className="label-lg text-on-surface-unactive capitalize">
+      <span className="label-lg capitalize text-on-surface-unactive">
         {title}
       </span>
       <p
@@ -49,7 +49,7 @@ export function Stat({
           <Icon
             icon="content_copy"
             size={IconSize.Small}
-            className="group-hover:inline hidden absolute -translate-x-8"
+            className="absolute hidden -translate-x-8 group-hover:inline"
           />
         )}
         {content}

@@ -39,9 +39,9 @@ export function SearchFilters({
   return (
     <>
       {showFilters && (
-        <div className="z-50 bg-bg p-8 laptop:p-0 rounded-2xl laptop:rounded-none overflow-hidden max-w-lg mx-auto border-2 border-main laptop:border-0">
+        <div className="z-50 mx-auto max-w-lg overflow-hidden rounded-2xl border-2 border-main bg-bg p-8 laptop:rounded-none laptop:border-0 laptop:p-0">
           <button
-            className="flex laptop:hidden items-center justify-between w-full"
+            className="flex w-full items-center justify-between laptop:hidden"
             onClick={() => setShowFilters(!showFilters)}
           >
             <span className="label">Filters</span>
@@ -50,7 +50,7 @@ export function SearchFilters({
           <div
             className={`${
               !showFilters && 'hidden'
-            } space-y-4 ${className} pb-8 mb-8  laptop:pb-0 laptop:mb-0 laptop:border-0`}
+            } space-y-4 ${className} mb-8 pb-8  laptop:mb-0 laptop:border-0 laptop:pb-0`}
           >
             <div className="hidden laptop:block">
               <Title title="Filters" />

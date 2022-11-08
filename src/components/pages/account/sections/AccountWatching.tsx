@@ -85,8 +85,8 @@ export function AccountWatching() {
           </AnimatePresence> */}
         </div>
 
-        <div className="pt-4 border-t-2 border-surface-dark label space-y-4">
-          <div className=" text-on-surface-disabled flex gap-2 items-center">
+        <div className="label space-y-4 border-t-2 border-surface-dark pt-4">
+          <div className=" flex items-center gap-2 text-on-surface-disabled">
             <Icon icon="notifications" size={IconSize.Small} />
             {`We'll notify you of changes to organizations and bounties in your
             watching list`}
@@ -94,7 +94,7 @@ export function AccountWatching() {
           <AnimatePresence>
             {view === 'INDIVIDUAL' && (
               <motion.div
-                className=" text-error-light flex gap-2 items-center"
+                className=" flex items-center gap-2 text-error-light"
                 initial={{ y: 5, opacity: 0 }}
                 animate={{
                   y: 0,

@@ -92,7 +92,7 @@ export function Review({ submission }: { submission: Submission }) {
                     <button
                       key={entry[0]}
                       onClick={() => setView(entry[1])}
-                      className={`py-2 px-5 rounded label ${
+                      className={`label rounded py-2 px-5 ${
                         active ? 'bg-surface' : 'hover:bg-surface-dark'
                       }`}
                     >
@@ -106,7 +106,7 @@ export function Review({ submission }: { submission: Submission }) {
                 {view === ReviewView.Edit && (
                   <ReactTextareaAutosize
                     placeholder="This input supports markdown"
-                    className="w-full p-4 whitespace-pre-wrap border border-dashed rounded bg-bg text-on-surface-p1 border-on-surface-disabled focus:border-on-surface-unactive font-inter focus:ring-0 first-letter:capitalize body"
+                    className="body w-full whitespace-pre-wrap rounded border border-dashed border-on-surface-disabled bg-bg p-4 font-inter text-on-surface-p1 first-letter:capitalize focus:border-on-surface-unactive focus:ring-0"
                     onChange={(e) => setFeedback(e.target.value)}
                     value={feedback}
                     minRows={10}
@@ -115,12 +115,12 @@ export function Review({ submission }: { submission: Submission }) {
 
                 {view === ReviewView.Preview && (
                   <div
-                    className={`p-4 border-surface rounded min-h-[17.1rem] ${
+                    className={`min-h-[17.1rem] rounded border-surface p-4 ${
                       feedback === '' ? '' : 'border'
                     }`}
                   >
                     {!feedback && (
-                      <div className="flex items-center gap-2 pb-4 border-b-1 border-surface text-on-surface-unactive">
+                      <div className="flex items-center gap-2 border-b-1 border-surface pb-4 text-on-surface-unactive">
                         <Icon icon="info" size={IconSize.Small} />
                         <span className="label">
                           Swap to edit and start writing your review
@@ -138,14 +138,14 @@ export function Review({ submission }: { submission: Submission }) {
         {account && (isStaff || isAdmin) && (
           <div className="space-y-4">
             {!carefullyRead && (
-              <div className="flex items-center gap-2 body text-error-light">
+              <div className="body flex items-center gap-2 text-error-light">
                 <Icon icon="close" size={IconSize.Small} />
                 <span>Have you read the submission?</span>
               </div>
             )}
 
             {!feedbackIsOk && (
-              <div className="flex items-center gap-2 body text-error-light">
+              <div className="body flex items-center gap-2 text-error-light">
                 <Icon icon="close" size={IconSize.Small} />
                 <span>The feedback must be longer than 5 words</span>
               </div>

@@ -6,8 +6,6 @@ import { getSubmissions } from 'server/common/submission/getSubmissions';
 import { spotsLeftForUser } from 'server/common/submission/spotsLeftForUser';
 import { z } from 'zod';
 
-import prisma from '@/lib/prisma/prismaClient';
-
 import { GetSubmissionsSchema } from '../common/submission/schemas';
 import { router, signedInOnlyProcedure, staffOnlyProcedure } from '../trpc';
 
@@ -33,6 +31,7 @@ export const submissionRouter = router({
     .mutation(async ({ input, ctx }) => {
       const { slug, answers } = input;
       const address = ctx.session.user.address;
+      const prisma = ctx.prisma;
 
       //#region  //*=========== 1) User is valid? ===========
       //procedure should take care of this part
@@ -106,7 +105,7 @@ export const submissionRouter = router({
   getSubmissions: signedInOnlyProcedure
     .input(GetSubmissionsSchema)
     .query(async ({ input, ctx }) => {
-      return await getSubmissions(input, ctx.session.user);
+      await getSubmissions(input, ctx.session.user, ctx.prisma);
     }),
   getSubmission: signedInOnlyProcedure
     .input(
@@ -118,6 +117,7 @@ export const submissionRouter = router({
       const userId = ctx.session.user.profileId;
       const isAdmin = ctx.session.user.rol === 'ADMIN';
       const isStaff = ctx.session.user.rol === 'STAFF';
+      const prisma = ctx.prisma;
 
       const submission: Submission | null = await prisma.submission.findUnique({
         where: {
@@ -151,7 +151,8 @@ export const submissionRouter = router({
         bountyId: z.string(),
       })
     )
-    .query(async ({ input }) => {
+    .query(async ({ input, ctx }) => {
+      const prisma = ctx.prisma;
       try {
         const totalSubmissions: number = await prisma.submission.count({
           where: {

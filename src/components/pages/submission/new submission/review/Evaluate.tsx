@@ -34,7 +34,7 @@ export default function Evaluate({ submissionId }: { submissionId: string }) {
 
   return (
     <div className="max-w-xl space-y-6">
-      <div className="py-2 space-y-6">
+      <div className="space-y-6 py-2">
         <Title
           title="Does the findings meet the bounty requirements?"
           big={true}
@@ -62,11 +62,11 @@ export default function Evaluate({ submissionId }: { submissionId: string }) {
       <ImportantMessage message="All reviews and transactions are stored along with your staff address." />
 
       {/* Checkbox */}
-      <div className="flex items-center pr-2 space-x-4">
+      <div className="flex items-center space-x-4 pr-2">
         <input
           type="checkbox"
           id="terms"
-          className="border-0 checked:bg-main focus:text-main hover:text-main"
+          className="border-0 checked:bg-main hover:text-main focus:text-main"
           onChange={(e) => {
             setAcceptedTerms(e.target.checked);
           }}
@@ -74,7 +74,7 @@ export default function Evaluate({ submissionId }: { submissionId: string }) {
         <label htmlFor="terms" className="w-full">
           {'I, '}
           <span
-            className="font-semibold underline cursor-pointer text-main-light"
+            className="cursor-pointer font-semibold text-main-light underline"
             onClick={() => {
               notify(
                 {

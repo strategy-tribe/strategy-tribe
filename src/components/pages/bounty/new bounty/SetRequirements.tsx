@@ -24,11 +24,11 @@ export const SetRequirements = ({
         {requirements.map((r, index) => {
           return (
             <div className="space-y-16" key={index}>
-              <div className="flex gap-16 w-full">
+              <div className="flex w-full gap-16">
                 <RequirementInput num={index} requirement={r} />
                 {requirements.length >= 2 && (
                   <button
-                    className="rounded-full h-10 w-10 grow-0 shrink-0 grid place-items-center bg-surface relative group"
+                    className="group relative grid h-10 w-10 shrink-0 grow-0 place-items-center rounded-full bg-surface"
                     onClick={() => {
                       setRequirements(
                         requirements.filter((f, j) => j !== index)
@@ -41,7 +41,7 @@ export const SetRequirements = ({
                       className="group-hover:text-on-surface-p0"
                     />
 
-                    <p className="absolute translate-x-24 opacity-0 group-hover:opacity-100 label min-w-[10rem]">
+                    <p className="label absolute min-w-[10rem] translate-x-24 opacity-0 group-hover:opacity-100">
                       Delete requirement
                     </p>
                   </button>
@@ -54,7 +54,7 @@ export const SetRequirements = ({
       </div>
 
       <button
-        className="flex items-center gap-4 text-main-light group "
+        className="group flex items-center gap-4 text-main-light "
         onClick={() => {
           setRequirements([
             ...requirements,
@@ -86,7 +86,7 @@ function RequirementInput({
   }, [title, type, optional, requirement]);
 
   return (
-    <div className="space-y-4 min-w-[40rem]">
+    <div className="min-w-[40rem] space-y-4">
       {/* Requirement num */}
       <h2 className="font-grotesk font-semibold text-on-surface-p0">
         Condition #{num + 1}
@@ -96,7 +96,7 @@ function RequirementInput({
       <div className="flex items-center gap-4">
         <label
           htmlFor="label"
-          className="label-lg min-w-[10rem] flex items-center gap-4 -translate-x-10"
+          className="label-lg flex min-w-[10rem] -translate-x-10 items-center gap-4"
         >
           <Icon
             icon="close"
@@ -109,7 +109,7 @@ function RequirementInput({
           name="label"
           id="label"
           placeholder="Wallet address, email address, url..."
-          className="border-0 p-0 pb-2 pt-2 border-b-2 border-on-surface-disabled focus:border-main   bg-bg placeholder:text-on-surface-disabled text-on-surface-p0 ring-0 w-full focus:ring-0  transition-all pr-0 first-letter:capitalize"
+          className="w-full border-0 border-b-2 border-on-surface-disabled bg-bg p-0 pb-2   pt-2 pr-0 text-on-surface-p0 ring-0 transition-all first-letter:capitalize  placeholder:text-on-surface-disabled focus:border-main focus:ring-0"
           value={title}
           onChange={(e) => {
             const value = e.target.value;
@@ -126,7 +126,7 @@ function RequirementInput({
         <select
           name="type"
           id="type"
-          className="bg-bg border-0 p-0 pb-2 pt-2 border-b-2 border-on-surface-disabled focus:ring-0 focus:border-main shrink-0 grow-0 min-w-[14rem]"
+          className="min-w-[14rem] shrink-0 grow-0 border-0 border-b-2 border-on-surface-disabled bg-bg p-0 pb-2 pt-2 focus:border-main focus:ring-0"
           value={type}
           onChange={(e) => {
             const value = e.target.value as RequirementType;

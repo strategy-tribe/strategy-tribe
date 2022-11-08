@@ -13,9 +13,9 @@ export function InvoiceListEntry({
   invoice: FullInvoice;
 }) {
   return (
-    <div className="grid grid-cols-12 place-items-center w-full gap-x-8">
+    <div className="grid w-full grid-cols-12 place-items-center gap-x-8">
       <Link href={GoToBountyPage(bounty.id)}>
-        <span className="col-span-8 w-full group">
+        <span className="group col-span-8 w-full">
           {/* <span className="label-sm text-main-light ">
             {bounty.wallet.balance} MATIC
           </span> */}

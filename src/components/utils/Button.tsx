@@ -60,7 +60,7 @@ export function Button({ info }: { info: ButtonInformation }) {
         />
       )}
       {label && (
-        <span className={`font-medium font-grotesk  ${labelClasses}`}>
+        <span className={`font-grotesk font-medium  ${labelClasses}`}>
           {label}
         </span>
       )}

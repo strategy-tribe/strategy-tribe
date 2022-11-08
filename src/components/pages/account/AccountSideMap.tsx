@@ -21,7 +21,7 @@ export function AccountSideMap() {
   }
 
   return (
-    <aside className="w-[240px] flex flex-col gap-2">
+    <aside className="flex w-[240px] flex-col gap-2">
       {pages.map((pair, i) => {
         const label = pair[0];
         const value = pair[1];
@@ -31,7 +31,7 @@ export function AccountSideMap() {
               value === query.view
                 ? 'border-main text-on-surface-p0'
                 : 'border-bg hover:bg-surface-dark'
-            } rounded text-left pr-8 p-4 label border-2`}
+            } label rounded border-2 p-4 pr-8 text-left`}
             key={i}
             onClick={() => goToPage(value as AccountView)}
           >

@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 
-import useWindowDimensions from '@/hooks/useWindowDimensions';
 import { useUrlSearchParams } from '@/lib/hooks/useUrlSearchParams';
+import useWindowDimensions from '@/hooks/useWindowDimensions';
 
 import { Button, ButtonStyle } from '@/components/utils/Button';
 import { IconSize } from '@/components/utils/Icon';
@@ -87,7 +87,7 @@ export function PageControls() {
   }, [currPage, numOfPages, amountOfPages]);
 
   return (
-    <div className="flex gap-5 flex-wrap justify-between pt-0">
+    <div className="flex flex-wrap justify-between gap-5 pt-0">
       {currPage === 0 ? (
         <span></span>
       ) : (
@@ -122,7 +122,7 @@ export function PageControls() {
           return (
             <button
               key={i}
-              className={`shrink-0 label p-2 bg-bg border-b-2  hover:bg-surface rounded-sm disabled:hover:bg-bg disabled:cursor-default cursor-pointer ${
+              className={`label shrink-0 cursor-pointer rounded-sm border-b-2  bg-bg p-2 hover:bg-surface disabled:cursor-default disabled:hover:bg-bg ${
                 isTheCurrentPage ? 'border-main' : 'border-bg'
               }`}
               onClick={() => goToPage(page)}

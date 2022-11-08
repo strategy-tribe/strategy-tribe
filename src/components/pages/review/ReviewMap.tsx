@@ -10,7 +10,7 @@ import { UserAnswer } from './UserAnswer';
 
 export function ReviewMap({ submission }: { submission: FullSubmission }) {
   return (
-    <aside className="sticky left-0 max-w-sm min-h-screen p-8 space-y-8 grow top-24 bg-surface-dark">
+    <aside className="sticky left-0 top-24 min-h-screen max-w-sm grow space-y-8 bg-surface-dark p-8">
       <Button
         info={{
           style: ButtonStyle.Text,

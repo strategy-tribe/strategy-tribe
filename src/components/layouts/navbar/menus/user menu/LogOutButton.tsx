@@ -5,7 +5,7 @@ export function LogOutButton({ hide }: { hide: () => void }) {
 
   return (
     <button
-      className="py-4 w-full text-right hover:bg-surface pl-8 pr-4"
+      className="w-full py-4 pl-8 pr-4 text-right hover:bg-surface"
       onClick={() => {
         hide();
         LogOut();

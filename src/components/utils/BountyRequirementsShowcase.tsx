@@ -166,7 +166,7 @@ function RequirementChecker({
   }, [content, files, optional, type]);
 
   return (
-    <div className="group cursor-default label-lg min-w-[10rem] flex items-center gap-4 -translate-x-10">
+    <div className="label-lg group flex min-w-[10rem] -translate-x-10 cursor-default items-center gap-4">
       {/* Icon */}
       <Icon
         className={`text-error-light ${!!_passed && 'invisible'} `}
@@ -177,7 +177,7 @@ function RequirementChecker({
       <p className={`${!_passed && ''} ${size}`}>
         <span className={`${!_passed && 'group-hover:hidden'}`}>{title}</span>
         <span
-          className={`text-error-light hidden ${
+          className={`hidden text-error-light ${
             !_passed && 'group-hover:inline '
           }`}
         >

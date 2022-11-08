@@ -17,7 +17,7 @@ export function AccountContent() {
   const { isAdmin, isStaff } = useAuth();
 
   return (
-    <Section className="flex gap-24 min-h-[20rem]">
+    <Section className="flex min-h-[20rem] gap-24">
       <AccountSideMap />
 
       {view === AccountView.Account && (

@@ -30,10 +30,10 @@ export function ReviewCheck({
       </div>
 
       {check && (
-        <div className="flex justify-between items-center w-full space-y-2 text-on-surface-p0">
+        <div className="flex w-full items-center justify-between space-y-2 text-on-surface-p0">
           <div className="pl-2">
             {check.value && (
-              <div className="flex gap-2 items-center">
+              <div className="flex items-center gap-2">
                 <Icon
                   icon="check"
                   size={IconSize.Small}
@@ -43,7 +43,7 @@ export function ReviewCheck({
               </div>
             )}
             {!check.value && (
-              <div className="flex gap-2 items-center">
+              <div className="flex items-center gap-2">
                 <Icon
                   icon="close"
                   size={IconSize.Small}

@@ -12,7 +12,7 @@ import { OrgTags } from './OrgTags';
 export function OrgHeader() {
   const { org } = useOrganizationContext();
   return (
-    <div className="py-16 border-y-2 border-surface">
+    <div className="border-y-2 border-surface py-16">
       <Section className="flex items-center justify-between gap-8">
         <div className="space-y-1">
           <OrgTags />
@@ -30,9 +30,9 @@ export function OrgHeader() {
               ?.toString()}
             label="Bounties"
           />
-          <div className="bg-surface-dark w-0.5 h-10" />
+          <div className="h-10 w-0.5 bg-surface-dark" />
           <OrgStat value={`${getBalance(org)} MATIC`} label="In bounties" />
-          <div className="bg-surface-dark w-0.5 h-10" />
+          <div className="h-10 w-0.5 bg-surface-dark" />
           <SubToOrgButton
             orgId={org.id}
             button={(_, isSubscribed) => {

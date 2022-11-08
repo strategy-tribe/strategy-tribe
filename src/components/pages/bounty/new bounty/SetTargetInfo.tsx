@@ -41,7 +41,7 @@ export const SetTargetInfo = ({
 
         {/* Checks */}
         <div className="space-y-4">
-          <h4 className="text-on-surface-p0 font-grotesk text-sm font-medium">
+          <h4 className="font-grotesk text-sm font-medium text-on-surface-p0">
             Requirements
           </h4>
           {targetType === 'INDIVIDUAL' && (
@@ -49,7 +49,7 @@ export const SetTargetInfo = ({
               <div className="flex items-center gap-2">
                 <Icon icon={name ? 'check' : 'close'} />
                 <span
-                  className={` text-sm font-medium w-fit ${
+                  className={` w-fit text-sm font-medium ${
                     name ? 'text-on-surface-unactive' : 'text-error-light'
                   }`}
                 >
@@ -60,7 +60,7 @@ export const SetTargetInfo = ({
                 <Icon icon={organization ? 'check' : 'close'} />
 
                 <span
-                  className={` text-sm font-medium w-fit ${
+                  className={` w-fit text-sm font-medium ${
                     organization
                       ? 'text-on-surface-unactive'
                       : 'text-error-light'
@@ -76,7 +76,7 @@ export const SetTargetInfo = ({
               <div className="flex items-center gap-2">
                 <Icon icon={organization ? 'check' : 'close'} />
                 <span
-                  className={` text-sm font-medium w-fit ${
+                  className={` w-fit text-sm font-medium ${
                     organization
                       ? 'text-on-surface-unactive'
                       : 'text-error-light'
@@ -88,7 +88,7 @@ export const SetTargetInfo = ({
               <div className="flex items-center gap-2">
                 <Icon icon={name ? 'check' : 'close'} />
                 <span
-                  className={` text-sm font-medium w-fit ${
+                  className={` w-fit text-sm font-medium ${
                     name ? 'text-on-surface-unactive' : 'text-error-light'
                   }`}
                 >
@@ -100,7 +100,7 @@ export const SetTargetInfo = ({
         </div>
       </div>
 
-      <hr className="w-full h-0.5 text-surface" />
+      <hr className="h-0.5 w-full text-surface" />
 
       <div className="space-y-16">
         <Toggle
@@ -162,13 +162,13 @@ function IndividualTarget({
     <>
       {/* target name */}
       <div className="space-y-6">
-        <h2 className="text-on-surface-p1 text-xl font-semibold">
+        <h2 className="text-xl font-semibold text-on-surface-p1">
           {`Target's Name`}
         </h2>
         {/* target description */}
         <ReactTextareaAutosize
           placeholder="Type here"
-          className="bg-bg text-on-surface-p1 border-0 w-full font-inter  focus:ring-0 capitalize whitespace-pre-wrap"
+          className="w-full whitespace-pre-wrap border-0 bg-bg font-inter  capitalize text-on-surface-p1 focus:ring-0"
           value={name}
           onChange={(e) => {
             setName(e.target.value);
@@ -177,7 +177,7 @@ function IndividualTarget({
       </div>
       {/* target affiliation */}
       <div className="space-y-6">
-        <h2 className="text-on-surface-p1 text-xl font-semibold">
+        <h2 className="text-xl font-semibold text-on-surface-p1">
           {`Target's Affiliation`}
         </h2>
 
@@ -185,7 +185,7 @@ function IndividualTarget({
           <select
             name="type"
             id="type"
-            className="bg-bg border-0 p-0 pb-2 pt-2 border-b-2 border-on-surface-disabled focus:ring-0 focus:border-main shrink-0 grow max-w-[30rem] w-1/2"
+            className="w-1/2 max-w-[30rem] shrink-0 grow border-0 border-b-2 border-on-surface-disabled bg-bg p-0 pb-2 pt-2 focus:border-main focus:ring-0"
             value={affiliation}
             onChange={(e) => {
               const value = e.target.value;
@@ -205,7 +205,7 @@ function IndividualTarget({
         {createNewOrg && (
           <ReactTextareaAutosize
             placeholder="Type here"
-            className="bg-bg text-on-surface-p1 border-0 w-full font-inter  focus:ring-0 first-letter:capitalize whitespace-pre-wrap"
+            className="w-full whitespace-pre-wrap border-0 bg-bg font-inter  text-on-surface-p1 first-letter:capitalize focus:ring-0"
             value={affiliation}
             onChange={(e) => {
               setAffiliation(e.target.value);
@@ -227,13 +227,13 @@ function IndividualTarget({
       </div>
       {/* target description */}
       <div className="space-y-6 ">
-        <h2 className="text-on-surface-p1 text-xl font-semibold">
+        <h2 className="text-xl font-semibold text-on-surface-p1">
           Extra information about the target
         </h2>
 
         <ReactTextareaAutosize
           placeholder="Type here"
-          className="bg-bg text-on-surface-p1 border-0 w-full font-inter  focus:ring-0 first-letter:capitalize whitespace-pre-wrap"
+          className="w-full whitespace-pre-wrap border-0 bg-bg font-inter  text-on-surface-p1 first-letter:capitalize focus:ring-0"
           value={content}
           onChange={(e) => {
             setContent(e.target.value);
@@ -266,7 +266,7 @@ function OrganizationTarget({
     <>
       {/* target affiliation */}
       <div className="space-y-6">
-        <h2 className="text-on-surface-p1 text-xl font-semibold">
+        <h2 className="text-xl font-semibold text-on-surface-p1">
           {`Target's Affiliation`}
         </h2>
 
@@ -274,7 +274,7 @@ function OrganizationTarget({
           <select
             name="type"
             id="type"
-            className="bg-bg border-0 p-0 pb-2 pt-2 border-b-2 border-on-surface-disabled focus:ring-0 focus:border-main shrink-0 grow max-w-[30rem] w-1/2"
+            className="w-1/2 max-w-[30rem] shrink-0 grow border-0 border-b-2 border-on-surface-disabled bg-bg p-0 pb-2 pt-2 focus:border-main focus:ring-0"
             value={affiliation}
             onChange={(e) => {
               const value = e.target.value;
@@ -294,7 +294,7 @@ function OrganizationTarget({
         {createNewOrg && (
           <ReactTextareaAutosize
             placeholder="Type here"
-            className="bg-bg text-on-surface-p1 border-0 w-full font-inter  focus:ring-0 first-letter:capitalize whitespace-pre-wrap"
+            className="w-full whitespace-pre-wrap border-0 bg-bg font-inter  text-on-surface-p1 first-letter:capitalize focus:ring-0"
             value={affiliation}
             onChange={(e) => {
               setAffiliation(e.target.value);
@@ -316,13 +316,13 @@ function OrganizationTarget({
       </div>
       {/* target name */}
       <div className="space-y-6">
-        <h2 className="text-on-surface-p1 text-xl font-semibold">
+        <h2 className="text-xl font-semibold text-on-surface-p1">
           {`Organization's intelligence we are looking for`}
         </h2>
         {/* target description */}
         <ReactTextareaAutosize
           placeholder="Telegram account, wallet address, phone numbers..."
-          className="bg-bg text-on-surface-p1 border-0 w-full font-inter  focus:ring-0 whitespace-pre-wrap"
+          className="w-full whitespace-pre-wrap border-0 bg-bg font-inter  text-on-surface-p1 focus:ring-0"
           value={name}
           onChange={(e) => {
             setName(e.target.value);
@@ -331,13 +331,13 @@ function OrganizationTarget({
       </div>
       {/* target description */}
       <div className="space-y-6">
-        <h2 className="text-on-surface-p1 text-xl font-semibold">
+        <h2 className="text-xl font-semibold text-on-surface-p1">
           Extra information
         </h2>
 
         <ReactTextareaAutosize
           placeholder="Type here"
-          className="bg-bg text-on-surface-p1 border-0 w-full font-inter  focus:ring-0 first-letter:capitalize whitespace-pre-wrap"
+          className="w-full whitespace-pre-wrap border-0 bg-bg font-inter  text-on-surface-p1 first-letter:capitalize focus:ring-0"
           value={content}
           onChange={(e) => {
             setContent(e.target.value);

@@ -46,12 +46,12 @@ export function Banner({
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0, transition: { duration: 0.5 } }}
             exit={{ opacity: 0, y: -10, transition: { duration: 0.3 } }}
-            className={`w-screen  bg z-50 fixed ${setStyle(style).container}`}
+            className={`bg  fixed z-50 w-screen ${setStyle(style).container}`}
           >
             <div
               className="mx-auto flex items-center justify-between
-            tablet:max-w-5xl desktop:max-w-7xl
-            py-2 px-8 laptop:p-0"
+            py-2 px-8
+            tablet:max-w-5xl laptop:p-0 desktop:max-w-7xl"
             >
               <div className="p-2">
                 <p className={`h5 ${setStyle(style).title}`}>{title}</p>

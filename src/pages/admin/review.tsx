@@ -45,7 +45,7 @@ function PageContent() {
 
   return (
     <>
-      <section className="mx-auto max-w-5xl min-h-screen">
+      <section className="mx-auto min-h-screen max-w-5xl">
         <ReviewDashboardHeader />
         <ReviewDashboardFilters />
 

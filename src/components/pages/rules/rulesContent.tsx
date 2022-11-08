@@ -22,9 +22,9 @@ export default function RulesContent() {
                 accepted:`}
       />
 
-      <ul className="py-2 space-y-4 max-w-xl">
+      <ul className="max-w-xl space-y-4 py-2">
         <ol className="flex flex-col gap-1">
-          <div className="label-lg text-error-light flex items-center gap-2">
+          <div className="label-lg flex items-center gap-2 text-error-light">
             <Icon icon="report" size={IconSize.Small} />
             Are you submitting enough information?
           </div>
@@ -32,8 +32,8 @@ export default function RulesContent() {
           bounty description. For example, at least one email or wallet address.
         </ol>
 
-        <ol className="flex flex-col gap-1 max-w-xl">
-          <div className="label-lg text-error-light flex items-center gap-2">
+        <ol className="flex max-w-xl flex-col gap-1">
+          <div className="label-lg flex items-center gap-2 text-error-light">
             <Icon icon="report" size={IconSize.Small} />
             <span>Can the staff replicate your process?</span>
           </div>

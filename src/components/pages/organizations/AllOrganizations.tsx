@@ -36,14 +36,14 @@ export const AllOrganizations = () => {
   return (
     <>
       {isLoading && (
-        <div className="grid w-full col-span-2 place-items-center">
+        <div className="col-span-2 grid w-full place-items-center">
           <Loading small={false} />
         </div>
       )}
 
       {!isLoading && organizations && (
         <motion.div
-          className="w-full max-w-4xl col-span-2 mx-auto space-y-8"
+          className="col-span-2 mx-auto w-full max-w-4xl space-y-8"
           variants={AppearVariants}
           initial="hidden"
           animate="visible"

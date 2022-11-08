@@ -16,7 +16,7 @@ export function MenuItem<T extends HasLabel>({
 }) {
   return (
     <button
-      className="w-full py-3 pl-4 pr-8 text-left bg-surface-dark hover:bg-main hover:text-on-color min-w-fit whitespace-nowrap first-letter:capitalize label"
+      className="label w-full min-w-fit whitespace-nowrap bg-surface-dark py-3 pl-4 pr-8 text-left first-letter:capitalize hover:bg-main hover:text-on-color"
       onClick={() => onClick(opt)}
     >
       {opt.label}
@@ -32,7 +32,7 @@ export function Menu<T extends HasLabel>({
   select: (s: T) => void;
 }) {
   return (
-    <div className="absolute z-50 overflow-hidden rounded elevation-1">
+    <div className="elevation-1 absolute z-50 overflow-hidden rounded">
       {menuItems.map((opt) => {
         return <MenuItem key={opt.label} onClick={select} opt={opt} />;
       })}
@@ -71,11 +71,11 @@ export default function Dropdown<T extends HasLabel>({
     <>
       <div className={`relative ${open ? 'z-50' : ''} ${className}`}>
         <button
-          className={`flex items-center gap-2 group ${labelClass}`}
+          className={`group flex items-center gap-2 ${labelClass}`}
           onClick={() => setOpen(!open)}
         >
           <p
-            className={`first-letter:capitalize label ${
+            className={`label first-letter:capitalize ${
               !open && 'group-hover:text-primary'
             }`}
           >

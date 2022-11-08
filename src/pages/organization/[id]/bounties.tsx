@@ -51,8 +51,8 @@ const OrganizationBountiesPage: NextPageWithLayout = () => {
       </Head>
 
       <div className="flex max-w-[85rem] gap-x-16 ">
-        <aside className="w-fit min-w-[20%]  min-h-screen border-main border-r-2 px-8 ">
-          <div className="sticky h-fit top-24">
+        <aside className="min-h-screen w-fit  min-w-[20%] border-r-2 border-main px-8 ">
+          <div className="sticky top-24 h-fit">
             <Button
               info={{
                 className: 'max-w-[100%]',
@@ -67,7 +67,7 @@ const OrganizationBountiesPage: NextPageWithLayout = () => {
           </div>
         </aside>
 
-        <div className="grid grid-cols-3 gap-16 py-8 h-fit">
+        <div className="grid h-fit grid-cols-3 gap-16 py-8">
           {!isLoadingBounties &&
             bounties &&
             bounties.map((b) => {

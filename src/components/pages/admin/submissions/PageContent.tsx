@@ -32,8 +32,8 @@ export function ReviewDashboardFilters() {
   } = useAdminReview();
 
   return (
-    <div className="sticky top-0 z-20 flex items-center gap-8 py-4 border-b-2 border-surface bg-bg">
-      <div className="text-center rounded-full text-main-light label-sm">
+    <div className="sticky top-0 z-20 flex items-center gap-8 border-b-2 border-surface bg-bg py-4">
+      <div className="label-sm rounded-full text-center text-main-light">
         {count} {count === 1 ? 'result' : 'results'}
       </div>
 
@@ -92,7 +92,7 @@ export function ReviewDashboardSearchbar() {
       {query.owners && query.owners.at(0) && (
         <>
           <button
-            className="flex items-center gap-2 px-4 py-2 border rounded-full group"
+            className="group flex items-center gap-2 rounded-full border px-4 py-2"
             onClick={() => {
               setSearch('');
               hitSearch(true);
@@ -103,7 +103,7 @@ export function ReviewDashboardSearchbar() {
               size={IconSize.Small}
               className="group-hover:text-error-light"
             />
-            <div className="flex items-center gap-1 body-sm">
+            <div className="body-sm flex items-center gap-1">
               <span className="text-left ">User ID:</span>
 
               <span className="group-hover:text-error-light">
@@ -118,7 +118,7 @@ export function ReviewDashboardSearchbar() {
         <div className="flex items-center gap-4">
           <input
             type="text"
-            className="w-full font-medium border-0 border-b body-sm bg-bg focus:ring-0 focus:border-main"
+            className="body-sm w-full border-0 border-b bg-bg font-medium focus:border-main focus:ring-0"
             placeholder="Search by user id"
             value={search}
             onChange={(e) => {
@@ -131,7 +131,7 @@ export function ReviewDashboardSearchbar() {
             }}
           />
           <button
-            className="px-8 py-2 text-center border rounded-full grow shrink-0 bg-main border-bg text-on-color label-sm"
+            className="label-sm shrink-0 grow rounded-full border border-bg bg-main px-8 py-2 text-center text-on-color"
             onClick={() => hitSearch(false)}
           >
             Search
@@ -155,7 +155,7 @@ export function ReviewDashboardSubmissions() {
           submissions.length > 0 &&
           submissions?.map((s, i) => {
             return (
-              <div key={i} className="flex items-center gap-4 -translate-x-5">
+              <div key={i} className="flex -translate-x-5 items-center gap-4">
                 <span className="label text-on-surface-disabled">
                   {i + 1 + (page > 0 ? page : 0) * (query?.amount ?? 10)}
                 </span>
@@ -169,7 +169,7 @@ export function ReviewDashboardSubmissions() {
         {submissions && submissions.length === 0 && (
           <div className="label text-on-surface-unactive">
             No submissions matches your filters
-            <div className="p-4 mt-4 border rounded border-on-surface-disabled">
+            <div className="mt-4 rounded border border-on-surface-disabled p-4">
               <span>query:</span>
               <pre className="pt-2">{JSON.stringify(query, null, 2)}</pre>
             </div>
@@ -214,8 +214,8 @@ export function ReviewDashboardPageControls() {
 
   return (
     <>
-      <div className="sticky bottom-0 pt-2 pb-2 border-t bg-bg border-surface-dark">
-        <div className="max-w-xl mx-auto space-y-4">
+      <div className="sticky bottom-0 border-t border-surface-dark bg-bg pt-2 pb-2">
+        <div className="mx-auto max-w-xl space-y-4">
           <div className="flex items-center justify-between gap-8">
             {/* Prev */}
             <Button
@@ -230,14 +230,14 @@ export function ReviewDashboardPageControls() {
               }}
             />
 
-            <div className="flex items-center justify-center gap-4 grow">
+            <div className="flex grow items-center justify-center gap-4">
               {!isLoading &&
                 pages.map((page, i) => {
                   const isTheCurrentPage = currPage === page;
                   return (
                     <button
                       key={i}
-                      className={`shrink-0 label p-2 bg-bg border-b-2  hover:bg-surface rounded-sm disabled:hover:bg-bg disabled:cursor-default cursor-pointer ${
+                      className={`label shrink-0 cursor-pointer rounded-sm border-b-2  bg-bg p-2 hover:bg-surface disabled:cursor-default disabled:hover:bg-bg ${
                         isTheCurrentPage ? 'border-main' : 'border-bg'
                       }`}
                       onClick={() => goToPage(page)}
@@ -282,7 +282,7 @@ export function ReviewDashboardPageControls() {
               page: 0,
             });
           }}
-          className="w-full border-0 border-b body-sm bg-bg focus:ring-0 focus:border-main"
+          className="body-sm w-full border-0 border-b bg-bg focus:border-main focus:ring-0"
         />
       </div>
     </>

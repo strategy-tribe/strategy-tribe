@@ -20,9 +20,9 @@ export default function Loading({ small = false }: { small?: boolean }) {
       id="Loading component"
       className={`${
         small ? '' : 'h-screen w-[99vw]'
-      } flex items-center justify-center flex-col gap-8 text-on-surface-unactive `}
+      } flex flex-col items-center justify-center gap-8 text-on-surface-unactive `}
     >
-      <div className="flex items-center justify-center flex-col gap-4 animate-pulse">
+      <div className="flex animate-pulse flex-col items-center justify-center gap-4">
         <Image
           src="/images/logo.svg"
           alt="logo"
@@ -34,7 +34,7 @@ export default function Loading({ small = false }: { small?: boolean }) {
       </div>
 
       <div
-        className={` transition-all ease-in-out duration-500 ${
+        className={` transition-all duration-500 ease-in-out ${
           errorMessage
             ? 'translate-y-0 opacity-100'
             : 'translate-y-0.5 opacity-0'

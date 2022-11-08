@@ -32,7 +32,7 @@ export function BountyHeader() {
 
   return (
     <>
-      <header className="border-y-2 border-main py-14 space-y-14">
+      <header className="space-y-14 border-y-2 border-main py-14">
         <Section>
           <div className="flex gap-6">
             {organization && (
@@ -66,15 +66,15 @@ export function BountyHeader() {
           <div className="flex justify-between gap-10">
             <h1 className="laptop:h2 h3">{parsedTitle}</h1>
 
-            <div className="flex flex-col items-end justify-start gap-4 shrink-0">
+            <div className="flex shrink-0 flex-col items-end justify-start gap-4">
               <a
                 href={`${ETHERSCAN_LINK}${bounty.wallet?.address}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-4 cursor-pointer text-main-light hover:text-main"
+                className="flex cursor-pointer items-center gap-4 text-main-light hover:text-main"
               >
                 <Icon icon="emoji_events" size={IconSize.Large} />
-                <span className="font-medium h4">
+                <span className="h4 font-medium">
                   {bounty.wallet?.balance} MATIC
                 </span>
               </a>
@@ -150,7 +150,7 @@ function SubmitMessages() {
 
   return (
     <>
-      <div className="pt-1 pr-2 text-right label">
+      <div className="label pt-1 pr-2 text-right">
         {isOpen ? (
           <>
             {(spacesLeft ?? 0) > 0 && (

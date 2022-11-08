@@ -19,10 +19,10 @@ export function AccountReviews() {
   );
 
   return (
-    <div className="w-full h-fit space-y-8">
+    <div className="h-fit w-full space-y-8">
       {/* Reviews */}
       <div className="space-y-4">
-        <div className="grid grid-cols-3 w-full gap-x-8 label text-on-surface-unactive">
+        <div className="label grid w-full grid-cols-3 gap-x-8 text-on-surface-unactive">
           <p>Review</p>
           <p>Submission</p>
           <p>Bounty</p>
@@ -37,7 +37,7 @@ export function AccountReviews() {
       <div></div>
 
       {(reviews?.length ?? 1) === 0 && (
-        <div className="pb-4 border-b-1 border-surface">
+        <div className="border-b-1 border-surface pb-4">
           <span className="body-sm translate-x-0.5 text-on-surface-unactive">
             You have no reviews
           </span>
@@ -53,14 +53,14 @@ function ReviewEntry({ review: r }: { review: Review }) {
 
   if (r.id === 'this-needs-refactoring') {
     return (
-      <div className="grid grid-cols-3 w-full gap-x-8 body-sm items-center py-1">
+      <div className="body-sm grid w-full grid-cols-3 items-center gap-x-8 py-1">
         <p className="flex flex-col">
           <span>{r.id}</span>
           <span className="label text-on-surface-unactive">{r.grade}</span>
         </p>
 
         <Link href={GoToSubmissionPage('not defined')}>
-          <span className="flex flex-col group">
+          <span className="group flex flex-col">
             <span className="text-main-light group-hover:text-main">
               id of the submission goes here
             </span>
@@ -69,7 +69,7 @@ function ReviewEntry({ review: r }: { review: Review }) {
         </Link>
 
         <Link href={GoToSubmissionPage('id of the bounty goes here')}>
-          <span className="flex flex-col group">
+          <span className="group flex flex-col">
             <span className="text-main-light group-hover:text-main">
               id of the bounty goes here
             </span>
@@ -80,6 +80,6 @@ function ReviewEntry({ review: r }: { review: Review }) {
     );
   } else
     return (
-      <div className="h-14 w-full bg-surface-dark animate-pulse rounded-lg"></div>
+      <div className="h-14 w-full animate-pulse rounded-lg bg-surface-dark"></div>
     );
 }

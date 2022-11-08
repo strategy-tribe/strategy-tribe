@@ -19,7 +19,7 @@ export default function AppLayout({
   const padding = specialAccount ? 'pt-20' : 'pt-16';
 
   return (
-    <div className="scroll-smooth min-h-screen">
+    <div className="min-h-screen scroll-smooth">
       <Navbar hideBgOnScroll={hideBgOnScroll} keepNavbar={keepNavbar} />
       <main
         className={`min-h-[calc(100vh-10rem)]  ${
