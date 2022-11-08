@@ -195,6 +195,7 @@ export const submissionRouter = router({
         ctx.session.user.address,
         ctx.prisma
       );
+
       return {
         canSubmit: left > 0,
         spacesLeft: left,

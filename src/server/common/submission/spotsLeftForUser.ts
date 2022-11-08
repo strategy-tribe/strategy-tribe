@@ -30,7 +30,7 @@ export const spotsLeftForUser = async (
     },
   });
 
-  const spotsLeft = subs - SUBMISSION_PER_DAY;
+  const spotsLeft = SUBMISSION_PER_DAY - subs;
 
   return spotsLeft;
 };
