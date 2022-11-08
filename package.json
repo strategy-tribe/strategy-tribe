@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "prettier": "prettier --write .",
-    "format:check": "prettier -c .",
+    "prettier:check": "prettier -c .",
     "lint": "next lint",
     "lint:fix": "yarn prettier && yarn format && eslint src --fix",
     "lint:strict": "eslint --max-warnings=0 src",
@@ -14,7 +14,7 @@
     "start": "next start",
     "format": "yarn prisma format",
     "generate": "yarn prisma generate",
-    "studio": "yarn prisma studio"
+    "studio": "yarn prisma format && yarn prisma generate && yarn prisma studio"
   },
   "dependencies": {
     "@nivo/core": "^0.79.0",

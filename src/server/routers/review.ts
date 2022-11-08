@@ -9,7 +9,7 @@ export const reviewRouter = router({
   post: publicProcedure
     .input(
       z.object({
-        grade: z.enum([ReviewGrade.Accepted, ReviewGrade.Rejected]),
+        grade: z.nativeEnum(ReviewGrade),
         submissionId: z.string(),
         reviewerAddress: z.string(),
         reviewerComment: z.string(),

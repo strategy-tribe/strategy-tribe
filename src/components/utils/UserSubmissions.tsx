@@ -1,7 +1,6 @@
-import { useAuth } from 'auth/AuthContext';
 import Link from 'next/link';
 
-import { useGetSubmissionsFromBounty } from '@/hooks/submissionHooks';
+import { useGetSubmissions } from '@/hooks/submissionHooks';
 
 import Loading from '@/components/utils/Loading';
 import { Title } from '@/components/utils/Title';
@@ -9,14 +8,9 @@ import { Title } from '@/components/utils/Title';
 import { GoToBeforeNewSubmissionPage } from '@/utils/Routes';
 
 export function UserSubmissions({ id }: { id: string }) {
-  const { userId } = useAuth();
-
-  const { submissions: userSubmissions, isLoading } =
-    useGetSubmissionsFromBounty(
-      userId as string,
-      id,
-      Boolean(userId as string)
-    );
+  const { submissions: userSubmissions, isLoading } = useGetSubmissions({
+    bounties: [id],
+  });
 
   if (isLoading) return <Loading small={true} />;
 

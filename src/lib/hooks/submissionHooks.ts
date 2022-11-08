@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useQueryClient } from 'react-query';
-
-import { UserInput } from '@/components/pages/submission/new submission/UserInput';
+import { GetSubmissionsSchema } from 'server/common/submission/schemas';
+import { UserInput } from 'server/common/submission/UserInput';
+import { z } from 'zod';
 
 import { trpc } from '../trpc';
 
 export const useSaveSubmission = (
-  address: string,
   content: UserInput[],
   bountyId: string,
   events: {
@@ -32,7 +32,6 @@ export const useSaveSubmission = (
     Save: async () => {
       mutation.mutate({
         slug: bountyId,
-        address,
         answers: content,
       });
     },
@@ -58,64 +57,12 @@ export const useGetSubmission = (id: string, enabled = true) => {
   };
 };
 
-export const useGetSubmissionsFromBounty = (
-  userId: string | undefined,
-  bountyId: string,
-  enabled?: boolean
-) => {
-  // const { find } = Moralis_useGetSubmissionsFromBounty(bountyId, userId);
-  // const {
-  //   data: submissions,
-  //   isLoading,
-  //   error,
-  // } = useQuery([Queries.BountySubmissions, bountyId], () => find(), {
-  //   enabled,
-  // });
-  return {
-    submissions: [],
-    isLoading: true,
-    error: {
-      msg: 'this functionality needs refactoring ',
-    },
-  };
-};
-
-export const useGetUserSubmissions = (userId: string, enabled?: boolean) => {
-  // const { find } = Moralis_useGetUserSubmissions(userId);
-  // const {
-  //   data: submissions,
-  //   isLoading,
-  //   error,
-  // } = useQuery([Queries.BountySubmissions, userId], () => find(), {
-  //   enabled,
-  // });
-  return {
-    submissions: [],
-    isLoading: true,
-    error: {
-      msg: 'this functionality needs refactoring ',
-    },
-  };
-};
-
 export const useCanUserSubmit = (
   userId: string,
   bountyId: string,
   enabled = true
 ) => {
-  // const { data, isLoading, error } = useQuery(
-  //   ['Can user submit', userId, bountyId],
-  //   () => Moralis_canSubmit(userId, bountyId),
-  //   { enabled }
-  // );
-
-  return {
-    data: false,
-    isLoading: true,
-    error: {
-      msg: 'this functionality needs refactoring ',
-    },
-  };
+  throw new Error('useCanUserSubmit not implemented');
 };
 
 export const useSubmitterInfo = (
@@ -123,16 +70,15 @@ export const useSubmitterInfo = (
   bountyId: string,
   enabled = true
 ) => {
-  const { error, isLoading, data, isFetching } =
-    trpc.submission.getSubmitterInfo.useQuery(
-      {
-        submitterId,
-        bountyId,
-      },
-      {
-        enabled,
-      }
-    );
+  const { error, isLoading, data } = trpc.submission.getSubmitterInfo.useQuery(
+    {
+      submitterId,
+      bountyId,
+    },
+    {
+      enabled,
+    }
+  );
 
   return {
     data,
@@ -141,25 +87,24 @@ export const useSubmitterInfo = (
   };
 };
 
-export const useGetSubmissions = (config: any, enabled = true) => {
+export const useGetSubmissions = (
+  config: z.infer<typeof GetSubmissionsSchema>,
+  enabled = true
+) => {
   const page = config.page || 0;
 
   const [numOfPages, setNumOfPages] = useState(0);
   const [hasNextPage, setHasNextPage] = useState(false);
   const [hasPreviousPage, setHasPreviousPage] = useState(false);
 
-  const { error, isLoading, data, isFetching } =
+  const { data, error, isLoading, isFetching } =
     trpc.submission.getSubmissions.useQuery(config, {
       enabled,
     });
 
-  const { data: countData } = trpc.submission.getTotalCount.useQuery(config, {
-    enabled: true,
-  });
-
   useEffect(() => {
-    if (data && countData && config.amount) {
-      const count = countData?.submissionsCount;
+    if (data && data.count && config.amount) {
+      const count = data.count;
       const _numOfPages = Math.floor((count - 1) / config.amount + 1);
       setHasNextPage(_numOfPages - 1 > (config?.page ?? _numOfPages));
       setHasPreviousPage((config?.page ?? 0) != 0);
@@ -167,15 +112,15 @@ export const useGetSubmissions = (config: any, enabled = true) => {
     } else {
       setNumOfPages(0);
     }
-  }, [data, config, countData]);
+  }, [data, config, data?.count]);
 
   return {
     isLoading,
-    submissions: data?.submissions ?? [],
+    submissions: data?.submissions,
     isFetching,
     page,
     numOfPages,
-    count: countData?.submissionsCount ?? 10,
+    count: data?.count,
     hasNextPage,
     hasPreviousPage,
     isPreviousData: false,

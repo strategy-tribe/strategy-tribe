@@ -1,8 +1,12 @@
 import { RequirementType } from '@prisma/client';
 
-import { GetWordCount } from '@/utils/StringHelpers';
-
-import { MAIL_REGEX, PHONE_REGEX, URL_REGEX } from './regexs';
+import {
+  isEmailValid,
+  isPhoneNumberValid,
+  isReportValid,
+  isUrlValid,
+  isWalletValid,
+} from '@/lib/utils/regexChecks';
 
 export const CheckInput = (
   s: string,
@@ -33,43 +37,42 @@ export const CheckInput = (
 
 const EvaluateEmail = (s: string) => {
   return {
-    isValid: MAIL_REGEX.test(s),
+    isValid: isEmailValid(s),
     errorMsg: 'Your input must contain an email address.',
   };
 };
 
 const EvaluateReport = (s: string) => {
-  const wordCount = GetWordCount(s as string);
   return {
-    isValid: wordCount > 10,
+    isValid: isReportValid(s),
     errorMsg: 'Your input must be longer than 10 words',
   };
 };
 
 const EvaluateUrl = (s: string) => {
   return {
-    isValid: URL_REGEX.test(s),
+    isValid: isUrlValid(s),
     errorMsg: 'Your input must be a valid URL.',
   };
 };
 
 const EvaluatePhoneNumber = (s: string) => {
   return {
-    isValid: PHONE_REGEX.test(s),
+    isValid: isPhoneNumberValid(s),
     errorMsg: 'Your input must a phone number.',
   };
 };
 
 const EvaluateWallet = (s: string) => {
   return {
-    isValid: s.length > 20,
+    isValid: isWalletValid(s),
     errorMsg: 'Wallet addresses are longer than that',
   };
 };
 
 const EvaluateSocialMediaAccount = (s: string) => {
   return {
-    isValid: s.length > 3,
+    isValid: isPhoneNumberValid(s),
     errorMsg: 'Your input must be longer than 3 characters',
   };
 };

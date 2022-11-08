@@ -25,7 +25,7 @@ import { useNotification } from '@/components/notifications/NotificationContext'
 import { Check } from '@/components/utils/BountyRequirementsShowcase';
 import { ButtonInformation, ButtonStyle } from '@/components/utils/Button';
 
-import { UserInput } from './UserInput';
+import { UserInput } from '../../../../server/common/submission/UserInput';
 
 interface iNewSubmissionContext {
   bountyId: string;
@@ -55,7 +55,7 @@ export const NewSubmissionContextProvider = ({
   redirectToBounty: () => void;
   children: ReactNode;
 }) => {
-  const { userId: user, account } = useAuth();
+  const { userId } = useAuth();
 
   //*UI State
   const [editPhase, setEditPhase] = useState(true);
@@ -63,7 +63,7 @@ export const NewSubmissionContextProvider = ({
   //*Submission State
   const bounty = useGetBounty(bountyId as string, true).bounty as FullBounty;
   const [userAnswers, setUserAnswers, clean] = useLocalStorage<UserInput[]>(
-    `${user} - ${bountyId} `,
+    `${userId} - ${bountyId} `,
     []
   );
 
@@ -85,7 +85,7 @@ export const NewSubmissionContextProvider = ({
     if (bounty && userAnswers.length === 0) {
       const requirements = bounty.requirements;
 
-      const inputs = requirements?.map((req: any) => {
+      const inputs = requirements?.map((req) => {
         const userInput: UserInput = {
           requirement: req,
           input: req.type === RequirementType.IMAGE ? [] : '',
@@ -95,16 +95,15 @@ export const NewSubmissionContextProvider = ({
 
       setUserAnswers(inputs ?? []);
 
-      const newChecks = bounty.requirements?.map((req: any) => {
+      const newChecks = bounty.requirements?.map((req) => {
         return { passed: false, requirement: req };
       });
       setChecks(newChecks ?? []);
     }
-  }, [bounty, userAnswers]);
+  }, [bounty, userAnswers, setUserAnswers]);
 
   //*Mutations
   const { Save } = useSaveSubmission(
-    account as string,
     [
       ...userAnswers.filter((answer) => answer.input && answer.input !== ''),
       //TODO: add attachments

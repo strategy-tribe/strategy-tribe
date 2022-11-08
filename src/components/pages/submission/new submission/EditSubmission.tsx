@@ -5,11 +5,11 @@ import { Title } from '@/components/utils/Title';
 
 import { RequirementType } from '@prisma/client';
 
+import { UserInput } from '../../../../server/common/submission/UserInput';
 import { ImageUploader } from './edit/ImageUploader';
 import { RequirementChecker } from './edit/RequirementChecker';
 import { RequirementEditor } from './edit/RequirementEditor';
 import { useNewSubmissionContext } from './NewSubmissionContext';
-import { UserInput } from './UserInput';
 
 export function EditSubmission() {
   //*Context

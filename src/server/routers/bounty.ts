@@ -48,7 +48,7 @@ export const bountyRouter = router({
   getBounties: publicProcedure
     .input(
       z.object({
-        order: z.enum([Order.Asc, Order.Desc]),
+        order: z.nativeEnum(Order),
         orderBy: z
           .enum([
             BountyOrderBy.Bounty,

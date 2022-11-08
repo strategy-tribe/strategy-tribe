@@ -1,32 +1,89 @@
-import { Submission } from '@prisma/client';
+import { RequirementType, Submission } from '@prisma/client';
+import { TRPCError } from '@trpc/server';
+import { isBountyOpen } from 'server/common/bounties/isBountyOpen';
+import { areAnswersValid } from 'server/common/submission/areAnswersValid';
+import { getSubmissions } from 'server/common/submission/getSubmissions';
+import { spotsLeftForUser } from 'server/common/submission/spotsLeftForUser';
 import { z } from 'zod';
 
-import { Order } from '@/lib/models/Order';
-import { SubmissionFilters } from '@/lib/models/SubmissionQueryParams';
 import prisma from '@/lib/prisma/prismaClient';
 
-import { publicProcedure, router } from '../trpc';
+import { GetSubmissionsSchema } from '../common/submission/schemas';
+import { router, signedInOnlyProcedure, staffOnlyProcedure } from '../trpc';
 
 export const submissionRouter = router({
-  post: publicProcedure
+  post: signedInOnlyProcedure
     .input(
       z.object({
         slug: z.string(),
-        address: z.string(),
-        answers: z.any().array(),
+        answers: z
+          .object({
+            input: z.union([z.string(), z.instanceof(File).array()]),
+            requirement: z.object({
+              id: z.string(),
+              title: z.string(),
+              type: z.nativeEnum(RequirementType),
+              optional: z.boolean(),
+              bountyId: z.string().nullable(),
+            }),
+          })
+          .array(),
       })
     )
-    .mutation(async ({ input }) => {
-      const { slug, address, answers } = input;
+    .mutation(async ({ input, ctx }) => {
+      const { slug, answers } = input;
+      const address = ctx.session.user.address;
+
+      //#region  //*=========== 1) User is valid? ===========
+      //procedure should take care of this part
+      //#endregion  //*=========== 0) User is valid? ===========
+
+      //#region  //*=========== 2) Is the bounty open? ===========
+      const canAcceptSubmissions = await isBountyOpen(slug);
+      if (!canAcceptSubmissions) {
+        throw new TRPCError({
+          code: 'FORBIDDEN',
+          message: 'Cannot submit to close bounties',
+        });
+      }
+      //#endregion  //*=========== 1) Is the bounty open? ===========
+
+      //#region  //*=========== 3) Does the user have submissions left for the day? ===========
+      const amount = await spotsLeftForUser(slug, address);
+      if (amount < 1) {
+        throw new TRPCError({
+          code: 'FORBIDDEN',
+          message:
+            'You are not allowed to submit again to this bounty, try again later',
+        });
+      }
+      //#endregion  //*=========== 2) Does the user have submissions left for the day? ===========
+
+      //#region  //*=========== 4) Are the answers submitted valid? ===========
+      const areTheAnswersValid = await areAnswersValid(slug, answers);
+      if (!areTheAnswersValid) {
+        throw new TRPCError({
+          code: 'FORBIDDEN',
+          message: 'Your answers are not valid',
+        });
+      }
+      //#endregion  //*=========== 3) Are the answers submitted valid? ===========
+
       const { id } = await prisma.submission.create({
         data: {
           state: 'WaitingForReview',
           answers: {
             createMany: {
-              data: answers.map((a) => ({
-                answer: a.input,
-                requirementId: a.requirement.id,
-              })),
+              data: answers.map((a) => {
+                if (typeof a.input !== 'string') {
+                  throw new Error('File support has not been implemented');
+                }
+
+                return {
+                  answer: a.input,
+                  requirementId: a.requirement.id,
+                };
+              }),
             },
           },
           author: {
@@ -46,121 +103,26 @@ export const submissionRouter = router({
         submissionId: id,
       };
     }),
-  getSubmissions: publicProcedure
-    .input(
-      z.object({
-        order: z.enum([Order.Asc, Order.Desc]),
-        paginate: z.boolean().optional(),
-        amount: z.number().optional(),
-        state: z
-          .enum([
-            SubmissionFilters.All,
-            SubmissionFilters.Accepted,
-            SubmissionFilters.WaitingForReview,
-            SubmissionFilters.WaitingForPayment,
-            SubmissionFilters.Rejected,
-          ])
-          .optional(),
-        reviewed: z.boolean().optional(),
-        owners: z.string().array().optional(),
-        page: z.number().optional(),
-      })
-    )
-    .query(async ({ input }) => {
-      try {
-        let where = {};
-        if (input.state !== SubmissionFilters.All) {
-          where = {
-            ...where,
-            state: input.state,
-          };
-        }
-        if (input.owners && input.owners[0]) {
-          where = {
-            ...where,
-            authorId: {
-              in: input.owners,
-            },
-          };
-        }
-        const submissions: Submission[] = await prisma.submission.findMany({
-          where,
-          skip: (input?.amount ?? 0) * (input?.page ?? 0),
-          take: input.amount ?? 10,
-          orderBy: {
-            createdAt: input.order,
-          },
-          include: {
-            bounty: {
-              include: {
-                tags: true,
-              },
-            },
-            answers: true,
-          },
-        });
-
-        return { submissions: submissions ?? [] };
-      } catch (error) {
-        console.error(error);
-        return { submissions: [] };
-      }
+  getSubmissions: signedInOnlyProcedure
+    .input(GetSubmissionsSchema)
+    .query(async ({ input, ctx }) => {
+      return await getSubmissions(input, ctx.session.user);
     }),
-  getTotalCount: publicProcedure
-    .input(
-      z.object({
-        order: z.enum([Order.Asc, Order.Desc]),
-        paginate: z.boolean().optional(),
-        amount: z.number().optional(),
-        state: z
-          .enum([
-            SubmissionFilters.All,
-            SubmissionFilters.Accepted,
-            SubmissionFilters.WaitingForReview,
-            SubmissionFilters.WaitingForPayment,
-            SubmissionFilters.Rejected,
-          ])
-          .optional(),
-        reviewed: z.boolean().optional(),
-        owners: z.string().array().optional(),
-      })
-    )
-    .query(async ({ input }) => {
-      try {
-        let where = {};
-        if (input.state !== SubmissionFilters.All) {
-          where = {
-            ...where,
-            state: input.state,
-          };
-        }
-        if (input.owners && input.owners[0]) {
-          where = {
-            ...where,
-            authorId: {
-              in: input.owners,
-            },
-          };
-        }
-        const submissionsCount: number = await prisma.submission.count({
-          where,
-        });
-
-        return { submissionsCount };
-      } catch (error) {
-        console.error(error);
-        return { submissionsCount: 0 };
-      }
-    }),
-  getSubmission: publicProcedure
+  getSubmission: signedInOnlyProcedure
     .input(
       z.object({
         id: z.string(),
       })
     )
-    .query(async ({ input: { id } }) => {
+    .query(async ({ input: { id }, ctx }) => {
+      const userId = ctx.session.user.profileId;
+      const isAdmin = ctx.session.user.rol === 'ADMIN';
+      const isStaff = ctx.session.user.rol === 'STAFF';
+
       const submission: Submission | null = await prisma.submission.findUnique({
-        where: { id },
+        where: {
+          id: id,
+        },
         include: {
           bounty: {
             include: {
@@ -175,9 +137,14 @@ export const submissionRouter = router({
           review: true,
         },
       });
+
+      if (submission?.authorId !== userId || (!isAdmin && !isStaff)) {
+        throw new TRPCError({ code: 'UNAUTHORIZED' });
+      }
+
       return { submission };
     }),
-  getSubmitterInfo: publicProcedure
+  getSubmitterInfo: staffOnlyProcedure
     .input(
       z.object({
         submitterId: z.string(),
@@ -206,25 +173,4 @@ export const submissionRouter = router({
         console.error(error);
       }
     }),
-  // updateSubmission: publicProcedure
-  //   .input(
-  //     z.object({
-  //       submissionId: z.string(),
-  //       updates: z.any()
-  //     })
-  //   )
-  //   .query(async ({ input }) => {
-  //     try {
-  //       const update = await prisma.submission.update({
-  //         where: {
-  //           id: input.submissionId
-  //         },
-  //         data: input.updates
-  //       });
-
-  //       return update;
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //   })
 });

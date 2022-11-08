@@ -12,18 +12,61 @@ export const router = t.router;
 export const publicProcedure = t.procedure;
 
 /**
- * Reusable middleware that checks if users are authenticated.
- * @note Example only, yours may vary depending on how your auth is setup
+ * Checks if the user has a session
  **/
-const hasSession = t.middleware(({ next, ctx }) => {
-  if (!ctx.session?.user) {
+const isRegularUser = t.middleware(({ next, ctx }) => {
+  const session = ctx.session;
+
+  if (!session || (!session?.user && session?.user.rol !== 'REGULAR')) {
+    throw new TRPCError({ code: 'UNAUTHORIZED' });
+  }
+  const newCtx = { ...ctx, session };
+
+  return next({
+    ctx: newCtx,
+  });
+});
+
+/**
+ * Checks if the user is an admin
+ **/
+const isStaff = t.middleware(({ next, ctx }) => {
+  const session = ctx.session;
+
+  if (
+    !session ||
+    !session?.user ||
+    (session.user.rol !== 'STAFF' && session.user.rol !== 'ADMIN')
+  ) {
     throw new TRPCError({ code: 'UNAUTHORIZED' });
   }
 
   return next({
-    ctx,
+    ctx: { ...ctx, session },
   });
 });
 
-// Protected procedures for logged in users only
-export const protectedProcedure = t.procedure.use(hasSession);
+/**
+ * Checks if the user is an admin
+ **/
+const isAdmin = t.middleware(({ next, ctx }) => {
+  const session = ctx.session;
+  if (!session || !session?.user || session.user.rol !== 'ADMIN') {
+    throw new TRPCError({ code: 'UNAUTHORIZED' });
+  }
+
+  const newCtx = { ...ctx, session };
+
+  return next({
+    ctx: newCtx,
+  });
+});
+
+/** Protects a route. It only allows signed in users */
+export const signedInOnlyProcedure = t.procedure.use(isRegularUser);
+
+/** Protects a route. It only allows admins */
+export const adminOnlyProcedure = t.procedure.use(isAdmin);
+
+/** Protects a route. It only allows staff or admins */
+export const staffOnlyProcedure = t.procedure.use(isStaff);

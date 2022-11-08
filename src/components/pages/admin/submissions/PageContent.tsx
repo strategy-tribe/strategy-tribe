@@ -151,8 +151,9 @@ export function ReviewDashboardSubmissions() {
   return (
     <div className="min-h-screen space-y-10">
       <>
-        {submissions.length > 0 &&
-          submissions.map((s, i) => {
+        {submissions &&
+          submissions.length > 0 &&
+          submissions?.map((s, i) => {
             return (
               <div key={i} className="flex items-center gap-4 -translate-x-5">
                 <span className="label text-on-surface-disabled">
@@ -165,7 +166,7 @@ export function ReviewDashboardSubmissions() {
       </>
 
       <>
-        {submissions.length === 0 && (
+        {submissions && submissions.length === 0 && (
           <div className="label text-on-surface-unactive">
             No submissions matches your filters
             <div className="p-4 mt-4 border rounded border-on-surface-disabled">

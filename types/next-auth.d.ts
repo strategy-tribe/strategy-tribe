@@ -22,7 +22,6 @@ declare module 'next-auth' {
    * Custom Session. Returned by `useSession`, `getSession` and received as a prop on the `SessionProvider` React Context. Extends basic interface from next-auth
    */
   interface Session {
-    apiKey: string | undefined;
     user: CustomUser;
   }
   /**

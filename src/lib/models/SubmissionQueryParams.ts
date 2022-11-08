@@ -14,11 +14,3 @@ export interface SubmissionQueryParams {
   states?: SubmissionState[];
   requirements?: RequirementType[];
 }
-
-export enum SubmissionFilters {
-  All = 'All',
-  WaitingForReview = 'WaitingForReview',
-  Rejected = 'Rejected',
-  WaitingForPayment = 'WaitingForPayment',
-  Accepted = 'Accepted',
-}

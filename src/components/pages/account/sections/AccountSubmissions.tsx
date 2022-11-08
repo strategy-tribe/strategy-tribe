@@ -1,16 +1,13 @@
 import { useAuth } from 'auth/AuthContext';
 
-import { useGetUserSubmissions } from '@/lib/hooks/submissionHooks';
+import { useGetSubmissions } from '@/lib/hooks/submissionHooks';
 
 import { SubmissionListEntry } from '@/components/submissions/SubmissionListEntry';
 
 export function AccountSubmissions() {
   const { userId, userInfo } = useAuth();
 
-  const { submissions } = useGetUserSubmissions(
-    userId as string,
-    Boolean(userId as string)
-  );
+  const { submissions } = useGetSubmissions({});
 
   if (!userInfo || !userId || !submissions)
     return (
