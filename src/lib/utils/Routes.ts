@@ -29,19 +29,18 @@ export const GoToAccountPage = (view?: AccountView) => {
 
 export const GoToOrgPage = (orgId: string) => `/organization/${orgId}`;
 
-export const GoToOrgBountiesPage = (orgId: string) =>
-  `/organization/${orgId}/bounties`;
+export const GoToOrgBountiesPage = (orgName: string) =>
+  `/organization/${orgName}/bounties`;
 
 export const GoToBountyPage = (slug: string) => `/bounty/${slug}`;
 
 export const GoToSubmissionPage = (submissionId: string) =>
   `/submission/${submissionId}`;
 
-export const GoToBeforeNewSubmissionPage = (bountyId: string) =>
-  `/bounty/${bountyId}/rules`;
+export const GoToBeforeNewSubmissionPage = (slug: string) =>
+  `/bounty/${slug}/rules`;
 
-export const GoToNewSubmissionPage = (bountyId: string) =>
-  `/bounty/${bountyId}/submit`;
+export const GoToNewSubmissionPage = (slug: string) => `/bounty/${slug}/submit`;
 
 export const GoToReviewSubmissionPage = (submissionId: string) =>
   `/submission/${submissionId}/review`;

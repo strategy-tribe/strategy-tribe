@@ -1,8 +1,8 @@
-import { FullOrganization } from '@/lib/types';
-
 import { Section } from '@/components/pages/landing/Section';
 import { SubToOrgButton } from '@/components/subscriptions/SubscribeToOrgButton';
 import { ButtonStyle } from '@/components/utils/Button';
+
+import { FullOrg } from '@/server/routes/organizations/getOrg';
 
 import { useOrganizationContext } from './OrganizationContext';
 import { OrgCountries } from './OrgCountries';
@@ -25,8 +25,8 @@ export function OrgHeader() {
         <div className="flex items-center gap-8">
           <OrgStat
             value={org.targets
-              ?.map((target: any) => target._count.bounties)
-              ?.reduce((sum: any, count: any) => sum + count, 0)
+              ?.map((target) => target._count.bounties)
+              ?.reduce((sum, count) => sum + count, 0)
               ?.toString()}
             label="Bounties"
           />
@@ -48,7 +48,7 @@ export function OrgHeader() {
   );
 }
 
-function getBalance(org: FullOrganization) {
+function getBalance(org: FullOrg) {
   let totalBalance = org.wallet?.balance ?? 0;
   org.targets?.forEach((target) => {
     target.bounties.forEach((bounty) => {

@@ -1,11 +1,12 @@
 import Head from 'next/head';
 import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 
 import { useGetBounties } from '@/lib/hooks/bountyHooks';
 import { useGetOrganization } from '@/lib/hooks/organizationHooks';
 import { Order } from '@/lib/models/Order';
 import { ArrayOfNumbers } from '@/lib/utils/ArrayHelpers';
-import { GoToOrgPage } from '@/lib/utils/Routes';
+import { GoTo404Page, GoToOrgPage } from '@/lib/utils/Routes';
 
 import AppLayout from '@/components/layouts/AppLayout';
 import {
@@ -14,29 +15,36 @@ import {
 } from '@/components/pages/explore/bounty card/BountyCard';
 import { Button, ButtonStyle } from '@/components/utils/Button';
 import { IconSize } from '@/components/utils/Icon';
+import { MessageForUser } from '@/components/utils/MessageForUser';
 
 import { NextPageWithLayout } from '@/pages/_app';
 
 const OrganizationBountiesPage: NextPageWithLayout = () => {
   //*Router
   const router = useRouter();
-  const { id: orgId } = router.query;
+  const name = decodeURI(router.query.name as string);
+
+  useEffect(() => {
+    if (!name) {
+      router.push(GoTo404Page());
+    }
+  }, [name, router]);
 
   //*Queries
   const { organization: org, error } = useGetOrganization(
-    orgId as string,
-    Boolean(orgId as string)
+    name as string,
+    Boolean(name as string)
   );
 
   const { bounties, isLoading: isLoadingBounties } = useGetBounties(
     {
       order: Order.Desc,
-      orgId: orgId as string,
+      orgId: name as string,
     },
     !!org
   );
 
-  // if (!org || error) return <MessageForUser text={`${error}`} />;
+  if (!org || error) return <MessageForUser text={`${error}`} />;
 
   return (
     <>
@@ -71,7 +79,7 @@ const OrganizationBountiesPage: NextPageWithLayout = () => {
           {!isLoadingBounties &&
             bounties &&
             bounties.map((b) => {
-              return <BountyCard key={b.id} bounty={b} />;
+              return <BountyCard key={b.slug} bounty={b} />;
             })}
           {isLoadingBounties &&
             !bounties &&

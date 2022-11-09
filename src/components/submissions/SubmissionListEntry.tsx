@@ -1,10 +1,10 @@
 import { useRouter } from 'next/router';
 
-import { FullSubmission } from '@/lib/types';
 import { GetDateInString } from '@/lib/utils/DateHelpers';
 import { GoToSubmissionPage } from '@/lib/utils/Routes';
 
 import { useAuth } from '@/auth/AuthContext';
+import { SmallSubmission } from '@/server/routes/submission/getSubmissions';
 
 import { DelayType, NotificationType } from '../notifications/iNotification';
 import { useNotification } from '../notifications/NotificationContext';
@@ -13,7 +13,7 @@ import { SubmissionStateDisplayer } from '../pages/bounty/SubmissionStatus';
 export function SubmissionListEntry({
   submission,
 }: {
-  submission: FullSubmission;
+  submission: SmallSubmission;
 }) {
   const router = useRouter();
 

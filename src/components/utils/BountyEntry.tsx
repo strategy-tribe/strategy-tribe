@@ -1,6 +1,6 @@
 import { Variants } from 'framer-motion';
 
-import { FullBounty } from '@/lib/types';
+import { FullBounty } from '@/server/routes/bounties/getBounty';
 
 export function BountyEntry({
   className,

@@ -1,9 +1,15 @@
-import { useUrlSearchParams } from '@/lib/hooks/useUrlSearchParams';
-import { FullBounty } from '@/lib/types';
+import { Requirement } from '@prisma/client';
 
-export function BountyCardTags({ bounty }: { bounty: FullBounty }) {
-  const type = bounty.requirements?.at(0)?.type || '';
-  const org = bounty?.target?.org.name;
+import { useUrlSearchParams } from '@/lib/hooks/useUrlSearchParams';
+
+export function BountyCardTags({
+  org,
+  requirements,
+}: {
+  org: string;
+  requirements: Requirement[];
+}) {
+  const type = requirements.at(0)?.type;
 
   const { urlFilter, setUrlFilter } = useUrlSearchParams();
 
@@ -13,7 +19,7 @@ export function BountyCardTags({ bounty }: { bounty: FullBounty }) {
 
   return (
     <div className="flex gap-5 pb-2">
-      <Tag tag={type} />
+      {!!type && <Tag tag={type} />}
       {!!org && <Tag tag={org} onClick={addOrgToFilters} />}
     </div>
   );

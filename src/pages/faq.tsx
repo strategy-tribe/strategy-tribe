@@ -1,3 +1,4 @@
+import { GetStaticProps } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
 
@@ -9,46 +10,33 @@ import { AfterRead, ReadingSection } from '@/components/reading/utils';
 
 import { NextPageWithLayout } from './_app';
 
-// const getSubmissionsPerDay = async (): Promise<number> => {
-//   const moralis_serverUrl = process.env.NEXT_PUBLIC_SERVER_URL;
-//   const moralis_appId = process.env.NEXT_PUBLIC_APP_ID;
+export const getStaticProps: GetStaticProps = async () => {
+  try {
+    const submissionsPerDay = parseInt(
+      process.env.SUBMISSION_PER_DAY as string
+    );
 
-//   await Moralis.start({
-//     serverUrl: moralis_serverUrl,
-//     appId: moralis_appId,
-//   });
+    if (!submissionsPerDay) {
+      throw new Error('Unable to assess submissions per day');
+    }
 
-//   const res = (await Moralis.Cloud.run('submissionsPerDay')) as {
-//     submissionsPerDay: number;
-//   };
-
-//   if (!res) {
-//     throw new Error('Attemped to run "getMapStats". Got no response.');
-//   }
-
-//   return res.submissionsPerDay;
-// };
-
-// export const getStaticProps: GetStaticProps = async () => {
-//   try {
-//     const submissionsPerDay = await getSubmissionsPerDay();
-
-//     return {
-//       props: {
-//         submissionsPerDay,
-//       },
-//       revalidate: 30,
-//     };
-//   } catch (error) {
-//     console.error('error:\n', error);
-//     return {
-//       props: { submissionsPerDay: 3 },
-//       revalidate: 30,
-//     };
-//   }
-// };
+    return {
+      props: {
+        submissionsPerDay,
+      },
+      revalidate: 60,
+    };
+  } catch (error) {
+    console.error('error:\n', error);
+    return {
+      props: { submissionsPerDay: 3 },
+      revalidate: 30,
+    };
+  }
+};
 
 const FAQPage: NextPageWithLayout<{ submissionsPerDay: number }> = ({
+  // eslint-disable-next-line react/prop-types
   submissionsPerDay,
 }) => {
   return (

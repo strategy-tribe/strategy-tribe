@@ -1,6 +1,6 @@
-import { FullOrganization } from '../types';
+import { SmallOrg } from '@/server/routes/organizations/getOrgs';
 
 export type MapOfOrgs = {
   letter: string;
-  orgs: FullOrganization[];
+  orgs: SmallOrg[];
 }[];

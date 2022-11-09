@@ -1,7 +1,6 @@
 import { RequirementType } from '@prisma/client';
 
-import { useSubmitterInfo } from '@/lib/hooks/submissionHooks';
-import { FullSubmission } from '@/lib/types';
+import { useSubmitterInfo } from '@/lib/hooks/submission';
 
 import { useAuth } from '@/auth/AuthContext';
 
@@ -24,7 +23,7 @@ export function SubmissionContent() {
 }
 
 function Title() {
-  const submission = useSubmissionContext().submission as FullSubmission;
+  const submission = useSubmissionContext().submission;
 
   const { isStaff, isAdmin } = useAuth();
 
@@ -43,9 +42,11 @@ function UserStats() {
   const { isStaff, isAdmin } = useAuth();
 
   const { data: submitterInfo } = useSubmitterInfo(
-    submission.authorId as string,
-    bounty?.id as string,
-    Boolean(submission.authorId as string) && Boolean(bounty?.id)
+    {
+      bountySlug: bounty?.slug ?? '',
+      submitterId: submission.authorId,
+    },
+    !!bounty?.slug
   );
 
   return (

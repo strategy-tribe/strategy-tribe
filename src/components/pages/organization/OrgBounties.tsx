@@ -6,9 +6,9 @@ import { GoToOrgBountiesPage } from '@/lib/utils/Routes';
 
 import { Button, ButtonStyle } from '@/components/utils/Button';
 
+import { BountyCard, DummyBountyCard } from '../explore/bounty card/BountyCard';
 import { useOrganizationContext } from './OrganizationContext';
 import { AboutTitle } from './utils/AboutTitle';
-import { BountyCard, DummyBountyCard } from '../explore/bounty card/BountyCard';
 
 const AMOUNT_OF_BOUNTIES = 9;
 
@@ -35,7 +35,7 @@ export function OrgBounties() {
           })}
         {!isLoading &&
           bounties.map((b) => {
-            return <BountyCard bounty={b} key={b.id} />;
+            return <BountyCard bounty={b} key={b.slug} />;
           })}
       </div>
 
@@ -48,7 +48,7 @@ export function OrgBounties() {
             icon: 'arrow_forward',
             removeMinWidth: true,
             removePadding: true,
-            isALink: GoToOrgBountiesPage(org.id!),
+            isALink: GoToOrgBountiesPage(org.name),
           }}
         />
       )}

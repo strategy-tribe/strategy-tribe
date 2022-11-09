@@ -1,4 +1,4 @@
-import { useGetSubmissions } from '@/lib/hooks/submissionHooks';
+import { useGetSubmissions } from '@/lib/hooks/submission/useGetSubmissions';
 
 import { SubmissionListEntry } from '@/components/submissions/SubmissionListEntry';
 

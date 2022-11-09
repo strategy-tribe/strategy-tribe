@@ -1,14 +1,15 @@
 import { motion, Variants } from 'framer-motion';
 import { useRouter } from 'next/router';
 
-import { FullOrganization } from '@/lib/types';
 import { GoToOrgPage } from '@/lib/utils/Routes';
+
+import { SmallOrg } from '@/server/routes/organizations/getOrgs';
 
 export function OrgEntry({
   org,
   variants,
 }: {
-  org: FullOrganization;
+  org: SmallOrg;
   variants?: Variants;
 }) {
   const router = useRouter();

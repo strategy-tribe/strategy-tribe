@@ -5,11 +5,11 @@ import { Title } from '@/components/utils/Title';
 
 import { RequirementType } from '@prisma/client';
 
+import { UserInput } from '../../../../server/routes/submission/postSubmission/UserInput';
 import { ImageUploader } from './edit/ImageUploader';
 import { RequirementChecker } from './edit/RequirementChecker';
 import { RequirementEditor } from './edit/RequirementEditor';
 import { useNewSubmissionContext } from './NewSubmissionContext';
-import { UserInput } from '../../../../server/common/submission/UserInput';
 
 export function EditSubmission() {
   //*Context
@@ -29,11 +29,15 @@ export function EditSubmission() {
 
   //*Methods
   function ManageNewAnswer(oldAnswer: UserInput, newInput: string | File[]) {
+    if (typeof newInput !== 'string') {
+      throw new Error('Support for attachments is not implemented yet');
+    }
+
     const index = userAnswers.indexOf(oldAnswer);
 
-    const newAnswer = { ...oldAnswer, input: newInput };
+    const newAnswer: UserInput = { ...oldAnswer, input: newInput };
 
-    const newList = [
+    const newList: UserInput[] = [
       ...userAnswers.slice(0, index),
       newAnswer,
       ...userAnswers.slice(index + 1),
@@ -64,7 +68,6 @@ export function EditSubmission() {
     <div className="space-y-7">
       {/* Required  */}
       <div>
-        {/* Remove this commponent */}
         <Title title="Requirements" />
         {requirements.map((userAnswer, i) => {
           return (

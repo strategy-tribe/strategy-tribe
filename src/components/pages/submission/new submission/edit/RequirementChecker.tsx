@@ -13,7 +13,7 @@ export function RequirementChecker({
   input,
 }: {
   requirement: Requirement;
-  input?: string | File[];
+  input?: string | File[] | string[];
 }) {
   const { title, type, optional } = requirement;
   const [passed, setPassed] = useState(false);

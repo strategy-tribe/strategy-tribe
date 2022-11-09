@@ -1,10 +1,11 @@
 import React, { createContext, useContext } from 'react';
 
-import { FullBounty, FullSubmission } from '@/lib/types';
+import { SmallBounty } from '@/server/routes/bounties/getBounties';
+import { FullSubmission } from '@/server/routes/submission/getSubmission';
 
 interface iSubmissionContext {
   submission: FullSubmission;
-  bounty: FullBounty | undefined;
+  bounty: SmallBounty | null;
 }
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 //@ts-ignore

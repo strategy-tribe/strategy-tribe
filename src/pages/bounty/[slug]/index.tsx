@@ -14,7 +14,7 @@ import { NextPageWithLayout } from '@/pages/_app';
 const BountyPage: NextPageWithLayout = () => {
   //*Router
   const router = useRouter();
-  const { id: slug } = router.query;
+  const { slug } = router.query;
 
   //*Queires
   const { bounty, isLoading } = useGetBounty(slug as string, !!slug);

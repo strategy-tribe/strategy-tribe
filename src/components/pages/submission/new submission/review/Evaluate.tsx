@@ -1,9 +1,9 @@
-import { ReviewGrade, Submission } from '@prisma/client';
+import { ReviewGrade } from '@prisma/client';
 import { useRouter } from 'next/router';
 import { useMemo, useState } from 'react';
 
 import { useSubmitReview } from '@/lib/hooks/reviewHooks';
-import { useGetSubmission } from '@/lib/hooks/submissionHooks';
+import { useGetSubmission } from '@/lib/hooks/submission';
 import { GoToReviewsPage } from '@/lib/utils/Routes';
 
 import {
@@ -18,6 +18,7 @@ import { Title } from '@/components/utils/Title';
 import { ImportantMessage } from '@/components/utils/Warning';
 
 import { useAuth } from '@/auth/AuthContext';
+import { FullSubmission } from '@/server/routes/submission/getSubmission';
 
 ('@/components/utils/Title');
 
@@ -118,7 +119,7 @@ export function SubmitReviewButton({
   review,
   disabled,
 }: {
-  submission: Submission;
+  submission: FullSubmission;
   review: {
     meetsRequirements: boolean;
     reviewer: string;
@@ -131,40 +132,46 @@ export function SubmitReviewButton({
   const { notify } = useNotification();
 
   const { SubmitReview } = useSubmitReview(
-    review.meetsRequirements ? ReviewGrade.Accepted : ReviewGrade.Rejected,
-    submission,
-    review.reviewer,
-    review.feedback,
-    () => {
-      router.push(GoToReviewsPage());
-      notify(
-        {
-          title: 'Review submitted',
-          style: NotificationStyle.success,
-        },
-        {
-          condition: false,
-          delayTime: 5,
-          delayType: DelayType.Time,
-          type: NotificationType.Pill,
-        }
-      );
+    {
+      grade: review.meetsRequirements
+        ? ReviewGrade.Accepted
+        : ReviewGrade.Rejected,
+      submissionId: submission.id,
+      reviewerAddress: review.reviewer,
+      reviewerComment: review.feedback,
     },
-    (e) => {
-      notify(
-        {
-          title: 'There was an issue submitting the review',
-          content: e,
-          icon: 'warning',
-          style: NotificationStyle.error,
-        },
-        {
-          condition: false,
-          delayTime: 5,
-          delayType: DelayType.Time,
-          type: NotificationType.Pill,
-        }
-      );
+    {
+      onSuccess: () => {
+        router.push(GoToReviewsPage());
+        notify(
+          {
+            title: 'Review submitted',
+            style: NotificationStyle.success,
+          },
+          {
+            condition: false,
+            delayTime: 5,
+            delayType: DelayType.Time,
+            type: NotificationType.Pill,
+          }
+        );
+      },
+      onError: (error) => {
+        notify(
+          {
+            title: 'There was an issue submitting the review',
+            content: error,
+            icon: 'warning',
+            style: NotificationStyle.error,
+          },
+          {
+            condition: false,
+            delayTime: 5,
+            delayType: DelayType.Time,
+            type: NotificationType.Pill,
+          }
+        );
+      },
     }
   );
   return (

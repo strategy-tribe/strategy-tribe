@@ -1,4 +1,4 @@
-import { Submission, SubmissionState } from '@prisma/client';
+import { SubmissionState } from '@prisma/client';
 import { useEffect, useState } from 'react';
 import ReactTextareaAutosize from 'react-textarea-autosize';
 
@@ -10,12 +10,13 @@ import Icon, { IconSize } from '@/components/utils/Icon';
 import { RenderMarkdown } from '@/components/utils/RenderMarkdown';
 
 import { useAuth } from '@/auth/AuthContext';
+import { FullSubmission } from '@/server/routes/submission/getSubmission';
 
 import { ReviewCheck } from './ReviewCheck';
 import { ReviewMap } from './ReviewMap';
 import { ReviewView } from './ReviewView';
 
-export function Review({ submission }: { submission: Submission }) {
+export function Review({ submission }: { submission: FullSubmission }) {
   const [carefullyRead, setCarefullyRead] = useState(false);
 
   const [feasible, setFeasible] = useState(false);

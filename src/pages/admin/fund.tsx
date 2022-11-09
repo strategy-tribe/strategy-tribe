@@ -1,4 +1,4 @@
-import { Bounty, BountyState } from '@prisma/client';
+import { BountyState } from '@prisma/client';
 import {
   ColumnDef,
   flexRender,
@@ -19,9 +19,11 @@ import AppLayout from '@/components/layouts/AppLayout';
 import ProtectedLayout from '@/components/layouts/ProtectedLayout';
 import { Button, ButtonStyle } from '@/components/utils/Button';
 
+import { SmallBounty } from '@/server/routes/bounties/getBounties';
+
 import { NextPageWithLayout } from '../_app';
 
-const columns: ColumnDef<Bounty>[] = [
+const columns: ColumnDef<SmallBounty>[] = [
   {
     id: 'Bounties waiting for funds',
     columns: [
@@ -135,7 +137,7 @@ const BountiesToFundPage: NextPageWithLayout = () => {
                 <tr
                   key={row.id}
                   className="w-full cursor-pointer hover:bg-surface"
-                  onClick={() => router.push(GoToBountyPage(bounty.id))}
+                  onClick={() => router.push(GoToBountyPage(bounty.slug))}
                 >
                   {row.getVisibleCells().map((cell, i) => {
                     const align = i === 0 ? 'text-left' : 'text-center';

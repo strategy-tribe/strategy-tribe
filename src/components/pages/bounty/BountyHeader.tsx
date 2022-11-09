@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 import { useState } from 'react';
 
 import { useGetOrganization } from '@/lib/hooks/organizationHooks';
-import { useCanUserSubmit } from '@/lib/hooks/submissionHooks';
+import { useCanUserSubmit } from '@/lib/hooks/submission';
 import { ParseBountyTitle } from '@/lib/utils/BountyHelpers';
 import { GoToBeforeNewSubmissionPage, GoToOrgPage } from '@/lib/utils/Routes';
 
@@ -15,16 +15,13 @@ import { Stat } from '@/components/utils/Stat';
 import { useAuth } from '@/auth/AuthContext';
 
 import { Section } from '../landing/Section';
-import BountyStates from './BountyStates';
+import BountyStatusShowcase from './BountyStatusShowcase';
 
 export function BountyHeader() {
   const { bounty } = useBountyContext();
 
   const ETHERSCAN_LINK = process.env.NEXT_PUBLIC_ETHERSCAN_URL;
-  const { organization } = useGetOrganization(
-    bounty?.target?.org.id as string,
-    Boolean(bounty?.target?.org.id as string)
-  );
+  const { organization } = useGetOrganization(bounty?.target?.org.name);
   const [showDonation, setShowDonation] = useState(false);
 
   const { isStaff, isFetchingUserInfo } = useAuth();
@@ -94,7 +91,10 @@ export function BountyHeader() {
           </div>
 
           <div className="pt-4">
-            <BountyStates bounty={bounty} />
+            <BountyStatusShowcase
+              closesAt={bounty.closesAt}
+              status={bounty.status}
+            />
           </div>
         </Section>
 
@@ -137,10 +137,7 @@ function SubmitMessages() {
 
   const { userId } = useAuth();
 
-  const { canSubmit, spacesLeft } = useCanUserSubmit(
-    bounty.slug,
-    Boolean(userId as string) && Boolean(bounty?.id)
-  );
+  const { canSubmit, spacesLeft } = useCanUserSubmit(bounty.slug);
 
   const isOpen =
     bounty.status === 'WaitingForFunds' || bounty.status === 'Open';
@@ -183,12 +180,7 @@ function SubmitButton() {
 
   const { bounty } = useBountyContext();
 
-  const { userId } = useAuth();
-
-  const { canSubmit, isLoading } = useCanUserSubmit(
-    bounty?.slug,
-    Boolean(userId as string) && Boolean(bounty?.id)
-  );
+  const { canSubmit, isLoading } = useCanUserSubmit(bounty?.slug);
 
   if (isLoading) return <></>;
 

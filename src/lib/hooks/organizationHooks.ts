@@ -1,33 +1,31 @@
-import { Organization } from '@prisma/client';
-
 import { trpc } from '../trpc';
 
 export const useGetAllOrganizations = (enabled = true) => {
-  const { error, isLoading, data, isFetching } = trpc.orgs.getOrgs.useQuery(
+  const { error, isLoading, data } = trpc.orgs.getOrgs.useQuery(
     {},
     {
       enabled,
     }
   );
-  const organizations: Organization[] = data?.organizations ?? [];
 
   return {
+    ...data,
     isLoading: isLoading,
-    organizations: organizations,
+    error,
   };
 };
 
-export const useGetOrganization = (id: string, enabled = true) => {
+export const useGetOrganization = (name: string, enabled = true) => {
   const { error, isLoading, data } = trpc.orgs.getOrg.useQuery(
     {
-      id,
+      name,
     },
     { enabled }
   );
 
   return {
+    ...data,
     isLoading: isLoading,
-    organization: data?.organization,
     error: error,
   };
 };

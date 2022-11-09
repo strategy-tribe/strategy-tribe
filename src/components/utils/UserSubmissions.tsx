@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-import { useGetSubmissions } from '@/lib/hooks/submissionHooks';
+import { useGetSubmissions } from '@/lib/hooks/submission/useGetSubmissions';
 import { GoToBeforeNewSubmissionPage } from '@/lib/utils/Routes';
 
 import Loading from '@/components/utils/Loading';

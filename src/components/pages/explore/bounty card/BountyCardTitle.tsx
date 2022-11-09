@@ -1,7 +1,8 @@
-import { FullBounty } from '@/lib/types';
 import { ParseBountyTitle } from '@/lib/utils/BountyHelpers';
 
-export function BountyCardTitle({ bounty }: { bounty: FullBounty }) {
+import { SmallBounty } from '@/server/routes/bounties/getBounties';
+
+export function BountyCardTitle({ bounty }: { bounty: SmallBounty }) {
   const parsedTitle = ParseBountyTitle(bounty);
 
   return <h5 className="group-hover:text-on-surface-p0">{parsedTitle}</h5>;

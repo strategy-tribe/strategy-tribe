@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, Requirement } from '@prisma/client';
 
 import {
   isEmailValid,
@@ -9,9 +9,10 @@ import {
   isWalletValid,
 } from '@/lib/utils/regexChecks';
 
-import { UserInput } from '@/server/common/submission/UserInput';
-
-type AnswerData = UserInput;
+type AnswerData = {
+  input: string | string[];
+  requirement: Requirement;
+};
 
 export const areAnswersValid = async (
   bountySlug: string,

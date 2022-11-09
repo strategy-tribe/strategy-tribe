@@ -1,13 +1,14 @@
-import { Requirement, Target } from '@prisma/client';
 import { useEffect, useState } from 'react';
 
-import { BountyQueryParams } from '@/lib/models/BountyQueryParams';
 import { trpc } from '@/lib/trpc';
 
-import { FullBounty } from '../types';
+import {
+  GetBountiesParams,
+  SmallBounty,
+} from '@/server/routes/bounties/getBounties';
 
 //!Get All
-export const useGetBounties = (config: BountyQueryParams, enabled = true) => {
+export const useGetBounties = (config: GetBountiesParams, enabled = true) => {
   const page = config.page || 0;
 
   const [numOfPages, setNumOfPages] = useState(0);
@@ -18,14 +19,11 @@ export const useGetBounties = (config: BountyQueryParams, enabled = true) => {
     trpc.bounty.getBounties.useQuery(config, {
       enabled: enabled,
     });
-  const { data: countData } = trpc.bounty.getTotalCount.useQuery(config, {
-    enabled: true,
-  });
+
+  const count = data?.count;
 
   useEffect(() => {
-    if (data && countData && config.amount && config.paginate) {
-      // const { count } = data;
-      const count = countData.bountiesCount;
+    if (data && count && config.amount && config.paginate) {
       const _numOfPages = Math.floor((count - 1) / config.amount + 1);
       setHasNextPage(_numOfPages - 1 > (config?.page ?? _numOfPages));
       setHasPreviousPage((config?.page ?? 0) != 0);
@@ -33,9 +31,9 @@ export const useGetBounties = (config: BountyQueryParams, enabled = true) => {
     } else {
       setNumOfPages(0);
     }
-  }, [data, config, countData]);
+  }, [data, config, count]);
 
-  const bounties: FullBounty[] = data?.bounties ?? [];
+  const bounties: SmallBounty[] = data?.bounties ?? [];
 
   return {
     isLoading,
@@ -43,7 +41,7 @@ export const useGetBounties = (config: BountyQueryParams, enabled = true) => {
     isFetching: isFetching,
     page,
     numOfPages,
-    count: countData?.bountiesCount ?? 10,
+    count: count ?? 10,
     hasNextPage,
     hasPreviousPage,
     isPreviousData: false,
@@ -64,40 +62,5 @@ export const useGetBounty = (slug: string, enabled = true) => {
     bounty: data?.bounty ?? undefined,
     error,
     isLoading,
-  };
-};
-
-//!Put one
-export const useSaveBounty = (
-  title: string,
-  target: Target,
-  requirements: Requirement[],
-  staffCreatorId: string,
-  closesAt?: Date
-) => {
-  // const q = useQueryClient();
-  // const router = useRouter();
-
-  // const { save } = Moralis_useSaveBounty(
-  //   title,
-  //   target,
-  //   requirements,
-  //   staffCreatorId,
-  //   closesAt
-  // );
-
-  // const { mutate, isLoading, error } = useMutation(() => save(), {
-  //   onSuccess: (bountyId) => {
-  //     router.push(GoToBountyPage(bountyId));
-  //     q.invalidateQueries();
-  //   },
-  // });
-
-  return {
-    Save: () => {
-      //
-    },
-    isLoading: true,
-    error: undefined,
   };
 };

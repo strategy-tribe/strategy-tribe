@@ -13,7 +13,7 @@ import { NextPageWithLayout } from '@/pages/_app';
 
 const BeforeNewSubmission: NextPageWithLayout = () => {
   const router = useRouter();
-  const { id } = router.query;
+  const { slug } = router.query;
 
   return (
     <>
@@ -36,7 +36,7 @@ const BeforeNewSubmission: NextPageWithLayout = () => {
 
         <ReadingSection className="px-8 pt-4" spacing="space-y-6">
           <div className="mx-auto max-w-4xl space-y-6">
-            <FromBounty bountyId={id as string} title="You are submitting to" />
+            <FromBounty slug={slug as string} title="You are submitting to" />
           </div>
 
           <div className="flex -translate-x-6 items-center gap-8">
@@ -59,7 +59,8 @@ const BeforeNewSubmission: NextPageWithLayout = () => {
                 style: ButtonStyle.Filled,
                 isALink: '#',
                 className: 'w-fit',
-                onClick: () => router.push(GoToNewSubmissionPage(id as string)),
+                onClick: () =>
+                  router.push(GoToNewSubmissionPage(slug as string)),
               }}
             />
           </div>
