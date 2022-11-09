@@ -17,7 +17,7 @@ function addDays(date: Date, days: number) {
 export async function addToDb(organizations: OrgData[], targets: TargetData[]) {
   for await (const o of organizations) {
     const capitalizedName = toTitleCase(o.name);
-    const bountyData = GenerateDefaultBountiesData(capitalizedName);
+    const bountyData = GenerateBountiesData(capitalizedName, o.bounties!);
 
     await CreateOrganization(o);
 
@@ -67,6 +67,75 @@ interface RequirementData {
   title: string;
   optional: boolean;
   type: RequirementType;
+}
+
+function GenerateBountiesData(targetName: string, bounties: string[]) {
+  const data: { title: string; requirementsData: RequirementData[] }[] =
+    bounties.map((bounty: string) => {
+      const defaultRequirements: RequirementData[] = [
+        {
+          title: 'How did you find this info',
+          optional: false,
+          type: 'REPORT',
+        },
+        {
+          title: 'Attchment',
+          optional: true,
+          type: 'IMAGE',
+        },
+      ];
+      switch (bounty) {
+        case 'email':
+          return {
+            title: `Find emails associated with ${targetName}`,
+            requirementsData: [
+              {
+                title: 'Find at least one email',
+                optional: false,
+                type: 'EMAIL',
+              },
+              ...defaultRequirements,
+            ],
+          };
+        case 'wallet':
+          return {
+            title: `Find wallet addresses associated with ${targetName}`,
+            requirementsData: [
+              {
+                title: 'Find at least one wallet',
+                optional: false,
+                type: 'WALLET',
+              },
+              ...defaultRequirements,
+            ],
+          };
+        case 'domain':
+          return {
+            title: `Find domains associated with ${targetName}`,
+            requirementsData: [
+              {
+                title: 'Find at least one domain',
+                optional: false,
+                type: 'DOMAIN',
+              },
+              ...defaultRequirements,
+            ],
+          };
+        default:
+          return {
+            title: `Find ${bounty} associated with ${targetName}`,
+            requirementsData: [
+              {
+                title: 'Find at least one domain',
+                optional: true,
+                type: 'REPORT',
+              },
+              ...defaultRequirements,
+            ],
+          };
+      }
+    });
+  return data;
 }
 
 /** Creates default bounties based on a target name */
