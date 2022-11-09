@@ -21,7 +21,9 @@ export function BountyHeader() {
   const { bounty } = useBountyContext();
 
   const ETHERSCAN_LINK = process.env.NEXT_PUBLIC_ETHERSCAN_URL;
-  const { organization } = useGetOrganization(bounty?.target?.org.name);
+  const { organization } = useGetOrganization({
+    name: bounty?.target?.org.name,
+  });
   const [showDonation, setShowDonation] = useState(false);
 
   const { isStaff, isFetchingUserInfo } = useAuth();
@@ -107,9 +109,7 @@ export function BountyHeader() {
               ?.filter((r) => !r.optional)
               ?.map((r) => r.title)}
           />
-          {organization && (
-            <FromOrganization orgId={organization?.id as string} />
-          )}
+          {organization && <FromOrganization orgName={organization?.name} />}
         </Section>
 
         {/* CTAs */}

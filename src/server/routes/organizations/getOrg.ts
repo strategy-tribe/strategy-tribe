@@ -11,6 +11,7 @@ const GetOrgSchema = z.object({
 async function _getOrg(prisma: PrismaClient, params: GetOrgParams) {
   const organization = await prisma.organization.findUnique({
     where: { name: params.name },
+    //TODO: Swap include for select
     include: {
       tags: {
         select: {
