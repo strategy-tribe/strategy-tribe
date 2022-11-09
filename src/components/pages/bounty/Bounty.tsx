@@ -1,4 +1,4 @@
-import { FullBounty } from '@/lib/types';
+import { FullBounty } from '@/server/routes/bounties/getBounty';
 
 import { BountyContent } from './BountyContent';
 import { BountyContextProvider } from './BountyContext';

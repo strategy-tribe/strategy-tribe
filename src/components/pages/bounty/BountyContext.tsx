@@ -2,8 +2,9 @@ import { createContext, ReactNode, useContext } from 'react';
 
 import { useBountyUrl } from '@/lib/hooks/useBountyUrl';
 import { BountyView } from '@/lib/models/BountyView';
-import { FullBounty } from '@/lib/types';
 import { GoToBountyPage } from '@/lib/utils/Routes';
+
+import { FullBounty } from '@/server/routes/bounties/getBounty';
 
 interface iBountyContext {
   bounty: FullBounty;

@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 
-import { useGetSubmission } from '@/lib/hooks/submissionHooks';
+import { useGetSubmission } from '@/lib/hooks/submission';
 
 import AppLayout from '@/components/layouts/AppLayout';
 import { Submission } from '@/components/pages/submission/Submission';

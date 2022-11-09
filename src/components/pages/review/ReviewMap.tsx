@@ -1,10 +1,11 @@
 import router from 'next/router';
 
-import { FullSubmission } from '@/lib/types';
 import { GoToSubmissionPage } from '@/lib/utils/Routes';
 
 import { Button, ButtonStyle } from '@/components/utils/Button';
 import FromBounty from '@/components/utils/FromBounty';
+
+import { FullSubmission } from '@/server/routes/submission/getSubmission';
 
 import { UserAnswer } from './UserAnswer';
 
@@ -23,7 +24,7 @@ export function ReviewMap({ submission }: { submission: FullSubmission }) {
       />
 
       <div className="space-y-2">
-        <FromBounty bountyId={submission.bounty?.slug ?? ''} />
+        <FromBounty slug={submission.bounty?.slug ?? ''} />
         <div>
           <h3 className="title">User Submission</h3>
 

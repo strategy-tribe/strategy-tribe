@@ -17,7 +17,7 @@ export function SubscriptionEntry({
       {subscription.type === 'ORG' && (
         <>
           <OrganizationLink
-            orgId={subscription.id}
+            orgName={subscription.name}
             className="body w-fit text-on-surface-p1 hover:underline"
           />
 

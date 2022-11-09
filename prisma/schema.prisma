@@ -150,8 +150,8 @@ model Submission {
 
   answers Answer[]
 
-  bounty   Bounty? @relation(fields: [bountyId], references: [id])
-  bountyId String? @db.ObjectId
+  bounty     Bounty? @relation(fields: [bountySlug], references: [slug])
+  bountySlug String? @db.ObjectId
 
   review Review?
 

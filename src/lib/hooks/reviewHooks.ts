@@ -1,34 +1,33 @@
-import { ReviewGrade, Submission } from '@prisma/client';
 import { useQueryClient } from 'react-query';
+
+import {
+  PostReviewParams,
+  PostReviewResponse,
+} from '@/server/routes/review/getReview';
 
 import { trpc } from '../trpc';
 
 export const useSubmitReview = (
-  grade: ReviewGrade,
-  submission: Submission,
-  reviewerAddress: string,
-  reviewerComment: string,
-  onSuccess: () => void,
-  onError: (e: any) => void
+  params: PostReviewParams,
+  events: {
+    onSuccess: (data: PostReviewResponse) => void;
+    onError: (e: any) => void;
+  }
 ) => {
+  const { onError, onSuccess } = events;
   const q = useQueryClient();
 
   const mutation = trpc.review.post.useMutation({
     onError,
     onSuccess: (data) => {
       q.invalidateQueries();
-      onSuccess();
+      onSuccess(data);
     },
   });
 
   return {
     SubmitReview: async () => {
-      mutation.mutate({
-        grade,
-        submissionId: submission.id,
-        reviewerAddress,
-        reviewerComment,
-      });
+      mutation.mutate(params);
     },
     isLoading: mutation.isLoading,
     isSuccess: mutation.isSuccess,

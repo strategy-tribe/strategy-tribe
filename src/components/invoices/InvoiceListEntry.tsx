@@ -1,9 +1,10 @@
 import Link from 'next/link';
 
-import { FullInvoice } from '@/lib/types';
 import { GoToBountyPage, GoToSubmissionPage } from '@/lib/utils/Routes';
 
 import { Button, ButtonStyle } from '@/components/utils/Button';
+
+import { FullInvoice } from '@/server/routes/invoice/getInvoice';
 
 import { InvoiceStatusShower } from '../pages/account/sections/AccountRewards';
 
@@ -14,11 +15,11 @@ export function InvoiceListEntry({
 }) {
   return (
     <div className="grid w-full grid-cols-12 place-items-center gap-x-8">
-      <Link href={GoToBountyPage(bounty.id)}>
+      <Link href={GoToBountyPage(bounty.slug)}>
         <span className="group col-span-8 w-full">
-          {/* <span className="label-sm text-main-light ">
+          <span className="label-sm text-main-light ">
             {bounty.wallet.balance} MATIC
-          </span> */}
+          </span>
           <h5 className="title-sm group-hover:underline">{bounty.title}</h5>
         </span>
       </Link>

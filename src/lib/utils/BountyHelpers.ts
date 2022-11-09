@@ -2,15 +2,15 @@ import { TargetType } from '@prisma/client';
 
 import { CapitalizeFirstLetter } from '@/lib/utils/StringHelpers';
 
-import { FullBounty } from '../types';
+import { SmallBounty } from '@/server/routes/bounties/getBounties';
 
-export function ParseBountyTitle(bounty: FullBounty) {
+export function ParseBountyTitle(bounty: SmallBounty) {
   const title = bounty.title;
   const {
     type,
     name: targetName,
     org: { name: orgName },
-  } = bounty.target!;
+  } = bounty.target;
 
   if (type === TargetType.ORG) {
     return title.replace(

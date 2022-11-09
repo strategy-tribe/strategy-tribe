@@ -4,13 +4,13 @@ import { useGetOrganization } from '@/lib/hooks/organizationHooks';
 import { GoToOrgPage } from '@/lib/utils/Routes';
 
 export function OrganizationLink({
-  orgId,
+  orgName,
   className = 'font-medium text-main-light w-fit hover:underline',
 }: {
-  orgId: string;
+  orgName: string;
   className?: string;
 }) {
-  const { organization } = useGetOrganization(orgId);
+  const { organization } = useGetOrganization({ name: orgName });
 
   return (
     <Link href={GoToOrgPage(organization?.id ? organization.id : '')}>

@@ -10,7 +10,7 @@ export function RequirementEditor({
   setInput,
 }: {
   requirement: Requirement;
-  input: string | File[] | undefined;
+  input: string | File[] | string[] | undefined;
   setInput: (s: string | File[]) => void;
 }) {
   return (

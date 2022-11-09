@@ -10,9 +10,8 @@ import {
 } from 'react';
 
 import { useGetBounty } from '@/lib/hooks/bountyHooks';
-import { useSaveSubmission } from '@/lib/hooks/submissionHooks';
+import { useSaveSubmission } from '@/lib/hooks/submission';
 import { useLocalStorage } from '@/lib/hooks/useLocalStorage';
-import { FullBounty } from '@/lib/types';
 import { GoToSubmissionPage } from '@/lib/utils/Routes';
 
 import {
@@ -25,8 +24,9 @@ import { Check } from '@/components/utils/BountyRequirementsShowcase';
 import { ButtonInformation, ButtonStyle } from '@/components/utils/Button';
 
 import { useAuth } from '@/auth/AuthContext';
+import { FullBounty } from '@/server/routes/bounties/getBounty';
 
-import { UserInput } from '../../../../server/common/submission/UserInput';
+import { UserInput } from '../../../../server/routes/submission/postSubmission/UserInput';
 
 interface iNewSubmissionContext {
   bountyId: string;
@@ -104,84 +104,67 @@ export const NewSubmissionContextProvider = ({
   }, [bounty, userAnswers, setUserAnswers]);
 
   //*Mutations
-  const { Save } = useSaveSubmission(
-    [
-      ...userAnswers.filter((answer) => answer.input && answer.input !== ''),
-      //TODO: add attachments
-      // {
-      //   input: attachments,
-      //   requirement: {
-      //     title: 'Attachments',
-      //     type: RequirementType.IMAGE,
-      //     optional: true,
-      //     bountyId: '',
-      //     id: '',
-      //   },
-      // },
-    ],
-    bountyId as string,
-    {
-      onMutate: () => {
-        redirectToBounty();
-        notify(
-          {
-            title: 'Your Submission is being uploaded',
-            content: 'Please do not close this window',
-            icon: 'warning',
-          },
-          {
-            delayTime: 0,
-            delayType: DelayType.Condition,
-            condition: false,
-            type: NotificationType.Banner,
-          }
-        );
-      },
-      onSuccess: (newSubmissionId) => {
-        clean();
-        notify(
-          {
-            style: NotificationStyle.success,
-            title: 'Your Submission was uploaded successfully',
-            content: () => (
-              <Link href={GoToSubmissionPage(newSubmissionId as string)}>
-                <span
-                  className="font-medium text-on-surface-p0 underline"
-                  onClick={hide}
-                >
-                  You can see it here
-                </span>
-              </Link>
-            ),
-            icon: 'done_all',
-          },
-          {
-            delayTime: 7,
-            delayType: DelayType.Time,
-            condition: false,
-            type: NotificationType.Banner,
-          }
-        );
-      },
-      onError: (e) => {
-        console.error('here', e);
-        notify(
-          {
-            title: 'There was an error submitting your findings',
-            content: e.message as string,
-            icon: 'error',
-            style: NotificationStyle.error,
-          },
-          {
-            delayTime: 10,
-            delayType: DelayType.Time,
-            condition: false,
-            type: NotificationType.Banner,
-          }
-        );
-      },
-    }
-  );
+  const { Save } = useSaveSubmission({
+    onMutate: () => {
+      redirectToBounty();
+      notify(
+        {
+          title: 'Your Submission is being uploaded',
+          content: 'Please do not close this window',
+          icon: 'warning',
+        },
+        {
+          delayTime: 0,
+          delayType: DelayType.Condition,
+          condition: false,
+          type: NotificationType.Banner,
+        }
+      );
+    },
+    onSuccess: (newSubmissionId) => {
+      clean();
+      notify(
+        {
+          style: NotificationStyle.success,
+          title: 'Your Submission was uploaded successfully',
+          content: () => (
+            <Link href={GoToSubmissionPage(newSubmissionId as string)}>
+              <span
+                className="font-medium text-on-surface-p0 underline"
+                onClick={hide}
+              >
+                You can see it here
+              </span>
+            </Link>
+          ),
+          icon: 'done_all',
+        },
+        {
+          delayTime: 7,
+          delayType: DelayType.Time,
+          condition: false,
+          type: NotificationType.Banner,
+        }
+      );
+    },
+    onError: (e) => {
+      console.error('here', e);
+      notify(
+        {
+          title: 'There was an error submitting your findings',
+          content: e.message as string,
+          icon: 'error',
+          style: NotificationStyle.error,
+        },
+        {
+          delayTime: 10,
+          delayType: DelayType.Time,
+          condition: false,
+          type: NotificationType.Banner,
+        }
+      );
+    },
+  });
 
   //*Notifications
   const { notify, hide } = useNotification();
@@ -206,12 +189,15 @@ export const NewSubmissionContextProvider = ({
         icon: 'publish',
         label: 'Submit',
         onClick: () => {
-          Save();
+          Save({
+            answers: userAnswers.filter((a) => typeof a.input === 'string'),
+            slug: bounty.slug,
+          });
         },
         style: ButtonStyle.Filled,
         disabled: !requirementsFullfiled,
       };
-  }, [requirementsFullfiled, editPhase, Save]);
+  }, [requirementsFullfiled, editPhase, Save, bounty, userAnswers]);
 
   return (
     <NewSubmissionContext.Provider

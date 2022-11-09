@@ -21,7 +21,7 @@ export function ReviewSubmission() {
                 {input === '' ? 'None' : input}
               </p>
             )}
-            {typeof input === 'object' && <ImageGallery files={input} />}
+            {/* {typeof input === 'object' && <ImageGallery files={input} />} */}
           </div>
         );
       })}

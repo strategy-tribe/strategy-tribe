@@ -35,7 +35,7 @@ export function OrgBounties() {
           })}
         {!isLoading &&
           bounties.map((b) => {
-            return <BountyCard bounty={b} key={b.id} />;
+            return <BountyCard bounty={b} key={b.slug} />;
           })}
       </div>
 
@@ -48,7 +48,7 @@ export function OrgBounties() {
             icon: 'arrow_forward',
             removeMinWidth: true,
             removePadding: true,
-            isALink: GoToOrgBountiesPage(org.id!),
+            isALink: GoToOrgBountiesPage(org.name),
           }}
         />
       )}

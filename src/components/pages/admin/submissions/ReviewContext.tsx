@@ -1,7 +1,7 @@
 import { SubmissionState } from '@prisma/client';
 import React, { createContext, useContext, useState } from 'react';
 
-import { useGetSubmissions } from '@/lib/hooks/submissionHooks';
+import { useGetSubmissions } from '@/lib/hooks/submission/useGetSubmissions';
 import { Order } from '@/lib/models/Order';
 
 const AMOUNT_OF_PAGES = 10;

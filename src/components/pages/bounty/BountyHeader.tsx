@@ -1,8 +1,9 @@
+import { Wallet } from '@prisma/client';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 
 import { useGetOrganization } from '@/lib/hooks/organizationHooks';
-import { useCanUserSubmit } from '@/lib/hooks/submissionHooks';
+import { useCanUserSubmit } from '@/lib/hooks/submission';
 import { ParseBountyTitle } from '@/lib/utils/BountyHelpers';
 import { GoToBeforeNewSubmissionPage, GoToOrgPage } from '@/lib/utils/Routes';
 
@@ -15,17 +16,16 @@ import { Stat } from '@/components/utils/Stat';
 
 import { useAuth } from '@/auth/AuthContext';
 
-import BountyStates from './BountyStates';
+import BountyStatusShowcase from './BountyStatusShowcase';
 import { Section } from '../landing/Section';
 
 export function BountyHeader() {
   const { bounty } = useBountyContext();
 
   const ETHERSCAN_LINK = process.env.NEXT_PUBLIC_ETHERSCAN_URL;
-  const { organization } = useGetOrganization(
-    bounty?.target?.org.id as string,
-    Boolean(bounty?.target?.org.id as string)
-  );
+  const { organization } = useGetOrganization({
+    name: bounty?.target?.org.name,
+  });
   const [showDonation, setShowDonation] = useState(false);
 
   const { isStaff, isFetchingUserInfo } = useAuth();
@@ -95,7 +95,10 @@ export function BountyHeader() {
           </div>
 
           <div className="pt-4">
-            <BountyStates bounty={bounty} />
+            <BountyStatusShowcase
+              closesAt={bounty.closesAt}
+              status={bounty.status}
+            />
           </div>
         </Section>
 
@@ -108,9 +111,7 @@ export function BountyHeader() {
               ?.filter((r) => !r.optional)
               ?.map((r) => r.title)}
           />
-          {organization && (
-            <FromOrganization orgId={organization?.id as string} />
-          )}
+          {organization && <FromOrganization orgName={organization?.name} />}
         </Section>
 
         {/* CTAs */}
@@ -126,7 +127,7 @@ export function BountyHeader() {
       <DonationPopUp
         show={showDonation}
         hide={() => setShowDonation(false)}
-        recipient={{ wallet: bounty.wallet! }}
+        recipient={{ wallet: bounty.wallet! as Wallet }}
         description={`Bigger rewards mean more eyes and more OSINT hunters.\nBy donating to this bounty you're directly contributing to bringing this bounty to fruition.\n\nAll donations go directly to the hunter who fulfills the bounty requirements.`}
       />
     </>
@@ -138,10 +139,7 @@ function SubmitMessages() {
 
   const { userId } = useAuth();
 
-  const { canSubmit, spacesLeft } = useCanUserSubmit(
-    bounty.slug,
-    Boolean(userId as string) && Boolean(bounty?.id)
-  );
+  const { canSubmit, spacesLeft } = useCanUserSubmit(bounty.slug);
 
   const isOpen =
     bounty.status === 'WaitingForFunds' || bounty.status === 'Open';
@@ -184,12 +182,7 @@ function SubmitButton() {
 
   const { bounty } = useBountyContext();
 
-  const { userId } = useAuth();
-
-  const { canSubmit, isLoading } = useCanUserSubmit(
-    bounty?.slug,
-    Boolean(userId as string) && Boolean(bounty?.id)
-  );
+  const { canSubmit, isLoading } = useCanUserSubmit(bounty?.slug);
 
   if (isLoading) return <></>;
 

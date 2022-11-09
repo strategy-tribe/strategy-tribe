@@ -1,4 +1,4 @@
-import { useGetSubmissions } from '@/lib/hooks/submissionHooks';
+import { useGetSubmissions } from '@/lib/hooks/submission/useGetSubmissions';
 
 import { SubmissionListEntry } from '@/components/submissions/SubmissionListEntry';
 import Loading from '@/components/utils/Loading';
@@ -9,7 +9,7 @@ export function BountySubmissions({ userId }: { userId: string | undefined }) {
   const { bounty } = useBountyContext();
 
   const { submissions, isLoading } = useGetSubmissions({
-    bounties: [bounty.id],
+    bounties: [bounty.slug],
   });
 
   if (isLoading) return <Loading small />;

@@ -5,13 +5,13 @@ import { ParseBountyTitle } from '@/lib/utils/BountyHelpers';
 import { GoToBountyPage } from '@/lib/utils/Routes';
 
 export default function FromBounty({
-  bountyId,
+  slug,
   title = ' From bounty',
 }: {
-  bountyId: string;
+  slug: string;
   title?: string;
 }) {
-  const { isLoading, bounty } = useGetBounty(bountyId);
+  const { isLoading, bounty } = useGetBounty(slug);
 
   const router = useRouter();
 
@@ -26,7 +26,7 @@ export default function FromBounty({
       </span>
       <button
         className="w-fit text-left text-sm font-medium text-main-light hover:underline"
-        onClick={() => router.push(GoToBountyPage(bountyId as string))}
+        onClick={() => router.push(GoToBountyPage(slug as string))}
       >
         {parsedTitle}
       </button>

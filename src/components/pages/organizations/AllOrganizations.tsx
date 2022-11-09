@@ -4,10 +4,11 @@ import { useMemo } from 'react';
 import { AppearVariants } from '@/lib/framer/Variants';
 import { useGetAllOrganizations } from '@/lib/hooks/organizationHooks';
 import { MapOfOrgs } from '@/lib/models/MapOfOrgs';
-import { FullOrganization } from '@/lib/types';
 
 import Loading from '@/components/utils/Loading';
 import { Title } from '@/components/utils/Title';
+
+import { SmallOrg } from '@/server/routes/organizations/getOrgs';
 
 import { Organizations } from './Organizations';
 
@@ -15,22 +16,25 @@ import { Organizations } from './Organizations';
 
 export const AllOrganizations = () => {
   //*Queries
-  const { organizations, isLoading } = useGetAllOrganizations();
+  const { isLoading, organizations } = useGetAllOrganizations();
 
   //order the orgs
   const mapOfOrg: MapOfOrgs = useMemo(() => {
-    const a: { letter: string; orgs: FullOrganization[] }[] = [];
+    if (!organizations) {
+      return [];
+    }
+    const dict: { letter: string; orgs: SmallOrg[] }[] = [];
 
     for (const org of organizations) {
       let letter = org.name.charAt(0);
       if (letter === '.') letter = org.name.charAt(1);
-      const i = a.findIndex((x) => x.letter === letter);
+      const i = dict.findIndex((x) => x.letter === letter);
 
-      if (i >= 0) a[i].orgs = [...a[i].orgs, org];
-      else a.push({ letter: letter, orgs: [org] });
+      if (i >= 0) dict[i].orgs = [...dict[i].orgs, org];
+      else dict.push({ letter: letter, orgs: [org] });
     }
 
-    return a;
+    return dict;
   }, [organizations]);
 
   return (

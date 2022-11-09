@@ -1,14 +1,15 @@
 import Link from 'next/link';
 
-import { FullBounty } from '@/lib/types';
 import { GoToBountyPage } from '@/lib/utils/Routes';
+
+import { SmallBounty } from '@/server/routes/bounties/getBounties';
 
 import { BountyCardFooter } from './BountyCardFooter';
 import { BountyCardReward } from './BountyCardReward';
 import { BountyCardTags } from './BountyCardTags';
 import { BountyCardTitle } from './BountyCardTitle';
 
-export function BountyCard({ bounty }: { bounty: FullBounty }) {
+export function BountyCard({ bounty }: { bounty: SmallBounty }) {
   const animClasses = 'transition-all duration-[250] ease-out';
   const moveToLeft = 'hover:-translate-x-4';
   const moveBgtoLeft = 'group-hover:-translate-x-3';
@@ -24,7 +25,10 @@ export function BountyCard({ bounty }: { bounty: FullBounty }) {
         <span className={`relative z-10 flex flex-col gap-4 ${animClasses}`}>
           <header className="flex justify-between gap-4">
             <div>
-              <BountyCardTags bounty={bounty} />
+              <BountyCardTags
+                org={bounty.target.org.name}
+                requirements={bounty.requirements}
+              />
 
               <BountyCardTitle bounty={bounty} />
             </div>
@@ -34,7 +38,10 @@ export function BountyCard({ bounty }: { bounty: FullBounty }) {
 
           <BountyCardReward reward={bounty.wallet?.balance ?? 0} />
 
-          <BountyCardFooter bounty={bounty} />
+          <BountyCardFooter
+            amountOfSubs={bounty._count.submissions}
+            closesAt={bounty.closesAt}
+          />
         </span>
       </Link>
     </article>

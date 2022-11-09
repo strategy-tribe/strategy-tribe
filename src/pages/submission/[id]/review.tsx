@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 
-import { useGetSubmission } from '@/lib/hooks/submissionHooks';
+import { useGetSubmission } from '@/lib/hooks/submission';
 import { GoToBountiesPage } from '@/lib/utils/Routes';
 
 import AppLayout from '@/components/layouts/AppLayout';

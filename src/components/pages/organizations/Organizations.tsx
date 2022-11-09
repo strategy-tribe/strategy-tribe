@@ -15,7 +15,7 @@ export function Organizations({ map }: { map: MapOfOrgs }) {
             </p>
             <div className="space-y-6 laptop:-translate-y-10">
               {orgs.map((org) => (
-                <OrgEntry key={org.id} org={org} variants={AppearVariants} />
+                <OrgEntry key={org.name} org={org} variants={AppearVariants} />
               ))}
             </div>
           </div>

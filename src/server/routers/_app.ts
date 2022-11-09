@@ -1,12 +1,11 @@
-import { z } from 'zod';
-
 import { bountyRouter } from './bounty';
+import { invoiceRouter } from './invoice';
 import { orgRouter } from './org';
 import { reviewRouter } from './review';
 import { submissionRouter } from './submission';
 import { tagRouter } from './tags';
 import { targetRouter } from './targets';
-import { publicProcedure, router } from '../procedures';
+import { router } from '../procedures';
 
 export const appRouter = router({
   bounty: bountyRouter,
@@ -15,17 +14,7 @@ export const appRouter = router({
   tag: tagRouter,
   review: reviewRouter,
   submission: submissionRouter,
-  hello: publicProcedure
-    .input(
-      z.object({
-        text: z.string().nullish(),
-      })
-    )
-    .query(({ input }) => {
-      return {
-        greeting: `hello ${input?.text ?? 'world'}`,
-      };
-    }),
+  invoice: invoiceRouter,
 });
 
 // export type definition of API
