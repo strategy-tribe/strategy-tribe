@@ -237,9 +237,10 @@ enum RequirementType {
 
 //Users:--------------------------------------------------------------------------------
 model User {
-  internalId String @id @default(auto()) @map("_id") @db.ObjectId
-  // Use this id instead of the other one for everything. Ideally, moralis id would be the only one. This Id is Moralis` 
-  id         String @unique
+  id         String @id @default(auto()) @map("_id") @db.ObjectId
+
+  //Use to pair this user to an external service. Ideally, this would be its own table (ie, ExternalRelantionships, or something like that)
+  externalId String @unique
   signature  String @unique
 
   submissions Submission[]

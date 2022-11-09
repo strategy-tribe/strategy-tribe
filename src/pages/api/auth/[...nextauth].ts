@@ -44,7 +44,11 @@ export default NextAuth({
             await Moralis.Auth.verify({ message, signature, network: 'evm' })
           ).raw;
 
-          const u = await LogUser({ address, profileId, signature });
+          const u = await LogUser({
+            address,
+            externalId: profileId,
+            signature,
+          });
 
           if (!u) {
             throw new Error('Error signing you up');

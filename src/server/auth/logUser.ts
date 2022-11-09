@@ -1,23 +1,34 @@
+import { PrismaClient } from '@prisma/client';
+
 import prisma from '@/server/prisma/prismaClient';
+
+/** Uses the external id param to find a user */
+async function FindUserWithExternalId(
+  prisma: PrismaClient,
+  externalId: string
+) {
+  const user = await prisma.user.findUnique({
+    where: {
+      externalId,
+    },
+  });
+
+  return user;
+}
 
 /** Records a user in the database */
 export async function LogUser({
   address,
-  profileId,
+  externalId,
   signature,
 }: {
   address: string;
-  profileId: string;
+  externalId: string;
   signature: string;
 }) {
   try {
-    //why tf...
     await prisma.$connect();
-    let user = await prisma.user.findUnique({
-      where: {
-        id: profileId,
-      },
-    });
+    let user = await FindUserWithExternalId(prisma, externalId);
 
     if (user) {
       return user;
@@ -25,7 +36,7 @@ export async function LogUser({
 
     user = await prisma.user.create({
       data: {
-        id: profileId,
+        externalId: externalId,
         rol: 'REGULAR',
         address,
         signature,

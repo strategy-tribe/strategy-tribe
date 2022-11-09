@@ -13,7 +13,7 @@
     "build": "next build",
     "start": "next start",
     "format": "yarn prisma format",
-    "generate": "yarn prisma generate",
+    "generate": "yarn prisma format && yarn prisma generate",
     "studio": "yarn prisma format && yarn prisma generate && yarn prisma studio",
     "test": "jest",
     "t": "jest"
