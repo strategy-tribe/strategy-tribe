@@ -2,6 +2,7 @@ import { useRouter } from 'next/router';
 
 import { GoToBountyPage } from '@/lib/utils/Routes';
 
+import { Section } from '../../landing/Section';
 import { EditSubmission } from './EditSubmission';
 import {
   NewSubmissionContextProvider,
@@ -9,18 +10,17 @@ import {
 } from './NewSubmissionContext';
 import { NewSubmissionHeader } from './NewSubmissionHeader';
 import { ReviewSubmission } from './ReviewSubmission';
-import { Section } from '../../landing/Section';
 
-export function NewSubmission({ bountyId }: { bountyId: string }) {
+export function NewSubmission({ bountySlug }: { bountySlug: string }) {
   const router = useRouter();
 
   function redirectToBounty() {
-    router.push(GoToBountyPage(bountyId as string));
+    router.push(GoToBountyPage(bountySlug as string));
   }
 
   return (
     <NewSubmissionContextProvider
-      bountyId={bountyId as string}
+      bountyId={bountySlug as string}
       redirectToBounty={redirectToBounty}
     >
       <Content />

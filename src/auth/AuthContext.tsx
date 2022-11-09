@@ -75,7 +75,7 @@ const AuthContextProvider = ({
         account: data?.user.address,
         userInfo,
         isFetchingUserInfo: status === 'loading',
-        balance: balance ?? '...',
+        balance: balance,
       }}
     >
       {children}

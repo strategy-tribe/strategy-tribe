@@ -1,3 +1,5 @@
+import { useMemo } from 'react';
+
 import { roundToThree } from '@/lib/utils/NumberHelpers';
 
 import { useAuth } from '@/auth/AuthContext';
@@ -9,6 +11,15 @@ export function UserButton({ show }: { show: () => void }) {
 
   const wallet = cutWallet(userInfo?.mainWallet ?? '');
 
+  const parsedBalance = useMemo(() => {
+    try {
+      if (balance) return `${roundToThree(parseFloat(balance))} MATIC`;
+      else return '...';
+    } catch (error) {
+      return '...';
+    }
+  }, [balance]);
+
   return (
     <>
       {isAuthenticated && (
@@ -18,11 +29,7 @@ export function UserButton({ show }: { show: () => void }) {
           }`}
           onClick={show}
         >
-          {balance ? (
-            <span>{roundToThree(parseFloat(balance))} MATIC</span>
-          ) : (
-            <></>
-          )}
+          <span>{parsedBalance}</span>
 
           <span className="label-sm rounded-full border border-on-surface-unactive py-2 px-4 group-hover:border-main group-hover:bg-main group-hover:text-on-surface-p0">
             {wallet}

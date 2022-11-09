@@ -4,7 +4,7 @@ import { useMutation } from 'react-query';
 
 import { Donation } from '@/lib/models/donation';
 
-const CHAIN_ID = process.env.NEXT_PUBLIC_CHAIN_ID;
+const CHAIN_ID = process.env.NEXT_PUBLIC_CHAIN_ID as string;
 
 async function newDonation(donation: Donation) {
   const {
@@ -25,7 +25,7 @@ async function newDonation(donation: Donation) {
   try {
     await ethereum.request({
       method: 'wallet_switchEthereumChain',
-      params: [{ chainId: CHAIN_ID! }],
+      params: [{ chainId: CHAIN_ID }],
     });
     await ethereum.request({
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -38,7 +38,7 @@ async function newDonation(donation: Donation) {
           from,
           value: amount.toHexString(),
           to,
-          chainId: CHAIN_ID!,
+          chainId: CHAIN_ID,
         },
       ],
     });
