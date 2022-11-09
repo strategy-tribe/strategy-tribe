@@ -22,7 +22,7 @@ export function Explore({ data }: { data: MapData | undefined }) {
 
 function ExploreContent() {
   const { bountyFetch } = useExploreContext();
-  const bounties = bountyFetch?.bounties ?? [];
+
   const error = bountyFetch?.error ?? '';
 
   if (error) {

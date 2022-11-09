@@ -8,7 +8,7 @@ export const UserInputSchema = z.object({
     title: z.string(),
     type: z.nativeEnum(RequirementType),
     optional: z.boolean(),
-    bountyId: z.string().nullable(),
+    bountySlug: z.string().nullable(),
   }),
 });
 

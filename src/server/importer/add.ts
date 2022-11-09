@@ -34,7 +34,7 @@ export async function addToDb(organizations: OrgData[], targets: TargetData[]) {
     }
 
     const i = organizations.indexOf(o);
-    if (i % 10 === 0) LOG(`${i + 1}/${organizations.length} orgs created.`);
+    if (i % 3 === 0) LOG(`${i + 1}/${organizations.length} orgs created.`);
   }
 
   LOG(`All orgs created (${organizations.length})`);

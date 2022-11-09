@@ -66,9 +66,9 @@ export function SubmissionListEntry({
           <button
             className="group col-span-1 grow place-self-center text-right"
             onClick={() => {
-              navigator.clipboard.writeText(submission.authorId);
+              navigator.clipboard.writeText(submission.id);
               notify(
-                { title: 'Copied', content: submission.authorId },
+                { title: 'Copied', content: submission.id },
                 {
                   condition: false,
                   delayTime: 2,
@@ -80,7 +80,7 @@ export function SubmissionListEntry({
           >
             <span className="title block">User ID:</span>
             <span className="label-sm pt-1 text-on-surface-unactive group-hover:underline">
-              {cutString(submission.authorId)}
+              {cutString(submission.id)}
             </span>
           </button>
         )}

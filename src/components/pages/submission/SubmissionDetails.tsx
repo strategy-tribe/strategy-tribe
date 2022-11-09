@@ -50,11 +50,7 @@ export function SubmissionDetails() {
           copyable
         />
 
-        <SubmissionDetail
-          label="User ID"
-          value={submission.authorId}
-          copyable
-        />
+        <SubmissionDetail label="User ID" value={submission.id} copyable />
       </div>
     </div>
   );

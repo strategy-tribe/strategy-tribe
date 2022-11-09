@@ -54,7 +54,7 @@ export function EditSubmission() {
             title: 'Attachments',
             type: RequirementType.IMAGE,
             optional: true,
-            bountyId: '',
+            bountySlug: '',
             id: '',
           }}
           input={attachments}
