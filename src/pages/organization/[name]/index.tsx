@@ -13,14 +13,14 @@ import { NextPageWithLayout } from '@/pages/_app';
 const OrganizationPage: NextPageWithLayout = () => {
   //*Router
   const router = useRouter();
-  const { id: orgId } = router.query;
+  const name = decodeURI(router.query.name as string);
 
   //*Queries
   const {
     organization: org,
     isLoading,
     error,
-  } = useGetOrganization(orgId as string, Boolean(orgId as string));
+  } = useGetOrganization({ name }, Boolean(name as string));
 
   if (isLoading) return <Loading />;
 

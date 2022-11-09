@@ -1,3 +1,5 @@
+import { GetOrgParams } from '@/server/routes/organizations/getOrg';
+
 import { trpc } from '../trpc';
 
 export const useGetAllOrganizations = (enabled = true) => {
@@ -15,13 +17,10 @@ export const useGetAllOrganizations = (enabled = true) => {
   };
 };
 
-export const useGetOrganization = (name: string, enabled = true) => {
-  const { error, isLoading, data } = trpc.orgs.getOrg.useQuery(
-    {
-      name,
-    },
-    { enabled }
-  );
+export const useGetOrganization = (params: GetOrgParams, enabled = true) => {
+  const { error, isLoading, data } = trpc.orgs.getOrg.useQuery(params, {
+    enabled,
+  });
 
   return {
     ...data,

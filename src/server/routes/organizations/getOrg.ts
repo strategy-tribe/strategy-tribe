@@ -4,7 +4,7 @@ import { z } from 'zod';
 
 import { publicProcedure } from '@/server/procedures';
 
-export const GetOrgSchema = z.object({
+const GetOrgSchema = z.object({
   name: z.string(),
 });
 

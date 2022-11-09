@@ -8,7 +8,6 @@ import { Order } from '@/lib/models/Order';
 import { ArrayOfNumbers } from '@/lib/utils/ArrayHelpers';
 import { GoTo404Page, GoToOrgPage } from '@/lib/utils/Routes';
 
-import AppLayout from '@/components/layouts/AppLayout';
 import {
   BountyCard,
   DummyBountyCard,
@@ -32,7 +31,7 @@ const OrganizationBountiesPage: NextPageWithLayout = () => {
 
   //*Queries
   const { organization: org, error } = useGetOrganization(
-    name as string,
+    { name },
     Boolean(name as string)
   );
 
@@ -93,6 +92,3 @@ const OrganizationBountiesPage: NextPageWithLayout = () => {
 };
 
 export default OrganizationBountiesPage;
-OrganizationBountiesPage.getLayout = function getLayout(page) {
-  return <AppLayout>{page}</AppLayout>;
-};

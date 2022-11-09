@@ -20,7 +20,16 @@ async function getOrganizationsWithMetaData(
 ) {
   const organizations = await prisma.organization.findMany({
     take: input?.amount,
-    include: {
+    select: {
+      name: true,
+      bio: true,
+      alsoKnownAs: true,
+      wallet: {
+        select: {
+          address: true,
+          balance: true,
+        },
+      },
       tags: true,
       countries: true,
       targets: {
