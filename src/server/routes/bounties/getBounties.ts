@@ -106,6 +106,7 @@ async function getBountiesWithMetaData(
   //TODO: Use the input params to filter the bounties
   const bounties = await prisma.bounty.findMany({
     where,
+    orderBy: getOrderBy(input.order, input.orderBy),
     skip: (input?.amount ?? 0) * (input?.page ?? 0),
     take: input.amount,
     select: SMALL_BOUNTY_SELECTION,
@@ -113,6 +114,34 @@ async function getBountiesWithMetaData(
 
   return bounties;
 }
+
+const getOrderBy = (order: Order, orderBy?: BountyOrderBy) => {
+  if (orderBy) {
+    switch (orderBy) {
+      case BountyOrderBy.Bounty:
+        return {
+          wallet: {
+            balance: order,
+          },
+        };
+      case BountyOrderBy.CreatedAt:
+        return {
+          createdAt: order,
+        };
+      case BountyOrderBy.ClosesAt:
+        return {
+          closesAt: order,
+        };
+      case BountyOrderBy.Submissions:
+        return {
+          submissions: {
+            _count: order,
+          },
+        };
+    }
+  }
+  return {};
+};
 
 async function countBounties(prisma: PrismaClient, input: GetBountiesParams) {
   let where = {};
