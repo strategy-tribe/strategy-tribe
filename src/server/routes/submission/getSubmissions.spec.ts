@@ -6,8 +6,7 @@ import {
 import { faker } from '@faker-js/faker';
 import { Rol } from '@prisma/client';
 
-import { getSubmissions } from './getSubmissions';
-import { iGetSubmissionsSchema } from './schemas';
+import { GetSubmissionsParams, _getSubmissions } from './getSubmissions';
 
 let mockCtx: MockContext;
 let ctx: Context;
@@ -54,58 +53,62 @@ beforeEach(() => {
 
 describe('submissions auth', () => {
   it('allows users to not pass their id to access their submissions', async () => {
-    const params: iGetSubmissionsSchema = {
-      bounties: ['1'],
+    const params: GetSubmissionsParams = {
+      bounties: ['slug1'],
     };
-    const results = await getSubmissions(params, currUser, mockCtx.prisma);
-
-    expect(results).toBeTruthy();
+    await expect(
+      _getSubmissions(params, currUser, mockCtx.prisma)
+    ).resolves.not.toThrow('UNAUTHORIZED');
   });
 
   describe('blocks users from fetching submission that are not theirs', () => {
     it("when they ask for only other's", async () => {
-      const params: iGetSubmissionsSchema = {
+      const params: GetSubmissionsParams = {
         bounties: ['1'],
         owners: [otherUser.profileId],
       };
 
       await expect(
-        getSubmissions(params, currUser, mockCtx.prisma)
+        _getSubmissions(params, currUser, mockCtx.prisma)
       ).rejects.toThrow('UNAUTHORIZED');
     });
 
     it("when they combine theirs and other's", async () => {
-      const params: iGetSubmissionsSchema = {
+      const params: GetSubmissionsParams = {
         bounties: ['1'],
         owners: [currUser.profileId, otherUser.profileId],
       };
 
       await expect(
-        getSubmissions(params, currUser, mockCtx.prisma)
+        _getSubmissions(params, currUser, mockCtx.prisma)
       ).rejects.toThrow('UNAUTHORIZED');
     });
   });
 
   it('allows ADMIN to access all submissions', async () => {
     const user = adminUser;
-    const params: iGetSubmissionsSchema = {
+    const params: GetSubmissionsParams = {
       bounties: ['1'],
       owners: [otherUser.profileId],
     };
-    const results = await getSubmissions(params, user, mockCtx.prisma);
+    await expect(
+      _getSubmissions(params, user, mockCtx.prisma)
+    ).resolves.not.toThrow('UNAUTHORIZED');
 
     expect(user.rol).toBe('ADMIN');
-    expect(results).toBeTruthy();
   });
 
   it('allows STAFF to access all submissions', async () => {
-    const params: iGetSubmissionsSchema = {
+    const user = staffUser;
+
+    const params: GetSubmissionsParams = {
       bounties: ['1'],
       owners: [otherUser.profileId],
     };
-    const results = await getSubmissions(params, staffUser, mockCtx.prisma);
+    await expect(
+      _getSubmissions(params, user, mockCtx.prisma)
+    ).resolves.not.toThrow('UNAUTHORIZED');
 
-    expect(staffUser.rol).toBe('STAFF');
-    expect(results).toBeTruthy();
+    expect(user.rol).toBe('STAFF');
   });
 });

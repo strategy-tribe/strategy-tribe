@@ -59,8 +59,8 @@ model Tag {
   id   String @id @default(auto()) @map("_id") @db.ObjectId
   name String @unique
 
-  bountiesIDs String[] @db.ObjectId
-  bounties    Bounty[] @relation(fields: [bountiesIDs], references: [id])
+  bounties      Bounty[] @relation(fields: [bountiesSlugs], references: [slug])
+  bountiesSlugs String[] @db.ObjectId
 
   orgsIDs String[]       @db.ObjectId
   orgs    Organization[] @relation(fields: [orgsIDs], references: [id])
@@ -72,7 +72,7 @@ model Tag {
 model Wallet {
   id           String        @id @default(auto()) @map("_id") @db.ObjectId
   address      String        @unique
-  balance      Int
+  balance      Float
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @default(now())
   bounty       Bounty?
@@ -91,8 +91,7 @@ model Key {
 }
 
 model Bounty {
-  id    String @id @default(auto()) @map("_id") @db.ObjectId
-  slug  String @unique @default(uuid())
+  slug  String @id @default(auto()) @map("_id") @db.ObjectId
   title String @unique
 
   description String
@@ -151,7 +150,7 @@ model Submission {
   answers Answer[]
 
   bounty     Bounty? @relation(fields: [bountySlug], references: [slug])
-  bountySlug String? @db.ObjectId
+  bountySlug String?
 
   review Review?
 
@@ -196,8 +195,8 @@ model Invoice {
   submission   Submission @relation(fields: [submissionId], references: [id])
   submissionId String     @unique
 
-  bounty   Bounty @relation(fields: [bountyId], references: [id])
-  bountyId String @unique
+  bounty     Bounty @relation(fields: [bountySlug], references: [slug])
+  bountySlug String @unique
 
   status InvoiceStatus
 
@@ -217,13 +216,13 @@ enum ReviewGrade {
 }
 
 model Requirement {
-  id       String          @id @default(auto()) @map("_id") @db.ObjectId
-  title    String
-  type     RequirementType
-  optional Boolean
-  bounty   Bounty?         @relation(fields: [bountyId], references: [id])
-  bountyId String?         @db.ObjectId
-  Answer   Answer[]
+  id         String          @id @default(auto()) @map("_id") @db.ObjectId
+  title      String
+  type       RequirementType
+  optional   Boolean
+  bounty     Bounty?         @relation(fields: [bountySlug], references: [slug])
+  bountySlug String?
+  Answer     Answer[]
 }
 
 enum RequirementType {
@@ -238,9 +237,10 @@ enum RequirementType {
 
 //Users:--------------------------------------------------------------------------------
 model User {
-  id        String @id @default(auto()) @map("_id") @db.ObjectId
-  moralisId String @unique
-  signature String @unique
+  internalId String @id @default(auto()) @map("_id") @db.ObjectId
+  // Use this id instead of the other one for everything. Ideally, moralis id would be the only one. This Id is Moralis` 
+  id         String @unique
+  signature  String @unique
 
   submissions Submission[]
   address     String       @unique

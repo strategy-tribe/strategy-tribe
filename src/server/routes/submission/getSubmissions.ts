@@ -7,6 +7,7 @@ import { Order } from '@/lib/models/Order';
 
 import { signedInOnlyProcedure } from '@/server/procedures';
 
+import { SMALL_BOUNTY_SELECTION } from '../bounties/getBounties';
 import { ArrayElement, ThenArg } from '../utils/helperTypes';
 
 /** Schema used to query for submissions */
@@ -47,7 +48,30 @@ function isRequestForSubmissionsValid(
   return true;
 }
 
-const _getSubmissions = async (
+/** Defines how to query the database to obtain `SmallSubmission`
+ *
+ * Exporting this so other queries can also fulfil having a `SmallBounty` in their "includes"
+ *
+ */
+export const SMALL_SUBMISSION_SELECT =
+  Prisma.validator<Prisma.SubmissionSelect>()({
+    state: true,
+    createdAt: true,
+    updatedAt: true,
+    id: true,
+    bounty: {
+      select: SMALL_BOUNTY_SELECTION,
+    },
+    answers: {
+      select: {
+        requirement: true,
+        answer: true,
+      },
+    },
+    review: true,
+  });
+
+export const _getSubmissions = async (
   input: GetSubmissionsParams,
   user: User,
   prisma: PrismaClient
@@ -62,7 +86,7 @@ const _getSubmissions = async (
   const where = Prisma.validator<Prisma.SubmissionWhereInput>()({
     AND: {
       state: input.state,
-      authorId: owners
+      id: owners
         ? {
             in: owners,
           }
@@ -77,6 +101,7 @@ const _getSubmissions = async (
         : undefined,
     },
   });
+
   const submissions = await prisma.submission.findMany({
     where: where,
     skip: (input?.amount ?? 0) * (input?.page ?? 0),
@@ -112,7 +137,7 @@ const countSubmissions = async (
   const where = Prisma.validator<Prisma.SubmissionWhereInput>()({
     AND: {
       state: input.state,
-      authorId: owners
+      id: owners
         ? {
             in: owners,
           }

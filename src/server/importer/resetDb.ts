@@ -1,17 +1,40 @@
 import prisma from '@/server/prisma/prismaClient';
 
-import { LOG } from './utils';
+import { WARN } from './utils';
 
 export async function ResetDB() {
-  await prisma.$connect();
-  await prisma.organization.deleteMany();
-  await prisma.review.deleteMany();
-  await prisma.bounty.deleteMany();
-  await prisma.tag.deleteMany();
-  await prisma.submission.deleteMany();
   await prisma.answer.deleteMany();
+  WARN('deleted answer');
+
   await prisma.requirement.deleteMany();
+  WARN('deleted requirements');
+
+  await prisma.invoice.deleteMany();
+  WARN('deleted invoices');
+
+  await prisma.review.deleteMany();
+  WARN('deleted reviews');
+
+  await prisma.tag.deleteMany();
+  WARN('deleted tags');
+
+  await prisma.submission.deleteMany();
+  WARN('deleted subs');
+
+  await prisma.organization.deleteMany();
+  WARN('deleted orgs');
+
+  await prisma.bounty.deleteMany();
+  WARN('deleted bounties');
+
   await prisma.target.deleteMany();
+  WARN('deleted targets');
+
   await prisma.wallet.deleteMany();
-  LOG(`Reset DB`);
+  WARN('deleted wallets');
+
+  await prisma.key.deleteMany();
+  WARN('deleted keys');
+
+  WARN(`DB is now empty. Left: Users`);
 }

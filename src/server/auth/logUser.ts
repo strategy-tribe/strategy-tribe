@@ -15,7 +15,7 @@ export async function LogUser({
     await prisma.$connect();
     let user = await prisma.user.findUnique({
       where: {
-        moralisId: profileId,
+        id: profileId,
       },
     });
 
@@ -25,7 +25,7 @@ export async function LogUser({
 
     user = await prisma.user.create({
       data: {
-        moralisId: profileId,
+        id: profileId,
         rol: 'REGULAR',
         address,
         signature,

@@ -30,7 +30,7 @@ function Title() {
   return (
     <h2 className="title-sm text-on-surface-p0">
       {isStaff || isAdmin
-        ? `Submission by ${submission.authorId}`
+        ? `Submission by ${submission.id}`
         : 'Your submission'}
     </h2>
   );
@@ -44,7 +44,7 @@ function UserStats() {
   const { data: submitterInfo } = useSubmitterInfo(
     {
       bountySlug: bounty?.slug ?? '',
-      submitterId: submission.authorId,
+      submitterId: submission.id,
     },
     !!bounty?.slug
   );

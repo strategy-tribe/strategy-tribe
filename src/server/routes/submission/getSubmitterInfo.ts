@@ -16,12 +16,12 @@ export const getSubmitterInfo = staffOnlyProcedure
     try {
       const totalSubmissions: number = await prisma.submission.count({
         where: {
-          authorId: input.submitterId,
+          id: input.submitterId,
         },
       });
       const bountySubmissions: number = await prisma.submission.count({
         where: {
-          authorId: input.submitterId,
+          id: input.submitterId,
           bountySlug: input.bountySlug,
         },
       });

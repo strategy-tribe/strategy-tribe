@@ -5,10 +5,10 @@ import { z } from 'zod';
 
 import { signedInOnlyProcedure } from '@/server/procedures';
 
-import { isBountyOpen } from '../../utils/isBountyOpen';
-import { spotsLeftForUser } from '../../utils/spotsLeftForUser';
 import { areAnswersValid } from './areAnswersValid';
 import { UserInputSchema } from './UserInput';
+import { isBountyOpen } from '../../utils/isBountyOpen';
+import { spotsLeftForUser } from '../../utils/spotsLeftForUser';
 
 /** Schema used to query for submissions */
 const PostSubmissionSchema = z.object({

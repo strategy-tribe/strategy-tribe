@@ -5,7 +5,7 @@ import { z } from 'zod';
 
 import { signedInOnlyProcedure } from '@/server/procedures';
 
-import { SMALL_BOUNTY_SELECTION } from '../bounties/getBounties';
+import { SMALL_SUBMISSION_SELECT } from './getSubmissions';
 import { ThenArg } from '../utils/helperTypes';
 
 /** Schema used to query for submissions */
@@ -29,26 +29,19 @@ const _getSubmission = async (
     where: {
       id: id,
     },
+    //Add more for this one
     select: {
-      state: true,
-      createdAt: true,
-      updatedAt: true,
-      authorId: true,
-      id: true,
-      bounty: {
-        select: SMALL_BOUNTY_SELECTION,
-      },
-      answers: {
+      ...SMALL_SUBMISSION_SELECT,
+      author: {
         select: {
-          requirement: true,
-          answer: true,
+          address: true,
+          id: true,
         },
       },
-      review: true,
     },
   });
 
-  if (submission?.authorId !== userId || (!isAdmin && !isStaff)) {
+  if (submission?.author.id !== userId || (!isAdmin && !isStaff)) {
     throw new TRPCError({ code: 'UNAUTHORIZED' });
   }
 

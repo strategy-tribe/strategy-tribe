@@ -2,6 +2,7 @@ import { Requirement, RequirementType } from '@prisma/client';
 import { useEffect, useState } from 'react';
 
 import { GetWordCount } from '@/lib/utils/StringHelpers';
+
 import { FullBounty } from '@/server/routes/bounties/getBounty';
 
 import Icon from './Icon';
