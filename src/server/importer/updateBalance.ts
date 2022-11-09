@@ -1,8 +1,8 @@
 import { EtherscanProvider } from '@ethersproject/providers';
 import { ethers } from 'ethers';
 
-import { ERROR } from './utils';
 import prisma from '../prisma/prismaClient';
+import { ERROR } from './utils';
 
 export async function UpdateBalance() {
   try {
