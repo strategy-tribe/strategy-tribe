@@ -16,6 +16,8 @@ import '../styles/globals.css';
 
 import { trpc } from '@/lib/trpc';
 
+import { NotificationcontextProvider as NotificationContextProvider } from '@/components/notifications/NotificationContext';
+
 import AuthContextProvider from '@/auth/AuthContext';
 
 const { provider, webSocketProvider } = configureChains(defaultChains, [
@@ -55,13 +57,13 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
         <SessionProvider session={(pageProps as any).session}>
           <QueryClientProvider client={queryClient}>
             {/* <Hydrate state={pageProps.dehydratedState}> */}
-            {/* <NotificationContextProvider> */}
-            <AuthContextProvider>
-              {/* <PushNotifsContextProvider appId={onesignal_appId as string}> */}
-              {getLayout(<Component {...pageProps} />, pageProps)}
-              {/* </PushNotifsContextProvider> */}
-            </AuthContextProvider>
-            {/* </NotificationContextProvider> */}
+            <NotificationContextProvider>
+              <AuthContextProvider>
+                {/* <PushNotifsContextProvider appId={onesignal_appId as string}> */}
+                {getLayout(<Component {...pageProps} />, pageProps)}
+                {/* </PushNotifsContextProvider> */}
+              </AuthContextProvider>
+            </NotificationContextProvider>
             {/* </Hydrate> */}
           </QueryClientProvider>
         </SessionProvider>

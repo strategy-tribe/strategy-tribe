@@ -35,4 +35,5 @@ export type OrgData = {
   bio: string | undefined;
   why: string | undefined;
   links: string[] | undefined;
+  bounties: string[] | undefined;
 };

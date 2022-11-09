@@ -67,6 +67,7 @@ function scrapOrganizations(rows: Row[]): OrgData[] {
       bio: row[4],
       why: row[5],
       links: typeof row[6] === 'string' ? row[6].split(',') : [],
+      bounties: typeof row[7] === 'string' ? row[6].split(',') : [],
     };
 
     org.alsoKnownAs =
@@ -76,6 +77,8 @@ function scrapOrganizations(rows: Row[]): OrgData[] {
       org.countries?.map((word) => word?.toUpperCase()?.trim()) || [];
 
     org.links = org.links?.map((word) => word?.toLowerCase()?.trim()) || [];
+    org.bounties =
+      org.bounties?.map((word) => word?.toLowerCase()?.trim()) || [];
 
     organizationsData.push(org);
   }
