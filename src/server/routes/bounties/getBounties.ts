@@ -12,14 +12,7 @@ import { ArrayElement } from '../utils/helperTypes';
 /** Params necessary to call `getBountiesWithMetaData`  */
 const GetBountiesSchema = z.object({
   order: z.nativeEnum(Order),
-  orderBy: z
-    .enum([
-      BountyOrderBy.Bounty,
-      BountyOrderBy.ClosesAt,
-      BountyOrderBy.CreatedAt,
-      BountyOrderBy.Submissions,
-    ])
-    .optional(),
+  orderBy: z.nativeEnum(BountyOrderBy).optional(),
   searchTerm: z.string().optional(),
   paginate: z.boolean().optional(),
   amount: z.number().optional(),
@@ -104,9 +97,12 @@ async function getBountiesWithMetaData(
     };
   }
   //TODO: Use the input params to filter the bounties
+  const orderBy = {
+    ...getOrderBy(input.order, input.orderBy),
+  };
   const bounties = await prisma.bounty.findMany({
     where,
-    orderBy: getOrderBy(input.order, input.orderBy),
+    orderBy: orderBy,
     skip: (input?.amount ?? 0) * (input?.page ?? 0),
     take: input.amount,
     select: SMALL_BOUNTY_SELECTION,
@@ -115,7 +111,10 @@ async function getBountiesWithMetaData(
   return bounties;
 }
 
-const getOrderBy = (order: Order, orderBy?: BountyOrderBy) => {
+const getOrderBy = (
+  order: Order,
+  orderBy?: BountyOrderBy
+): Prisma.BountyOrderByWithRelationInput => {
   if (orderBy) {
     switch (orderBy) {
       case BountyOrderBy.Bounty:
