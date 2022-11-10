@@ -12,44 +12,10 @@ const GetBountySchema = z.object({
 
 const bountySelector = Prisma.validator<Prisma.BountySelect>()({
   ...SMALL_BOUNTY_SELECTION,
-  title: true,
-  slug: true,
-  description: true,
-  closesAt: true,
-  _count: true,
-  requirements: true,
-  status: true,
   wallet: {
     select: {
       address: true,
       balance: true,
-    },
-  },
-  tags: {
-    select: {
-      name: true,
-      _count: true,
-    },
-  },
-  target: {
-    select: {
-      type: true,
-      alsoKnownAs: true,
-      description: true,
-      _count: true,
-      name: true,
-      org: {
-        select: {
-          name: true,
-          alsoKnownAs: true,
-          countries: true,
-          tags: {
-            select: {
-              name: true,
-            },
-          },
-        },
-      },
     },
   },
 });

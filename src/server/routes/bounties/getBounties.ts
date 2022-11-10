@@ -46,28 +46,19 @@ export const SMALL_BOUNTY_SELECTION = Prisma.validator<Prisma.BountySelect>()({
       balance: true,
     },
   },
-  tags: {
-    select: {
-      name: true,
-      _count: true,
-    },
-  },
+  tags: true,
   target: {
     select: {
       type: true,
       name: true,
       alsoKnownAs: true,
-      description: true,
+      bio: true,
       org: {
         select: {
           name: true,
           alsoKnownAs: true,
           countries: true,
-          tags: {
-            select: {
-              name: true,
-            },
-          },
+          tags: true,
         },
       },
     },
@@ -173,7 +164,9 @@ export const getBounties = publicProcedure
   .input(GetBountiesSchema)
   .query(async ({ input, ctx: { prisma } }) => {
     try {
+      console.time('get bounties w sql');
       const bounties = await getBountiesWithMetaData(prisma, input);
+      console.timeEnd('get bounties w sql');
       const count = await countBounties(prisma, input);
       return { bounties, count };
     } catch (error) {

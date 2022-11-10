@@ -21,20 +21,26 @@ export async function ResetDB() {
   await prisma.submission.deleteMany();
   WARN('deleted subs');
 
+  await prisma.target.deleteMany();
+  WARN('deleted targets');
+
   await prisma.organization.deleteMany();
   WARN('deleted orgs');
 
   await prisma.bounty.deleteMany();
   WARN('deleted bounties');
 
-  await prisma.target.deleteMany();
-  WARN('deleted targets');
-
   await prisma.wallet.deleteMany();
   WARN('deleted wallets');
 
   await prisma.key.deleteMany();
   WARN('deleted keys');
+
+  await prisma.country.deleteMany();
+  WARN('deleted countries');
+
+  await prisma.user.deleteMany();
+  WARN('deleted users');
 
   WARN(`DB is now empty. Left: Users`);
 }

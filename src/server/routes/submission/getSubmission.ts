@@ -5,8 +5,8 @@ import { z } from 'zod';
 
 import { signedInOnlyProcedure } from '@/server/procedures';
 
-import { SMALL_SUBMISSION_SELECT } from './getSubmissions';
 import { ThenArg } from '../utils/helperTypes';
+import { SMALL_SUBMISSION_SELECT } from './getSubmissions';
 
 /** Schema used to query for submissions */
 const GetSubmissionSchema = z.object({
@@ -41,7 +41,11 @@ const _getSubmission = async (
     },
   });
 
-  if (submission?.author.id !== userId || (!isAdmin && !isStaff)) {
+  const isNoSpecial = !isAdmin && !isStaff;
+  const authorWasDeleted = !submission?.author;
+  const userIsAskingForSomeoneElse = submission?.author?.id !== userId;
+
+  if (isNoSpecial && (authorWasDeleted || userIsAskingForSomeoneElse)) {
     throw new TRPCError({ code: 'UNAUTHORIZED' });
   }
 
@@ -51,11 +55,12 @@ const _getSubmission = async (
 export const getSubmission = signedInOnlyProcedure
   .input(GetSubmissionSchema)
   .query(async ({ input, ctx }) => {
-    const submission: FullSubmission = await _getSubmission(
+    const submission: FullSubmission | null = await _getSubmission(
       ctx.prisma,
       ctx.session.user,
       input
     );
+
     return { submission };
   });
 

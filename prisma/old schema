@@ -1,0 +1,282 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum TargetType {
+  ORG
+  INDIVIDUAL
+}
+
+enum BountyState {
+  WaitingForFunds
+  Open
+  PaymentNeeded
+  Closed
+}
+
+enum SubmissionState {
+  WaitingForReview
+  Rejected
+  WaitingForPayment
+  Accepted
+}
+
+model Target {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  alsoKnownAs String[]
+  description String?
+
+  bounties Bounty[]
+
+  org            Organization @relation(fields: [organizationId], references: [id])
+  organizationId String
+
+  type TargetType
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+}
+
+model Country {
+  id   String @id @default(cuid()) @map("_id")
+  name String @unique
+  code String @unique
+
+  organizations CountriesOnOrganizations[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+}
+
+model Tag {
+  id   String @id @default(cuid()) @map("_id")
+  
+  name String @unique
+
+  bounties TagsOnBounties[]
+
+  orgs TagsOnOrganizations[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+}
+
+model TagsOnBounties {
+  bounty   Bounty @relation(fields: [bountyId], references: [slug])
+  bountyId String // relation scalar field (used in the `@relation` attribute above)
+  tag      Tag    @relation(fields: [tagId], references: [id])
+  tagId    String // relation scalar field (used in the `@relation` attribute above)
+
+  @@id([bountyId, tagId])
+}
+
+model TagsOnOrganizations {
+  org   Organization @relation(fields: [orgId], references: [id])
+  orgId String // relation scalar field (used in the `@relation` attribute above)
+  tag   Tag          @relation(fields: [tagId], references: [id])
+  tagId String // relation scalar field (used in the `@relation` attribute above)
+
+  @@id([orgId, tagId])
+}
+
+model CountriesOnOrganizations {
+  org       Organization @relation(fields: [orgId], references: [id])
+  orgId     String // relation scalar field (used in the `@relation` attribute above)
+  country   Country      @relation(fields: [countryId], references: [id])
+  countryId String // relation scalar field (used in the `@relation` attribute above)
+
+  @@id([orgId, countryId])
+}
+
+model Wallet {
+  id           String        @id @default(cuid()) @map("_id")
+  address      String        @unique
+  balance      Float
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @default(now())
+  bounty       Bounty?
+  Organization Organization?
+}
+
+model Key {
+  id             String   @id @default(cuid()) @map("_id")
+  address        String   @unique
+  balance        Int
+  privateKey     String
+  publicKey      String
+  mnemonicPhrase String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @default(now())
+}
+
+model Bounty {
+  slug  String @id @default(cuid())
+  title String @unique
+
+  description String
+
+  requirements Requirement[]
+
+  target   Target @relation(fields: [targetId], references: [id])
+  targetId String
+
+  status BountyState
+
+  tags TagsOnBounties[]
+
+  submissions Submission[]
+
+  wallet   Wallet @relation(fields: [walletId], references: [id])
+  walletId String @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+  closesAt  DateTime
+  Invoice   Invoice?
+}
+
+model Organization {
+  id String @id @default(cuid()) @map("_id")
+
+  name        String   @unique
+  alsoKnownAs String[]
+  bio         String?
+  why         String?
+  links       String[]
+
+  tags TagsOnOrganizations[]
+
+  countries CountriesOnOrganizations[]
+
+  wallet   Wallet @relation(fields: [walletId], references: [id])
+  walletId String @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+
+  targets Target[]
+}
+
+model Submission {
+  id       String          @id @default(cuid()) @map("_id")
+  author   User            @relation(fields: [authorId], references: [id])
+  authorId String          @map("userId")
+  state    SubmissionState
+
+  answers Answer[]
+
+  bounty     Bounty? @relation(fields: [bountySlug], references: [slug])
+  bountySlug String?
+
+  review Review?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+
+  Invoice Invoice?
+}
+
+model Answer {
+  id     String @id @default(cuid()) @map("_id")
+  answer String
+
+  requirement   Requirement @relation(fields: [requirementId], references: [id])
+  requirementId String
+
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @default(now())
+  Submission   Submission? @relation(fields: [submissionId], references: [id])
+  submissionId String?
+}
+
+model Review {
+  id String @id @default(cuid()) @map("_id")
+
+  reviewer   User   @relation(fields: [reviewerId], references: [id])
+  reviewerId String
+
+  content String
+
+  submission   Submission @relation(fields: [submissionId], references: [id])
+  submissionId String     @unique
+
+  grade ReviewGrade
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+}
+
+model Invoice {
+  id           String     @id @default(cuid()) @map("_id")
+  submission   Submission @relation(fields: [submissionId], references: [id])
+  submissionId String     @unique
+
+  bounty     Bounty @relation(fields: [bountySlug], references: [slug])
+  bountySlug String @unique
+
+  status InvoiceStatus
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+}
+
+enum InvoiceStatus {
+  Paid
+  Unpaid
+  Error
+}
+
+enum ReviewGrade {
+  Accepted
+  Rejected
+}
+
+model Requirement {
+  id         String          @id @default(cuid()) @map("_id")
+  title      String
+  type       RequirementType
+  optional   Boolean
+  bounty     Bounty?         @relation(fields: [bountySlug], references: [slug])
+  bountySlug String?
+  Answer     Answer[]
+}
+
+enum RequirementType {
+  IMAGE
+  REPORT
+  WALLET
+  DOMAIN
+  PHONE_NUMBER
+  SOCIAL_MEDIA_ACCOUNT
+  EMAIL
+}
+
+//Users:--------------------------------------------------------------------------------
+model User {
+  id String @id @default(cuid()) @map("_id")
+
+  //Use to pair this user to an external service. Ideally, this would be its own table (ie, ExternalRelantionships, or something like that)
+  externalId String @unique
+  signature  String @unique
+
+  submissions Submission[]
+  address     String       @unique
+  rol         Rol
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+
+  review Review[]
+}
+
+enum Rol {
+  REGULAR
+  STAFF
+  ADMIN
+}

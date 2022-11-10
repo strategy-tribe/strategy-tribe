@@ -5,11 +5,11 @@ import { Title } from '@/components/utils/Title';
 
 import { RequirementType } from '@prisma/client';
 
+import { UserInput } from '../../../../server/routes/submission/postSubmission/UserInput';
 import { ImageUploader } from './edit/ImageUploader';
 import { RequirementChecker } from './edit/RequirementChecker';
 import { RequirementEditor } from './edit/RequirementEditor';
 import { useNewSubmissionContext } from './NewSubmissionContext';
-import { UserInput } from '../../../../server/routes/submission/postSubmission/UserInput';
 
 export function EditSubmission() {
   //*Context
@@ -52,7 +52,7 @@ export function EditSubmission() {
         <RequirementChecker
           requirement={{
             title: 'Attachments',
-            type: RequirementType.IMAGE,
+            type: RequirementType.Image,
             optional: true,
             bountySlug: '',
             id: '',

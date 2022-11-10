@@ -26,7 +26,7 @@ export function BountyCard({ bounty }: { bounty: SmallBounty }) {
           <header className="flex justify-between gap-4">
             <div>
               <BountyCardTags
-                org={bounty.target.org.name}
+                org={bounty.target.org?.name ?? 'Unknown organization'}
                 requirements={bounty.requirements}
               />
 

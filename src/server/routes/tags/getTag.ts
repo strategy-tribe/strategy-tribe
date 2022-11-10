@@ -16,25 +16,8 @@ async function _getTag(prisma: PrismaClient, params: GetTagParams) {
       name,
     },
     include: {
-      bounties: {
-        select: {
-          slug: true,
-          title: true,
-          tags: true,
-          _count: {
-            select: {
-              submissions: true,
-            },
-          },
-        },
-      },
-      orgs: {
-        select: {
-          name: true,
-          bio: true,
-          _count: true,
-        },
-      },
+      bounties: true,
+      orgs: true,
       _count: true,
     },
   });

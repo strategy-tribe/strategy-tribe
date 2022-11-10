@@ -89,7 +89,7 @@ export const NewSubmissionContextProvider = ({
       const inputs = requirements?.map((req) => {
         const userInput: UserInput = {
           requirement: req,
-          input: req.type === RequirementType.IMAGE ? [] : '',
+          input: req.type === RequirementType.Image ? [] : '',
         };
         return userInput;
       });

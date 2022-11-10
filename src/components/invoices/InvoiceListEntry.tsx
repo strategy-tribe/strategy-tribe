@@ -1,6 +1,10 @@
 import Link from 'next/link';
 
-import { GoToBountyPage, GoToSubmissionPage } from '@/lib/utils/Routes';
+import {
+  GoTo404Page,
+  GoToBountyPage,
+  GoToSubmissionPage,
+} from '@/lib/utils/Routes';
 
 import { Button, ButtonStyle } from '@/components/utils/Button';
 
@@ -15,12 +19,16 @@ export function InvoiceListEntry({
 }) {
   return (
     <div className="grid w-full grid-cols-12 place-items-center gap-x-8">
-      <Link href={GoToBountyPage(bounty.slug)}>
+      <Link href={bounty ? GoToBountyPage(bounty.slug) : GoTo404Page()}>
         <span className="group col-span-8 w-full">
-          <span className="label-sm text-main-light ">
-            {bounty.wallet.balance} MATIC
-          </span>
-          <h5 className="title-sm group-hover:underline">{bounty.title}</h5>
+          {bounty && (
+            <>
+              <span className="label-sm text-main-light ">
+                {bounty.wallet.balance} MATIC
+              </span>
+              <h5 className="title-sm group-hover:underline">{bounty.title}</h5>
+            </>
+          )}
         </span>
       </Link>
 

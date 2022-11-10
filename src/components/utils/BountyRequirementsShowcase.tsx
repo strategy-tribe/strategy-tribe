@@ -134,21 +134,21 @@ function RequirementChecker({
 
   useEffect(() => {
     switch (type) {
-      case RequirementType.EMAIL:
+      case RequirementType.Email:
         _setPassed(optional ? true : content.includes('@'));
         setMessage('Your input must contain an email address.');
         break;
-      case RequirementType.IMAGE:
+      case RequirementType.Image:
         _setPassed(optional ? true : files.length > 0);
         setMessage('You must attach at least one image.');
         break;
-      case RequirementType.REPORT: {
+      case RequirementType.Report: {
         const wordCount = GetWordCount(content);
         _setPassed(optional ? true : wordCount > 200);
         setMessage('Your input must be longer than 200 words');
         break;
       }
-      case RequirementType.DOMAIN:
+      case RequirementType.Domain:
         _setPassed(
           optional
             ? true
@@ -156,7 +156,7 @@ function RequirementChecker({
         );
         setMessage('Your input must be http link');
         break;
-      case RequirementType.WALLET:
+      case RequirementType.Wallet:
         _setPassed(optional ? true : content.length > 12);
         setMessage('Your input must contain a wallet address');
         break;

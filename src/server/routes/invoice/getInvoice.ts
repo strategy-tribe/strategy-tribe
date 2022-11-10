@@ -3,6 +3,7 @@ import { z } from 'zod';
 
 import { adminOnlyProcedure } from '@/server/procedures';
 
+import { SMALL_BOUNTY_SELECTION } from '../bounties/getBounties';
 import { ThenArg } from '../utils/helperTypes';
 
 const getInvoiceSchema = z.object({
@@ -21,18 +22,7 @@ async function _getInvoice(
     },
     select: {
       bounty: {
-        select: {
-          title: true,
-          slug: true,
-          description: true,
-          _count: true,
-          wallet: {
-            select: {
-              address: true,
-              balance: true,
-            },
-          },
-        },
+        select: SMALL_BOUNTY_SELECTION,
       },
       status: true,
       submission: {

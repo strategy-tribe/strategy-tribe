@@ -13,17 +13,8 @@ async function _getOrg(prisma: PrismaClient, params: GetOrgParams) {
     where: { name: params.name },
     //TODO: Swap include for select
     include: {
-      tags: {
-        select: {
-          name: true,
-        },
-      },
-      countries: {
-        select: {
-          name: true,
-          code: true,
-        },
-      },
+      tags: true,
+      countries: true,
       wallet: {
         select: {
           address: true,

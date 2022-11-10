@@ -66,7 +66,7 @@ export function RequirementChecker({
             </div>
             {typeof input === 'string' && (
               <span
-                className={`${type !== RequirementType.REPORT && 'invisible'}`}
+                className={`${type !== RequirementType.Report && 'invisible'}`}
               >
                 {GetWordCount(input as string)}{' '}
                 {GetWordCount(input as string) === 1 ? 'word' : 'words'}

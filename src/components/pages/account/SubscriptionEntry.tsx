@@ -14,7 +14,7 @@ export function SubscriptionEntry({
 }) {
   return (
     <div className="flex w-full items-center justify-between">
-      {subscription.type === 'ORG' && (
+      {subscription.type === 'Org' && (
         <>
           <OrganizationLink
             orgName={subscription.name}
@@ -32,7 +32,7 @@ export function SubscriptionEntry({
           />
         </>
       )}
-      {subscription.type === 'INDIVIDUAL' && (
+      {subscription.type === 'Individual' && (
         <BountyLink
           bountyId={subscription.id}
           className="body w-fit text-on-surface-p1 hover:underline"

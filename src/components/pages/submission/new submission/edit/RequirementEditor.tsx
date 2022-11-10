@@ -19,16 +19,16 @@ export function RequirementEditor({
       <RequirementChecker requirement={requirement} input={input} />
 
       {/* Check the type of input needed */}
-      {requirement.type === RequirementType.IMAGE && (
+      {requirement.type === RequirementType.Image && (
         <ImageUploader files={input as File[]} setFiles={setInput} />
       )}
 
-      {requirement.type !== RequirementType.IMAGE && (
+      {requirement.type !== RequirementType.Image && (
         <ReactTextareaAutosize
           placeholder={requirement.title}
           className="body h-fit w-full
           -translate-y-4 whitespace-pre-wrap border-0 bg-bg font-inter text-on-surface-p1 first-letter:capitalize focus:ring-0"
-          minRows={requirement.type === RequirementType.REPORT ? 10 : 1}
+          minRows={requirement.type === RequirementType.Report ? 10 : 1}
           value={input as string}
           onChange={(e) => {
             setInput(e.target.value);
