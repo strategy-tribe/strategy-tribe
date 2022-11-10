@@ -1,6 +1,6 @@
-import { CountriesData } from './CountriesData';
+import { FullCountriesData } from '@/server/routers/map';
 
-export type MapData = {
-  mapData: CountriesData;
+export type MapDataWithFeatures = {
+  mapData: FullCountriesData;
   features: any[];
 };

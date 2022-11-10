@@ -1,7 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 
-import { GenerateCountriesData } from '@/server/importer/generateCountriesData';
-import { GrabData } from '@/server/importer/scrapSheet';
+import { AddCountriesToDB } from '@/server/importer/countries';
 import prisma from '@/server/prisma/prismaClient';
 
 export default async function handler(
@@ -9,10 +8,8 @@ export default async function handler(
   res: NextApiResponse
 ) {
   try {
-    await GrabData();
-    await GenerateCountriesData();
-
-    res.status(200).json({ msg: 'success, data added to DB' });
+    await AddCountriesToDB(prisma);
+    res.status(200).json({ msg: 'success, created countries' });
   } catch (error) {
     console.error(error);
     res.status(400).json({ msg: 'error', error });

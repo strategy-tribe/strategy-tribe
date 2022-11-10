@@ -51,6 +51,31 @@ model Country {
 
   orgs Organization[]
 
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @default(now())
+  stats     CountryStats[]
+}
+
+model CountriesData {
+  id        String         @id @default(cuid())
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @default(now())
+  countries CountryStats[]
+}
+
+model CountryStats {
+  id String @id @default(cuid())
+
+  country   Country? @relation(fields: [countryId], references: [id])
+  countryId String?
+
+  bountyCount       Int
+  organizationCount Int
+  totalFunds        Float
+
+  CountriesData   CountriesData? @relation(fields: [countriesDataId], references: [id])
+  countriesDataId String?
+
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
 }

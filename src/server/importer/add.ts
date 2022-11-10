@@ -237,7 +237,7 @@ async function CreateOrganization(o: OrgData) {
   try {
     const orgName = o.name;
 
-    LOG(`Creating org: "${orgName}"\n ${typeof orgName}`);
+    LOG(`Creating org: "${orgName}"`);
 
     const address = await getNewAddress();
     await prisma.organization.create({
@@ -280,7 +280,6 @@ async function CreateOrganization(o: OrgData) {
         },
       },
     });
-    LOG(`Created org: ${orgName}`);
   } catch (e) {
     if (e instanceof PrismaClientKnownRequestError) {
       ERROR(
