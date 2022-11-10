@@ -52,7 +52,7 @@ export function SubmissionListEntry({
           </div>
 
           <p className="text-on-surface-unactive">
-            {submission.answers?.at(0)?.answer}...
+            {submission.answers?.at(0)?.answer.slice(0, 100)}...
           </p>
         </div>
 

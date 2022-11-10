@@ -40,7 +40,7 @@ function isRequestForSubmissionsValid(
 
   const isAskingForSomeoneElses = askingForSomeoneElses(
     input.owners ?? [],
-    user.profileId
+    user.externalId
   );
 
   if (!isAdminOrStaff && isAskingForSomeoneElses) return false;
@@ -81,12 +81,12 @@ export const _getSubmissions = async (
   }
 
   const owners: string[] | undefined =
-    user.rol === 'REGULAR' ? [user.profileId] : input.owners;
+    user.rol === 'REGULAR' ? [user.id] : input.owners;
 
   const where = Prisma.validator<Prisma.SubmissionWhereInput>()({
     AND: {
       state: input.state,
-      id: owners
+      authorId: owners
         ? {
             in: owners,
           }
@@ -132,7 +132,7 @@ const countSubmissions = async (
   }
 
   const owners: string[] | undefined =
-    user.rol === 'REGULAR' ? [user.profileId] : input.owners;
+    user.rol === 'REGULAR' ? [user.externalId] : input.owners;
 
   const where = Prisma.validator<Prisma.SubmissionWhereInput>()({
     AND: {

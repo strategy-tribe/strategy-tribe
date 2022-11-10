@@ -19,10 +19,6 @@ const SubmissionPage: NextPageWithLayout = () => {
     !!(submissionId as string)
   );
 
-  // if (error) {
-  //   router.push(GoTo404Page());
-  // }
-
   return (
     <>
       <Head>

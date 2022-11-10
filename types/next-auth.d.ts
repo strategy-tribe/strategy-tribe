@@ -3,8 +3,9 @@ import 'next-auth';
 import 'next-auth/jwt';
 
 interface CustomUser {
+  id: string;
   address: string;
-  profileId: string;
+  externalId: string;
   signature: string;
   rol: Rol;
 }
@@ -28,6 +29,6 @@ declare module 'next-auth' {
    *
    * Custom user, extends the basic interface from next-auth */
   interface User extends CustomUser {
-    id?: string; //if not, ts complains
+    id: string; //if not, ts complains
   }
 }

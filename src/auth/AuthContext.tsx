@@ -56,7 +56,7 @@ const AuthContextProvider = ({
       isAdmin: data.user.rol === 'ADMIN',
       isStaff: data.user.rol === 'STAFF',
       mainWallet: data.user.address,
-      userId: data.user.profileId,
+      userId: data.user.id,
       watching: [],
       wallets: [],
       joined: new Date(),
@@ -66,7 +66,7 @@ const AuthContextProvider = ({
   return (
     <AuthContext.Provider
       value={{
-        userId: data?.user.profileId,
+        userId: data?.user.id,
         isAuthenticated: status === 'authenticated',
         LogIn: signIn,
         LogOut: signOut,
