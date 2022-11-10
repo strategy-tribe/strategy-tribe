@@ -131,49 +131,54 @@ export function SubmitReviewButton({
 
   const { notify } = useNotification();
 
-  const { SubmitReview } = useSubmitReview(
-    {
-      grade: review.meetsRequirements
-        ? ReviewGrade.Accepted
-        : ReviewGrade.Rejected,
-      submissionId: submission.id,
-      reviewerAddress: review.reviewer,
-      reviewerComment: review.feedback,
+  const { SubmitReview } = useSubmitReview({
+    onMutate: () => {
+      notify(
+        {
+          title: 'Your Review is being submitted',
+          content: 'Please do not close this window',
+          icon: 'warning',
+        },
+        {
+          delayTime: 0,
+          delayType: DelayType.Condition,
+          condition: false,
+          type: NotificationType.Banner,
+        }
+      );
     },
-    {
-      onSuccess: () => {
-        router.push(GoToReviewsPage());
-        notify(
-          {
-            title: 'Review submitted',
-            style: NotificationStyle.success,
-          },
-          {
-            condition: false,
-            delayTime: 5,
-            delayType: DelayType.Time,
-            type: NotificationType.Pill,
-          }
-        );
-      },
-      onError: (error) => {
-        notify(
-          {
-            title: 'There was an issue submitting the review',
-            content: error,
-            icon: 'warning',
-            style: NotificationStyle.error,
-          },
-          {
-            condition: false,
-            delayTime: 5,
-            delayType: DelayType.Time,
-            type: NotificationType.Pill,
-          }
-        );
-      },
-    }
-  );
+    onSuccess: () => {
+      router.push(GoToReviewsPage());
+      notify(
+        {
+          title: 'Review submitted',
+          style: NotificationStyle.success,
+        },
+        {
+          condition: false,
+          delayTime: 5,
+          delayType: DelayType.Time,
+          type: NotificationType.Pill,
+        }
+      );
+    },
+    onError: (error) => {
+      notify(
+        {
+          title: 'There was an issue submitting the review',
+          content: error,
+          icon: 'warning',
+          style: NotificationStyle.error,
+        },
+        {
+          condition: false,
+          delayTime: 5,
+          delayType: DelayType.Time,
+          type: NotificationType.Pill,
+        }
+      );
+    },
+  });
   return (
     <Button
       info={{
@@ -185,7 +190,15 @@ export function SubmitReviewButton({
               review.meetsRequirements ? 'Accepted' : 'Rejected'
             }`
           );
-          if (confirmed) SubmitReview();
+          if (confirmed)
+            SubmitReview({
+              grade: review.meetsRequirements
+                ? ReviewGrade.Accepted
+                : ReviewGrade.Rejected,
+              submissionId: submission.id,
+              reviewerAddress: review.reviewer,
+              reviewerComment: review.feedback,
+            });
         },
         label: 'Yes, this is the grade it deserves',
         disabled: disabled,
