@@ -39,6 +39,12 @@ export async function ResetDB() {
   await prisma.country.deleteMany();
   WARN('deleted countries');
 
+  await prisma.countriesData.deleteMany();
+  WARN('deleted countries data');
+
+  await prisma.countryStats.deleteMany();
+  WARN('deleted countries stats');
+
   await prisma.user.deleteMany();
   WARN('deleted users');
 

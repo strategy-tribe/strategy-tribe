@@ -1,8 +1,8 @@
 import { ResponsiveChoropleth } from '@nivo/geo';
+import { CountryStats } from '@prisma/client';
 import { useMemo } from 'react';
 
 import useWindowDimensions from '@/lib/hooks/useWindowDimensions';
-import { CountryMapData } from '@/lib/models/CountriesData';
 import { kFormatter } from '@/lib/utils/NumberHelpers';
 
 import { useExploreContext } from '../ExploreContext';
@@ -23,12 +23,26 @@ export default function MapProjection() {
     return value;
   }, [width]);
 
+  const dataParsed = useMemo(() => {
+    const newLocal = map?.mapData.countries.map((x) => {
+      return {
+        id: x.country?.code,
+        bountyCount: x.bountyCount,
+        totalFunds: x.totalFunds,
+        organizationCount: x.organizationCount,
+      };
+    });
+    // console.log(newLocal, map?.features);
+    return newLocal ?? [];
+  }, [map]);
+
+  if (!map) return <></>;
   return (
-    <div className="h-[500px] w-full">
+    <div className="h-[600px] w-full">
       <ResponsiveChoropleth
         projectionType="naturalEarth1"
-        data={map?.mapData.countries ?? []}
-        features={map?.features ?? []}
+        data={dataParsed}
+        features={map.features}
         margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
         colors={['#2E2A4D', '#423B80', '#574BB3', '#6C5CE7']}
         domain={[0, max + max * 0.05]}
@@ -36,8 +50,8 @@ export default function MapProjection() {
         value={(data) => {
           if (!data) {
             return 0;
-          } else if (data as CountryMapData) {
-            const value = (data as CountryMapData).bountyCount;
+          } else if (data as CountryStats) {
+            const value = (data as CountryStats).bountyCount;
             return value;
           } else {
             return 0;
@@ -53,7 +67,8 @@ export default function MapProjection() {
         borderWidth={0.2}
         borderColor="#5C5C5C"
         onClick={(thing) => {
-          const data = thing.data as CountryMapData;
+          const data = thing.data as CountryStats;
+
           if (!data || !(data.id as string)) return;
           addCountry(data.id);
         }}
@@ -61,8 +76,9 @@ export default function MapProjection() {
           if (!feature?.data) return null;
 
           const label = feature.label;
+
           const { bountyCount, organizationCount, totalFunds } =
-            feature.data as CountryMapData;
+            feature.data as CountryStats;
           return (
             <div className="elevation-5 space-y-1 rounded bg-surface p-4 text-on-surface-p0">
               <div className="flex items-center justify-between gap-6">
