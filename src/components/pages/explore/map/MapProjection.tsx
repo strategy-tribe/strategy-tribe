@@ -32,7 +32,6 @@ export default function MapProjection() {
         organizationCount: x.organizationCount,
       };
     });
-    // console.log(newLocal, map?.features);
     return newLocal ?? [];
   }, [map]);
 

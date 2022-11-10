@@ -1,9 +1,9 @@
-import { PrismaClient } from '@prisma/client';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
 
+import prisma from '../prisma/prismaClient';
 import { ERROR } from './utils';
 
-export async function GenerateCountriesData(prisma: PrismaClient) {
+export async function GenerateCountriesData() {
   try {
     const allCountries = await prisma.country.findMany({
       include: {
@@ -88,7 +88,7 @@ export async function GenerateCountriesData(prisma: PrismaClient) {
           createMany: {
             data: allData.map((i) => ({
               countryId: i.id,
-              bountyCount: i.data.balance,
+              bountyCount: i.data.amountOfBounties,
               organizationCount: i.data.organizationCount,
               totalFunds: i.data.balance,
             })),
