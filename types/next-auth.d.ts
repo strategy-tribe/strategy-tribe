@@ -29,6 +29,6 @@ declare module 'next-auth' {
    *
    * Custom user, extends the basic interface from next-auth */
   interface User extends CustomUser {
-    id?: string; //if not, ts complains
+    id: string; //if not, ts complains
   }
 }

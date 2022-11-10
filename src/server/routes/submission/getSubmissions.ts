@@ -81,12 +81,12 @@ export const _getSubmissions = async (
   }
 
   const owners: string[] | undefined =
-    user.rol === 'REGULAR' ? [user.externalId] : input.owners;
+    user.rol === 'REGULAR' ? [user.id] : input.owners;
 
   const where = Prisma.validator<Prisma.SubmissionWhereInput>()({
     AND: {
       state: input.state,
-      id: owners
+      authorId: owners
         ? {
             in: owners,
           }
