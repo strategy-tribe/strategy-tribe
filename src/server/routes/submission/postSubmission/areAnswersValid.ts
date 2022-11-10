@@ -1,4 +1,4 @@
-import { PrismaClient, Requirement } from '@prisma/client';
+import { PrismaClient, Requirement, RequirementType } from '@prisma/client';
 
 import {
   isEmailValid,
@@ -40,25 +40,25 @@ export const areAnswersValid = async (
     );
     if (!requirement) return false;
     switch (requirement.type) {
-      case 'EMAIL':
+      case RequirementType.Email:
         if (!isEmailValid(input)) invalidAnswers.push(a);
         break;
-      case 'DOMAIN':
+      case RequirementType.Domain:
         if (!isUrlValid(input)) invalidAnswers.push(a);
         break;
-      case 'PHONE_NUMBER':
+      case RequirementType.PhoneNumber:
         if (!isPhoneNumberValid(input)) invalidAnswers.push(a);
         break;
-      case 'WALLET':
+      case RequirementType.Wallet:
         if (!isWalletValid(input)) invalidAnswers.push(a);
         break;
-      case 'REPORT':
+      case RequirementType.Report:
         if (!isReportValid(input)) invalidAnswers.push(a);
         break;
-      case 'SOCIAL_MEDIA_ACCOUNT':
+      case RequirementType.SocialMediaAccount:
         if (!isSocialMediaValid(input)) invalidAnswers.push(a);
         break;
-      case 'IMAGE':
+      case RequirementType.Image:
       default:
         break;
     }

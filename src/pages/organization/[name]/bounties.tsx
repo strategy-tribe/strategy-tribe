@@ -32,7 +32,7 @@ const OrganizationBountiesPage: NextPageWithLayout = () => {
   //*Queries
   const { organization: org, error } = useGetOrganization(
     { name },
-    Boolean(name as string)
+    { enabled: Boolean(name) }
   );
 
   const { bounties, isLoading: isLoadingBounties } = useGetBounties(

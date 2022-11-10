@@ -15,7 +15,7 @@ import { useAuth } from '@/auth/AuthContext';
 
 export function AccountWatching() {
   const { userId, userInfo } = useAuth();
-  const [view, setView] = useState<TargetType>('ORG');
+  const [view, setView] = useState<TargetType>('Org');
   const { isSubscribedToAll } = useIsSubscribeToAll(
     userId as string,
     Boolean(userId as string)
@@ -93,7 +93,7 @@ export function AccountWatching() {
             watching list`}
           </div>
           <AnimatePresence>
-            {view === 'INDIVIDUAL' && (
+            {view === 'Individual' && (
               <motion.div
                 className=" flex items-center gap-2 text-error-light"
                 initial={{ y: 5, opacity: 0 }}

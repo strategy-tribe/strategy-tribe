@@ -16,16 +16,19 @@ import { Stat } from '@/components/utils/Stat';
 
 import { useAuth } from '@/auth/AuthContext';
 
-import BountyStatusShowcase from './BountyStatusShowcase';
 import { Section } from '../landing/Section';
+import BountyStatusShowcase from './BountyStatusShowcase';
 
 export function BountyHeader() {
   const { bounty } = useBountyContext();
 
   const ETHERSCAN_LINK = process.env.NEXT_PUBLIC_ETHERSCAN_URL;
-  const { organization } = useGetOrganization({
-    name: bounty?.target?.org.name,
-  });
+  const { organization } = useGetOrganization(
+    {
+      name: bounty?.target?.org?.name ?? '',
+    },
+    { enabled: !!bounty?.target?.org?.name }
+  );
   const [showDonation, setShowDonation] = useState(false);
 
   const { isStaff, isFetchingUserInfo } = useAuth();

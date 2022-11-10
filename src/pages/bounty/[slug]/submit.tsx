@@ -8,7 +8,7 @@ import { NextPageWithLayout } from '@/pages/_app';
 
 const NewSubmissionPage: NextPageWithLayout = () => {
   const router = useRouter();
-  const { id: bountyId } = router.query;
+  const slug = router.query.slug as string;
 
   return (
     <>
@@ -21,11 +21,7 @@ const NewSubmissionPage: NextPageWithLayout = () => {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <>
-        {!!(bountyId as string) && (
-          <NewSubmission bountyId={bountyId as string} />
-        )}
-      </>
+      <NewSubmission bountySlug={slug} />
     </>
   );
 };

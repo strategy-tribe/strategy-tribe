@@ -6,13 +6,13 @@ import { SmallBounty } from '@/server/routes/bounties/getBounties';
 
 export function ParseBountyTitle(bounty: SmallBounty) {
   const title = bounty.title;
-  const {
-    type,
-    name: targetName,
-    org: { name: orgName },
-  } = bounty.target;
+  const targetName = bounty.target.name;
+  const type = bounty.target.type;
+  const orgName = bounty.target.org?.name;
 
-  if (type === TargetType.ORG) {
+  if (!orgName) {
+    return title;
+  } else if (type === TargetType.Org) {
     return title.replace(
       orgName.toLocaleLowerCase(),
       CapitalizeFirstLetter(orgName)

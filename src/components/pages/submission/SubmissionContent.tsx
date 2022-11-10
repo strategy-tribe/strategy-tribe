@@ -85,7 +85,7 @@ function UserAnswers() {
         return (
           <div key={i} className="space-y-1">
             <span className="label text-on-surface-unactive">
-              {anw.requirement.title}
+              {anw.requirement?.title}
             </span>
 
             {/* TODO: make changes for images */}
@@ -107,7 +107,7 @@ function UserAnswers() {
               </div>
             )} */}
 
-            {anw.requirement.type !== RequirementType.IMAGE && (
+            {anw.requirement?.type !== RequirementType.Image && (
               <p className="body whitespace-pre-wrap">{anw.answer}</p>
             )}
           </div>

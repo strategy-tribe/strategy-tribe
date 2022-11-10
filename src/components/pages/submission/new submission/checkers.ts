@@ -13,22 +13,22 @@ export const CheckInput = (
   type: RequirementType
 ): { isValid: boolean; errorMsg: string } => {
   switch (type) {
-    case RequirementType.EMAIL:
+    case RequirementType.Email:
       return EvaluateEmail(s);
 
-    case RequirementType.REPORT:
+    case RequirementType.Report:
       return EvaluateReport(s);
 
-    case RequirementType.DOMAIN:
+    case RequirementType.Domain:
       return EvaluateUrl(s);
 
-    case RequirementType.WALLET:
+    case RequirementType.Wallet:
       return EvaluateWallet(s);
 
-    case RequirementType.PHONE_NUMBER:
+    case RequirementType.PhoneNumber:
       return EvaluatePhoneNumber(s);
 
-    case RequirementType.SOCIAL_MEDIA_ACCOUNT:
+    case RequirementType.SocialMediaAccount:
       return EvaluateSocialMediaAccount(s);
     default:
       throw 'Unknown type ';

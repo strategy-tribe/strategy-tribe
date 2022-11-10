@@ -1,13 +1,18 @@
+import { RequirementType } from '@prisma/client';
+
+import { toTitleCase } from '@/lib/utils/StringHelpers';
+
 import prisma from '@/server/prisma/prismaClient';
 
 import { addToDb } from './add';
 import { updateDb } from './update';
 import {
+  DEFAULT_TYPES_FOR_BOUNTIES,
   ERROR,
   IND_PREFIX,
   LOG,
-  ORG_PREFIX,
   OrgData,
+  ORG_PREFIX,
   Row,
   TargetData,
 } from './utils';
@@ -61,13 +66,15 @@ function scrapOrganizations(rows: Row[]): OrgData[] {
 
     const org: OrgData = {
       name: row[0].toLowerCase().trim(),
-      alsoKnownAs: typeof row[1] === 'string' ? row[1].split(',') : [],
-      tags: typeof row[2] === 'string' ? row[2].split(',') : [],
-      countries: typeof row[3] === 'string' ? row[3].split(',') : [],
+      alsoKnownAs: isString(row[1]) ? row[1].split(',') : [],
+      tags: isString(row[2]) ? row[2].split(',') : [],
+      countries: isString(row[3]) ? row[3].split(',') : [],
       bio: row[4],
       why: row[5],
-      links: typeof row[6] === 'string' ? row[6].split(',') : [],
-      bounties: typeof row[7] === 'string' ? row[6].split(',') : [],
+      links: isString(row[6]) ? row[6].split(',') : [],
+      types: isString(row[7])
+        ? row[7].split(',').map((i) => toTitleCase(i.trim()) as RequirementType)
+        : [],
     };
 
     org.alsoKnownAs =
@@ -77,13 +84,17 @@ function scrapOrganizations(rows: Row[]): OrgData[] {
       org.countries?.map((word) => word?.toUpperCase()?.trim()) || [];
 
     org.links = org.links?.map((word) => word?.toLowerCase()?.trim()) || [];
-    org.bounties =
-      org.bounties?.map((word) => word?.toLowerCase()?.trim()) || [];
+
+    if (org.types.length === 0) org.types = DEFAULT_TYPES_FOR_BOUNTIES;
 
     organizationsData.push(org);
   }
 
   return organizationsData;
+}
+
+function isString(object: unknown): object is string {
+  return typeof object === 'string' && object.length > 0;
 }
 
 function scrapTargets(rows: Row[]): TargetData[] {
@@ -97,13 +108,19 @@ function scrapTargets(rows: Row[]): TargetData[] {
       name: row[0].toLowerCase().trim(),
       organizationName:
         row[1]?.toLowerCase().trim() ?? 'Undefined organization',
-      alsoKnownAs: typeof row[2] === 'string' ? row[2].split(',') : [],
-      tags: typeof row[3] === 'string' ? row[3].split(',') : [],
+      alsoKnownAs: isString(row[2]) ? row[2].split(',') : [],
+      tags: isString(row[3]) ? row[3].split(',') : [],
+      bio: row[4].toLowerCase().trim(),
+      types: isString(row[7])
+        ? row[7].split(',').map((i) => toTitleCase(i.trim()) as RequirementType)
+        : [],
     };
 
     target.alsoKnownAs =
       target.alsoKnownAs?.map((word) => word.toLowerCase().trim()) || [];
     target.tags = target.tags?.map((word) => word.toLowerCase().trim()) || [];
+
+    if (target.types.length === 0) target.types = DEFAULT_TYPES_FOR_BOUNTIES;
 
     targetsData.push(target);
   }

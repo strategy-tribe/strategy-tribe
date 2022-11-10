@@ -17,7 +17,7 @@ const _getTargets = async (prisma: PrismaClient, params: GetTargetsParams) => {
       _count: true,
       name: true,
       alsoKnownAs: true,
-      description: true,
+      bio: true,
       type: true,
     },
   });

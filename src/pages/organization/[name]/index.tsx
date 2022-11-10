@@ -20,7 +20,7 @@ const OrganizationPage: NextPageWithLayout = () => {
     organization: org,
     isLoading,
     error,
-  } = useGetOrganization({ name }, Boolean(name as string));
+  } = useGetOrganization({ name }, { enabled: Boolean(name) });
 
   if (isLoading) return <Loading />;
 

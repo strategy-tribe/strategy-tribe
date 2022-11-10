@@ -21,7 +21,7 @@ const _getTarget = async (prisma: PrismaClient, params: GetTargetParams) => {
       name: true,
       org: true,
       type: true,
-      description: true,
+      bio: true,
     },
   });
   return target;

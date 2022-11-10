@@ -2,6 +2,7 @@ import { TargetType } from '@prisma/client';
 import { signOut, useSession } from 'next-auth/react';
 import React, { createContext, useContext, useMemo } from 'react';
 
+import { useGetBalance } from '@/lib/hooks/useGetBalance';
 import { useSignIn } from '@/lib/useSignIn';
 
 interface AuthContextInterface {
@@ -47,6 +48,8 @@ const AuthContextProvider = ({
 
   const { signIn } = useSignIn();
 
+  const { balance } = useGetBalance({ address: data?.user.address ?? '' });
+
   const userInfo: UserInfo | undefined = useMemo(() => {
     if (!data) return undefined;
     return {
@@ -72,7 +75,7 @@ const AuthContextProvider = ({
         account: data?.user.address,
         userInfo,
         isFetchingUserInfo: status === 'loading',
-        balance: 'user-balance-to-do',
+        balance: balance,
       }}
     >
       {children}

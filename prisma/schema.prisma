@@ -1,15 +1,15 @@
-datasource db {
-  provider = "mongodb"
-  url      = env("DATABASE_URL")
-}
-
 generator client {
   provider = "prisma-client-js"
 }
 
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
 enum TargetType {
-  ORG
-  INDIVIDUAL
+  Org
+  Individual
 }
 
 enum BountyState {
@@ -27,15 +27,16 @@ enum SubmissionState {
 }
 
 model Target {
-  id          String   @id @default(auto()) @map("_id") @db.ObjectId
-  name        String   @unique
+  id          String   @id @default(cuid())
+  name        String   @unique @db.VarChar(200)
   alsoKnownAs String[]
-  description String?
+
+  bio String?
 
   bounties Bounty[]
 
-  org            Organization @relation(fields: [organizationId], references: [id])
-  organizationId String       @db.ObjectId
+  org   Organization? @relation(fields: [orgId], references: [id], onDelete: SetNull)
+  orgId String?
 
   type TargetType
 
@@ -44,43 +45,43 @@ model Target {
 }
 
 model Country {
-  id   String @id @default(auto()) @map("_id") @db.ObjectId
+  id   String @id @default(cuid())
   name String @unique
   code String @unique
 
-  organizations    Organization[] @relation(fields: [organizationsIds], references: [id])
-  organizationsIds String[]       @db.ObjectId
+  orgs Organization[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
 }
 
 model Tag {
-  id   String @id @default(auto()) @map("_id") @db.ObjectId
+  id String @id @default(cuid())
+
   name String @unique
 
-  bounties      Bounty[] @relation(fields: [bountiesSlugs], references: [slug])
-  bountiesSlugs String[] @db.ObjectId
+  bounties Bounty[]
 
-  orgsIDs String[]       @db.ObjectId
-  orgs    Organization[] @relation(fields: [orgsIDs], references: [id])
+  orgs Organization[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
 }
 
 model Wallet {
-  id           String        @id @default(auto()) @map("_id") @db.ObjectId
-  address      String        @unique
-  balance      Float
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @default(now())
-  bounty       Bounty?
-  Organization Organization?
+  id        String   @id @default(cuid())
+  address   String   @unique
+  balance   Float
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+
+  bounty Bounty?
+
+  org Organization?
 }
 
 model Key {
-  id             String   @id @default(auto()) @map("_id") @db.ObjectId
+  id             String   @id @default(cuid())
   address        String   @unique
   balance        Int
   privateKey     String
@@ -91,25 +92,24 @@ model Key {
 }
 
 model Bounty {
-  slug  String @id @default(auto()) @map("_id") @db.ObjectId
+  slug  String @id @default(cuid())
   title String @unique
 
   description String
 
   requirements Requirement[]
 
-  target   Target @relation(fields: [targetId], references: [id])
-  targetId String @db.ObjectId
+  target   Target @relation(fields: [targetId], references: [id], onDelete: Cascade)
+  targetId String
 
   status BountyState
 
-  tags    Tag[]    @relation(fields: [tagsIDs], references: [id])
-  tagsIDs String[] @db.ObjectId
+  tags Tag[]
 
   submissions Submission[]
 
-  wallet   Wallet @relation(fields: [walletId], references: [id])
-  walletId String @unique
+  wallet   Wallet @relation(fields: [walledId], references: [id], onDelete: Restrict)
+  walledId String @unique
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
@@ -118,7 +118,7 @@ model Bounty {
 }
 
 model Organization {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
+  id String @id @default(cuid())
 
   name        String   @unique
   alsoKnownAs String[]
@@ -126,14 +126,12 @@ model Organization {
   why         String?
   links       String[]
 
-  tags    Tag[]    @relation(fields: [tagsIDs], references: [id])
-  tagsIDs String[] @db.ObjectId
+  tags Tag[]
 
-  countries    Country[] @relation(fields: [countriesIDs], references: [id])
-  countriesIDs String[]  @db.ObjectId
+  countries Country[]
 
-  wallet   Wallet @relation(fields: [walletId], references: [id])
-  walletId String @unique
+  wallet   Wallet? @relation(fields: [walletId], references: [id], onDelete: Restrict)
+  walletId String? @unique
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
@@ -142,14 +140,15 @@ model Organization {
 }
 
 model Submission {
-  id       String          @id @default(auto()) @map("_id") @db.ObjectId
-  author   User            @relation(fields: [authorId], references: [id])
-  authorId String          @map("userId") @db.ObjectId
-  state    SubmissionState
+  id       String  @id @default(cuid())
+  author   User?   @relation(fields: [authorId], references: [id], onDelete: SetNull)
+  authorId String?
+
+  state SubmissionState
 
   answers Answer[]
 
-  bounty     Bounty? @relation(fields: [bountySlug], references: [slug])
+  bounty     Bounty? @relation(fields: [bountySlug], references: [slug], onDelete: SetNull)
   bountySlug String?
 
   review Review?
@@ -161,27 +160,27 @@ model Submission {
 }
 
 model Answer {
-  id     String @id @default(auto()) @map("_id") @db.ObjectId
+  id     String @id @default(cuid())
   answer String
 
-  requirement   Requirement @relation(fields: [requirementId], references: [id])
-  requirementId String      @db.ObjectId
+  requirement   Requirement? @relation(fields: [requirementId], references: [id], onDelete: SetNull)
+  requirementId String?
 
   createdAt    DateTime    @default(now())
   updatedAt    DateTime    @default(now())
-  Submission   Submission? @relation(fields: [submissionId], references: [id])
-  submissionId String?     @db.ObjectId
+  Submission   Submission? @relation(fields: [submissionId], references: [id], onDelete: SetNull)
+  submissionId String?
 }
 
 model Review {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
+  id String @id @default(cuid())
 
-  reviewer   User   @relation(fields: [reviewerId], references: [id])
-  reviewerId String @db.ObjectId
+  reviewer   User   @relation(fields: [reviewerId], references: [id], onDelete: Restrict)
+  reviewerId String
 
   content String
 
-  submission   Submission @relation(fields: [submissionId], references: [id])
+  submission   Submission @relation(fields: [submissionId], references: [id], onDelete: Restrict)
   submissionId String     @unique
 
   grade ReviewGrade
@@ -191,12 +190,12 @@ model Review {
 }
 
 model Invoice {
-  id           String     @id @default(auto()) @map("_id") @db.ObjectId
-  submission   Submission @relation(fields: [submissionId], references: [id])
+  id           String     @id @default(cuid())
+  submission   Submission @relation(fields: [submissionId], references: [id], onDelete: Restrict)
   submissionId String     @unique
 
-  bounty     Bounty @relation(fields: [bountySlug], references: [slug])
-  bountySlug String @unique
+  bounty     Bounty? @relation(fields: [bountySlug], references: [slug], onDelete: SetNull)
+  bountySlug String? @unique
 
   status InvoiceStatus
 
@@ -216,28 +215,30 @@ enum ReviewGrade {
 }
 
 model Requirement {
-  id         String          @id @default(auto()) @map("_id") @db.ObjectId
-  title      String
-  type       RequirementType
-  optional   Boolean
-  bounty     Bounty?         @relation(fields: [bountySlug], references: [slug])
+  id       String          @id @default(cuid())
+  title    String
+  type     RequirementType
+  optional Boolean
+
+  bounty     Bounty? @relation(fields: [bountySlug], references: [slug], onDelete: Cascade)
   bountySlug String?
-  Answer     Answer[]
+
+  Answer Answer[]
 }
 
 enum RequirementType {
-  IMAGE
-  REPORT
-  WALLET
-  DOMAIN
-  PHONE_NUMBER
-  SOCIAL_MEDIA_ACCOUNT
-  EMAIL
+  Image
+  Report
+  Wallet
+  Domain
+  PhoneNumber
+  SocialMediaAccount
+  Email
 }
 
 //Users:--------------------------------------------------------------------------------
 model User {
-  id         String @id @default(auto()) @map("_id") @db.ObjectId
+  id String @id @default(cuid())
 
   //Use to pair this user to an external service. Ideally, this would be its own table (ie, ExternalRelantionships, or something like that)
   externalId String @unique

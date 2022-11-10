@@ -17,9 +17,12 @@ export const useGetAllOrganizations = (enabled = true) => {
   };
 };
 
-export const useGetOrganization = (params: GetOrgParams, enabled = true) => {
+export const useGetOrganization = (
+  params: GetOrgParams,
+  config?: { enabled?: boolean }
+) => {
   const { error, isLoading, data } = trpc.orgs.getOrg.useQuery(params, {
-    enabled,
+    ...config,
   });
 
   return {
