@@ -21,7 +21,7 @@ const _getSubmission = async (
   input: GetSubmissionParams
 ) => {
   const { id } = input;
-  const userId = user.profileId;
+  const userId = user.id;
   const isAdmin = user.rol === 'ADMIN';
   const isStaff = user.rol === 'STAFF';
 

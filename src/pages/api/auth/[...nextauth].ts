@@ -56,7 +56,8 @@ export default NextAuth({
 
           const user: User = {
             address,
-            profileId,
+            id: u.id,
+            externalId: profileId,
             signature,
             rol: u.rol,
           };

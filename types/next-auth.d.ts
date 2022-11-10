@@ -3,8 +3,9 @@ import 'next-auth';
 import 'next-auth/jwt';
 
 interface CustomUser {
+  id: string;
   address: string;
-  profileId: string;
+  externalId: string;
   signature: string;
   rol: Rol;
 }
