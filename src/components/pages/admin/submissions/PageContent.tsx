@@ -9,6 +9,7 @@ import { SubmissionListEntry } from '@/components/submissions/SubmissionListEntr
 import { Button, ButtonStyle } from '@/components/utils/Button';
 import Dropdown, { HasLabel } from '@/components/utils/Dropdown';
 import Icon, { IconSize } from '@/components/utils/Icon';
+import Loading from '@/components/utils/Loading';
 import { Title } from '@/components/utils/Title';
 
 export function ReviewDashboardHeader() {
@@ -146,11 +147,13 @@ export function ReviewDashboardSubmissions() {
   const {
     submissionFetch: { submissions, page },
     query,
+    isLoading,
   } = useAdminReview();
 
   return (
     <div className="min-h-screen space-y-10">
       <>
+        {isLoading && <Loading small />}
         {submissions &&
           submissions.length > 0 &&
           submissions?.map((s, i) => {

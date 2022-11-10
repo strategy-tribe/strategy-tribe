@@ -1,3 +1,5 @@
+import { GoToLandingPage } from '@/lib/utils/Routes';
+
 import { useAuth } from '@/auth/AuthContext';
 
 export function LogOutButton({ hide }: { hide: () => void }) {
@@ -9,6 +11,7 @@ export function LogOutButton({ hide }: { hide: () => void }) {
       onClick={() => {
         hide();
         LogOut();
+        GoToLandingPage();
         window.location.reload();
       }}
     >

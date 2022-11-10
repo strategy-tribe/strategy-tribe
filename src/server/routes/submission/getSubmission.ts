@@ -5,8 +5,8 @@ import { z } from 'zod';
 
 import { signedInOnlyProcedure } from '@/server/procedures';
 
-import { ThenArg } from '../utils/helperTypes';
 import { SMALL_SUBMISSION_SELECT } from './getSubmissions';
+import { ThenArg } from '../utils/helperTypes';
 
 /** Schema used to query for submissions */
 const GetSubmissionSchema = z.object({
@@ -15,7 +15,7 @@ const GetSubmissionSchema = z.object({
 
 export type GetSubmissionParams = z.infer<typeof GetSubmissionSchema>;
 
-const _getSubmission = async (
+export const _getSubmission = async (
   prisma: PrismaClient,
   user: User,
   input: GetSubmissionParams
@@ -30,15 +30,7 @@ const _getSubmission = async (
       id: id,
     },
     //Add more for this one
-    select: {
-      ...SMALL_SUBMISSION_SELECT,
-      author: {
-        select: {
-          address: true,
-          id: true,
-        },
-      },
-    },
+    select: SMALL_SUBMISSION_SELECT,
   });
 
   const isNoSpecial = !isAdmin && !isStaff;

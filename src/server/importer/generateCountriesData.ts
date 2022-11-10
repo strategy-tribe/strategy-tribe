@@ -1,7 +1,7 @@
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
 
-import prisma from '../prisma/prismaClient';
 import { ERROR } from './utils';
+import prisma from '../prisma/prismaClient';
 
 export async function GenerateCountriesData() {
   try {

@@ -1,8 +1,21 @@
-import { PrismaClient, ReviewGrade, SubmissionState } from '@prisma/client';
+import {
+  BountyState,
+  InvoiceStatus,
+  PrismaClient,
+  ReviewGrade,
+  SubmissionState,
+} from '@prisma/client';
 import { ThenArg } from '@trpc/server';
+import { User } from 'next-auth';
 import { z } from 'zod';
 
 import { staffOnlyProcedure } from '@/server/procedures';
+
+import { _updateBounty } from '../bounties/updateBounty';
+import { _postInvoice } from '../invoice/postInvoice';
+import { _getSubmission } from '../submission/getSubmission';
+import { _updateSubmission } from '../submission/updateSubmission';
+import { _updateSubmissions } from '../submission/updateSubmissions';
 
 const PostReviewSchema = z.object({
   grade: z.nativeEnum(ReviewGrade),
@@ -11,7 +24,11 @@ const PostReviewSchema = z.object({
   reviewerComment: z.string(),
 });
 
-async function _postReview(prisma: PrismaClient, params: PostReviewParams) {
+async function _postReview(
+  prisma: PrismaClient,
+  user: User,
+  params: PostReviewParams
+) {
   const { grade, submissionId, reviewerAddress, reviewerComment } = params;
   const { id } = await prisma.review.create({
     data: {
@@ -30,17 +47,50 @@ async function _postReview(prisma: PrismaClient, params: PostReviewParams) {
     },
   });
 
-  const updateSub = await prisma.submission.update({
-    where: {
+  if (grade === ReviewGrade.Accepted) {
+    const submission = await _getSubmission(prisma, user, { id: submissionId });
+    await _updateSubmissions(
+      {
+        state: SubmissionState.WaitingForReview,
+        exceptIds: [submissionId],
+        bounties: [submission?.bounty?.slug as string],
+      },
+      {
+        state: SubmissionState.Rejected,
+      },
+      prisma
+    );
+    await _updateBounty(
+      {
+        slug: submission?.bounty?.slug as string,
+      },
+      {
+        status: BountyState.PaymentNeeded,
+      },
+      prisma
+    );
+    await _postInvoice(
+      {
+        status: InvoiceStatus.Unpaid,
+        submissionId,
+        slug: submission?.bounty?.slug as string,
+      },
+      prisma
+    );
+  }
+
+  await _updateSubmission(
+    {
       id: submissionId,
     },
-    data: {
+    {
       state:
         grade === ReviewGrade.Accepted
           ? SubmissionState.WaitingForPayment
           : SubmissionState.Rejected,
     },
-  });
+    prisma
+  );
 
   return id;
 }
@@ -55,8 +105,8 @@ export type PostReviewResponse = NonNullable<
 
 export const postReview = staffOnlyProcedure
   .input(PostReviewSchema)
-  .mutation(async ({ input, ctx: { prisma } }) => {
-    const id = await _postReview(prisma, input);
+  .mutation(async ({ input, ctx }) => {
+    const id = await _postReview(ctx.prisma, ctx.session.user, input);
 
     return {
       reviewId: id,

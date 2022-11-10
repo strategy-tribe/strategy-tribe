@@ -1,4 +1,3 @@
-import { router } from '../procedures';
 import { bountyRouter } from './bounty';
 import { invoiceRouter } from './invoice';
 import { mapRouter } from './map';
@@ -8,6 +7,7 @@ import { submissionRouter } from './submission';
 import { tagRouter } from './tags';
 import { targetRouter } from './targets';
 import { walletRouter } from './wallet';
+import { router } from '../procedures';
 
 export const appRouter = router({
   bounty: bountyRouter,

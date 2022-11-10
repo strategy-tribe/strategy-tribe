@@ -66,9 +66,9 @@ export function SubmissionListEntry({
           <button
             className="group col-span-1 grow place-self-center text-right"
             onClick={() => {
-              navigator.clipboard.writeText(submission.id);
+              navigator.clipboard.writeText(submission.author?.id as string);
               notify(
-                { title: 'Copied', content: submission.id },
+                { title: 'Copied', content: submission.author?.id as string },
                 {
                   condition: false,
                   delayTime: 2,
@@ -80,14 +80,16 @@ export function SubmissionListEntry({
           >
             <span className="title block">User ID:</span>
             <span className="label-sm pt-1 text-on-surface-unactive group-hover:underline">
-              {cutString(submission.id)}
+              {cutString(submission.author?.id as string)}
             </span>
           </button>
         )}
 
         <div className="col-span-3 flex shrink-0 grow flex-col items-end place-self-center">
           {/* TODO: update MATIC */}
-          {/* <span className="title">{bounty.funds} MATIC</span> */}
+          <span className="title">
+            {submission.bounty?.wallet.balance} MATIC
+          </span>
           <span className="label-sm pt-1 text-on-surface-unactive">
             {GetDateInString(submission.createdAt)} ago
           </span>

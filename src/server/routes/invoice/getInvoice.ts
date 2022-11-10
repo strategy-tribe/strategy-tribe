@@ -45,7 +45,7 @@ export const getInvoice = adminOnlyProcedure
   .input(getInvoiceSchema)
   .query(async ({ ctx, input }) => {
     const invoice = await _getInvoice(ctx.prisma, input);
-    return invoice;
+    return { invoice };
   });
 
 /** Array of organizations with Metadata in them */

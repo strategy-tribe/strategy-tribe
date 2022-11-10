@@ -18,7 +18,7 @@ export function InvoiceListEntry({
   invoice: FullInvoice;
 }) {
   return (
-    <div className="grid w-full grid-cols-12 place-items-center gap-x-8">
+    <div className="grid w-full grid-cols-3 place-items-center gap-x-8">
       <Link href={bounty ? GoToBountyPage(bounty.slug) : GoTo404Page()}>
         <span className="group col-span-8 w-full">
           {bounty && (
