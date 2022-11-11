@@ -157,11 +157,6 @@ export function Review({ submission }: { submission: FullSubmission }) {
               <div className="space-y-2">
                 <span>Your review will set this submission as: </span>
                 <>
-                  {meetsRequirements && (
-                    <SubmissionStateDisplayer
-                      status={SubmissionState.WaitingForPayment}
-                    />
-                  )}
                   {!meetsRequirements && (
                     <SubmissionStateDisplayer
                       status={SubmissionState.Rejected}

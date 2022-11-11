@@ -32,8 +32,7 @@ export function SubmissionDetails() {
           </>
         )}
 
-        {submission.state ===
-          (SubmissionState.Accepted || SubmissionState.WaitingForPayment) && (
+        {submission.state === SubmissionState.Accepted && (
           <>
             <SubmissionDetail
               label="Reward"
