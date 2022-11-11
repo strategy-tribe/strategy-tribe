@@ -86,7 +86,6 @@ export function SubmissionListEntry({
         )}
 
         <div className="col-span-3 flex shrink-0 grow flex-col items-end place-self-center">
-          {/* TODO: update MATIC */}
           <span className="title">
             {submission.bounty?.wallet.balance} MATIC
           </span>
