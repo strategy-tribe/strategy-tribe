@@ -6,7 +6,6 @@ import { useGetInvoices } from '@/lib/hooks/invoiceHooks';
 
 import { InvoiceListEntry } from '@/components/invoices/InvoiceListEntry';
 import AppLayout from '@/components/layouts/AppLayout';
-import ProtectedLayout from '@/components/layouts/ProtectedLayout';
 import Loading from '@/components/utils/Loading';
 import { Title } from '@/components/utils/Title';
 
@@ -59,8 +58,8 @@ const InvoicesPage: NextPageWithLayout = () => {
 export default InvoicesPage;
 InvoicesPage.getLayout = function getLayout(page) {
   return (
-    <ProtectedLayout>
+    <>
       <AppLayout>{page}</AppLayout>
-    </ProtectedLayout>
+    </>
   );
 };

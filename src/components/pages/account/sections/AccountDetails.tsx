@@ -19,7 +19,7 @@ export function AccountDetails() {
 
       <Stat
         title="Wallet"
-        content={userInfo.mainWallet as string}
+        content={userInfo.address as string}
         copyable={true}
       />
 

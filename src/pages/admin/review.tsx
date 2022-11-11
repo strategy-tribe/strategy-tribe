@@ -3,7 +3,6 @@ import Head from 'next/head';
 ('@/components/utils/Title');
 
 import AppLayout from '@/components/layouts/AppLayout';
-import ProtectedLayout from '@/components/layouts/ProtectedLayout';
 import {
   ReviewDashboardFilters,
   ReviewDashboardHeader,
@@ -69,9 +68,9 @@ function PageContent() {
 
 SubmissionsToReviewPage.getLayout = function getLayout(page) {
   return (
-    <ProtectedLayout>
+    <>
       <AppLayout keepNavbar={false}>{page}</AppLayout>
-    </ProtectedLayout>
+    </>
   );
 };
 

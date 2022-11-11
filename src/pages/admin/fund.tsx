@@ -16,7 +16,6 @@ import { GetDateInString } from '@/lib/utils/DateHelpers';
 import { GoToBountyPage } from '@/lib/utils/Routes';
 
 import AppLayout from '@/components/layouts/AppLayout';
-import ProtectedLayout from '@/components/layouts/ProtectedLayout';
 import { Button, ButtonStyle } from '@/components/utils/Button';
 
 import { SmallBounty } from '@/server/routes/bounties/getBounties';
@@ -202,8 +201,8 @@ const BountiesToFundPage: NextPageWithLayout = () => {
 export default BountiesToFundPage;
 BountiesToFundPage.getLayout = function getLayout(page) {
   return (
-    <ProtectedLayout>
+    <>
       <AppLayout>{page}</AppLayout>
-    </ProtectedLayout>
+    </>
   );
 };

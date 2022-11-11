@@ -26,8 +26,7 @@ export type Subscription = {
 
 export type UserInfo = {
   userId: string;
-  mainWallet: string;
-  wallets: string[];
+  address: string;
   email?: string;
   joined: Date;
   watching?: Subscription[];
@@ -48,18 +47,30 @@ const AuthContextProvider = ({
 
   const { signIn } = useSignIn();
 
-  const { balance } = useGetBalance({ address: data?.user.address ?? '' });
+  const { balance } = useGetBalance(
+    { address: data?.user.address ?? '' },
+    {
+      enabled: status === 'authenticated',
+    }
+  );
 
-  const userInfo: UserInfo | undefined = useMemo(() => {
-    if (!data) return undefined;
+  const userInfo: UserInfo = useMemo(() => {
+    if (!data)
+      return {
+        isAdmin: false,
+        isStaff: false,
+        address: '',
+        userId: '',
+        watching: [],
+        joined: new Date(),
+      };
     return {
       isAdmin: data.user.rol === 'ADMIN',
       isStaff: data.user.rol === 'STAFF',
-      mainWallet: data.user.address,
+      address: data.user.address,
       userId: data.user.id,
       watching: [],
-      wallets: [],
-      joined: new Date(),
+      joined: data.user.joined,
     };
   }, [data]);
 

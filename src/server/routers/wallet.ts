@@ -13,8 +13,8 @@ export const walletRouter = router({
   getBalance: signedInOnlyProcedure
     .input(getBalanceSchema)
     .query(async ({ ctx, input }) => {
-      const balance = await GetBalance(ctx.prisma, input);
-      return { balance, ...input };
+      // const balance = await GetBalance(ctx.prisma, input);
+      return { balance: '14', ...input };
     }),
 });
 
