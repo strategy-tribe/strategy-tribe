@@ -10,11 +10,13 @@ const PostReviewSchema = z.object({
 
 export type PostReviewParams = z.infer<typeof PostReviewSchema>;
 
-export const _postInvoice = async (
-  input: PostReviewParams,
-  prisma: PrismaClient
+export const CreateInvoice = async (
+  prisma: PrismaClient,
+  input: PostReviewParams
 ) => {
   const { status, submissionId, slug } = input;
+
+  //TODO: Guard here. Check if the bounty, submission, and review are valid before creating an invoice
   const { id } = await prisma.invoice.create({
     data: {
       status,

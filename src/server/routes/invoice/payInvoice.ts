@@ -1,9 +1,4 @@
-import {
-  BountyState,
-  InvoiceStatus,
-  PrismaClient,
-  SubmissionState,
-} from '@prisma/client';
+import { InvoiceStatus, PrismaClient } from '@prisma/client';
 import { TRPCError } from '@trpc/server';
 import { ethers } from 'ethers';
 import { z } from 'zod';
@@ -11,8 +6,6 @@ import { z } from 'zod';
 import { ERROR, LOG } from '@/server/importer/utils';
 import { adminOnlyProcedure } from '@/server/procedures';
 
-import { _updateBounty } from '../bounties/updateBounty';
-import { _updateSubmission } from '../submission/updateSubmission';
 import { ThenArg } from '../utils/helperTypes';
 
 const payInvoiceSchema = z.object({
@@ -73,24 +66,6 @@ async function _payInvoice(
         const txnResult = await bountyWallet.sendTransaction(txn);
         LOG(txnResult.hash);
 
-        await _updateBounty(
-          {
-            slug: invoice.bountySlug as string,
-          },
-          {
-            status: BountyState.Closed,
-          },
-          prisma
-        );
-        await _updateSubmission(
-          {
-            id: invoice.submissionId,
-          },
-          {
-            state: SubmissionState.Accepted,
-          },
-          prisma
-        );
         await prisma.invoice.update({
           where: {
             id: invoice.id,

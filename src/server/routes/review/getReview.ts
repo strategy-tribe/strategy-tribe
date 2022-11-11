@@ -1,21 +1,18 @@
-import {
-  BountyState,
-  InvoiceStatus,
-  PrismaClient,
-  ReviewGrade,
-  SubmissionState,
-} from '@prisma/client';
-import { ThenArg } from '@trpc/server';
+import { InvoiceStatus, PrismaClient, ReviewGrade } from '@prisma/client';
+import { ThenArg, TRPCError } from '@trpc/server';
 import { User } from 'next-auth';
 import { z } from 'zod';
 
 import { staffOnlyProcedure } from '@/server/procedures';
 
-import { _updateBounty } from '../bounties/updateBounty';
-import { _postInvoice } from '../invoice/postInvoice';
+import { CloseBounty } from '../bounties/updateBounty';
+import { CreateInvoice } from '../invoice/postInvoice';
 import { _getSubmission } from '../submission/getSubmission';
-import { _updateSubmission } from '../submission/updateSubmission';
-import { _updateSubmissions } from '../submission/updateSubmissions';
+import {
+  AcceptAndNotifySubmission,
+  RejectAndNotifySubmission,
+} from '../submission/updateSubmission';
+import { RejectAndNotifySubmissions } from '../submission/updateSubmissions';
 
 const PostReviewSchema = z.object({
   grade: z.nativeEnum(ReviewGrade),
@@ -23,6 +20,24 @@ const PostReviewSchema = z.object({
   reviewerAddress: z.string(),
   reviewerComment: z.string(),
 });
+
+/** Params necessary to call `postReview`  */
+export type PostReviewParams = z.infer<typeof PostReviewSchema>;
+
+/** Response to posting a review */
+export type PostReviewResponse = NonNullable<
+  ThenArg<ReturnType<typeof postReview>>
+>;
+
+export const postReview = staffOnlyProcedure
+  .input(PostReviewSchema)
+  .mutation(async ({ input, ctx }) => {
+    const id = await _postReview(ctx.prisma, ctx.session.user, input);
+
+    return {
+      reviewId: id,
+    };
+  });
 
 async function _postReview(
   prisma: PrismaClient,
@@ -48,67 +63,40 @@ async function _postReview(
   });
 
   if (grade === ReviewGrade.Accepted) {
-    const submission = await _getSubmission(prisma, user, { id: submissionId });
-    await _updateSubmissions(
-      {
-        state: SubmissionState.WaitingForReview,
-        exceptIds: [submissionId],
-        bounties: [submission?.bounty?.slug as string],
-      },
-      {
-        state: SubmissionState.Rejected,
-      },
-      prisma
-    );
-    await _updateBounty(
-      {
-        slug: submission?.bounty?.slug as string,
-      },
-      {
-        status: BountyState.PaymentNeeded,
-      },
-      prisma
-    );
-    await _postInvoice(
-      {
-        status: InvoiceStatus.Unpaid,
-        submissionId,
-        slug: submission?.bounty?.slug as string,
-      },
-      prisma
-    );
+    await _AcceptIt(prisma, user, submissionId);
+  } else {
+    await RejectAndNotifySubmission(prisma, submissionId);
   }
-
-  await _updateSubmission(
-    {
-      id: submissionId,
-    },
-    {
-      state:
-        grade === ReviewGrade.Accepted
-          ? SubmissionState.WaitingForPayment
-          : SubmissionState.Rejected,
-    },
-    prisma
-  );
 
   return id;
 }
 
-/** Params necessary to call `postReview`  */
-export type PostReviewParams = z.infer<typeof PostReviewSchema>;
+/** All of the logic for accepting a submission */
+async function _AcceptIt(
+  prisma: PrismaClient,
+  user: User,
+  submissionId: string
+) {
+  const submission = await _getSubmission(prisma, user, { id: submissionId });
 
-/** Response to posting a review */
-export type PostReviewResponse = NonNullable<
-  ThenArg<ReturnType<typeof postReview>>
->;
+  if (!submission?.bounty) {
+    throw new TRPCError({
+      code: 'NOT_FOUND',
+      message: 'Unable to find the bounty related to the submission',
+    });
+  }
+  await CloseBounty(prisma, submission.bounty.slug);
 
-export const postReview = staffOnlyProcedure
-  .input(PostReviewSchema)
-  .mutation(async ({ input, ctx }) => {
-    const id = await _postReview(ctx.prisma, ctx.session.user, input);
-
-    return {
-      reviewId: id,
-    };
+  await RejectAndNotifySubmissions(prisma, {
+    bountySlug: submission.bounty.slug,
+    rejectAllButThisOne: submissionId,
   });
+
+  await AcceptAndNotifySubmission(prisma, submissionId);
+
+  await CreateInvoice(prisma, {
+    status: InvoiceStatus.Unpaid,
+    submissionId,
+    slug: submission?.bounty?.slug as string,
+  });
+}

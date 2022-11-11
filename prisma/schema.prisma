@@ -15,14 +15,12 @@ enum TargetType {
 enum BountyState {
   WaitingForFunds
   Open
-  PaymentNeeded
   Closed
 }
 
 enum SubmissionState {
   WaitingForReview
   Rejected
-  WaitingForPayment
   Accepted
 }
 
@@ -197,6 +195,22 @@ model Answer {
   submissionId String?
 }
 
+model Notification {
+  id String @id @default(cuid())
+
+  for    User   @relation(fields: [userId], references: [id])
+  userId String
+
+  message String
+
+  urlCallback String
+
+  read Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+}
+
 model Review {
   id String @id @default(cuid())
 
@@ -276,7 +290,8 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
 
-  review Review[]
+  review        Review[]
+  notifications Notification[]
 }
 
 enum Rol {

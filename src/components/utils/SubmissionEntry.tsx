@@ -75,8 +75,6 @@ function SubmissionStateIcon({ state }: { state: SubmissionState }) {
       return <Icon icon="check_circle" />;
     case SubmissionState['Rejected']:
       return <Icon icon="do_not_disturb_on" />;
-    case SubmissionState['WaitingForPayment']:
-      return <Icon icon="toll" />;
     default:
       return <Icon icon="pending" />;
   }

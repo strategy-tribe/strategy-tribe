@@ -1,6 +1,8 @@
 import { Prisma, PrismaClient, SubmissionState } from '@prisma/client';
 import { z } from 'zod';
 
+import { NotifyUsers_SubmissionsRejected } from '../notification/submissionts';
+
 /** Schema used to update submissions */
 const UpdateSubmissionsSchema = z.object({
   state: z.nativeEnum(SubmissionState).optional(),
@@ -11,7 +13,7 @@ const UpdateSubmissionsSchema = z.object({
   bounties: z.string().array().optional(),
 });
 
-export type UpdateSubmissionsParams = z.infer<typeof UpdateSubmissionsSchema>;
+type UpdateSubmissionsParams = z.infer<typeof UpdateSubmissionsSchema>;
 
 /** Schema used to update for submissions */
 const UpdateSubmissionsDataSchema = z.object({
@@ -22,7 +24,7 @@ export type UpdateSubmissionsDataParams = z.infer<
   typeof UpdateSubmissionsDataSchema
 >;
 
-export const _updateSubmissions = async (
+const _updateSubmissions = async (
   config: UpdateSubmissionsParams,
   input: UpdateSubmissionsDataParams,
   prisma: PrismaClient
@@ -39,4 +41,62 @@ export const _updateSubmissions = async (
     where,
   });
   return data;
+};
+
+/** Rejects all of the submissions for a bounty except one. Also notifies users that their submissions got rejected */
+export const RejectAndNotifySubmissions = async (
+  prisma: PrismaClient,
+  data: {
+    /** It won't reject this address */
+    rejectAllButThisOne: string;
+    bountySlug: string;
+  }
+) => {
+  await _updateSubmissions(
+    {
+      state: SubmissionState.WaitingForReview,
+      exceptIds: [data.rejectAllButThisOne],
+      bounties: [data.bountySlug],
+    },
+    {
+      state: SubmissionState.Rejected,
+    },
+    prisma
+  );
+
+  //#region Mean to be used only here
+  type _UserData = {
+    id: string;
+    authorId: string | null;
+  };
+  type _CleanUserData = {
+    id: string;
+    authorId: string;
+  };
+  //#endregion Mean to be used only here
+
+  const users: _UserData[] = await prisma.submission.findMany({
+    where: {
+      AND: {
+        state: SubmissionState.Rejected,
+        bountySlug: data.bountySlug,
+      },
+    },
+    select: {
+      id: true,
+      authorId: true,
+    },
+  });
+
+  const isClean = (item: _UserData): item is _CleanUserData => {
+    return !!item.authorId;
+  };
+
+  await NotifyUsers_SubmissionsRejected(
+    prisma,
+    data.bountySlug,
+    users.filter(isClean).map((i) => {
+      return { userId: i.authorId, submissionId: i.id };
+    })
+  );
 };
