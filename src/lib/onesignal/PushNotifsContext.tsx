@@ -1,6 +1,6 @@
+import { useQuery } from '@tanstack/react-query';
 import { createContext, useContext, useState } from 'react';
 import OneSignal from 'react-onesignal';
-import { useQuery } from 'react-query';
 
 import {
   DelayType,
@@ -61,7 +61,7 @@ const PushNotifsContext = createContext<PushNotifsContextInterface>({
   },
 });
 
-export default function PushNotifsContextProvider({
+export default function PushNotificationsProvider({
   children,
   appId,
 }: {
@@ -82,7 +82,7 @@ export default function PushNotifsContextProvider({
     }
   }
 
-  useQuery('Initialize OneSignal', initializeOneSignal, {
+  useQuery(['Initialize OneSignal'], initializeOneSignal, {
     enabled: !initialized,
     cacheTime: Infinity,
     staleTime: Infinity,

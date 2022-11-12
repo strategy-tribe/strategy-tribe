@@ -172,7 +172,11 @@ export const getBounties = publicProcedure
       const count = await countBounties(prisma, input);
       return { bounties, count };
     } catch (error) {
-      throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR' });
+      throw new TRPCError({
+        code: 'INTERNAL_SERVER_ERROR',
+        cause: JSON.stringify(error, null, 2),
+        message: 'Unable to query bounties',
+      });
     }
   });
 

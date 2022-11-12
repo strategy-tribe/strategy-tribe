@@ -38,7 +38,7 @@ export type UserInfo = {
 const AuthContext = createContext<AuthContextInterface>();
 
 /** Using this to abstract our Auth provider */
-const AuthContextProvider = ({
+const AuthProvider = ({
   children,
 }: {
   children: React.ReactNode[] | React.ReactNode;
@@ -95,7 +95,7 @@ const AuthContextProvider = ({
 };
 
 //?Exports
-export default AuthContextProvider;
+export default AuthProvider;
 export const useAuth = () => {
   return useContext(AuthContext);
 };

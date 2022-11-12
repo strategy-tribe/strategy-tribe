@@ -4,12 +4,17 @@ import { isArray } from 'util';
 
 import { IND_PREFIX, LOG, ORG_PREFIX } from './utils';
 
-const FILE_NAME = resolve('public', 'static', 'sheet_data.json');
+const FILE_NAME = resolve(
+  'public',
+  'static',
+  'admin',
+  process.env.SHEET_DATA_NAME as string
+);
 
 export async function DownloadData() {
   const url = process.env.GOOGLE_SHEET_URL as string;
   if (!url) {
-    throw new Error('Google sheet url undefined');
+    throw new Error('sheet url undefined');
   }
 
   LOG('Downloading data');

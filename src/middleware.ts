@@ -9,11 +9,16 @@ export default withAuth({
   },
   callbacks: {
     authorized: ({ req, token }) => {
+      const adminToken = process.env.ADMIN_TOKEN as string;
       try {
         const hasPermissions =
-          token?.user.rol === 'ADMIN' || token?.user.rol === 'STAFF';
+          token?.user.rol === 'ADMIN' ||
+          token?.user.rol === 'STAFF' ||
+          req.headers.get('TOKEN') === adminToken;
 
-        if (req.url.includes('admin') && !hasPermissions) {
+        const requestingAdminAccess = req.url.includes('admin');
+
+        if (requestingAdminAccess && !hasPermissions) {
           return false;
         }
         return true;

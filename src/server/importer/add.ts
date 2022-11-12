@@ -8,7 +8,7 @@ import { toTitleCase } from '@/lib/utils/StringHelpers';
 
 import prisma from '@/server/prisma/prismaClient';
 
-import { ERROR, LOG, OrgData, TargetData, WARN } from './utils';
+import { LOG, OrgData, TargetData, WARN } from './utils';
 
 function addDays(date: Date, days: number) {
   const result = new Date(date);
@@ -85,7 +85,7 @@ export async function addToDb(organizations: OrgData[], targets: TargetData[]) {
           closesAt: addDays(new Date(), 7 * 4 * 6),
         });
       }
-      if (i % 10 === 0) LOG(`${i + 1}/${targets.length} targets created.`);
+      if (i % 3 === 0) LOG(`${i + 1}/${targets.length} targets created.`);
     } catch (error) {
       issues.push({ data: t, error });
       WARN(
@@ -282,9 +282,8 @@ async function CreateOrganization(o: OrgData) {
     });
   } catch (e) {
     if (e instanceof PrismaClientKnownRequestError) {
-      ERROR(
-        `Unable to create ${o.name}.\nReason: ${JSON.stringify(e, null, 2)}`,
-        false
+      WARN(
+        `Unable to create ${o.name}.\nReason: ${JSON.stringify(e, null, 2)}`
       );
     }
     throw e;
@@ -336,6 +335,7 @@ async function getNewAddress() {
       privateKey,
       publicKey,
       mnemonicPhrase: mnemonic.phrase,
+      txnHash: '',
     },
   });
   return address;
