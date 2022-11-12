@@ -1,4 +1,5 @@
-import { RequirementType } from '@prisma/client';
+import { PrismaClient, RequirementType } from '@prisma/client';
+import axios from 'axios';
 
 import { toTitleCase } from '@/lib/utils/StringHelpers';
 
@@ -23,8 +24,13 @@ async function scrapSheet() {
   if (!url) {
     throw new Error('Undefined url for data');
   }
-  const data = await fetch(url);
-  const sheets = await data.json();
+  const sheets = (
+    await axios(url, {
+      headers: {
+        TOKEN: process.env.ADMIN_TOKEN as string,
+      },
+    })
+  ).data;
 
   let organizations: OrgData[] = [];
   let targets: TargetData[] = [];
@@ -159,7 +165,7 @@ async function classifyOrgs(orgs: OrgData[]) {
   return { newOrgs, oldOrgs };
 }
 
-export async function GrabData() {
+export async function GrabData(prisma: PrismaClient) {
   try {
     LOG('1) Grabbing data from file');
     const { organizations: sheetOrgs, targets: sheetTargets } =
@@ -175,8 +181,8 @@ export async function GrabData() {
       `2.1) Done classifying data\nOrgs to create: ${newOrgs.length}\nOrgs to update: ${oldOrgs.length}\nTargets to create: ${newTargets.length}\nTargets to update: ${oldTargets.length}`
     );
     //! Order matters
-    await addToDb(newOrgs, newTargets);
-    await updateDb(oldOrgs, oldTargets);
+    await addToDb(prisma, newOrgs, newTargets);
+    await updateDb(prisma, oldOrgs, oldTargets);
     LOG('End of job');
   } catch (error) {
     ERROR(`Error scraping sheet: ${error}`);

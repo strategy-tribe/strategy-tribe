@@ -1,12 +1,10 @@
-import { RequirementType } from '@prisma/client';
+import { PrismaClient, RequirementType } from '@prisma/client';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
 import { Wallet } from 'ethers';
 import fs from 'fs';
 import { v4 } from 'uuid';
 
 import { toTitleCase } from '@/lib/utils/StringHelpers';
-
-import prisma from '@/server/prisma/prismaClient';
 
 import { LOG, OrgData, TargetData, WARN } from './utils';
 
@@ -17,7 +15,11 @@ function addDays(date: Date, days: number) {
 }
 
 //*Create
-export async function addToDb(organizations: OrgData[], targets: TargetData[]) {
+export async function addToDb(
+  prisma: PrismaClient,
+  organizations: OrgData[],
+  targets: TargetData[]
+) {
   const issues: { data: OrgData | TargetData; error: unknown }[] = [];
 
   //#region ORGS
@@ -30,7 +32,7 @@ export async function addToDb(organizations: OrgData[], targets: TargetData[]) {
       );
 
       try {
-        await CreateOrganization(o);
+        await CreateOrganization(prisma, o);
       } catch (error) {
         issues.push({ data: o, error });
         WARN(
@@ -41,7 +43,7 @@ export async function addToDb(organizations: OrgData[], targets: TargetData[]) {
       }
 
       for await (const bountyData of bountiesData) {
-        await CreateBounty({
+        await CreateBounty(prisma, {
           targetName: o.name,
           requirements: bountyData.requirements,
           title: bountyData.bountyTitle,
@@ -73,11 +75,11 @@ export async function addToDb(organizations: OrgData[], targets: TargetData[]) {
       const capitalizedName = toTitleCase(t.name);
       const bountiesData = GenerateBountiesData(capitalizedName, t.types);
 
-      await CreateTarget(t);
+      await CreateTarget(prisma, t);
 
       //Have to do it this way to add the tags
       for await (const bountyData of bountiesData) {
-        await CreateBounty({
+        await CreateBounty(prisma, {
           targetName: t.name,
           title: bountyData.bountyTitle,
           requirements: bountyData.requirements,
@@ -178,20 +180,23 @@ function GenerateBountiesData(
   return bd;
 }
 
-async function CreateBounty({
-  title,
-  tags,
-  targetName,
-  requirements,
-  closesAt,
-}: {
-  title: string;
-  requirements: RequirementData[];
-  targetName: string;
-  closesAt: Date;
-  tags?: string[];
-}) {
-  const address = await getNewAddress();
+async function CreateBounty(
+  prisma: PrismaClient,
+  {
+    title,
+    tags,
+    targetName,
+    requirements,
+    closesAt,
+  }: {
+    title: string;
+    requirements: RequirementData[];
+    targetName: string;
+    closesAt: Date;
+    tags?: string[];
+  }
+) {
+  const address = await getNewAddress(prisma);
   LOG(`--- ${title}`);
   await prisma.bounty.create({
     data: {
@@ -233,13 +238,13 @@ async function CreateBounty({
   });
 }
 
-async function CreateOrganization(o: OrgData) {
+async function CreateOrganization(prisma: PrismaClient, o: OrgData) {
   try {
     const orgName = o.name;
 
     LOG(`Creating org: "${orgName}"`);
 
-    const address = await getNewAddress();
+    const address = await getNewAddress(prisma);
     await prisma.organization.create({
       data: {
         name: orgName,
@@ -290,8 +295,8 @@ async function CreateOrganization(o: OrgData) {
   }
 }
 
-async function CreateTarget(t: TargetData) {
-  const address = await getNewAddress();
+async function CreateTarget(prisma: PrismaClient, t: TargetData) {
+  const address = await getNewAddress(prisma);
   LOG(`Creating target: ${t.name}`);
 
   await prisma.target.create({
@@ -326,7 +331,7 @@ async function CreateTarget(t: TargetData) {
   });
 }
 
-async function getNewAddress() {
+async function getNewAddress(prisma: PrismaClient) {
   const { address, privateKey, publicKey, mnemonic } = Wallet.createRandom();
   await prisma.key.create({
     data: {

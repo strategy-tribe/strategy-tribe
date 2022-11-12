@@ -1,9 +1,9 @@
+import { PrismaClient } from '@prisma/client';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
 
 import { ERROR } from './utils';
-import prisma from '../prisma/prismaClient';
 
-export async function GenerateCountriesData() {
+export async function GenerateCountriesData(prisma: PrismaClient) {
   try {
     const allCountries = await prisma.country.findMany({
       include: {

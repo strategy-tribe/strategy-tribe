@@ -1,10 +1,10 @@
 import { EtherscanProvider } from '@ethersproject/providers';
+import { PrismaClient } from '@prisma/client';
 import { ethers } from 'ethers';
 
 import { ERROR } from './utils';
-import prisma from '../prisma/prismaClient';
 
-export async function UpdateBalance() {
+export async function UpdateBalance(prisma: PrismaClient) {
   try {
     const provider = new EtherscanProvider('matic');
     const wallets = await prisma.wallet.findMany();

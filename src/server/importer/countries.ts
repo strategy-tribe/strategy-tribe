@@ -9,7 +9,13 @@ export async function AddCountriesToDB(prisma: PrismaClient) {
   if (!url) {
     throw new Error('countries url undefined');
   }
-  const countries = await (await axios(url)).data;
+  const countries = await (
+    await axios(url, {
+      headers: {
+        TOKEN: process.env.ADMIN_TOKEN as string,
+      },
+    })
+  ).data;
 
   const parsed = countries.map((c: { Code: string; Name: string }) => ({
     code: c.Code,
