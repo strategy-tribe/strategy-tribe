@@ -27,7 +27,7 @@ export function SupportButton({
     return (
       <ActualSupportButton
         userId={userId}
-        userWallet={userInfo.mainWallet}
+        userWallet={userInfo.address}
         amountInEth={amount}
         recipient={recipient}
         after={after}

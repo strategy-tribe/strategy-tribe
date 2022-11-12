@@ -8,6 +8,7 @@ const AMOUNT_OF_PAGES = 10;
 
 interface AdminReviewInterface {
   submissionFetch: ReturnType<typeof useGetSubmissions>;
+  isLoading: boolean;
   nextPage: () => void;
   prevPage: () => void;
   goToPage: (v: number) => void;
@@ -34,7 +35,12 @@ const AdminReviewContextProvider = ({
   });
 
   const submissionFetch = useGetSubmissions(query);
-  const { hasNextPage, hasPreviousPage, page: currPage } = submissionFetch;
+  const {
+    hasNextPage,
+    hasPreviousPage,
+    page: currPage,
+    isLoading,
+  } = submissionFetch;
 
   function nextPage() {
     if (!hasNextPage) return;
@@ -58,6 +64,7 @@ const AdminReviewContextProvider = ({
     <AdminReviewContext.Provider
       value={{
         submissionFetch,
+        isLoading,
         nextPage,
         prevPage,
         goToPage,

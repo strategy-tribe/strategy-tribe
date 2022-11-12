@@ -32,8 +32,7 @@ export function SubmissionDetails() {
           </>
         )}
 
-        {submission.state ===
-          (SubmissionState.Accepted || SubmissionState.WaitingForPayment) && (
+        {submission.state === SubmissionState.Accepted && (
           <>
             <SubmissionDetail
               label="Reward"
@@ -50,7 +49,11 @@ export function SubmissionDetails() {
           copyable
         />
 
-        <SubmissionDetail label="User ID" value={submission.id} copyable />
+        <SubmissionDetail
+          label="User ID"
+          value={submission.author?.id as string}
+          copyable
+        />
       </div>
     </div>
   );

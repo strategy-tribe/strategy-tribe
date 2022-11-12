@@ -9,7 +9,6 @@ export function LogOutButton({ hide }: { hide: () => void }) {
       onClick={() => {
         hide();
         LogOut();
-        window.location.reload();
       }}
     >
       Log out

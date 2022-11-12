@@ -1,8 +1,18 @@
-import { PrismaClient, ReviewGrade, SubmissionState } from '@prisma/client';
-import { ThenArg } from '@trpc/server';
+import { InvoiceStatus, PrismaClient, ReviewGrade } from '@prisma/client';
+import { ThenArg, TRPCError } from '@trpc/server';
+import { User } from 'next-auth';
 import { z } from 'zod';
 
 import { staffOnlyProcedure } from '@/server/procedures';
+
+import { CloseBounty } from '../bounties/updateBounty';
+import { CreateInvoice } from '../invoice/postInvoice';
+import { _getSubmission } from '../submission/getSubmission';
+import {
+  AcceptAndNotifySubmission,
+  RejectAndNotifySubmission,
+} from '../submission/updateSubmission';
+import { RejectAndNotifySubmissions } from '../submission/updateSubmissions';
 
 const PostReviewSchema = z.object({
   grade: z.nativeEnum(ReviewGrade),
@@ -11,7 +21,29 @@ const PostReviewSchema = z.object({
   reviewerComment: z.string(),
 });
 
-async function _postReview(prisma: PrismaClient, params: PostReviewParams) {
+/** Params necessary to call `postReview`  */
+export type PostReviewParams = z.infer<typeof PostReviewSchema>;
+
+/** Response to posting a review */
+export type PostReviewResponse = NonNullable<
+  ThenArg<ReturnType<typeof postReview>>
+>;
+
+export const postReview = staffOnlyProcedure
+  .input(PostReviewSchema)
+  .mutation(async ({ input, ctx }) => {
+    const id = await _postReview(ctx.prisma, ctx.session.user, input);
+
+    return {
+      reviewId: id,
+    };
+  });
+
+async function _postReview(
+  prisma: PrismaClient,
+  user: User,
+  params: PostReviewParams
+) {
   const { grade, submissionId, reviewerAddress, reviewerComment } = params;
   const { id } = await prisma.review.create({
     data: {
@@ -30,35 +62,41 @@ async function _postReview(prisma: PrismaClient, params: PostReviewParams) {
     },
   });
 
-  const updateSub = await prisma.submission.update({
-    where: {
-      id: submissionId,
-    },
-    data: {
-      state:
-        grade === ReviewGrade.Accepted
-          ? SubmissionState.WaitingForPayment
-          : SubmissionState.Rejected,
-    },
-  });
+  if (grade === ReviewGrade.Accepted) {
+    await _AcceptIt(prisma, user, submissionId);
+  } else {
+    await RejectAndNotifySubmission(prisma, submissionId);
+  }
 
   return id;
 }
 
-/** Params necessary to call `postReview`  */
-export type PostReviewParams = z.infer<typeof PostReviewSchema>;
+/** All of the logic for accepting a submission */
+async function _AcceptIt(
+  prisma: PrismaClient,
+  user: User,
+  submissionId: string
+) {
+  const submission = await _getSubmission(prisma, user, { id: submissionId });
 
-/** Response to posting a review */
-export type PostReviewResponse = NonNullable<
-  ThenArg<ReturnType<typeof postReview>>
->;
+  if (!submission?.bounty) {
+    throw new TRPCError({
+      code: 'NOT_FOUND',
+      message: 'Unable to find the bounty related to the submission',
+    });
+  }
+  await CloseBounty(prisma, submission.bounty.slug);
 
-export const postReview = staffOnlyProcedure
-  .input(PostReviewSchema)
-  .mutation(async ({ input, ctx: { prisma } }) => {
-    const id = await _postReview(prisma, input);
-
-    return {
-      reviewId: id,
-    };
+  await RejectAndNotifySubmissions(prisma, {
+    bountySlug: submission.bounty.slug,
+    rejectAllButThisOne: submissionId,
   });
+
+  await AcceptAndNotifySubmission(prisma, submissionId);
+
+  await CreateInvoice(prisma, {
+    status: InvoiceStatus.Unpaid,
+    submissionId,
+    slug: submission?.bounty?.slug as string,
+  });
+}

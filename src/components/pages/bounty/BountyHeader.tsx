@@ -16,8 +16,8 @@ import { Stat } from '@/components/utils/Stat';
 
 import { useAuth } from '@/auth/AuthContext';
 
-import { Section } from '../landing/Section';
 import BountyStatusShowcase from './BountyStatusShowcase';
+import { Section } from '../landing/Section';
 
 export function BountyHeader() {
   const { bounty } = useBountyContext();
@@ -48,7 +48,7 @@ export function BountyHeader() {
                   removePadding: true,
                   label: organization.name,
                   labelClasses: 'capitalize',
-                  isALink: GoToOrgPage(organization?.id as string),
+                  isALink: GoToOrgPage(organization?.name as string),
                 }}
               />
             )}
@@ -121,8 +121,7 @@ export function BountyHeader() {
         <Section className="flex justify-end gap-6">
           {!isStaff && !isFetchingUserInfo && (
             <div className="flex flex-col items-end gap-2">
-              <SubmitButton />
-              <SubmitMessages />
+              <SubmitButtonWithMessages />
             </div>
           )}
         </Section>
@@ -137,18 +136,30 @@ export function BountyHeader() {
   );
 }
 
-function SubmitMessages() {
+function SubmitButtonWithMessages() {
+  const router = useRouter();
   const { bounty } = useBountyContext();
 
   const { userId } = useAuth();
 
-  const { canSubmit, spacesLeft } = useCanUserSubmit(bounty.slug);
+  const { canSubmit, spacesLeft, isLoading } = useCanUserSubmit(bounty.slug);
 
   const isOpen =
     bounty.status === 'WaitingForFunds' || bounty.status === 'Open';
 
+  if (isLoading) return <></>;
+
   return (
     <>
+      <Button
+        info={{
+          style: ButtonStyle.Filled,
+          label: 'Start new submission',
+          icon: 'arrow_forward',
+          disabled: !canSubmit,
+          onClick: () => router.push(GoToBeforeNewSubmissionPage(bounty.slug)),
+        }}
+      />
       <div className="label pt-1 pr-2 text-right">
         {isOpen ? (
           <>
@@ -177,27 +188,5 @@ function SubmitMessages() {
         )}
       </div>
     </>
-  );
-}
-
-function SubmitButton() {
-  const router = useRouter();
-
-  const { bounty } = useBountyContext();
-
-  const { canSubmit, isLoading } = useCanUserSubmit(bounty?.slug);
-
-  if (isLoading) return <></>;
-
-  return (
-    <Button
-      info={{
-        style: ButtonStyle.Filled,
-        label: 'Start new submission',
-        icon: 'arrow_forward',
-        disabled: !canSubmit,
-        onClick: () => router.push(GoToBeforeNewSubmissionPage(bounty.slug)),
-      }}
-    />
   );
 }

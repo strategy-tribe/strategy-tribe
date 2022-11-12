@@ -1,13 +1,13 @@
 import { InvoiceStatus } from '@prisma/client';
 
-import { useGetInvoices } from '@/lib/hooks/useGetInvoices';
+import { useGetInvoices } from '@/lib/hooks/invoiceHooks';
 
 import { useAuth } from '@/auth/AuthContext';
 
 export function AccountRewards() {
   const { userId } = useAuth();
   const { invoices, isLoading } = useGetInvoices(
-    { users: [userId!] },
+    { userIds: [userId as string] },
     !!userId
   );
 

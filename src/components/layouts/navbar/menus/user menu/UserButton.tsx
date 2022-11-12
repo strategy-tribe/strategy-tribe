@@ -9,7 +9,7 @@ import { cutWallet } from './RegularUserMenu';
 export function UserButton({ show }: { show: () => void }) {
   const { userInfo, isAuthenticated, balance } = useAuth();
 
-  const wallet = cutWallet(userInfo?.mainWallet ?? '');
+  const wallet = cutWallet(userInfo?.address ?? '');
 
   const parsedBalance = useMemo(() => {
     try {

@@ -22,9 +22,6 @@ export default function BountyStatusShowcase({
       case 'Closed':
         return 'The bounty has closed and is not accepting any submissions.';
 
-      case 'PaymentNeeded':
-        return "The bounty's requirements have been fulfilled by a submission and it is currently transfering the rewards.";
-
       default:
         return 'The bounty will receive funds shortly.';
     }
@@ -33,7 +30,6 @@ export default function BountyStatusShowcase({
   const calculateIcon = () => {
     if (status === 'Closed') return 'lock';
     else if (status === 'Open') return 'travel_explore';
-    else if (status === 'PaymentNeeded') return 'price_check';
     else if (status === 'WaitingForFunds') return 'hourglass_empty';
     else return 'icon';
   };

@@ -4,14 +4,14 @@ import { z } from 'zod';
 
 import { MapDataWithFeatures } from '@/lib/models/MapData';
 
-import { router, signedInOnlyProcedure } from '../procedures';
+import { publicProcedure, router } from '../procedures';
 import { ThenArg } from '../routes/utils/helperTypes';
 
 const getMapDataSchema = z.object({}).optional();
 
 export type GetMapParams = z.infer<typeof getMapDataSchema>;
 export const mapRouter = router({
-  getMapData: signedInOnlyProcedure
+  getMapData: publicProcedure
     .input(getMapDataSchema)
     .query(async ({ ctx, input }) => {
       const mapData = await getMapData(ctx.prisma);

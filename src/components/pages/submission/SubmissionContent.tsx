@@ -44,7 +44,8 @@ function UserStats() {
   const { data: submitterInfo } = useSubmitterInfo(
     {
       bountySlug: bounty?.slug ?? '',
-      submitterId: submission.id,
+      submitterId: submission.author?.id as string,
+      address: submission.author?.address as string,
     },
     !!bounty?.slug
   );
@@ -64,10 +65,9 @@ function UserStats() {
               value={`${submitterInfo.totalSubmissions}`}
             />
 
-            {/* TODO: update right number */}
             <SubmissionDetail
               label="Submissions allowed for today"
-              value={`${568}`}
+              value={`${submitterInfo.submissionsAllowed}`}
             />
           </div>
         </div>

@@ -1,8 +1,10 @@
-import { Submission, SubmissionState } from '@prisma/client';
+import { SubmissionState } from '@prisma/client';
 import { useRouter } from 'next/router';
 
 import { GetDateInString } from '@/lib/utils/DateHelpers';
 import { GoToSubmissionPage } from '@/lib/utils/Routes';
+
+import { FullSubmission } from '@/server/routes/submission/getSubmission';
 
 import Icon from './Icon';
 
@@ -10,7 +12,7 @@ export const SubmissionEntry = ({
   submission,
   fullSize = true,
 }: {
-  submission: Submission;
+  submission: FullSubmission;
   fullSize?: boolean;
 }) => {
   const router = useRouter();
@@ -73,8 +75,6 @@ function SubmissionStateIcon({ state }: { state: SubmissionState }) {
       return <Icon icon="check_circle" />;
     case SubmissionState['Rejected']:
       return <Icon icon="do_not_disturb_on" />;
-    case SubmissionState['WaitingForPayment']:
-      return <Icon icon="toll" />;
     default:
       return <Icon icon="pending" />;
   }

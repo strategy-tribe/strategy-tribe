@@ -36,9 +36,9 @@ export function OrgEntry({
         </div>
         {org.bio && (
           <p className="body max-w-lg text-on-surface-unactive line-clamp-3">
-            <p className="whitespace-pre-wrap first-letter:capitalize">
+            <span className="whitespace-pre-wrap first-letter:capitalize">
               {org.bio}
-            </p>
+            </span>
           </p>
         )}
       </Link>

@@ -69,6 +69,12 @@ export const SMALL_SUBMISSION_SELECT =
       },
     },
     review: true,
+    author: {
+      select: {
+        address: true,
+        id: true,
+      },
+    },
   });
 
 export const _getSubmissions = async (
@@ -109,14 +115,7 @@ export const _getSubmissions = async (
     orderBy: {
       createdAt: input.order,
     },
-    include: {
-      bounty: {
-        include: {
-          tags: true,
-        },
-      },
-      answers: true,
-    },
+    select: SMALL_SUBMISSION_SELECT,
   });
 
   return submissions;

@@ -2,11 +2,11 @@ import dynamic from 'next/dynamic';
 
 import { MapDataWithFeatures } from '@/lib/models/MapData';
 
-import { Section } from '../landing/Section';
-import { PageControls } from '../search/PageControls';
 import { BountyBoard } from './BountyBoard';
 import { ExploreContextProvider, useExploreContext } from './ExploreContext';
 import { ExploreFilters } from './filters/ExploreFilters';
+import { Section } from '../landing/Section';
+import { PageControls } from '../search/PageControls';
 
 const Map = dynamic(import('./map/MapProjection'), {
   ssr: false,
@@ -29,15 +29,12 @@ function ExploreContent() {
 
   if (error) {
     console.error(error);
-    // router.push(GoTo404Page());
     return <></>;
   }
 
   return (
     <>
       <div>
-        {/* <Section>{!!Map && <Map />}</Section> */}
-
         <Section>{!!Map && <Map />}</Section>
 
         <div className="flex min-h-screen w-full flex-col gap-y-8 ">

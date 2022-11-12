@@ -1,7 +1,6 @@
 import { useState } from 'react';
 
 import AppLayout from '@/components/layouts/AppLayout';
-import ProtectedLayout from '@/components/layouts/ProtectedLayout';
 import Loading from '@/components/utils/Loading';
 
 import { NextPageWithLayout } from '../_app';
@@ -286,9 +285,9 @@ const DataPage: NextPageWithLayout = () => {
 
 DataPage.getLayout = function getLayout(page) {
   return (
-    <ProtectedLayout>
+    <>
       <AppLayout>{page}</AppLayout>
-    </ProtectedLayout>
+    </>
   );
 };
 export default DataPage;

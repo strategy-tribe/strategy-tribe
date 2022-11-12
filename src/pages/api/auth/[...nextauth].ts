@@ -60,6 +60,7 @@ export default NextAuth({
             externalId: profileId,
             signature,
             rol: u.rol,
+            joined: u.createdAt,
           };
           // returning the user object and creating a session
           return user;
@@ -73,14 +74,34 @@ export default NextAuth({
   // adding user info to the user session object
   callbacks: {
     async jwt({ token, user }) {
-      if (user) {
-        token.user = user;
+      try {
+        if (user) {
+          token.user = user;
+        }
+        return token;
+      } catch (error) {
+        console.error(
+          `Error in JWT callback. Reason:\n ${JSON.stringify(error, null, 2)}`
+        );
+        return token;
       }
-      return token;
     },
     async session({ session, token }) {
-      session.user = token.user;
-      return session;
+      try {
+        if (token.user) {
+          session.user = token.user;
+        }
+        return session;
+      } catch (error) {
+        console.error(
+          `Error in SESSION callback. Reason:\n ${JSON.stringify(
+            error,
+            null,
+            2
+          )}`
+        );
+        return session;
+      }
     },
   },
 });

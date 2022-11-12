@@ -8,6 +8,7 @@ interface CustomUser {
   externalId: string;
   signature: string;
   rol: Rol;
+  joined: Date;
 }
 
 declare module 'next-auth/jwt' {

@@ -1,4 +1,4 @@
-import { useQueryClient } from 'react-query';
+import { useQueryClient } from '@tanstack/react-query';
 
 import {
   PostReviewParams,
@@ -7,26 +7,26 @@ import {
 
 import { trpc } from '../trpc';
 
-export const useSubmitReview = (
-  params: PostReviewParams,
-  events: {
-    onSuccess: (data: PostReviewResponse) => void;
-    onError: (e: any) => void;
-  }
-) => {
-  const { onError, onSuccess } = events;
-  const q = useQueryClient();
+export const useSubmitReview = (events: {
+  onMutate: () => void;
+  onSuccess: (data: PostReviewResponse) => void;
+  onError: (e: any) => void;
+}) => {
+  const { onError, onMutate, onSuccess } = events;
+
+  const qc = useQueryClient();
 
   const mutation = trpc.review.post.useMutation({
+    onMutate,
     onError,
     onSuccess: (data) => {
-      q.invalidateQueries();
+      qc.invalidateQueries();
       onSuccess(data);
     },
   });
 
   return {
-    SubmitReview: async () => {
+    SubmitReview: async (params: PostReviewParams) => {
       mutation.mutate(params);
     },
     isLoading: mutation.isLoading,

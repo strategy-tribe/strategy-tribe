@@ -19,9 +19,9 @@ import {
 
 //*Scraping
 async function scrapSheet() {
-  const url = process.env.JSON_SHEET_URL as string;
+  const url = process.env.JSON_DB_DATA as string;
   if (!url) {
-    throw new Error('Undefined url for sheet_data.json');
+    throw new Error('Undefined url for data');
   }
   const data = await fetch(url);
   const sheets = await data.json();
