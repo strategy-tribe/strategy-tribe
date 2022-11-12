@@ -60,12 +60,11 @@ export default function Dropdown<T extends HasLabel>({
   }
 
   const [open, setOpen] = useState(false);
-  const [selected, setSelected] = useState(options.at(defaultOptionIndex));
+  const [selected, setSelected] = useState<T | undefined>();
 
   useEffect(() => {
-    setSelected(options.at(defaultOptionIndex));
-    // eslint-disable-next-line
-  }, [defaultOptionIndex]);
+    setSelected(options?.at(defaultOptionIndex));
+  }, [defaultOptionIndex, options]);
 
   return (
     <>
