@@ -3,16 +3,21 @@ import { TRPCError } from '@trpc/server';
 
 import { GoToSubmissionPage } from '@/lib/utils/Routes';
 
-import { OneSignalNotificationLoad } from './onesignal';
+import { PushNotificationLoad } from './onesignal';
 import { SenNotifications } from './utils';
 
 /** Creates a notification load for a submission update.  */
-const CreateSubmissionNotificationLoad = (
-  userId: string,
-  submissionId: string,
-  bountyTitle: string,
-  state: SubmissionState
-): OneSignalNotificationLoad => {
+const CreateSubmissionNotificationLoad = ({
+  bountyTitle,
+  state,
+  submissionId,
+  userId,
+}: {
+  userId: string;
+  submissionId: string;
+  bountyTitle: string;
+  state: SubmissionState;
+}): PushNotificationLoad => {
   let message = '';
   switch (state) {
     case 'Accepted':
@@ -51,12 +56,12 @@ export const NotifyUsers_SubmissionsRejected = async (
   });
 
   const notifications = load.map(({ submissionId, userId }) =>
-    CreateSubmissionNotificationLoad(
+    CreateSubmissionNotificationLoad({
       userId,
       submissionId,
       bountyTitle,
-      SubmissionState.Rejected
-    )
+      state: SubmissionState.Rejected,
+    })
   );
 
   await SenNotifications(prisma, notifications);
@@ -74,12 +79,12 @@ export const NotifyUsers_SubmissionAccepted = async (
     select: { title: true },
   });
 
-  const notification = CreateSubmissionNotificationLoad(
-    load.userId,
-    load.submissionId,
+  const notification = CreateSubmissionNotificationLoad({
+    userId: load.userId,
+    submissionId: load.submissionId,
     bountyTitle,
-    SubmissionState.Accepted
-  );
+    state: SubmissionState.Accepted,
+  });
 
   await SenNotifications(prisma, [notification]);
 };

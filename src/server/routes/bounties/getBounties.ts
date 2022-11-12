@@ -164,11 +164,7 @@ export const getBounties = publicProcedure
   .input(GetBountiesSchema)
   .query(async ({ input, ctx: { prisma } }) => {
     try {
-      // eslint-disable-next-line no-console
-      console.time('get bounties w sql');
       const bounties = await getBountiesWithMetaData(prisma, input);
-      // eslint-disable-next-line no-console
-      console.timeEnd('get bounties w sql');
       const count = await countBounties(prisma, input);
       return { bounties, count };
     } catch (error) {
