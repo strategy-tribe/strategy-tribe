@@ -46,7 +46,7 @@ export async function GetMap(prisma: PrismaClient) {
 export const getMapData = async (
   prisma: PrismaClient
 ): Promise<MapDataWithFeatures> => {
-  const getEndpoint = `${process.env.NEXT_PUBLIC_BASE_URL}/data/features.json`;
+  const getEndpoint = `${process.env.DOMAIN}/static/data/features.json`;
   const featuresRes = await fetch(getEndpoint);
   const features = (await featuresRes.json()).features;
 
