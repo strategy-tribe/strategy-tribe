@@ -1,5 +1,14 @@
+import {
+  FloatingPortal,
+  useDismiss,
+  useFloating,
+  useFocus,
+  useHover,
+  useInteractions,
+  useRole,
+} from '@floating-ui/react-dom-interactions';
 import { Combobox } from '@headlessui/react';
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 import Icon, { IconSize } from '@/components/utils/Icon';
 
@@ -93,76 +102,162 @@ export function FilterSearchBox() {
           return nameMatches || typeMatches || iconMatches;
         });
 
-  //   const [open, setOpen] = useState(true);
+  function removeResult(name: string) {
+    setSelected((p) => p.filter((result) => result.name !== name));
+  }
 
-  //   const { x, y, reference, floating, strategy } = useFloating({
-  //     open,
-  //     onOpenChange: setOpen,
-  //   });
   return (
     <Combobox
       value={selectedResults}
       onChange={setSelected}
       by={compareResults}
       multiple
+      as="div"
+      className="relative"
     >
-      <Combobox.Input
-        name="tags"
-        //   displayValue={(result: SearchResult) => result.name}
-        displayValue={(results: SearchResult[]) => `${results.length} selected`}
-        onChange={(event) => setQuery(event.target.value)}
-        className="placeholder:label-lg body w-full border-0 border-b bg-transparent pl-1 focus:border-main focus:ring-0"
-        placeholder="Find a tag"
-        // ref={reference}
-      />
+      {({ open }) => (
+        <React.Fragment>
+          <Combobox.Input
+            name="tags"
+            onChange={(event) => setQuery(event.target.value)}
+            className="placeholder:label-lg body w-full border-0 border-b bg-transparent pl-1 focus:border-main focus:ring-0"
+            placeholder="Find a tag"
+          />
+          <ActiveOptions
+            open={open}
+            removeResult={removeResult}
+            results={selectedResults}
+          />
 
-      <Combobox.Options as="ul" inputMode="text" className="">
-        {filteredResult.map((result) => (
-          <Combobox.Option
-            // style={{
-            //   position: strategy,
-            //   top: y ?? 0,
-            //   left: x ?? 0,
-            //   width: '10rem',
-            //   height: '10rem',
-            // }}
-            // ref={floating}
-            key={result.name}
-            value={result}
-            as="li"
+          <Combobox.Options
+            as="ul"
+            inputMode="text"
+            className="elevation-5 absolute inset-x-0 top-11 max-h-[20rem] overflow-y-auto rounded bg-surface"
           >
-            {({ active, selected }) => {
-              return (
-                <div
-                  className={`flex items-center justify-between gap-2 rounded p-1 ${
-                    active ? 'bg-surface' : ''
-                  }`}
-                >
-                  <button className="flex w-full cursor-pointer items-center gap-1.5 py-1.5 hover:text-main-light">
-                    <Icon
-                      size={IconSize.Small}
-                      icon={result.icon}
-                      className=" text-on-surface-disabled"
-                    />
-                    <span className="text-left capitalize line-clamp-1">
-                      {result.name}
-                    </span>
-                  </button>
+            {filteredResult.map((result) => (
+              <Combobox.Option key={result.name} value={result} as="li">
+                {({ selected }) => {
+                  return (
+                    <div className="flex items-center justify-between gap-2 p-1  ui-selected:bg-main ui-selected:text-on-color ui-selected:hover:bg-error-light ui-active:bg-surface-dark ui-active:bg-opacity-50">
+                      <button className="flex w-full cursor-pointer items-center gap-1.5 py-1.5">
+                        <Icon
+                          size={IconSize.Small}
+                          icon={result.icon}
+                          className=" text-on-surface-disabled"
+                        />
+                        <span className="text-left capitalize line-clamp-1">
+                          {result.name}
+                        </span>
+                      </button>
 
-                  {selected && (
-                    <button
-                      className="grid place-items-center hover:text-error-light"
-                      //   onClick={() => console.log('closed')}
-                    >
-                      <Icon size={IconSize.Small} icon="close" />
-                    </button>
-                  )}
-                </div>
-              );
-            }}
-          </Combobox.Option>
-        ))}
-      </Combobox.Options>
+                      {selected && (
+                        <button className="grid place-items-center hover:text-error-light">
+                          <Icon size={IconSize.Small} icon="close" />
+                        </button>
+                      )}
+                    </div>
+                  );
+                }}
+              </Combobox.Option>
+            ))}
+          </Combobox.Options>
+        </React.Fragment>
+      )}
     </Combobox>
+  );
+}
+
+/** Renders a list of results  */
+function ActiveOptions({
+  results,
+  open,
+  removeResult,
+}: {
+  results: SearchResult[];
+  open: boolean;
+  removeResult: (s: string) => void;
+}) {
+  return (
+    <ul
+      className={`block h-[20rem] translate-y-4 overflow-y-auto ${
+        open ? 'opacity-50 blur-[2px]' : ''
+      }`}
+    >
+      {results.map((r, i) => {
+        return (
+          <ActiveOption {...r} key={i} onClick={() => removeResult(r.name)} />
+        );
+      })}
+    </ul>
+  );
+}
+
+/** Renders a result */
+function ActiveOption({
+  icon,
+  name,
+  onClick,
+}: SearchResult & { onClick: () => void }) {
+  const [open, setOpen] = useState(false);
+  const { context, reference, floating, strategy, x, y } = useFloating({
+    open,
+    onOpenChange: setOpen,
+    placement: 'bottom-end',
+  });
+
+  const hover = useHover(context, {
+    delay: {
+      close: 0,
+      open: 500,
+    },
+  });
+  const focus = useFocus(context);
+  const dismiss = useDismiss(context);
+  const role = useRole(context, { role: 'tooltip' });
+
+  const { getReferenceProps, getFloatingProps } = useInteractions([
+    hover,
+    role,
+    dismiss,
+    focus,
+  ]);
+
+  return (
+    <>
+      <button
+        ref={reference}
+        {...getReferenceProps({
+          onClick,
+          className:
+            'flex w-full cursor-pointer items-center gap-1.5 py-1.5 hover:text-error-light',
+        })}
+      >
+        <Icon
+          size={IconSize.Small}
+          icon={icon}
+          className=" text-on-surface-disabled"
+        />
+        <span className="text-left capitalize line-clamp-1">{name}</span>
+      </button>
+      <FloatingPortal>
+        {open && (
+          <div
+            ref={floating}
+            style={{
+              position: strategy,
+              left: x ?? 0,
+              top: y ?? 0,
+              width: 'max-content',
+            }}
+            {...getFloatingProps({
+              className:
+                'body elevation-1 rounded border border-surface-dark bg-surface py-2.5 pl-3 pr-5 text-left',
+            })}
+          >
+            Click to remove
+          </div>
+        )}
+      </FloatingPortal>
+    </>
   );
 }

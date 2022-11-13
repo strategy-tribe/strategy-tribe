@@ -114,9 +114,10 @@ export function ExploreFilters() {
           </span>
 
           <button
-            className="label min-w-[5rem] text-right text-on-surface-p1 hover:text-main-light "
+            className="label flex min-w-[7rem] items-center justify-end gap-2 text-right text-on-surface-p1 hover:text-main-light"
             onClick={() => setShowFilters((p) => !p)}
           >
+            <Icon icon="tune" size={IconSize.Small} />
             {showFilters ? 'Hide filters' : 'Show filters'}
           </button>
         </div>
@@ -129,7 +130,7 @@ export function ExploreFilters() {
 
 function Filters() {
   return (
-    <div className="flex  w-full gap-16 rounded bg-surface-dark px-4 py-6">
+    <div className="flex h-[30rem] w-full gap-16 rounded bg-surface-dark px-4 py-6">
       <div className="shrink grow basis-0 space-y-4">
         <FilterColumnHeader
           label="Order by"
