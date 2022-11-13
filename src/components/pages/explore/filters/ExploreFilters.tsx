@@ -1,14 +1,22 @@
+import { useAutoAnimate } from '@formkit/auto-animate/react';
+import { BountyState, RequirementType } from '@prisma/client';
+import { useState } from 'react';
+
 import { useUrlSearchParams } from '@/lib/hooks/useUrlSearchParams';
+import { BountyOrderBy } from '@/lib/models/BountyQueryParams';
 import { kFormatter } from '@/lib/utils/NumberHelpers';
 
 import Icon, { IconSize } from '@/components/utils/Icon';
 
-import { DEFAULT_FILTERS } from './DefaultFilter';
-import { useExploreContext } from '../ExploreContext';
 import { Searchbar } from '../../search/Searchbar';
+import { useExploreContext } from '../ExploreContext';
+import { DEFAULT_FILTERS } from './DefaultFilter';
+import { FilterColumn } from './FilterColumn';
+import { FilterColumnHeader } from './FilterColumnHeader';
+import { FilterSearchBox } from './SearchBox';
 
 export function ExploreFilters() {
-  const { urlFilter, setUrlFilter: setUrlFilter } = useUrlSearchParams();
+  const { urlFilter, setUrlFilter } = useUrlSearchParams();
 
   const { bountyFetch, countries, removeCountry } = useExploreContext();
 
@@ -20,14 +28,18 @@ export function ExploreFilters() {
   }
 
   function resetOrgFromQuery() {
-    setUrlFilter({ relatedTo: [] });
+    setUrlFilter({ targetNames: [] });
   }
 
+  const [showFilters, setShowFilters] = useState(false);
+
+  const [parent] = useAutoAnimate<HTMLDivElement>();
+
   return (
-    <div className="space-y-4">
+    <div ref={parent} className="space-y-4">
       <div className="flex justify-end">
         <Searchbar
-          searchTerm={urlFilter.query.searchTerm || ''}
+          searchTerm={urlFilter.query.search || ''}
           search={(s) => {
             setSearch(s);
           }}
@@ -43,7 +55,7 @@ export function ExploreFilters() {
                 : 'opacity-50 hover:opacity-90';
             return (
               <li key={i} className={`${opacity}`}>
-                <button onClick={() => setUrlFilter({ type: filter.type })}>
+                <button onClick={() => setUrlFilter({}, { type: filter.type })}>
                   {filter.type}
                 </button>
               </li>
@@ -68,7 +80,7 @@ export function ExploreFilters() {
               );
             })}
 
-            {urlFilter.query.searchTerm && (
+            {urlFilter.query.search && (
               <div className="flex items-center gap-2 rounded-full border-[1px] py-1 pl-3 pr-4">
                 <button
                   onClick={() => setSearch('')}
@@ -76,7 +88,7 @@ export function ExploreFilters() {
                 >
                   <Icon icon="close" size={IconSize.Small} />
                 </button>
-                <span className="label-sm">{urlFilter.query.searchTerm}</span>
+                <span className="label-sm">{urlFilter.query.search}</span>
               </div>
             )}
 
@@ -100,7 +112,70 @@ export function ExploreFilters() {
           >
             {kFormatter(count || 0)} bounties
           </span>
+
+          <button
+            className="label min-w-[5rem] text-right text-on-surface-p1 hover:text-main-light "
+            onClick={() => setShowFilters((p) => !p)}
+          >
+            {showFilters ? 'Hide filters' : 'Show filters'}
+          </button>
         </div>
+      </div>
+
+      {showFilters && <Filters />}
+    </div>
+  );
+}
+
+function Filters() {
+  return (
+    <div className="flex  w-full gap-16 rounded bg-surface-dark px-4 py-6">
+      <div className="shrink grow basis-0 space-y-4">
+        <FilterColumnHeader
+          label="Order by"
+          tooltip="Pick which field to give priority to"
+        />
+        <FilterColumn
+          selected={[]}
+          options={Object.values(BountyOrderBy).map((v) => ({ label: v }))}
+        />
+      </div>
+      <div className="shrink grow basis-0 space-y-4">
+        <FilterColumnHeader
+          label="Type"
+          tooltip="Type of data the bounty must require"
+        />
+        <FilterColumn
+          selected={[]}
+          options={Object.values(RequirementType)
+            .filter(
+              (type) =>
+                ![RequirementType.Image, RequirementType.Report].find(
+                  (notThisOne) => type === notThisOne
+                )
+            )
+            .map((v) => ({ label: v }))}
+        />
+      </div>
+      <div className="shrink grow basis-0 space-y-4">
+        <FilterColumnHeader label="State" tooltip="State of the bounty" />
+        <FilterColumn
+          selected={[]}
+          options={Object.values(BountyState).map((v) => ({ label: v }))}
+        />
+      </div>
+      <div className="shrink grow basis-0 space-y-4">
+        <FilterColumnHeader
+          label="Tags"
+          tooltip="Countries, organizations, or names"
+        />
+        <FilterSearchBox />
+      </div>
+      <div className="shrink grow basis-0 space-y-4">
+        <FilterColumnHeader
+          label="Rewards"
+          tooltip="How much the bounty rewards"
+        />
       </div>
     </div>
   );

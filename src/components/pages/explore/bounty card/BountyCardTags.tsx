@@ -14,7 +14,9 @@ export function BountyCardTags({
   const { urlFilter, setUrlFilter } = useUrlSearchParams();
 
   function addOrgToFilters() {
-    setUrlFilter({ relatedTo: [...(urlFilter.query.relatedTo ?? []), org] });
+    setUrlFilter({
+      targetNames: [...(urlFilter.query.targetNames ?? []), org],
+    });
   }
 
   return (

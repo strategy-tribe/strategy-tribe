@@ -1,7 +1,9 @@
 import { BountyOrderBy } from '@/lib/models/BountyQueryParams';
 import { Order } from '@/lib/models/Order';
 
-export enum DefaultFilterType {
+import { GetBountiesParams } from '@/server/routes/bounties/getBounties';
+
+export enum BountiesFilterType {
   // eslint-disable-next-line no-unused-vars
   Latest = 'Latest',
   // eslint-disable-next-line no-unused-vars
@@ -12,23 +14,13 @@ export enum DefaultFilterType {
   ClosesSoon = 'Closes soon',
 }
 
-export type DefaultFilter = {
-  type: DefaultFilterType;
-  query: {
-    order: Order;
-    orderBy: BountyOrderBy;
-    amount: number;
-    paginate: boolean;
-    page: number;
-    relatedTo?: string[];
-    searchTerm?: string;
-    countries?: string[];
-    orgName?: string;
-  };
+export type BountiesFilter = {
+  type: BountiesFilterType;
+  query: GetBountiesParams;
 };
 
-const LATEST_FILTER: DefaultFilter = {
-  type: DefaultFilterType.Latest,
+const LATEST_FILTER: BountiesFilter = {
+  type: BountiesFilterType.Latest,
   query: {
     order: Order.Desc,
     orderBy: BountyOrderBy.CreatedAt,
@@ -37,8 +29,8 @@ const LATEST_FILTER: DefaultFilter = {
     page: 0,
   },
 };
-const TOP_REWARDS_FILTER: DefaultFilter = {
-  type: DefaultFilterType.TopRewards,
+const TOP_REWARDS_FILTER: BountiesFilter = {
+  type: BountiesFilterType.TopRewards,
 
   query: {
     order: Order.Desc,
@@ -48,8 +40,8 @@ const TOP_REWARDS_FILTER: DefaultFilter = {
     page: 0,
   },
 };
-const LOW_COMPETITION_FILTER: DefaultFilter = {
-  type: DefaultFilterType.LowCompetition,
+const LOW_COMPETITION_FILTER: BountiesFilter = {
+  type: BountiesFilterType.LowCompetition,
 
   query: {
     order: Order.Asc,
@@ -59,8 +51,8 @@ const LOW_COMPETITION_FILTER: DefaultFilter = {
     page: 0,
   },
 };
-const CLOSES_SOON_FILTER: DefaultFilter = {
-  type: DefaultFilterType.ClosesSoon,
+const CLOSES_SOON_FILTER: BountiesFilter = {
+  type: BountiesFilterType.ClosesSoon,
   query: {
     order: Order.Asc,
     orderBy: BountyOrderBy.ClosesAt,

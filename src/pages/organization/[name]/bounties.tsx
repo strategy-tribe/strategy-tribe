@@ -38,7 +38,7 @@ const OrganizationBountiesPage: NextPageWithLayout = () => {
   const { bounties, isLoading: isLoadingBounties } = useGetBounties(
     {
       order: Order.Desc,
-      orgId: name as string,
+      orgName: [name],
     },
     !!org
   );

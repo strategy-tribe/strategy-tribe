@@ -6,9 +6,9 @@ import { GoToOrgBountiesPage } from '@/lib/utils/Routes';
 
 import { Button, ButtonStyle } from '@/components/utils/Button';
 
+import { BountyCard, DummyBountyCard } from '../explore/bounty card/BountyCard';
 import { useOrganizationContext } from './OrganizationContext';
 import { AboutTitle } from './utils/AboutTitle';
-import { BountyCard, DummyBountyCard } from '../explore/bounty card/BountyCard';
 
 const AMOUNT_OF_BOUNTIES = 9;
 
@@ -19,7 +19,7 @@ export function OrgBounties() {
     order: Order.Desc,
     orderBy: BountyOrderBy.Bounty,
     amount: AMOUNT_OF_BOUNTIES,
-    orgId: org.id,
+    orgName: [org.name],
   });
 
   const theresMore = (count ?? 0) > AMOUNT_OF_BOUNTIES;

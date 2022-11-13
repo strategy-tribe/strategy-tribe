@@ -33,7 +33,7 @@ export const ExploreContextProvider = ({
   data: MapDataWithFeatures | undefined;
 }) => {
   const {
-    urlFilter: { query },
+    urlFilter: { query: query },
     setUrlFilter,
   } = useUrlSearchParams();
 

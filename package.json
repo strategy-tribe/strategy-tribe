@@ -22,6 +22,9 @@
     "t": "jest"
   },
   "dependencies": {
+    "@floating-ui/react-dom-interactions": "^0.10.3",
+    "@formkit/auto-animate": "^1.0.0-beta.3",
+    "@headlessui/react": "^1.7.4",
     "@nivo/core": "^0.79.0",
     "@nivo/geo": "^0.79.1",
     "@prisma/client": "^4.6.1",
@@ -55,6 +58,7 @@
     "@commitlint/cli": "^17.0.3",
     "@commitlint/config-conventional": "^17.0.3",
     "@faker-js/faker": "^7.6.0",
+    "@headlessui/tailwindcss": "^0.1.1",
     "@tailwindcss/forms": "^0.5.0",
     "@tailwindcss/line-clamp": "^0.3.1",
     "@testing-library/dom": "^8.19.0",
