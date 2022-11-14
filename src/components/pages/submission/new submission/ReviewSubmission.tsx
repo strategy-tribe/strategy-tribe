@@ -21,18 +21,20 @@ export function ReviewSubmission() {
                 {input === '' ? 'None' : input}
               </p>
             )}
-            {/* {typeof input === 'object' && <ImageGallery files={input} />} */}
+            {typeof input === 'object' && (
+              <ImageGallery files={input as File[]} />
+            )}
           </div>
         );
       })}
 
-      {attachments && (
+      {/* {attachments && (
         <div className="space-y-2">
           <h6 className="label text-on-surface-p0">Attachments</h6>
           {!!attachments.length && <ImageGallery files={attachments ?? []} />}
           {!attachments.length && <span className="block">None</span>}
         </div>
-      )}
+      )} */}
     </div>
   );
 }

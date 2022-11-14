@@ -35,8 +35,10 @@ export function ImageUploader({
     async function readFiles(files: File[]) {
       const urls: PreviewImage[] = [];
       for await (const file of files) {
-        const url = await readFileAsDataURL(file);
-        urls.push({ id: FileID(file), url });
+        if (Object.keys(file).length == 0) {
+          const url = await readFileAsDataURL(file);
+          urls.push({ id: FileID(file), url });
+        }
       }
       setPreviewImages(urls);
     }
@@ -75,7 +77,8 @@ function Uploader({
           onChange={(e) => {
             if (!e.target.files) return;
             const file = e.target?.files[0];
-            setFiles([...files, file]);
+            // setFiles([...files, file]);
+            setFiles([file]);
           }}
         />
         <Icon icon="image" />

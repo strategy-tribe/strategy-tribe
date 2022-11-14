@@ -1,4 +1,4 @@
-import { RequirementType } from '@prisma/client';
+import { Requirement, RequirementType } from '@prisma/client';
 
 import { useSubmitterInfo } from '@/lib/hooks/submission';
 
@@ -89,29 +89,35 @@ function UserAnswers() {
             </span>
 
             {/* TODO: make changes for images */}
-            {/* {anw.requirement.type === RequirementType.Image && (
+            {anw.requirement?.type === RequirementType.Image && (
               <div className="grid grid-cols-3 gap-4 pt-4">
-                {(anw.answer as string[]).map((url) => {
-                  return (
-                    <figure key={url} className="relative">
-                      <Image
-                        src={url}
-                        priority
-                        width={1920}
-                        height={1080}
-                        alt="preview for image"
-                      />
-                    </figure>
-                  );
-                })}
+                {previewImage(anw)}
               </div>
-            )} */}
+            )}
 
             {anw.requirement?.type !== RequirementType.Image && (
               <p className="body whitespace-pre-wrap">{anw.answer}</p>
             )}
           </div>
         );
+
+        function previewImage(anw: {
+          requirement: Requirement | null;
+          answer: string;
+        }) {
+          return (
+            anw.answer && (
+              <figure key={anw.answer ?? ''} className="relative">
+                <img
+                  src={anw.answer}
+                  width={1920}
+                  height={1080}
+                  alt="preview for image"
+                />
+              </figure>
+            )
+          );
+        }
       })}
     </>
   );

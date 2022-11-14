@@ -12,8 +12,8 @@ import {
   ERROR,
   IND_PREFIX,
   LOG,
-  OrgData,
   ORG_PREFIX,
+  OrgData,
   Row,
   TargetData,
 } from './utils';

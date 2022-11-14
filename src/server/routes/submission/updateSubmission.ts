@@ -1,12 +1,12 @@
 import { PrismaClient, SubmissionState } from '@prisma/client';
 import { TRPCError } from '@trpc/server';
 
+import { GetSubmissionParams } from './getSubmission';
+import { UpdateSubmissionsDataParams } from './updateSubmissions';
 import {
   NotifyUsers_SubmissionAccepted,
   NotifyUsers_SubmissionsRejected,
 } from '../notification/utils/submissions';
-import { GetSubmissionParams } from './getSubmission';
-import { UpdateSubmissionsDataParams } from './updateSubmissions';
 
 const _updateSubmission = async (
   config: GetSubmissionParams,
