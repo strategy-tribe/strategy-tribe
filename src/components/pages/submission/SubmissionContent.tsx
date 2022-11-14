@@ -1,11 +1,11 @@
 import { Requirement, RequirementType } from '@prisma/client';
+import { useCallback } from 'react';
 
 import { useSubmitterInfo } from '@/lib/hooks/submission';
+import { trpc } from '@/lib/trpc';
 
 import { useAuth } from '@/auth/AuthContext';
 
-import { trpc } from '@/lib/trpc';
-import { useCallback } from 'react';
 import { useSubmissionContext } from './SubmissionContext';
 import { SubmissionDetail } from './SubmissionDetail';
 
@@ -81,10 +81,9 @@ function UserStats() {
 function UserAnswers() {
   const { submission } = useSubmissionContext();
   const fetchURLForKey = (keys: string) => {
-    const url = trpc.file.getSignedUrlPromise.useQuery({keys});
+    const url = trpc.file.getSignedUrlPromise.useQuery({ keys });
     return url;
-  }
-
+  };
 
   return (
     <>
@@ -98,7 +97,7 @@ function UserAnswers() {
             {/* TODO: make changes for images */}
             {anw.requirement?.type === RequirementType.Image && (
               <div className="grid grid-cols-3 gap-4 pt-4">
-                 {previewImage(anw)}
+                {previewImage(anw)}
               </div>
             )}
 
@@ -108,17 +107,28 @@ function UserAnswers() {
           </div>
         );
 
-        function previewImage(anw: { requirement: Requirement|null; answer: string; }) {
+        function previewImage(anw: {
+          requirement: Requirement | null;
+          answer: string;
+        }) {
           const keys = anw.answer;
-          const useFetchURLForKey = useCallback((keys: string)=>fetchURLForKey(keys),[keys])
-          const {data:imgURL} = useFetchURLForKey(keys);
-          return imgURL && <figure key={imgURL ?? ""} className="relative">
-            <img
-              src={imgURL}
-              width={1920}
-              height={1080}
-              alt="preview for image" />
-          </figure>;
+          const useFetchURLForKey = useCallback(
+            (keys: string) => fetchURLForKey(keys),
+            [keys]
+          );
+          const { data: imgURL } = useFetchURLForKey(keys);
+          return (
+            imgURL && (
+              <figure key={imgURL ?? ''} className="relative">
+                <img
+                  src={imgURL}
+                  width={1920}
+                  height={1080}
+                  alt="preview for image"
+                />
+              </figure>
+            )
+          );
         }
       })}
     </>

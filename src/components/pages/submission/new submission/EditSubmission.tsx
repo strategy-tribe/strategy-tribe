@@ -29,7 +29,6 @@ export function EditSubmission() {
 
   //*Methods
   function ManageNewAnswer(oldAnswer: UserInput, newInput: string | File[]) {
-
     const index = userAnswers.indexOf(oldAnswer);
 
     const newAnswer: UserInput = { ...oldAnswer, input: newInput };

@@ -4,10 +4,10 @@ import { useMemo } from 'react';
 import { GoToBountiesPage } from '@/lib/utils/Routes';
 
 import {
-  DefaultFilter,
-  DefaultFilterType,
   DEFAULT_FILTER,
   DEFAULT_FILTERS,
+  DefaultFilter,
+  DefaultFilterType,
 } from '@/components/pages/explore/filters/DefaultFilter';
 
 type UrlParams = {

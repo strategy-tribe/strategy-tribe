@@ -59,21 +59,41 @@ async function _payInvoice(
           bountyWalletData.privateKey,
           provider
         );
-        const txn = {
-          to: userAddress,
-          value: await provider.getBalance(bountyAddress as string),
-        };
-        const txnResult = await bountyWallet.sendTransaction(txn);
-        LOG(txnResult.hash);
+        const balance =
+          parseFloat(
+            ethers.utils.formatEther(
+              await provider.getBalance(bountyAddress as string)
+            )
+          ) - 0.02;
+        if (balance > 0) {
+          const txn = {
+            to: userAddress,
+            value: ethers.utils.parseEther(balance.toString()),
+          };
+          const txnResult = await bountyWallet.sendTransaction(txn);
+          LOG(txnResult.hash);
 
-        await prisma.invoice.update({
-          where: {
-            id: invoice.id,
-          },
-          data: {
-            status: InvoiceStatus.Paid,
-          },
-        });
+          await prisma.invoice.update({
+            where: {
+              id: invoice.id,
+            },
+            data: {
+              status: InvoiceStatus.Paid,
+            },
+          });
+
+          await prisma.key.update({
+            where: {
+              address: bountyAddress,
+            },
+            data: {
+              txnHash: txnResult.hash,
+            },
+          });
+        } else {
+          ERROR(`Bounty wallet has insufficient Balance: ${bountyAddress}`);
+          throw new TRPCError({ code: 'BAD_REQUEST' });
+        }
       } else {
         ERROR(`Bounty wallet cannot be found`);
         throw new TRPCError({ code: 'BAD_REQUEST' });

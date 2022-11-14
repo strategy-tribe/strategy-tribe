@@ -35,7 +35,7 @@ export function ImageUploader({
     async function readFiles(files: File[]) {
       const urls: PreviewImage[] = [];
       for await (const file of files) {
-        if(Object.keys(file).length==0){
+        if (Object.keys(file).length == 0) {
           const url = await readFileAsDataURL(file);
           urls.push({ id: FileID(file), url });
         }
