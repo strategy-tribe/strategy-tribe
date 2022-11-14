@@ -6,8 +6,8 @@ import { z } from 'zod';
 import { signedInOnlyProcedure } from '@/server/procedures';
 import { s3 } from '@/server/routers/files';
 
-import { SMALL_SUBMISSION_SELECT } from './getSubmissions';
 import { ThenArg } from '../utils/helperTypes';
+import { SMALL_SUBMISSION_SELECT } from './getSubmissions';
 
 /** Schema used to query for submissions */
 const GetSubmissionSchema = z.object({
@@ -79,7 +79,7 @@ const processImages = async (submissions: FullSubmission | null) => {
         imageFileAns.map(async (params) => {
           const url = await s3.getSignedUrlPromise('getObject', {
             Key: params.answer,
-            Bucket: process.env.BUCKET_NAME,
+            Bucket: process.env.AWS_BUCKET_NAME,
           });
           return { ...params, answer: url };
         })
