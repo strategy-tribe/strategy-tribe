@@ -79,7 +79,7 @@ const processImages = async (submissions: FullSubmission | null) => {
         imageFileAns.map(async (params) => {
           const url = await s3.getSignedUrlPromise('getObject', {
             Key: params.answer,
-            Bucket: process.env.AWS_BUCKET_NAME,
+            Bucket: process.env.OUR_AWS_BUCKET_NAME,
           });
           return { ...params, answer: url };
         })

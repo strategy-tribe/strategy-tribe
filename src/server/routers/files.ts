@@ -5,9 +5,9 @@ import { z } from 'zod';
 import { publicProcedure, router } from '../procedures';
 
 export const s3 = new S3({
-  accessKeyId: process.env.AWS_ACCESS_KEY,
-  secretAccessKey: process.env.AWS_SECRET_KEY,
-  region: process.env.AWS_REGION,
+  accessKeyId: process.env.OUR_AWS_ACCESS_KEY,
+  secretAccessKey: process.env.OUR_AWS_SECRET_KEY,
+  region: process.env.OUR_AWS_REGION,
 });
 
 export const fileRouter = router({
@@ -28,7 +28,7 @@ export const fileRouter = router({
               },
               Conditions: [['content-length-range', 0, 10485760]],
               Expires: 30,
-              Bucket: process.env.AWS_BUCKET_NAME,
+              Bucket: process.env.OUR_AWS_BUCKET_NAME,
             },
             (err, data) => {
               if (err) return reject(err);
@@ -49,7 +49,7 @@ export const fileRouter = router({
     .query(async ({ input }) => {
       return await s3.getSignedUrlPromise('getObject', {
         Key: input.keys,
-        Bucket: process.env.AWS_BUCKET_NAME,
+        Bucket: process.env.OUR_AWS_BUCKET_NAME,
       });
     }),
 });
