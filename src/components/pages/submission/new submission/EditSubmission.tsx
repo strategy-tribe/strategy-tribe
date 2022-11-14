@@ -29,9 +29,6 @@ export function EditSubmission() {
 
   //*Methods
   function ManageNewAnswer(oldAnswer: UserInput, newInput: string | File[]) {
-    if (typeof newInput !== 'string') {
-      throw new Error('Support for attachments is not implemented yet');
-    }
 
     const index = userAnswers.indexOf(oldAnswer);
 
@@ -95,7 +92,6 @@ export function EditSubmission() {
           );
         })}
         {/* Attachments */}
-        {Attachments}
       </div>
     </div>
   );
