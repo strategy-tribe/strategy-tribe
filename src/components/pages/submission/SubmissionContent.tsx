@@ -1,8 +1,6 @@
 import { Requirement, RequirementType } from '@prisma/client';
-import { useCallback } from 'react';
 
 import { useSubmitterInfo } from '@/lib/hooks/submission';
-import { trpc } from '@/lib/trpc';
 
 import { useAuth } from '@/auth/AuthContext';
 
@@ -80,10 +78,6 @@ function UserStats() {
 
 function UserAnswers() {
   const { submission } = useSubmissionContext();
-  const fetchURLForKey = (keys: string) => {
-    const url = trpc.file.getSignedUrlPromise.useQuery({ keys });
-    return url;
-  };
 
   return (
     <>
@@ -111,17 +105,11 @@ function UserAnswers() {
           requirement: Requirement | null;
           answer: string;
         }) {
-          const keys = anw.answer;
-          const useFetchURLForKey = useCallback(
-            (keys: string) => fetchURLForKey(keys),
-            [keys]
-          );
-          const { data: imgURL } = useFetchURLForKey(keys);
           return (
-            imgURL && (
-              <figure key={imgURL ?? ''} className="relative">
+            anw.answer && (
+              <figure key={anw.answer ?? ''} className="relative">
                 <img
-                  src={imgURL}
+                  src={anw.answer}
                   width={1920}
                   height={1080}
                   alt="preview for image"
