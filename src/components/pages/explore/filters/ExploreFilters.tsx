@@ -1,5 +1,5 @@
 import { useAutoAnimate } from '@formkit/auto-animate/react';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 
 import { useUrlSearchParams } from '@/lib/hooks/useUrlSearchParams';
 import { kFormatter } from '@/lib/utils/NumberHelpers';
@@ -128,13 +128,18 @@ export function ExploreFilters() {
 }
 
 function Filters() {
+  const { setUrlFilter } = useUrlSearchParams();
+
   const [state, setState] = useState<GetBountiesParams>({});
   //apply filters
   function changeState(newState: Partial<GetBountiesParams>) {
     setState((p) => ({ ...p, ...newState }));
   }
 
-  // console.log(state);
+  const amountOfFilters = useMemo(() => {
+    return Object.values(state).filter((val) => !!val).length;
+  }, [state]);
+  const label = amountOfFilters === 1 ? 'filter' : 'filters';
   return (
     <div className="max-h-[35rem w-full rounded bg-surface-dark px-4 py-6">
       <div className="flex gap-16">
@@ -155,8 +160,8 @@ function Filters() {
             changeState({ types });
           }}
           remove={(type) => {
-            const types = state.types?.filter((t) => t !== type);
-            changeState({ types });
+            const types = state.types?.filter((t) => t !== type) ?? [];
+            changeState({ types: types.length > 0 ? types : undefined });
           }}
         />
         <StateFilter
@@ -167,20 +172,27 @@ function Filters() {
             changeState({ states });
           }}
           remove={(s) => {
-            const states = state.states?.filter((t) => t === s);
-            changeState({ states });
+            const states = state.states?.filter((t) => t !== s) ?? [];
+            changeState({ states: states.length > 0 ? states : undefined });
           }}
         />
         <TagsFilter filters={state} setFilters={changeState} />
         {/* <RewardsFilter /> */}
       </div>
       <pre className="label-sm">{JSON.stringify(state, null, 2)}</pre>
-      <div className="flex w-full items-end justify-end">
+      <div className="flex w-full items-center justify-end gap-6">
+        <span className="label">
+          {amountOfFilters} {label}
+        </span>
         <Button
           info={{
             style: ButtonStyle.Filled,
-            label: 'Apply filters',
+            label: `Apply ${label}`,
             icon: 'arrow_forward',
+            onClick: () => {
+              setUrlFilter(state);
+            },
+            disabled: amountOfFilters === 0,
           }}
         />
       </div>
