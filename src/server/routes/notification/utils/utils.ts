@@ -68,9 +68,10 @@ const _CreateNotificationUrl = ({
     });
   }
 
+  //No need to add a slash between baseUrl and relativeUrl
   if (relativeUrl.includes('?')) {
-    return `${baseUrl}/${relativeUrl}&notificationId=${notificationId}`;
+    return `${baseUrl}${relativeUrl}&notificationId=${notificationId}`;
   } else {
-    return `${baseUrl}/${relativeUrl}?notificationId=${notificationId}`;
+    return `${baseUrl}${relativeUrl}?notificationId=${notificationId}`;
   }
 };

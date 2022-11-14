@@ -17,12 +17,16 @@ export type PushNotificationLoad = {
 export const OneSignal_NotifyMultiple = async (
   loads: PushNotificationLoad[]
 ) => {
-  const promises: Promise<void>[] = [];
-  for (const load of loads) {
-    promises.push(OneSignal_Notify(load));
-  }
+  try {
+    const promises: Promise<void>[] = [];
+    for (const load of loads) {
+      promises.push(OneSignal_Notify(load));
+    }
 
-  await Promise.all(promises);
+    await Promise.all(promises);
+  } catch (error) {
+    console.error('There has been an issue creating push notifications');
+  }
 };
 
 const OneSignal_Notify = async (load: PushNotificationLoad) => {

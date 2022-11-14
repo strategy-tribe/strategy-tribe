@@ -17,6 +17,7 @@ export const NOTIFICATION_SELECTOR =
     read: true,
     createdAt: true,
     updatedAt: true,
+    urlCallback: true,
   });
 
 async function _getNotification(

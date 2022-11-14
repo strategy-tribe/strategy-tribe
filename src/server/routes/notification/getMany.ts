@@ -6,8 +6,9 @@ import { signedInOnlyProcedure } from '@/server/procedures';
 import { NOTIFICATION_SELECTOR } from './getNotification';
 
 const GetManyNotificationSchema = z.object({
-  amount: z.number().gt(0),
-  page: z.number().nonnegative(),
+  amount: z.number().gt(0).optional(),
+  page: z.number().nonnegative().optional(),
+  onlyUnread: z.boolean().optional(),
 });
 
 async function _getManyNotifications(
@@ -33,11 +34,11 @@ export type GetManyNotificationsParams = z.infer<
 export const getManyNotifications = signedInOnlyProcedure
   .input(GetManyNotificationSchema)
   .query(async ({ input, ctx: { prisma, session } }) => {
-    const notification = await _getManyNotifications(
+    const notifications = await _getManyNotifications(
       prisma,
       session.user.id,
       input
     );
 
-    return { notification };
+    return { notifications };
   });
