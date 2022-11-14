@@ -71,7 +71,10 @@ export const useSaveSubmission = (events: {
     fileSubmissionParams = { ...p, answers: [] };
     stringSubmissionParams = p;
     const imageFileAns = p.answers.filter(
-      (a) => a.requirement.type === RequirementType.Image
+      (a) =>
+        a.requirement.type === RequirementType.Image &&
+        a.input &&
+        a.input.length !== 0
     );
     const stringFileAns = p.answers.filter(
       (a) => a.requirement.type !== RequirementType.Image
