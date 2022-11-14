@@ -1,4 +1,9 @@
-import { BountyState, Prisma, PrismaClient } from '@prisma/client';
+import {
+  BountyState,
+  Prisma,
+  PrismaClient,
+  RequirementType,
+} from '@prisma/client';
 import { ThenArg, TRPCError } from '@trpc/server';
 import { z } from 'zod';
 
@@ -17,6 +22,8 @@ const GetBountiesSchema = z.object({
   orderBy: z.nativeEnum(BountyOrderBy).optional(),
   states: z.nativeEnum(BountyState).array().optional(),
   countries: z.string().array().optional(),
+  types: z.nativeEnum(RequirementType).array().optional(),
+  tags: z.string().array().optional(),
   //input
   search: z.string().optional(),
   orgName: z.string().array().optional(),

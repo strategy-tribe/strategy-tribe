@@ -2,15 +2,18 @@ import Icon, { IconSize } from '@/components/utils/Icon';
 
 export function FilterSelector<T extends { label: string }>({
   options,
-  onSelect,
+  select,
   selected,
+  remove,
 }: {
   options: T[];
   // eslint-disable-next-line no-unused-vars
-  onSelect: (option: T | undefined) => void;
+  select: (option: T) => void;
+  remove: (_: T) => void;
+  // removeAll: () => void;
   selected: string[] | string | undefined;
 }) {
-  function isSelected(opt: T) {
+  function checkIsSelected(opt: T) {
     if (typeof selected === 'string') {
       return selected === opt.label;
     } else {
@@ -21,15 +24,21 @@ export function FilterSelector<T extends { label: string }>({
   return (
     <ul className="space-y-6">
       {options.map((option) => {
+        const isSelected = checkIsSelected(option);
         return (
           <li key={option.label} className="hover:text-main-light">
             <button
-              onClick={() => onSelect(option)}
+              onClick={() => (isSelected ? remove(option) : select(option))}
               className="flex w-full items-center justify-between gap-2"
             >
               <span className="body capitalize">{option.label}</span>
-              {isSelected(option) && (
-                <Icon icon="close" size={IconSize.Small} />
+              {isSelected && (
+                <button
+                  onClick={() => remove(option)}
+                  className="grid place-items-center"
+                >
+                  <Icon icon="close" size={IconSize.Small} />
+                </button>
               )}
             </button>
           </li>

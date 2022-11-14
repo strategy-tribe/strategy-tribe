@@ -12,99 +12,51 @@ import React, { useState } from 'react';
 
 import Icon, { IconSize } from '@/components/utils/Icon';
 
-export enum ResultType {
-  // eslint-disable-next-line no-unused-vars
-  Tag = 'Tag',
-  // eslint-disable-next-line no-unused-vars
-  Organization = 'Organization',
-  // eslint-disable-next-line no-unused-vars
-  Person = 'Person',
-  // eslint-disable-next-line no-unused-vars
-  Country = 'Country',
+import { SearchResult, SearchResultType } from './types';
+import { useSearchFilter } from './useSearchFilter';
+
+function GetResultIcon(type: SearchResultType) {
+  switch (type) {
+    case SearchResultType.Country:
+      return 'place';
+    case SearchResultType.Organization:
+      return 'corporate_fare';
+    case SearchResultType.Person:
+      return 'person';
+    case SearchResultType.Tag:
+      return 'label';
+    default:
+      throw new Error('Undefined result type');
+  }
 }
-
-export type SearchResult = {
-  type: ResultType;
-  name: string;
-  icon: string;
-};
-
-const data: SearchResult[] = [
-  { name: 'terrorist', type: ResultType.Tag, icon: 'label' },
-  { name: 'armed group', type: ResultType.Tag, icon: 'label' },
-  { name: 'byker gang', type: ResultType.Tag, icon: 'label' },
-  { name: 'hacker group', type: ResultType.Tag, icon: 'label' },
-  { name: 'media wing', type: ResultType.Tag, icon: 'label' },
-  { name: 'disinformation', type: ResultType.Tag, icon: 'label' },
-  { name: 'propaganda', type: ResultType.Tag, icon: 'label' },
-  {
-    name: '313 brigade',
-    type: ResultType.Organization,
-    icon: 'corporate_fare',
-  },
-  {
-    name: 'zarya battalion',
-    type: ResultType.Organization,
-    icon: 'corporate_fare',
-  },
-  {
-    name: 'the night wolves',
-    type: ResultType.Organization,
-    icon: 'corporate_fare',
-  },
-  {
-    name: 'ural bank for reconstruction and development',
-    type: ResultType.Organization,
-    icon: 'corporate_fare',
-  },
-  {
-    name: 'strategic culture foundation',
-    type: ResultType.Organization,
-    icon: 'corporate_fare',
-  },
-  { name: 'david davidovich', type: ResultType.Person, icon: 'person' },
-  {
-    name: 'boris yakovlevich rapoport',
-    type: ResultType.Person,
-    icon: 'person',
-  },
-  {
-    name: 'vitaly gennadyevich savelyev',
-    type: ResultType.Person,
-    icon: 'person',
-  },
-  {
-    name: 'igor nikoolaevich turchenyuk',
-    type: ResultType.Person,
-    icon: 'person',
-  },
-  { name: 'Russia', type: ResultType.Country, icon: 'place' },
-  { name: 'China', type: ResultType.Country, icon: 'place' },
-  { name: 'USA', type: ResultType.Country, icon: 'place' },
-  { name: 'Bolivia', type: ResultType.Country, icon: 'place' },
-  { name: 'Palestine', type: ResultType.Country, icon: 'place' },
-];
 
 function compareResults(a: SearchResult, b: SearchResult) {
   return a.name === b.name && a.type === b.type;
 }
-export function FilterSearchBox() {
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  const [selectedResults, setSelected] = useState<SearchResult[]>([]);
+export function FilterSearchBox({
+  selectedResults,
+  setSelected,
+  remove,
+}: {
+  selectedResults: SearchResult[];
+  setSelected: (_: SearchResult[]) => void;
+  // eslint-disable-next-line no-unused-vars
+  remove: (resultName: string) => void;
+}) {
   const [query, setQuery] = useState('');
+  const { results: data, error, isLoading } = useSearchFilter(query);
 
   const filteredResult =
     query === ''
       ? data
-      : data.filter(({ name, type, icon }) => {
+      : data.filter(({ name, type }) => {
           const nameMatches = name.toLowerCase().includes(query.toLowerCase());
           const typeMatches = type.toLowerCase().includes(query.toLowerCase());
-          const iconMatches = icon.toLowerCase().includes(query.toLowerCase());
-          return nameMatches || typeMatches || iconMatches;
+          return nameMatches || typeMatches;
         });
 
   function removeResult(name: string) {
-    setSelected((p) => p.filter((result) => result.name !== name));
+    remove(name);
   }
 
   return (
@@ -143,7 +95,7 @@ export function FilterSearchBox() {
                       <button className="flex w-full cursor-pointer items-center gap-1.5 py-1.5">
                         <Icon
                           size={IconSize.Small}
-                          icon={result.icon}
+                          icon={GetResultIcon(result.type)}
                           className=" text-on-surface-disabled"
                         />
                         <span className="text-left capitalize line-clamp-1">
@@ -195,8 +147,8 @@ function ActiveOptions({
 
 /** Renders a result */
 function ActiveOption({
-  icon,
   name,
+  type,
   onClick,
 }: SearchResult & { onClick: () => void }) {
   const [open, setOpen] = useState(false);
@@ -235,7 +187,7 @@ function ActiveOption({
       >
         <Icon
           size={IconSize.Small}
-          icon={icon}
+          icon={GetResultIcon(type)}
           className=" text-on-surface-disabled"
         />
         <span className="text-left capitalize line-clamp-1">{name}</span>

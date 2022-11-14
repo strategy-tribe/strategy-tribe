@@ -4,18 +4,15 @@ import { useState } from 'react';
 import { useUrlSearchParams } from '@/lib/hooks/useUrlSearchParams';
 import { kFormatter } from '@/lib/utils/NumberHelpers';
 
+import { Button, ButtonStyle } from '@/components/utils/Button';
 import Icon, { IconSize } from '@/components/utils/Icon';
+
+import { GetBountiesParams } from '@/server/routes/bounties/getBounties';
 
 import { Searchbar } from '../../search/Searchbar';
 import { useExploreContext } from '../ExploreContext';
 import { DEFAULT_FILTERS } from './DefaultFilter';
-import {
-  OrderByFilter,
-  RewardsFilter,
-  StateFilter,
-  TagsFilter,
-  TypeFilter,
-} from './Filters';
+import { OrderByFilter, StateFilter, TagsFilter, TypeFilter } from './Filters';
 
 export function ExploreFilters() {
   const { urlFilter, setUrlFilter } = useUrlSearchParams();
@@ -131,13 +128,62 @@ export function ExploreFilters() {
 }
 
 function Filters() {
+  const [state, setState] = useState<GetBountiesParams>({});
+  //apply filters
+  function changeState(newState: Partial<GetBountiesParams>) {
+    setState((p) => ({ ...p, ...newState }));
+  }
+
+  // console.log(state);
   return (
-    <div className="flex h-[30rem] w-full gap-16 rounded bg-surface-dark px-4 py-6">
-      <OrderByFilter />
-      <TypeFilter />
-      <StateFilter />
-      <TagsFilter />
-      <RewardsFilter />
+    <div className="max-h-[35rem w-full rounded bg-surface-dark px-4 py-6">
+      <div className="flex gap-16">
+        <OrderByFilter
+          orderBy={state.orderBy}
+          select={(orderBy) => {
+            changeState({ orderBy });
+          }}
+          remove={() => {
+            changeState({ orderBy: undefined });
+          }}
+        />
+        <TypeFilter
+          types={state.types ?? []}
+          select={(type) => {
+            if (state.types?.includes(type)) return;
+            const types = (state.types ?? []).concat(type);
+            changeState({ types });
+          }}
+          remove={(type) => {
+            const types = state.types?.filter((t) => t !== type);
+            changeState({ types });
+          }}
+        />
+        <StateFilter
+          states={state.states ?? []}
+          select={(s) => {
+            if (state.states?.includes(s)) return;
+            const states = (state.states ?? []).concat(s);
+            changeState({ states });
+          }}
+          remove={(s) => {
+            const states = state.states?.filter((t) => t === s);
+            changeState({ states });
+          }}
+        />
+        <TagsFilter filters={state} setFilters={changeState} />
+        {/* <RewardsFilter /> */}
+      </div>
+      <pre className="label-sm">{JSON.stringify(state, null, 2)}</pre>
+      <div className="flex w-full items-end justify-end">
+        <Button
+          info={{
+            style: ButtonStyle.Filled,
+            label: 'Apply filters',
+            icon: 'arrow_forward',
+          }}
+        />
+      </div>
     </div>
   );
 }
