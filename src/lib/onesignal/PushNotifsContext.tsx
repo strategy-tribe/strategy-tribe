@@ -1,6 +1,5 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext } from 'react';
 import OneSignal from 'react-onesignal';
-import { useQuery } from 'react-query';
 
 import {
   DelayType,
@@ -19,6 +18,7 @@ import {
   removeSubscriber,
   removeSubscriberFromAll,
 } from './methods';
+import { useInitializeOneSignal, useRegisterUser } from './utilts';
 
 interface PushNotifsContextInterface {
   initialized: boolean | undefined;
@@ -61,34 +61,18 @@ const PushNotifsContext = createContext<PushNotifsContextInterface>({
   },
 });
 
-export default function PushNotifsContextProvider({
+export default function PushNotificationsProvider({
   children,
   appId,
 }: {
   appId: string;
   children: React.ReactNode;
 }) {
-  //*state
-  const [initialized, setInitialized] = useState<boolean | undefined>();
+  //* Set up
+  const { initialized } = useInitializeOneSignal(appId);
+  useRegisterUser(initialized);
 
-  async function initializeOneSignal() {
-    try {
-      if (initialized) return;
-      await OneSignal.init({ appId });
-      setInitialized(true);
-    } catch (error) {
-      console.warn(`Error initializing OneSignal`, error);
-      setInitialized(false);
-    }
-  }
-
-  useQuery('Initialize OneSignal', initializeOneSignal, {
-    enabled: !initialized,
-    cacheTime: Infinity,
-    staleTime: Infinity,
-  });
-
-  //*Notifications
+  //*Toasts
   const { notify } = useNotification();
 
   //*User info
@@ -133,12 +117,7 @@ export default function PushNotifsContextProvider({
     }
     const exUserId = await OneSignal.getExternalUserId();
     if (!exUserId) {
-      try {
-        await OneSignal.setExternalUserId(userId);
-      } catch (error) {
-        console.warn('could not register the user to one signal:', error);
-        return;
-      }
+      throw new Error('User is not connected to one signal');
     }
     const serverResponse = await addSubscriber(userId, orgName);
 

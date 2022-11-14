@@ -1,8 +1,8 @@
-import prisma from '@/server/prisma/prismaClient';
+import { PrismaClient } from '@prisma/client';
 
 import { WARN } from './utils';
 
-export async function ResetDB() {
+export async function ResetDB(prisma: PrismaClient) {
   await prisma.answer.deleteMany();
   WARN('deleted answer');
 

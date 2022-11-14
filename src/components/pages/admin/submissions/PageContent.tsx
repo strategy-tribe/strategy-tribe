@@ -32,6 +32,11 @@ export function ReviewDashboardFilters() {
     submissionFetch: { count },
   } = useAdminReview();
 
+  const options = useMemo(() => {
+    return [['All', 'All'], ...Object.entries(SubmissionState)].map((entry) => {
+      return { label: entry[1] } as HasLabel;
+    });
+  }, []);
   return (
     <div className="sticky top-0 z-20 flex items-center gap-8 border-b-2 border-surface bg-bg py-4">
       <div className="label-sm rounded-full text-center text-main-light">
@@ -59,11 +64,7 @@ export function ReviewDashboardFilters() {
 
       <Dropdown
         defaultOptionIndex={1}
-        options={[['All', 'All'], ...Object.entries(SubmissionState)].map(
-          (entry) => {
-            return { label: entry[1] } as HasLabel;
-          }
-        )}
+        options={options}
         onSelect={({ label: newState }) => {
           setQuery({
             ...query,

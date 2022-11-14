@@ -1,9 +1,9 @@
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { NextPage } from 'next';
+import { SessionProvider } from 'next-auth/react';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
-import { SessionProvider } from 'next-auth/react';
-import { ReactElement, ReactNode, useState } from 'react';
-import { QueryClient, QueryClientProvider } from 'react-query';
+import { ReactElement, ReactNode } from 'react';
 import {
   configureChains,
   createClient,
@@ -14,11 +14,12 @@ import { publicProvider } from 'wagmi/providers/public';
 
 import '../styles/globals.css';
 
+import PushNotificationsProvider from '@/lib/onesignal/PushNotifsContext';
 import { trpc } from '@/lib/trpc';
 
-import { NotificationcontextProvider as NotificationContextProvider } from '@/components/notifications/NotificationContext';
+import { NotificationsProvider as NotificationContextProvider } from '@/components/notifications/NotificationContext';
 
-import AuthContextProvider from '@/auth/AuthContext';
+import AuthProvider from '@/auth/AuthContext';
 
 const { provider, webSocketProvider } = configureChains(defaultChains, [
   publicProvider(),
@@ -38,10 +39,10 @@ const wagmiClient = createClient({
   autoConnect: true,
 });
 
-function MyApp({ Component, pageProps }: AppPropsWithLayout) {
-  const [queryClient] = useState(() => new QueryClient());
+const qc = new QueryClient();
 
-  const onesignal_appId = process.env.NEXT_PUBLIC_ONESIGNAL_APP_ID;
+function MyApp({ Component, pageProps }: AppPropsWithLayout) {
+  const onesignal_appId = process.env.NEXT_PUBLIC_ONESIGNAL_APP_ID as string;
 
   const getLayout = Component.getLayout ?? ((page) => page);
 
@@ -53,21 +54,19 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
           content="width=device-width, initial-scale=1.0,minimum-scale=1.0"
         />
       </Head>
-      <WagmiConfig client={wagmiClient}>
-        <SessionProvider session={(pageProps as any).session}>
-          <QueryClientProvider client={queryClient}>
-            {/* <Hydrate state={pageProps.dehydratedState}> */}
+      <QueryClientProvider client={qc}>
+        <WagmiConfig client={wagmiClient}>
+          <SessionProvider session={(pageProps as any).session}>
             <NotificationContextProvider>
-              <AuthContextProvider>
-                {/* <PushNotifsContextProvider appId={onesignal_appId as string}> */}
-                {getLayout(<Component {...pageProps} />, pageProps)}
-                {/* </PushNotifsContextProvider> */}
-              </AuthContextProvider>
+              <AuthProvider>
+                <PushNotificationsProvider appId={onesignal_appId}>
+                  {getLayout(<Component {...pageProps} />, pageProps)}
+                </PushNotificationsProvider>
+              </AuthProvider>
             </NotificationContextProvider>
-            {/* </Hydrate> */}
-          </QueryClientProvider>
-        </SessionProvider>
-      </WagmiConfig>
+          </SessionProvider>
+        </WagmiConfig>
+      </QueryClientProvider>
     </>
   );
 }

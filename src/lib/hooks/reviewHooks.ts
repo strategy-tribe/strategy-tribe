@@ -1,4 +1,4 @@
-import { useQueryClient } from 'react-query';
+import { useQueryClient } from '@tanstack/react-query';
 
 import {
   PostReviewParams,
@@ -13,13 +13,14 @@ export const useSubmitReview = (events: {
   onError: (e: any) => void;
 }) => {
   const { onError, onMutate, onSuccess } = events;
-  const q = useQueryClient();
+
+  const qc = useQueryClient();
 
   const mutation = trpc.review.post.useMutation({
     onMutate,
     onError,
     onSuccess: (data) => {
-      q.invalidateQueries();
+      qc.invalidateQueries();
       onSuccess(data);
     },
   });

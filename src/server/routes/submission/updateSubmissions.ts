@@ -1,7 +1,7 @@
 import { Prisma, PrismaClient, SubmissionState } from '@prisma/client';
 import { z } from 'zod';
 
-import { NotifyUsers_SubmissionsRejected } from '../notification/submissionts';
+import { NotifyUsers_SubmissionsRejected } from '../notification/utils/submissions';
 
 /** Schema used to update submissions */
 const UpdateSubmissionsSchema = z.object({
