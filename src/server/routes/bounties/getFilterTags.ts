@@ -16,71 +16,52 @@ const GetFilterTags = z.object({
 export type GetFilterTagsParams = z.infer<typeof GetFilterTags>;
 
 async function _getTags(prisma: PrismaClient, params: GetFilterTagsParams) {
-  const { search } = params;
-  const promises: Promise<{ name: string }[]>[] = [];
+  const { search: rawSearch } = params;
 
-  //Tags
-  promises.push(
+  const search = rawSearch.trim();
+
+  const [tags, orgs, targets, countries] = await prisma.$transaction([
     prisma.tag.findMany({
       where: {
         name: {
-          search,
+          search: search.split(' ').join(' & '),
         },
       },
       select: {
         name: true,
       },
-    })
-  );
-
-  //Orgs
-  promises.push(
+    }),
     prisma.organization.findMany({
       where: {
         name: {
-          search,
+          search: search.split(' ').join(' & '),
         },
       },
       select: {
         name: true,
       },
-    })
-  );
-
-  //Targets
-  promises.push(
+    }),
     prisma.target.findMany({
       where: {
         name: {
-          search,
+          search: search.split(' ').join(' & '),
         },
       },
       select: {
         name: true,
       },
-    })
-  );
-
-  //countries
-  promises.push(
+    }),
     prisma.country.findMany({
       where: {
         name: {
-          search,
+          search: search.split(' ').join(' & '),
         },
       },
       select: {
         name: true,
       },
-    })
-  );
-
-  const res = await Promise.all(promises);
-
-  const tags = res.at(0) ?? [];
-  const orgs = res.at(1) ?? [];
-  const targets = res.at(2) ?? [];
-  const countries = res.at(3) ?? [];
+    }),
+  ]);
 
   return { tags, orgs, targets, countries };
 }

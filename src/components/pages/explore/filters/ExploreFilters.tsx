@@ -1,21 +1,21 @@
 import { useAutoAnimate } from '@formkit/auto-animate/react';
 import { useMemo, useState } from 'react';
 
-import { useUrlSearchParams } from '@/lib/hooks/useUrlSearchParams';
 import { kFormatter } from '@/lib/utils/NumberHelpers';
 
+import { useExploreUrl } from '@/components/pages/explore/useExploreUrl';
 import { Button, ButtonStyle } from '@/components/utils/Button';
 import Icon, { IconSize } from '@/components/utils/Icon';
 
 import { GetBountiesParams } from '@/server/routes/bounties/getBounties';
 
-import { Searchbar } from '../../search/Searchbar';
 import { useExploreContext } from '../ExploreContext';
-import { DEFAULT_FILTERS } from './DefaultFilter';
 import { OrderByFilter, StateFilter, TagsFilter, TypeFilter } from './Filters';
+import { DEFAULT_FILTERS } from './utils/DefaultFilter';
+import { Searchbar as SearchBar } from './utils/Searchbar';
 
 export function ExploreFilters() {
-  const { urlFilter, setUrlFilter } = useUrlSearchParams();
+  const { urlFilter, setUrlFilter } = useExploreUrl();
 
   const { bountyFetch, countries, removeCountry } = useExploreContext();
 
@@ -37,7 +37,7 @@ export function ExploreFilters() {
   return (
     <div ref={parent} className="space-y-4">
       <div className="flex justify-end">
-        <Searchbar
+        <SearchBar
           searchTerm={urlFilter.query.search || ''}
           search={(s) => {
             setSearch(s);
@@ -109,7 +109,7 @@ export function ExploreFilters() {
               isLoading ? 'invisible' : 'visible'
             }`}
           >
-            {kFormatter(count || 0)} bounties
+            {kFormatter(count || 0)} {count === 1 ? 'bounty' : 'bounties'}
           </span>
 
           <button
@@ -122,15 +122,15 @@ export function ExploreFilters() {
         </div>
       </div>
 
-      {showFilters && <Filters />}
+      {showFilters && <Filters hide={() => setShowFilters(false)} />}
     </div>
   );
 }
 
-function Filters() {
-  const { setUrlFilter } = useUrlSearchParams();
+function Filters({ hide }: { hide: () => void }) {
+  const { setUrlFilter, urlFilter } = useExploreUrl();
 
-  const [state, setState] = useState<GetBountiesParams>({});
+  const [state, setState] = useState<GetBountiesParams>(urlFilter.query);
   //apply filters
   function changeState(newState: Partial<GetBountiesParams>) {
     setState((p) => ({ ...p, ...newState }));
@@ -153,10 +153,12 @@ function Filters() {
           }}
         />
         <TypeFilter
-          types={state.types ?? []}
+          types={
+            typeof state.types === 'string' ? [state.types] : state.types ?? []
+          }
           select={(type) => {
             if (state.types?.includes(type)) return;
-            const types = (state.types ?? []).concat(type);
+            const types = [type].concat(state.types ?? []);
             changeState({ types });
           }}
           remove={(type) => {
@@ -165,7 +167,11 @@ function Filters() {
           }}
         />
         <StateFilter
-          states={state.states ?? []}
+          states={
+            typeof state.states === 'string'
+              ? [state.states]
+              : state.states ?? []
+          }
           select={(s) => {
             if (state.states?.includes(s)) return;
             const states = (state.states ?? []).concat(s);
@@ -179,7 +185,6 @@ function Filters() {
         <TagsFilter filters={state} setFilters={changeState} />
         {/* <RewardsFilter /> */}
       </div>
-      <pre className="label-sm">{JSON.stringify(state, null, 2)}</pre>
       <div className="flex w-full items-center justify-end gap-6">
         <span className="label">
           {amountOfFilters} {label}
@@ -191,8 +196,11 @@ function Filters() {
             icon: 'arrow_forward',
             onClick: () => {
               setUrlFilter(state);
+              hide();
             },
-            disabled: amountOfFilters === 0,
+            disabled:
+              amountOfFilters === 0 ||
+              JSON.stringify(state) === JSON.stringify(urlFilter.query),
           }}
         />
       </div>

@@ -1,13 +1,13 @@
 import { useEffect, useMemo, useState } from 'react';
 
-import { useUrlSearchParams } from '@/lib/hooks/useUrlSearchParams';
 import useWindowDimensions from '@/lib/hooks/useWindowDimensions';
 import { ArrayOfNumbers } from '@/lib/utils/ArrayHelpers';
 
+import { useExploreUrl } from '@/components/pages/explore/useExploreUrl';
 import { Button, ButtonStyle } from '@/components/utils/Button';
 import { IconSize } from '@/components/utils/Icon';
 
-import { useExploreContext } from '../explore/ExploreContext';
+import { useExploreContext } from './ExploreContext';
 
 export function PageControls() {
   const { bountyFetch } = useExploreContext();
@@ -20,7 +20,7 @@ export function PageControls() {
   const isLoading = bountyFetch?.isLoading ?? true;
   const hasNextPage = bountyFetch?.hasNextPage ?? false;
 
-  const { setUrlFilter, urlFilter } = useUrlSearchParams();
+  const { setUrlFilter, urlFilter } = useExploreUrl();
 
   function nextPage() {
     setUrlFilter(

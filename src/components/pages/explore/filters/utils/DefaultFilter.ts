@@ -25,7 +25,6 @@ const LATEST_FILTER: BountiesFilter = {
     order: Order.Desc,
     orderBy: BountyOrderBy.CreatedAt,
     amount: 16,
-    paginate: true,
     page: 0,
   },
 };
@@ -36,7 +35,7 @@ const TOP_REWARDS_FILTER: BountiesFilter = {
     order: Order.Desc,
     orderBy: BountyOrderBy.Bounty,
     amount: 16,
-    paginate: true,
+
     page: 0,
   },
 };
@@ -47,7 +46,7 @@ const LOW_COMPETITION_FILTER: BountiesFilter = {
     order: Order.Asc,
     orderBy: BountyOrderBy.Submissions,
     amount: 16,
-    paginate: true,
+
     page: 0,
   },
 };
@@ -57,7 +56,7 @@ const CLOSES_SOON_FILTER: BountiesFilter = {
     order: Order.Asc,
     orderBy: BountyOrderBy.ClosesAt,
     amount: 16,
-    paginate: true,
+
     page: 0,
   },
 };

@@ -26,21 +26,20 @@ export function FilterSelector<T extends { label: string }>({
       {options.map((option) => {
         const isSelected = checkIsSelected(option);
         return (
-          <li key={option.label} className="hover:text-main-light">
-            <button
-              onClick={() => (isSelected ? remove(option) : select(option))}
-              className="flex w-full items-center justify-between gap-2"
-            >
-              <span className="body capitalize">{option.label}</span>
-              {isSelected && (
-                <button
-                  onClick={() => remove(option)}
-                  className="grid place-items-center"
-                >
-                  <Icon icon="close" size={IconSize.Small} />
-                </button>
-              )}
-            </button>
+          <li
+            key={option.label}
+            onClick={() => (isSelected ? remove(option) : select(option))}
+            className="flex w-full cursor-pointer items-center justify-between gap-2 hover:text-main-light"
+          >
+            <span className="body capitalize">{option.label}</span>
+            {isSelected && (
+              <button
+                onClick={() => remove(option)}
+                className="grid place-items-center"
+              >
+                <Icon icon="close" size={IconSize.Small} />
+              </button>
+            )}
           </li>
         );
       })}

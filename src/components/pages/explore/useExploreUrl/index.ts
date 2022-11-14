@@ -8,11 +8,14 @@ import {
   BountiesFilterType,
   DEFAULT_FILTER,
   DEFAULT_FILTERS,
-} from '@/components/pages/explore/filters/DefaultFilter';
+} from '@/components/pages/explore/filters/utils/DefaultFilter';
 
 import { GetBountiesParams } from '@/server/routes/bounties/getBounties';
 
-export const useUrlSearchParams = () => {
+import { ParamsToQuery, QueryToParams } from './utilts';
+
+/** Helper for the explore page */
+export const useExploreUrl = () => {
   const router = useRouter();
 
   function buildRoute(
@@ -25,45 +28,35 @@ export const useUrlSearchParams = () => {
     const filterType: BountiesFilterType =
       type ?? urlFilter.type ?? DEFAULT_FILTER.type;
 
-    const search = searchParams.search ?? urlFilter.query.search ?? undefined;
+    // const search = searchParams.search ?? urlFilter.query.search ?? undefined;
 
-    const page = searchParams.page ?? urlFilter.query.page ?? 0;
+    // const page = searchParams.page ?? urlFilter.query.page ?? 0;
 
-    const relatedTo =
-      searchParams.targetNames ?? urlFilter.query.targetNames ?? [];
+    // const relatedTo =
+    //   searchParams.targetNames ?? urlFilter.query.targetNames ?? [];
 
-    const countries = searchParams.countries ?? urlFilter.query.countries ?? [];
+    // const countries = searchParams.countries ?? urlFilter.query.countries ?? [];
 
     const routerQuery = {
       pathname: router.pathname,
-      query: {
-        search,
-        type: filterType,
-        page,
-        relatedTo,
-        countries,
-      },
+      query: { ...ParamsToQuery(searchParams), filterType },
     };
 
     return routerQuery;
   }
 
   const urlFilter: BountiesFilter = useMemo(() => {
-    const { search, type, page, relatedTo, countries } = router.query;
+    const { filterType } = router.query;
 
-    const urlFilter = DEFAULT_FILTERS.find((f) => f.type === type);
+    const predefinedFilter = DEFAULT_FILTERS.find((f) => f.type === filterType);
 
-    if (urlFilter) {
+    if (predefinedFilter) {
+      const customQuery = QueryToParams(router.query);
       const customFilter: BountiesFilter = {
-        ...urlFilter,
+        ...predefinedFilter,
         query: {
-          ...urlFilter.query,
-          page: parseInt(page as string) ?? 0,
-          search: (search as string) ?? undefined,
-          targetNames: (relatedTo as string[]) ?? undefined,
-          countries: (countries as string)
-            ? [countries as string]
-            : (countries as string[]) ?? [],
+          ...predefinedFilter.query,
+          ...customQuery,
         },
       };
       return customFilter;

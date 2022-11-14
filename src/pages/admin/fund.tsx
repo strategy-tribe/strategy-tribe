@@ -75,7 +75,6 @@ const BountiesToFundPage: NextPageWithLayout = () => {
     amount: size,
     order: Order.Asc,
     orderBy: BountyOrderBy.CreatedAt,
-    paginate: true,
     states: [BountyState.WaitingForFunds],
     page,
   });
