@@ -1,5 +1,4 @@
 import { Requirement, RequirementType } from '@prisma/client';
-import Image from 'next/image';
 import { useState } from 'react';
 
 import Icon from '@/components/utils/Icon';
@@ -33,7 +32,7 @@ export function UserAnswer({
 
       {expanded && (
         <>
-          {typeof answer === 'string' ? (
+          {requirement?.type !== RequirementType.Image ? (
             <p className="body pl-8">
               <span className="inline">{answer}</span>
             </p>
@@ -41,18 +40,14 @@ export function UserAnswer({
             <>
               {requirement?.type === RequirementType.Image && (
                 <div className="flex flex-col gap-4 pt-4">
-                  {(answer ?? []).map((url) => {
-                    return (
-                      <figure key={url} className="relative">
-                        <Image
-                          src={url}
-                          width={1920}
-                          height={1080}
-                          alt="preview for image"
-                        />
-                      </figure>
-                    );
-                  })}
+                  <figure key={answer as string} className="relative">
+                    <img
+                      src={answer as string}
+                      width={1920}
+                      height={1080}
+                      alt="preview for image"
+                    />
+                  </figure>
                 </div>
               )}
             </>

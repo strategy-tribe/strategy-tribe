@@ -24,8 +24,7 @@
       "type": "chrome",
       "request": "launch",
       "url": "http://localhost:3000",
-      "command": "yarn dev",
-
+      "command": "yarn dev"
     },
     {
       "name": "Next.js: debug full stack",
