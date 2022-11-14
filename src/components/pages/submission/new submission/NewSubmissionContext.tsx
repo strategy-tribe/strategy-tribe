@@ -190,7 +190,7 @@ export const NewSubmissionContextProvider = ({
         label: 'Submit',
         onClick: () => {
           Save({
-            answers: userAnswers.filter((a) => typeof a.input === 'string'),
+            answers: userAnswers,
             slug: bounty.slug,
           });
         },

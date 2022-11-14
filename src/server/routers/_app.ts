@@ -1,5 +1,6 @@
 import { router } from '../procedures';
 import { bountyRouter } from './bounty';
+import { fileRouter } from './files';
 import { invoiceRouter } from './invoice';
 import { mapRouter } from './map';
 import { notificationRouter } from './notification';
@@ -21,6 +22,7 @@ export const appRouter = router({
   wallet: walletRouter,
   map: mapRouter,
   notification: notificationRouter,
+  file: fileRouter,
 });
 
 // export type definition of API
