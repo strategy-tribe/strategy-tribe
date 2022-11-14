@@ -12,7 +12,7 @@ import React, { useState } from 'react';
 
 import Icon, { IconSize } from '@/components/utils/Icon';
 
-enum ResultType {
+export enum ResultType {
   // eslint-disable-next-line no-unused-vars
   Tag = 'Tag',
   // eslint-disable-next-line no-unused-vars
@@ -23,11 +23,12 @@ enum ResultType {
   Country = 'Country',
 }
 
-type SearchResult = {
+export type SearchResult = {
   type: ResultType;
   name: string;
   icon: string;
 };
+
 const data: SearchResult[] = [
   { name: 'terrorist', type: ResultType.Tag, icon: 'label' },
   { name: 'armed group', type: ResultType.Tag, icon: 'label' },

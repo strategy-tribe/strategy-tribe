@@ -1,9 +1,7 @@
 import { useAutoAnimate } from '@formkit/auto-animate/react';
-import { BountyState, RequirementType } from '@prisma/client';
 import { useState } from 'react';
 
 import { useUrlSearchParams } from '@/lib/hooks/useUrlSearchParams';
-import { BountyOrderBy } from '@/lib/models/BountyQueryParams';
 import { kFormatter } from '@/lib/utils/NumberHelpers';
 
 import Icon, { IconSize } from '@/components/utils/Icon';
@@ -11,9 +9,13 @@ import Icon, { IconSize } from '@/components/utils/Icon';
 import { Searchbar } from '../../search/Searchbar';
 import { useExploreContext } from '../ExploreContext';
 import { DEFAULT_FILTERS } from './DefaultFilter';
-import { FilterColumn } from './FilterColumn';
-import { FilterColumnHeader } from './FilterColumnHeader';
-import { FilterSearchBox } from './SearchBox';
+import {
+  OrderByFilter,
+  RewardsFilter,
+  StateFilter,
+  TagsFilter,
+  TypeFilter,
+} from './Filters';
 
 export function ExploreFilters() {
   const { urlFilter, setUrlFilter } = useUrlSearchParams();
@@ -131,53 +133,11 @@ export function ExploreFilters() {
 function Filters() {
   return (
     <div className="flex h-[30rem] w-full gap-16 rounded bg-surface-dark px-4 py-6">
-      <div className="shrink grow basis-0 space-y-4">
-        <FilterColumnHeader
-          label="Order by"
-          tooltip="Pick which field to give priority to"
-        />
-        <FilterColumn
-          selected={[]}
-          options={Object.values(BountyOrderBy).map((v) => ({ label: v }))}
-        />
-      </div>
-      <div className="shrink grow basis-0 space-y-4">
-        <FilterColumnHeader
-          label="Type"
-          tooltip="Type of data the bounty must require"
-        />
-        <FilterColumn
-          selected={[]}
-          options={Object.values(RequirementType)
-            .filter(
-              (type) =>
-                ![RequirementType.Image, RequirementType.Report].find(
-                  (notThisOne) => type === notThisOne
-                )
-            )
-            .map((v) => ({ label: v }))}
-        />
-      </div>
-      <div className="shrink grow basis-0 space-y-4">
-        <FilterColumnHeader label="State" tooltip="State of the bounty" />
-        <FilterColumn
-          selected={[]}
-          options={Object.values(BountyState).map((v) => ({ label: v }))}
-        />
-      </div>
-      <div className="shrink grow basis-0 space-y-4">
-        <FilterColumnHeader
-          label="Tags"
-          tooltip="Countries, organizations, or names"
-        />
-        <FilterSearchBox />
-      </div>
-      <div className="shrink grow basis-0 space-y-4">
-        <FilterColumnHeader
-          label="Rewards"
-          tooltip="How much the bounty rewards"
-        />
-      </div>
+      <OrderByFilter />
+      <TypeFilter />
+      <StateFilter />
+      <TagsFilter />
+      <RewardsFilter />
     </div>
   );
 }
