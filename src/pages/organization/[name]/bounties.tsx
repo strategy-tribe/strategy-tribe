@@ -38,7 +38,7 @@ const OrganizationBountiesPage: NextPageWithLayout = () => {
   const { bounties, isLoading: isLoadingBounties } = useGetBounties(
     {
       order: Order.Desc,
-      orgId: name as string,
+      orgId: org?.id as string,
     },
     !!org
   );
@@ -68,7 +68,7 @@ const OrganizationBountiesPage: NextPageWithLayout = () => {
                 icon: 'arrow_back',
                 iconSize: IconSize.Small,
                 style: ButtonStyle.Text,
-                isALink: GoToOrgPage(org?.id ?? ''),
+                isALink: GoToOrgPage(org?.name ?? ''),
               }}
             />
           </div>
