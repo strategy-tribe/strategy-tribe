@@ -1,22 +1,18 @@
 import dynamic from 'next/dynamic';
-import { useRouter } from 'next/router';
 
-import { MapData } from '@/lib/models/map/MapData';
-import { GoTo404Page } from '@/lib/utils/Routes';
+import { MapDataWithFeatures } from '@/lib/models/MapData';
 
-import Loading from '@/components/utils/Loading';
-
-import { Section } from '../landing/Section';
-import { PageControls } from '../search/PageControls';
 import { BountyBoard } from './BountyBoard';
 import { ExploreContextProvider, useExploreContext } from './ExploreContext';
 import { ExploreFilters } from './filters/ExploreFilters';
+import { Section } from '../landing/Section';
+import { PageControls } from '../search/PageControls';
 
 const Map = dynamic(import('./map/MapProjection'), {
   ssr: false,
 });
 
-export function Explore({ data }: { data: MapData }) {
+export function Explore({ data }: { data: MapDataWithFeatures | undefined }) {
   return (
     <>
       <ExploreContextProvider data={data}>
@@ -28,50 +24,33 @@ export function Explore({ data }: { data: MapData }) {
 
 function ExploreContent() {
   const { bountyFetch } = useExploreContext();
-  const isLoading = bountyFetch?.isLoading ?? true;
-  const bounties = bountyFetch?.bounties ?? [];
+
   const error = bountyFetch?.error ?? '';
 
-  const router = useRouter();
-
   if (error) {
-    router.push(GoTo404Page());
+    console.error(error);
+    return <></>;
   }
 
   return (
     <>
       <div>
-        {!!error && (
-          <p className="w-full text-center text-error-light label">
-            There has been an error.
-            <br />
-            {`${error}`}
-          </p>
-        )}
+        <Section>{!!Map && <Map />}</Section>
 
-        {!error && (
+        <div className="flex min-h-screen w-full flex-col gap-y-8 ">
           <>
-            <Section>{!!Map && <Map />}</Section>
-
-            <div className="space-y-8 min-h-screen">
-              {!!bounties && (
-                <>
-                  <Section>
-                    <ExploreFilters />
-                  </Section>
-                  <div className="space-y-8">
-                    <PageNumber />
-                    <BountyBoard />
-                  </div>
-                  <div className="flex justify-center">
-                    <PageControls />
-                  </div>
-                </>
-              )}
-              {!!isLoading && <Loading small />}
+            <Section className="w-full">
+              <ExploreFilters />
+            </Section>
+            <div className="space-y-8">
+              <PageNumber />
+              <BountyBoard />
+            </div>
+            <div className="flex grow basis-0 items-end justify-center ">
+              <PageControls />
             </div>
           </>
-        )}
+        </div>
       </div>
     </>
   );
@@ -80,7 +59,8 @@ function ExploreContent() {
 function PageNumber() {
   const { bountyFetch } = useExploreContext();
 
-  const lastPage = bountyFetch?.numOfPages ?? 0;
+  const lastPage = bountyFetch?.numOfPages;
+  if (!lastPage) return <></>;
 
   return (
     <Section>

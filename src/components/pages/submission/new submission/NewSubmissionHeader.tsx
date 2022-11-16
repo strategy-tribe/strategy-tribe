@@ -9,7 +9,7 @@ export function NewSubmissionHeader() {
     useNewSubmissionContext();
 
   return (
-    <header className="flex w-full justify-between py-5 border-b-2 border-surface sticky top-[3.8rem] z-50 bg-surface-dark">
+    <header className="sticky top-[3.8rem] z-50 flex w-full justify-between border-b-2 border-surface bg-surface-dark py-5">
       <div>
         <h2 className="title">New Submission</h2>
         <Button
@@ -17,12 +17,12 @@ export function NewSubmissionHeader() {
             style: ButtonStyle.TextPurple,
             removePadding: true,
             label: bounty?.title,
-            isALink: GoToBountyPage(bounty?.id as string),
+            isALink: GoToBountyPage(bounty?.slug as string),
           }}
         />
       </div>
 
-      <div className="flex h-fit gap-8 items-center">
+      <div className="flex h-fit items-center gap-8">
         {!editPhase && (
           <Button
             info={{

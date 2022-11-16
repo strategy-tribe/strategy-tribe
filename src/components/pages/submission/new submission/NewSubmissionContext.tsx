@@ -1,4 +1,4 @@
-import { useAuth } from 'auth/AuthContext';
+import { Requirement, RequirementType } from '@prisma/client';
 import Link from 'next/link';
 import {
   createContext,
@@ -10,10 +10,8 @@ import {
 } from 'react';
 
 import { useGetBounty } from '@/lib/hooks/bountyHooks';
-import { useSaveSubmission } from '@/lib/hooks/submissionHooks';
+import { useSaveSubmission } from '@/lib/hooks/submission';
 import { useLocalStorage } from '@/lib/hooks/useLocalStorage';
-import { Bounty } from '@/lib/models';
-import { Requirement, RequirementType } from '@/lib/models/requirement';
 import { GoToSubmissionPage } from '@/lib/utils/Routes';
 
 import {
@@ -25,7 +23,10 @@ import { useNotification } from '@/components/notifications/NotificationContext'
 import { Check } from '@/components/utils/BountyRequirementsShowcase';
 import { ButtonInformation, ButtonStyle } from '@/components/utils/Button';
 
-import { UserInput } from './UserInput';
+import { useAuth } from '@/auth/AuthContext';
+import { FullBounty } from '@/server/routes/bounties/getBounty';
+
+import { UserInput } from '../../../../server/routes/submission/postSubmission/UserInput';
 
 interface iNewSubmissionContext {
   bountyId: string;
@@ -36,7 +37,7 @@ interface iNewSubmissionContext {
   backToEdit: () => void;
   requirementsFullfiled: boolean;
   ctaButton: ButtonInformation | undefined;
-  bounty: Bounty | undefined;
+  bounty: FullBounty | undefined | null;
   cleanSubmissionFromStorage: () => void;
   attachments: File[];
   setAttachments: (s: File[]) => void;
@@ -55,15 +56,15 @@ export const NewSubmissionContextProvider = ({
   redirectToBounty: () => void;
   children: ReactNode;
 }) => {
-  const { userId: user } = useAuth();
+  const { userId } = useAuth();
 
   //*UI State
   const [editPhase, setEditPhase] = useState(true);
 
   //*Submission State
-  const { bounty } = useGetBounty(bountyId as string, true);
+  const bounty = useGetBounty(bountyId as string, true).bounty as FullBounty;
   const [userAnswers, setUserAnswers, clean] = useLocalStorage<UserInput[]>(
-    `${user} - ${bountyId} `,
+    `${userId} - ${bountyId} `,
     []
   );
 
@@ -85,7 +86,7 @@ export const NewSubmissionContextProvider = ({
     if (bounty && userAnswers.length === 0) {
       const requirements = bounty.requirements;
 
-      const inputs = requirements.map((req) => {
+      const inputs = requirements?.map((req) => {
         const userInput: UserInput = {
           requirement: req,
           input: req.type === RequirementType.Image ? [] : '',
@@ -93,94 +94,80 @@ export const NewSubmissionContextProvider = ({
         return userInput;
       });
 
-      setUserAnswers(inputs);
+      setUserAnswers(inputs ?? []);
 
-      const newChecks = bounty.requirements.map((req) => {
+      const newChecks = bounty.requirements?.map((req) => {
         return { passed: false, requirement: req };
       });
-      setChecks(newChecks);
+      setChecks(newChecks ?? []);
     }
-  }, [bounty, userAnswers]);
+  }, [bounty, userAnswers, setUserAnswers]);
 
   //*Mutations
-  const { Save } = useSaveSubmission(
-    user as string,
-    [
-      ...userAnswers,
-      {
-        input: attachments,
-        requirement: {
-          title: 'Attachments',
-          type: RequirementType.Image,
-          optional: true,
+  const { Save } = useSaveSubmission({
+    onMutate: () => {
+      redirectToBounty();
+      notify(
+        {
+          title: 'Your Submission is being uploaded',
+          content: 'Please do not close this window',
+          icon: 'warning',
         },
-      },
-    ],
-    bountyId as string,
-    {
-      onMutate: () => {
-        redirectToBounty();
-        notify(
-          {
-            title: 'Your Submission is being uploaded',
-            content: 'Please do not close this window',
-            icon: 'warning',
-          },
-          {
-            delayTime: 0,
-            delayType: DelayType.Condition,
-            condition: false,
-            type: NotificationType.Banner,
-          }
-        );
-      },
-      onSuccess: (newSubmissionId) => {
-        clean();
-        notify(
-          {
-            style: NotificationStyle.success,
-            title: 'Your Submission was uploaded successfully',
-            content: () => (
-              <Link href={GoToSubmissionPage(newSubmissionId as string)}>
-                <a
-                  className="underline text-on-surface-p0 font-medium"
-                  onClick={hide}
-                >
-                  You can see it here
-                </a>
-              </Link>
-            ),
-            icon: 'done_all',
-          },
-          {
-            delayTime: 7,
-            delayType: DelayType.Time,
-            condition: false,
-            type: NotificationType.Banner,
-          }
-        );
-      },
-      onError: (e) => {
-        notify(
-          {
-            title: 'There was an error submitting your findings',
-            content: e.message as string,
-            icon: 'error',
-            style: NotificationStyle.error,
-          },
-          {
-            delayTime: 10,
-            delayType: DelayType.Time,
-            condition: false,
-            type: NotificationType.Banner,
-          }
-        );
-      },
-    }
-  );
+        {
+          delayTime: 0,
+          delayType: DelayType.Condition,
+          condition: false,
+          type: NotificationType.Banner,
+        }
+      );
+    },
+    onSuccess: (newSubmissionId) => {
+      clean();
+      notify(
+        {
+          style: NotificationStyle.success,
+          title: 'Your Submission was uploaded successfully',
+          content: () => (
+            <Link href={GoToSubmissionPage(newSubmissionId as string)}>
+              <span
+                className="font-medium text-on-surface-p0 underline"
+                onClick={hide}
+              >
+                You can see it here
+              </span>
+            </Link>
+          ),
+          icon: 'done_all',
+        },
+        {
+          delayTime: 7,
+          delayType: DelayType.Time,
+          condition: false,
+          type: NotificationType.Banner,
+        }
+      );
+    },
+    onError: (e) => {
+      console.error('here', e);
+      notify(
+        {
+          title: 'There was an error submitting your findings',
+          content: e.message as string,
+          icon: 'error',
+          style: NotificationStyle.error,
+        },
+        {
+          delayTime: 10,
+          delayType: DelayType.Time,
+          condition: false,
+          type: NotificationType.Banner,
+        }
+      );
+    },
+  });
 
   //*Notifications
-  const { notify: notify, hide } = useNotification();
+  const { notify, hide } = useNotification();
 
   function answerChanged(requirement: Requirement, passed: boolean) {
     const newChecks = checks.filter((c) => c.requirement !== requirement);
@@ -202,12 +189,15 @@ export const NewSubmissionContextProvider = ({
         icon: 'publish',
         label: 'Submit',
         onClick: () => {
-          Save();
+          Save({
+            answers: userAnswers,
+            slug: bounty.slug,
+          });
         },
         style: ButtonStyle.Filled,
         disabled: !requirementsFullfiled,
       };
-  }, [requirementsFullfiled, editPhase, Save]);
+  }, [requirementsFullfiled, editPhase, Save, bounty, userAnswers]);
 
   return (
     <NewSubmissionContext.Provider

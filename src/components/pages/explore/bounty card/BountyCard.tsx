@@ -1,30 +1,34 @@
 import Link from 'next/link';
 
-import { Bounty } from '@/lib/models';
 import { GoToBountyPage } from '@/lib/utils/Routes';
+
+import { SmallBounty } from '@/server/routes/bounties/getBounties';
 
 import { BountyCardFooter } from './BountyCardFooter';
 import { BountyCardReward } from './BountyCardReward';
 import { BountyCardTags } from './BountyCardTags';
 import { BountyCardTitle } from './BountyCardTitle';
 
-export function BountyCard({ bounty }: { bounty: Bounty }) {
+export function BountyCard({ bounty }: { bounty: SmallBounty }) {
   const animClasses = 'transition-all duration-[250] ease-out';
   const moveToLeft = 'hover:-translate-x-4';
   const moveBgtoLeft = 'group-hover:-translate-x-3';
   const expandBg = 'group-hover:scale-x-[1.15] group-hover:scale-y-[1.15]';
 
   return (
-    <article className={`relative group h-fit ${moveToLeft} ${animClasses}`}>
+    <article className={`group relative h-fit ${moveToLeft} ${animClasses}`}>
       <div
-        className={`absolute inset-0 group-hover:bg-surface z-0 rounded origin-left ${expandBg} ${animClasses} ${moveBgtoLeft}`}
+        className={`absolute inset-0 z-0 origin-left rounded group-hover:bg-surface ${expandBg} ${animClasses} ${moveBgtoLeft}`}
       ></div>
 
-      <Link href={GoToBountyPage(bounty.id)}>
-        <a className={`relative flex flex-col gap-4 z-10 ${animClasses}`}>
+      <Link href={GoToBountyPage(bounty.slug)}>
+        <span className={`relative z-10 flex flex-col gap-4 ${animClasses}`}>
           <header className="flex justify-between gap-4">
             <div>
-              <BountyCardTags bounty={bounty} />
+              <BountyCardTags
+                org={bounty.target.org?.name ?? 'Unknown organization'}
+                requirements={bounty.requirements}
+              />
 
               <BountyCardTitle bounty={bounty} />
             </div>
@@ -32,10 +36,13 @@ export function BountyCard({ bounty }: { bounty: Bounty }) {
             {/* <BountyCardWatchButton animClasses={animClasses} /> */}
           </header>
 
-          <BountyCardReward reward={bounty.funds} />
+          <BountyCardReward reward={bounty.wallet?.balance ?? 0} />
 
-          <BountyCardFooter bounty={bounty} />
-        </a>
+          <BountyCardFooter
+            amountOfSubs={bounty._count.submissions}
+            closesAt={bounty.closesAt}
+          />
+        </span>
       </Link>
     </article>
   );
@@ -43,6 +50,6 @@ export function BountyCard({ bounty }: { bounty: Bounty }) {
 
 export function DummyBountyCard() {
   return (
-    <div className="min-w-[18rem] w-full h-24 bg-surface-dark animate-pulse rounded-lg" />
+    <div className="h-24 w-full min-w-[18rem] animate-pulse rounded-lg bg-surface-dark" />
   );
 }

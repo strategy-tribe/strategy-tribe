@@ -1,11 +1,10 @@
-import { useAuth } from 'auth/AuthContext';
+import { Review } from '@prisma/client';
 import Link from 'next/link';
 
-import { useGetBounty } from '@/lib/hooks/bountyHooks';
 import { useGetReviews } from '@/lib/hooks/reviewHooks';
-import { useGetSubmission } from '@/lib/hooks/submissionHooks';
-import { Review } from '@/lib/models/Review';
 import { GoToSubmissionPage } from '@/lib/utils/Routes';
+
+import { useAuth } from '@/auth/AuthContext';
 
 export function AccountReviews() {
   const { userId } = useAuth();
@@ -21,10 +20,10 @@ export function AccountReviews() {
   );
 
   return (
-    <div className="w-full h-fit space-y-8">
+    <div className="h-fit w-full space-y-8">
       {/* Reviews */}
       <div className="space-y-4">
-        <div className="grid grid-cols-3 w-full gap-x-8 label text-on-surface-unactive">
+        <div className="label grid w-full grid-cols-3 gap-x-8 text-on-surface-unactive">
           <p>Review</p>
           <p>Submission</p>
           <p>Bounty</p>
@@ -39,7 +38,7 @@ export function AccountReviews() {
       <div></div>
 
       {(reviews?.length ?? 1) === 0 && (
-        <div className="pb-4 border-b-1 border-surface">
+        <div className="border-b-1 border-surface pb-4">
           <span className="body-sm translate-x-0.5 text-on-surface-unactive">
             You have no reviews
           </span>
@@ -50,38 +49,38 @@ export function AccountReviews() {
 }
 
 function ReviewEntry({ review: r }: { review: Review }) {
-  const { submission: s } = useGetSubmission(r.submissionId, !!r.submissionId);
-  const { bounty: b } = useGetBounty(s?.bountyId ?? '', !!s);
+  // const { submission: s } = useGetSubmission(r.submissionId, !!r.submissionId);
+  // const { bounty: b } = useGetBounty(s?.bountyId ?? '', !!s);
 
-  if (b && s) {
+  if (r.id === 'this-needs-refactoring') {
     return (
-      <div className="grid grid-cols-3 w-full gap-x-8 body-sm items-center py-1">
+      <div className="body-sm grid w-full grid-cols-3 items-center gap-x-8 py-1">
         <p className="flex flex-col">
           <span>{r.id}</span>
           <span className="label text-on-surface-unactive">{r.grade}</span>
         </p>
 
-        <Link href={GoToSubmissionPage(s.id)}>
-          <a className="flex flex-col group">
+        <Link href={GoToSubmissionPage('not defined')}>
+          <span className="group flex flex-col">
             <span className="text-main-light group-hover:text-main">
-              {s.id}
+              id of the submission goes here
             </span>
-            <span className="label text-on-surface-unactive">{s.state}</span>
-          </a>
+            <span className="label text-on-surface-unactive">not defined</span>
+          </span>
         </Link>
 
-        <Link href={GoToSubmissionPage(b.id)}>
-          <a className="flex flex-col group">
+        <Link href={GoToSubmissionPage('id of the bounty goes here')}>
+          <span className="group flex flex-col">
             <span className="text-main-light group-hover:text-main">
-              {b.id}
+              id of the bounty goes here
             </span>
-            <span className="label text-on-surface-unactive">{b.state}</span>
-          </a>
+            <span className="label text-on-surface-unactive">not defined</span>
+          </span>
         </Link>
       </div>
     );
   } else
     return (
-      <div className="h-14 w-full bg-surface-dark animate-pulse rounded-lg"></div>
+      <div className="h-14 w-full animate-pulse rounded-lg bg-surface-dark"></div>
     );
 }

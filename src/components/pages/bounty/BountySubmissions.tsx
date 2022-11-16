@@ -1,23 +1,21 @@
-import { useGetSubmissionsFromBounty } from '@/lib/hooks/submissionHooks';
+import { useGetSubmissions } from '@/lib/hooks/submission/useGetSubmissions';
 
+import { SubmissionListEntry } from '@/components/submissions/SubmissionListEntry';
 import Loading from '@/components/utils/Loading';
 
-import { SubmissionListEntry } from '../../submissions/SubmissionListEntry';
 import { useBountyContext } from './BountyContext';
 
 export function BountySubmissions({ userId }: { userId: string | undefined }) {
   const { bounty } = useBountyContext();
 
-  const { submissions, isLoading } = useGetSubmissionsFromBounty(
-    userId,
-    bounty.id,
-    !!userId
-  );
+  const { submissions, isLoading } = useGetSubmissions({
+    bounties: [bounty.slug],
+  });
 
   if (isLoading) return <Loading small />;
   return (
-    <div className="text-on-surface-p1 w-full">
-      <div className="pb-4 border-b-[1px] border-surface-dark">
+    <div className="w-full text-on-surface-p1">
+      <div className="border-b-[1px] border-surface-dark pb-4">
         {userId ? (
           <span>
             {submissions?.length}{' '}
@@ -37,7 +35,7 @@ export function BountySubmissions({ userId }: { userId: string | undefined }) {
         })}
       </div>
 
-      <div className="pt-4 border-t-[1px] border-surface-dark text-on-surface-unactive">
+      <div className="border-t-[1px] border-surface-dark pt-4 text-on-surface-unactive">
         Your submissions are private.
       </div>
     </div>

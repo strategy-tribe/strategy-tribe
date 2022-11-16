@@ -1,95 +1,92 @@
-import { useEffect, useState } from 'react';
-import { useMoralis } from 'react-moralis';
-import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { useQueryClient } from '@tanstack/react-query';
 
 import {
-  Moralis_getReviews,
-  Moralis_useSaveReview,
-  ReviewsQueryParams,
-} from '@/lib/moralis/serverMethods/Moralis_Reviews';
+  PostReviewParams,
+  PostReviewResponse,
+} from '@/server/routes/review/getReview';
 
-import { Submission, SubmissionState } from '@/models/index';
+import { trpc } from '../trpc';
 
-import Queries from '../utils/Queries';
+export const useSubmitReview = (events: {
+  onMutate: () => void;
+  onSuccess: (data: PostReviewResponse) => void;
+  onError: (e: any) => void;
+}) => {
+  const { onError, onMutate, onSuccess } = events;
 
-export const useSubmitReview = (
-  grade: SubmissionState.Accepted | SubmissionState.Rejected,
-  submission: Submission,
-  reviewerId: string,
-  reviewerComment?: string,
-  onSuccess?: () => void,
-  onError?: (e: any) => void
-) => {
-  const q = useQueryClient();
-  const { save } = Moralis_useSaveReview(
-    grade,
-    submission,
-    reviewerId,
-    reviewerComment
-  );
+  const qc = useQueryClient();
 
-  const { mutate } = useMutation(() => save(), {
-    onSuccess: () => {
-      q.invalidateQueries();
-      if (onSuccess) onSuccess();
-    },
+  const mutation = trpc.review.post.useMutation({
+    onMutate,
     onError,
+    onSuccess: (data) => {
+      qc.invalidateQueries();
+      onSuccess(data);
+    },
   });
 
   return {
-    SubmitReview: mutate,
+    SubmitReview: async (params: PostReviewParams) => {
+      mutation.mutate(params);
+    },
+    isLoading: mutation.isLoading,
+    isSuccess: mutation.isSuccess,
+    error: mutation.error,
   };
 };
-export const useGetReviews = (config: ReviewsQueryParams, enabled = true) => {
-  const { isInitialized } = useMoralis();
-  const page = config.page || 0;
-  const { fetch } = Moralis_getReviews(config);
 
-  const [numOfPages, setNumOfPages] = useState(0);
+export const useGetReviews = (config: any, enabled = true) => {
+  // const { isInitialized } = useMoralis();
+  // const page = config.page || 0;
+  // const { fetch } = Moralis_getReviews(config);
 
-  const queryId = [Queries.Reviews, config, config.page];
+  // const [numOfPages, setNumOfPages] = useState(0);
 
-  const { error, isLoading, data, isFetching, isPreviousData } = useQuery(
-    queryId,
-    () => fetch(),
-    {
-      getPreviousPageParam: (lastPackage) => {
-        const { hasLess, page } = lastPackage;
-        if (hasLess) return page - 1;
-        else return false;
-      },
-      getNextPageParam: (lastPackage) => {
-        const { hasMore, page } = lastPackage;
-        if (hasMore) return page + 1;
-        else return false;
-      },
-      enabled: isInitialized && enabled,
-      keepPreviousData: config.paginate,
-      refetchOnWindowFocus: false,
-    }
-  );
+  // const queryId = [Queries.Reviews, config, config.page];
 
-  useEffect(() => {
-    if (data && config.pageSize && config.paginate) {
-      const { count } = data;
-      const _numOfPages = Math.floor((count - 1) / config.pageSize + 1);
+  // const { error, isLoading, data, isFetching, isPreviousData } = useQuery(
+  //   queryId,
+  //   () => fetch(),
+  //   {
+  //     getPreviousPageParam: (lastPackage) => {
+  //       const { hasLess, page } = lastPackage;
+  //       if (hasLess) return page - 1;
+  //       else return false;
+  //     },
+  //     getNextPageParam: (lastPackage) => {
+  //       const { hasMore, page } = lastPackage;
+  //       if (hasMore) return page + 1;
+  //       else return false;
+  //     },
+  //     enabled: isInitialized && enabled,
+  //     keepPreviousData: config.paginate,
+  //     refetchOnWindowFocus: false,
+  //   }
+  // );
 
-      setNumOfPages(_numOfPages);
-    } else {
-      setNumOfPages(0);
-    }
-  }, [data, config]);
+  // useEffect(() => {
+  //   if (data && config.pageSize && config.paginate) {
+  //     const { count } = data;
+  //     const _numOfPages = Math.floor((count - 1) / config.pageSize + 1);
+
+  //     setNumOfPages(_numOfPages);
+  //   } else {
+  //     setNumOfPages(0);
+  //   }
+  // }, [data, config]);
 
   return {
-    isLoading,
-    reviews: data?.reviews || [],
-    isFetching,
-    page,
-    numOfPages,
-    count: data?.count,
-    hasNextPage: data?.hasMore,
-    hasPreviousPage: data?.hasLess,
-    isPreviousData,
-    error,
+    isLoading: true,
+    reviews: [],
+    isFetching: false,
+    page: 0,
+    numOfPages: 0,
+    count: 0,
+    hasNextPage: false,
+    hasPreviousPage: false,
+    isPreviousData: false,
+    error: {
+      msg: 'this functionality needs refactoring ',
+    },
   };
 };

@@ -29,7 +29,7 @@ export function Searchbar({
 
   return (
     <div
-      className={`border-b-2 border-surface flex gap-4 items-center ${className}`}
+      className={`flex items-center gap-4 border-b-2 border-surface ${className}`}
       onBlur={() => {
         if (events?.onBlur) events.onBlur();
       }}

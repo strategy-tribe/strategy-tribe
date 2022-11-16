@@ -1,13 +1,13 @@
 import { useGetUserServerNotifications } from '@/lib/hooks/serverNotificationHooks';
-import { AccountView } from '@/lib/models/account/AccountView';
+import { AccountView } from '@/lib/models/AccountView';
 import { GoToAccountPage } from '@/lib/utils/Routes';
 
+import { NotificationListEntry } from '@/components/notifications/NotificationListEntry';
 import { Button, ButtonStyle } from '@/components/utils/Button';
+import { IconSize } from '@/components/utils/Icon';
 import Loading from '@/components/utils/Loading';
 import { Overlay } from '@/components/utils/Overlay';
 
-import { NotificationListEntry } from '../../../notifications/NotificationListEntry';
-import { IconSize } from '../../../utils/Icon';
 import { NavbarButton } from '../NavbarButton';
 
 export function NotifsMenu({
@@ -34,7 +34,7 @@ export function NotifsMenu({
       {/* menu */}
       {shouldShow && (
         <aside>
-          <div className="bg-surface-dark text-on-surface-p1 rounded-lg overflow-hidden body-sm flex flex-col z-50 absolute top-6 right-0 w-96">
+          <div className="body-sm absolute top-6 right-0 z-50 flex w-96 flex-col overflow-hidden rounded-lg bg-surface-dark text-on-surface-p1">
             <header className="flex justify-between px-6 py-4">
               <p className="title-xs">Notifications</p>
 
@@ -65,7 +65,7 @@ export function NotifsMenu({
                 )}
 
                 {notifications.length === 0 && (
-                  <div className="h-[10rem] grid place-items-center px-6 py-4">
+                  <div className="grid h-[10rem] place-items-center px-6 py-4">
                     <span className="label">You have no new notifications</span>
                   </div>
                 )}

@@ -1,30 +1,33 @@
-import { useAuth } from 'auth/AuthContext';
+import { Wallet } from '@prisma/client';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 
-import { useGetOrganizationByName } from '@/lib/hooks/organizationHooks';
-import { useCanUserSubmit } from '@/lib/hooks/submissionHooks';
-import { BountyState } from '@/lib/models';
+import { useGetOrganization } from '@/lib/hooks/organizationHooks';
+import { useCanUserSubmit } from '@/lib/hooks/submission';
 import { ParseBountyTitle } from '@/lib/utils/BountyHelpers';
 import { GoToBeforeNewSubmissionPage, GoToOrgPage } from '@/lib/utils/Routes';
 
 import { DonationPopUp } from '@/components/donations/DonationPopUp';
-import BountyStates from '@/components/pages/bounty/BountyStates';
+import { useBountyContext } from '@/components/pages/bounty/BountyContext';
 import { Button, ButtonStyle } from '@/components/utils/Button';
 import FromOrganization from '@/components/utils/FromOrganization';
 import Icon, { IconSize } from '@/components/utils/Icon';
+import { Stat } from '@/components/utils/Stat';
 
-import { Stat } from '../../utils/Stat';
+import { useAuth } from '@/auth/AuthContext';
+
+import BountyStatusShowcase from './BountyStatusShowcase';
 import { Section } from '../landing/Section';
-import { useBountyContext } from './BountyContext';
 
 export function BountyHeader() {
   const { bounty } = useBountyContext();
 
   const ETHERSCAN_LINK = process.env.NEXT_PUBLIC_ETHERSCAN_URL;
-  const { organization } = useGetOrganizationByName(
-    bounty?.organizationName as string,
-    Boolean(bounty?.organizationName as string)
+  const { organization } = useGetOrganization(
+    {
+      name: bounty?.target?.org?.name ?? '',
+    },
+    { enabled: !!bounty?.target?.org?.name }
   );
   const [showDonation, setShowDonation] = useState(false);
 
@@ -34,7 +37,7 @@ export function BountyHeader() {
 
   return (
     <>
-      <header className="border-y-2 border-main py-14 space-y-14">
+      <header className="space-y-14 border-y-2 border-main py-14">
         <Section>
           <div className="flex gap-6">
             {organization && (
@@ -43,9 +46,9 @@ export function BountyHeader() {
                   style: ButtonStyle.TextPurple,
                   removeMinWidth: true,
                   removePadding: true,
-                  label: bounty.organizationName,
+                  label: organization.name,
                   labelClasses: 'capitalize',
-                  isALink: GoToOrgPage(organization?.id as string),
+                  isALink: GoToOrgPage(organization?.name as string),
                 }}
               />
             )}
@@ -57,7 +60,7 @@ export function BountyHeader() {
                     style: ButtonStyle.TextPurple,
                     removeMinWidth: true,
                     removePadding: true,
-                    label: tag,
+                    label: tag.name,
                     labelClasses: 'capitalize',
                   }}
                 />
@@ -68,15 +71,17 @@ export function BountyHeader() {
           <div className="flex justify-between gap-10">
             <h1 className="laptop:h2 h3">{parsedTitle}</h1>
 
-            <div className=" flex flex-col gap-4 items-end justify-start shrink-0">
+            <div className="flex shrink-0 flex-col items-end justify-start gap-4">
               <a
-                href={ETHERSCAN_LINK + bounty.wallet}
+                href={`${ETHERSCAN_LINK}${bounty.wallet?.address}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex gap-4 items-center text-main-light hover:text-main cursor-pointer"
+                className="flex cursor-pointer items-center gap-4 text-main-light hover:text-main"
               >
                 <Icon icon="emoji_events" size={IconSize.Large} />
-                <span className="h4 font-medium">{bounty.funds} MATIC</span>
+                <span className="h4 font-medium">
+                  {bounty.wallet?.balance} MATIC
+                </span>
               </a>
               <Button
                 info={{
@@ -93,28 +98,30 @@ export function BountyHeader() {
           </div>
 
           <div className="pt-4">
-            <BountyStates bounty={bounty} />
+            <BountyStatusShowcase
+              closesAt={bounty.closesAt}
+              status={bounty.status}
+            />
           </div>
         </Section>
 
         {/* Details */}
         <Section className="space-y-8">
-          <Stat title="target" content={bounty.name} />
+          <Stat title="target" content={bounty?.target?.name} />
           <Stat
             title="requirements"
             contents={bounty.requirements
-              .filter((r) => !r.optional)
-              .map((r) => r.title)}
+              ?.filter((r) => !r.optional)
+              ?.map((r) => r.title)}
           />
-          <FromOrganization orgName={organization?.name as string} />
+          {organization && <FromOrganization orgName={organization?.name} />}
         </Section>
 
         {/* CTAs */}
         <Section className="flex justify-end gap-6">
           {!isStaff && !isFetchingUserInfo && (
             <div className="flex flex-col items-end gap-2">
-              <SubmitButton />
-              <SubmitMessages />
+              <SubmitButtonWithMessages />
             </div>
           )}
         </Section>
@@ -122,34 +129,38 @@ export function BountyHeader() {
       <DonationPopUp
         show={showDonation}
         hide={() => setShowDonation(false)}
-        recipient={bounty}
+        recipient={{ wallet: bounty.wallet! as Wallet }}
         description={`Bigger rewards mean more eyes and more OSINT hunters.\nBy donating to this bounty you're directly contributing to bringing this bounty to fruition.\n\nAll donations go directly to the hunter who fulfills the bounty requirements.`}
       />
     </>
   );
 }
 
-function SubmitMessages() {
+function SubmitButtonWithMessages() {
+  const router = useRouter();
   const { bounty } = useBountyContext();
 
   const { userId } = useAuth();
 
-  const { data } = useCanUserSubmit(
-    userId as string,
-    bounty?.id as string,
-    Boolean(userId as string) && Boolean(bounty?.id)
-  );
-
-  const canSubmit = data?.canSubmit;
-  const spacesLeft = data?.spacesLeft;
+  const { canSubmit, spacesLeft, isLoading } = useCanUserSubmit(bounty.slug);
 
   const isOpen =
-    bounty.state === BountyState.WaitingForFunds ||
-    bounty.state === BountyState.Open;
+    bounty.status === 'WaitingForFunds' || bounty.status === 'Open';
+
+  if (isLoading) return <></>;
 
   return (
     <>
-      <div className="pr-2 label text-right pt-1">
+      <Button
+        info={{
+          style: ButtonStyle.Filled,
+          label: 'Start new submission',
+          icon: 'arrow_forward',
+          disabled: !canSubmit,
+          onClick: () => router.push(GoToBeforeNewSubmissionPage(bounty.slug)),
+        }}
+      />
+      <div className="label pt-1 pr-2 text-right">
         {isOpen ? (
           <>
             {(spacesLeft ?? 0) > 0 && (
@@ -157,7 +168,7 @@ function SubmitMessages() {
             )}
 
             {!canSubmit && userId && (
-              <span className="text-error-light whitespace-pre-wrap">
+              <span className="whitespace-pre-wrap text-error-light">
                 {`You have used all your submissions for today.\nPlease wait 24 hours.`}
               </span>
             )}
@@ -170,38 +181,12 @@ function SubmitMessages() {
           </>
         ) : (
           <>
-            <span className="text-error-light whitespace-pre-wrap">
+            <span className="whitespace-pre-wrap text-error-light">
               This bounty is closed
             </span>
           </>
         )}
       </div>
     </>
-  );
-}
-
-function SubmitButton() {
-  const router = useRouter();
-
-  const { bounty } = useBountyContext();
-
-  const { userId } = useAuth();
-
-  const { data } = useCanUserSubmit(
-    userId as string,
-    bounty?.id as string,
-    Boolean(userId as string) && Boolean(bounty?.id)
-  );
-
-  return (
-    <Button
-      info={{
-        style: ButtonStyle.Filled,
-        label: 'Start new submission',
-        icon: 'arrow_forward',
-        disabled: !data?.canSubmit,
-        onClick: () => router.push(GoToBeforeNewSubmissionPage(bounty.id)),
-      }}
-    />
   );
 }

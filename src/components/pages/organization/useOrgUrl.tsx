@@ -1,7 +1,8 @@
 import { useRouter } from 'next/router';
 import { useMemo } from 'react';
-import { OrgView } from './OrgView';
+
 import { OrgUrl } from './OrgUrl';
+import { OrgView } from './OrgView';
 
 export const useOrgUrl = () => {
   const router = useRouter();

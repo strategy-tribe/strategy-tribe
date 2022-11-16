@@ -16,11 +16,11 @@ export function RadioInput({
   pickMe: (s: string) => void;
 }) {
   return (
-    <div className="flex gap-4 cursor-pointer ">
+    <div className="flex cursor-pointer gap-4 ">
       <input
         type="radio"
         name={group}
-        className="mt-3 checked:bg-main focus:text-main hover:text-main border-0"
+        className="mt-3 border-0 checked:bg-main hover:text-main focus:text-main"
         id={label}
         onChange={(e) => {
           pickMe(label);
@@ -28,11 +28,11 @@ export function RadioInput({
         checked={label === value}
       />
       <label htmlFor={label} className="cursor-pointer">
-        <div className="flex gap-2 items-center">
+        <div className="flex items-center gap-2">
           <Icon icon={icon} />
           <span className="text-lg text-on-surface-p0">{label}</span>
         </div>
-        <p className="font-medium text-sm text-on-surface-disabled">{text}</p>
+        <p className="text-sm font-medium text-on-surface-disabled">{text}</p>
       </label>
     </div>
   );

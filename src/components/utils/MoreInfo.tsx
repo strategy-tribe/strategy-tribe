@@ -10,11 +10,11 @@ export function MoreInfo({
   return (
     <AnimatePresence>
       <motion.div
-        className={`absolute min-w-[20rem] p-4 
-                bg-surface text-on-surface-p1 
-                drop-shadow-2xl
-                rounded-lg
-                hidden laptop:group-hover:block z-50
+        className={`absolute z-50 hidden 
+                min-w-[20rem] rounded-lg 
+                bg-surface
+                p-4
+                text-on-surface-p1 drop-shadow-2xl laptop:group-hover:block
                 ${translate}`}
       >
         <div>{content}</div>

@@ -1,7 +1,7 @@
 import { AnimatePresence, motion } from 'framer-motion';
 
-import Icon from '../utils/Icon';
 import { ClientNotification, NotificationStyle } from './iNotification';
+import Icon from '../utils/Icon';
 
 const position = ' z-50 fixed bottom-4 mx-auto';
 const width = 'max-w-lg w-full';
@@ -54,7 +54,7 @@ export function Pill({
   return (
     <AnimatePresence>
       {show && (
-        <div className="max-w-5xl mx-auto">
+        <div className="mx-auto max-w-5xl">
           <motion.div
             initial={{ opacity: 0, y: 100 }}
             exit={{ opacity: 0, y: 100, transition: { duration: 0.4 } }}
@@ -69,7 +69,7 @@ export function Pill({
               setStyle(notif?.style).container
             } ${width} ${padding} ${text}`}
           >
-            <div className="flex justify-between gap-2 items-center ">
+            <div className="flex items-center justify-between gap-2 ">
               {notif?.title && (
                 <span className={setStyle(notif?.style).title}>
                   {notif.title}
@@ -85,7 +85,7 @@ export function Pill({
 
             {notif?.content && (
               <div
-                className={`text-sm shrink-0 ${setStyle(notif?.style).content}`}
+                className={`shrink-0 text-sm ${setStyle(notif?.style).content}`}
               >
                 <>
                   {notif?.content &&

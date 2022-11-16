@@ -3,9 +3,9 @@ import { kFormatter } from '@/lib/utils/NumberHelpers';
 
 import Icon, { IconSize } from '@/components/utils/Icon';
 
-import { Searchbar } from '../../search/Searchbar';
-import { useExploreContext } from '../ExploreContext';
 import { DEFAULT_FILTERS } from './DefaultFilter';
+import { useExploreContext } from '../ExploreContext';
+import { Searchbar } from '../../search/Searchbar';
 
 export function ExploreFilters() {
   const { urlFilter, setUrlFilter: setUrlFilter } = useUrlSearchParams();
@@ -52,12 +52,12 @@ export function ExploreFilters() {
         </ul>
 
         <div className="flex items-center gap-6 py-1">
-          <div className="flex gap-4 items-center">
+          <div className="flex items-center gap-4">
             {countries?.map((country, i) => {
               return (
                 <button
                   onClick={() => removeCountry(country)}
-                  className="border rounded-full py-1 pl-3 pr-4 flex gap-2 items-center group"
+                  className="group flex items-center gap-2 rounded-full border py-1 pl-3 pr-4"
                   key={i}
                 >
                   <div className="grid place-items-center group-hover:text-error-light">
@@ -69,7 +69,7 @@ export function ExploreFilters() {
             })}
 
             {urlFilter.query.searchTerm && (
-              <div className="border-[1px] rounded-full py-1 pl-3 pr-4 flex gap-2 items-center">
+              <div className="flex items-center gap-2 rounded-full border-[1px] py-1 pl-3 pr-4">
                 <button
                   onClick={() => setSearch('')}
                   className="grid place-items-center"
@@ -81,7 +81,7 @@ export function ExploreFilters() {
             )}
 
             {urlFilter.query.orgName && (
-              <div className="border-[1px] rounded-full py-1 pl-3 pr-4 flex gap-2 items-center">
+              <div className="flex items-center gap-2 rounded-full border-[1px] py-1 pl-3 pr-4">
                 <button
                   onClick={resetOrgFromQuery}
                   className="grid place-items-center"

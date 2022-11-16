@@ -1,16 +1,15 @@
-import React from 'react';
 import { OrganizationLink } from './OrganizationLink';
 
 export default function FromOrganization({
-  orgName: orgName,
+  orgName,
   title = ' Related to',
 }: {
   orgName: string;
   title?: string;
 }) {
   return (
-    <div className={`flex flex-col`}>
-      <span className="text-on-surface-unactive label">{title}</span>
+    <div className="flex flex-col">
+      <span className="label text-on-surface-unactive">{title}</span>
       <OrganizationLink orgName={orgName} />
     </div>
   );

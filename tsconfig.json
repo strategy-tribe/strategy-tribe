@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "ES2022",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
@@ -12,18 +12,12 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
+    "strictNullChecks": true,
     "jsx": "preserve",
     "incremental": true,
-    "baseUrl": "./src",
+    "baseUrl": ".",
     "paths": {
-      "@/components/*": ["components/*"],
-      "@/navbar/*": ["components/layouts/navbar/*"],
-      "@/pages/*": ["pages/*"],
-      "@/assets/*": ["assets/*"],
-      "@/lib/*": ["lib/*"],
-      "@/hooks/*": ["lib/hooks/*"],
-      "@/models/*": ["lib/models/*"],
-      "@/utils/*": ["lib/utils/*"]
+      "@/*": ["./src/*"]
     }
   },
   "include": [

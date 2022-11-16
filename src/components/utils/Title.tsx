@@ -35,7 +35,7 @@ export function Title({
       <div className="flex items-center gap-2">
         <h2 className="h6 font-bold">{title}</h2>
         {extraInfo && (
-          <div className="relative group cursor-pointer pt-1 hidden laptop:block">
+          <div className="group relative hidden cursor-pointer pt-1 laptop:block">
             <Icon
               icon="info"
               className="text-on-surface-unactive"
@@ -52,7 +52,7 @@ export function Title({
 
       {useBorder && (
         <span
-          className={`bg-main h-1 inline-block -translate-y-1  ${translate()} `}
+          className={`inline-block h-1 -translate-y-1 bg-main  ${translate()} `}
         ></span>
       )}
     </div>

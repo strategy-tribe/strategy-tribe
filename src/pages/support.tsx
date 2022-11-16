@@ -15,7 +15,7 @@ const githubUrl = process.env.NEXT_PUBLIC_GITHUB;
 
 const GeneralDonationsPage: NextPageWithLayout = () => {
   return (
-    <div className="text-on-surface-p1 space-y-8">
+    <div className="space-y-8 text-on-surface-p1">
       <Head>
         <title>ST | Support StrategyTribe</title>
         <meta

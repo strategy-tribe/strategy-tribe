@@ -1,23 +1,36 @@
-import { QueryParams } from '@/lib/models';
-import { BountyOrderBy } from '@/lib/models/queries/BountyQueryParams';
-import { Order } from '@/lib/models/queries/Order';
+import { BountyOrderBy } from '@/lib/models/BountyQueryParams';
+import { Order } from '@/lib/models/Order';
 
 export enum DefaultFilterType {
+  // eslint-disable-next-line no-unused-vars
   Latest = 'Latest',
+  // eslint-disable-next-line no-unused-vars
   TopRewards = 'Top Rewards',
+  // eslint-disable-next-line no-unused-vars
   LowCompetition = 'Low competition',
+  // eslint-disable-next-line no-unused-vars
   ClosesSoon = 'Closes soon',
 }
 
 export type DefaultFilter = {
   type: DefaultFilterType;
-  query: QueryParams;
+  query: {
+    order: Order;
+    orderBy: BountyOrderBy;
+    amount: number;
+    paginate: boolean;
+    page: number;
+    relatedTo?: string[];
+    searchTerm?: string;
+    countries?: string[];
+    orgName?: string;
+  };
 };
 
 const LATEST_FILTER: DefaultFilter = {
   type: DefaultFilterType.Latest,
   query: {
-    order: Order.Asc,
+    order: Order.Desc,
     orderBy: BountyOrderBy.CreatedAt,
     amount: 16,
     paginate: true,

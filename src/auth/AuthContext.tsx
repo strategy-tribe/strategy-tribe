@@ -1,18 +1,9 @@
-import Moralis from 'moralis';
-import React, { createContext, useContext } from 'react';
-import { useQuery } from 'react-query';
+import { TargetType } from '@prisma/client';
+import { signOut, useSession } from 'next-auth/react';
+import React, { createContext, useContext, useMemo } from 'react';
 
-import {
-  UserInfo,
-  useServerContext,
-} from '@/lib/moralis/ServerContextProvider';
-
-import {
-  DelayType,
-  NotificationStyle,
-  NotificationType,
-} from '@/components/notifications/iNotification';
-import { useNotification } from '@/components/notifications/NotificationContext';
+import { useGetBalance } from '@/lib/hooks/useGetBalance';
+import { useSignIn } from '@/lib/useSignIn';
 
 interface AuthContextInterface {
   userId: string | undefined;
@@ -22,126 +13,80 @@ interface AuthContextInterface {
   isStaff: boolean;
   isAdmin: boolean;
   isFetchingUserInfo: boolean;
-  account: string | null;
+  account: string | undefined;
   userInfo: UserInfo | undefined;
   balance: string | undefined;
 }
 
+export type Subscription = {
+  name: string;
+  id: string;
+  type: TargetType;
+};
+
+export type UserInfo = {
+  userId: string;
+  address: string;
+  email?: string;
+  joined: Date;
+  watching?: Subscription[];
+  isAdmin: boolean;
+  isStaff: boolean;
+};
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore`;
 const AuthContext = createContext<AuthContextInterface>();
 
-const AuthContextProvider = ({
+/** Using this to abstract our Auth provider */
+const AuthProvider = ({
   children,
 }: {
   children: React.ReactNode[] | React.ReactNode;
 }) => {
-  //Abstraction
-  const {
-    userId,
-    LogIn,
-    LogOut,
-    isAuthenticated,
-    account,
-    fetchUserInfo,
-    isFetchingUserInfo,
-  } = useServerContext();
+  const { data, status } = useSession();
 
-  //Queries
-  const { data: userInfo } = useQuery(
-    [userId, 'userInfo'],
-    () => fetchUserInfo(),
+  const { signIn } = useSignIn();
+
+  const { balance } = useGetBalance(
+    { address: data?.user.address ?? '' },
     {
-      enabled: isAuthenticated && !!userId,
-      staleTime: 1000 * 60 * 60 * 24,
-      cacheTime: Infinity,
+      enabled: status === 'authenticated',
     }
   );
 
-  //notifications
-  const { notify } = useNotification();
-
-  const { data: balance } = useQuery(
-    ['user balance', userInfo],
-    async () => {
-      if (!userInfo) return;
-      return await getWalletMaticBalance();
-    },
-    {
-      refetchOnWindowFocus: false,
-    }
-  );
-
-  async function getWalletMaticBalance() {
-    if (!userId || !userInfo) {
-      return;
-    }
-
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore`;
-    const { ethereum } = window;
-
-    if (!ethereum) {
-      notify(
-        {
-          title: "We could't connect to your wallet",
-          content: () => 'Are you signed in in your wallet?',
-          icon: 'warning',
-          style: NotificationStyle.error,
-        },
-        {
-          condition: false,
-          delayTime: 15,
-          type: NotificationType.Banner,
-          delayType: DelayType.Time,
-        }
-      );
-      return;
-    }
-
-    if (!isAuthenticated || !userInfo?.mainWallet || !ethereum) return;
-
-    try {
-      const ethers = Moralis.web3Library;
-
-      const provider = new ethers.providers.Web3Provider(ethereum);
-      const balance = await provider.getBalance(userInfo.mainWallet);
-      const balanceInEth = ethers.utils.formatEther(balance);
-      return balanceInEth;
-    } catch (error) {
-      console.warn('error', error);
-      notify(
-        {
-          title:
-            "We could't connect to your wallet. Are you signed in in your wallet?",
-          content: () => `Reason: ${error}`,
-          icon: 'warning',
-          style: NotificationStyle.error,
-        },
-        {
-          condition: false,
-          delayTime: 5,
-          type: NotificationType.Banner,
-          delayType: DelayType.Time,
-        }
-      );
-      return;
-    }
-  }
+  const userInfo: UserInfo = useMemo(() => {
+    if (!data)
+      return {
+        isAdmin: false,
+        isStaff: false,
+        address: '',
+        userId: '',
+        watching: [],
+        joined: new Date(),
+      };
+    return {
+      isAdmin: data.user.rol === 'ADMIN',
+      isStaff: data.user.rol === 'STAFF',
+      address: data.user.address,
+      userId: data.user.id,
+      watching: [],
+      joined: data.user.joined,
+    };
+  }, [data]);
 
   return (
     <AuthContext.Provider
       value={{
-        userId,
-        isAuthenticated,
-        LogIn,
-        LogOut,
-        isStaff: userInfo?.isStaff || false,
-        isAdmin: userInfo?.isAdmin || false,
-        account,
+        userId: data?.user.id,
+        isAuthenticated: status === 'authenticated',
+        LogIn: signIn,
+        LogOut: signOut,
+        isStaff: data?.user.rol === 'STAFF',
+        isAdmin: data?.user.rol === 'ADMIN',
+        account: data?.user.address,
         userInfo,
-        isFetchingUserInfo,
-        balance,
+        isFetchingUserInfo: status === 'loading',
+        balance: balance,
       }}
     >
       {children}
@@ -150,7 +95,7 @@ const AuthContextProvider = ({
 };
 
 //?Exports
-export default AuthContextProvider;
+export default AuthProvider;
 export const useAuth = () => {
   return useContext(AuthContext);
 };

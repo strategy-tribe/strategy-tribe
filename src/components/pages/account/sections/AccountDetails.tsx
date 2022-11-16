@@ -1,5 +1,7 @@
 import { GetDateInString } from '@/lib/utils/DateHelpers';
-import { useAuth } from 'auth/AuthContext';
+
+import { useAuth } from '@/auth/AuthContext';
+
 import { Stat } from '../../../utils/Stat';
 
 export function AccountDetails() {
@@ -17,7 +19,7 @@ export function AccountDetails() {
 
       <Stat
         title="Wallet"
-        content={userInfo.mainWallet as string}
+        content={userInfo.address as string}
         copyable={true}
       />
 

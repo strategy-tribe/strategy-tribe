@@ -35,3 +35,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 .prettierignore
+
+/logs
+*-log.json
+/public/static/admin

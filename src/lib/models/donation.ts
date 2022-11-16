@@ -1,5 +1,4 @@
-import { Organization } from '@/lib/models/organizations/organization';
-import { Bounty } from '.';
+import { Wallet } from '@prisma/client';
 
 export type Donation = {
   from: {
@@ -11,5 +10,5 @@ export type Donation = {
 };
 
 export interface Recipient {
-  wallet: string;
+  wallet: Wallet;
 }

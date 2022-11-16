@@ -6,10 +6,10 @@ export function SpreadTheWord() {
   return (
     <div id="support" className="space-y-8">
       <div>
-        <h2 className="text-3xl font-inter font-bold text-on-surface-p0">
+        <h2 className="font-inter text-3xl font-bold text-on-surface-p0">
           Spread the word
         </h2>
-        <div className="bg-main h-1 inline-block -translate-y-1 w-16"></div>
+        <div className="inline-block h-1 w-16 -translate-y-1 bg-main"></div>
       </div>
 
       {/* Why */}

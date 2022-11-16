@@ -60,7 +60,7 @@ export function Button({ info }: { info: ButtonInformation }) {
         />
       )}
       {label && (
-        <span className={`font-medium font-grotesk  ${labelClasses}`}>
+        <span className={`font-grotesk font-medium  ${labelClasses}`}>
           {label}
         </span>
       )}
@@ -70,12 +70,12 @@ export function Button({ info }: { info: ButtonInformation }) {
   if (isALink) {
     return (
       <Link href={isALink}>
-        <a
+        <span
           onClick={onClick}
           className={`${className} ${labelClasses} ${padding} ${font} ${others} ${colors} ${align} ${size}`}
         >
           {innerContent}
-        </a>
+        </span>
       </Link>
     );
   } else {

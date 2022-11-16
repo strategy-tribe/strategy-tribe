@@ -3,16 +3,16 @@ import { useUrlSearchParams } from '@/lib/hooks/useUrlSearchParams';
 import { Button, ButtonStyle } from '@/components/utils/Button';
 import Loading from '@/components/utils/Loading';
 
-import { Section } from '../landing/Section';
 import { BountyCard } from './bounty card/BountyCard';
 import { useExploreContext } from './ExploreContext';
 import { DEFAULT_FILTER } from './filters/DefaultFilter';
+import { Section } from '../landing/Section';
 
 export function BountyBoard() {
   const { bountyFetch } = useExploreContext();
 
-  const isPreviousData = bountyFetch?.isPreviousData ?? false;
-  const bounties = bountyFetch?.bounties ?? [];
+  const bounties = bountyFetch?.bounties;
+  const isLoading = bountyFetch?.isLoading;
 
   const { setUrlFilter } = useUrlSearchParams();
 
@@ -20,7 +20,7 @@ export function BountyBoard() {
     setUrlFilter({ type: DEFAULT_FILTER.type });
   }
 
-  if (isPreviousData) return <Loading />;
+  if (isLoading) return <Loading />;
 
   if (bounties?.length)
     return (
@@ -33,7 +33,7 @@ export function BountyBoard() {
   else
     return (
       <Section className="grid place-items-center space-y-2">
-        <p className="text-center label">No results</p>
+        <p className="label text-center">No results</p>
         <Button
           info={{
             label: 'Try resetting the filters',
