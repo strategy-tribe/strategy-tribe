@@ -42,7 +42,7 @@ If deploying to something like Netlify of Vercel, update this domain.
 
 ```
 //On your .env.local
-NEXT_PUBLIC_BASE_URL= http://localhost:YOURPORT
+NEXT_PUBLIC_DOMAIN= http://localhost:YOURPORT
 ```
 
 ### 3. Set up the server cloud functions
