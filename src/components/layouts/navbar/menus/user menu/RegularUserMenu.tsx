@@ -1,4 +1,4 @@
-import { AccountView } from '@/lib/models/account/AccountView';
+import { AccountView } from '@/lib/models/AccountView';
 import { GoToAccountPage } from '@/lib/utils/Routes';
 
 import { Overlay } from '@/components/utils/Overlay';
@@ -40,7 +40,7 @@ export function RegularUserMenu({
 
       {shouldShow && (
         <aside>
-          <div className="bg-surface-dark text-on-surface-p1 rounded overflow-hidden body-sm flex flex-col z-50 absolute top-10 right-0">
+          <div className="body-sm absolute top-10 right-0 z-50 flex flex-col overflow-hidden rounded bg-surface-dark text-on-surface-p1">
             <MenuItem label="Account" url={GoToAccountPage()} onClick={hide} />
             <MenuItem
               label="Watching"

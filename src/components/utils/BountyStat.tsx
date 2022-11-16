@@ -13,7 +13,7 @@ export function BountyStat({
   details?: string;
 }) {
   return (
-    <div className="flex gap-1 items-center cursor-default relative group shrink-0">
+    <div className="group relative flex shrink-0 cursor-default items-center gap-1">
       {!!icon && <Icon icon={icon} size={IconSize.Small} />}
       {typeof Label === 'string' ? (
         <span className={`${size}`}>{Label}</span>

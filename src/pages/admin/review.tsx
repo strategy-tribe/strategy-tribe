@@ -3,7 +3,6 @@ import Head from 'next/head';
 ('@/components/utils/Title');
 
 import AppLayout from '@/components/layouts/AppLayout';
-import ProtectedLayout from '@/components/layouts/ProtectedLayout';
 import {
   ReviewDashboardFilters,
   ReviewDashboardHeader,
@@ -45,7 +44,7 @@ function PageContent() {
 
   return (
     <>
-      <section className="mx-auto max-w-5xl min-h-screen">
+      <section className="mx-auto min-h-screen max-w-5xl">
         <ReviewDashboardHeader />
         <ReviewDashboardFilters />
 
@@ -69,9 +68,9 @@ function PageContent() {
 
 SubmissionsToReviewPage.getLayout = function getLayout(page) {
   return (
-    <ProtectedLayout>
+    <>
       <AppLayout keepNavbar={false}>{page}</AppLayout>
-    </ProtectedLayout>
+    </>
   );
 };
 

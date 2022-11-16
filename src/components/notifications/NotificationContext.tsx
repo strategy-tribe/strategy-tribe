@@ -28,7 +28,7 @@ const NotificationContext = React.createContext<NotificationContextInterface>({
   },
 });
 
-export const NotificationcontextProvider = ({
+export const NotificationsProvider = ({
   children,
 }: {
   children: React.ReactNode;

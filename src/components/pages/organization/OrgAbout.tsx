@@ -11,40 +11,40 @@ export function OrgAbout() {
   return (
     <div className="space-y-8">
       {!!org.bio && (
-        <div className="space-y-2 max-w-lg">
+        <div className="max-w-lg space-y-2">
           <AboutTitle text="About" />
 
-          <p className="first-letter:capitalize whitespace-pre-wrap">
+          <p className="whitespace-pre-wrap first-letter:capitalize">
             {ParagrapIsTooLong(org.bio, 20)}
           </p>
         </div>
       )}
 
       {!!org.why && (
-        <div className="space-y-2 max-w-lg">
+        <div className="max-w-lg space-y-2">
           <AboutTitle text="Threat" />
 
-          <p className="first-letter:capitalize whitespace-pre-wrap text-error-light">
+          <p className="whitespace-pre-wrap text-error-light first-letter:capitalize">
             {ParagrapIsTooLong(org.why)}
           </p>
         </div>
       )}
 
-      <div className="space-y-2 max-w-lg">
+      <div className="max-w-lg space-y-2">
         <AboutTitle text="Operates in" />
 
         <ul>
           {org.countries?.map((c) => {
             return (
-              <li key={c} className="uppercase">
-                {c}
+              <li key={c.code} className="uppercase">
+                {c.name}
               </li>
             );
           })}
         </ul>
       </div>
 
-      <div className="space-y-2 max-w-lg">
+      <div className="max-w-lg space-y-2">
         <AboutTitle text="News" />
 
         <ul className="space-y-2">
@@ -52,12 +52,12 @@ export function OrgAbout() {
             return (
               <li
                 key={link}
-                className="text-main-light group opacity-[90%] hover:opacity-100 flex items-center gap-2 -translate-x-6"
+                className="group flex -translate-x-6 items-center gap-2 text-main-light opacity-[90%] hover:opacity-100"
               >
                 <Icon
                   icon="north_east"
                   size={IconSize.Small}
-                  className="group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-transform ease-in-out"
+                  className="transition-transform ease-in-out group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
                 />
                 <a
                   href={link}

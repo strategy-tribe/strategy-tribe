@@ -1,10 +1,11 @@
-import { GoToBountiesPage } from '@/utils/Routes';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import router from 'next/router';
-import React from 'react';
-import { Button, ButtonStyle } from '../../utils/Button';
+
+import { GoToBountiesPage } from '@/lib/utils/Routes';
+
 import { Section } from './Section';
+import { Button, ButtonStyle } from '../../utils/Button';
 
 export function Privacy() {
   const variants = {
@@ -20,7 +21,7 @@ export function Privacy() {
   };
 
   return (
-    <div className="space-y-32 laptop:space-y-64 py-32 laptop:pt-16 laptop:pb-40">
+    <div className="space-y-32 py-32 laptop:space-y-64 laptop:pt-16 laptop:pb-40">
       {/* Private */}
       <motion.div
         initial="hidden"
@@ -28,12 +29,17 @@ export function Privacy() {
         viewport={{ once: true }}
         variants={variants}
       >
-        <Section className="flex flex-col items-center justify-center gap- text-center">
-          <figure className=" translate-y-0  grow shrink-0 h-[10rem] laptop:h-[20rem] min-w-[10rem]">
-            <Image src="/illustrations/shield.svg" layout="fill" />
+        <Section className="gap- flex flex-col items-center justify-center text-center">
+          <figure className=" h-[10rem]  min-w-[10rem] shrink-0 grow translate-y-0 laptop:h-[20rem]">
+            <Image
+              src="/illustrations/shield.svg"
+              alt="Shield illustration"
+              width={180}
+              height={100}
+            />
           </figure>
 
-          <div className="laptop:max-w-[50%] flex flex-col gap-6 items-center">
+          <div className="flex flex-col items-center gap-6 laptop:max-w-[50%]">
             <div className="">
               <span className="body-lg font-semibold text-on-surface-unactive">
                 Privacy

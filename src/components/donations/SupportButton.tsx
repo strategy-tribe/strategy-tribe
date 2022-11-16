@@ -1,8 +1,7 @@
-import { useAuth } from 'auth/AuthContext';
+import { useCreateDonation } from '@/lib/hooks/donationHooks';
+import { Donation, Recipient } from '@/lib/models/donation';
 
-import { useCreateDonation } from '@/hooks/donationHooks';
-
-import { Donation, Recipient } from '@/models/donation';
+import { useAuth } from '@/auth/AuthContext';
 
 import ConnectWalletButton from '../auth/ConnectWalletButton';
 import { Button, ButtonStyle } from '../utils/Button';
@@ -28,7 +27,7 @@ export function SupportButton({
     return (
       <ActualSupportButton
         userId={userId}
-        userWallet={userInfo.mainWallet}
+        userWallet={userInfo.address}
         amountInEth={amount}
         recipient={recipient}
         after={after}

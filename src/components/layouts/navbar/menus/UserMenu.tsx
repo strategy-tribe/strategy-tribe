@@ -1,4 +1,4 @@
-import { useAuth } from 'auth/AuthContext';
+import { useAuth } from '@/auth/AuthContext';
 
 import { AdminUserMenu } from './user menu/AdminUserMenu';
 import { RegularUserMenu } from './user menu/RegularUserMenu';

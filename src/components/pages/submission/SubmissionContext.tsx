@@ -1,35 +1,27 @@
 import React, { createContext, useContext } from 'react';
 
-import { useGetBounty } from '@/lib/hooks/bountyHooks';
-import { Bounty, Submission, SubmissionState } from '@/lib/models';
+import { SmallBounty } from '@/server/routes/bounties/getBounties';
+import { FullSubmission } from '@/server/routes/submission/getSubmission';
 
 interface iSubmissionContext {
-  submission: Submission;
-  bounty: Bounty | undefined;
+  submission: FullSubmission;
+  bounty: SmallBounty | null;
 }
-const SubmissionContext = createContext<iSubmissionContext>({
-  submission: {
-    id: '',
-    answers: [],
-    bountyId: '',
-    createdAt: new Date(),
-    owner: '',
-    state: SubmissionState.Accepted,
-  },
-  bounty: undefined,
-});
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+//@ts-ignore
+const SubmissionContext = createContext<iSubmissionContext>();
 
 export const SubmissionContextProvider = ({
   children,
   submission,
 }: {
   children: React.ReactNode;
-  submission: Submission;
+  submission: FullSubmission;
 }) => {
-  const { bounty } = useGetBounty(submission.bountyId);
-
   return (
-    <SubmissionContext.Provider value={{ bounty, submission }}>
+    <SubmissionContext.Provider
+      value={{ bounty: submission.bounty, submission }}
+    >
       {children}
     </SubmissionContext.Provider>
   );

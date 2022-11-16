@@ -1,4 +1,4 @@
-import { BountyView } from '@/lib/models/bounty/BountyView';
+import { BountyView } from '@/lib/models/BountyView';
 
 import { useBountyContext } from './BountyContext';
 
@@ -11,7 +11,7 @@ export function BountySideMap() {
   }
 
   return (
-    <aside className="w-[240px] flex flex-col gap-2">
+    <aside className="flex w-[240px] flex-col gap-2">
       {pages.map((pair, i) => {
         const label = pair[0];
         const value = pair[1];
@@ -19,9 +19,9 @@ export function BountySideMap() {
           <button
             className={`${
               value === view
-                ? 'border-main text-on-surface-p0 border-2'
+                ? 'border-2 border-main text-on-surface-p0'
                 : 'border-bg hover:bg-surface-dark'
-            } rounded text-left pr-8 p-4 label`}
+            } label rounded p-4 pr-8 text-left`}
             key={i}
             onClick={() => goToPage(value as BountyView)}
           >

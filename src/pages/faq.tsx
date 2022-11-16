@@ -1,4 +1,3 @@
-import Moralis from 'moralis/node';
 import { GetStaticProps } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
@@ -11,35 +10,21 @@ import { AfterRead, ReadingSection } from '@/components/reading/utils';
 
 import { NextPageWithLayout } from './_app';
 
-const getSubmissionsPerDay = async (): Promise<number> => {
-  const moralis_serverUrl = process.env.NEXT_PUBLIC_SERVER_URL;
-  const moralis_appId = process.env.NEXT_PUBLIC_APP_ID;
-
-  await Moralis.start({
-    serverUrl: moralis_serverUrl,
-    appId: moralis_appId,
-  });
-
-  const res = (await Moralis.Cloud.run('submissionsPerDay')) as {
-    submissionsPerDay: number;
-  };
-
-  if (!res) {
-    throw new Error('Attemped to run "getMapStats". Got no response.');
-  }
-
-  return res.submissionsPerDay;
-};
-
 export const getStaticProps: GetStaticProps = async () => {
   try {
-    const submissionsPerDay = await getSubmissionsPerDay();
+    const submissionsPerDay = parseInt(
+      process.env.SUBMISSION_PER_DAY as string
+    );
+
+    if (!submissionsPerDay) {
+      throw new Error('Unable to assess submissions per day');
+    }
 
     return {
       props: {
         submissionsPerDay,
       },
-      revalidate: 30,
+      revalidate: 60,
     };
   } catch (error) {
     console.error('error:\n', error);
@@ -51,6 +36,7 @@ export const getStaticProps: GetStaticProps = async () => {
 };
 
 const FAQPage: NextPageWithLayout<{ submissionsPerDay: number }> = ({
+  // eslint-disable-next-line react/prop-types
   submissionsPerDay,
 }) => {
   return (
@@ -73,9 +59,9 @@ const FAQPage: NextPageWithLayout<{ submissionsPerDay: number }> = ({
               <p>
                 Yes, you can see our rules{' '}
                 <Link href={GoToRulesPage()}>
-                  <a className="underline text-main-light hover:text-main">
+                  <span className="text-main-light underline hover:text-main">
                     here
-                  </a>
+                  </span>
                 </Link>
                 .
               </p>
@@ -90,9 +76,9 @@ const FAQPage: NextPageWithLayout<{ submissionsPerDay: number }> = ({
                 bounty wallets will be send to the wallet you signup with. You
                 can{' '}
                 <Link href={GoToAccountPage()}>
-                  <a className="underline text-main-light hover:text-main">
+                  <span className="text-main-light underline hover:text-main">
                     review your address here
-                  </a>
+                  </span>
                 </Link>
                 .
               </p>

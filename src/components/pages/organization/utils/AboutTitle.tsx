@@ -1,3 +1,3 @@
 export function AboutTitle({ text }: { text: string }) {
-  return <h2 className="text-on-surface-unactive h5">{text}</h2>;
+  return <h2 className="h5 text-on-surface-unactive">{text}</h2>;
 }

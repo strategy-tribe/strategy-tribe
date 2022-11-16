@@ -1,19 +1,22 @@
+import { Requirement, RequirementType } from '@prisma/client';
 import { useEffect, useState } from 'react';
-import { Bounty } from '@/lib/models/bounty';
-import { GetWordCount } from '@/utils/StringHelpers';
-import { Requirement, RequirementType } from '@/lib/models/requirement';
+
+import { GetWordCount } from '@/lib/utils/StringHelpers';
+
+import { FullBounty } from '@/server/routes/bounties/getBounty';
+
+import Icon from './Icon';
 import { MessageForUser } from './MessageForUser';
 import { Stat } from './Stat';
-import Icon from './Icon';
 
 export function BountyRequirementsShowcase({
   bounty,
 }: {
-  bounty: Bounty;
+  bounty: FullBounty;
   size?: string;
 }) {
   const requeriedConditions = bounty.requirements?.filter((f) => !f.optional);
-  const optionalConditions = bounty.requirements.filter((f) => f.optional);
+  const optionalConditions = bounty?.requirements?.filter((f) => f.optional);
 
   return (
     <div className="space-y-8">
@@ -64,7 +67,7 @@ export function BountyRequirementsChecker({
   return (
     <>
       <div>
-        <h3 className={`font-grotesk font-semibold text-on-surface-p0`}>
+        <h3 className="font-grotesk font-semibold text-on-surface-p0">
           Requirements
         </h3>
         {requeriedConditions.map((requirement, i) => {
@@ -82,7 +85,7 @@ export function BountyRequirementsChecker({
       </div>
       {optionalConditions.length > 0 && (
         <div>
-          <h3 className={`font-grotesk font-semibold text-on-surface-p0`}>
+          <h3 className="font-grotesk font-semibold text-on-surface-p0">
             Optional
           </h3>
           {optionalConditions.map((requirement, i) => {
@@ -163,9 +166,7 @@ function RequirementChecker({
   }, [content, files, optional, type]);
 
   return (
-    <div
-      className={`group cursor-default label-lg min-w-[10rem] flex items-center gap-4 -translate-x-10`}
-    >
+    <div className="label-lg group flex min-w-[10rem] -translate-x-10 cursor-default items-center gap-4">
       {/* Icon */}
       <Icon
         className={`text-error-light ${!!_passed && 'invisible'} `}
@@ -176,7 +177,7 @@ function RequirementChecker({
       <p className={`${!_passed && ''} ${size}`}>
         <span className={`${!_passed && 'group-hover:hidden'}`}>{title}</span>
         <span
-          className={`text-error-light hidden ${
+          className={`hidden text-error-light ${
             !_passed && 'group-hover:inline '
           }`}
         >

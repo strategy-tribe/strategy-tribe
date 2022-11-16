@@ -33,13 +33,13 @@ export function ImageGallery({ files }: { files: File[] }) {
         previewImages.map((image, imageIndex) => {
           return (
             <div
-              className="shrink-0 grow flex flex-col items-center space-y-2 max-w-md laptop:max-w-lg"
+              className="flex max-w-md shrink-0 grow flex-col items-center space-y-2 laptop:max-w-lg"
               key={imageIndex}
             >
               <img
                 src={image}
                 alt="file"
-                className="shrink-0 grow-0 aspect-video  snap-center object-cover w-full"
+                className="aspect-video w-full shrink-0  grow-0 snap-center object-cover"
               />
             </div>
           );

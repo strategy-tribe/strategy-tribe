@@ -26,7 +26,7 @@ export function AdminUserMenu({
 
       {shouldShow && (
         <aside>
-          <div className="bg-surface-dark text-on-surface-p1 rounded-lg overflow-hidden body-sm flex flex-col z-50 absolute top-6 right-0">
+          <div className="body-sm absolute top-6 right-0 z-50 flex flex-col overflow-hidden rounded-lg bg-surface-dark text-on-surface-p1">
             <MenuItem
               label="Bounties to fund"
               url={GoToWaitingForFunds()}

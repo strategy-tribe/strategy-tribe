@@ -4,17 +4,32 @@ module.exports = {
     es2021: true,
     node: true,
   },
-  plugins: ['@typescript-eslint', 'simple-import-sort', 'unused-imports'],
-  extends: [
-    'eslint:recommended',
-    'next',
-    'next/core-web-vitals',
-    'plugin:@typescript-eslint/recommended',
+  plugins: [
+    'jest',
+    'testing-library',
+    '@typescript-eslint',
+    'simple-import-sort',
+    'unused-imports',
     'prettier',
   ],
+  parser: '@typescript-eslint/parser',
+  parserOptions: {
+    ecmaVersion: 'latest',
+    sourceType: 'module',
+    project: ['./tsconfig.json'],
+  },
+  extends: [
+    'next',
+    'next/core-web-vitals',
+    'eslint:recommended',
+    'plugin:@typescript-eslint/recommended',
+    'plugin:react/recommended',
+    'prettier',
+    'plugin:prettier/recommended',
+  ],
   rules: {
-    'no-unused-vars': 'off',
-    'no-console': ['error', { allow: ['warn', 'error'] }],
+    'no-unused-vars': [1, { args: 'after-used', argsIgnorePattern: '^_' }],
+    'no-console': ['error', { allow: ['error', 'warn', 'time', 'timeEnd'] }],
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     'react/display-name': 'off',
     'react/jsx-curly-brace-presence': [
@@ -70,5 +85,8 @@ module.exports = {
   globals: {
     React: true,
     JSX: true,
+  },
+  env: {
+    'jest/globals': true,
   },
 };

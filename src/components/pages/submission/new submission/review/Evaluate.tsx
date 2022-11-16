@@ -1,9 +1,9 @@
-import { useAuth } from 'auth/AuthContext';
+import { ReviewGrade } from '@prisma/client';
 import { useRouter } from 'next/router';
 import { useMemo, useState } from 'react';
 
-import { useSubmitReview } from '@/hooks/reviewHooks';
-import { useGetSubmission } from '@/hooks/submissionHooks';
+import { useSubmitReview } from '@/lib/hooks/reviewHooks';
+import { useGetSubmission } from '@/lib/hooks/submission';
 import { GoToReviewsPage } from '@/lib/utils/Routes';
 
 import {
@@ -17,7 +17,9 @@ import { RadioInput } from '@/components/utils/RadioInput';
 import { Title } from '@/components/utils/Title';
 import { ImportantMessage } from '@/components/utils/Warning';
 
-import { Submission, SubmissionState } from '@/models/index';
+import { useAuth } from '@/auth/AuthContext';
+import { FullSubmission } from '@/server/routes/submission/getSubmission';
+
 ('@/components/utils/Title');
 
 export default function Evaluate({ submissionId }: { submissionId: string }) {
@@ -33,7 +35,7 @@ export default function Evaluate({ submissionId }: { submissionId: string }) {
   }, [meetsRequirements, acceptedTerms]);
 
   return (
-    <div className="space-y-6 max-w-xl">
+    <div className="max-w-xl space-y-6">
       <div className="space-y-6 py-2">
         <Title
           title="Does the findings meet the bounty requirements?"
@@ -66,7 +68,7 @@ export default function Evaluate({ submissionId }: { submissionId: string }) {
         <input
           type="checkbox"
           id="terms"
-          className="checked:bg-main focus:text-main hover:text-main border-0"
+          className="border-0 checked:bg-main hover:text-main focus:text-main"
           onChange={(e) => {
             setAcceptedTerms(e.target.checked);
           }}
@@ -74,7 +76,7 @@ export default function Evaluate({ submissionId }: { submissionId: string }) {
         <label htmlFor="terms" className="w-full">
           {'I, '}
           <span
-            className="font-semibold text-main-light underline cursor-pointer"
+            className="cursor-pointer font-semibold text-main-light underline"
             onClick={() => {
               notify(
                 {
@@ -117,7 +119,7 @@ export function SubmitReviewButton({
   review,
   disabled,
 }: {
-  submission: Submission;
+  submission: FullSubmission;
   review: {
     meetsRequirements: boolean;
     reviewer: string;
@@ -129,14 +131,23 @@ export function SubmitReviewButton({
 
   const { notify } = useNotification();
 
-  const { SubmitReview } = useSubmitReview(
-    review.meetsRequirements
-      ? SubmissionState.Accepted
-      : SubmissionState.Rejected,
-    submission,
-    review.reviewer,
-    review.feedback,
-    () => {
+  const { SubmitReview } = useSubmitReview({
+    onMutate: () => {
+      notify(
+        {
+          title: 'Your Review is being submitted',
+          content: 'Please do not close this window',
+          icon: 'warning',
+        },
+        {
+          delayTime: 0,
+          delayType: DelayType.Condition,
+          condition: false,
+          type: NotificationType.Banner,
+        }
+      );
+    },
+    onSuccess: () => {
       router.push(GoToReviewsPage());
       notify(
         {
@@ -151,11 +162,11 @@ export function SubmitReviewButton({
         }
       );
     },
-    (e) => {
+    onError: (error) => {
       notify(
         {
           title: 'There was an issue submitting the review',
-          content: e,
+          content: error,
           icon: 'warning',
           style: NotificationStyle.error,
         },
@@ -166,8 +177,8 @@ export function SubmitReviewButton({
           type: NotificationType.Pill,
         }
       );
-    }
-  );
+    },
+  });
   return (
     <Button
       info={{
@@ -179,7 +190,15 @@ export function SubmitReviewButton({
               review.meetsRequirements ? 'Accepted' : 'Rejected'
             }`
           );
-          if (confirmed) SubmitReview();
+          if (confirmed)
+            SubmitReview({
+              grade: review.meetsRequirements
+                ? ReviewGrade.Accepted
+                : ReviewGrade.Rejected,
+              submissionId: submission.id,
+              reviewerAddress: review.reviewer,
+              reviewerComment: review.feedback,
+            });
         },
         label: 'Yes, this is the grade it deserves',
         disabled: disabled,

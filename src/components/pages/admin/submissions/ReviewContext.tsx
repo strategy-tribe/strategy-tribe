@@ -1,19 +1,19 @@
+import { SubmissionState } from '@prisma/client';
 import React, { createContext, useContext, useState } from 'react';
 
-import { useGetSubmissions } from '@/lib/hooks/submissionHooks';
-import { SubmissionState } from '@/lib/models';
-import { Order } from '@/lib/models/queries/Order';
-import { SubmissionQueryParams } from '@/lib/models/queries/SubmissionQueryParams';
+import { useGetSubmissions } from '@/lib/hooks/submission/useGetSubmissions';
+import { Order } from '@/lib/models/Order';
 
 const AMOUNT_OF_PAGES = 10;
 
 interface AdminReviewInterface {
   submissionFetch: ReturnType<typeof useGetSubmissions>;
+  isLoading: boolean;
   nextPage: () => void;
   prevPage: () => void;
   goToPage: (v: number) => void;
-  setQuery: (q: SubmissionQueryParams) => void;
-  query: SubmissionQueryParams;
+  setQuery: (q: any) => void;
+  query: any;
   amountOfPages: number;
 }
 
@@ -26,16 +26,21 @@ const AdminReviewContextProvider = ({
 }: {
   children: React.ReactNode[] | React.ReactNode;
 }) => {
-  const [query, setQuery] = useState<SubmissionQueryParams>({
+  const [query, setQuery] = useState<any>({
     order: Order.Asc,
-    states: [SubmissionState.WaitingForReview],
+    state: 'WaitingForReview' as SubmissionState,
     amount: 10,
     paginate: true,
     page: 0,
   });
 
   const submissionFetch = useGetSubmissions(query);
-  const { hasNextPage, hasPreviousPage, page: currPage } = submissionFetch;
+  const {
+    hasNextPage,
+    hasPreviousPage,
+    page: currPage,
+    isLoading,
+  } = submissionFetch;
 
   function nextPage() {
     if (!hasNextPage) return;
@@ -59,6 +64,7 @@ const AdminReviewContextProvider = ({
     <AdminReviewContext.Provider
       value={{
         submissionFetch,
+        isLoading,
         nextPage,
         prevPage,
         goToPage,

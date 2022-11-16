@@ -1,31 +1,30 @@
-import Image from 'next/image';
+import { Requirement, RequirementType } from '@prisma/client';
 import { useState } from 'react';
-
-import { RequirementType } from '@/lib/models/requirement';
-import { SubmissionContent } from '@/lib/models/submission';
 
 import Icon from '@/components/utils/Icon';
 
 import { NumberSelector } from './NumberSelector';
 
 export function UserAnswer({
-  content,
+  content: answer,
   num,
+  requirement,
 }: {
-  content: SubmissionContent;
+  requirement: Requirement | null;
+  content: string | string[];
   num: number;
 }) {
   const [expanded, setExpanded] = useState(true);
 
   return (
-    <div key={content.requirement.title} className="space-y-2">
+    <div className="space-y-2">
       <button
-        className="flex gap-2 label items-center group justify-between w-full text-on-surface-unactive hover:text-on-surface-p0"
+        className="label group flex w-full items-center justify-between gap-2 text-on-surface-unactive hover:text-on-surface-p0"
         onClick={() => setExpanded(!expanded)}
       >
-        <div className="flex gap-2 label items-center w-full">
+        <div className="label flex w-full items-center gap-2">
           <NumberSelector num={num} colors="bg-surface text-on-surface-p0" />
-          <p>{content.requirement.title}</p>
+          <p>{requirement?.title ?? 'Unknown'}</p>
         </div>
 
         <Icon icon={expanded ? 'expand_less' : 'expand_more'} />
@@ -33,26 +32,22 @@ export function UserAnswer({
 
       {expanded && (
         <>
-          {typeof content.answer === 'string' ? (
-            <p className="pl-8 body">
-              <span className="inline">{content.answer}</span>
+          {requirement?.type !== RequirementType.Image ? (
+            <p className="body pl-8">
+              <span className="inline">{answer}</span>
             </p>
           ) : (
             <>
-              {content.requirement.type === RequirementType.Image && (
+              {requirement?.type === RequirementType.Image && (
                 <div className="flex flex-col gap-4 pt-4">
-                  {(content.answer ?? []).map((url) => {
-                    return (
-                      <figure key={url} className="relative">
-                        <Image
-                          src={url}
-                          width={1920}
-                          height={1080}
-                          alt="preview for image"
-                        />
-                      </figure>
-                    );
-                  })}
+                  <figure key={answer as string} className="relative">
+                    <img
+                      src={answer as string}
+                      width={1920}
+                      height={1080}
+                      alt="preview for image"
+                    />
+                  </figure>
                 </div>
               )}
             </>

@@ -1,18 +1,17 @@
 import { useRouter } from 'next/router';
 
-import { useGetBounty } from '@/hooks/bountyHooks';
+import { useGetBounty } from '@/lib/hooks/bountyHooks';
 import { ParseBountyTitle } from '@/lib/utils/BountyHelpers';
-
-import { GoToBountyPage } from '@/utils/Routes';
+import { GoToBountyPage } from '@/lib/utils/Routes';
 
 export default function FromBounty({
-  bountyId,
+  slug,
   title = ' From bounty',
 }: {
-  bountyId: string;
+  slug: string;
   title?: string;
 }) {
-  const { isLoading, bounty } = useGetBounty(bountyId);
+  const { isLoading, bounty } = useGetBounty(slug);
 
   const router = useRouter();
 
@@ -22,12 +21,12 @@ export default function FromBounty({
 
   return (
     <div className="flex flex-col">
-      <span className="text-on-surface-unactive font-grotesk text-sm font-medium">
+      <span className="font-grotesk text-sm font-medium text-on-surface-unactive">
         {title}
       </span>
       <button
-        className="text-main-light text-sm font-medium w-fit hover:underline text-left"
-        onClick={() => router.push(GoToBountyPage(bountyId as string))}
+        className="w-fit text-left text-sm font-medium text-main-light hover:underline"
+        onClick={() => router.push(GoToBountyPage(slug as string))}
       >
         {parsedTitle}
       </button>

@@ -1,11 +1,12 @@
-import useWindowDimensions from '@/hooks/useWindowDimensions';
-import { GoToAboutusPage, GoToBountiesPage } from '@/utils/Routes';
-import { motion, useTransform, useScroll } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import Image from 'next/image';
 import router from 'next/router';
-import React from 'react';
-import { Button, ButtonStyle } from '../../utils/Button';
+
+import useWindowDimensions from '@/lib/hooks/useWindowDimensions';
+import { GoToAboutusPage, GoToBountiesPage } from '@/lib/utils/Routes';
+
 import { Section } from './Section';
+import { Button, ButtonStyle } from '../../utils/Button';
 
 export default function Hero() {
   const { width } = useWindowDimensions();
@@ -42,7 +43,7 @@ function HeroDesktop() {
   const c3Y = useTransform(scrollY, scrollValues, c3YOutput);
 
   return (
-    <Section className="flex flex-col laptop:flex-row laptop:gap-8 justify-between h-[1500px]">
+    <Section className="flex h-[1500px] flex-col justify-between laptop:flex-row laptop:gap-8">
       {/* Right section */}
       <motion.div
         initial={{ opacity: 0, y: 10 }}
@@ -51,7 +52,7 @@ function HeroDesktop() {
           y: 0,
           transition: { duration: 0.4, delay: 0.5 },
         }}
-        className="space-y-8 laptop:max-w-[45%] laptop:sticky top-40 h-fit  "
+        className="top-40 h-fit space-y-8 laptop:sticky laptop:max-w-[45%]  "
       >
         {/* Text */}
         <div className="space-y-4">
@@ -96,7 +97,7 @@ function HeroDesktop() {
           y: 0,
           transition: { duration: 0.5 },
         }}
-        className="relative grow laptop:z-0 mx-auto "
+        className="relative mx-auto grow laptop:z-0 "
       >
         {/* Top */}
         <motion.figure
@@ -163,7 +164,7 @@ function HeroDesktop() {
             />
           </motion.figure>
 
-          <motion.figure className="-translate-y-16 relative z-10">
+          <motion.figure className="relative z-10 -translate-y-16">
             <Image
               alt="card"
               priority={true}
@@ -173,7 +174,7 @@ function HeroDesktop() {
             />
           </motion.figure>
 
-          <motion.figure className="-translate-y-32 relative z-20">
+          <motion.figure className="relative z-20 -translate-y-32">
             <Image
               alt="card"
               priority={true}
@@ -303,9 +304,9 @@ function HeroMobile() {
   const c3Y = useTransform(scrollY, scrollValues, c3YOutput);
 
   return (
-    <Section className="flex flex-col laptop:flex-row laptop:gap-8 justify-between h-[1500px]">
+    <Section className="flex h-[1500px] flex-col justify-between laptop:flex-row laptop:gap-8">
       {/* Right section */}
-      <div className="space-y-8 laptop:max-w-[45%] laptop:sticky top-40 h-fit  ">
+      <div className="top-40 h-fit space-y-8 laptop:sticky laptop:max-w-[45%]  ">
         {/* Text */}
         <div className="space-y-4">
           <h1 className="h4 laptop:h3">
@@ -337,7 +338,7 @@ function HeroMobile() {
       </div>
 
       {/* Left graphic */}
-      <div className="relative grow laptop:z-0 mx-auto pt-8">
+      <div className="relative mx-auto grow pt-8 laptop:z-0">
         {/* Graphics */}
         <>
           {/* Top */}
@@ -412,7 +413,7 @@ function HeroMobile() {
               />
             </motion.figure>
 
-            <motion.figure className="-translate-y-16 relative z-10">
+            <motion.figure className="relative z-10 -translate-y-16">
               <Image
                 alt="card"
                 priority={true}
@@ -422,7 +423,7 @@ function HeroMobile() {
               />
             </motion.figure>
 
-            <motion.figure className="-translate-y-32 relative z-20">
+            <motion.figure className="relative z-20 -translate-y-32">
               <Image
                 alt="card"
                 priority={true}

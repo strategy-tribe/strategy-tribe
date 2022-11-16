@@ -1,39 +1,38 @@
-import { useGetOrganizationByName } from '@/hooks/organizationHooks';
-import { useGetBounty } from '@/lib/hooks/bountyHooks';
-import { GoToBountyPage, GoToOrgPage } from '@/utils/Routes';
 import Link from 'next/link';
-import React from 'react';
+
+import { useGetOrganization } from '@/lib/hooks/organizationHooks';
+import { GoToOrgPage } from '@/lib/utils/Routes';
 
 export function OrganizationLink({
   orgName,
-  className = 'text-main-light font-medium w-fit hover:underline',
+  className = 'font-medium text-main-light w-fit hover:underline',
 }: {
   orgName: string;
   className?: string;
 }) {
-  const { organization } = useGetOrganizationByName(orgName);
+  const { organization } = useGetOrganization({ name: orgName });
 
   return (
-    <Link href={GoToOrgPage(organization?.id ? organization.id : '')}>
-      <a className={`${className} capitalize`}>{orgName}</a>
+    <Link href={GoToOrgPage(organization?.name ?? '')}>
+      <span className={`${className} capitalize`}>{organization?.name}</span>
     </Link>
   );
 }
 
 export function BountyLink({
   bountyId: bountyId,
-  className = 'text-main-light font-medium w-fit hover:underline',
+  className = 'font-medium text-main-light w-fit hover:underline',
 }: {
   bountyId: string;
   className?: string;
 }) {
-  const { bounty } = useGetBounty(bountyId);
+  // const { bounty } = useGetBounty(bountyId);
 
-  if (!bounty?.id) return <></>;
+  return <></>;
 
-  return (
-    <Link href={GoToBountyPage(bounty.id)}>
-      <a className={className}>{bountyId}</a>
-    </Link>
-  );
+  // return (
+  //   <Link href={GoToBountyPage(bounty.id)}>
+  //     <span className={className}>{bountyId}</span>
+  //   </Link>
+  // );
 }

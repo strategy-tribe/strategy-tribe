@@ -1,38 +1,40 @@
-import Moralis from 'moralis';
+import { useMutation } from '@tanstack/react-query';
+import { ethers } from 'ethers';
 import { useState } from 'react';
-import { useMutation } from 'react-query';
 
-import { Donation } from '@/models/donation';
+import { Donation } from '@/lib/models/donation';
 
-const CHAIN_ID = process.env.NEXT_PUBLIC_CHAIN_ID;
+const CHAIN_ID = process.env.NEXT_PUBLIC_CHAIN_ID as string;
 
 async function newDonation(donation: Donation) {
   const {
-    to: { wallet: to },
+    to: {
+      wallet: { address: to },
+    },
     from: { wallet: from },
     amountInEth,
   } = donation;
-
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore`;
   const { ethereum } = window;
-
   if (!ethereum) {
     throw new Error("We could't connect to your wallet");
   }
-
-  const ethers = Moralis.web3Library;
+  // const ethers = Moralis.web3Library;
   const amount = ethers.utils.parseUnits(amountInEth.toString(), 'ether');
-
   try {
     await ethereum.request({
       method: 'wallet_switchEthereumChain',
       params: [{ chainId: CHAIN_ID }],
     });
     await ethereum.request({
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore`;
       method: 'eth_sendTransaction',
       params: [
         {
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore`;
           from,
           value: amount.toHexString(),
           to,

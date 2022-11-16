@@ -1,8 +1,7 @@
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 
-import { useGetSubmission } from '@/lib/hooks/submissionHooks';
-import { GoTo404Page } from '@/lib/utils/Routes';
+import { useGetSubmission } from '@/lib/hooks/submission';
 
 import AppLayout from '@/components/layouts/AppLayout';
 import { Submission } from '@/components/pages/submission/Submission';
@@ -19,10 +18,6 @@ const SubmissionPage: NextPageWithLayout = () => {
     submissionId as string,
     !!(submissionId as string)
   );
-
-  if (error) {
-    router.push(GoTo404Page());
-  }
 
   return (
     <>

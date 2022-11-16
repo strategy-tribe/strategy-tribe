@@ -1,4 +1,4 @@
-('@/components/utils/Title');
+import { BountyState } from '@prisma/client';
 import {
   ColumnDef,
   flexRender,
@@ -10,19 +10,19 @@ import { useRouter } from 'next/router';
 import { useState } from 'react';
 
 import { useGetBounties } from '@/lib/hooks/bountyHooks';
-import { Bounty, BountyState } from '@/lib/models';
-import { BountyOrderBy } from '@/lib/models/queries/BountyQueryParams';
-import { Order } from '@/lib/models/queries/Order';
+import { BountyOrderBy } from '@/lib/models/BountyQueryParams';
+import { Order } from '@/lib/models/Order';
 import { GetDateInString } from '@/lib/utils/DateHelpers';
 import { GoToBountyPage } from '@/lib/utils/Routes';
 
 import AppLayout from '@/components/layouts/AppLayout';
-import ProtectedLayout from '@/components/layouts/ProtectedLayout';
 import { Button, ButtonStyle } from '@/components/utils/Button';
+
+import { SmallBounty } from '@/server/routes/bounties/getBounties';
 
 import { NextPageWithLayout } from '../_app';
 
-const columns: ColumnDef<Bounty>[] = [
+const columns: ColumnDef<SmallBounty>[] = [
   {
     id: 'Bounties waiting for funds',
     columns: [
@@ -33,7 +33,7 @@ const columns: ColumnDef<Bounty>[] = [
       },
       {
         header: 'Status',
-        accessorKey: 'state',
+        accessorKey: 'status',
         cell: (info) => info.getValue(),
       },
       {
@@ -46,12 +46,12 @@ const columns: ColumnDef<Bounty>[] = [
       },
       {
         header: 'Wallet',
-        accessorKey: 'wallet',
+        accessorKey: 'wallet.address',
         cell: (info) => `${(info.getValue() as string).slice(0, 15)}...`,
       },
       {
         header: 'Funds (MATIC)',
-        accessorKey: 'funds',
+        accessorKey: 'wallet.balance',
         cell: (info) => info.getValue(),
       },
     ],
@@ -89,7 +89,7 @@ const BountiesToFundPage: NextPageWithLayout = () => {
   const router = useRouter();
 
   return (
-    <div className="text-on-surface-p1 space-y-8">
+    <div className="space-y-8 text-on-surface-p1">
       <Head>
         <title>ST | Fund</title>
         <meta
@@ -101,7 +101,7 @@ const BountiesToFundPage: NextPageWithLayout = () => {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className="mx-auto max-w-5xl min-h-screen space-y-8">
+      <div className="mx-auto min-h-screen max-w-5xl space-y-8">
         <table className="w-full">
           <thead>
             {table.getHeaderGroups().map((headerGroup, i) => {
@@ -113,7 +113,7 @@ const BountiesToFundPage: NextPageWithLayout = () => {
                       <th
                         key={header.id}
                         colSpan={header.colSpan}
-                        className="text-xs p-4 uppercase"
+                        className="p-4 text-xs uppercase"
                       >
                         {header.isPlaceholder
                           ? null
@@ -129,14 +129,14 @@ const BountiesToFundPage: NextPageWithLayout = () => {
             })}
           </thead>
 
-          <tbody className="bg-surface-dark overflow-hidden">
+          <tbody className="overflow-hidden bg-surface-dark">
             {table.getRowModel().rows.map((row) => {
               const bounty = row.original;
               return (
                 <tr
                   key={row.id}
-                  className="hover:bg-surface w-full cursor-pointer"
-                  onClick={() => router.push(GoToBountyPage(bounty.id))}
+                  className="w-full cursor-pointer hover:bg-surface"
+                  onClick={() => router.push(GoToBountyPage(bounty.slug))}
                 >
                   {row.getVisibleCells().map((cell, i) => {
                     const align = i === 0 ? 'text-left' : 'text-center';
@@ -157,7 +157,7 @@ const BountiesToFundPage: NextPageWithLayout = () => {
           </tbody>
         </table>
 
-        <div className="w-full bg-surface flex justify-center gap-8">
+        <div className="flex w-full justify-center gap-8 bg-surface">
           <Button
             info={{
               label: 'Prev',
@@ -186,7 +186,7 @@ const BountiesToFundPage: NextPageWithLayout = () => {
             name="pagesize"
             id="pagesize"
             type="number"
-            className="border-0 border-b-2 border-surface bg-bg body-sm w-fit placeholder:text-on-surface-unactive text-on-surface-p1 focus:ring-0 focus:border-main"
+            className="body-sm w-fit border-0 border-b-2 border-surface bg-bg text-on-surface-p1 placeholder:text-on-surface-unactive focus:border-main focus:ring-0"
             placeholder="Page size"
             value={size}
             step={1}
@@ -201,8 +201,8 @@ const BountiesToFundPage: NextPageWithLayout = () => {
 export default BountiesToFundPage;
 BountiesToFundPage.getLayout = function getLayout(page) {
   return (
-    <ProtectedLayout>
+    <>
       <AppLayout>{page}</AppLayout>
-    </ProtectedLayout>
+    </>
   );
 };

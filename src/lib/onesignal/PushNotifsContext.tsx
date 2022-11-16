@@ -1,9 +1,5 @@
-import { useAuth } from 'auth/AuthContext';
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext } from 'react';
 import OneSignal from 'react-onesignal';
-import { useQuery } from 'react-query';
-
-import { CloudFunctionResponse } from '@/lib/moralis/utils/CloudFunctionResponse';
 
 import {
   DelayType,
@@ -11,6 +7,8 @@ import {
   NotificationType,
 } from '@/components/notifications/iNotification';
 import { useNotification } from '@/components/notifications/NotificationContext';
+
+import { useAuth } from '@/auth/AuthContext';
 
 import {
   addSubscriber,
@@ -20,27 +18,21 @@ import {
   removeSubscriber,
   removeSubscriberFromAll,
 } from './methods';
+import { useInitializeOneSignal, useRegisterUser } from './utilts';
 
 interface PushNotifsContextInterface {
   initialized: boolean | undefined;
   activateNotifs: () => void;
   areNotifsEnabled: () => Promise<boolean>;
-  subscribeToOrg: (
-    userId: string,
-    orgName: string
-  ) => Promise<CloudFunctionResponse | undefined>;
+  subscribeToOrg: (userId: string, orgName: string) => Promise<any | undefined>;
   unsubscribeToOrg: (
     userId: string,
     orgName: string
-  ) => Promise<CloudFunctionResponse | undefined>;
+  ) => Promise<any | undefined>;
   isSubscribed: (userId: string, orgName: string) => Promise<boolean>;
   isSubscribedToAll: (userId: string) => Promise<boolean>;
-  subscribeToAllOrgs: (
-    userId: string
-  ) => Promise<CloudFunctionResponse | undefined>;
-  unsubscribeFromAllOrgs: (
-    userId: string
-  ) => Promise<CloudFunctionResponse | undefined>;
+  subscribeToAllOrgs: (userId: string) => Promise<any | undefined>;
+  unsubscribeFromAllOrgs: (userId: string) => Promise<any | undefined>;
 }
 
 const PushNotifsContext = createContext<PushNotifsContextInterface>({
@@ -69,34 +61,18 @@ const PushNotifsContext = createContext<PushNotifsContextInterface>({
   },
 });
 
-export default function PushNotifsContextProvider({
+export default function PushNotificationsProvider({
   children,
   appId,
 }: {
   appId: string;
   children: React.ReactNode;
 }) {
-  //*state
-  const [initialized, setInitialized] = useState<boolean | undefined>();
+  //* Set up
+  const { initialized } = useInitializeOneSignal(appId);
+  useRegisterUser(initialized);
 
-  async function initializeOneSignal() {
-    try {
-      if (initialized) return;
-      await OneSignal.init({ appId });
-      setInitialized(true);
-    } catch (error) {
-      console.warn(`Error initializing OneSignal`, error);
-      setInitialized(false);
-    }
-  }
-
-  useQuery('Initialize OneSignal', initializeOneSignal, {
-    enabled: !initialized,
-    cacheTime: Infinity,
-    staleTime: Infinity,
-  });
-
-  //*Notifications
+  //*Toasts
   const { notify } = useNotification();
 
   //*User info
@@ -120,7 +96,7 @@ export default function PushNotifsContextProvider({
                 LogIn();
                 onClose();
               }}
-              className="mt-4 label underline text-on-surface-p0"
+              className="label mt-4 text-on-surface-p0 underline"
             >
               <span>Join the hunt here</span>
             </button>
@@ -141,12 +117,7 @@ export default function PushNotifsContextProvider({
     }
     const exUserId = await OneSignal.getExternalUserId();
     if (!exUserId) {
-      try {
-        await OneSignal.setExternalUserId(userId);
-      } catch (error) {
-        console.warn('could not register the user to one signal:', error);
-        return;
-      }
+      throw new Error('User is not connected to one signal');
     }
     const serverResponse = await addSubscriber(userId, orgName);
 

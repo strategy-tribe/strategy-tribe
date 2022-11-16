@@ -1,29 +1,96 @@
 import Link from 'next/link';
+import router from 'next/router';
 
-import { Invoice as InvoiceData } from '@/lib/models/invoice';
-import { GoToBountyPage, GoToSubmissionPage } from '@/lib/utils/Routes';
+import { usePayInvoice } from '@/lib/hooks/invoiceHooks';
+import {
+  GoTo404Page,
+  GoToBountyPage,
+  GoToInvoicesPage,
+  GoToSubmissionPage,
+} from '@/lib/utils/Routes';
 
 import { Button, ButtonStyle } from '@/components/utils/Button';
 
-import { InvoiceStatus } from '../pages/account/sections/AccountRewards';
+import { FullInvoice } from '@/server/routes/invoice/getInvoice';
+
+import {
+  DelayType,
+  NotificationStyle,
+  NotificationType,
+} from '../notifications/iNotification';
+import { useNotification } from '../notifications/NotificationContext';
+import { InvoiceStatusShower } from '../pages/account/sections/AccountRewards';
 
 export function InvoiceListEntry({
-  invoice: { bounty, status, submission },
+  invoice: { bounty, submission, status },
 }: {
-  invoice: InvoiceData;
+  invoice: FullInvoice;
 }) {
+  const { notify } = useNotification();
+  const { Pay } = usePayInvoice({
+    onMutate: () => {
+      notify(
+        {
+          title: 'Paying Bounty',
+          content: 'Please do not close this window',
+          icon: 'warning',
+        },
+        {
+          delayTime: 0,
+          delayType: DelayType.Condition,
+          condition: false,
+          type: NotificationType.Banner,
+        }
+      );
+    },
+    onSuccess: () => {
+      router.push(GoToInvoicesPage());
+      notify(
+        {
+          title: 'Bounty paid successfully',
+          style: NotificationStyle.success,
+        },
+        {
+          condition: false,
+          delayTime: 5,
+          delayType: DelayType.Time,
+          type: NotificationType.Pill,
+        }
+      );
+    },
+    onError: (error) => {
+      notify(
+        {
+          title: 'Payment Failed',
+          content: `${error.message}`,
+          icon: 'warning',
+          style: NotificationStyle.error,
+        },
+        {
+          condition: false,
+          delayTime: 5,
+          delayType: DelayType.Time,
+          type: NotificationType.Banner,
+        }
+      );
+    },
+  });
   return (
-    <div className="grid grid-cols-12 place-items-center w-full gap-x-8">
-      <Link href={GoToBountyPage(bounty.id!)}>
-        <a className="col-span-8 w-full group">
-          <span className="label-sm text-main-light ">
-            {bounty.funds} MATIC
-          </span>
-          <h5 className="title-sm group-hover:underline">{bounty.title}</h5>
-        </a>
+    <div className="grid w-full grid-cols-4 place-items-center gap-x-8">
+      <Link href={bounty ? GoToBountyPage(bounty.slug) : GoTo404Page()}>
+        <span className="group col-span-8 w-full">
+          {bounty && (
+            <>
+              <span className="label-sm text-main-light ">
+                {bounty.wallet.balance} MATIC
+              </span>
+              <h5 className="title-sm group-hover:underline">{bounty.title}</h5>
+            </>
+          )}
+        </span>
       </Link>
 
-      <InvoiceStatus status={status} />
+      <InvoiceStatusShower status={status} />
 
       <Button
         info={{
@@ -33,6 +100,22 @@ export function InvoiceListEntry({
           label: 'See submission',
           removeMinWidth: true,
           removePadding: true,
+        }}
+      />
+
+      <Button
+        info={{
+          style: ButtonStyle.Filled,
+          onClick: () => {
+            const confirmed = window.confirm('Are you sure to pay the bounty?');
+            if (confirmed)
+              Pay({
+                submissionId: submission.id,
+                bountySlug: bounty?.slug as string,
+              });
+          },
+          label: 'Pay bounty',
+          className: 'h-fit',
         }}
       />
     </div>

@@ -22,7 +22,7 @@ export function ImportantMessage({
 }) {
   return (
     <div
-      className={`p-4 rounded ${style} font-medium text-center  ${className}`}
+      className={`rounded p-4 ${style} text-center font-medium  ${className}`}
     >
       <Icon icon={icon} />
       <br />

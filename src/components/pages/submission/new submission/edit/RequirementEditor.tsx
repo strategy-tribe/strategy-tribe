@@ -1,6 +1,5 @@
+import { Requirement, RequirementType } from '@prisma/client';
 import ReactTextareaAutosize from 'react-textarea-autosize';
-
-import { Requirement, RequirementType } from '@/lib/models/requirement';
 
 import { ImageUploader } from './ImageUploader';
 import { RequirementChecker } from './RequirementChecker';
@@ -11,7 +10,7 @@ export function RequirementEditor({
   setInput,
 }: {
   requirement: Requirement;
-  input: string | File[] | undefined;
+  input: string | File[] | string[] | undefined;
   setInput: (s: string | File[]) => void;
 }) {
   return (
@@ -27,8 +26,8 @@ export function RequirementEditor({
       {requirement.type !== RequirementType.Image && (
         <ReactTextareaAutosize
           placeholder={requirement.title}
-          className="bg-bg text-on-surface-p1 body
-          -translate-y-4 border-0 w-full h-fit font-inter focus:ring-0 first-letter:capitalize whitespace-pre-wrap"
+          className="body h-fit w-full
+          -translate-y-4 whitespace-pre-wrap border-0 bg-bg font-inter text-on-surface-p1 first-letter:capitalize focus:ring-0"
           minRows={requirement.type === RequirementType.Report ? 10 : 1}
           value={input as string}
           onChange={(e) => {

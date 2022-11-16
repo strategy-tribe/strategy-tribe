@@ -1,8 +1,8 @@
 import { ResponsiveChoropleth } from '@nivo/geo';
+import { CountryStats } from '@prisma/client';
 import { useMemo } from 'react';
 
 import useWindowDimensions from '@/lib/hooks/useWindowDimensions';
-import { CountryData } from '@/lib/models/map/CountryData';
 import { kFormatter } from '@/lib/utils/NumberHelpers';
 
 import { useExploreContext } from '../ExploreContext';
@@ -12,8 +12,8 @@ export default function MapProjection() {
 
   const max =
     map?.mapData.countries.reduce((acc, curr) => {
-      return acc.bounties > curr.bounties ? acc : curr;
-    }).bounties ?? 0;
+      return acc.bountyCount > curr.bountyCount ? acc : curr;
+    }).bountyCount ?? 0;
 
   const { width } = useWindowDimensions();
 
@@ -23,12 +23,25 @@ export default function MapProjection() {
     return value;
   }, [width]);
 
+  const dataParsed = useMemo(() => {
+    const newLocal = map?.mapData.countries.map((x) => {
+      return {
+        id: x.country?.code,
+        bountyCount: x.bountyCount,
+        totalFunds: x.totalFunds,
+        organizationCount: x.organizationCount,
+      };
+    });
+    return newLocal ?? [];
+  }, [map]);
+
+  if (!map) return <></>;
   return (
-    <div className="w-full h-[500px]">
+    <div className="h-[600px] w-full">
       <ResponsiveChoropleth
         projectionType="naturalEarth1"
-        data={map?.mapData.countries ?? []}
-        features={map?.features ?? []}
+        data={dataParsed}
+        features={map.features}
         margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
         colors={['#2E2A4D', '#423B80', '#574BB3', '#6C5CE7']}
         domain={[0, max + max * 0.05]}
@@ -36,8 +49,8 @@ export default function MapProjection() {
         value={(data) => {
           if (!data) {
             return 0;
-          } else if (data as CountryData) {
-            const value = (data as CountryData).bounties;
+          } else if (data as CountryStats) {
+            const value = (data as CountryStats).bountyCount;
             return value;
           } else {
             return 0;
@@ -53,7 +66,8 @@ export default function MapProjection() {
         borderWidth={0.2}
         borderColor="#5C5C5C"
         onClick={(thing) => {
-          const data = thing.data as CountryData;
+          const data = thing.data as CountryStats;
+
           if (!data || !(data.id as string)) return;
           addCountry(data.id);
         }}
@@ -61,19 +75,20 @@ export default function MapProjection() {
           if (!feature?.data) return null;
 
           const label = feature.label;
-          const { bounties, organizations, totalFunds } =
-            feature.data as CountryData;
+
+          const { bountyCount, organizationCount, totalFunds } =
+            feature.data as CountryStats;
           return (
-            <div className="elevation-5 bg-surface text-on-surface-p0 p-4 rounded space-y-1">
-              <div className="flex justify-between items-center gap-6">
+            <div className="elevation-5 space-y-1 rounded bg-surface p-4 text-on-surface-p0">
+              <div className="flex items-center justify-between gap-6">
                 <span className="label-lg">{label}</span>
-                <span className="text-main-light h5">
+                <span className="h5 text-main-light">
                   {kFormatter(totalFunds)} MATIC
                 </span>
               </div>
-              <div className="flex justify-between items-center gap-6 label-sm text-on-surface-unactive">
-                <span>{kFormatter(bounties)} bounties</span>
-                <span>{kFormatter(organizations)} organizations</span>
+              <div className="label-sm flex items-center justify-between gap-6 text-on-surface-unactive">
+                <span>{kFormatter(bountyCount)} bounties</span>
+                <span>{kFormatter(organizationCount)} organizations</span>
               </div>
             </div>
           );

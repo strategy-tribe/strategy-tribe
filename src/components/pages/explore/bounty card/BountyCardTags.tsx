@@ -1,9 +1,15 @@
-import { useUrlSearchParams } from '@/lib/hooks/useUrlSearchParams';
-import { Bounty } from '@/lib/models';
+import { Requirement } from '@prisma/client';
 
-export function BountyCardTags({ bounty }: { bounty: Bounty }) {
-  const type = bounty.requirements?.at(0)?.type || '';
-  const org = bounty.organizationName;
+import { useUrlSearchParams } from '@/lib/hooks/useUrlSearchParams';
+
+export function BountyCardTags({
+  org,
+  requirements,
+}: {
+  org: string;
+  requirements: Requirement[];
+}) {
+  const type = requirements.at(0)?.type;
 
   const { urlFilter, setUrlFilter } = useUrlSearchParams();
 
@@ -13,8 +19,8 @@ export function BountyCardTags({ bounty }: { bounty: Bounty }) {
 
   return (
     <div className="flex gap-5 pb-2">
-      <Tag tag={type} />
-      <Tag tag={org} onClick={addOrgToFilters} />
+      {!!type && <Tag tag={type} />}
+      {!!org && <Tag tag={org} onClick={addOrgToFilters} />}
     </div>
   );
 }
@@ -22,7 +28,7 @@ export function BountyCardTags({ bounty }: { bounty: Bounty }) {
 function Tag({ tag, onClick }: { tag: string; onClick?: () => void }) {
   return (
     <button
-      className="label-sm text-on-surface-unactive text-left capitalize"
+      className="label-sm text-left capitalize text-on-surface-unactive"
       onClick={onClick}
     >
       {tag?.length > 14 ? `${tag.slice(0, 28)}...` : tag}

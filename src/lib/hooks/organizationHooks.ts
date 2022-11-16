@@ -1,57 +1,48 @@
-import Queries from '@/utils/Queries';
-import {
-  Moralis_useGetOrganization,
-  Moralis_useGetOrganizationByname,
-  Moralis_useGetOrganizations,
-} from '@/lib/moralis/serverMethods/Moralis_Organizations';
-import { useQuery } from 'react-query';
+import { GetOrgParams } from '@/server/routes/organizations/getOrg';
+
+import { trpc } from '../trpc';
 
 export const useGetAllOrganizations = (enabled = true) => {
-  const { fetch } = Moralis_useGetOrganizations();
-
-  const { isLoading, data } = useQuery([Queries.Organizations], () => fetch(), {
-    enabled,
-  });
-
-  return {
-    isLoading,
-    organizations: data?.organizations
-      ? data?.organizations.sort((a, b) => a.name.localeCompare(b.name))
-      : [],
-  };
-};
-
-export const useGetOrganization = (orgId: string, enabled = true) => {
-  const { fetch } = Moralis_useGetOrganization(orgId);
-
-  const { isLoading, data, error } = useQuery(
-    [Queries.Organizations, orgId],
-    () => fetch(),
+  const { error, isLoading, data } = trpc.orgs.getOrgs.useQuery(
+    {},
     {
       enabled,
     }
   );
 
   return {
-    isLoading,
-    organization: data?.organization,
+    ...data,
+    isLoading: isLoading,
     error,
   };
 };
 
-export const useGetOrganizationByName = (orgName: string, enabled = true) => {
-  const { fetch } = Moralis_useGetOrganizationByname(orgName);
-
-  const { isLoading, data } = useQuery(
-    [Queries.Organizations, orgName],
-    () => fetch(),
-    {
-      enabled,
-    }
-  );
+export const useGetOrganization = (
+  params: GetOrgParams,
+  config?: { enabled?: boolean }
+) => {
+  const { error, isLoading, data } = trpc.orgs.getOrg.useQuery(params, {
+    ...config,
+  });
 
   return {
-    isLoading,
-    organization: data?.organization,
+    ...data,
+    isLoading: isLoading,
+    error: error,
   };
 };
+
+// export const useGetOrganizationByName = (name: string, enabled = true) => {
+//   const { error, isLoading, data } = trpc.orgs.getOrg.useQuery(
+//     {
+//       name,
+//     },
+//     { enabled }
+//   );
+
+//   return {
+//     error,
+//     isLoading,
+//     organization: data?.organization,
+//   };
+// };

@@ -37,7 +37,7 @@ export function ScrollableTabs<
           >
             {label}
             <div
-              className={`pt-1.5 w-1/2 border-b-[3px] border-main transition-all ease-out ${
+              className={`w-1/2 border-b-[3px] border-main pt-1.5 transition-all ease-out ${
                 Math.abs(index - i) > 1 ? 'duration-75' : 'duration-300'
               }  ${
                 isActive(value)

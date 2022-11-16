@@ -1,12 +1,13 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import { useState } from 'react';
 
+import { Recipient } from '@/lib/models/donation';
+
 import { Button, ButtonStyle } from '@/components/utils/Button';
 import { Overlay } from '@/components/utils/Overlay';
-import { Title } from '@/components/utils/Title';
+import * as Title from '@/components/utils/Title';
 
-import { Recipient } from '@/models/donation';
-
+import { SupportButton } from './SupportButton';
 import {
   ClientNotification,
   DelayType,
@@ -15,7 +16,6 @@ import {
   NotificationType,
 } from '../notifications/iNotification';
 import { useNotification } from '../notifications/NotificationContext';
-import { SupportButton } from './SupportButton';
 ('../utils/Title');
 
 const lorem =
@@ -88,14 +88,14 @@ export function DonationPopUp({
             className="fixed inset-0 z-50 "
           >
             <div
-              className="z-50 min-w-[20rem] max-w-lg mx-auto absolute top-[50%] left-[50%] translate-y-[-50%] translate-x-[-50%]
-              bg-bg border-main text-on-surface-p1 border-2 rounded-lg
+              className="absolute top-[50%] left-[50%] z-50 mx-auto min-w-[20rem] max-w-lg translate-y-[-50%] translate-x-[-50%]
+              space-y-6 rounded-lg border-2 border-main bg-bg
               px-4 pt-6 pb-8
-              space-y-6
+              text-on-surface-p1
           "
             >
               <div className="space-y-2">
-                <Title title={title} />
+                <Title.Title title={title} />
                 <p className="whitespace-pre-line">{description}</p>
               </div>
 
@@ -112,7 +112,7 @@ export function DonationPopUp({
                       setAmount(value);
                       setTyped(true);
                     }}
-                    className="bg-bg border-0 border-b-2 border-surface focus:ring-0 focus:border-main pl-1"
+                    className="border-0 border-b-2 border-surface bg-bg pl-1 focus:border-main focus:ring-0"
                   />
                 </label>
                 {!canSubmit && typed && (
@@ -122,7 +122,7 @@ export function DonationPopUp({
                 )}
               </div>
 
-              <div className="flex items-center gap-8 justify-end">
+              <div className="flex items-center justify-end gap-8">
                 <Button
                   info={{
                     label: 'Cancel',

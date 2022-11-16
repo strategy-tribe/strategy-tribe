@@ -1,16 +1,21 @@
-import { useGetSubmissionsFromBounty } from '@/hooks/submissionHooks';
-import { SubmissionState } from '@/models/index';
-import React, { useMemo, useState } from 'react';
+import { SubmissionState } from '@prisma/client';
+import { useMemo, useState } from 'react';
+
+import { useGetSubmissions } from '@/lib/hooks/submission/useGetSubmissions';
+import { Order } from '@/lib/models/Order';
+
 import Loading from '@/components/utils/Loading';
-import { Title } from '@/components/utils/Title';
-('@/components/utils/Title');
+
 import { SubmissionEntry } from './SubmissionEntry';
+import { Title } from './Title';
+
+('@/components/utils/Title');
 
 function Submissions({ bountyId }: { bountyId: string }) {
-  const { submissions, isLoading } = useGetSubmissionsFromBounty(
-    undefined,
-    bountyId
-  );
+  const { submissions, isLoading } = useGetSubmissions({
+    bounties: [bountyId],
+    order: Order.Asc,
+  });
   const [showAll, setShowAll] = useState(false);
 
   // const filteredSubmissions = useMemo(() => {
@@ -24,7 +29,7 @@ function Submissions({ bountyId }: { bountyId: string }) {
   const waitingForReview = useMemo(() => {
     if (!submissions || submissions.length < 1) return [];
     return submissions?.filter(
-      (s) => s.state === SubmissionState['WaitingForReview']
+      (s) => s.state === SubmissionState.WaitingForReview
     );
   }, [submissions]);
 
@@ -36,9 +41,9 @@ function Submissions({ bountyId }: { bountyId: string }) {
       {/* Filters */}
       <div className="flex items-center justify-between">
         {/* pick states of submissions */}
-        <div className="text-on-surface-unactive flex space-x-6 items-center">
+        <div className="flex items-center space-x-6 text-on-surface-unactive">
           <button
-            className={`hover:text-on-surface-p0 label ${
+            className={`label hover:text-on-surface-p0 ${
               !showAll && 'text-on-surface-p0'
             }`}
             onClick={() => setShowAll(false)}
@@ -47,7 +52,7 @@ function Submissions({ bountyId }: { bountyId: string }) {
             {!waitingForReview && <span> To Review (...)</span>}
           </button>
           <button
-            className={`hover:text-on-surface-p0 label ${
+            className={`label hover:text-on-surface-p0 ${
               showAll && 'text-on-surface-p0'
             }`}
             onClick={() => setShowAll(true)}
@@ -57,14 +62,12 @@ function Submissions({ bountyId }: { bountyId: string }) {
           </button>
         </div>
       </div>
-
       {submissions && submissions.length < 1 && (
         <div className="">
           <span className="text-on-surface-disabled">0 submissions</span>
         </div>
       )}
-
-      {/* Submissions */}
+      Submissions
       {waitingForReview && (
         <div className="space-y-4 pt-2">
           {/* {showAll &&

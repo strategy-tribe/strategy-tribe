@@ -1,10 +1,12 @@
-import { GoToBountyPage } from '@/utils/Routes';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useState } from 'react';
-import { useNotification } from '../notifications/NotificationContext';
+
+import { GoToBountyPage } from '@/lib/utils/Routes';
+
+import Icon from './Icon';
 import { Overlay } from './Overlay';
 import { DelayType, NotificationType } from '../notifications/iNotification';
-import Icon from './Icon';
+import { useNotification } from '../notifications/NotificationContext';
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
@@ -39,7 +41,7 @@ export function MoreMenu({ bountyId }: { bountyId: string }) {
   }
 
   return (
-    <div className="relative flex gap-1 items-center justify-end">
+    <div className="relative flex items-center justify-end gap-1">
       <button
         className="hover:text-on-surface-p0"
         onClick={() => setIsOpen(!isOpen)}
@@ -50,17 +52,17 @@ export function MoreMenu({ bountyId }: { bountyId: string }) {
         {isOpen && (
           <motion.div
             key={`more menu for ${bountyId}`}
-            className="z-50 absolute top-0 bg-surface text-on-surface-p1 py-4 pl-4 pr-6 translate-y-8 -translate-x-2 rounded-md flex flex-col items-start gap-6"
+            className="absolute top-0 z-50 flex translate-y-8 -translate-x-2 flex-col items-start gap-6 rounded-md bg-surface py-4 pl-4 pr-6 text-on-surface-p1"
           >
             <button
-              className="flex gap-2 items-center w-full hover:text-on-surface-p0"
+              className="flex w-full items-center gap-2 hover:text-on-surface-p0"
               onClick={ManageShare}
             >
               <Icon icon="reply" displayClasses="scale-x-[-1]" />
               <span className="font-semibold">Share</span>
             </button>
             <button
-              className="flex gap-2 items-center w-full hover:text-on-surface-p0"
+              className="flex w-full items-center gap-2 hover:text-on-surface-p0"
               onClick={ManageSubscribe}
             >
               <Icon icon="notifications" />

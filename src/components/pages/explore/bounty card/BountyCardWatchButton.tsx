@@ -1,4 +1,5 @@
 import React from 'react';
+
 import Icon, { IconSize } from '@/components/utils/Icon';
 
 export function BountyCardWatchButton({
@@ -8,7 +9,7 @@ export function BountyCardWatchButton({
 }) {
   return (
     <button
-      className={`grid place-items-center h-fit text-main-light group-hover:pointer-events-auto pointer-events-none group-hover:opacity-100 opacity-0 ${animClasses}`}
+      className={`pointer-events-none grid h-fit place-items-center text-main-light opacity-0 group-hover:pointer-events-auto group-hover:opacity-100 ${animClasses}`}
     >
       <Icon icon="visibility" size={IconSize.Small} />
     </button>

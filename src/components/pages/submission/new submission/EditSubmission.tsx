@@ -3,13 +3,13 @@ import { useMemo } from 'react';
 import { Title } from '@/components/utils/Title';
 ('@/components/utils/Title');
 
-import { RequirementType } from '@/lib/models/requirement';
+import { RequirementType } from '@prisma/client';
 
 import { ImageUploader } from './edit/ImageUploader';
 import { RequirementChecker } from './edit/RequirementChecker';
 import { RequirementEditor } from './edit/RequirementEditor';
 import { useNewSubmissionContext } from './NewSubmissionContext';
-import { UserInput } from './UserInput';
+import { UserInput } from '../../../../server/routes/submission/postSubmission/UserInput';
 
 export function EditSubmission() {
   //*Context
@@ -31,9 +31,9 @@ export function EditSubmission() {
   function ManageNewAnswer(oldAnswer: UserInput, newInput: string | File[]) {
     const index = userAnswers.indexOf(oldAnswer);
 
-    const newAnswer = { ...oldAnswer, input: newInput };
+    const newAnswer: UserInput = { ...oldAnswer, input: newInput };
 
-    const newList = [
+    const newList: UserInput[] = [
       ...userAnswers.slice(0, index),
       newAnswer,
       ...userAnswers.slice(index + 1),
@@ -50,6 +50,8 @@ export function EditSubmission() {
             title: 'Attachments',
             type: RequirementType.Image,
             optional: true,
+            bountySlug: '',
+            id: '',
           }}
           input={attachments}
         />
@@ -62,7 +64,6 @@ export function EditSubmission() {
     <div className="space-y-7">
       {/* Required  */}
       <div>
-        {/* Remove this commponent */}
         <Title title="Requirements" />
         {requirements.map((userAnswer, i) => {
           return (
@@ -90,7 +91,6 @@ export function EditSubmission() {
           );
         })}
         {/* Attachments */}
-        {Attachments}
       </div>
     </div>
   );
