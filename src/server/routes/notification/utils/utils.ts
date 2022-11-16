@@ -57,7 +57,7 @@ const _CreateNotificationUrl = ({
   /** Id of the notification */
   notificationId: string;
 }) => {
-  const baseUrl = process.env.DOMAIN as string;
+  const baseUrl = process.env.NEXT_PUBLIC_DOMAIN as string;
 
   if (!baseUrl) {
     throw new TRPCError({

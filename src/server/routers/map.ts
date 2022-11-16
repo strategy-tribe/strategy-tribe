@@ -43,12 +43,25 @@ export async function GetMap(prisma: PrismaClient) {
   return mapData;
 }
 
+async function getFeatures() {
+  try {
+    const getEndpoint = `${process.env.NEXT_PUBLIC_DOMAIN}/static/data/features.json`;
+    const featuresRes = await fetch(getEndpoint);
+    const features = (await featuresRes.json()).features;
+    return features;
+  } catch (error) {
+    throw new TRPCError({
+      code: 'INTERNAL_SERVER_ERROR',
+      message: 'Unable to fetch features.json',
+      cause: JSON.stringify(error, null, 2),
+    });
+  }
+}
+
 export const getMapData = async (
   prisma: PrismaClient
 ): Promise<MapDataWithFeatures> => {
-  const getEndpoint = `${process.env.NEXT_PUBLIC_BASE_URL}/data/features.json`;
-  const featuresRes = await fetch(getEndpoint);
-  const features = (await featuresRes.json()).features;
+  const features = await getFeatures();
 
   const mapData = await GetMap(prisma);
 
