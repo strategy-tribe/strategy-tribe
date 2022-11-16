@@ -6,8 +6,8 @@ import { z } from 'zod';
 import { signedInOnlyProcedure } from '@/server/procedures';
 import { s3 } from '@/server/routers/files';
 
-import { ThenArg } from '../utils/helperTypes';
 import { SMALL_SUBMISSION_SELECT } from './getSubmissions';
+import { ThenArg } from '../utils/helperTypes';
 
 /** Schema used to query for submissions */
 const GetSubmissionSchema = z.object({

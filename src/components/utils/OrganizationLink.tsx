@@ -13,7 +13,7 @@ export function OrganizationLink({
   const { organization } = useGetOrganization({ name: orgName });
 
   return (
-    <Link href={GoToOrgPage(organization?.id ? organization.id : '')}>
+    <Link href={GoToOrgPage(organization?.name ?? '')}>
       <span className={`${className} capitalize`}>{organization?.name}</span>
     </Link>
   );

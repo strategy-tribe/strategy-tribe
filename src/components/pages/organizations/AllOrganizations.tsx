@@ -33,6 +33,7 @@ export const AllOrganizations = () => {
       if (i >= 0) dict[i].orgs = [...dict[i].orgs, org];
       else dict.push({ letter: letter, orgs: [org] });
     }
+    dict.sort((letter1, letter2) => (letter1.letter < letter2.letter ? -1 : 1));
 
     return dict;
   }, [organizations]);

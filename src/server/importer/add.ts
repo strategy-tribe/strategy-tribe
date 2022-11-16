@@ -145,18 +145,22 @@ function GenerateBountiesData(
   const bd: BountyData[] = requirementsTypes.reduce((acc, type) => {
     let title = '';
     let bountyTitle = '';
+    let extraDataTitle = '';
     switch (type) {
       case 'Email':
         bountyTitle = `Find emails associated with ${targetName}`;
         title = 'Find at least one (1) email';
+        extraDataTitle = 'Enter additional emails here';
         break;
       case 'Wallet':
         bountyTitle = `Find wallet addresses associated with ${targetName}`;
         title = 'Find at least one (1) wallet address';
+        extraDataTitle = 'Enter additional wallet addresses here';
         break;
       case 'Domain':
         bountyTitle = `Find domains associated with ${targetName}`;
         title = 'Find at least one (1) domain';
+        extraDataTitle = 'Enter additional domains here';
         break;
       default:
         throw new Error(`Undefined bounty type for ${targetName}`);
@@ -166,10 +170,15 @@ function GenerateBountiesData(
       title,
       type: type,
     };
+    const extraDataReq: RequirementData = {
+      optional: true,
+      title: extraDataTitle,
+      type: 'Report',
+    };
 
     const dataForNewBounty: BountyData = {
       bountyTitle,
-      requirements: defaultRequirements.concat(requirement),
+      requirements: [requirement, extraDataReq, ...defaultRequirements],
     };
 
     acc.push(dataForNewBounty);
