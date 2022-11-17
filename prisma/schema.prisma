@@ -199,7 +199,7 @@ model Answer {
 model Notification {
   id String @id @default(cuid())
 
-  for    User   @relation(fields: [userId], references: [id])
+  for    User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String
 
   message String
