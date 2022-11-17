@@ -45,9 +45,15 @@ export async function GetMap(prisma: PrismaClient) {
 
 async function getFeatures() {
   try {
-    const getEndpoint = `${process.env.NEXT_PUBLIC_DOMAIN}/static/data/features.json`;
-    const featuresRes = await fetch(getEndpoint);
+    const featuresUrl = process.env.FEATURES_URL as string;
+
+    if (!featuresUrl) {
+      throw new Error('Undefined features url');
+    }
+
+    const featuresRes = await fetch(featuresUrl);
     const features = (await featuresRes.json()).features;
+
     return features;
   } catch (error) {
     throw new TRPCError({
