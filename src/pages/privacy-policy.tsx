@@ -17,7 +17,7 @@ const RulesPage: NextPageWithLayout = () => {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className="mx-auto max-w-4xl space-y-8">
+      <div className="mx-auto max-w-4xl space-y-8 p-3">
         <h1 className="text-on-surface-p0">Privacy Policy</h1>
 
         <ReadingSection>
