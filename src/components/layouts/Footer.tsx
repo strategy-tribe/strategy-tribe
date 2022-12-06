@@ -30,7 +30,7 @@ const Footer = () => {
         </div>
 
         <div className="flex w-full gap-8  text-on-surface-p1">
-          <ul className="shrink grow basis-[1] space-y-4">
+          <ul className="flex shrink grow basis-[1] flex-col gap-y-4">
             <p className="h5 pb-2 font-grotesk text-on-surface-unactive">
               Navigate
             </p>
@@ -55,7 +55,7 @@ const Footer = () => {
 
           <div className="h-48 w-0.5 shrink-0 bg-surface" />
 
-          <ul className="shrink grow basis-[2] space-y-4 ">
+          <ul className="flex shrink grow basis-[2] flex-col gap-y-4">
             <p className="h5 pb-2 font-grotesk text-on-surface-unactive">
               How ST works
             </p>
@@ -66,15 +66,7 @@ const Footer = () => {
               label="Submission Rules"
               link={GoToRulesPage()}
             />
-            <FooterItem
-              internal
-              label="Terms and Conditions"
-              onClick={() =>
-                notify({
-                  title: 'ToC coming soon',
-                })
-              }
-            />
+            <FooterItem internal label="Terms and Conditions" link="/tos" />
             <FooterItem
               internal
               label="Submissions are not the only way to help"
@@ -84,7 +76,7 @@ const Footer = () => {
 
           <div className="h-48 w-0.5 shrink-0 bg-surface" />
 
-          <ul className="shrink grow basis-[1] space-y-4">
+          <ul className="flex shrink grow basis-[1] flex-col gap-y-4">
             <p className="h5 pb-2 font-grotesk text-on-surface-unactive">
               Social
             </p>

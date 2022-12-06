@@ -11,14 +11,14 @@ import {
   GoToRulesPage,
 } from '@/lib/utils/Routes';
 
-import Icon from '../utils/Icon';
+import Icon, { IconSize } from '../utils/Icon';
 
 export const CONTENT_STYLE = 'max-w-lg body whitespace-pre-line';
 export function SectionTitle({ title }: { title: string }) {
   return (
     <div>
-      <h2 className=" text-on-surface-p0">{title}</h2>
-      <span className="inline-block h-1 w-16 -translate-y-1 bg-main"></span>
+      <h3 className=" text-on-surface-p0">{title}</h3>
+      <span className="inline-block h-1 w-16 -translate-y-1.5 bg-main"></span>
     </div>
   );
 }
@@ -47,6 +47,7 @@ export function CallToAction({
           <Icon
             icon="arrow_forward"
             className="-translate-x-0.5 transition-all ease-out group-hover:translate-x-0"
+            size={IconSize.Small}
           />
           <span>{label}</span>
         </span>
@@ -98,7 +99,7 @@ export function AfterRead() {
   const router = useRouter();
   return (
     <motion.section
-      className="mx-auto mt-12 max-w-4xl space-y-10 border-t-2 border-surface pt-12"
+      className="mx-auto mt-12 flex max-w-4xl flex-col gap-y-5 border-t-2 border-surface pt-12"
       initial={{ opacity: 0, y: 5 }}
       animate={{ opacity: 1, y: 0, transition: { delay: 1, duration: 1 } }}
     >
