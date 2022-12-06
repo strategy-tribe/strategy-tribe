@@ -10,15 +10,12 @@ import {
   GoToRulesPage,
 } from '@/lib/utils/Routes';
 
-import { useNotification } from '../notifications/NotificationContext';
 import Icon from '../utils/Icon';
 import { Logo } from '../utils/Logo';
 
 const Footer = () => {
   const twitterUrl = process.env.NEXT_PUBLIC_TWITTER;
   const githubUrl = process.env.NEXT_PUBLIC_GITHUB;
-
-  const { notify } = useNotification();
 
   return (
     <footer className="w-full bg-surface-dark text-on-surface-p0">
