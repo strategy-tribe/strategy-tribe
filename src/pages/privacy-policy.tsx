@@ -38,11 +38,11 @@ const RulesPage: NextPageWithLayout = () => {
             <tbody>
               <tr className="[&>*]:body [&>*]:border-[0.5px] [&>*]:border-surface [&>*]:p-2">
                 <th>Date Issued</th>
-                <th>11th June 2022</th>
+                <th>6th Dec 2022</th>
               </tr>
               <tr className="[&>*]:body [&>*]:border-[0.5px] [&>*]:border-surface [&>*]:p-2">
                 <th>Date Last Updated</th>
-                <th>11th June 2022</th>
+                <th>6th Dec 2022</th>
               </tr>
 
               <tr className="[&>*]:body [&>*]:border-[0.5px] [&>*]:border-surface [&>*]:p-2">
