@@ -66,6 +66,11 @@ const Footer = () => {
             <FooterItem internal label="Terms and Conditions" link="/tos" />
             <FooterItem
               internal
+              label="Privacy Policy"
+              link="/privacy-policy"
+            />
+            <FooterItem
+              internal
               label="Submissions are not the only way to help"
               link={GoToGeneralDonationsPage()}
             />
