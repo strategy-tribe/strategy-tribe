@@ -10,15 +10,12 @@ import {
   GoToRulesPage,
 } from '@/lib/utils/Routes';
 
-import { useNotification } from '../notifications/NotificationContext';
 import Icon from '../utils/Icon';
 import { Logo } from '../utils/Logo';
 
 const Footer = () => {
   const twitterUrl = process.env.NEXT_PUBLIC_TWITTER;
   const githubUrl = process.env.NEXT_PUBLIC_GITHUB;
-
-  const { notify } = useNotification();
 
   return (
     <footer className="w-full bg-surface-dark text-on-surface-p0">
@@ -30,7 +27,7 @@ const Footer = () => {
         </div>
 
         <div className="flex w-full gap-8  text-on-surface-p1">
-          <ul className="shrink grow basis-[1] space-y-4">
+          <ul className="flex shrink grow basis-[1] flex-col gap-y-4">
             <p className="h5 pb-2 font-grotesk text-on-surface-unactive">
               Navigate
             </p>
@@ -55,7 +52,7 @@ const Footer = () => {
 
           <div className="h-48 w-0.5 shrink-0 bg-surface" />
 
-          <ul className="shrink grow basis-[2] space-y-4 ">
+          <ul className="flex shrink grow basis-[2] flex-col gap-y-4">
             <p className="h5 pb-2 font-grotesk text-on-surface-unactive">
               How ST works
             </p>
@@ -66,14 +63,11 @@ const Footer = () => {
               label="Submission Rules"
               link={GoToRulesPage()}
             />
+            <FooterItem internal label="Terms and Conditions" link="/tos" />
             <FooterItem
               internal
-              label="Terms and Conditions"
-              onClick={() =>
-                notify({
-                  title: 'ToC coming soon',
-                })
-              }
+              label="Privacy Policy"
+              link="/privacy-policy"
             />
             <FooterItem
               internal
@@ -84,7 +78,7 @@ const Footer = () => {
 
           <div className="h-48 w-0.5 shrink-0 bg-surface" />
 
-          <ul className="shrink grow basis-[1] space-y-4">
+          <ul className="flex shrink grow basis-[1] flex-col gap-y-4">
             <p className="h5 pb-2 font-grotesk text-on-surface-unactive">
               Social
             </p>
