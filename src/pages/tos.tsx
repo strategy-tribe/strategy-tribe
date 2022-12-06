@@ -340,7 +340,7 @@ const RulesPage: NextPageWithLayout = () => {
             <h3>Code of Conduct for Researchers</h3>
             <p>To remain in Good Standing Researchers must:</p>
 
-            <ul className="list-disc space-y-2">
+            <ul className="space-y-4 pl-2">
               <li>
                 Observe and abide by all relevant local and international laws,
                 including, but not limited to, laws governing the protection of
