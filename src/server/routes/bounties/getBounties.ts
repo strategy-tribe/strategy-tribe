@@ -133,15 +133,46 @@ const getOrderBy = (
 const getWhere = (input: GetBountiesParams) => {
   return Prisma.validator<Prisma.BountyWhereInput>()({
     target: {
-      org: {
-        name: { in: input.orgName },
+      AND: [
+        {
+          org: {
+            AND: [
+              {
+                name: {
+                  in: input.orgName,
+                },
+              },
+              {
+                countries: {
+                  some: {
+                    name: {
+                      in: input.countries,
+                    },
+                  },
+                },
+              },
+            ],
+          },
+        },
+        {
+          name: {
+            in: input.targetNames,
+          },
+        },
+      ],
+    },
+    tags: {
+      some: {
+        name: {
+          in: input.tags,
+        },
       },
     },
     status: {
       in: input.states,
     },
     title: {
-      search: input.search,
+      search: input.search?.split(' ').join(' & '),
     },
     requirements: {
       some: {

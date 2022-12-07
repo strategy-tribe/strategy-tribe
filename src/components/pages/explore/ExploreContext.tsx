@@ -52,7 +52,7 @@ export const ExploreContextProvider = ({
     else {
       const countries =
         query.countries.filter((c: string) => c !== country) || [];
-      setUrlFilter({ ...query, countries });
+      setUrlFilter({ ...query, countries, page: 0 });
     }
   }
 

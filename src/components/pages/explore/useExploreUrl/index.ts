@@ -70,7 +70,11 @@ export const useExploreUrl = () => {
       searchParams: GetBountiesParams,
       options?: { type?: BountiesFilterType; scroll?: boolean; url?: string }
     ) => {
-      const newRouter = buildRoute(searchParams, options?.url, options?.type);
+      const newRouter = buildRoute(
+        { ...router.query, ...searchParams },
+        options?.url,
+        options?.type
+      );
       router.push(newRouter, undefined, { scroll: !!options?.scroll });
     },
     urlFilter: urlFilter,

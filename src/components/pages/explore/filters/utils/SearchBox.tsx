@@ -87,8 +87,12 @@ export function FilterSearchBox({
             inputMode="text"
             className="elevation-5 absolute inset-x-0 top-11 max-h-[20rem] overflow-y-auto rounded bg-surface"
           >
-            {filteredResult.map((result) => (
-              <Combobox.Option key={result.name} value={result} as="li">
+            {filteredResult.map((result, i) => (
+              <Combobox.Option
+                key={`${result.name}_${i}`}
+                value={result}
+                as="li"
+              >
                 {({ selected }) => {
                   return (
                     <div className="flex items-center justify-between gap-2 p-1  ui-selected:bg-main ui-selected:text-on-color ui-selected:hover:bg-error-light ui-active:bg-surface-dark ui-active:bg-opacity-50">

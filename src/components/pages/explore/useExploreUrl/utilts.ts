@@ -59,10 +59,13 @@ export const QueryToParams = function (
       : [...query.tags]
     : undefined;
 
-  const amount = parseInt(query.amount as unknown as string);
+  const amount = parseInt((query.amount as unknown as string) ?? 16);
+
+  const page = parseInt((query.page as unknown as string) ?? 0);
 
   const params: GetBountiesParams = {
     ...query,
+    page,
     countries,
     types,
     states,

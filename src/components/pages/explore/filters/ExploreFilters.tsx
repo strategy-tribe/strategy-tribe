@@ -1,7 +1,9 @@
 import { useAutoAnimate } from '@formkit/auto-animate/react';
+import router from 'next/router';
 import { useMemo, useState } from 'react';
 
 import { kFormatter } from '@/lib/utils/NumberHelpers';
+import { GoToBountiesPage } from '@/lib/utils/Routes';
 
 import { useExploreUrl } from '@/components/pages/explore/useExploreUrl';
 import { Button, ButtonStyle } from '@/components/utils/Button';
@@ -26,8 +28,27 @@ export function ExploreFilters() {
     setUrlFilter({ search: s, page: 0 });
   }
 
-  function resetOrgFromQuery() {
-    setUrlFilter({ targetNames: [] });
+  function resetOrgFromQuery(removedOrg: string) {
+    setUrlFilter({
+      orgName: urlFilter.query.orgName?.filter((o) => o !== removedOrg),
+      page: 0,
+    });
+  }
+
+  function resetTagFromQuery(removedTag: string) {
+    setUrlFilter({
+      tags: urlFilter.query.tags?.filter((o) => o !== removedTag),
+      page: 0,
+    });
+  }
+
+  function resetTargetFromQuery(removedTarget: string) {
+    setUrlFilter({
+      targetNames: urlFilter.query.targetNames?.filter(
+        (o) => o !== removedTarget
+      ),
+      page: 0,
+    });
   }
 
   const [showFilters, setShowFilters] = useState(false);
@@ -66,42 +87,101 @@ export function ExploreFilters() {
           <div className="flex items-center gap-4">
             {countries?.map((country, i) => {
               return (
-                <button
-                  onClick={() => removeCountry(country)}
-                  className="group flex items-center gap-2 rounded-full border py-1 pl-3 pr-4"
-                  key={i}
+                <div
+                  key={`${country}_${i}`}
+                  className="flex items-center gap-2 rounded-full border-[1px] py-1 pl-3 pr-4"
                 >
-                  <div className="grid place-items-center group-hover:text-error-light">
-                    <Icon icon="close" size={IconSize.Small} />
-                  </div>
+                  <Icon
+                    size={IconSize.Small}
+                    icon="place"
+                    className=" text-on-surface-disabled"
+                  />
                   <span className="label-sm">{country}</span>
-                </button>
+                  <button
+                    onClick={() => removeCountry(country)}
+                    className="grid place-items-center hover:text-error-light"
+                    key={i}
+                  >
+                    <Icon icon="close" size={IconSize.Small} />
+                  </button>
+                </div>
               );
             })}
 
             {urlFilter.query.search && (
               <div className="flex items-center gap-2 rounded-full border-[1px] py-1 pl-3 pr-4">
+                <span className="label-sm">{urlFilter.query.search}</span>
                 <button
                   onClick={() => setSearch('')}
-                  className="grid place-items-center"
+                  className="grid place-items-center hover:text-error-light"
                 >
                   <Icon icon="close" size={IconSize.Small} />
                 </button>
-                <span className="label-sm">{urlFilter.query.search}</span>
               </div>
             )}
 
-            {urlFilter.query.orgName && (
-              <div className="flex items-center gap-2 rounded-full border-[1px] py-1 pl-3 pr-4">
-                <button
-                  onClick={resetOrgFromQuery}
-                  className="grid place-items-center"
+            {urlFilter.query.orgName &&
+              urlFilter.query.orgName.map((o, i) => (
+                <div
+                  key={`${o}_${i}`}
+                  className="flex items-center gap-2 rounded-full border-[1px] py-1 pl-3 pr-4"
                 >
-                  <Icon icon="close" size={IconSize.Small} />
-                </button>
-                <span className="label-sm">{urlFilter.query.orgName}</span>
-              </div>
-            )}
+                  <Icon
+                    size={IconSize.Small}
+                    icon="corporate_fare"
+                    className=" text-on-surface-disabled"
+                  />
+                  <span className="label-sm">{o}</span>
+                  <button
+                    onClick={() => resetOrgFromQuery(o)}
+                    className="grid place-items-center hover:text-error-light"
+                  >
+                    <Icon icon="close" size={IconSize.Small} />
+                  </button>
+                </div>
+              ))}
+
+            {urlFilter.query.tags &&
+              urlFilter.query.tags.map((t, i) => (
+                <div
+                  key={`${t}_${i}`}
+                  className="flex items-center gap-2 rounded-full border-[1px] py-1 pl-3 pr-4"
+                >
+                  <Icon
+                    size={IconSize.Small}
+                    icon="label"
+                    className=" text-on-surface-disabled"
+                  />
+                  <span className="label-sm">{t}</span>
+                  <button
+                    onClick={() => resetTagFromQuery(t)}
+                    className="grid place-items-center hover:text-error-light"
+                  >
+                    <Icon icon="close" size={IconSize.Small} />
+                  </button>
+                </div>
+              ))}
+
+            {urlFilter.query.targetNames &&
+              urlFilter.query.targetNames.map((tg, i) => (
+                <div
+                  key={`${tg}_${i}`}
+                  className="flex items-center gap-2 rounded-full border-[1px] py-1 pl-3 pr-4"
+                >
+                  <Icon
+                    size={IconSize.Small}
+                    icon="person"
+                    className=" text-on-surface-disabled"
+                  />
+                  <span className="label-sm">{tg}</span>
+                  <button
+                    onClick={() => resetTargetFromQuery(tg)}
+                    className="grid place-items-center hover:text-error-light"
+                  >
+                    <Icon icon="close" size={IconSize.Small} />
+                  </button>
+                </div>
+              ))}
           </div>
 
           <span
@@ -137,8 +217,16 @@ function Filters({ hide }: { hide: () => void }) {
   }
 
   const amountOfFilters = useMemo(() => {
-    return Object.values(state).filter((val) => !!val).length;
+    const x = Object.values({
+      ...state,
+      order: undefined,
+      page: undefined,
+      amount: undefined,
+      filterType: undefined,
+    }).filter((val) => !!val);
+    return x.length;
   }, [state]);
+
   const label = amountOfFilters === 1 ? 'filter' : 'filters';
   return (
     <div className="max-h-[35rem w-full rounded bg-surface-dark px-4 py-6">
@@ -191,11 +279,22 @@ function Filters({ hide }: { hide: () => void }) {
         </span>
         <Button
           info={{
+            label: 'Clear all filters',
+            style: ButtonStyle.TextPurple,
+            removePadding: true,
+            onClick: () => {
+              hide();
+              router.push(GoToBountiesPage());
+            },
+          }}
+        />
+        <Button
+          info={{
             style: ButtonStyle.Filled,
             label: `Apply ${label}`,
             icon: 'arrow_forward',
             onClick: () => {
-              setUrlFilter(state);
+              setUrlFilter({ ...state, page: 0 });
               hide();
             },
             disabled:
