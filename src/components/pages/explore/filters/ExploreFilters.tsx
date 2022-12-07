@@ -11,10 +11,10 @@ import Icon, { IconSize } from '@/components/utils/Icon';
 
 import { GetBountiesParams } from '@/server/routes/bounties/getBounties';
 
+import { useExploreContext } from '../ExploreContext';
 import { OrderByFilter, StateFilter, TagsFilter, TypeFilter } from './Filters';
 import { DEFAULT_FILTERS } from './utils/DefaultFilter';
 import { Searchbar as SearchBar } from './utils/Searchbar';
-import { useExploreContext } from '../ExploreContext';
 
 export function ExploreFilters() {
   const { urlFilter, setUrlFilter } = useExploreUrl();
@@ -277,17 +277,20 @@ function Filters({ hide }: { hide: () => void }) {
         <span className="label">
           {amountOfFilters} {label}
         </span>
-        <Button
-          info={{
-            label: 'Clear all filters',
-            style: ButtonStyle.TextPurple,
-            removePadding: true,
-            onClick: () => {
-              hide();
-              router.push(GoToBountiesPage());
-            },
-          }}
-        />
+        {amountOfFilters > 1 && (
+          <Button
+            info={{
+              label: 'Clear all filters',
+              style: ButtonStyle.TextPurple,
+              removePadding: true,
+              disabled: amountOfFilters < 1,
+              onClick: () => {
+                // hide();
+                router.push(GoToBountiesPage());
+              },
+            }}
+          />
+        )}
         <Button
           info={{
             style: ButtonStyle.Filled,

@@ -44,7 +44,7 @@ export function FilterSearchBox({
   remove: (resultName: string) => void;
 }) {
   const [query, setQuery] = useState('');
-  const { results: data, error, isLoading } = useSearchFilter(query);
+  const { results: data, isLoading } = useSearchFilter(query);
 
   const filteredResult =
     query === ''
@@ -75,6 +75,7 @@ export function FilterSearchBox({
             onChange={(event) => setQuery(event.target.value)}
             className="placeholder:label-lg body w-full border-0 border-b bg-transparent pl-1 focus:border-main focus:ring-0"
             placeholder="Find a tag"
+            autoComplete="off"
           />
           <ActiveOptions
             open={open}
@@ -85,7 +86,7 @@ export function FilterSearchBox({
           <Combobox.Options
             as="ul"
             inputMode="text"
-            className="elevation-5 absolute inset-x-0 top-11 max-h-[20rem] overflow-y-auto rounded bg-surface"
+            className="elevation-5 absolute inset-x-0 top-11 max-h-[20rem] overflow-y-auto rounded bg-surface bg-opacity-50"
           >
             {filteredResult.map((result, i) => (
               <Combobox.Option
@@ -95,7 +96,10 @@ export function FilterSearchBox({
               >
                 {({ selected }) => {
                   return (
-                    <div className="flex items-center justify-between gap-2 p-1  ui-selected:bg-main ui-selected:text-on-color ui-selected:hover:bg-error-light ui-active:bg-surface-dark ui-active:bg-opacity-50">
+                    <div
+                      className="ui flex items-center justify-between gap-2  bg-opacity-50 p-1 ui-selected:bg-main 
+                      ui-selected:text-on-color ui-selected:hover:bg-error-light ui-active:bg-surface ui-active:bg-opacity-100"
+                    >
                       <button className="flex w-full cursor-pointer items-center gap-1.5 py-1.5">
                         <Icon
                           size={IconSize.Small}
@@ -117,6 +121,24 @@ export function FilterSearchBox({
                 }}
               </Combobox.Option>
             ))}
+            {filteredResult.length === 0 && !!query && (
+              <Combobox.Option value="Loading..." as="li" disabled={true}>
+                <div className="flex items-center justify-between gap-2 p-1 ">
+                  <div className="flex w-full cursor-pointer items-center gap-1.5 py-1.5">
+                    <Icon
+                      size={IconSize.Small}
+                      icon={isLoading ? 'sync' : 'delete'}
+                      className={`text-on-surface-disabled ${
+                        isLoading ? 'animate-spin' : ''
+                      }`}
+                    />
+                    <span className="text-left capitalize line-clamp-1">
+                      {isLoading ? 'Looking...' : 'No results'}
+                    </span>
+                  </div>
+                </div>
+              </Combobox.Option>
+            )}
           </Combobox.Options>
         </React.Fragment>
       )}

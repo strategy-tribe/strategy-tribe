@@ -10,7 +10,7 @@ export function useSearchFilter(search: string) {
       search: debouncedSearchTerm,
     },
     {
-      enabled: !!debouncedSearchTerm,
+      enabled: !!debouncedSearchTerm && !!search,
     }
   );
 
