@@ -1,6 +1,6 @@
 import { Requirement } from '@prisma/client';
 
-import { useUrlSearchParams } from '@/lib/hooks/useUrlSearchParams';
+import { useExploreUrl } from '@/components/pages/explore/useExploreUrl';
 
 export function BountyCardTags({
   org,
@@ -9,12 +9,16 @@ export function BountyCardTags({
   org: string;
   requirements: Requirement[];
 }) {
-  const type = requirements.at(0)?.type;
+  const type = requirements
+    .filter((r) => !['Report', 'Image'].includes(r.type))
+    .at(0)?.type;
 
-  const { urlFilter, setUrlFilter } = useUrlSearchParams();
+  const { urlFilter, setUrlFilter } = useExploreUrl();
 
   function addOrgToFilters() {
-    setUrlFilter({ relatedTo: [...(urlFilter.query.relatedTo ?? []), org] });
+    setUrlFilter({
+      targetNames: [...(urlFilter.query.targetNames ?? []), org],
+    });
   }
 
   return (

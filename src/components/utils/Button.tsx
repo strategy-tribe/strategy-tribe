@@ -7,7 +7,7 @@ export enum ButtonStyle {
   HollowDark = 'text-on-surface-p0 border-2 border-bg hover:bg-bg hover:text-on-surface-p0',
   Filled = 'bg-main text-on-surface-p0 hover:bg-main-light hover:text-bg border-2 border-main disabled:text-on-surface-disabled disabled:bg-surface-dark disabled:border-surface',
   Text = 'text-on-surface-p1 hover:text-main-light disabled:text-on-surface-disabled',
-  TextPurple = 'text-main-light hover:text-main on-surface-disabled:hover:text-on-surface-unactive on-surface-disabled:text-on-surface-unactive',
+  TextPurple = 'text-main-light hover:text-main disabled:text-on-surface-unactive',
 }
 
 export interface ButtonInformation {

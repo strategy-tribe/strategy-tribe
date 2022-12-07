@@ -1,11 +1,10 @@
-import { useUrlSearchParams } from '@/lib/hooks/useUrlSearchParams';
-
+import { useExploreUrl } from '@/components/pages/explore/useExploreUrl';
 import { Button, ButtonStyle } from '@/components/utils/Button';
 import Loading from '@/components/utils/Loading';
 
 import { BountyCard } from './bounty card/BountyCard';
 import { useExploreContext } from './ExploreContext';
-import { DEFAULT_FILTER } from './filters/DefaultFilter';
+import { DEFAULT_FILTER } from './filters/utils/DefaultFilter';
 import { Section } from '../landing/Section';
 
 export function BountyBoard() {
@@ -14,10 +13,10 @@ export function BountyBoard() {
   const bounties = bountyFetch?.bounties;
   const isLoading = bountyFetch?.isLoading;
 
-  const { setUrlFilter } = useUrlSearchParams();
+  const { setUrlFilter } = useExploreUrl();
 
   function resetFilters() {
-    setUrlFilter({ type: DEFAULT_FILTER.type });
+    setUrlFilter({}, { type: DEFAULT_FILTER.type });
   }
 
   if (isLoading) return <Loading />;

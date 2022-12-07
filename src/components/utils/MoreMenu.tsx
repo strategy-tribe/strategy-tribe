@@ -3,12 +3,12 @@ import { useState } from 'react';
 
 import { GoToBountyPage } from '@/lib/utils/Routes';
 
-import { DelayType, NotificationType } from '../notifications/iNotification';
-import { useNotification } from '../notifications/NotificationContext';
 import Icon from './Icon';
 import { Overlay } from './Overlay';
+import { DelayType, NotificationType } from '../notifications/iNotification';
+import { useNotification } from '../notifications/NotificationContext';
 
-const BASE_URL = process.env.NEXT_PUBLIC_DOMAIN;
+const BASE_URL = process.env.DOMAIN;
 
 export function MoreMenu({ bountyId }: { bountyId: string }) {
   const [isOpen, setIsOpen] = useState(false);

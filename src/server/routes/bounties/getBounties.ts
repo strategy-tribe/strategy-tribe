@@ -1,4 +1,9 @@
-import { BountyState, Prisma, PrismaClient } from '@prisma/client';
+import {
+  BountyState,
+  Prisma,
+  PrismaClient,
+  RequirementType,
+} from '@prisma/client';
 import { ThenArg, TRPCError } from '@trpc/server';
 import { z } from 'zod';
 
@@ -9,23 +14,32 @@ import { publicProcedure } from '@/server/procedures';
 
 import { ArrayElement } from '../utils/helperTypes';
 
+const stringArray = z.string().array();
+
+const DEFAULT_ORDER = Order.Desc;
 /** Params necessary to call `getBountiesWithMetaData`  */
 const GetBountiesSchema = z.object({
-  order: z.nativeEnum(Order),
+  //dropdown
+  order: z.nativeEnum(Order).default(DEFAULT_ORDER).optional(),
   orderBy: z.nativeEnum(BountyOrderBy).optional(),
-  searchTerm: z.string().optional(),
-  paginate: z.boolean().optional(),
-  amount: z.number().optional(),
   states: z.nativeEnum(BountyState).array().optional(),
-  orgId: z.string().optional(),
-  relatedTo: z.string().array().optional(),
-  specificityOfOrgName: z.enum(['Exact', 'Loose']).optional(),
-  specificityOfTitle: z.enum(['Exact', 'Loose']).optional(),
+  countries: stringArray.optional(),
+  tags: stringArray.optional(),
+  types: z.nativeEnum(RequirementType).array().optional(),
+  //input
+  search: z.string().optional(),
+  orgName: z.string().array().optional(),
+  targetNames: z.string().array().optional(),
+  //range
   minBounty: z.number().optional(),
   maxBounty: z.number().optional(),
-  countries: z.string().array().optional(),
+  //non user
+  amount: z.number().optional(),
   page: z.number().optional(),
 });
+
+/** Params necessary to call `getBountiesWithMetaData`  */
+export type GetBountiesParams = z.infer<typeof GetBountiesSchema>;
 
 /** Defines how to query the database to obtain `SmallBounty`
  *
@@ -69,28 +83,11 @@ async function getBountiesWithMetaData(
   prisma: PrismaClient,
   input: GetBountiesParams
 ) {
-  let where = {};
-  if (input.orgId) {
-    where = {
-      target: {
-        org: {
-          id: input.orgId,
-        },
-      },
-    };
-  }
-  if (input.states && input.states.length > 0) {
-    where = {
-      ...where,
-      status: {
-        in: input.states,
-      },
-    };
-  }
   //TODO: Use the input params to filter the bounties
   const orderBy = {
-    ...getOrderBy(input.order, input.orderBy),
+    ...getOrderBy(input.order ?? DEFAULT_ORDER, input.orderBy),
   };
+  const where = getWhere(input);
   const bounties = await prisma.bounty.findMany({
     where,
     orderBy: orderBy,
@@ -105,7 +102,7 @@ async function getBountiesWithMetaData(
 const getOrderBy = (
   order: Order,
   orderBy?: BountyOrderBy
-): Prisma.BountyOrderByWithRelationInput => {
+): Prisma.BountyOrderByWithRelationAndSearchRelevanceInput => {
   if (orderBy) {
     switch (orderBy) {
       case BountyOrderBy.Bounty:
@@ -133,32 +130,64 @@ const getOrderBy = (
   return {};
 };
 
-async function countBounties(prisma: PrismaClient, input: GetBountiesParams) {
-  let where = {};
-  if (input.orgId) {
-    where = {
-      target: {
-        org: {
-          id: input.orgId,
+const getWhere = (input: GetBountiesParams) => {
+  return Prisma.validator<Prisma.BountyWhereInput>()({
+    target: {
+      AND: [
+        {
+          org: {
+            AND: [
+              {
+                name: {
+                  in: input.orgName,
+                },
+              },
+              {
+                countries: {
+                  some: {
+                    name: {
+                      in: input.countries,
+                    },
+                  },
+                },
+              },
+            ],
+          },
+        },
+        {
+          name: {
+            in: input.targetNames,
+          },
+        },
+      ],
+    },
+    tags: {
+      some: {
+        name: {
+          in: input.tags,
         },
       },
-    };
-  }
-  if (input.states && input.states.length > 0) {
-    where = {
-      ...where,
-      status: {
-        in: input.states,
+    },
+    status: {
+      in: input.states,
+    },
+    title: {
+      search: input.search?.split(' ').join(' & '),
+    },
+    requirements: {
+      some: {
+        type: {
+          in: input.types,
+        },
       },
-    };
-  }
-  //TODO: Use the input params to filter the bounties
-  const bounties = await prisma.bounty.count({ where });
+    },
+  });
+};
+
+async function countBounties(prisma: PrismaClient, input: GetBountiesParams) {
+  const bounties = await prisma.bounty.count({ where: getWhere(input) });
   return bounties;
 }
-
-/** Params necessary to call `getBountiesWithMetaData`  */
-export type GetBountiesParams = z.infer<typeof GetBountiesSchema>;
 
 export const getBounties = publicProcedure
   .input(GetBountiesSchema)
@@ -168,6 +197,7 @@ export const getBounties = publicProcedure
       const count = await countBounties(prisma, input);
       return { bounties, count };
     } catch (error) {
+      console.error(error);
       throw new TRPCError({
         code: 'INTERNAL_SERVER_ERROR',
         cause: JSON.stringify(error, null, 2),

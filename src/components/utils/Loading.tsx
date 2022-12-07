@@ -11,8 +11,8 @@ export default function Loading({ small = false }: { small?: boolean }) {
       setErrorMessage(true);
       setTimeout(() => {
         setErrorMessage2(true);
-      }, 1000 * 3);
-    }, 1000 * 3);
+      }, 1000 * 5);
+    }, 1000 * 5);
   }, []);
 
   return (

@@ -1,7 +1,6 @@
 import { useGetSubmissions } from '@/lib/hooks/submission/useGetSubmissions';
 
 import { SubmissionListEntry } from '@/components/submissions/SubmissionListEntry';
-import Loading from '@/components/utils/Loading';
 
 import { useBountyContext } from './BountyContext';
 
@@ -12,7 +11,10 @@ export function BountySubmissions({ userId }: { userId: string | undefined }) {
     bounties: [bounty.slug],
   });
 
-  if (isLoading) return <Loading small />;
+  if (isLoading)
+    return (
+      <div className="h-[400px] w-full animate-pulse rounded bg-surface-dark" />
+    );
   return (
     <div className="w-full text-on-surface-p1">
       <div className="border-b-[1px] border-surface-dark pb-4">

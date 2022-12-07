@@ -11,6 +11,8 @@ import {
 export const useGetBounties = (config: GetBountiesParams, enabled = true) => {
   const page = config.page || 0;
 
+  // console.log(config);
+
   const [numOfPages, setNumOfPages] = useState(0);
   const [hasNextPage, setHasNextPage] = useState(false);
   const [hasPreviousPage, setHasPreviousPage] = useState(false);
@@ -23,7 +25,7 @@ export const useGetBounties = (config: GetBountiesParams, enabled = true) => {
   const count = data?.count;
 
   useEffect(() => {
-    if (data && count && config.amount && config.paginate) {
+    if (data && count && config.amount) {
       const _numOfPages = Math.floor((count - 1) / config.amount + 1);
       setHasNextPage(_numOfPages - 1 > (config?.page ?? _numOfPages));
       setHasPreviousPage((config?.page ?? 0) != 0);
