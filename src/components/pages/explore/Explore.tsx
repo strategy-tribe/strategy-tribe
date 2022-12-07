@@ -5,8 +5,8 @@ import { MapDataWithFeatures } from '@/lib/models/MapData';
 import { BountyBoard } from './BountyBoard';
 import { ExploreContextProvider, useExploreContext } from './ExploreContext';
 import { ExploreFilters } from './filters/ExploreFilters';
+import { PageControls } from './PageControls';
 import { Section } from '../landing/Section';
-import { PageControls } from '../search/PageControls';
 
 const Map = dynamic(import('./map/MapProjection'), {
   ssr: false,
