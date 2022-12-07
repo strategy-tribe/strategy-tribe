@@ -10,7 +10,7 @@ const GetBountySchema = z.object({
   slug: z.string(),
 });
 
-const bountySelector = Prisma.validator<Prisma.BountySelect>()({
+const BOUNTY_SELECTOR = Prisma.validator<Prisma.BountySelect>()({
   ...SMALL_BOUNTY_SELECTION,
   wallet: {
     select: {
@@ -20,11 +20,15 @@ const bountySelector = Prisma.validator<Prisma.BountySelect>()({
   },
 });
 
-async function _getBounty(prisma: PrismaClient, params: GetBountyParams) {
+/** To be called from the server. Fetches a bounty by its slug */
+export async function ServerGetBounty(
+  prisma: PrismaClient,
+  params: GetBountyParams
+) {
   const { slug } = params;
   const bounty = await prisma.bounty.findUnique({
     where: { slug },
-    select: bountySelector,
+    select: BOUNTY_SELECTOR,
   });
 
   return bounty;
@@ -32,11 +36,13 @@ async function _getBounty(prisma: PrismaClient, params: GetBountyParams) {
 
 export type GetBountyParams = z.infer<typeof GetBountySchema>;
 
-export type FullBounty = NonNullable<ThenArg<ReturnType<typeof _getBounty>>>;
+export type FullBounty = NonNullable<
+  ThenArg<ReturnType<typeof ServerGetBounty>>
+>;
 
 export const getBounty = publicProcedure
   .input(GetBountySchema)
   .query(async ({ input, ctx: { prisma } }) => {
-    const bounty = await _getBounty(prisma, input);
+    const bounty = await ServerGetBounty(prisma, input);
     return { bounty };
   });

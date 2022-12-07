@@ -19,7 +19,7 @@ export function OrgBounties() {
     order: Order.Desc,
     orderBy: BountyOrderBy.Bounty,
     amount: AMOUNT_OF_BOUNTIES,
-    orgId: org.id,
+    orgName: [org.name],
   });
 
   const theresMore = (count ?? 0) > AMOUNT_OF_BOUNTIES;

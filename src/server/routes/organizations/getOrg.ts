@@ -8,7 +8,7 @@ const GetOrgSchema = z.object({
   name: z.string(),
 });
 
-async function _getOrg(prisma: PrismaClient, params: GetOrgParams) {
+export async function ServerGetOrg(prisma: PrismaClient, params: GetOrgParams) {
   const organization = await prisma.organization.findUnique({
     where: { name: params.name },
     //TODO: Swap include for select
@@ -41,12 +41,12 @@ async function _getOrg(prisma: PrismaClient, params: GetOrgParams) {
 
 export type GetOrgParams = z.infer<typeof GetOrgSchema>;
 
-export type FullOrg = NonNullable<ThenArg<ReturnType<typeof _getOrg>>>;
+export type FullOrg = NonNullable<ThenArg<ReturnType<typeof ServerGetOrg>>>;
 
 export const getOrg = publicProcedure
   .input(GetOrgSchema)
   .query(async ({ input, ctx: { prisma } }) => {
-    const organization = await _getOrg(prisma, input);
+    const organization = await ServerGetOrg(prisma, input);
 
     return { organization };
   });

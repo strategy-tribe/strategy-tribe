@@ -1,30 +1,69 @@
+import { GetStaticPaths, GetStaticProps } from 'next';
 import Head from 'next/head';
-import { useRouter } from 'next/router';
-
-import { useGetOrganization } from '@/lib/hooks/organizationHooks';
 
 import AppLayout from '@/components/layouts/AppLayout';
 import { Organization } from '@/components/pages/organization/Organization';
-import Loading from '@/components/utils/Loading';
-import { MessageForUser } from '@/components/utils/MessageForUser';
 
 import { NextPageWithLayout } from '@/pages/_app';
+import prisma from '@/server/prisma/prismaClient';
+import { FullOrg, ServerGetOrg } from '@/server/routes/organizations/getOrg';
 
-const OrganizationPage: NextPageWithLayout = () => {
+export const getStaticPaths: GetStaticPaths = async () => {
+  const orgs = await prisma.organization.findMany({
+    select: {
+      name: true,
+    },
+  });
+  const names = orgs.reduce((acc, curr) => {
+    return acc.concat({
+      params: {
+        name: encodeURI(curr.name),
+      },
+    });
+  }, [] as { params: { name: string } }[]);
+
+  return {
+    paths: names,
+    fallback: 'blocking',
+  };
+};
+
+export const getStaticProps: GetStaticProps = async ({ params }) => {
+  const name = decodeURI(params?.name as string);
+
+  if (!name) {
+    console.error('no name detected, returning 404');
+    return {
+      notFound: true,
+    };
+  }
+
+  const org: FullOrg | null = await ServerGetOrg(prisma, {
+    name,
+  });
+
+  if (!org) {
+    console.error(`not org found for ${name}, returning 404`);
+    return {
+      notFound: true,
+    };
+  }
+
+  return {
+    props: {
+      org: JSON.parse(JSON.stringify(org)),
+    },
+  };
+};
+
+const OrganizationPage: NextPageWithLayout<{ org: FullOrg }> = ({
+  org,
+}: {
+  org: FullOrg;
+}) => {
   //*Router
-  const router = useRouter();
-  const name = decodeURI(router.query.name as string);
 
   //*Queries
-  const {
-    organization: org,
-    isLoading,
-    error,
-  } = useGetOrganization({ name }, { enabled: Boolean(name) });
-
-  if (isLoading) return <Loading />;
-
-  if (!org || error) return <MessageForUser text={`${error}`} />;
 
   return (
     <>

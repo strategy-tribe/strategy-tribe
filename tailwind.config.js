@@ -9,6 +9,7 @@ module.exports = {
       grotesk: ['Space Grotesk', 'sans-serif'],
     },
     colors: {
+      transparent: 'rgba(0,0,0,0)',
       'main-light': '#A29BFE',
       main: '#6C5CE7',
       success: '#00B894',
@@ -56,6 +57,7 @@ module.exports = {
   plugins: [
     require('@tailwindcss/forms'),
     require('@tailwindcss/line-clamp'),
+    require('@headlessui/tailwindcss'),
 
     // ...
   ],
