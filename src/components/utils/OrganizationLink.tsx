@@ -10,7 +10,12 @@ export function OrganizationLink({
   orgName: string;
   className?: string;
 }) {
-  const { organization } = useGetOrganization({ name: orgName });
+  const { organization, isLoading } = useGetOrganization({ name: orgName });
+
+  if (isLoading)
+    return (
+      <div className="mt-1 h-4 w-60 animate-pulse rounded-sm bg-surface" />
+    );
 
   return (
     <Link href={GoToOrgPage(organization?.name ?? '')}>

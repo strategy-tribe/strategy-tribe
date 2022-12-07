@@ -16,8 +16,8 @@ import { Stat } from '@/components/utils/Stat';
 
 import { useAuth } from '@/auth/AuthContext';
 
-import BountyStatusShowcase from './BountyStatusShowcase';
 import { Section } from '../landing/Section';
+import BountyStatusShowcase from './BountyStatusShowcase';
 
 export function BountyHeader() {
   const { bounty } = useBountyContext();
@@ -30,8 +30,6 @@ export function BountyHeader() {
     { enabled: !!bounty?.target?.org?.name }
   );
   const [showDonation, setShowDonation] = useState(false);
-
-  const { isStaff, isFetchingUserInfo } = useAuth();
 
   const parsedTitle = ParseBountyTitle(bounty);
 
@@ -114,16 +112,18 @@ export function BountyHeader() {
               ?.filter((r) => !r.optional)
               ?.map((r) => r.title)}
           />
-          {organization && <FromOrganization orgName={organization?.name} />}
+          {organization ? (
+            <FromOrganization orgName={organization?.name} />
+          ) : (
+            <div className="h-9 w-60 animate-pulse rounded bg-surface-dark" />
+          )}
         </Section>
 
         {/* CTAs */}
         <Section className="flex justify-end gap-6">
-          {!isStaff && !isFetchingUserInfo && (
-            <div className="flex flex-col items-end gap-2">
-              <SubmitButtonWithMessages />
-            </div>
-          )}
+          <div className="flex flex-col items-end gap-2">
+            <SubmitButtonWithMessages />
+          </div>
         </Section>
       </header>
       <DonationPopUp
@@ -140,14 +140,17 @@ function SubmitButtonWithMessages() {
   const router = useRouter();
   const { bounty } = useBountyContext();
 
-  const { userId } = useAuth();
+  const { userId, isFetchingUserInfo } = useAuth();
 
   const { canSubmit, spacesLeft, isLoading } = useCanUserSubmit(bounty.slug);
 
   const isOpen =
     bounty.status === 'WaitingForFunds' || bounty.status === 'Open';
 
-  if (isLoading) return <></>;
+  if (isLoading || isFetchingUserInfo)
+    return (
+      <div className="h-[72px] w-[220px] animate-pulse rounded bg-surface-dark" />
+    );
 
   return (
     <>
