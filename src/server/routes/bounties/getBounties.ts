@@ -71,8 +71,6 @@ export const SMALL_BOUNTY_SELECTION = Prisma.validator<Prisma.BountySelect>()({
         select: {
           name: true,
           alsoKnownAs: true,
-          countries: true,
-          tags: true,
         },
       },
     },

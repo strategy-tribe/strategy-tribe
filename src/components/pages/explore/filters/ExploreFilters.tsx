@@ -11,10 +11,10 @@ import Icon, { IconSize } from '@/components/utils/Icon';
 
 import { GetBountiesParams } from '@/server/routes/bounties/getBounties';
 
-import { useExploreContext } from '../ExploreContext';
 import { OrderByFilter, StateFilter, TagsFilter, TypeFilter } from './Filters';
 import { DEFAULT_FILTERS } from './utils/DefaultFilter';
 import { Searchbar as SearchBar } from './utils/Searchbar';
+import { useExploreContext } from '../ExploreContext';
 
 export function ExploreFilters() {
   const { urlFilter, setUrlFilter } = useExploreUrl();
@@ -75,7 +75,11 @@ export function ExploreFilters() {
                 : 'opacity-50 hover:opacity-90';
             return (
               <li key={i} className={`${opacity}`}>
-                <button onClick={() => setUrlFilter({}, { type: filter.type })}>
+                <button
+                  onClick={() =>
+                    setUrlFilter(filter.query, { type: filter.type })
+                  }
+                >
                   {filter.type}
                 </button>
               </li>

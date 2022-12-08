@@ -52,7 +52,7 @@ function HeroDesktop() {
           y: 0,
           transition: { duration: 0.4, delay: 0.5 },
         }}
-        className="top-40 h-fit space-y-8 laptop:sticky laptop:max-w-[45%]  "
+        className="top-40 mx-auto h-fit max-w-5xl space-y-8 laptop:sticky laptop:max-w-[45%]"
       >
         {/* Text */}
         <div className="space-y-4">
@@ -86,6 +86,18 @@ function HeroDesktop() {
               onClick: () => router.push(GoToAboutusPage()),
             }}
           />
+        </div>
+
+        <div className="space-y-4">
+          <div className="mx-8 border-[4px] border-main laptop:mt-20">
+            <div className="m-2 border-[2px] border-main-light">
+              <h5 className="text-main-white m-4">
+                Bounties are curated at the discretion of Strategy Tribe to only
+                include entities, individuals or groups currently under sanction
+                or to aid in the progress of public safety and good.
+              </h5>
+            </div>
+          </div>
         </div>
       </motion.div>
 
@@ -306,7 +318,7 @@ function HeroMobile() {
   return (
     <Section className="flex h-[1500px] flex-col justify-between laptop:flex-row laptop:gap-8">
       {/* Right section */}
-      <div className="top-40 h-fit space-y-8 laptop:sticky laptop:max-w-[45%]  ">
+      <div className="top-40 mx-4 h-fit space-y-8">
         {/* Text */}
         <div className="space-y-4">
           <h1 className="h4 laptop:h3">
@@ -334,6 +346,18 @@ function HeroMobile() {
               onClick: () => router.push(GoToAboutusPage()),
             }}
           />
+        </div>
+
+        <div className="space-y-4">
+          <div className="border-[4px] border-main laptop:mt-20">
+            <div className="m-2 border-[2px] border-main-light">
+              <h5 className="text-main-white m-4">
+                Bounties are curated at the discretion of Strategy Tribe to only
+                include entities, individuals or groups currently under sanction
+                or to aid in the progress of public safety and good.
+              </h5>
+            </div>
+          </div>
         </div>
       </div>
 
