@@ -7,6 +7,7 @@ import { MapDataWithFeatures } from '@/lib/models/MapData';
 import { ReadFileInDataFolder } from './ReadFileInDataFolder';
 import { publicProcedure, router } from '../procedures';
 import { ThenArg } from '../routes/utils/helperTypes';
+import { ReadFileInDataFolder } from './ReadFileInDataFolder';
 
 const getMapDataSchema = z.object({}).optional();
 

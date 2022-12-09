@@ -12,8 +12,8 @@ import { DEFAULT_FILTER } from '@/components/pages/explore/filters/utils/Default
 
 import { createContextInner } from '@/server/context';
 import prisma from '@/server/prisma/prismaClient';
-import { appRouter } from '@/server/routers/_app';
 import { getMapData } from '@/server/routers/map';
+import { appRouter } from '@/server/routers/_app';
 
 import { NextPageWithLayout } from './_app';
 
