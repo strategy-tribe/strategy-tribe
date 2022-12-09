@@ -2,6 +2,7 @@ import { GetStaticProps } from 'next';
 import Head from 'next/head';
 
 import { MapDataWithFeatures } from '@/lib/models/MapData';
+import { overcomeSerialization } from '@/lib/utils/overcomeSerialization';
 
 import AppLayout from '@/components/layouts/AppLayout';
 import { Explore } from '@/components/pages/explore/Explore';
@@ -14,11 +15,7 @@ import { NextPageWithLayout } from './_app';
 export const getStaticProps: GetStaticProps = async () => {
   const mapData = await getMapData(prisma);
 
-  function overComeSerialization<T>(data: T): T {
-    return JSON.parse(JSON.stringify(data));
-  }
-
-  const parsedData = overComeSerialization(mapData);
+  const parsedData = overcomeSerialization(mapData);
   return {
     props: { mapData: parsedData },
   };

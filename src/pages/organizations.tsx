@@ -1,11 +1,33 @@
+import { GetStaticProps } from 'next';
 import Head from 'next/head';
+
+import { overcomeSerialization } from '@/lib/utils/overcomeSerialization';
 
 import AppLayout from '@/components/layouts/AppLayout';
 import { AllOrganizations } from '@/components/pages/organizations/AllOrganizations';
 
+import prisma from '@/server/prisma/prismaClient';
+import {
+  getOrganizationsWithMetaData,
+  SmallOrg,
+} from '@/server/routes/organizations/getOrgs';
+
 import { NextPageWithLayout } from './_app';
 
-const OrganizationsPage: NextPageWithLayout = () => {
+export const getStaticProps: GetStaticProps = async () => {
+  const orgs = await getOrganizationsWithMetaData(prisma);
+  return {
+    props: {
+      orgs: overcomeSerialization(orgs),
+    },
+  };
+};
+
+const OrganizationsPage: NextPageWithLayout<{ orgs: SmallOrg[] }> = ({
+  orgs,
+}: {
+  orgs: SmallOrg[];
+}) => {
   return (
     <>
       <Head>
@@ -17,7 +39,8 @@ const OrganizationsPage: NextPageWithLayout = () => {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <AllOrganizations />
+
+      <AllOrganizations organizations={orgs} />
     </>
   );
 };
