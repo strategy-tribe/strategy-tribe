@@ -17,6 +17,7 @@ import {
   Row,
   TargetData,
 } from './utils';
+import { ReadFileInDataFolder } from '../routers/ReadFileInDataFolder';
 
 //*Scraping
 async function scrapSheet() {

@@ -16,6 +16,7 @@ import { Logo } from '../utils/Logo';
 const Footer = () => {
   const twitterUrl = process.env.NEXT_PUBLIC_TWITTER;
   const githubUrl = process.env.NEXT_PUBLIC_GITHUB;
+  const discordUrl = process.env.NEXT_PUBLIC_DISCORD;
 
   return (
     <footer className="w-full bg-surface-dark text-on-surface-p0">
@@ -84,6 +85,7 @@ const Footer = () => {
             </p>
 
             <FooterItem label="Twitter" link={twitterUrl ?? ''} />
+            <FooterItem label="Discord" link={discordUrl ?? ''} />
             <FooterItem label="Github" link={githubUrl ?? ''} />
           </ul>
         </div>
