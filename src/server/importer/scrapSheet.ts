@@ -4,7 +4,6 @@ import { toTitleCase } from '@/lib/utils/StringHelpers';
 
 import prisma from '@/server/prisma/prismaClient';
 
-import { ReadFileInDataFolder } from '../routers/ReadFileInDataFolder';
 import { addToDb } from './add';
 import { updateDb } from './update';
 import {
@@ -12,11 +11,12 @@ import {
   ERROR,
   IND_PREFIX,
   LOG,
-  OrgData,
   ORG_PREFIX,
+  OrgData,
   Row,
   TargetData,
 } from './utils';
+import { ReadFileInDataFolder } from '../routers/ReadFileInDataFolder';
 
 //*Scraping
 async function scrapSheet() {

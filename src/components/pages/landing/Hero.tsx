@@ -5,8 +5,8 @@ import router from 'next/router';
 import useWindowDimensions from '@/lib/hooks/useWindowDimensions';
 import { GoToAboutusPage, GoToBountiesPage } from '@/lib/utils/Routes';
 
-import { Button, ButtonStyle } from '../../utils/Button';
 import { Section } from './Section';
+import { Button, ButtonStyle } from '../../utils/Button';
 
 export default function Hero() {
   const { width } = useWindowDimensions();

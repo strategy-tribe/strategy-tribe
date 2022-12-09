@@ -52,7 +52,11 @@ const _postSubmission = async (
   //#endregion  //*=========== 2) Does the user have submissions left for the day? ===========
 
   //#region  //*=========== 4) Are the answers submitted valid? ===========
-  const areTheAnswersValid = await areAnswersValid(slug, answers, prisma);
+  const areTheAnswersValid = await areAnswersValid(
+    slug,
+    answers.filter((a) => !a.requirement.optional),
+    prisma
+  );
   if (!areTheAnswersValid) {
     throw new TRPCError({
       code: 'FORBIDDEN',
@@ -66,16 +70,18 @@ const _postSubmission = async (
       state: 'WaitingForReview',
       answers: {
         createMany: {
-          data: answers.map((a) => {
-            if (typeof a.input !== 'string') {
-              throw new Error('File support has not been implemented');
-            }
+          data: answers
+            .filter((a) => a.input !== '')
+            .map((a) => {
+              if (typeof a.input !== 'string') {
+                throw new Error('File support has not been implemented');
+              }
 
-            return {
-              answer: a.input,
-              requirementId: a.requirement.id,
-            };
-          }),
+              return {
+                answer: a.input,
+                requirementId: a.requirement.id,
+              };
+            }),
         },
       },
       author: {
