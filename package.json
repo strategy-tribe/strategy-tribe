@@ -50,6 +50,7 @@
     "react-onesignal": "^2.0.3",
     "react-switch": "^7.0.0",
     "react-textarea-autosize": "^8.3.3",
+    "sharp": "^0.31.2",
     "superjson": "^1.11.0",
     "uuid": "^8.3.2",
     "wagmi": "^0.7.5",
