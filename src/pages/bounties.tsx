@@ -1,15 +1,34 @@
+import { GetStaticProps } from 'next';
 import Head from 'next/head';
 
-import { trpc } from '@/lib/trpc';
+import { MapDataWithFeatures } from '@/lib/models/MapData';
 
 import AppLayout from '@/components/layouts/AppLayout';
 import { Explore } from '@/components/pages/explore/Explore';
 
+import prisma from '@/server/prisma/prismaClient';
+import { getMapData } from '@/server/routers/map';
+
 import { NextPageWithLayout } from './_app';
 
-const BountiesPage: NextPageWithLayout = () => {
-  const { data } = trpc.map.getMapData.useQuery();
+export const getStaticProps: GetStaticProps = async () => {
+  const mapData = await getMapData(prisma);
 
+  function overComeSerialization<T>(data: T): T {
+    return JSON.parse(JSON.stringify(data));
+  }
+
+  const parsedData = overComeSerialization(mapData);
+  return {
+    props: { mapData: parsedData },
+  };
+};
+
+const BountiesPage: NextPageWithLayout<{ mapData: MapDataWithFeatures }> = ({
+  mapData,
+}: {
+  mapData: MapDataWithFeatures;
+}) => {
   return (
     <>
       <Head>
@@ -22,7 +41,7 @@ const BountiesPage: NextPageWithLayout = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Explore data={data?.mapData} />
+      <Explore data={mapData} />
     </>
   );
 };

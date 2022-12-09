@@ -55,6 +55,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   return {
     props: {
       bounty: JSON.parse(JSON.stringify(bounty)),
+      revalidate: 5, //every 5 min
     },
   };
 };
