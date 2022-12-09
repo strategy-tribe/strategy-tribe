@@ -5,8 +5,8 @@ import router from 'next/router';
 import useWindowDimensions from '@/lib/hooks/useWindowDimensions';
 import { GoToAboutusPage, GoToBountiesPage } from '@/lib/utils/Routes';
 
-import { Section } from './Section';
 import { Button, ButtonStyle } from '../../utils/Button';
+import { Section } from './Section';
 
 export default function Hero() {
   const { width } = useWindowDimensions();
@@ -52,11 +52,11 @@ function HeroDesktop() {
           y: 0,
           transition: { duration: 0.4, delay: 0.5 },
         }}
-        className="top-40 h-fit space-y-8 laptop:sticky laptop:max-w-[45%]  "
+        className="top-40 mx-auto h-fit max-w-5xl space-y-8 laptop:sticky laptop:max-w-[45%]"
       >
         {/* Text */}
         <div className="space-y-4">
-          <h1 className="h2 laptop:h1">
+          <h1 className="h2 laptop:h1 max-w-xl">
             An{' '}
             <a
               className="underline hover:text-main-light"
@@ -69,6 +69,12 @@ function HeroDesktop() {
             dedicated to crowdsourcing and crowdfunding OSINT locating the
             cryptowallets of threat actors.
           </h1>
+
+          <h2 className="body-lg max-w-lg">
+            Bounties are curated at the discretion of Strategy Tribe to only
+            include entities, individuals or groups currently under sanction or
+            to aid in the progress of public safety and good.
+          </h2>
         </div>
         {/* Buttons */}
         <div className="flex items-center gap-6">
@@ -306,10 +312,10 @@ function HeroMobile() {
   return (
     <Section className="flex h-[1500px] flex-col justify-between laptop:flex-row laptop:gap-8">
       {/* Right section */}
-      <div className="top-40 h-fit space-y-8 laptop:sticky laptop:max-w-[45%]  ">
+      <div className="top-40 mx-4 h-fit space-y-8">
         {/* Text */}
         <div className="space-y-4">
-          <h1 className="h4 laptop:h3">
+          <h1 className="h4 laptop:h3 max-w-xl">
             An{' '}
             <a href="#" className="underline hover:text-main-light">
               open source project
@@ -317,6 +323,12 @@ function HeroMobile() {
             dedicated to crowdsourcing and crowdfunding OSINT for locating the
             cryptowallets of threat actors.
           </h1>
+
+          <h2 className="body max-w-lg">
+            Bounties are curated at the discretion of Strategy Tribe to only
+            include entities, individuals or groups currently under sanction or
+            to aid in the progress of public safety and good.
+          </h2>
         </div>
         {/* Buttons */}
         <div className="flex items-center gap-6">

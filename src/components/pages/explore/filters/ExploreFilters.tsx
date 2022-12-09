@@ -75,7 +75,11 @@ export function ExploreFilters() {
                 : 'opacity-50 hover:opacity-90';
             return (
               <li key={i} className={`${opacity}`}>
-                <button onClick={() => setUrlFilter({}, { type: filter.type })}>
+                <button
+                  onClick={() =>
+                    setUrlFilter(filter.query, { type: filter.type })
+                  }
+                >
                   {filter.type}
                 </button>
               </li>

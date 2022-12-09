@@ -64,16 +64,18 @@ export function Navbar({
         } ${navbarBackground ? 'bg-bg' : ''}`}
       >
         <div
-          className={`mx-auto flex max-w-7xl items-center justify-between ${padding}`}
+          className={`my-2 mx-4 flex max-w-xl items-center justify-between tablet:mx-auto tablet:max-w-3xl bt:max-w-5xl laptop:max-w-7xl ${padding}`}
         >
           {/* left side */}
           <div className="flex items-center gap-8">
             <LandingPageLink />
-            <NavLink url={GoToBountiesPage()} label="Bounties" />
-            <NavLink url={GoToOrganizationsPage()} label="Organizations" />
-            <NavLink url={GoToAboutusPage()} label="About" />
-            <NavLink url={GoToRulesPage()} label="Rules" />
-            <NavLink url={GoToFAQPage()} label="FAQ" />
+            <div className="hidden gap-8 tablet:flex">
+              <NavLink url={GoToBountiesPage()} label="Bounties" />
+              <NavLink url={GoToOrganizationsPage()} label="Organizations" />
+              <NavLink url={GoToAboutusPage()} label="About" />
+              <NavLink url={GoToRulesPage()} label="Rules" />
+              <NavLink url={GoToFAQPage()} label="FAQ" />
+            </div>
           </div>
 
           {/* right side */}
@@ -105,6 +107,13 @@ export function Navbar({
               />
             )}
           </div>
+        </div>
+        <div className="mx-2 flex justify-around gap-6 border-b-2 border-main pb-1 tablet:hidden">
+          <NavLink url={GoToBountiesPage()} label="Bounties" />
+          <NavLink url={GoToOrganizationsPage()} label="Organizations" />
+          <NavLink url={GoToAboutusPage()} label="About" />
+          <NavLink url={GoToRulesPage()} label="Rules" />
+          <NavLink url={GoToFAQPage()} label="FAQ" />
         </div>
       </nav>
     </>

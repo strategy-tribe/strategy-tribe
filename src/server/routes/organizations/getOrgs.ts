@@ -14,7 +14,7 @@ export type GetOrgsWithMetaDataParams = z.infer<
   typeof getOrgsWithMetaDataSchema
 >;
 
-async function getOrganizationsWithMetaData(
+export async function getOrganizationsWithMetaData(
   prisma: PrismaClient,
   input?: GetOrgsWithMetaDataParams
 ) {

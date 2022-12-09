@@ -2,10 +2,8 @@ import { motion } from 'framer-motion';
 import { useMemo } from 'react';
 
 import { AppearVariants } from '@/lib/framer/Variants';
-import { useGetAllOrganizations } from '@/lib/hooks/organizationHooks';
 import { MapOfOrgs } from '@/lib/models/MapOfOrgs';
 
-import Loading from '@/components/utils/Loading';
 import { Title } from '@/components/utils/Title';
 
 import { SmallOrg } from '@/server/routes/organizations/getOrgs';
@@ -14,9 +12,12 @@ import { Organizations } from './Organizations';
 
 ('@/components/utils/Title');
 
-export const AllOrganizations = () => {
+export const AllOrganizations = ({
+  organizations,
+}: {
+  organizations: SmallOrg[];
+}) => {
   //*Queries
-  const { isLoading, organizations } = useGetAllOrganizations();
 
   //order the orgs
   const mapOfOrg: MapOfOrgs = useMemo(() => {
@@ -40,23 +41,15 @@ export const AllOrganizations = () => {
 
   return (
     <>
-      {isLoading && (
-        <div className="col-span-2 grid w-full place-items-center">
-          <Loading small={false} />
-        </div>
-      )}
-
-      {!isLoading && organizations && (
-        <motion.div
-          className="col-span-2 mx-auto w-full max-w-4xl space-y-8"
-          variants={AppearVariants}
-          initial="hidden"
-          animate="visible"
-        >
-          <Title title="Organizations" />
-          <Organizations map={mapOfOrg} />
-        </motion.div>
-      )}
+      <motion.div
+        className="col-span-2 mx-auto w-full max-w-4xl space-y-8"
+        variants={AppearVariants}
+        initial="hidden"
+        animate="visible"
+      >
+        <Title title="Organizations" />
+        <Organizations map={mapOfOrg} />
+      </motion.div>
     </>
   );
 };

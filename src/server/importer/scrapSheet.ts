@@ -1,10 +1,10 @@
 import { PrismaClient, RequirementType } from '@prisma/client';
-import axios from 'axios';
 
 import { toTitleCase } from '@/lib/utils/StringHelpers';
 
 import prisma from '@/server/prisma/prismaClient';
 
+import { ReadFileInDataFolder } from '../routers/ReadFileInDataFolder';
 import { addToDb } from './add';
 import { updateDb } from './update';
 import {
@@ -12,25 +12,21 @@ import {
   ERROR,
   IND_PREFIX,
   LOG,
-  ORG_PREFIX,
   OrgData,
+  ORG_PREFIX,
   Row,
   TargetData,
 } from './utils';
 
 //*Scraping
 async function scrapSheet() {
-  const url = process.env.JSON_DB_DATA as string;
-  if (!url) {
-    throw new Error('Undefined url for data');
-  }
-  const sheets = (
-    await axios(url, {
-      headers: {
-        TOKEN: process.env.ADMIN_TOKEN as string,
-      },
-    })
+  const sheets = ReadFileInDataFolder(
+    process.env.SHEET_FILE as string,
+    'admin'
   ).data;
+  if (!sheets) {
+    throw new Error('Undefined to read data from sheets.json');
+  }
 
   let organizations: OrgData[] = [];
   let targets: TargetData[] = [];

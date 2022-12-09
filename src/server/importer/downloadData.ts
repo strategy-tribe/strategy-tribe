@@ -8,7 +8,7 @@ const FILE_NAME = resolve(
   'public',
   'static',
   'admin',
-  process.env.SHEET_DATA_NAME as string
+  process.env.SHEET_FILE as string
 );
 
 export async function DownloadData() {
