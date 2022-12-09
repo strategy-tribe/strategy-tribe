@@ -66,10 +66,10 @@ export default function MapProjection() {
         borderWidth={0.2}
         borderColor="#5C5C5C"
         onClick={(thing) => {
-          const data = thing.data as CountryStats;
+          const data = thing.label as string;
 
-          if (!data || !(data.id as string)) return;
-          addCountry(data.id);
+          if (!data) return;
+          addCountry(data);
         }}
         tooltip={({ feature }) => {
           if (!feature?.data) return null;

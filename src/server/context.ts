@@ -1,26 +1,36 @@
 import * as trpc from '@trpc/server';
 import * as trpcNext from '@trpc/server/adapters/next';
-import { NodeHTTPCreateContextFnOptions } from '@trpc/server/adapters/node-http';
-import { IncomingMessage } from 'http';
+import { Session } from 'next-auth';
 import { getSession } from 'next-auth/react';
-import ws from 'ws';
+
+interface CustomContextOptions
+  extends Partial<trpcNext.CreateNextContextOptions> {
+  session?: Session | null;
+}
 
 /**
- * Creates context for an incoming request
- * @link https://trpc.io/docs/context
+ * Inner function for `createContext` where we create the context.
+ * This is useful for testing when we don't want to mock Next.js' request/response
  */
-export const createContext = async ({
-  req,
-  res,
-}:
-  | trpcNext.CreateNextContextOptions
-  | NodeHTTPCreateContextFnOptions<IncomingMessage, ws>) => {
-  const session = await getSession({ req });
+export async function createContextInner(opts?: CustomContextOptions) {
   return {
-    req,
-    res,
-    session,
+    ...opts,
   };
-};
+}
+
+export type CustomTRPCContext = trpc.inferAsyncReturnType<
+  typeof createContextInner
+>;
+
+export async function createContext(
+  opts: trpcNext.CreateNextContextOptions
+): Promise<CustomTRPCContext> {
+  // for API-response caching see https://trpc.io/docs/caching
+  if (opts.req) {
+    const session = await getSession({ req: opts.req });
+    return await createContextInner({ ...opts, session });
+  }
+  return await createContextInner({ ...opts });
+}
 
 export type TRPC_Context = trpc.inferAsyncReturnType<typeof createContext>;
