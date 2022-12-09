@@ -16,8 +16,8 @@ import { Stat } from '@/components/utils/Stat';
 
 import { useAuth } from '@/auth/AuthContext';
 
-import { Section } from '../landing/Section';
 import BountyStatusShowcase from './BountyStatusShowcase';
+import { Section } from '../landing/Section';
 
 export function BountyHeader() {
   const { bounty } = useBountyContext();
@@ -66,10 +66,25 @@ export function BountyHeader() {
             })}
           </div>
 
-          <div className="flex justify-between gap-10">
-            <h1 className="laptop:h2 h3">{parsedTitle}</h1>
+          <div className="justify-between gap-10 tablet:flex">
+            <div>
+              <h1 className="laptop:h2 h3">{parsedTitle}</h1>
+              <h2 className="body-lg my-4 max-w-2xl">
+                Bounties are curated at the discretion of Strategy Tribe to only
+                include entities, individuals or groups currently under{' '}
+                <a
+                  className="underline hover:text-main-light"
+                  href="https://www.gov.uk/government/publications/the-uk-sanctions-list"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  sanction
+                </a>{' '}
+                or to aid in the progress of public safety and good.
+              </h2>
+            </div>
 
-            <div className="flex shrink-0 flex-col items-end justify-start gap-4">
+            <div className="flex shrink-0 flex-col justify-start gap-4 tablet:items-end">
               <a
                 href={`${ETHERSCAN_LINK}${bounty.wallet?.address}`}
                 target="_blank"
