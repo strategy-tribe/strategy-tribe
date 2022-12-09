@@ -5,8 +5,8 @@ import router from 'next/router';
 import useWindowDimensions from '@/lib/hooks/useWindowDimensions';
 import { GoToAboutusPage, GoToBountiesPage } from '@/lib/utils/Routes';
 
-import { Section } from './Section';
 import { Button, ButtonStyle } from '../../utils/Button';
+import { Section } from './Section';
 
 export default function Hero() {
   const { width } = useWindowDimensions();
@@ -56,7 +56,7 @@ function HeroDesktop() {
       >
         {/* Text */}
         <div className="space-y-4">
-          <h1 className="h2 laptop:h1">
+          <h1 className="h2 laptop:h1 max-w-xl">
             An{' '}
             <a
               className="underline hover:text-main-light"
@@ -69,6 +69,12 @@ function HeroDesktop() {
             dedicated to crowdsourcing and crowdfunding OSINT locating the
             cryptowallets of threat actors.
           </h1>
+
+          <h2 className="body-lg max-w-lg">
+            Bounties are curated at the discretion of Strategy Tribe to only
+            include entities, individuals or groups currently under sanction or
+            to aid in the progress of public safety and good.
+          </h2>
         </div>
         {/* Buttons */}
         <div className="flex items-center gap-6">
@@ -86,18 +92,6 @@ function HeroDesktop() {
               onClick: () => router.push(GoToAboutusPage()),
             }}
           />
-        </div>
-
-        <div className="space-y-4">
-          <div className="mx-8 border-[4px] border-main laptop:mt-20">
-            <div className="m-2 border-[2px] border-main-light">
-              <h5 className="text-main-white m-4">
-                Bounties are curated at the discretion of Strategy Tribe to only
-                include entities, individuals or groups currently under sanction
-                or to aid in the progress of public safety and good.
-              </h5>
-            </div>
-          </div>
         </div>
       </motion.div>
 
@@ -321,7 +315,7 @@ function HeroMobile() {
       <div className="top-40 mx-4 h-fit space-y-8">
         {/* Text */}
         <div className="space-y-4">
-          <h1 className="h4 laptop:h3">
+          <h1 className="h4 laptop:h3 max-w-xl">
             An{' '}
             <a href="#" className="underline hover:text-main-light">
               open source project
@@ -329,6 +323,12 @@ function HeroMobile() {
             dedicated to crowdsourcing and crowdfunding OSINT for locating the
             cryptowallets of threat actors.
           </h1>
+
+          <h2 className="body max-w-lg">
+            Bounties are curated at the discretion of Strategy Tribe to only
+            include entities, individuals or groups currently under sanction or
+            to aid in the progress of public safety and good.
+          </h2>
         </div>
         {/* Buttons */}
         <div className="flex items-center gap-6">
@@ -346,18 +346,6 @@ function HeroMobile() {
               onClick: () => router.push(GoToAboutusPage()),
             }}
           />
-        </div>
-
-        <div className="space-y-4">
-          <div className="border-[4px] border-main laptop:mt-20">
-            <div className="m-2 border-[2px] border-main-light">
-              <h5 className="text-main-white m-4">
-                Bounties are curated at the discretion of Strategy Tribe to only
-                include entities, individuals or groups currently under sanction
-                or to aid in the progress of public safety and good.
-              </h5>
-            </div>
-          </div>
         </div>
       </div>
 
