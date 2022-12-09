@@ -5,8 +5,8 @@ import router from 'next/router';
 import useWindowDimensions from '@/lib/hooks/useWindowDimensions';
 import { GoToAboutusPage, GoToBountiesPage } from '@/lib/utils/Routes';
 
-import { Button, ButtonStyle } from '../../utils/Button';
 import { Section } from './Section';
+import { Button, ButtonStyle } from '../../utils/Button';
 
 export default function Hero() {
   const { width } = useWindowDimensions();
@@ -72,8 +72,16 @@ function HeroDesktop() {
 
           <h2 className="body-lg max-w-lg">
             Bounties are curated at the discretion of Strategy Tribe to only
-            include entities, individuals or groups currently under sanction or
-            to aid in the progress of public safety and good.
+            include entities, individuals or groups currently under{' '}
+            <a
+              className="underline hover:text-main-light"
+              href="https://www.gov.uk/government/publications/the-uk-sanctions-list"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              sanction
+            </a>{' '}
+            or to aid in the progress of public safety and good.
           </h2>
         </div>
         {/* Buttons */}
@@ -317,7 +325,12 @@ function HeroMobile() {
         <div className="space-y-4">
           <h1 className="h4 laptop:h3 max-w-xl">
             An{' '}
-            <a href="#" className="underline hover:text-main-light">
+            <a
+              className="underline hover:text-main-light"
+              href="https://github.com/strategy-tribe/strategy-tribe"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               open source project
             </a>{' '}
             dedicated to crowdsourcing and crowdfunding OSINT for locating the
@@ -326,8 +339,16 @@ function HeroMobile() {
 
           <h2 className="body max-w-lg">
             Bounties are curated at the discretion of Strategy Tribe to only
-            include entities, individuals or groups currently under sanction or
-            to aid in the progress of public safety and good.
+            include entities, individuals or groups currently under{' '}
+            <a
+              className="underline hover:text-main-light"
+              href="https://www.gov.uk/government/publications/the-uk-sanctions-list"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              sanction
+            </a>{' '}
+            or to aid in the progress of public safety and good.
           </h2>
         </div>
         {/* Buttons */}

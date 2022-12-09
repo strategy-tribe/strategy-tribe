@@ -2,11 +2,11 @@ import dynamic from 'next/dynamic';
 
 import { MapDataWithFeatures } from '@/lib/models/MapData';
 
-import { Section } from '../landing/Section';
 import { BountyBoard } from './BountyBoard';
 import { ExploreContextProvider, useExploreContext } from './ExploreContext';
 import { ExploreFilters } from './filters/ExploreFilters';
 import { PageControls } from './PageControls';
+import { Section } from '../landing/Section';
 
 const Map = dynamic(import('./map/MapProjection'), {
   ssr: false,
