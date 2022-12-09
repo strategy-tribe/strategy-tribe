@@ -2,7 +2,6 @@ import { PrismaClient } from '@prisma/client';
 
 import { ReadFileInDataFolder } from '../routers/ReadFileInDataFolder';
 import { LOG } from './utils';
-import { ReadFileInDataFolder } from '../routers/ReadFileInDataFolder';
 
 /** Resets the countries in DB */
 export async function AddCountriesToDB(prisma: PrismaClient) {
