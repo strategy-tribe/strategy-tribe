@@ -12,10 +12,26 @@ const LandingPage: NextPageWithLayout = () => {
       <Head>
         <title>StrategyTribe</title>
         <meta
-          name="description"
+          property="og:description"
           content=" An open source project dedicated to crowdsourcing and crowdfunding
           OSINT for locating the cryptowallets of threat actors."
         />
+        <meta property="og:title" content="StrategyTribe" />
+        <meta property="og:image" content="/images/stCover.png" />
+
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:domain" content="strategytribe.io/" />
+        <meta name="twitter:image" content="/images/stCover.png" />
+        <meta name="twitter:title" content="StrategyTribe" />
+        <meta
+          name="twitter:description"
+          content=" An open source project dedicated to crowdsourcing and crowdfunding
+          OSINT for locating the cryptowallets of threat actors."
+        />
+        <meta name="twitter:url" content="https://www.strategytribe.io/" />
+        <meta name="twitter:image:src" content="/images/stCover.png" />
+        <meta name="twitter:image:width" content="1200" />
+        <meta name="twitter:image:height" content="630" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
