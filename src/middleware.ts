@@ -18,6 +18,11 @@ export default withAuth({
 
         const requestingAdminAccess = req.url.includes('admin');
 
+        console.log('Middleware req:', JSON.stringify(req, null, 2));
+        console.log('Middleware token:', JSON.stringify(token, null, 2));
+        console.log(
+          JSON.stringify({ requestingAdminAccess, hasPermissions }, null, 2)
+        );
         if (requestingAdminAccess && !hasPermissions) {
           return false;
         }
