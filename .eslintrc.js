@@ -29,7 +29,7 @@ module.exports = {
   ],
   rules: {
     'no-unused-vars': [1, { args: 'after-used', argsIgnorePattern: '^_' }],
-    'no-console': ['error', { allow: ['error', 'warn', 'time', 'timeEnd'] }],
+    // 'no-console': ['error', { allow: ['error', 'warn', 'time', 'timeEnd'] }],
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     'react/display-name': 'off',
     'react/jsx-curly-brace-presence': [
