@@ -24,6 +24,7 @@ export interface ButtonInformation {
   removePadding?: boolean;
   removeMinWidth?: boolean;
   iconSize?: IconSize;
+  alwaysVisible?: boolean;
 }
 
 export function Button({ info }: { info: ButtonInformation }) {
@@ -38,6 +39,7 @@ export function Button({ info }: { info: ButtonInformation }) {
     removeMinWidth,
     isALink,
     iconSize,
+    alwaysVisible,
     onClick,
   } = info;
 
@@ -55,7 +57,9 @@ export function Button({ info }: { info: ButtonInformation }) {
         <Icon
           size={iconSize}
           icon={icon}
-          displayClasses={`${!label && 'hidden'} tablet:block`}
+          displayClasses={`${
+            !label && !alwaysVisible && 'hidden'
+          } tablet:block`}
           className={iconClasses}
         />
       )}

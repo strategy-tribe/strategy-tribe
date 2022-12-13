@@ -6,12 +6,12 @@ import { NextPageWithLayout } from './_app';
 
 const RulesPage: NextPageWithLayout = () => {
   return (
-    <>
+    <div className="p-4">
       <ReadingSection title="Submission rules">
         <RulesContent />
       </ReadingSection>
       <AfterRead />
-    </>
+    </div>
   );
 };
 

@@ -9,7 +9,7 @@ export function OrgSideMap() {
   const { org } = useOrganizationContext();
 
   return (
-    <aside className="flex w-[160px] shrink-0 flex-col gap-2">
+    <aside className="flex shrink-0 items-center gap-2 pb-4 tablet:w-[160px] tablet:flex-col tablet:items-stretch">
       <button className="label rounded border-2 border-main p-4 pr-8 text-left capitalize text-on-surface-p0">
         {OrgView.About}
       </button>
