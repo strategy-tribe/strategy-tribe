@@ -78,7 +78,7 @@ export const useSignIn = () => {
        * instead of using signIn(..., redirect: "/user")
        * we get the url from callback and push it to the router to avoid page refreshing
        */
-      push(url);
+      push(url.split('/mobile-connect')[0]);
     } catch (error: any) {
       let message: string;
       if (error.message.includes('user rejected signing')) {
