@@ -7,7 +7,7 @@ import { BountyHeader } from './BountyHeader';
 export const Bounty = ({ bounty }: { bounty: FullBounty }) => {
   return (
     <BountyContextProvider bounty={bounty}>
-      <div className="space-y-8">
+      <div className="space-y-8 px-4">
         <BountyHeader />
         <BountyContent />
       </div>

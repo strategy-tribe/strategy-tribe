@@ -23,7 +23,7 @@ export function BountyBoard() {
 
   if (bounties?.length)
     return (
-      <Section className="grid grid-cols-4 gap-x-16 gap-y-10">
+      <Section className="grid grid-cols-2 gap-x-10 gap-y-10 tablet:grid-cols-4 tablet:gap-x-16">
         {bounties?.map((bounty, i) => {
           return <BountyCard bounty={bounty} key={i} />;
         })}

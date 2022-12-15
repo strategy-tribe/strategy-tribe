@@ -52,7 +52,7 @@ export function OrgAbout() {
             return (
               <li
                 key={link}
-                className="group flex -translate-x-6 items-center gap-2 text-main-light opacity-[90%] hover:opacity-100"
+                className="group flex items-center gap-2 text-main-light opacity-[90%] hover:opacity-100 tablet:-translate-x-6"
               >
                 <Icon
                   icon="north_east"

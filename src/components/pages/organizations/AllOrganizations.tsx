@@ -42,7 +42,7 @@ export const AllOrganizations = ({
   return (
     <>
       <motion.div
-        className="col-span-2 mx-auto w-full max-w-4xl space-y-8"
+        className="col-span-2 mx-auto w-full max-w-4xl space-y-8 px-4"
         variants={AppearVariants}
         initial="hidden"
         animate="visible"

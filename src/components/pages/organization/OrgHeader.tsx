@@ -12,8 +12,8 @@ import { OrgTags } from './OrgTags';
 export function OrgHeader() {
   const { org } = useOrganizationContext();
   return (
-    <div className="border-y-2 border-surface py-16">
-      <Section className="flex items-center justify-between gap-8">
+    <div className="border-b-2 border-surface py-16">
+      <Section className="items-center justify-between gap-8 tablet:flex">
         <div className="space-y-1">
           <OrgTags />
           <div className="space-y-2">
@@ -22,7 +22,7 @@ export function OrgHeader() {
           </div>
         </div>
 
-        <div className="flex items-center gap-8">
+        <div className="flex items-center gap-4 tablet:gap-8">
           <OrgStat
             value={org.targets
               ?.map((target) => target._count.bounties)

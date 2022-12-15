@@ -35,9 +35,9 @@ export function BountyHeader() {
 
   return (
     <>
-      <header className="space-y-14 border-y-2 border-main py-14">
+      <header className="space-y-14 border-b-2 border-main py-14">
         <Section>
-          <div className="flex gap-6">
+          <div className="flex flex-wrap gap-x-6 tablet:gap-6">
             {organization && (
               <Button
                 info={{

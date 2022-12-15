@@ -33,7 +33,7 @@ const AboutUsPage: NextPageWithLayout = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <motion.main
-        className="mx-auto max-w-4xl space-y-8"
+        className="mx-auto max-w-4xl space-y-8 px-4"
         initial={{ opacity: 0, y: 5 }}
         animate={{ opacity: 1, y: 0 }}
       >
@@ -60,7 +60,7 @@ const AboutUsPage: NextPageWithLayout = () => {
             </div>
           </ReadingSection>
           <ReadingSection title="Values">
-            <div className="flex -translate-x-6 items-center gap-2">
+            <div className="flex items-center gap-2 tablet:-translate-x-6">
               <Icon
                 icon="check"
                 size={IconSize.Small}
@@ -72,7 +72,7 @@ const AboutUsPage: NextPageWithLayout = () => {
               </span>
             </div>
 
-            <div className="flex -translate-x-6 items-center gap-2">
+            <div className="flex items-center gap-2 tablet:-translate-x-6">
               <Icon
                 icon="check"
                 size={IconSize.Small}

@@ -13,7 +13,7 @@ export function BountyContent() {
   const { userId } = useAuth();
 
   return (
-    <Section className="flex min-h-[20rem] gap-24">
+    <Section className="min-h-[20rem] gap-24 tablet:flex">
       {userId && <BountySideMap />}
 
       {view === BountyView.Submissions && userId && (
