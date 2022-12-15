@@ -1,14 +1,26 @@
 import { TargetType } from '@prisma/client';
 import { signOut, useSession } from 'next-auth/react';
-import React, { createContext, useContext, useMemo } from 'react';
+import React, {
+  createContext,
+  Dispatch,
+  SetStateAction,
+  useContext,
+  useMemo,
+} from 'react';
+import { useDisconnect } from 'wagmi';
 
 import { useGetBalance } from '@/lib/hooks/useGetBalance';
 import { useSignIn } from '@/lib/useSignIn';
 
+import { WalletType } from '@/components/auth/ConnectWalletPopUp';
+
 interface AuthContextInterface {
   userId: string | undefined;
   isAuthenticated: boolean;
-  LogIn: () => Promise<void>;
+  LogIn: (
+    walletType: WalletType,
+    setError: Dispatch<SetStateAction<string | undefined>>
+  ) => Promise<void>;
   LogOut: () => void;
   isStaff: boolean;
   isAdmin: boolean;
@@ -45,6 +57,7 @@ const AuthProvider = ({
 }) => {
   const { data, status } = useSession();
 
+  const { disconnectAsync } = useDisconnect();
   const { signIn } = useSignIn();
 
   const { balance } = useGetBalance(
@@ -80,7 +93,10 @@ const AuthProvider = ({
         userId: data?.user.id,
         isAuthenticated: status === 'authenticated',
         LogIn: signIn,
-        LogOut: signOut,
+        LogOut: async () => {
+          await disconnectAsync();
+          signOut();
+        },
         isStaff: data?.user.rol === 'STAFF',
         isAdmin: data?.user.rol === 'ADMIN',
         account: data?.user.address,

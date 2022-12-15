@@ -2,7 +2,11 @@ import axios from 'axios';
 import { useRouter } from 'next/router';
 import { signIn } from 'next-auth/react';
 import { useAccount, useConnect, useDisconnect, useSignMessage } from 'wagmi';
+import { CoinbaseWalletConnector } from 'wagmi/connectors/coinbaseWallet';
 import { MetaMaskConnector } from 'wagmi/connectors/metaMask';
+import { WalletConnectConnector } from 'wagmi/connectors/walletConnect';
+
+import { WalletType } from '@/components/auth/ConnectWalletPopUp';
 
 /** Logic for custom sign in method */
 export const useSignIn = () => {
@@ -12,15 +16,38 @@ export const useSignIn = () => {
   const { signMessageAsync } = useSignMessage();
   const { push } = useRouter();
 
-  async function handleAuth() {
+  async function handleAuth(
+    walletType: WalletType,
+    setError: (e: string) => void
+  ) {
     try {
       // console.log('trying to connect');
       if (isConnected) {
         await disconnectAsync();
       }
 
+      let connector;
+      switch (walletType) {
+        case WalletType.Coinbase:
+          connector = new CoinbaseWalletConnector({
+            options: {
+              appName: 'wagmi',
+            },
+          });
+          break;
+        case WalletType.WalletConnect:
+          connector = new WalletConnectConnector({
+            options: {
+              qrcode: true,
+            },
+          });
+          break;
+        default:
+          connector = new MetaMaskConnector();
+      }
+
       const { account, chain } = await connectAsync({
-        connector: new MetaMaskConnector(),
+        connector,
       });
 
       const userData = { address: account, chain: chain.id, network: 'evm' };
@@ -52,7 +79,14 @@ export const useSignIn = () => {
        * we get the url from callback and push it to the router to avoid page refreshing
        */
       push(url);
-    } catch (error) {
+    } catch (error: any) {
+      let message: string;
+      if (error.message.includes('user rejected signing')) {
+        message = 'User denied account authorization';
+      } else {
+        message = (error.message as string).replace('Connector', 'Wallet');
+      }
+      setError(message);
       console.error('there has been an error');
     }
   }
