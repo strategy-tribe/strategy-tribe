@@ -20,14 +20,14 @@ const Footer = () => {
 
   return (
     <footer className="w-full bg-surface-dark text-on-surface-p0">
-      <div className="mx-auto max-w-4xl space-y-16 px-8 pt-16 pb-24 laptop:px-2">
+      <div className="mx-auto max-w-4xl space-y-16 px-4 pt-16 pb-24 tablet:px-8 laptop:px-2">
         {/* LOGO */}
         <div className="flex items-center gap-2">
           <Logo size={32} />
           <p className="h3 text-on-surface-p0">StrategyTribe</p>
         </div>
 
-        <div className="flex w-full gap-8  text-on-surface-p1">
+        <div className="flex w-full gap-4 text-on-surface-p1  tablet:gap-8">
           <ul className="flex shrink grow basis-[1] flex-col gap-y-4">
             <p className="h5 pb-2 font-grotesk text-on-surface-unactive">
               Navigate

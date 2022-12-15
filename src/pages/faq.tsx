@@ -51,53 +51,55 @@ const FAQPage: NextPageWithLayout<{ submissionsPerDay: number }> = ({
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <ReadingSection title="FAQ">
-        <div className="space-y-8">
-          <FAQuestion
-            question="Can anyone submit information?"
-            answer={
-              <p>
-                Yes, you can see our rules{' '}
-                <Link href={GoToRulesPage()}>
-                  <span className="text-main-light underline hover:text-main">
-                    here
-                  </span>
-                </Link>
-                .
-              </p>
-            }
-          />
-          <FAQuestion
-            question="How does the payments work?"
-            height="h-20"
-            answer={
-              <p>
-                Once your submission gets verified, all of the funds from the
-                bounty wallets will be send to the wallet you signup with. You
-                can{' '}
-                <Link href={GoToAccountPage()}>
-                  <span className="text-main-light underline hover:text-main">
-                    review your address here
-                  </span>
-                </Link>
-                .
-              </p>
-            }
-          />
-          <FAQuestion
-            question="How many times I can submit my findings?"
-            answer={`${submissionsPerDay} ${
-              submissionsPerDay === 1 ? 'time' : 'times'
-            } per day`}
-          />
+      <div className="p-4">
+        <ReadingSection title="FAQ">
+          <div className="space-y-8">
+            <FAQuestion
+              question="Can anyone submit information?"
+              answer={
+                <p>
+                  Yes, you can see our rules{' '}
+                  <Link href={GoToRulesPage()}>
+                    <span className="text-main-light underline hover:text-main">
+                      here
+                    </span>
+                  </Link>
+                  .
+                </p>
+              }
+            />
+            <FAQuestion
+              question="How does the payments work?"
+              height="h-20"
+              answer={
+                <p>
+                  Once your submission gets verified, all of the funds from the
+                  bounty wallets will be send to the wallet you signup with. You
+                  can{' '}
+                  <Link href={GoToAccountPage()}>
+                    <span className="text-main-light underline hover:text-main">
+                      review your address here
+                    </span>
+                  </Link>
+                  .
+                </p>
+              }
+            />
+            <FAQuestion
+              question="How many times I can submit my findings?"
+              answer={`${submissionsPerDay} ${
+                submissionsPerDay === 1 ? 'time' : 'times'
+              } per day`}
+            />
 
-          <FAQuestion
-            question="What is the maximum payout?"
-            answer="There is no maximum."
-          />
-        </div>
-      </ReadingSection>
-      <AfterRead />
+            <FAQuestion
+              question="What is the maximum payout?"
+              answer="There is no maximum."
+            />
+          </div>
+        </ReadingSection>
+        <AfterRead />
+      </div>
     </>
   );
 };

@@ -14,6 +14,7 @@ import {
 } from '@/components/pages/explore/bounty card/BountyCard';
 import { Button, ButtonStyle } from '@/components/utils/Button';
 import { IconSize } from '@/components/utils/Icon';
+import Loading from '@/components/utils/Loading';
 import { MessageForUser } from '@/components/utils/MessageForUser';
 
 import { NextPageWithLayout } from '@/pages/_app';
@@ -30,10 +31,11 @@ const OrganizationBountiesPage: NextPageWithLayout = () => {
   }, [name, router]);
 
   //*Queries
-  const { organization: org, error } = useGetOrganization(
-    { name },
-    { enabled: Boolean(name) }
-  );
+  const {
+    organization: org,
+    isLoading: isLoadingOrgs,
+    error,
+  } = useGetOrganization({ name }, { enabled: Boolean(name) });
 
   const { bounties, isLoading: isLoadingBounties } = useGetBounties(
     {
@@ -43,7 +45,9 @@ const OrganizationBountiesPage: NextPageWithLayout = () => {
     !!org
   );
 
-  if (!org || error) return <MessageForUser text={`${error}`} />;
+  if (isLoadingBounties || isLoadingOrgs) return <Loading />;
+  if ((!isLoadingOrgs && !org) || error)
+    return <MessageForUser text={`${error}`} />;
 
   return (
     <>
@@ -57,8 +61,8 @@ const OrganizationBountiesPage: NextPageWithLayout = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className="flex max-w-[85rem] gap-x-16 ">
-        <aside className="min-h-screen w-fit  min-w-[20%] border-r-2 border-main px-8 ">
+      <div className="max-w-[85rem] gap-x-16 p-4 tablet:flex">
+        <aside className="min-w-[20%] border-b-2  border-main px-8 tablet:min-h-screen tablet:w-fit tablet:border-r-2 tablet:border-b-0 ">
           <div className="sticky top-24 h-fit">
             <Button
               info={{
@@ -74,7 +78,7 @@ const OrganizationBountiesPage: NextPageWithLayout = () => {
           </div>
         </aside>
 
-        <div className="grid h-fit grid-cols-3 gap-16 py-8">
+        <div className="grid h-fit grid-cols-3 gap-10 py-8 tablet:gap-16">
           {!isLoadingBounties &&
             bounties &&
             bounties.map((b) => {

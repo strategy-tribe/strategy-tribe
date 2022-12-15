@@ -7,7 +7,7 @@ import { OrgHeader } from './OrgHeader';
 export function Organization({ org }: { org: FullOrg }) {
   return (
     <OrganizationContextProvider org={org}>
-      <div className="space-y-8">
+      <div className="space-y-8 px-4">
         <OrgHeader />
         <OrgContent />
       </div>

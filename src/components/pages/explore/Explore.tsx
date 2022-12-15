@@ -37,7 +37,7 @@ function ExploreContent() {
       <div>
         <Section>{!!Map && <Map />}</Section>
 
-        <div className="flex min-h-screen w-full flex-col gap-y-8 ">
+        <div className="flex min-h-screen w-full flex-col gap-y-8 px-4">
           <>
             <Section className="w-full">
               <ExploreFilters />
@@ -46,7 +46,7 @@ function ExploreContent() {
               <PageNumber />
               <BountyBoard />
             </div>
-            <div className="flex grow basis-0 items-end justify-center ">
+            <div className="flex grow basis-0 flex-wrap items-end justify-center ">
               <PageControls />
             </div>
           </>

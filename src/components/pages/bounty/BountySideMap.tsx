@@ -21,7 +21,7 @@ export function BountySideMap() {
   }
 
   return (
-    <aside className="flex w-[240px] flex-col gap-2">
+    <aside className="flex gap-2 tablet:w-[240px] tablet:flex-col">
       {pages.map((pair, i) => {
         const label = pair[0];
         const value = pair[1];

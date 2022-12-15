@@ -28,7 +28,7 @@ export function OrgBounties() {
     <div className="space-y-8">
       <AboutTitle text="Bounties" />
 
-      <div className="grid -translate-x-1 grid-cols-3 gap-x-16 gap-y-10">
+      <div className="grid -translate-x-1 grid-cols-3 gap-x-10 gap-y-10 tablet:gap-x-16">
         {isLoading &&
           ArrayOfNumbers(9).map((n) => {
             return <DummyBountyCard key={n} />;

@@ -95,11 +95,11 @@ async function _payInvoice(
           throw new TRPCError({ code: 'BAD_REQUEST' });
         }
       } else {
-        ERROR(`Bounty wallet cannot be found`);
+        ERROR(`Bounty wallet cannot be found: ${bountyAddress}`);
         throw new TRPCError({ code: 'BAD_REQUEST' });
       }
     } else {
-      ERROR(`Invoice cannot be found`);
+      ERROR(`Invoice cannot be found. Submission Id: ${submissionId}`);
       throw new TRPCError({ code: 'BAD_REQUEST' });
     }
   } catch (error) {
