@@ -111,7 +111,7 @@ export const _getSubmissions = async (
   const submissions = await prisma.submission.findMany({
     where: where,
     skip: (input?.amount ?? 0) * (input?.page ?? 0),
-    take: input.amount ?? 10,
+    take: input.amount,
     orderBy: {
       createdAt: input.order,
     },
