@@ -90,7 +90,7 @@ export function Navbar({
           </div>
 
           {/* right side */}
-          <div className="flex items-center gap-6">
+          <div className="flex items-center gap-1 bt:gap-6">
             {!!userId && (
               <NotifsMenu
                 userId={userId}
