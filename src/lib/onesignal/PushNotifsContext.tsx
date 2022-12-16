@@ -93,7 +93,8 @@ export default function PushNotificationsProvider({
           content: (onClose) => (
             <button
               onClick={() => {
-                LogIn();
+                //TODO: implement proper login
+                // LogIn();
                 onClose();
               }}
               className="label mt-4 text-on-surface-p0 underline"

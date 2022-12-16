@@ -18,7 +18,7 @@ export function ReviewDashboardHeader() {
   return (
     <header className="space-y-1">
       <Title
-        title={`Submissions (${submissionFetch.count})`}
+        title={`Submissions (${submissionFetch.count ?? ''})`}
         extraInfo="Submissions waiting to be reviewed"
       />
     </header>
@@ -38,7 +38,7 @@ export function ReviewDashboardFilters() {
     });
   }, []);
   return (
-    <div className="sticky top-0 z-20 flex items-center gap-8 border-b-2 border-surface bg-bg py-4">
+    <div className="sticky top-0 z-20 flex flex-wrap items-center justify-around gap-4 border-b-2 border-surface bg-bg py-4 tablet:gap-8">
       <div className="label-sm rounded-full text-center text-main-light">
         {count} {count === 1 ? 'result' : 'results'}
       </div>
@@ -159,7 +159,10 @@ export function ReviewDashboardSubmissions() {
           submissions.length > 0 &&
           submissions?.map((s, i) => {
             return (
-              <div key={i} className="flex -translate-x-5 items-center gap-4">
+              <div
+                key={i}
+                className="flex -translate-x-2 items-center gap-4 tablet:-translate-x-3"
+              >
                 <span className="label text-on-surface-disabled">
                   {i + 1 + (page > 0 ? page : 0) * (query?.amount ?? 10)}
                 </span>

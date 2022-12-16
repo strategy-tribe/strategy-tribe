@@ -12,7 +12,7 @@ export const Account = () => {
 
 function Content() {
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 p-4">
       <AccountHeader />
       <AccountContent />
     </div>

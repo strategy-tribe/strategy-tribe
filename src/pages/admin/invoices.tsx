@@ -33,14 +33,14 @@ const InvoicesPage: NextPageWithLayout = () => {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className="mx-auto min-h-screen max-w-5xl space-y-8">
+      <div className="mx-auto min-h-screen max-w-5xl space-y-8 p-4">
         <div className="space-y-4">
           <Title title="Unpaid invoices" useBorder={false} />
           {isLoading && <Loading small />}
           <div className="space-y-7">
             {invoices?.map((invoice, i) => {
               return (
-                <div key={i} className="flex -translate-x-4 items-center gap-6">
+                <div key={i} className="flex -translate-x-3 items-center gap-6">
                   <span className="label translate-y-1 text-on-surface-disabled">
                     {i + 1}
                   </span>
