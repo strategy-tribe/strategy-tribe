@@ -1,7 +1,5 @@
 import Head from 'next/head';
 
-('@/components/utils/Title');
-
 import AppLayout from '@/components/layouts/AppLayout';
 import {
   ReviewDashboardFilters,
@@ -15,6 +13,8 @@ import AdminReviewContextProvider, {
 import { ImportantMessage } from '@/components/utils/Warning';
 
 import { NextPageWithLayout } from '../_app';
+
+('@/components/utils/Title');
 
 const SubmissionsToReviewPage: NextPageWithLayout = () => {
   return (
@@ -44,7 +44,7 @@ function PageContent() {
 
   return (
     <>
-      <section className="mx-auto min-h-screen max-w-5xl">
+      <section className="mx-auto min-h-screen max-w-5xl p-4">
         <ReviewDashboardHeader />
         <ReviewDashboardFilters />
 

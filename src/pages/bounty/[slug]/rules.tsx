@@ -26,7 +26,7 @@ const BeforeNewSubmission: NextPageWithLayout = () => {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className="space-y-6">
+      <div className="space-y-6 p-4">
         <ReadingSection
           title="Read before continuing"
           className="rounded-xl bg-surface px-8 py-6"
@@ -39,7 +39,7 @@ const BeforeNewSubmission: NextPageWithLayout = () => {
             <FromBounty slug={slug as string} title="You are submitting to" />
           </div>
 
-          <div className="flex -translate-x-6 items-center gap-8">
+          <div className="items-center gap-8 tablet:flex tablet:-translate-x-6">
             <Button
               info={{
                 icon: 'arrow_back',
@@ -47,7 +47,7 @@ const BeforeNewSubmission: NextPageWithLayout = () => {
                 labelClasses: 'label-lg',
                 style: ButtonStyle.Hollow,
                 isALink: '#',
-                className: 'w-fit',
+                className: 'w-full tablet:w-fit',
                 onClick: () => router.back(),
               }}
             />
@@ -58,7 +58,7 @@ const BeforeNewSubmission: NextPageWithLayout = () => {
                 labelClasses: 'label-lg',
                 style: ButtonStyle.Filled,
                 isALink: '#',
-                className: 'w-fit',
+                className: 'w-full tablet:w-fit mt-3 tablet:mt-0',
                 onClick: () =>
                   router.push(GoToNewSubmissionPage(slug as string)),
               }}

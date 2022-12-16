@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
 
 import useScrollPosition from '@/lib/hooks/useScrollPosition';
 import {
@@ -9,6 +10,7 @@ import {
   GoToRulesPage,
 } from '@/lib/utils/Routes';
 
+import { ConnectWalletPopUp } from '@/components/auth/ConnectWalletPopUp';
 import { Button, ButtonStyle } from '@/components/utils/Button';
 
 import { useAuth } from '@/auth/AuthContext';
@@ -33,9 +35,11 @@ export function Navbar({
     () => setNavbarBackground(!hideBgOnScroll || false)
   );
 
+  const router = useRouter();
   const [showAccountMenu, setShowAccountMenu] = useState(false);
   const [showNotifs, setShowNotifs] = useState(false);
   const [showElevation, setShowElevation] = useState(false);
+  const [showConnectWallet, setShowConnectWallet] = useState(false);
 
   useScrollPosition(
     hideBgOnScroll ? 600 : 25,
@@ -43,7 +47,14 @@ export function Navbar({
     () => setShowElevation(false)
   );
 
-  const { userId, LogIn, isStaff, isAdmin } = useAuth();
+  useEffect(() => {
+    if (router.query.login) {
+      setShowConnectWallet(true);
+      router.query.login = undefined;
+    }
+  });
+
+  const { userId, isStaff, isAdmin } = useAuth();
 
   const padding = userId ? 'py-3' : 'py-1';
 
@@ -79,7 +90,7 @@ export function Navbar({
           </div>
 
           {/* right side */}
-          <div className="flex items-center gap-6">
+          <div className="flex items-center gap-1 bt:gap-6">
             {!!userId && (
               <NotifsMenu
                 userId={userId}
@@ -95,7 +106,7 @@ export function Navbar({
                   info={{
                     label: 'Connect wallet',
                     style: ButtonStyle.Filled,
-                    onClick: LogIn,
+                    onClick: () => setShowConnectWallet(true),
                   }}
                 />
               </div>
@@ -116,6 +127,10 @@ export function Navbar({
           <NavLink url={GoToFAQPage()} label="FAQ" />
         </div>
       </nav>
+      <ConnectWalletPopUp
+        show={showConnectWallet && !userId}
+        hide={() => setShowConnectWallet(false)}
+      />
     </>
   );
 }

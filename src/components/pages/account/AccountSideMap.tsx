@@ -22,7 +22,7 @@ export function AccountSideMap() {
   }
 
   return (
-    <aside className="flex w-[240px] flex-col gap-2">
+    <aside className="mb-2 flex flex-wrap justify-around gap-1 border-b-2 pb-2 tablet:w-[240px] tablet:flex-col tablet:justify-start tablet:gap-2 tablet:border-b-0">
       {pages.map((pair, i) => {
         const label = pair[0];
         const value = pair[1];
@@ -32,7 +32,7 @@ export function AccountSideMap() {
               value === query.view
                 ? 'border-main text-on-surface-p0'
                 : 'border-bg hover:bg-surface-dark'
-            } label rounded border-2 p-4 pr-8 text-left`}
+            } label rounded border-2 p-2 text-center tablet:p-4 tablet:pr-8 tablet:text-left`}
             key={i}
             onClick={() => goToPage(value as AccountView)}
           >
