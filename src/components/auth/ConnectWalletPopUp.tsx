@@ -113,7 +113,7 @@ export function ConnectWalletPopUp({
                       getEncodedUri(
                         `https://${window.location.host}/mobile-connect/?walletType=${WalletType.Coinbase}`
                       ).replace('%20', '');
-                    const shouldNavigate = window?.coinbaseWalletExtension
+                    const shouldNavigate = window?.walletLinkExtension
                       ? true
                       : false;
                     handleAction(
