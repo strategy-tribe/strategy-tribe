@@ -76,7 +76,7 @@ export function InvoiceListEntry({
     },
   });
   return (
-    <div className="grid w-full grid-cols-4 place-items-center gap-x-8">
+    <div className="flex w-full grid-cols-4 flex-wrap place-items-center gap-2 tablet:grid tablet:gap-x-4">
       <Link href={bounty ? GoToBountyPage(bounty.slug) : GoTo404Page()}>
         <span className="group col-span-8 w-full">
           {bounty && (
@@ -106,6 +106,7 @@ export function InvoiceListEntry({
       <Button
         info={{
           style: ButtonStyle.Filled,
+          removePadding: true,
           onClick: () => {
             const confirmed = window.confirm('Are you sure to pay the bounty?');
             if (confirmed)
@@ -115,7 +116,7 @@ export function InvoiceListEntry({
               });
           },
           label: 'Pay bounty',
-          className: 'h-fit',
+          className: 'h-fit p-2 tablet:px-6',
         }}
       />
     </div>

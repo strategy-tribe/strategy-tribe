@@ -36,7 +36,7 @@ export function Review({ submission }: { submission: FullSubmission }) {
 
   const meetsRequirements = correct && feasible;
   return (
-    <div className="flex gap-x-16">
+    <div className="gap-x-16 p-4 tablet:flex">
       <ReviewMap submission={submission} />
 
       <div className="w-full max-w-4xl space-y-4">
@@ -153,16 +153,16 @@ export function Review({ submission }: { submission: FullSubmission }) {
               </div>
             )}
 
-            <div className="flex items-center justify-between">
-              <div className="space-y-2">
+            <div className="items-center justify-between bt:flex">
+              <div className="mb-6 flex items-baseline space-y-2 space-x-4 bt:block">
                 <span>Your review will set this submission as: </span>
-                <>
-                  {!meetsRequirements && (
-                    <SubmissionStateDisplayer
-                      status={SubmissionState.Rejected}
-                    />
-                  )}
-                </>
+                <SubmissionStateDisplayer
+                  status={
+                    meetsRequirements
+                      ? SubmissionState.Accepted
+                      : SubmissionState.Rejected
+                  }
+                />
               </div>
               <SubmitReviewButton
                 submission={submission}

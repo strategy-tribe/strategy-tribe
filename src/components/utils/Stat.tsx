@@ -49,7 +49,7 @@ export function Stat({
           <Icon
             icon="content_copy"
             size={IconSize.Small}
-            className="absolute hidden -translate-x-8 group-hover:inline"
+            className="absolute hidden -translate-x-6 group-hover:inline"
           />
         )}
         {content}

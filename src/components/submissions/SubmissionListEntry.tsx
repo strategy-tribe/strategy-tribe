@@ -22,9 +22,9 @@ export function SubmissionListEntry({
   const { notify } = useNotification();
 
   return (
-    <div className="relative flex w-full">
-      <div className="grid w-[66%] grid-cols-6 gap-x-4">
-        <div className="col-span-4 flex flex-col items-start">
+    <div className="relative flex w-full border-b-1 border-surface pb-4">
+      <div className="grid gap-x-4 gap-y-2 tablet:w-[66%] tablet:grid-cols-6">
+        <div className="flex flex-col items-start tablet:col-span-4">
           <div className="flex gap-2">
             {submission.bounty?.tags?.map((tag, i) => {
               return (
@@ -56,12 +56,12 @@ export function SubmissionListEntry({
           </p>
         </div>
 
-        <div className="col-span-2 place-self-center">
+        <div className="place-self-start tablet:col-span-2 tablet:place-self-center">
           <SubmissionStateDisplayer status={submission.state} />
         </div>
       </div>
 
-      <div className="flex shrink-0 grow items-center gap-x-4">
+      <div className="shrink-0 grow items-center gap-x-4 space-y-4 tablet:flex tablet:space-y-0">
         {(isAdmin || isStaff) && (
           <button
             className="group col-span-1 grow place-self-center text-right"

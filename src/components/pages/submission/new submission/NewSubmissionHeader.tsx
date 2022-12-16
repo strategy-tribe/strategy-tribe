@@ -9,7 +9,7 @@ export function NewSubmissionHeader() {
     useNewSubmissionContext();
 
   return (
-    <header className="sticky top-[3.8rem] z-50 flex w-full justify-between border-b-2 border-surface bg-surface-dark py-5">
+    <header className="sticky top-[6.8rem] z-10 w-full justify-between border-b-2 border-surface bg-surface-dark py-5 tablet:top-[5rem] tablet:flex">
       <div>
         <h2 className="title">New Submission</h2>
         <Button
@@ -17,6 +17,8 @@ export function NewSubmissionHeader() {
             style: ButtonStyle.TextPurple,
             removePadding: true,
             label: bounty?.title,
+            className: 'py-4 tablet:py-0',
+            labelClasses: 'truncate',
             isALink: GoToBountyPage(bounty?.slug as string),
           }}
         />

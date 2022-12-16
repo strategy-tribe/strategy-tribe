@@ -7,7 +7,7 @@ import { SubmissionHeader } from './SubmissionHeader';
 export function Submission({ submission }: { submission: FullSubmission }) {
   return (
     <SubmissionContextProvider submission={submission}>
-      <div className="space-y-6">
+      <div className="space-y-6 p-4">
         <SubmissionHeader />
         <SubmissionBody />
       </div>
