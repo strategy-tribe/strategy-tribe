@@ -1,13 +1,32 @@
+import { useState } from 'react';
+
 import { useGetSubmissions } from '@/lib/hooks/submission/useGetSubmissions';
+import { Order } from '@/lib/models/Order';
 
 import { SubmissionListEntry } from '@/components/submissions/SubmissionListEntry';
+import { SubmissionPageControls } from '@/components/submissions/SubmissionPageControls';
 
 import { useBountyContext } from './BountyContext';
 
 export function BountySubmissions({ userId }: { userId: string | undefined }) {
   const { bounty } = useBountyContext();
 
-  const { submissions, isLoading } = useGetSubmissions({
+  const [query, setQuery] = useState<any>({
+    order: Order.Asc,
+    amount: 10,
+    paginate: true,
+    page: 0,
+  });
+
+  const {
+    submissions,
+    isLoading,
+    numOfPages,
+    page: currPage,
+    hasPreviousPage,
+    hasNextPage,
+  } = useGetSubmissions({
+    ...query,
     bounties: [bounty.slug],
   });
 
@@ -35,6 +54,17 @@ export function BountySubmissions({ userId }: { userId: string | undefined }) {
         {submissions?.map((s) => {
           return <SubmissionListEntry submission={s} key={s.id} />;
         })}
+        <SubmissionPageControls
+          config={{
+            query,
+            setQuery,
+            numOfPages,
+            currPage,
+            hasNextPage,
+            hasPreviousPage,
+            isLoading,
+          }}
+        />
       </div>
 
       <div className="border-t-[1px] border-surface-dark pt-4 text-on-surface-unactive">

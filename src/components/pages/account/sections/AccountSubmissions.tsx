@@ -1,14 +1,31 @@
+import { useState } from 'react';
+
 import { useGetSubmissions } from '@/lib/hooks/submission/useGetSubmissions';
+import { Order } from '@/lib/models/Order';
 
 import { SubmissionListEntry } from '@/components/submissions/SubmissionListEntry';
+import { SubmissionPageControls } from '@/components/submissions/SubmissionPageControls';
 import Loading from '@/components/utils/Loading';
 
 import { useAuth } from '@/auth/AuthContext';
 
 export function AccountSubmissions() {
   const { userId, userInfo } = useAuth();
+  const [query, setQuery] = useState<any>({
+    order: Order.Asc,
+    amount: 10,
+    paginate: true,
+    page: 0,
+  });
 
-  const { submissions, isLoading } = useGetSubmissions({});
+  const {
+    submissions,
+    isLoading,
+    numOfPages,
+    page: currPage,
+    hasPreviousPage,
+    hasNextPage,
+  } = useGetSubmissions(query);
 
   if (!userInfo || !userId || !submissions)
     return (
@@ -35,6 +52,18 @@ export function AccountSubmissions() {
         submissions?.map((s, i) => {
           return <SubmissionListEntry submission={s} key={i} />;
         })}
+
+      <SubmissionPageControls
+        config={{
+          query,
+          setQuery,
+          numOfPages,
+          currPage,
+          hasNextPage,
+          hasPreviousPage,
+          isLoading,
+        }}
+      />
     </div>
   );
 }
