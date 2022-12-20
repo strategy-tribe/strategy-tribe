@@ -61,10 +61,10 @@ async function _getInvoices(
             in: input.statuses,
           }
         : undefined,
-      submission: input.userIds
+      submission: owners
         ? {
             authorId: {
-              in: input.userIds,
+              in: owners,
             },
           }
         : undefined,

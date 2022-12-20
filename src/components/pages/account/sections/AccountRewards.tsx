@@ -16,7 +16,6 @@ export function AccountRewards() {
     amount: 10,
     paginate: true,
     page: 0,
-    statuses: [InvoiceStatus.Unpaid],
   });
 
   const {

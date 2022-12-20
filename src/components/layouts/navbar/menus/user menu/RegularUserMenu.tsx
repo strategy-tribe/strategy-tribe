@@ -54,6 +54,12 @@ export function RegularUserMenu({
               onClick={hide}
             />
 
+            <MenuItem
+              label="Rewards"
+              url={GoToAccountPage(AccountView.Rewards)}
+              onClick={hide}
+            />
+
             <hr className="w-full text-surface" />
             <LogOutButton hide={hide} />
           </div>
