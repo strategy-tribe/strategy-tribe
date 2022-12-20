@@ -6,13 +6,27 @@ import { useGetInvoices } from '@/lib/hooks/invoiceHooks';
 import { InvoiceListEntry } from '@/components/invoices/InvoiceListEntry';
 import Dropdown, { HasLabel } from '@/components/utils/Dropdown';
 import Loading from '@/components/utils/Loading';
+import { PageControls } from '@/components/utils/PageControls';
 
 import { useAuth } from '@/auth/AuthContext';
 
 export function AccountRewards() {
   const { userId } = useAuth();
-  const [query, setQuery] = useState<any>({});
-  const { invoices, isLoading } = useGetInvoices(query, !!userId);
+  const [query, setQuery] = useState<any>({
+    amount: 10,
+    paginate: true,
+    page: 0,
+    statuses: [InvoiceStatus.Unpaid],
+  });
+
+  const {
+    invoices,
+    isLoading,
+    numOfPages,
+    page: currPage,
+    hasPreviousPage,
+    hasNextPage,
+  } = useGetInvoices(query, !!userId);
 
   const options = useMemo(() => {
     return ['All', 'Paid', 'In progress', 'Contact Us'].map((entry) => {
@@ -69,6 +83,20 @@ export function AccountRewards() {
           })}
       </div>
       {isLoading && <Loading small />}
+
+      {!isLoading && invoices && invoices.length > 0 && (
+        <PageControls
+          config={{
+            query,
+            setQuery,
+            numOfPages,
+            currPage,
+            hasNextPage,
+            hasPreviousPage,
+            isLoading,
+          }}
+        />
+      )}
     </section>
   );
 }

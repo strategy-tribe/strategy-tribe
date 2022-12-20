@@ -79,7 +79,11 @@ export function InvoiceListEntry({
     },
   });
   return (
-    <div className="flex w-full grid-cols-4 flex-wrap place-items-center gap-2 tablet:grid tablet:gap-x-4">
+    <div
+      className={`flex w-full ${
+        isAdmin ? 'grid-cols-4' : 'grid-cols-3'
+      } flex-wrap place-items-center gap-2 tablet:grid tablet:gap-x-4`}
+    >
       <Link href={bounty ? GoToBountyPage(bounty.slug) : GoTo404Page()}>
         <span className="group col-span-8 w-full">
           {bounty && (

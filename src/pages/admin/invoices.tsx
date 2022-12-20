@@ -9,6 +9,7 @@ import { InvoiceListEntry } from '@/components/invoices/InvoiceListEntry';
 import AppLayout from '@/components/layouts/AppLayout';
 import Dropdown, { HasLabel } from '@/components/utils/Dropdown';
 import Loading from '@/components/utils/Loading';
+import { PageControls } from '@/components/utils/PageControls';
 import { Title } from '@/components/utils/Title';
 
 import { useAuth } from '@/auth/AuthContext';
@@ -17,11 +18,20 @@ import { NextPageWithLayout } from '../_app';
 
 const InvoicesPage: NextPageWithLayout = () => {
   const { isAdmin, isFetchingUserInfo } = useAuth();
-  const [query, setQuery] = useState<any>({ statuses: [InvoiceStatus.Unpaid] });
-  const { invoices, isLoading } = useGetInvoices(
-    query,
-    isAdmin && !isFetchingUserInfo
-  );
+  const [query, setQuery] = useState<any>({
+    amount: 10,
+    paginate: true,
+    page: 0,
+    statuses: [InvoiceStatus.Unpaid],
+  });
+  const {
+    invoices,
+    isLoading,
+    numOfPages,
+    page: currPage,
+    hasPreviousPage,
+    hasNextPage,
+  } = useGetInvoices(query, isAdmin && !isFetchingUserInfo);
 
   const options = useMemo(() => {
     return [['All', 'All'], ...Object.entries(InvoiceStatus)].map((entry) => {
@@ -85,6 +95,20 @@ const InvoicesPage: NextPageWithLayout = () => {
               );
             })}
           </div>
+
+          {!isLoading && invoices && invoices.length > 0 && (
+            <PageControls
+              config={{
+                query,
+                setQuery,
+                numOfPages,
+                currPage,
+                hasNextPage,
+                hasPreviousPage,
+                isLoading,
+              }}
+            />
+          )}
         </div>
       </div>
     </div>

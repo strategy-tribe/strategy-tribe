@@ -3,6 +3,8 @@ import { TRPCError } from '@trpc/server';
 import { User } from 'next-auth';
 import { z } from 'zod';
 
+import { Order } from '@/lib/models/Order';
+
 import { signedInOnlyProcedure } from '@/server/procedures';
 
 import { SMALL_BOUNTY_SELECTION } from '../bounties/getBounties';
@@ -11,11 +13,14 @@ import { ThenArg } from '../utils/helperTypes';
 const getInvoicesSchema = z.object({
   userIds: z.string().array().optional(),
   statuses: z.nativeEnum(InvoiceStatus).array().optional(),
+  paginate: z.boolean().optional(),
+  amount: z.number().optional(),
+  page: z.number().optional(),
 });
 
 export type GetInvoicesSchemaParams = z.infer<typeof getInvoicesSchema>;
 
-function isRequestForSubmissionsValid(
+function isRequestForInvoicesValid(
   input: GetInvoicesSchemaParams,
   user: User
 ): boolean {
@@ -39,11 +44,11 @@ function isRequestForSubmissionsValid(
 }
 
 async function _getInvoices(
-  prisma: PrismaClient,
+  input: GetInvoicesSchemaParams,
   user: User,
-  input: GetInvoicesSchemaParams
+  prisma: PrismaClient
 ) {
-  if (!isRequestForSubmissionsValid(input, user)) {
+  if (!isRequestForInvoicesValid(input, user)) {
     throw new TRPCError({ code: 'UNAUTHORIZED' });
   }
 
@@ -67,6 +72,8 @@ async function _getInvoices(
   });
   const res = await prisma.invoice.findMany({
     where,
+    skip: (input?.amount ?? 0) * (input?.page ?? 0),
+    take: input.amount,
     select: {
       bounty: {
         select: SMALL_BOUNTY_SELECTION,
@@ -83,16 +90,56 @@ async function _getInvoices(
         },
       },
     },
+    orderBy: {
+      createdAt: Order.Asc,
+    },
   });
 
   return res;
 }
 
+const countInvoices = async (
+  input: GetInvoicesSchemaParams,
+  user: User,
+  prisma: PrismaClient
+) => {
+  if (!isRequestForInvoicesValid(input, user)) {
+    throw new TRPCError({ code: 'UNAUTHORIZED' });
+  }
+
+  const owners: string[] | undefined =
+    user.rol === 'REGULAR' ? [user.id] : input.userIds;
+
+  const where = Prisma.validator<Prisma.InvoiceWhereInput>()({
+    AND: {
+      status: input.statuses
+        ? {
+            in: input.statuses,
+          }
+        : undefined,
+      submission: input.userIds
+        ? {
+            authorId: {
+              in: input.userIds,
+            },
+          }
+        : undefined,
+    },
+  });
+
+  const count: number = await prisma.invoice.count({
+    where: where,
+  });
+
+  return count;
+};
+
 export const getInvoices = signedInOnlyProcedure
   .input(getInvoicesSchema)
   .query(async ({ ctx, input }) => {
-    const invoices = await _getInvoices(ctx.prisma, ctx.session.user, input);
-    return { invoices };
+    const invoices = await _getInvoices(input, ctx.session.user, ctx.prisma);
+    const count = await countInvoices(input, ctx.session.user, ctx.prisma);
+    return { invoices, count };
   });
 
 /** Array of Invoices with Metadata in them */
