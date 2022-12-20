@@ -43,7 +43,7 @@ export default function MapProjection() {
         data={dataParsed}
         features={map.features}
         margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
-        colors={['#2E2A4D', '#423B80', '#574BB3', '#6C5CE7']}
+        colors={['#423B80']}
         domain={[0, max + max * 0.05]}
         unknownColor="#191919"
         value={(data) => {
@@ -64,7 +64,7 @@ export default function MapProjection() {
         projectionRotation={[0, 0, 0]}
         graticuleLineColor="#dddddd"
         borderWidth={0.2}
-        borderColor="#5C5C5C"
+        borderColor="#CCCCCC"
         onClick={(thing) => {
           const data = thing.label as string;
 
