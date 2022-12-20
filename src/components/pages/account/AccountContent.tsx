@@ -32,13 +32,13 @@ export function AccountContent() {
         </>
       )}
 
-      {view === AccountView.Submissions && (
+      {view === AccountView.Submissions && !(isAdmin || isStaff) && (
         <>
           <AccountSubmissions />
         </>
       )}
 
-      {view === AccountView.Rewards && (
+      {view === AccountView.Rewards && !(isAdmin || isStaff) && (
         <>
           <AccountRewards />
         </>
