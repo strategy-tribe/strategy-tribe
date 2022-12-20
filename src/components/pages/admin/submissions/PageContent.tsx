@@ -68,7 +68,8 @@ export function ReviewDashboardFilters() {
         onSelect={({ label: newState }) => {
           setQuery({
             ...query,
-            state: newState as SubmissionState,
+            state:
+              newState === 'All' ? undefined : (newState as SubmissionState),
             page: 0,
           });
         }}

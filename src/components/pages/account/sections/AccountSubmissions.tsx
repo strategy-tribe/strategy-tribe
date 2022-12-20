@@ -1,11 +1,13 @@
-import { useState } from 'react';
+import { SubmissionState } from '@prisma/client';
+import { useMemo, useState } from 'react';
 
 import { useGetSubmissions } from '@/lib/hooks/submission/useGetSubmissions';
 import { Order } from '@/lib/models/Order';
 
 import { SubmissionListEntry } from '@/components/submissions/SubmissionListEntry';
-import { SubmissionPageControls } from '@/components/submissions/SubmissionPageControls';
+import Dropdown, { HasLabel } from '@/components/utils/Dropdown';
 import Loading from '@/components/utils/Loading';
+import { PageControls } from '@/components/utils/PageControls';
 
 import { useAuth } from '@/auth/AuthContext';
 
@@ -27,43 +29,59 @@ export function AccountSubmissions() {
     hasNextPage,
   } = useGetSubmissions(query);
 
-  if (!userInfo || !userId || !submissions)
-    return (
-      <div className="w-full py-2">
-        <div className="mb-4 border-b-1 border-surface pb-4">
-          <span className="body-sm text-on-surface-unactive">
-            Your submissions will show up here
-          </span>
-        </div>
-        {isLoading && <Loading small={true} />}
-      </div>
-    );
+  const options = useMemo(() => {
+    return [['All', 'All'], ...Object.entries(SubmissionState)].map((entry) => {
+      return { label: entry[1] } as HasLabel;
+    });
+  }, []);
 
   return (
     <div className="w-full space-y-6 py-2">
-      <div className="border-b-1 border-surface pb-4">
-        <span className="body-sm body translate-x-0.5 text-on-surface-unactive">
-          {submissions.length}{' '}
-          {submissions.length === 1 ? 'submission' : 'submissions'}
-        </span>
+      <div className="flex items-center justify-between border-b-1 border-surface pb-4">
+        {!userInfo || !userId || !submissions ? (
+          <span className="body-sm text-sm text-on-surface-unactive">
+            Your submissions will show up here
+          </span>
+        ) : (
+          <span className="body-sm body translate-x-0.5 text-sm  font-bold text-on-surface-unactive">
+            {submissions.length}{' '}
+            {submissions.length === 1 ? 'Submission' : 'Submissions'}
+          </span>
+        )}
+        <Dropdown
+          defaultOptionIndex={0}
+          labelClass="border-2 p-2 border-main rounded-md"
+          options={options}
+          onSelect={({ label: newState }) => {
+            setQuery({
+              ...query,
+              state:
+                newState === 'All' ? undefined : (newState as SubmissionState),
+              page: 0,
+            });
+          }}
+        />
       </div>
+      {isLoading && <Loading small />}
 
       {submissions &&
         submissions?.map((s, i) => {
           return <SubmissionListEntry submission={s} key={i} />;
         })}
 
-      <SubmissionPageControls
-        config={{
-          query,
-          setQuery,
-          numOfPages,
-          currPage,
-          hasNextPage,
-          hasPreviousPage,
-          isLoading,
-        }}
-      />
+      {!isLoading && submissions && submissions.length > 0 && (
+        <PageControls
+          config={{
+            query,
+            setQuery,
+            numOfPages,
+            currPage,
+            hasNextPage,
+            hasPreviousPage,
+            isLoading,
+          }}
+        />
+      )}
     </div>
   );
 }

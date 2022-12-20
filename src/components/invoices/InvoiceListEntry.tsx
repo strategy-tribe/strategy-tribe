@@ -1,3 +1,4 @@
+import { InvoiceStatus } from '@prisma/client';
 import Link from 'next/link';
 import router from 'next/router';
 
@@ -11,6 +12,7 @@ import {
 
 import { Button, ButtonStyle } from '@/components/utils/Button';
 
+import { useAuth } from '@/auth/AuthContext';
 import { FullInvoice } from '@/server/routes/invoice/getInvoice';
 
 import {
@@ -26,6 +28,7 @@ export function InvoiceListEntry({
 }: {
   invoice: FullInvoice;
 }) {
+  const { isAdmin } = useAuth();
   const { notify } = useNotification();
   const { Pay } = usePayInvoice({
     onMutate: () => {
@@ -103,22 +106,26 @@ export function InvoiceListEntry({
         }}
       />
 
-      <Button
-        info={{
-          style: ButtonStyle.Filled,
-          removePadding: true,
-          onClick: () => {
-            const confirmed = window.confirm('Are you sure to pay the bounty?');
-            if (confirmed)
-              Pay({
-                submissionId: submission.id,
-                bountySlug: bounty?.slug as string,
-              });
-          },
-          label: 'Pay bounty',
-          className: 'h-fit p-2 tablet:px-6',
-        }}
-      />
+      {isAdmin && status === InvoiceStatus.Unpaid && (
+        <Button
+          info={{
+            style: ButtonStyle.Filled,
+            removePadding: true,
+            onClick: () => {
+              const confirmed = window.confirm(
+                'Are you sure to pay the bounty?'
+              );
+              if (confirmed)
+                Pay({
+                  submissionId: submission.id,
+                  bountySlug: bounty?.slug as string,
+                });
+            },
+            label: 'Pay bounty',
+            className: 'h-fit p-2 tablet:px-6',
+          }}
+        />
+      )}
     </div>
   );
 }

@@ -3,11 +3,11 @@ import { useEffect, useMemo, useState } from 'react';
 import useWindowDimensions from '@/lib/hooks/useWindowDimensions';
 import { ArrayOfNumbers } from '@/lib/utils/ArrayHelpers';
 
-import { Button, ButtonStyle } from '../utils/Button';
+import { Button, ButtonStyle } from './Button';
 
 const AMOUNT_OF_PAGES = 10;
 
-interface SubmissionPageControlsInterface {
+interface PageControlsInterface {
   numOfPages: number;
   currPage: number;
   hasNextPage: boolean;
@@ -17,11 +17,7 @@ interface SubmissionPageControlsInterface {
   setQuery: (q: any) => void;
 }
 
-export function SubmissionPageControls({
-  config,
-}: {
-  config: SubmissionPageControlsInterface;
-}) {
+export function PageControls({ config }: { config: PageControlsInterface }) {
   const {
     query,
     setQuery,

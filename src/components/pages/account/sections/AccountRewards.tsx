@@ -1,35 +1,76 @@
 import { InvoiceStatus } from '@prisma/client';
+import { useMemo, useState } from 'react';
 
 import { useGetInvoices } from '@/lib/hooks/invoiceHooks';
+
+import { InvoiceListEntry } from '@/components/invoices/InvoiceListEntry';
+import Dropdown, { HasLabel } from '@/components/utils/Dropdown';
+import Loading from '@/components/utils/Loading';
 
 import { useAuth } from '@/auth/AuthContext';
 
 export function AccountRewards() {
   const { userId } = useAuth();
-  const { invoices, isLoading } = useGetInvoices(
-    { userIds: [userId as string] },
-    !!userId
+  const [query, setQuery] = useState<any>({});
+  const { invoices, isLoading } = useGetInvoices(query, !!userId);
+
+  const options = useMemo(() => {
+    return ['All', 'Paid', 'In progress', 'Contact Us'].map((entry) => {
+      return { label: entry } as HasLabel;
+    });
+  }, []);
+
+  const getStatus = (newState: string) => {
+    switch (newState) {
+      case 'All':
+        return undefined;
+      case 'In progress':
+        return [InvoiceStatus.Unpaid];
+      case 'Paid':
+        return [InvoiceStatus.Paid];
+      case 'Contact Us':
+        return [InvoiceStatus.Error];
+      default:
+        break;
+    }
+  };
+
+  return (
+    <section className="w-full space-y-4">
+      <div className="flex items-center justify-between border-b-1 border-surface pb-4">
+        {!userId || !invoices ? (
+          <span className="body-sm text-sm text-on-surface-unactive">
+            Your rewards will show up here
+          </span>
+        ) : (
+          <span className="body-sm text-sm  font-bold text-on-surface-unactive">
+            {invoices?.length} {invoices?.length === 1 ? 'Reward' : 'Rewards'}
+          </span>
+        )}
+        <Dropdown
+          defaultOptionIndex={0}
+          labelClass="border-2 p-2 border-main rounded-md"
+          options={options}
+          onSelect={({ label: newState }) => {
+            setQuery({
+              ...query,
+              statuses: getStatus(newState),
+            });
+          }}
+        />
+      </div>
+
+      <div className="space-y-10">
+        {invoices &&
+          invoices?.map((invoice) => {
+            return (
+              <InvoiceListEntry invoice={invoice} key={invoice.submission.id} />
+            );
+          })}
+      </div>
+      {isLoading && <Loading small />}
+    </section>
   );
-
-  return <>Needs refactoring</>;
-
-  // return (
-  //   <section className="w-full space-y-4">
-  //     <div className="pb-4 border-b-1 border-surface">
-  //       <span className="body-sm text-on-surface-unactive">
-  //         {invoices?.length} {invoices?.length === 1 ? 'invoice' : 'invoices'}
-  //       </span>
-  //     </div>
-
-  //     <div className="space-y-10">
-  //       {invoices &&
-  //         invoices?.map((invoice) => {
-  //           return <InvoiceListEntry invoice={invoice} key={invoice.id} />;
-  //         })}
-  //     </div>
-  //     {isLoading && <Loading small />}
-  //   </section>
-  // );
 }
 
 export function InvoiceStatusShower({ status }: { status: InvoiceStatus }) {

@@ -1,11 +1,13 @@
 ('@/components/utils/Title');
 import { InvoiceStatus } from '@prisma/client';
 import Head from 'next/head';
+import { useMemo, useState } from 'react';
 
 import { useGetInvoices } from '@/lib/hooks/invoiceHooks';
 
 import { InvoiceListEntry } from '@/components/invoices/InvoiceListEntry';
 import AppLayout from '@/components/layouts/AppLayout';
+import Dropdown, { HasLabel } from '@/components/utils/Dropdown';
 import Loading from '@/components/utils/Loading';
 import { Title } from '@/components/utils/Title';
 
@@ -15,10 +17,17 @@ import { NextPageWithLayout } from '../_app';
 
 const InvoicesPage: NextPageWithLayout = () => {
   const { isAdmin, isFetchingUserInfo } = useAuth();
+  const [query, setQuery] = useState<any>({ statuses: [InvoiceStatus.Unpaid] });
   const { invoices, isLoading } = useGetInvoices(
-    { statuses: [InvoiceStatus.Unpaid, InvoiceStatus.Error] },
+    query,
     isAdmin && !isFetchingUserInfo
   );
+
+  const options = useMemo(() => {
+    return [['All', 'All'], ...Object.entries(InvoiceStatus)].map((entry) => {
+      return { label: entry[1] } as HasLabel;
+    });
+  }, []);
 
   return (
     <div className="space-y-8 text-on-surface-p1">
@@ -35,7 +44,34 @@ const InvoicesPage: NextPageWithLayout = () => {
       </Head>
       <div className="mx-auto min-h-screen max-w-5xl space-y-8 p-4">
         <div className="space-y-4">
-          <Title title="Unpaid invoices" useBorder={false} />
+          <Title title="Invoices" useBorder={true} big={true} />
+          <div className="flex items-center justify-between rounded-md border-b-1 border-surface pb-4">
+            {!isAdmin || !invoices ? (
+              <span className="body-sm text-sm text-on-surface-unactive">
+                Invoices will show up here
+              </span>
+            ) : (
+              <span className="body-sm body translate-x-0.5 text-sm font-bold text-on-surface-unactive">
+                {invoices.length}{' '}
+                {invoices.length === 1 ? 'Invoice' : 'Invoices'}
+              </span>
+            )}
+            <Dropdown
+              defaultOptionIndex={2}
+              labelClass="border-2 p-2 border-main rounded-md"
+              options={options}
+              onSelect={({ label: newState }) => {
+                setQuery({
+                  ...query,
+                  statuses:
+                    newState === 'All'
+                      ? undefined
+                      : [newState as InvoiceStatus],
+                  page: 0,
+                });
+              }}
+            />
+          </div>
           {isLoading && <Loading small />}
           <div className="space-y-7">
             {invoices?.map((invoice, i) => {
