@@ -1,3 +1,4 @@
+import { InvoiceStatus } from '@prisma/client';
 import Link from 'next/link';
 import router from 'next/router';
 
@@ -11,6 +12,7 @@ import {
 
 import { Button, ButtonStyle } from '@/components/utils/Button';
 
+import { useAuth } from '@/auth/AuthContext';
 import { FullInvoice } from '@/server/routes/invoice/getInvoice';
 
 import {
@@ -26,6 +28,7 @@ export function InvoiceListEntry({
 }: {
   invoice: FullInvoice;
 }) {
+  const { isAdmin } = useAuth();
   const { notify } = useNotification();
   const { Pay } = usePayInvoice({
     onMutate: () => {
@@ -76,7 +79,11 @@ export function InvoiceListEntry({
     },
   });
   return (
-    <div className="flex w-full grid-cols-4 flex-wrap place-items-center gap-2 tablet:grid tablet:gap-x-4">
+    <div
+      className={`flex w-full ${
+        isAdmin ? 'grid-cols-4' : 'grid-cols-3'
+      } flex-wrap place-items-center gap-2 tablet:grid tablet:gap-x-4`}
+    >
       <Link href={bounty ? GoToBountyPage(bounty.slug) : GoTo404Page()}>
         <span className="group col-span-8 w-full">
           {bounty && (
@@ -103,22 +110,26 @@ export function InvoiceListEntry({
         }}
       />
 
-      <Button
-        info={{
-          style: ButtonStyle.Filled,
-          removePadding: true,
-          onClick: () => {
-            const confirmed = window.confirm('Are you sure to pay the bounty?');
-            if (confirmed)
-              Pay({
-                submissionId: submission.id,
-                bountySlug: bounty?.slug as string,
-              });
-          },
-          label: 'Pay bounty',
-          className: 'h-fit p-2 tablet:px-6',
-        }}
-      />
+      {isAdmin && status === InvoiceStatus.Unpaid && (
+        <Button
+          info={{
+            style: ButtonStyle.Filled,
+            removePadding: true,
+            onClick: () => {
+              const confirmed = window.confirm(
+                'Are you sure to pay the bounty?'
+              );
+              if (confirmed)
+                Pay({
+                  submissionId: submission.id,
+                  bountySlug: bounty?.slug as string,
+                });
+            },
+            label: 'Pay bounty',
+            className: 'h-fit p-2 tablet:px-6',
+          }}
+        />
+      )}
     </div>
   );
 }

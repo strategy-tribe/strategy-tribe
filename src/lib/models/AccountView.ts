@@ -8,3 +8,5 @@ export enum AccountView {
 }
 
 export const VIEWS_FOR_STAFF = [AccountView.Reviews];
+
+export const VIEWS_FOR_USER = [AccountView.Rewards, AccountView.Submissions];

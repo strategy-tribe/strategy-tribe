@@ -32,7 +32,7 @@ export function Menu<T extends HasLabel>({
   select: (s: T) => void;
 }) {
   return (
-    <div className="elevation-1 absolute z-50 overflow-hidden rounded">
+    <div className="elevation-1 absolute right-0 z-50 overflow-hidden rounded">
       {menuItems.map((opt) => {
         return <MenuItem key={opt.label} onClick={select} opt={opt} />;
       })}
