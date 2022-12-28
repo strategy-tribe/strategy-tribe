@@ -44,12 +44,11 @@ export function AccountReviews() {
       <div className="flex items-center justify-between border-b-1 border-surface pb-4">
         {!isAdmin || !userId || !reviews ? (
           <span className="body-sm text-sm text-on-surface-unactive">
-            Your submissions will show up here
+            Your reviews will show up here
           </span>
         ) : (
           <span className="body-sm body translate-x-0.5 text-sm  font-bold text-on-surface-unactive">
-            {reviews.length}{' '}
-            {reviews.length === 1 ? 'Submission' : 'Submissions'}
+            {reviews.length} {reviews.length === 1 ? 'Review' : 'Reviews'}
           </span>
         )}
         <Dropdown
@@ -139,7 +138,7 @@ function ReviewEntry({ review: r }: { review: SmallReview }) {
             {r.submission.bounty?.title}
           </span>
           <span className="label text-on-surface-unactive">
-            {r.submission.bounty?.wallet.balance}
+            {r.submission.bounty?.wallet.balance} MATIC
           </span>
         </span>
       </Link>
