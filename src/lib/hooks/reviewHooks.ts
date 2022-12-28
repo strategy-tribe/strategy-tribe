@@ -1,9 +1,11 @@
 import { useQueryClient } from '@tanstack/react-query';
+import { useEffect, useState } from 'react';
 
+import { GetReviewsParams } from '@/server/routes/review/getReviews';
 import {
   PostReviewParams,
   PostReviewResponse,
-} from '@/server/routes/review/getReview';
+} from '@/server/routes/review/postReview';
 
 import { trpc } from '../trpc';
 
@@ -35,58 +37,40 @@ export const useSubmitReview = (events: {
   };
 };
 
-export const useGetReviews = (config: any, enabled = true) => {
-  // const { isInitialized } = useMoralis();
-  // const page = config.page || 0;
-  // const { fetch } = Moralis_getReviews(config);
+export const useGetReviews = (config: GetReviewsParams, enabled = true) => {
+  const page = config.page || 0;
 
-  // const [numOfPages, setNumOfPages] = useState(0);
+  const [numOfPages, setNumOfPages] = useState(0);
+  const [hasNextPage, setHasNextPage] = useState(false);
+  const [hasPreviousPage, setHasPreviousPage] = useState(false);
 
-  // const queryId = [Queries.Reviews, config, config.page];
+  const { data, error, isLoading, isFetching } =
+    trpc.review.getReviews.useQuery(config, {
+      enabled,
+    });
 
-  // const { error, isLoading, data, isFetching, isPreviousData } = useQuery(
-  //   queryId,
-  //   () => fetch(),
-  //   {
-  //     getPreviousPageParam: (lastPackage) => {
-  //       const { hasLess, page } = lastPackage;
-  //       if (hasLess) return page - 1;
-  //       else return false;
-  //     },
-  //     getNextPageParam: (lastPackage) => {
-  //       const { hasMore, page } = lastPackage;
-  //       if (hasMore) return page + 1;
-  //       else return false;
-  //     },
-  //     enabled: isInitialized && enabled,
-  //     keepPreviousData: config.paginate,
-  //     refetchOnWindowFocus: false,
-  //   }
-  // );
-
-  // useEffect(() => {
-  //   if (data && config.pageSize && config.paginate) {
-  //     const { count } = data;
-  //     const _numOfPages = Math.floor((count - 1) / config.pageSize + 1);
-
-  //     setNumOfPages(_numOfPages);
-  //   } else {
-  //     setNumOfPages(0);
-  //   }
-  // }, [data, config]);
+  useEffect(() => {
+    if (data && data.count && config.amount) {
+      const count = data.count;
+      const _numOfPages = Math.floor((count - 1) / config.amount + 1);
+      setHasNextPage(_numOfPages - 1 > (config?.page ?? _numOfPages));
+      setHasPreviousPage((config?.page ?? 0) != 0);
+      setNumOfPages(_numOfPages);
+    } else {
+      setNumOfPages(0);
+    }
+  }, [data, config, data?.count]);
 
   return {
-    isLoading: true,
-    reviews: [],
-    isFetching: false,
-    page: 0,
-    numOfPages: 0,
-    count: 0,
-    hasNextPage: false,
-    hasPreviousPage: false,
+    isLoading,
+    reviews: data?.reviews,
+    isFetching,
+    page,
+    numOfPages,
+    count: data?.count,
+    hasNextPage,
+    hasPreviousPage,
     isPreviousData: false,
-    error: {
-      msg: 'this functionality needs refactoring ',
-    },
+    error,
   };
 };

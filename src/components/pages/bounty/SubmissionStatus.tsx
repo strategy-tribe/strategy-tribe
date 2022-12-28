@@ -2,8 +2,10 @@ import { SubmissionState } from '@prisma/client';
 
 export function SubmissionStateDisplayer({
   status,
+  isSmall = false,
 }: {
   status: SubmissionState;
+  isSmall?: boolean;
 }) {
   const color = () => {
     switch (status) {
@@ -20,7 +22,9 @@ export function SubmissionStateDisplayer({
 
   return (
     <div
-      className={`${color()} label-sm h-fit w-fit whitespace-nowrap rounded-full border-2 py-2 px-6 first-letter:capitalize`}
+      className={`${color()} label-sm  whitespace-nowrap rounded-full border-2 first-letter:capitalize ${
+        isSmall ? 'truncate p-1 text-center bt:p-2' : 'h-fit w-fit py-2 px-6'
+      }`}
     >
       {status}
     </div>
