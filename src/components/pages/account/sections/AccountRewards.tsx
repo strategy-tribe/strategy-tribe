@@ -28,7 +28,7 @@ export function AccountRewards() {
   } = useGetInvoices(query, !!userId);
 
   const options = useMemo(() => {
-    return ['All', 'Paid', 'In progress', 'Contact Us'].map((entry) => {
+    return ['All', 'Paid', 'In progress', 'Error'].map((entry) => {
       return { label: entry } as HasLabel;
     });
   }, []);
@@ -41,7 +41,7 @@ export function AccountRewards() {
         return [InvoiceStatus.Unpaid];
       case 'Paid':
         return [InvoiceStatus.Paid];
-      case 'Contact Us':
+      case 'Error':
         return [InvoiceStatus.Error];
       default:
         break;
