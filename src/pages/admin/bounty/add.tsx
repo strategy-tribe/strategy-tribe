@@ -71,7 +71,7 @@ const AddBountiesPage: NextPageWithLayout = () => {
               : 'Bounty Creation Failed',
           content:
             data.errors.length === 0
-              ? undefined
+              ? 'Bounties are waiting for funds'
               : () => (
                   <div>
                     <p>
@@ -103,7 +103,7 @@ const AddBountiesPage: NextPageWithLayout = () => {
       notify(
         {
           title: 'There was an issue adding bounties',
-          content: error,
+          content: error.message ?? 'please check browser console',
           icon: 'warning',
           style: NotificationStyle.error,
         },
