@@ -12,6 +12,12 @@ function setStyle(style?: NotificationStyle) {
         title: 'text-on-color opacity-90',
         content: 'text-on-color opacity-80',
       };
+    case NotificationStyle.main:
+      return {
+        container: 'bg-main',
+        title: 'text-on-color opacity-90',
+        content: 'text-on-color opacity-80',
+      };
     case NotificationStyle.success:
       return {
         container: 'bg-success',

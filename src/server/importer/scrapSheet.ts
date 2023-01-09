@@ -1,6 +1,6 @@
 import { PrismaClient, RequirementType } from '@prisma/client';
 
-import { toTitleCase } from '@/lib/utils/StringHelpers';
+import { isString, toTitleCase } from '@/lib/utils/StringHelpers';
 
 import prisma from '@/server/prisma/prismaClient';
 
@@ -56,7 +56,7 @@ async function scrapSheet() {
   return { organizations, targets };
 }
 
-function scrapOrganizations(rows: Row[]): OrgData[] {
+export function scrapOrganizations(rows: Row[]): OrgData[] {
   const organizationsData = [];
 
   for (let rowIndex = 0; rowIndex < rows.length; rowIndex++) {
@@ -95,11 +95,7 @@ function scrapOrganizations(rows: Row[]): OrgData[] {
   return organizationsData;
 }
 
-function isString(object: unknown): object is string {
-  return typeof object === 'string' && object.length > 0;
-}
-
-function scrapTargets(rows: Row[]): TargetData[] {
+export function scrapTargets(rows: Row[]): TargetData[] {
   const targetsData = [];
   for (let rowIndex = 0; rowIndex < rows.length; rowIndex++) {
     const row = rows[rowIndex];

@@ -1,3 +1,4 @@
+import { useQueryClient } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 
 import { trpc } from '@/lib/trpc';
@@ -6,6 +7,7 @@ import {
   GetBountiesParams,
   SmallBounty,
 } from '@/server/routes/bounties/getBounties';
+import { PostBountiesParams } from '@/server/routes/bounties/postBounties';
 
 //!Get All
 export const useGetBounties = (config: GetBountiesParams, enabled = true) => {
@@ -64,5 +66,38 @@ export const useGetBounty = (slug: string, enabled = true) => {
     bounty: data?.bounty ?? undefined,
     error,
     isLoading,
+  };
+};
+
+export const useAddBounties = (events: {
+  onMutate: () => void;
+  onSuccess: (data: {
+    targets: string;
+    orgs: string;
+    errors: string[];
+    totalData: number;
+  }) => void;
+  onError: (e: any) => void;
+}) => {
+  const { onError, onMutate, onSuccess } = events;
+
+  const qc = useQueryClient();
+
+  const mutation = trpc.bounty.postBounties.useMutation({
+    onMutate,
+    onError,
+    onSuccess: (data) => {
+      qc.invalidateQueries();
+      onSuccess(data);
+    },
+  });
+
+  return {
+    Add: async (params: PostBountiesParams) => {
+      mutation.mutate(params);
+    },
+    isLoading: mutation.isLoading,
+    isSuccess: mutation.isSuccess,
+    error: mutation.error,
   };
 };

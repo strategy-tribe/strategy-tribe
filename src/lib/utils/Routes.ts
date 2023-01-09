@@ -61,3 +61,7 @@ export const GoToReviewsPage = () => {
 export const GoToInvoicesPage = () => {
   return `/admin/invoices`;
 };
+
+export const GoToAddBountiesPage = () => {
+  return `/admin/bounty/add`;
+};

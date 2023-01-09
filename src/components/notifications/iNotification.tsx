@@ -22,6 +22,7 @@ export enum NotificationStyle {
   default,
   error,
   success,
+  main,
   dark,
 }
 
