@@ -34,8 +34,8 @@ const AddBountiesPage: NextPageWithLayout = () => {
     const t = targets.split('\n');
     const o = orgs.split('\n');
     if (
-      (t.length > 1 && t[1].split(',').length > 5) ||
-      (o.length > 1 && o[1].split(',').length > 7)
+      (t.length > 1 && t[1].split(',').length > 1) ||
+      (o.length > 1 && o[1].split(',').length > 1)
     ) {
       disable = false;
     }

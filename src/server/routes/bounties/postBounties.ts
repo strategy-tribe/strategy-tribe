@@ -24,8 +24,8 @@ const TARGET_DEFAULT = 'name,organizationName,alsoKnownAs,tags,bio,types\n';
 export const postBounties = staffOnlyProcedure
   .input(PostBountiesSchema)
   .mutation(async ({ input, ctx }) => {
-    const targets = scrapTargets(parseToJSON(input.targets));
-    const orgs = scrapOrganizations(parseToJSON(input.orgs));
+    const targets = scrapTargets(parseToArray(input.targets));
+    const orgs = scrapOrganizations(parseToArray(input.orgs));
     const { orgIssues, targetIssues } = await addToDb(
       ctx.prisma,
       orgs,
@@ -69,17 +69,17 @@ const parseToCSV = (data: any[]) => {
         return '';
       }
       if (value.length === 1) {
-        return value[0];
+        return value[0].replaceAll('"', '""');
       }
-      return `"${value.join(',')}"`;
+      return `"${value.join(',').replaceAll('"', '""')}"`;
     }
     if (!value) {
       return '';
     }
     if (value.includes(',')) {
-      return `"${value}"`;
+      return `"${value.replaceAll('"', '""')}"`;
     }
-    return value;
+    return value.replaceAll('"', '""');
   };
   const csv = json.map(function (row: any) {
     return fields
@@ -92,24 +92,20 @@ const parseToCSV = (data: any[]) => {
   return csv.join('\r\n');
 };
 
-const parseToJSON = (data: string) => {
-  const lines = data.split('\n');
-  const result = [];
-  for (let i = 0; i < lines.length; i++) {
-    const current = lines[i];
-    let s = '';
-
-    let flag = 0;
-    for (let ch of current) {
-      if (ch === '"' && flag === 0) {
-        flag = 1;
-      } else if (ch === '"' && flag == 1) flag = 0;
-      if (ch === ',' && flag === 0) ch = '|';
-      if (ch !== '"') s += ch;
-    }
-
-    const properties = s.split('|');
-    result.push(properties);
+const parseToArray = (data: string) => {
+  const dataString = data.replaceAll('"""', '"++').replaceAll('""', '++');
+  let parsedString = '';
+  let flag = 0;
+  for (let ch of dataString) {
+    if (ch === '"' && flag === 0) {
+      flag = 1;
+    } else if (ch === '"' && flag == 1) flag = 0;
+    if (ch === ',' && flag === 0) ch = '||';
+    if (ch === '\n' && flag === 0) ch = '##';
+    if (ch !== '"') parsedString += ch;
   }
+
+  const lines = parsedString.replaceAll('++', '"').split('##');
+  const result = lines.map((line) => line.split('||'));
   return result;
 };
