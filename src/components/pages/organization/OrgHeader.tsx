@@ -1,6 +1,4 @@
 import { Section } from '@/components/pages/landing/Section';
-import { SubToOrgButton } from '@/components/subscriptions/SubscribeToOrgButton';
-import { ButtonStyle } from '@/components/utils/Button';
 
 import { FullOrg } from '@/server/routes/organizations/getOrg';
 
@@ -33,6 +31,8 @@ export function OrgHeader() {
           <div className="h-10 w-0.5 bg-surface-dark" />
           <OrgStat value={`${getBalance(org)} MATIC`} label="In bounties" />
           <div className="h-10 w-0.5 bg-surface-dark" />
+
+          {/* TODO: to be implemented - RED-98
           <SubToOrgButton
             orgId={org.id}
             button={(_, isSubscribed) => {
@@ -41,7 +41,7 @@ export function OrgHeader() {
                 style: isSubscribed ? ButtonStyle.Text : ButtonStyle.Filled,
               };
             }}
-          />
+          /> */}
         </div>
       </Section>
     </div>

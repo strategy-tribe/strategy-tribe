@@ -68,7 +68,7 @@ const BountyPage: NextPageWithLayout<{ bounty: FullBounty }> = ({
   return (
     <>
       <Head>
-        <title>ST | Bounty</title>
+        <title>Bounty</title>
         <meta
           name="description"
           content=" An open source project dedicated to crowdsourcing and crowdfunding

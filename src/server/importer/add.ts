@@ -19,8 +19,12 @@ export async function addToDb(
   prisma: PrismaClient,
   organizations: OrgData[],
   targets: TargetData[]
-) {
-  const issues: { data: OrgData | TargetData; error: unknown }[] = [];
+): Promise<{
+  orgIssues: { data: OrgData; error: unknown }[];
+  targetIssues: { data: TargetData; error: unknown }[];
+}> {
+  const orgIssues: { data: OrgData; error: unknown }[] = [];
+  const targetIssues: { data: TargetData; error: unknown }[] = [];
 
   //#region ORGS
   for await (const o of organizations) {
@@ -34,12 +38,13 @@ export async function addToDb(
       try {
         await CreateOrganization(prisma, o);
       } catch (error) {
-        issues.push({ data: o, error });
+        orgIssues.push({ data: o, error });
         WARN(
           `There has been an error related to creating ${
             o.name
           }. \n ${JSON.stringify(error)}`
         );
+        continue;
       }
 
       for await (const bountyData of bountiesData) {
@@ -56,7 +61,7 @@ export async function addToDb(
       LOG('\n');
       if (i % 3 === 0) LOG(`${i + 1}/${organizations.length} orgs created.`);
     } catch (error) {
-      issues.push({ data: o, error });
+      orgIssues.push({ data: o, error });
       WARN(
         `There has been an error related to ${o.name}. \n ${JSON.stringify(
           error
@@ -89,7 +94,7 @@ export async function addToDb(
       }
       if (i % 3 === 0) LOG(`${i + 1}/${targets.length} targets created.`);
     } catch (error) {
-      issues.push({ data: t, error });
+      targetIssues.push({ data: t, error });
       WARN(
         `There has been an error related to ${t.name}. \n ${JSON.stringify(
           error
@@ -101,16 +106,22 @@ export async function addToDb(
   //#endregion targets
 
   //#region outcome
-  if (issues.length === 0) {
+  if ([...orgIssues, ...targetIssues].length === 0) {
     LOG('Done adding data to the DB, 0 errors');
   } else {
     WARN(
-      `There has been ${issues.length} issues while populating the db. See the log to learn more`
+      `There has been ${
+        [...orgIssues, ...targetIssues].length
+      } issues while populating the db. See the log to learn more`
     );
 
     const name = `${v4()}-log.json`;
-    fs.writeFileSync(name, JSON.stringify(issues, null, 2));
+    fs.writeFileSync(
+      name,
+      JSON.stringify({ orgIssues, targetIssues }, null, 2)
+    );
   }
+  return { orgIssues, targetIssues };
   //#endregion
 }
 

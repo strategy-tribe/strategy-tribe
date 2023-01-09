@@ -16,7 +16,6 @@ import { Button, ButtonStyle } from '@/components/utils/Button';
 import { useAuth } from '@/auth/AuthContext';
 
 import { LandingPageLink } from './LandingPageLink';
-import { NotifsMenu } from './menus/NotifsMenu';
 import { UserMenu } from './menus/UserMenu';
 import { NavLink } from './NavLink';
 
@@ -91,6 +90,7 @@ export function Navbar({
 
           {/* right side */}
           <div className="flex items-center gap-1 bt:gap-6">
+            {/* TODO: to be implemented - RED-98
             {!!userId && (
               <NotifsMenu
                 userId={userId}
@@ -98,7 +98,7 @@ export function Navbar({
                 hide={() => setShowNotifs(false)}
                 show={() => setShowNotifs(true)}
               />
-            )}
+            )} */}
 
             {!userId ? (
               <div className="grid place-items-center py-1">

@@ -22,7 +22,7 @@ const SubmissionPage: NextPageWithLayout = () => {
   return (
     <>
       <Head>
-        <title>ST | Submission</title>
+        <title>Submission</title>
         <meta
           name="description"
           content=" An open source project dedicated to crowdsourcing and crowdfunding

@@ -1,10 +1,6 @@
 import { useGetUserServerNotifications } from '@/lib/hooks/serverNotificationHooks';
-import { AccountView } from '@/lib/models/AccountView';
-import { GoToAccountPage } from '@/lib/utils/Routes';
 
 import { NotificationListEntry } from '@/components/notifications/NotificationListEntry';
-import { Button, ButtonStyle } from '@/components/utils/Button';
-import { IconSize } from '@/components/utils/Icon';
 import Loading from '@/components/utils/Loading';
 import { Overlay } from '@/components/utils/Overlay';
 
@@ -38,6 +34,7 @@ export function NotifsMenu({
             <header className="flex justify-between px-6 py-4">
               <p className="title-xs">Notifications</p>
 
+              {/* TODO: to be implemented - RED-98
               <Button
                 info={{
                   iconSize: IconSize.Small,
@@ -49,7 +46,7 @@ export function NotifsMenu({
                   isALink: GoToAccountPage(AccountView.Notifications),
                   onClick: hide,
                 }}
-              />
+              /> */}
             </header>
 
             <hr className="w-full text-surface" />
@@ -76,7 +73,8 @@ export function NotifsMenu({
 
             <hr className="w-full text-surface" />
             <footer className="flex justify-between px-6 py-4">
-              <Button
+              {/* TODO: to be implemented - RED-98
+            <Button
                 info={{
                   iconSize: IconSize.Small,
                   label: 'All notifications',
@@ -87,7 +85,7 @@ export function NotifsMenu({
                   isALink: GoToAccountPage(AccountView.Notifications),
                   onClick: hide,
                 }}
-              />
+              /> */}
             </footer>
           </div>
 

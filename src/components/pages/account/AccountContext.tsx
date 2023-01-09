@@ -11,7 +11,7 @@ interface iAccountContext {
 }
 
 const AccountContext = createContext<iAccountContext>({
-  view: AccountView.Notifications,
+  view: AccountView.Account,
   setView: () => {
     return;
   },

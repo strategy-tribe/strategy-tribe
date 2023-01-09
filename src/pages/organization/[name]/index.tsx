@@ -68,7 +68,7 @@ const OrganizationPage: NextPageWithLayout<{ org: FullOrg }> = ({
   return (
     <>
       <Head>
-        <title>ST | Organization</title>
+        <title>Organization</title>
         <meta
           name="description"
           content="An open source project dedicated to crowdsourcing and crowdfunding
