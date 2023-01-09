@@ -25,7 +25,7 @@ const ReviewPage: NextPageWithLayout = () => {
   return (
     <>
       <Head>
-        <title>ST | Review</title>
+        <title>Review</title>
         <meta
           name="description"
           content=" An open source project dedicated to crowdsourcing and crowdfunding

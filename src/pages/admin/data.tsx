@@ -4,6 +4,7 @@ import AppLayout from '@/components/layouts/AppLayout';
 import Loading from '@/components/utils/Loading';
 
 import { NextPageWithLayout } from '../_app';
+
 ('@/components/utils/Title');
 
 const DataPage: NextPageWithLayout = () => {
@@ -43,7 +44,7 @@ const DataPage: NextPageWithLayout = () => {
   // return (
   //   <>
   //     <Head>
-  //       <title>ST | Wallets</title>
+  //       <title>Wallets</title>
   //       <meta
   //         name="description"
   //         content="StrategyTribe was born from a need for higher quality, better scaled OSINT work on the

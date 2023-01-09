@@ -9,7 +9,7 @@ const RulesPage: NextPageWithLayout = () => {
   return (
     <>
       <Head>
-        <title>ST | Privacy Policy</title>
+        <title>Privacy Policy</title>
         <meta
           name="description"
           content="An open source project dedicated to crowdsourcing and crowdfunding

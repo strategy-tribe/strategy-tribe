@@ -18,7 +18,7 @@ const BeforeNewSubmission: NextPageWithLayout = () => {
   return (
     <>
       <Head>
-        <title>ST | Before Submitting</title>
+        <title>Before Submitting</title>
         <meta
           name="description"
           content=" An open source project dedicated to crowdsourcing and crowdfunding

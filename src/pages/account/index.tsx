@@ -16,7 +16,7 @@ const UserPage: NextPageWithLayout = () => {
   return (
     <>
       <Head>
-        <title>ST | User Submissions</title>
+        <title>User Submissions</title>
         <meta
           name="description"
           content=" An open source project dedicated to crowdsourcing and crowdfunding

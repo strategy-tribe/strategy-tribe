@@ -20,7 +20,7 @@ const SubmissionsToReviewPage: NextPageWithLayout = () => {
   return (
     <>
       <Head>
-        <title>ST | Reviewing</title>
+        <title>Reviewing</title>
         <meta
           name="description"
           content="StrategyTribe was born from a need for higher quality, better scaled OSINT work on the

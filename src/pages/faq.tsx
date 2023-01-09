@@ -42,7 +42,7 @@ const FAQPage: NextPageWithLayout<{ submissionsPerDay: number }> = ({
   return (
     <>
       <Head>
-        <title>ST | FAQ</title>
+        <title>FAQ</title>
         <meta
           name="description"
           content="An open source project dedicated to crowdsourcing and crowdfunding

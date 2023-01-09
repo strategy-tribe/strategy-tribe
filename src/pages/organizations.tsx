@@ -31,7 +31,7 @@ const OrganizationsPage: NextPageWithLayout<{ orgs: SmallOrg[] }> = ({
   return (
     <>
       <Head>
-        <title>ST | Organizations</title>
+        <title>Organizations</title>
         <meta
           name="description"
           content=" An open source project dedicated to crowdsourcing and crowdfunding
