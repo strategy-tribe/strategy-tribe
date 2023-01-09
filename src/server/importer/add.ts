@@ -2,6 +2,7 @@ import { PrismaClient, RequirementType } from '@prisma/client';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
 import { Wallet } from 'ethers';
 import fs from 'fs';
+import { resolve } from 'path';
 import { v4 } from 'uuid';
 
 import { toTitleCase } from '@/lib/utils/StringHelpers';
@@ -115,7 +116,7 @@ export async function addToDb(
       } issues while populating the db. See the log to learn more`
     );
 
-    const name = `${v4()}-log.json`;
+    const name = resolve('public', 'admin', 'logs', `${v4()}-log.json`);
     fs.writeFileSync(
       name,
       JSON.stringify({ orgIssues, targetIssues }, null, 2)
