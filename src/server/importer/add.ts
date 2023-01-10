@@ -113,6 +113,8 @@ export async function addToDb(
       } issues while populating the db. See the log to learn more`
     );
 
+    LOG(JSON.stringify({ orgIssues, targetIssues }, null, 2));
+
     // TODO: log error
     // const name = resolve('public', 'admin', 'logs', `${v4()}-log.json`);
     // fs.writeFileSync(
