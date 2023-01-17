@@ -9,7 +9,10 @@ const GetTargetSchema = z.object({
   name: z.string(),
 });
 
-const _getTarget = async (prisma: PrismaClient, params: GetTargetParams) => {
+export const _getTarget = async (
+  prisma: PrismaClient,
+  params: GetTargetParams
+) => {
   const target = await prisma.target.findUnique({
     where: {
       name: params.name,
@@ -17,9 +20,20 @@ const _getTarget = async (prisma: PrismaClient, params: GetTargetParams) => {
     select: {
       _count: true,
       alsoKnownAs: true,
-      bounties: true,
+      bounties: {
+        select: {
+          wallet: true,
+          tags: true,
+        },
+      },
       name: true,
-      org: true,
+      org: {
+        select: {
+          name: true,
+          tags: true,
+          countries: true,
+        },
+      },
       type: true,
       bio: true,
     },

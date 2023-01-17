@@ -17,7 +17,7 @@ export default function AppLayout({
   const { isAdmin, isStaff } = useAuth();
 
   const specialAccount = isAdmin || isStaff;
-  const padding = specialAccount ? 'pt-28 tablet:pt-20' : 'pt-28 tablet:pt-20';
+  const padding = specialAccount ? 'pt-40 tablet:pt-20' : 'pt-40 tablet:pt-20';
 
   return (
     <div className="min-h-screen scroll-smooth">

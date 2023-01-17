@@ -228,4 +228,8 @@
   .no-scrollbar::-webkit-scrollbar {
     display: none;
   }
+
+  input[type='date']::-webkit-calendar-picker-indicator {
+    filter: invert(0.8);
+  }
 }

@@ -1,6 +1,5 @@
 ('@/components/utils/Title');
 import Head from 'next/head';
-import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import ReactTextareaAutosize from 'react-textarea-autosize';
 
@@ -27,7 +26,6 @@ const AddBountiesPage: NextPageWithLayout = () => {
   );
   const [disabled, setDisabled] = useState(true);
   const { notify: notify } = useNotification();
-  const router = useRouter();
 
   useEffect(() => {
     let disable = true;

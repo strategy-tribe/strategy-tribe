@@ -38,6 +38,19 @@ export function BountyCard({ bounty }: { bounty: SmallBounty }) {
 
           <BountyCardReward reward={bounty.wallet?.balance ?? 0} />
 
+          <div className="flex flex-wrap gap-4">
+            {bounty.tags.map((tag) => {
+              return (
+                <span
+                  key={tag.name}
+                  className="label capitalize text-on-surface-unactive"
+                >
+                  {tag.name}
+                </span>
+              );
+            })}
+          </div>
+
           <BountyCardFooter
             amountOfSubs={bounty._count.submissions}
             closesAt={bounty.closesAt}

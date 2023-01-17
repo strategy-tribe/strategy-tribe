@@ -121,6 +121,9 @@ export function BountyHeader() {
         {/* Details */}
         <Section className="space-y-8">
           <Stat title="target" content={bounty?.target?.name} />
+          {bounty?.target?.bio && (
+            <Stat title="bio" content={bounty?.target?.bio} />
+          )}
           <Stat
             title="requirements"
             contents={bounty.requirements

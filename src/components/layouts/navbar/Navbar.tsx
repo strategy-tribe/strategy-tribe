@@ -8,6 +8,7 @@ import {
   GoToFAQPage,
   GoToOrganizationsPage,
   GoToRulesPage,
+  GoToTargetsPage,
 } from '@/lib/utils/Routes';
 
 import { ConnectWalletPopUp } from '@/components/auth/ConnectWalletPopUp';
@@ -82,6 +83,7 @@ export function Navbar({
             <div className="hidden gap-8 tablet:flex">
               <NavLink url={GoToBountiesPage()} label="Bounties" />
               <NavLink url={GoToOrganizationsPage()} label="Organizations" />
+              <NavLink url={GoToTargetsPage()} label="Targets" />
               <NavLink url={GoToAboutusPage()} label="About" />
               <NavLink url={GoToRulesPage()} label="Rules" />
               <NavLink url={GoToFAQPage()} label="FAQ" />
@@ -119,9 +121,12 @@ export function Navbar({
             )}
           </div>
         </div>
-        <div className="mx-2 flex justify-around gap-6 border-b-2 border-main pb-1 tablet:hidden">
+        <div className="m-2 flex flex-wrap justify-around gap-x-10 gap-y-6 border-b-2 border-main pb-1 tablet:hidden">
           <NavLink url={GoToBountiesPage()} label="Bounties" />
           <NavLink url={GoToOrganizationsPage()} label="Organizations" />
+          <NavLink url={GoToTargetsPage()} label="Targets" />
+        </div>
+        <div className="m-2 flex flex-wrap justify-around gap-x-10 border-b-2 border-main pb-1 tablet:hidden">
           <NavLink url={GoToAboutusPage()} label="About" />
           <NavLink url={GoToRulesPage()} label="Rules" />
           <NavLink url={GoToFAQPage()} label="FAQ" />
