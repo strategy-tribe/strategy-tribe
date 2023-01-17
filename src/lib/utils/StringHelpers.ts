@@ -64,7 +64,7 @@ export function isString(object: unknown): object is string {
   return typeof object === 'string' && object.length > 0;
 }
 
-const capitalizeSentence = (word: string) => {
+export const capitalizeSentence = (word: string) => {
   return word.charAt(0).toUpperCase() + word.slice(1);
 };
 
