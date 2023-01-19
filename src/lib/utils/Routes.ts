@@ -10,6 +10,8 @@ export const GoToGeneralDonationsPage = () => '/support';
 
 export const GoToOrganizationsPage = () => '/organizations';
 
+export const GoToTargetsPage = () => '/targets';
+
 export const GoToSearchPage = () => '/search';
 
 export const GoToRulesPage = () => '/rules';
@@ -34,6 +36,11 @@ export const GoToOrgPage = (orgName: string) => {
 
 export const GoToOrgBountiesPage = (orgName: string) =>
   `/organization/${orgName}/bounties`;
+
+export const GoToTargetPage = (targetName: string) => {
+  const url = `/target/${encodeURI(targetName)}`;
+  return url;
+};
 
 export const GoToBountyPage = (slug: string) => `/bounty/${slug}`;
 
@@ -60,4 +67,12 @@ export const GoToReviewsPage = () => {
 
 export const GoToInvoicesPage = () => {
   return `/admin/invoices`;
+};
+
+export const GoToAddBountiesPage = () => {
+  return `/admin/bounty/add`;
+};
+
+export const GoToEditBountyPage = () => {
+  return `/admin/bounty/edit`;
 };

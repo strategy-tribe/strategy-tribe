@@ -1,11 +1,19 @@
+import { useQueryClient } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 
 import { trpc } from '@/lib/trpc';
 
+import { DeleteBountyParams } from '@/server/routes/bounties/deleteBounty';
+import { EditBountyParams } from '@/server/routes/bounties/editbounty';
 import {
   GetBountiesParams,
   SmallBounty,
 } from '@/server/routes/bounties/getBounties';
+import {
+  FullBounty,
+  GetFullBountyParams,
+} from '@/server/routes/bounties/getFullBounty';
+import { PostBountiesParams } from '@/server/routes/bounties/postBounties';
 
 //!Get All
 export const useGetBounties = (config: GetBountiesParams, enabled = true) => {
@@ -64,5 +72,110 @@ export const useGetBounty = (slug: string, enabled = true) => {
     bounty: data?.bounty ?? undefined,
     error,
     isLoading,
+  };
+};
+
+export const useGetFullBounty = (
+  config: GetFullBountyParams,
+  enabled = true
+) => {
+  const { error, isLoading, data } = trpc.bounty.getFullBounty.useQuery(
+    config,
+    { enabled }
+  );
+
+  return {
+    bounties: data?.bounties ?? [],
+    error,
+    isLoading,
+  };
+};
+
+export const useAddBounties = (events: {
+  onMutate: () => void;
+  onSuccess: (data: {
+    targets: string;
+    orgs: string;
+    errors: string[];
+    totalData: number;
+  }) => void;
+  onError: (e: any) => void;
+}) => {
+  const { onError, onMutate, onSuccess } = events;
+
+  const qc = useQueryClient();
+
+  const mutation = trpc.bounty.postBounties.useMutation({
+    onMutate,
+    onError,
+    onSuccess: (data) => {
+      qc.invalidateQueries();
+      onSuccess(data);
+    },
+  });
+
+  return {
+    Add: async (params: PostBountiesParams) => {
+      mutation.mutate(params);
+    },
+    isLoading: mutation.isLoading,
+    isSuccess: mutation.isSuccess,
+    error: mutation.error,
+  };
+};
+
+export const useEditBounty = (events: {
+  onMutate: () => void;
+  onSuccess: (data: FullBounty) => void;
+  onError: (e: any) => void;
+}) => {
+  const { onError, onMutate, onSuccess } = events;
+
+  const qc = useQueryClient();
+
+  const mutation = trpc.bounty.editBounty.useMutation({
+    onMutate,
+    onError,
+    onSuccess: (data) => {
+      qc.invalidateQueries();
+      onSuccess(data);
+    },
+  });
+
+  return {
+    Edit: async (params: EditBountyParams) => {
+      mutation.mutate(params);
+    },
+    isLoading: mutation.isLoading,
+    isSuccess: mutation.isSuccess,
+    error: mutation.error,
+  };
+};
+
+export const useDeleteBounty = (events: {
+  onMutate: () => void;
+  onSuccess: () => void;
+  onError: (e: any) => void;
+}) => {
+  const { onError, onMutate, onSuccess } = events;
+
+  const qc = useQueryClient();
+
+  const mutation = trpc.bounty.deleteBounty.useMutation({
+    onMutate,
+    onError,
+    onSuccess: (data) => {
+      qc.invalidateQueries();
+      onSuccess();
+    },
+  });
+
+  return {
+    Delete: async (params: DeleteBountyParams) => {
+      mutation.mutate(params);
+    },
+    isLoading: mutation.isLoading,
+    isSuccess: mutation.isSuccess,
+    error: mutation.error,
   };
 };

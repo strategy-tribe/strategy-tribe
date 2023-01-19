@@ -22,7 +22,7 @@ const AboutUsPage: NextPageWithLayout = () => {
   return (
     <div className="space-y-8 text-on-surface-p1">
       <Head>
-        <title>ST | About us</title>
+        <title>About us</title>
         <meta
           name="description"
           content="StrategyTribe was born from a need for higher quality, better scaled OSINT work on the

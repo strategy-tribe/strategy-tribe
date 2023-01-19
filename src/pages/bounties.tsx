@@ -50,7 +50,7 @@ const BountiesPage: NextPageWithLayout<{ mapData: MapDataWithFeatures }> = ({
   return (
     <>
       <Head>
-        <title>ST | Home</title>
+        <title>Home</title>
         <meta
           name="description"
           content=" An open source project dedicated to crowdsourcing and crowdfunding

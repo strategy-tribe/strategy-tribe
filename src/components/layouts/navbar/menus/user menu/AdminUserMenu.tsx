@@ -1,5 +1,7 @@
 import {
   GoToAccountPage,
+  GoToAddBountiesPage,
+  GoToEditBountyPage,
   GoToInvoicesPage,
   GoToReviewsPage,
   GoToWaitingForFunds,
@@ -42,6 +44,18 @@ export function AdminUserMenu({
             <MenuItem
               label="Invoices"
               url={GoToInvoicesPage()}
+              onClick={hide}
+            />
+
+            <MenuItem
+              label="Add Bounties"
+              url={GoToAddBountiesPage()}
+              onClick={hide}
+            />
+
+            <MenuItem
+              label="Edit Bounty"
+              url={GoToEditBountyPage()}
               onClick={hide}
             />
 

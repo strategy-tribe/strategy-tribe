@@ -9,7 +9,7 @@ const RulesPage: NextPageWithLayout = () => {
   return (
     <>
       <Head>
-        <title>ST | Terms & Conditions</title>
+        <title>Terms & Conditions</title>
         <meta
           name="description"
           content="An open source project dedicated to crowdsourcing and crowdfunding

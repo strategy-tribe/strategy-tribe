@@ -3,22 +3,29 @@ import { z } from 'zod';
 
 import { publicProcedure } from '@/server/procedures';
 
-import { ThenArg } from '../utils/helperTypes';
+import { ArrayElement, ThenArg } from '../utils/helperTypes';
 
 const GetTargetsSchema = z.object({
   amount: z.number().optional(),
 });
 
-const _getTargets = async (prisma: PrismaClient, params: GetTargetsParams) => {
-  const { amount } = params;
+export const _getTargets = async (
+  prisma: PrismaClient,
+  params?: GetTargetsParams
+) => {
   const targets = await prisma.target.findMany({
-    take: amount,
+    take: params?.amount,
     select: {
       _count: true,
       name: true,
       alsoKnownAs: true,
       bio: true,
       type: true,
+      org: {
+        select: {
+          name: true,
+        },
+      },
     },
   });
   return targets;
@@ -36,3 +43,5 @@ export const getTargets = publicProcedure
 export type TargetsWithMetadata = NonNullable<
   ThenArg<ReturnType<typeof _getTargets>>
 >;
+
+export type SmallTarget = ArrayElement<TargetsWithMetadata>;

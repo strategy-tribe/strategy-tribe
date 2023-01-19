@@ -52,7 +52,7 @@ const OrganizationBountiesPage: NextPageWithLayout = () => {
   return (
     <>
       <Head>
-        <title className="capitalize">ST | {org?.name} Bounties</title>
+        <title className="capitalize">{org?.name} Bounties</title>
         <meta
           name="description"
           content="An open source project dedicated to crowdsourcing and crowdfunding

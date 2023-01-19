@@ -8,6 +8,7 @@ import {
   GoToFAQPage,
   GoToOrganizationsPage,
   GoToRulesPage,
+  GoToTargetsPage,
 } from '@/lib/utils/Routes';
 
 import { ConnectWalletPopUp } from '@/components/auth/ConnectWalletPopUp';
@@ -16,7 +17,6 @@ import { Button, ButtonStyle } from '@/components/utils/Button';
 import { useAuth } from '@/auth/AuthContext';
 
 import { LandingPageLink } from './LandingPageLink';
-import { NotifsMenu } from './menus/NotifsMenu';
 import { UserMenu } from './menus/UserMenu';
 import { NavLink } from './NavLink';
 
@@ -83,6 +83,7 @@ export function Navbar({
             <div className="hidden gap-8 tablet:flex">
               <NavLink url={GoToBountiesPage()} label="Bounties" />
               <NavLink url={GoToOrganizationsPage()} label="Organizations" />
+              <NavLink url={GoToTargetsPage()} label="Targets" />
               <NavLink url={GoToAboutusPage()} label="About" />
               <NavLink url={GoToRulesPage()} label="Rules" />
               <NavLink url={GoToFAQPage()} label="FAQ" />
@@ -91,6 +92,7 @@ export function Navbar({
 
           {/* right side */}
           <div className="flex items-center gap-1 bt:gap-6">
+            {/* TODO: to be implemented - RED-98
             {!!userId && (
               <NotifsMenu
                 userId={userId}
@@ -98,7 +100,7 @@ export function Navbar({
                 hide={() => setShowNotifs(false)}
                 show={() => setShowNotifs(true)}
               />
-            )}
+            )} */}
 
             {!userId ? (
               <div className="grid place-items-center py-1">
@@ -119,9 +121,12 @@ export function Navbar({
             )}
           </div>
         </div>
-        <div className="mx-2 flex justify-around gap-6 border-b-2 border-main pb-1 tablet:hidden">
+        <div className="m-2 flex flex-wrap justify-around gap-x-10 gap-y-6 border-b-2 border-main pb-1 tablet:hidden">
           <NavLink url={GoToBountiesPage()} label="Bounties" />
           <NavLink url={GoToOrganizationsPage()} label="Organizations" />
+          <NavLink url={GoToTargetsPage()} label="Targets" />
+        </div>
+        <div className="m-2 flex flex-wrap justify-around gap-x-10 border-b-2 border-main pb-1 tablet:hidden">
           <NavLink url={GoToAboutusPage()} label="About" />
           <NavLink url={GoToRulesPage()} label="Rules" />
           <NavLink url={GoToFAQPage()} label="FAQ" />
