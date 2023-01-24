@@ -11,6 +11,7 @@
     "lint:per": "lint:fix && eslint --format summary-chart src",
     "prepare": "husky install",
     "dev": "next dev",
+    "pre-build": "yarn prisma generate",
     "build": "next build",
     "start": "next start",
     "format": "yarn prisma format",
