@@ -13,6 +13,7 @@
     "dev": "next dev",
     "pre-build": "yarn prisma generate",
     "build": "next build",
+    "vercel-build": "prisma generate && next build",
     "start": "next start",
     "format": "yarn prisma format",
     "generate": "yarn prisma format && yarn prisma generate",
