@@ -84,6 +84,7 @@ const parseToCSV = (data: any[]) => {
   const csv = json.map(function (row: any) {
     return fields
       .map(function (fieldName) {
+        if (fieldName === 'types' && row[fieldName].length === 0) return 'none';
         return replacer(row[fieldName]);
       })
       .join(',');

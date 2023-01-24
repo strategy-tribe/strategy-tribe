@@ -88,6 +88,8 @@ export function scrapOrganizations(rows: Row[]): OrgData[] {
     org.links = org.links?.map((word) => word?.toLowerCase()?.trim()) || [];
 
     if (org.types.length === 0) org.types = DEFAULT_TYPES_FOR_BOUNTIES;
+    else if (org.types.length === 1 && row[7]?.toLowerCase() === 'none')
+      org.types = [];
 
     organizationsData.push(org);
   }
@@ -109,8 +111,8 @@ export function scrapTargets(rows: Row[]): TargetData[] {
       alsoKnownAs: isString(row[2]) ? row[2].split(',') : [],
       tags: isString(row[3]) ? row[3].split(',') : [],
       bio: row[4].toLowerCase().trim(),
-      types: isString(row[7])
-        ? row[7].split(',').map((i) => toTitleCase(i.trim()) as RequirementType)
+      types: isString(row[5])
+        ? row[5].split(',').map((i) => toTitleCase(i.trim()) as RequirementType)
         : [],
     };
 
@@ -119,6 +121,8 @@ export function scrapTargets(rows: Row[]): TargetData[] {
     target.tags = target.tags?.map((word) => word.toLowerCase().trim()) || [];
 
     if (target.types.length === 0) target.types = DEFAULT_TYPES_FOR_BOUNTIES;
+    else if (target.types.length === 1 && row[5]?.toLowerCase() === 'none')
+      target.types = [];
 
     targetsData.push(target);
   }

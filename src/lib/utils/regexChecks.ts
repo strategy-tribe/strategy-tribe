@@ -16,6 +16,10 @@ const MAIL_REGEX =
   // eslint-disable-next-line no-useless-escape
   /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
+const NAME_REGEX =
+  // eslint-disable-next-line no-useless-escape
+  /[a-zA-Z]{3}/;
+
 export function isEmailValid(s: string) {
   return MAIL_REGEX.test(s);
 }
@@ -28,6 +32,10 @@ export function isWalletValid(s: string) {
   const isBtc = btcRegex.test(s);
 
   return isBtc || isEth;
+}
+
+export function isNameValid(s: string) {
+  return NAME_REGEX.test(s);
 }
 
 export function isReportValid(s: string) {
