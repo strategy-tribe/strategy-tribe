@@ -49,7 +49,7 @@ const EvaluateEmail = (s: string) => {
 const EvaluateName = (s: string) => {
   return {
     isValid: isNameValid(s),
-    errorMsg: 'Your input must have atleast 3 letters',
+    errorMsg: 'Your input must have atleast one 3 letter-word',
   };
 };
 
