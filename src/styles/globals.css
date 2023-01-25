@@ -233,3 +233,7 @@
     filter: invert(0.8);
   }
 }
+
+.breakWord {
+  word-break: break-word;
+}
