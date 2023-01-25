@@ -159,20 +159,25 @@ function GenerateBountiesData(
     let bountyTitle = '';
     let extraDataTitle = '';
     switch (type) {
-      case 'Email':
+      case RequirementType.Email:
         bountyTitle = `Find emails associated with ${targetName}`;
         title = 'Find at least one (1) email';
         extraDataTitle = 'Enter additional emails here';
         break;
-      case 'Wallet':
+      case RequirementType.Wallet:
         bountyTitle = `Find wallet addresses associated with ${targetName}`;
         title = 'Find at least one (1) wallet address';
         extraDataTitle = 'Enter additional wallet addresses here';
         break;
-      case 'Domain':
+      case RequirementType.Domain:
         bountyTitle = `Find domains associated with ${targetName}`;
         title = 'Find at least one (1) domain';
         extraDataTitle = 'Enter additional domains here';
+        break;
+      case RequirementType.Name:
+        bountyTitle = `Find names associated with ${targetName}`;
+        title = 'Find at least one (1) name';
+        extraDataTitle = 'Enter additional names here';
         break;
       default:
         throw new Error(`Undefined bounty type for ${targetName}`);
@@ -185,7 +190,7 @@ function GenerateBountiesData(
     const extraDataReq: RequirementData = {
       optional: true,
       title: extraDataTitle,
-      type: 'Report',
+      type: RequirementType.Report,
     };
 
     const dataForNewBounty: BountyData = {
@@ -294,7 +299,7 @@ async function CreateOrganization(prisma: PrismaClient, o: OrgData) {
         },
         countries: {
           connectOrCreate: o.countries.map((c) => ({
-            create: { code: c, name: 'Unknown' },
+            create: { code: c, name: `Unknown_${c}` },
             where: { code: c },
           })),
         },

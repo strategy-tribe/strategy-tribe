@@ -4,7 +4,6 @@ import { useState } from 'react';
 
 import { useGetOrganization } from '@/lib/hooks/organizationHooks';
 import { useCanUserSubmit } from '@/lib/hooks/submission';
-import { ParseBountyTitle } from '@/lib/utils/BountyHelpers';
 import { GoToBeforeNewSubmissionPage, GoToOrgPage } from '@/lib/utils/Routes';
 
 import { DonationPopUp } from '@/components/donations/DonationPopUp';
@@ -30,8 +29,6 @@ export function BountyHeader() {
     { enabled: !!bounty?.target?.org?.name }
   );
   const [showDonation, setShowDonation] = useState(false);
-
-  const parsedTitle = ParseBountyTitle(bounty);
 
   return (
     <>
@@ -68,7 +65,7 @@ export function BountyHeader() {
 
           <div className="justify-between gap-10 tablet:flex">
             <div>
-              <h1 className="laptop:h2 h3">{parsedTitle}</h1>
+              <h1 className="laptop:h2 h3">{bounty.title}</h1>
               <h2 className="body-lg my-4 max-w-2xl">
                 Bounties are curated at the discretion of Strategy Tribe to only
                 include entities, individuals or groups currently under{' '}

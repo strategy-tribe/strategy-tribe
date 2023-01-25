@@ -275,6 +275,7 @@ enum RequirementType {
   PhoneNumber
   SocialMediaAccount
   Email
+  Name
 }
 
 //Users:--------------------------------------------------------------------------------

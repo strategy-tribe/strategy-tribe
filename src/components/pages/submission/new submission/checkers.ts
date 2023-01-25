@@ -2,6 +2,7 @@ import { RequirementType } from '@prisma/client';
 
 import {
   isEmailValid,
+  isNameValid,
   isPhoneNumberValid,
   isReportValid,
   isUrlValid,
@@ -15,6 +16,9 @@ export const CheckInput = (
   switch (type) {
     case RequirementType.Email:
       return EvaluateEmail(s);
+
+    case RequirementType.Name:
+      return EvaluateName(s);
 
     case RequirementType.Report:
       return EvaluateReport(s);
@@ -39,6 +43,13 @@ const EvaluateEmail = (s: string) => {
   return {
     isValid: isEmailValid(s),
     errorMsg: 'Your input must contain an email address.',
+  };
+};
+
+const EvaluateName = (s: string) => {
+  return {
+    isValid: isNameValid(s),
+    errorMsg: 'Your input must have atleast one 3 letter-word',
   };
 };
 

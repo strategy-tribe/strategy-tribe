@@ -54,6 +54,7 @@ export function BountyCard({ bounty }: { bounty: SmallBounty }) {
           <BountyCardFooter
             amountOfSubs={bounty._count.submissions}
             closesAt={bounty.closesAt}
+            status={bounty.status}
           />
         </span>
       </Link>
