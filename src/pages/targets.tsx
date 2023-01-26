@@ -17,6 +17,7 @@ export const getStaticProps: GetStaticProps = async () => {
     props: {
       targets: overcomeSerialization(targets),
     },
+    revalidate: 60 * 5, //every 5 minutes
   };
 };
 

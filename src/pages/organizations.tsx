@@ -20,6 +20,7 @@ export const getStaticProps: GetStaticProps = async () => {
     props: {
       orgs: overcomeSerialization(orgs),
     },
+    revalidate: 60 * 5, //every 5 minutes
   };
 };
 
