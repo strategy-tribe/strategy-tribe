@@ -5,7 +5,6 @@ import { isString, toTitleCase } from '@/lib/utils/StringHelpers';
 import prisma from '@/server/prisma/prismaClient';
 
 import { addToDb } from './add';
-import { updateDb } from './update';
 import {
   DEFAULT_TYPES_FOR_BOUNTIES,
   ERROR,
@@ -16,6 +15,7 @@ import {
   Row,
   TargetData,
 } from './utils';
+import { updateDb } from '../dataModifications/update';
 import { ReadFileInDataFolder } from '../routers/ReadFileInDataFolder';
 
 //*Scraping
