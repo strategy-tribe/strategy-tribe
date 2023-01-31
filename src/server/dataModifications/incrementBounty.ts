@@ -44,7 +44,7 @@ export async function IncrementBounty() {
         const wControl = b.wallet.walletControl;
         let newBalance = b.wallet.balance + wControl.incrementBy;
         let nextDate = new Date(
-          new Date().getTime() + wControl.incrementInDays * 50 * 1000
+          new Date().getTime() + wControl.incrementInDays * 24 * 60 * 60 * 1000
         );
         if (newBalance >= wControl.fund) {
           newBalance = wControl.fund;

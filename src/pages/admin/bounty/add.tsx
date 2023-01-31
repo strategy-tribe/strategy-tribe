@@ -19,10 +19,10 @@ import { NextPageWithLayout } from '../../_app';
 
 const AddBountiesPage: NextPageWithLayout = () => {
   const [targets, setTargets] = useState(
-    'name,organizationName,alsoKnownAs,tags,bio,types\n'
+    'name,organizationName,alsoKnownAs,tags,bio,types,bountyConfig\n'
   );
   const [orgs, setOrgs] = useState(
-    'name,alsoKnownAs,tags,countries,bio,why,links,types\n'
+    'name,alsoKnownAs,tags,countries,bio,why,links,types,bountyConfig\n'
   );
   const [disabled, setDisabled] = useState(true);
   const { notify: notify } = useNotification();

@@ -32,6 +32,7 @@ export type TargetData = {
   tags: string[] | undefined;
   bio: string | undefined;
   types: RequirementType[];
+  incrementConfig: string | undefined;
 };
 
 export type OrgData = {
@@ -43,6 +44,7 @@ export type OrgData = {
   why: string | undefined;
   links: string[] | undefined;
   types: RequirementType[];
+  incrementConfig: string | undefined;
 };
 
 /** To be used if no types are defined for a organization */

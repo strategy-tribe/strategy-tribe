@@ -77,6 +77,7 @@ export function scrapOrganizations(rows: Row[]): OrgData[] {
       types: isString(row[7])
         ? row[7].split(',').map((i) => toTitleCase(i.trim()) as RequirementType)
         : [],
+      incrementConfig: row[8],
     };
 
     org.alsoKnownAs =
@@ -114,6 +115,7 @@ export function scrapTargets(rows: Row[]): TargetData[] {
       types: isString(row[5])
         ? row[5].split(',').map((i) => toTitleCase(i.trim()) as RequirementType)
         : [],
+      incrementConfig: row[6],
     };
 
     target.alsoKnownAs =
