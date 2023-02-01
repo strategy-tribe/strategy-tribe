@@ -41,6 +41,7 @@ export function BountyHeader() {
       }, 300);
     }
   }, [counter]);
+
   return (
     <>
       <header className="space-y-14 border-b-2 border-main py-14">
