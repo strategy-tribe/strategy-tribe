@@ -77,6 +77,11 @@ export async function GetFullBounty(
           },
         },
       },
+      wallet: {
+        include: {
+          walletControl: true,
+        },
+      },
     },
   });
 

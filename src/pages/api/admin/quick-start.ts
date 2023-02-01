@@ -1,11 +1,11 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 
+import { UpdateBalance } from '@/server/dataModifications/updateBalance';
 import { AddCountriesToDB } from '@/server/importer/countries';
 import { DownloadData } from '@/server/importer/downloadData';
 import { GenerateCountriesData } from '@/server/importer/generateCountriesData';
 import { ResetDB } from '@/server/importer/resetDb';
 import { GrabData } from '@/server/importer/scrapSheet';
-import { UpdateBalance } from '@/server/importer/updateBalance';
 import prisma from '@/server/prisma/prismaClient';
 
 export default async function handler(

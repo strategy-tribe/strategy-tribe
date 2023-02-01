@@ -99,9 +99,26 @@ model Wallet {
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
 
+  walletControl   WalletControl? @relation(fields: [walletControlId], references: [id], onDelete: SetNull)
+  walletControlId String?        @unique
+
   bounty Bounty?
 
   org Organization?
+}
+
+model WalletControl {
+  id                 String   @id @default(cuid())
+  fund               Float
+  initial            Float
+  incrementBy        Float
+  numberOfIncrements Int
+  incrementInDays    Int
+  nextIncrementOn    DateTime @default(now())
+  proposedFund       Float?
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @default(now())
+  Wallet             Wallet?
 }
 
 model Key {

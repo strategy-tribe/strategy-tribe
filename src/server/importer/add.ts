@@ -52,6 +52,7 @@ export async function addToDb(
           title: bountyData.bountyTitle,
           tags: o.tags,
           closesAt: addDays(new Date(), 7 * 4 * 6),
+          incrementConfig: o.incrementConfig,
         });
       }
 
@@ -88,6 +89,7 @@ export async function addToDb(
           requirements: bountyData.requirements,
           tags: t.tags,
           closesAt: addDays(new Date(), 7 * 4 * 6),
+          incrementConfig: t.incrementConfig,
         });
       }
       if (i % 3 === 0) LOG(`${i + 1}/${targets.length} targets created.`);
@@ -214,14 +216,17 @@ async function CreateBounty(
     targetName,
     requirements,
     closesAt,
+    incrementConfig,
   }: {
     title: string;
     requirements: RequirementData[];
     targetName: string;
     closesAt: Date;
     tags?: string[];
+    incrementConfig: string | undefined;
   }
 ) {
+  const walletControl = getWalletControl(incrementConfig, requirements);
   const address = await getNewAddress(prisma);
   LOG(`--- ${title}`);
   await prisma.bounty.create({
@@ -258,6 +263,9 @@ async function CreateBounty(
         create: {
           address: address,
           balance: 0,
+          walletControl: {
+            create: walletControl,
+          },
         },
       },
     },
@@ -370,4 +378,46 @@ async function getNewAddress(prisma: PrismaClient) {
     },
   });
   return address;
+}
+
+function getWalletControl(
+  incrementConfig: string | undefined,
+  requirements: RequirementData[]
+) {
+  const config = incrementConfig
+    ?.split('\n')
+    ?.find((c) =>
+      c
+        .toLowerCase()
+        .includes(
+          requirements
+            .find(
+              (r) =>
+                r.type !== RequirementType.Report &&
+                r.type !== RequirementType.Image
+            )
+            ?.type?.toLowerCase() ?? 'unkown'
+        )
+    );
+  if (!config) {
+    return {
+      fund: 0,
+      initial: 5,
+      incrementBy: 2,
+      numberOfIncrements: 0,
+      incrementInDays: 2,
+      nextIncrementOn: new Date(),
+      proposedFund: 0,
+    };
+  }
+  const configs = config.split(',');
+  return {
+    fund: 0,
+    initial: configs[1] ? parseFloat(configs[1]) : 0,
+    incrementBy: configs[2] ? parseFloat(configs[2]) : 0,
+    numberOfIncrements: 0,
+    incrementInDays: configs[3] ? parseFloat(configs[3]) : 0,
+    nextIncrementOn: new Date(),
+    proposedFund: configs[4] ? parseFloat(configs[4]) : 0,
+  };
 }

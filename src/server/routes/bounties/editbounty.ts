@@ -64,6 +64,19 @@ const EditBountySchema = z.object({
       })
       .nullable(),
   }),
+  wallet: z.object({
+    id: z.string(),
+    balance: z.number(),
+    address: z.string(),
+    walletControl: z
+      .object({
+        initial: z.number(),
+        incrementBy: z.number(),
+        incrementInDays: z.number(),
+        nextIncrementOn: z.date(),
+      })
+      .nullable(),
+  }),
 });
 
 /** Params necessary to call `EditBounty`  */
@@ -80,6 +93,7 @@ const updateBounty = async (input: EditBountyParams, prisma: PrismaClient) => {
       title: input.title,
       description: input.description,
       closesAt: input.closesAt,
+      updatedAt: new Date(),
       tags: {
         disconnect: input.tags.old.map((tag) => ({
           name: tag.name,
@@ -95,72 +109,80 @@ const updateBounty = async (input: EditBountyParams, prisma: PrismaClient) => {
             },
           })),
       },
+      target: {
+        update: {
+          name: input.target.name,
+          alsoKnownAs: input.target.alsoKnownAs.filter((aka) => aka !== ''),
+          bio: input.target.bio,
+          org: {
+            update: {
+              name: input.target.org?.name,
+              alsoKnownAs: input.target.org?.alsoKnownAs.filter(
+                (aka) => aka !== ''
+              ),
+              bio: input.target.org?.bio,
+              why: input.target.org?.why,
+              links: input.target.org?.links.filter((link) => link !== ''),
+              tags: {
+                disconnect: input.target.org?.tags?.old.map((tag) => ({
+                  name: tag.name,
+                })),
+                connectOrCreate: input.target.org?.tags?.new
+                  .filter((tag) => tag.name !== '')
+                  .map((tag) => ({
+                    create: {
+                      name: tag.name,
+                    },
+                    where: {
+                      name: tag.name,
+                    },
+                  })),
+              },
+              countries: {
+                disconnect: input.target.org?.countries?.old.map((c) => ({
+                  name: c.name,
+                })),
+                connect: input.target.org?.countries?.new
+                  .filter((c) => c.name !== '')
+                  .map((c) => ({
+                    name: c.name,
+                  })),
+              },
+            },
+          },
+        },
+      },
     },
     where: {
       slug: input.slug,
     },
   });
-};
-
-const updateTarget = async (input: EditBountyParams, prisma: PrismaClient) => {
-  await prisma.target.update({
-    data: {
-      name: input.target.name,
-      alsoKnownAs: input.target.alsoKnownAs.filter((aka) => aka !== ''),
-      bio: input.target.bio,
-    },
-    where: {
-      id: input.target.id,
-    },
-  });
-};
-
-const updateOrg = async (input: EditBountyParams, prisma: PrismaClient) => {
-  await prisma.organization.update({
-    data: {
-      name: input.target.org?.name,
-      alsoKnownAs: input.target.org?.alsoKnownAs.filter((aka) => aka !== ''),
-      bio: input.target.org?.bio,
-      why: input.target.org?.why,
-      links: input.target.org?.links.filter((link) => link !== ''),
-      tags: {
-        disconnect: input.target.org?.tags?.old.map((tag) => ({
-          name: tag.name,
-        })),
-        connectOrCreate: input.target.org?.tags?.new
-          .filter((tag) => tag.name !== '')
-          .map((tag) => ({
-            create: {
-              name: tag.name,
-            },
-            where: {
-              name: tag.name,
-            },
-          })),
+  if (input.wallet.walletControl) {
+    await prisma.wallet.update({
+      where: {
+        address: input.wallet.address,
       },
-      countries: {
-        disconnect: input.target.org?.countries?.old.map((c) => ({
-          name: c.name,
-        })),
-        connect: input.target.org?.countries?.new
-          .filter((c) => c.name !== '')
-          .map((c) => ({
-            name: c.name,
-          })),
+      data: {
+        balance: input.wallet.balance,
+        updatedAt: new Date(),
+        walletControl: {
+          update: {
+            initial: input.wallet.walletControl.initial,
+            incrementBy: input.wallet.walletControl.incrementBy,
+            incrementInDays: input.wallet.walletControl.incrementInDays,
+            nextIncrementOn: input.wallet.walletControl.nextIncrementOn,
+            updatedAt: new Date(),
+          },
+        },
       },
-    },
-    where: {
-      id: input.target.org?.id,
-    },
-  });
+    });
+  }
 };
 
 export const editBounty = staffOnlyProcedure
   .input(EditBountySchema)
   .mutation(async ({ input, ctx }) => {
     await updateBounty(input, ctx.prisma);
-    await updateTarget(input, ctx.prisma);
-    await updateOrg(input, ctx.prisma);
     const bounty = (
       await GetFullBounty(ctx.prisma, { slugs: [input.slug] })
     )[0];

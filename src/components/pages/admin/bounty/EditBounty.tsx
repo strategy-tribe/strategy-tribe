@@ -1,4 +1,4 @@
-import { BountyState, Organization, Tag } from '@prisma/client';
+import { BountyState, Organization, Tag, WalletControl } from '@prisma/client';
 import { useEffect, useState } from 'react';
 import ReactTextareaAutosize from 'react-textarea-autosize';
 
@@ -469,6 +469,134 @@ export function EditBounty({
               />
             </div>
           </div>
+
+          {bounty.wallet.walletControl && (
+            <div className="flex flex-wrap items-center justify-between space-y-4 border-2 border-surface p-4">
+              <label className="flex w-full justify-center px-2 font-bold text-main">
+                Wallet Config
+              </label>
+              <div className="items-baseline justify-center px-12">
+                <label className="col-span-1 justify-self-end px-2 font-bold">
+                  Current Bounty:
+                </label>
+                <input
+                  type="number"
+                  placeholder="0.0"
+                  value={bounty.wallet.balance}
+                  min={0}
+                  onChange={(e) =>
+                    setBounty({
+                      ...bounty,
+                      wallet: {
+                        ...bounty.wallet,
+                        balance: parseFloat(e.target.value),
+                      },
+                    })
+                  }
+                  className="col-span-4 mt-2 justify-self-start rounded-md bg-bg text-on-surface-p0 placeholder:text-on-surface-unactive focus:border-main-light"
+                />
+              </div>
+              <div className="items-baseline justify-center px-12">
+                <label className="col-span-1 justify-self-end px-2 font-bold">
+                  Initial Amount:
+                </label>
+                <input
+                  type="number"
+                  placeholder="0.0"
+                  value={bounty.wallet.walletControl.initial}
+                  min={0}
+                  onChange={(e) =>
+                    setBounty({
+                      ...bounty,
+                      wallet: {
+                        ...bounty.wallet,
+                        walletControl: {
+                          ...bounty.wallet.walletControl,
+                          initial: parseFloat(e.target.value),
+                        } as WalletControl,
+                      },
+                    })
+                  }
+                  className="col-span-4 mt-2 justify-self-start rounded-md bg-bg text-on-surface-p0 placeholder:text-on-surface-unactive focus:border-main-light"
+                />
+              </div>
+              <div className="items-baseline justify-center px-16">
+                <label className="col-span-1 justify-self-end px-2 font-bold">
+                  Increment By:
+                </label>
+                <input
+                  type="number"
+                  placeholder="0.0"
+                  value={bounty.wallet.walletControl.incrementBy}
+                  min={0}
+                  onChange={(e) =>
+                    setBounty({
+                      ...bounty,
+                      wallet: {
+                        ...bounty.wallet,
+                        walletControl: {
+                          ...bounty.wallet.walletControl,
+                          incrementBy: parseFloat(e.target.value),
+                        } as WalletControl,
+                      },
+                    })
+                  }
+                  className="col-span-4 mt-2 justify-self-start rounded-md bg-bg text-on-surface-p0 placeholder:text-on-surface-unactive focus:border-main-light"
+                />
+              </div>
+              <div className="items-baseline justify-center px-12">
+                <label className="col-span-1 justify-self-end px-2 font-bold">
+                  Days to increment again:
+                </label>
+                <input
+                  type="number"
+                  placeholder="0"
+                  value={bounty.wallet.walletControl.incrementInDays}
+                  min={0}
+                  onChange={(e) =>
+                    setBounty({
+                      ...bounty,
+                      wallet: {
+                        ...bounty.wallet,
+                        walletControl: {
+                          ...bounty.wallet.walletControl,
+                          incrementInDays: parseInt(e.target.value),
+                        } as WalletControl,
+                      },
+                    })
+                  }
+                  className="col-span-4 mt-2 justify-self-start rounded-md bg-bg text-on-surface-p0 placeholder:text-on-surface-unactive focus:border-main-light"
+                />
+              </div>
+              <div className="items-baseline justify-center px-12">
+                <label className="col-span-1 justify-self-end px-2 font-bold">
+                  Next increment on:
+                </label>
+                <input
+                  type="date"
+                  placeholder="date"
+                  value={
+                    bounty.wallet.walletControl.nextIncrementOn
+                      .toISOString()
+                      .split('T')[0]
+                  }
+                  onChange={(e) =>
+                    setBounty({
+                      ...bounty,
+                      wallet: {
+                        ...bounty.wallet,
+                        walletControl: {
+                          ...bounty.wallet.walletControl,
+                          nextIncrementOn: new Date(e.target.value),
+                        } as WalletControl,
+                      },
+                    })
+                  }
+                  className="col-span-4 mt-2 justify-self-start rounded-md bg-bg text-on-surface-p0 placeholder:text-on-surface-unactive focus:border-main-light"
+                />
+              </div>
+            </div>
+          )}
 
           <div className="flex justify-between py-4">
             <Button
