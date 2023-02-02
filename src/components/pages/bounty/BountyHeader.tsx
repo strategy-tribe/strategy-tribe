@@ -1,6 +1,6 @@
 import { Wallet } from '@prisma/client';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { useGetOrganization } from '@/lib/hooks/organizationHooks';
 import { useCanUserSubmit } from '@/lib/hooks/submission';
@@ -29,6 +29,18 @@ export function BountyHeader() {
     { enabled: !!bounty?.target?.org?.name }
   );
   const [showDonation, setShowDonation] = useState(false);
+  const [counter, setCounter] = useState(0);
+
+  useEffect(() => {
+    if (
+      bounty.wallet.walletControl &&
+      counter < bounty.wallet.walletControl.numberOfIncrements
+    ) {
+      setTimeout(() => {
+        setCounter(counter + 1);
+      }, 300);
+    }
+  }, [counter]);
 
   return (
     <>
@@ -116,21 +128,36 @@ export function BountyHeader() {
         </Section>
 
         {/* Details */}
-        <Section className="space-y-8">
-          <Stat title="target" content={bounty?.target?.name} />
-          {bounty?.target?.bio && (
-            <Stat title="bio" content={bounty?.target?.bio} />
-          )}
-          <Stat
-            title="requirements"
-            contents={bounty.requirements
-              ?.filter((r) => !r.optional)
-              ?.map((r) => r.title)}
-          />
-          {organization ? (
-            <FromOrganization orgName={organization?.name} />
-          ) : (
-            <div className="h-9 w-60 animate-pulse rounded bg-surface-dark" />
+        <Section className="flex justify-between space-x-8">
+          <div className="w-4/5 space-y-8 pr-2">
+            <Stat title="target" content={bounty?.target?.name} />
+            {bounty?.target?.bio && (
+              <Stat title="bio" content={bounty?.target?.bio} />
+            )}
+            <Stat
+              title="requirements"
+              contents={bounty.requirements
+                ?.filter((r) => !r.optional)
+                ?.map((r) => r.title)}
+            />
+            {organization ? (
+              <FromOrganization orgName={organization?.name} />
+            ) : (
+              <div className="h-9 w-60 animate-pulse rounded bg-surface-dark" />
+            )}
+          </div>
+          {bounty.wallet.walletControl && (
+            <div className="space-y-4 text-center">
+              <div className="text-2xl">
+                {`Started at ${bounty.wallet.walletControl?.initial} MATIC`}
+              </div>
+              <div className="flex items-center justify-between">
+                <div className="rounded-md border-2 border-main py-4 px-6 text-6xl">
+                  {counter}
+                </div>
+                <div className="text-base">times incremented</div>
+              </div>
+            </div>
           )}
         </Section>
 
@@ -144,7 +171,7 @@ export function BountyHeader() {
       <DonationPopUp
         show={showDonation}
         hide={() => setShowDonation(false)}
-        recipient={{ wallet: bounty.wallet! as Wallet }}
+        recipient={{ wallet: { address: bounty.wallet.address } as Wallet }}
         description={`Bigger rewards mean more eyes and more OSINT hunters.\nBy donating to this bounty you're directly contributing to bringing this bounty to fruition.\n\nAll donations go directly to the hunter who fulfills the bounty requirements.`}
       />
     </>

@@ -18,8 +18,10 @@ export type PostBountiesResponse = NonNullable<
   ThenArg<ReturnType<typeof postBounties>>
 >;
 
-const ORG_DEFAULT = 'name,alsoKnownAs,tags,countries,bio,why,links,types\n';
-const TARGET_DEFAULT = 'name,organizationName,alsoKnownAs,tags,bio,types\n';
+const ORG_DEFAULT =
+  'name,alsoKnownAs,tags,countries,bio,why,links,types,bountyConfig\n';
+const TARGET_DEFAULT =
+  'name,organizationName,alsoKnownAs,tags,bio,types,bountyConfig\n';
 
 export const postBounties = staffOnlyProcedure
   .input(PostBountiesSchema)
@@ -94,7 +96,10 @@ const parseToCSV = (data: any[]) => {
 };
 
 const parseToArray = (data: string) => {
-  const dataString = data.replaceAll('"""', '"++').replaceAll('""', '++');
+  const dataString = data
+    .replaceAll(',"""', ',"++')
+    .replaceAll('""",', '++",')
+    .replaceAll('""', '++');
   let parsedString = '';
   let flag = 0;
   for (let ch of dataString) {

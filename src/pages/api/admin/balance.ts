@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 
-import { UpdateBalance } from '@/server/importer/updateBalance';
+import { UpdateBalance } from '@/server/dataModifications/updateBalance';
 import prisma from '@/server/prisma/prismaClient';
 
 export default async function handler(

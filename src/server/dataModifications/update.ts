@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 
-import { OrgData, TargetData } from './utils';
+import { OrgData, TargetData } from '../importer/utils';
 
 //*Update
 export async function updateDb(

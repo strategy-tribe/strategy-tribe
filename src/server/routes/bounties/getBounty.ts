@@ -16,6 +16,12 @@ const BOUNTY_SELECTOR = Prisma.validator<Prisma.BountySelect>()({
     select: {
       address: true,
       balance: true,
+      walletControl: {
+        select: {
+          initial: true,
+          numberOfIncrements: true,
+        },
+      },
     },
   },
 });
