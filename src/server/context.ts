@@ -3,6 +3,8 @@ import * as trpcNext from '@trpc/server/adapters/next';
 import { Session } from 'next-auth';
 import { getSession } from 'next-auth/react';
 
+import { LOG } from './importer/utils';
+
 interface CustomContextOptions
   extends Partial<trpcNext.CreateNextContextOptions> {
   session?: Session | null;
@@ -27,6 +29,9 @@ export async function createContext(
 ): Promise<CustomTRPCContext> {
   // for API-response caching see https://trpc.io/docs/caching
   if (opts.req) {
+    LOG(opts.req.headers['x-forwarded-for']?.toString() as string);
+    LOG(opts.req.headers['x-vercel-ip-country']?.toString() as string);
+    LOG(opts.req.headers['x-vercel-ip-city']?.toString() as string);
     const session = await getSession({ req: opts.req });
     return await createContextInner({ ...opts, session });
   }
