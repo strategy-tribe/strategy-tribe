@@ -50,6 +50,7 @@ export type FullBounty = NonNullable<
 export const getBounty = publicProcedure
   .input(GetBountySchema)
   .query(async ({ input, ctx }) => {
+    LOG('Bounty get logg');
     LOG(ctx.req?.headers['x-forwarded-for']?.toString() as string);
     LOG(ctx.req?.headers['x-vercel-ip-country']?.toString() as string);
     LOG(ctx.req?.headers['x-vercel-ip-city']?.toString() as string);
