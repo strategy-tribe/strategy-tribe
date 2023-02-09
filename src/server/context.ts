@@ -27,11 +27,6 @@ export async function createContext(
 ): Promise<CustomTRPCContext> {
   // for API-response caching see https://trpc.io/docs/caching
   if (opts.req) {
-    console.error(opts.req.headers['x-forwarded-for']?.toString() as string);
-    console.error(
-      opts.req.headers['x-vercel-ip-country']?.toString() as string
-    );
-    console.error(opts.req.headers['x-vercel-ip-city']?.toString() as string);
     const session = await getSession({ req: opts.req });
     return await createContextInner({ ...opts, session });
   }

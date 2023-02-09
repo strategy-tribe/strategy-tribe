@@ -1,7 +1,9 @@
-import { publicProcedure } from '@/server/procedures';
 import { Prisma, PrismaClient } from '@prisma/client';
 import { ThenArg } from '@trpc/server';
 import { z } from 'zod';
+
+import { publicProcedure } from '@/server/procedures';
+
 import { SMALL_BOUNTY_SELECTION } from './getBounties';
 
 const GetBountySchema = z.object({
@@ -47,12 +49,6 @@ export type FullBounty = NonNullable<
 export const getBounty = publicProcedure
   .input(GetBountySchema)
   .query(async ({ input, ctx }) => {
-    console.error('Bounty get console.errorg');
-    console.error(ctx.req?.headers['x-forwarded-for']?.toString() as string);
-    console.error(
-      ctx.req?.headers['x-vercel-ip-country']?.toString() as string
-    );
-    console.error(ctx.req?.headers['x-vercel-ip-city']?.toString() as string);
     const bounty = await ServerGetBounty(ctx.prisma, input);
     return { bounty };
   });

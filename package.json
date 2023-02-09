@@ -24,6 +24,7 @@
     "t": "jest"
   },
   "dependencies": {
+    "@fingerprintjs/fingerprintjs": "^3.4.0",
     "@floating-ui/react-dom-interactions": "^0.10.3",
     "@formkit/auto-animate": "^1.0.0-beta.3",
     "@headlessui/react": "^1.7.4",
