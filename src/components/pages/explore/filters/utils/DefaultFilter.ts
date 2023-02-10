@@ -1,3 +1,5 @@
+import { BountyState } from '@prisma/client';
+
 import { BountyOrderBy } from '@/lib/models/BountyQueryParams';
 import { Order } from '@/lib/models/Order';
 
@@ -34,6 +36,7 @@ const TOP_REWARDS_FILTER: BountiesFilter = {
   query: {
     order: Order.Desc,
     orderBy: BountyOrderBy.Bounty,
+    states: [BountyState.Open],
     amount: 16,
 
     page: 0,

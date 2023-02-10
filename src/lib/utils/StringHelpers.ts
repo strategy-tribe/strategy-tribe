@@ -41,6 +41,18 @@ export function ParagrapIsTooLong(s: string, paragraphLenght = 30): string {
   return finalP;
 }
 
+export function splitToParas(s: string): string {
+  const breaker = '.\n\n';
+  let finalP = '';
+  const sentences = s.split('\\n').map((s) => s.trim());
+
+  for (const sentence of sentences) {
+    finalP = finalP + CapitalizeFirstLetter(sentence.trim()) + '.' + breaker;
+  }
+
+  return finalP.replaceAll('..', '.');
+}
+
 export function CapitalizeFirstLetter(s: string, eachWord = true): string {
   if (eachWord) return toTitleCase(s);
   else return capitalizeWord(s);
