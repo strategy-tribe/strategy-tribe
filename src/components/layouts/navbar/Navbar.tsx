@@ -6,6 +6,7 @@ import {
   GoToAboutusPage,
   GoToBountiesPage,
   GoToFAQPage,
+  GoToLeaderboard,
   GoToOrganizationsPage,
   GoToRulesPage,
   GoToTargetsPage,
@@ -71,19 +72,20 @@ export function Navbar({
         } top-0 text-on-surface-p1 ${
           keepNavbar ? borderColor : ''
         } z-40 transition-colors duration-1000 ${
-          showElevation ? 'border-b-[1px] ' : ''
+          showElevation ? 'bt:border-b-[1px] ' : ''
         } ${navbarBackground ? 'bg-bg' : ''}`}
       >
         <div
-          className={`my-2 mx-4 flex max-w-xl items-center justify-between tablet:mx-auto tablet:max-w-3xl bt:max-w-5xl laptop:max-w-7xl ${padding}`}
+          className={`my-2 mx-4 flex max-w-xl items-center justify-between tablet:mx-auto tablet:max-w-2xl bt:max-w-5xl laptop:max-w-7xl ${padding}`}
         >
           {/* left side */}
           <div className="flex items-center gap-8">
             <LandingPageLink />
-            <div className="hidden gap-8 tablet:flex">
+            <div className="hidden gap-8 bt:flex">
               <NavLink url={GoToBountiesPage()} label="Bounties" />
               <NavLink url={GoToOrganizationsPage()} label="Organizations" />
               <NavLink url={GoToTargetsPage()} label="Targets" />
+              <NavLink url={GoToLeaderboard()} label="Leaderboard" />
               <NavLink url={GoToAboutusPage()} label="About" />
               <NavLink url={GoToRulesPage()} label="Rules" />
               <NavLink url={GoToFAQPage()} label="FAQ" />
@@ -121,12 +123,13 @@ export function Navbar({
             )}
           </div>
         </div>
-        <div className="m-2 flex flex-wrap justify-around gap-x-10 gap-y-6 border-b-2 border-main pb-1 tablet:hidden">
+        <div className="m-2 flex flex-wrap justify-around gap-x-10 gap-y-6 border-b-2 border-main pb-1 bt:hidden">
           <NavLink url={GoToBountiesPage()} label="Bounties" />
           <NavLink url={GoToOrganizationsPage()} label="Organizations" />
           <NavLink url={GoToTargetsPage()} label="Targets" />
         </div>
-        <div className="m-2 flex flex-wrap justify-around gap-x-10 border-b-2 border-main pb-1 tablet:hidden">
+        <div className="m-2 flex flex-wrap justify-around gap-x-10 border-b-2 border-main pb-1 bt:hidden">
+          <NavLink url={GoToLeaderboard()} label="Leaderboard" />
           <NavLink url={GoToAboutusPage()} label="About" />
           <NavLink url={GoToRulesPage()} label="Rules" />
           <NavLink url={GoToFAQPage()} label="FAQ" />
