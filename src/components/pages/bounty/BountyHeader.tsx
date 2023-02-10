@@ -1,10 +1,16 @@
 import { Wallet } from '@prisma/client';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
 import { useGetOrganization } from '@/lib/hooks/organizationHooks';
 import { useCanUserSubmit } from '@/lib/hooks/submission';
-import { GoToBeforeNewSubmissionPage, GoToOrgPage } from '@/lib/utils/Routes';
+import {
+  GoToBeforeNewSubmissionPage,
+  GoToOrgPage,
+  GoToTargetPage,
+} from '@/lib/utils/Routes';
+import { ParagrapIsTooLong, splitToParas } from '@/lib/utils/StringHelpers';
 
 import { DonationPopUp } from '@/components/donations/DonationPopUp';
 import { useBountyContext } from '@/components/pages/bounty/BountyContext';
@@ -130,9 +136,25 @@ export function BountyHeader() {
         {/* Details */}
         <Section className="flex justify-between space-x-8">
           <div className="w-4/5 space-y-8 pr-2">
-            <Stat title="target" content={bounty?.target?.name} />
+            <div className="flex flex-col">
+              <span className="label-lg capitalize text-on-surface-unactive">
+                Target
+              </span>
+              <Link href={GoToTargetPage(bounty.target.name)}>
+                <span className="w-fit font-medium capitalize text-main-light hover:underline">
+                  {bounty.target.name}
+                </span>
+              </Link>
+            </div>
             {bounty?.target?.bio && (
-              <Stat title="bio" content={bounty?.target?.bio} />
+              <Stat
+                title="bio"
+                content={
+                  bounty?.target?.bio.includes('\\n')
+                    ? splitToParas(bounty?.target?.bio)
+                    : ParagrapIsTooLong(bounty?.target?.bio, 20)
+                }
+              />
             )}
             <Stat
               title="requirements"
