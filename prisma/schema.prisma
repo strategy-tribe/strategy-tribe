@@ -156,7 +156,9 @@ model Bounty {
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
   closesAt  DateTime
-  Invoice   Invoice?
+
+  Invoice      Invoice?
+  fingerprints Fingerprint[]
 }
 
 model Organization {
@@ -312,6 +314,33 @@ model User {
 
   review        Review[]
   notifications Notification[]
+  fingerprints  Fingerprint[]
+}
+
+model Fingerprint {
+  id String @id @default(cuid())
+
+  fingerprint String @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+
+  users     User[]
+  bounties  Bounty[]
+  ipDetails IpDetails[]
+}
+
+model IpDetails {
+  id String @id @default(cuid())
+
+  ip          String @unique
+  city        String
+  countyrCode String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+
+  fingerprints Fingerprint[]
 }
 
 enum Rol {

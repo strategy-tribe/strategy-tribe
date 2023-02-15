@@ -1,5 +1,6 @@
 import { bountyRouter } from './bounty';
 import { fileRouter } from './files';
+import { fingerprintRouter } from './fingerprint';
 import { invoiceRouter } from './invoice';
 import { mapRouter } from './map';
 import { notificationRouter } from './notification';
@@ -23,6 +24,7 @@ export const appRouter = router({
   map: mapRouter,
   notification: notificationRouter,
   file: fileRouter,
+  fingerprint: fingerprintRouter,
 });
 
 // export type definition of API
