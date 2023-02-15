@@ -79,6 +79,9 @@ async function _payInvoice(
             },
             data: {
               status: InvoiceStatus.Paid,
+              txnHash: txnResult.hash,
+              paidDate: new Date(),
+              updatedAt: new Date(),
             },
           });
 
