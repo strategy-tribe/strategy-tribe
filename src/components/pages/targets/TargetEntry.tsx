@@ -20,7 +20,7 @@ export function TargetEntry({
     >
       <Link href={GoToTargetPage(target.name as string)}>
         <div className="flex items-start justify-between gap-2 font-grotesk">
-          <h3 className="h5 font-grotesk capitalize group-hover:underline">
+          <h3 className="h5 breakWord font-grotesk capitalize group-hover:underline">
             {target.name}
           </h3>
           <span className="label mt-1 shrink-0 text-main-light">
