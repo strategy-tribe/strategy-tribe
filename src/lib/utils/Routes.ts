@@ -12,6 +12,8 @@ export const GoToOrganizationsPage = () => '/organizations';
 
 export const GoToTargetsPage = () => '/targets';
 
+export const GoToLeaderboard = () => '/leaderboard';
+
 export const GoToSearchPage = () => '/search';
 
 export const GoToRulesPage = () => '/rules';

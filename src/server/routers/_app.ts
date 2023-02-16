@@ -9,6 +9,7 @@ import { reviewRouter } from './review';
 import { submissionRouter } from './submission';
 import { tagRouter } from './tags';
 import { targetRouter } from './targets';
+import { userRouter } from './user';
 import { walletRouter } from './wallet';
 import { router } from '../procedures';
 
@@ -25,6 +26,7 @@ export const appRouter = router({
   notification: notificationRouter,
   file: fileRouter,
   fingerprint: fingerprintRouter,
+  user: userRouter,
 });
 
 // export type definition of API
