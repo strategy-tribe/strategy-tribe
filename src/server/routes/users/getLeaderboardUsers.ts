@@ -40,7 +40,7 @@ export async function _getLeaderboardUsers(
       },
     },
     select: {
-      address: true,
+      username: true,
       submissions: {
         select: {
           state: true,
@@ -63,14 +63,13 @@ export async function _getLeaderboardUsers(
     },
   });
   const leaderboard: {
-    address: string;
+    username: string;
     totalSubmissions: number;
     acceptedCount: number;
     highestBounty: number;
     totalBounty: number;
   }[] = [];
   users.forEach((user) => {
-    const address = `${user.address.slice(0, 8)}*****${user.address.slice(-5)}`;
     const totalSubmissions = user._count.submissions;
     const acceptedSubmissions = user.submissions.filter(
       (sub) => sub.state === SubmissionState.Accepted
@@ -83,7 +82,8 @@ export async function _getLeaderboardUsers(
       .map((sub) => sub.bounty?.wallet.balance)
       .reduce((sum: any, count: any) => sum + count, 0);
     leaderboard.push({
-      address,
+      username:
+        user.username && user.username !== '' ? user.username : 'Anonymous',
       totalSubmissions,
       acceptedCount: acceptedSubmissions.length,
       highestBounty: Math.round(highestBounty * 100) / 100,

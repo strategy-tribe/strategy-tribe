@@ -15,7 +15,7 @@ export function Hunter({
     >
       <div className="col-span-1 w-full place-self-center py-5">{rank}</div>
       <div className="col-span-3 w-full place-self-center border-l-2 border-on-surface-disabled py-5 tablet:border-0">
-        {user.address}
+        {user.username}
       </div>
       <div className="col-span-2 w-full place-self-center border-l-2 border-on-surface-disabled py-5 tablet:border-0">
         {user.totalBounty}
