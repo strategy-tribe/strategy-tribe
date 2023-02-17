@@ -100,17 +100,12 @@ export function BountyHeader() {
             </div>
 
             <div className="flex shrink-0 flex-col justify-start gap-4 tablet:items-end">
-              <a
-                href={`${ETHERSCAN_LINK}${bounty.wallet?.address}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex cursor-pointer items-center gap-4 text-main-light hover:text-main"
-              >
+              <div className="flex items-center gap-4 text-main-light">
                 <Icon icon="emoji_events" size={IconSize.Large} />
                 <span className="h4 font-medium">
                   {bounty.wallet?.balance} MATIC
                 </span>
-              </a>
+              </div>
               <Button
                 info={{
                   label: 'Support this bounty',

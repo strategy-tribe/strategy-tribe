@@ -48,7 +48,7 @@ export type FullBounty = NonNullable<
 
 export const getBounty = publicProcedure
   .input(GetBountySchema)
-  .query(async ({ input, ctx }) => {
-    const bounty = await ServerGetBounty(ctx.prisma, input);
+  .query(async ({ input, ctx: { prisma } }) => {
+    const bounty = await ServerGetBounty(prisma, input);
     return { bounty };
   });
