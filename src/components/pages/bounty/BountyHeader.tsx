@@ -172,7 +172,7 @@ export function BountyHeader() {
                 <div className="rounded-md border-2 border-main py-4 px-6 text-6xl">
                   {counter}
                 </div>
-                <div className="text-base">times incremented</div>
+                <div className="pl-4 text-base">times incremented</div>
               </div>
             </div>
           )}
