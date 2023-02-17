@@ -36,7 +36,6 @@ const TOP_REWARDS_FILTER: BountiesFilter = {
   query: {
     order: Order.Desc,
     orderBy: BountyOrderBy.Bounty,
-    states: [BountyState.Open],
     amount: 16,
 
     page: 0,
@@ -70,4 +69,7 @@ export const DEFAULT_FILTERS = [
   CLOSES_SOON_FILTER,
 ];
 
-export const DEFAULT_FILTER = TOP_REWARDS_FILTER;
+export const DEFAULT_FILTER = {
+  ...LATEST_FILTER,
+  query: { ...LATEST_FILTER.query, states: [BountyState.Open] },
+};
