@@ -21,11 +21,15 @@ export function ExploreFilters({
   setUrlFilter,
   filters = DEFAULT_FILTERS,
   totalCount,
+  countries,
+  removeCountry,
 }: {
   urlFilter?: BountiesFilter;
   setUrlFilter?: any;
   filters?: BountiesFilter[];
   totalCount?: number;
+  countries?: string[];
+  removeCountry?: (country: string) => void;
 }) {
   const urlFilterConfig = useExploreUrl();
   if (!urlFilter || !setUrlFilter) {
@@ -33,34 +37,42 @@ export function ExploreFilters({
     setUrlFilter = urlFilterConfig.setUrlFilter;
   }
 
-  const { bountyFetch, countries, removeCountry } = useExploreContext();
+  const context = useExploreContext();
 
-  const isLoading = totalCount ? false : bountyFetch?.isLoading ?? true;
-  const count = totalCount ?? bountyFetch?.count ?? 0;
+  if (!countries || !removeCountry) {
+    countries = context.countries;
+    removeCountry = context.removeCountry;
+  }
+
+  const isLoading = totalCount ? false : context.bountyFetch?.isLoading ?? true;
+  const count = totalCount ?? context.bountyFetch?.count ?? 0;
 
   function setSearch(s: string | undefined) {
     setUrlFilter({ search: s, page: 0 });
   }
 
   function resetOrgFromQuery(removedOrg: string) {
+    const orgNames = urlFilter?.query.orgName?.filter((o) => o !== removedOrg);
     setUrlFilter({
-      orgName: urlFilter?.query.orgName?.filter((o) => o !== removedOrg),
+      orgName: orgNames && orgNames.length === 0 ? undefined : orgNames,
       page: 0,
     });
   }
 
   function resetTagFromQuery(removedTag: string) {
+    const tags = urlFilter?.query.tags?.filter((o) => o !== removedTag);
     setUrlFilter({
-      tags: urlFilter?.query.tags?.filter((o) => o !== removedTag),
+      tags: tags && tags.length === 0 ? undefined : tags,
       page: 0,
     });
   }
 
   function resetTargetFromQuery(removedTarget: string) {
+    const targets = urlFilter?.query.targetNames?.filter(
+      (o) => o !== removedTarget
+    );
     setUrlFilter({
-      targetNames: urlFilter?.query.targetNames?.filter(
-        (o) => o !== removedTarget
-      ),
+      targetNames: targets && targets.length === 0 ? undefined : targets,
       page: 0,
     });
   }
@@ -118,7 +130,9 @@ export function ExploreFilters({
                 />
                 <span className="label-sm">{country}</span>
                 <button
-                  onClick={() => removeCountry(country)}
+                  onClick={() => {
+                    if (removeCountry) removeCountry(country);
+                  }}
                   className="grid place-items-center hover:text-error-light"
                   key={i}
                 >

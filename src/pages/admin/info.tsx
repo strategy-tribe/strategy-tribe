@@ -45,6 +45,24 @@ const InfoPage: NextPageWithLayout = () => {
     count,
   } = useGetInfo(query.query, isAdmin && !isFetchingUserInfo);
 
+  function removeCountry(country: string) {
+    if (!query.query.countries?.includes(country)) return;
+    else {
+      const countries = query.query.countries?.filter(
+        (c: string) => c !== country
+      );
+      setQuery({
+        ...query,
+        query: {
+          ...query.query,
+          countries:
+            countries && countries.length === 0 ? undefined : countries,
+          page: 0,
+        },
+      });
+    }
+  }
+
   return (
     <div className="space-y-8 text-on-surface-p1">
       <Head>
@@ -77,6 +95,8 @@ const InfoPage: NextPageWithLayout = () => {
           }}
           filters={[...DEFAULT_FILTERS, FINGERPRINTS_FILTER]}
           totalCount={count}
+          countries={query.query.countries}
+          removeCountry={removeCountry}
         />
 
         {isLoading && <Loading small />}
