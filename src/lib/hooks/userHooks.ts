@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { trpc } from '@/lib/trpc';
 
 import { GetBountiesParams } from '@/server/routes/bounties/getBounties';
+
 import { UpdateUsernameParams } from '@/server/routes/users/updateUsername';
 
 export const useGetUser = () => {
