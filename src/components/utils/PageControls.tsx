@@ -17,7 +17,13 @@ interface PageControlsInterface {
   setQuery: (q: any) => void;
 }
 
-export function PageControls({ config }: { config: PageControlsInterface }) {
+export function PageControls({
+  config,
+  sticky = true,
+}: {
+  config: PageControlsInterface;
+  sticky?: boolean;
+}) {
   const {
     query,
     setQuery,
@@ -65,14 +71,18 @@ export function PageControls({ config }: { config: PageControlsInterface }) {
   }
 
   function goToPage(page: number) {
-    if (page < 0 || page > AMOUNT_OF_PAGES) throw 'wrong number!';
+    if (page < 0 || page >= numOfPages) throw 'wrong number!';
 
     setQuery({ ...query, page });
   }
 
   return (
     <>
-      <div className="sticky bottom-0 border-t border-surface-dark bg-bg pt-2 pb-2">
+      <div
+        className={`${
+          sticky ? 'sticky ' : ''
+        }bottom-0 border-t border-surface-dark bg-bg pt-2 pb-2`}
+      >
         <div className="mx-auto max-w-xl space-y-4">
           <div className="flex items-center justify-between gap-8">
             {/* Prev */}

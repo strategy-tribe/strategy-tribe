@@ -18,7 +18,8 @@ const stringArray = z.string().array();
 
 const DEFAULT_ORDER = Order.Desc;
 /** Params necessary to call `getBountiesWithMetaData`  */
-const GetBountiesSchema = z.object({
+
+export const GetBountiesSchema = z.object({
   //dropdown
   order: z.nativeEnum(Order).default(DEFAULT_ORDER).optional(),
   orderBy: z.nativeEnum(BountyOrderBy).optional(),

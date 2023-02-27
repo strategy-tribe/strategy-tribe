@@ -40,6 +40,7 @@ const AdminReviewContextProvider = ({
     hasPreviousPage,
     page: currPage,
     isLoading,
+    numOfPages,
   } = submissionFetch;
 
   function nextPage() {
@@ -55,7 +56,7 @@ const AdminReviewContextProvider = ({
   }
 
   function goToPage(page: number) {
-    if (page < 0 || page > AMOUNT_OF_PAGES) throw 'wron number!';
+    if (page < 0 || page >= numOfPages) throw 'wrong number!';
 
     setQuery({ ...query, page });
   }

@@ -78,3 +78,7 @@ export const GoToAddBountiesPage = () => {
 export const GoToEditBountyPage = () => {
   return `/admin/bounty/edit`;
 };
+
+export const GoToUserInfoPage = () => {
+  return `/admin/info`;
+};
