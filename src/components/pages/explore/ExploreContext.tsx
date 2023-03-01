@@ -1,3 +1,8 @@
+import {
+  BountyStatus,
+  SubmissionsData,
+  TrendChartData,
+} from '@libs/utils/statisticsHelpers';
 import { createContext, ReactNode, useContext } from 'react';
 
 import { useGetBounties } from '@/lib/hooks/bountyHooks';
@@ -11,6 +16,11 @@ interface iExploreContext {
   addCountry: (country: string) => void;
   removeCountry: (country: string) => void;
   map: MapDataWithFeatures | undefined;
+  bountyStatusData: BountyStatus | undefined;
+  submissionStatesData: SubmissionsData | undefined;
+  usersCount: number | undefined;
+  avgSubmissionPayout: number | undefined;
+  bountyTrendChartData: TrendChartData | undefined;
 }
 
 const ExploreContext = createContext<iExploreContext>({
@@ -23,15 +33,30 @@ const ExploreContext = createContext<iExploreContext>({
     return;
   },
   map: undefined,
+  bountyStatusData: undefined,
+  submissionStatesData: undefined,
+  usersCount: undefined,
+  avgSubmissionPayout: undefined,
+  bountyTrendChartData: undefined,
 });
 
 export const ExploreContextProvider = ({
   children,
   data,
+  bountyStatusData,
+  submissionStatesData,
+  usersCount,
+  avgSubmissionPayout,
+  bountyTrendChartData,
 }: {
   children: ReactNode;
 
   data: MapDataWithFeatures | undefined;
+  bountyStatusData: BountyStatus | undefined;
+  submissionStatesData: SubmissionsData | undefined;
+  usersCount: number | undefined;
+  avgSubmissionPayout: number | undefined;
+  bountyTrendChartData: TrendChartData | undefined;
 }) => {
   const {
     urlFilter: { query },
@@ -60,6 +85,11 @@ export const ExploreContextProvider = ({
     <ExploreContext.Provider
       value={{
         map: data,
+        bountyStatusData,
+        submissionStatesData,
+        usersCount,
+        avgSubmissionPayout,
+        bountyTrendChartData,
         bountyFetch,
         countries: query?.countries ?? [],
         addCountry,
