@@ -2,7 +2,7 @@ import {
   BountyStatus,
   SubmissionsData,
   TrendChartData,
-} from '@libs/utils/statisticsHelpers';
+} from '@/lib/utils/statisticsHelpers';
 import { createContext, ReactNode, useContext } from 'react';
 
 import { useGetBounties } from '@/lib/hooks/bountyHooks';
