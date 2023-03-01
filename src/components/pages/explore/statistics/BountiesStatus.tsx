@@ -7,35 +7,32 @@ Chart.register(...registerables);
 
 export default function BountiesStatus() {
   const { bountyStatusData, bountyTrendChartData } = useExploreContext();
-  let openBountiesPercentage = 0;
-  let closedBountiesPercentage = 0;
-  let waitingFundsBountiesPercentage = 0;
-  openBountiesPercentage = (
-    (bountyStatusData?.openBounties / bountyStatusData?.total) *
+  const total = bountyStatusData?.total ?? 0;
+  const openBountiesPercentage: number | undefined | string = (
+    ((bountyStatusData?.openBounties ?? 0) / total) *
     100
   ).toFixed(2);
-  closedBountiesPercentage = (
-    (bountyStatusData?.closedBounties / bountyStatusData?.total) *
+  const closedBountiesPercentage: number | undefined | string = (
+    ((bountyStatusData?.closedBounties ?? 0) / total) *
     100
   ).toFixed(2);
-  waitingFundsBountiesPercentage = (
-    (bountyStatusData?.waitingForFundsBounties / bountyStatusData?.total) *
+  const waitingFundsBountiesPercentage: number | undefined | string = (
+    ((bountyStatusData?.waitingForFundsBounties ?? 0) / total) *
     100
   ).toFixed(2);
   const labels = ['', '', '', '', '', '', ''];
-
   const data = {
     labels,
     datasets: [
       {
         label: 'Total bounty funding',
-        data: bountyTrendChartData.totalBountyFunding,
+        data: bountyTrendChartData?.totalBountyFunding,
         borderColor: '#E6E8EC',
         backgroundColor: '#E6E8EC',
       },
       {
         label: 'Bounty amount paid',
-        data: bountyTrendChartData.bountyAmountPaid,
+        data: bountyTrendChartData?.bountyAmountPaid,
         borderColor: '#5A6ACF',
         backgroundColor: '#5A6ACF',
       },
@@ -62,17 +59,17 @@ export default function BountiesStatus() {
           data={[
             {
               title: 'Open',
-              value: bountyStatusData?.openBounties,
+              value: bountyStatusData?.openBounties ?? 0,
               color: '#C7CEFF',
             },
             {
               title: 'Closed',
-              value: bountyStatusData?.closedBounties,
+              value: bountyStatusData?.closedBounties ?? 0,
               color: '#8593ED',
             },
             {
               title: 'Waiting For Funds',
-              value: bountyStatusData?.waitingForFundsBounties,
+              value: bountyStatusData?.waitingForFundsBounties ?? 0,
               color: '#3D4AA1',
             },
           ]}
@@ -87,7 +84,9 @@ export default function BountiesStatus() {
             <span className="pl-1">Open</span>
           </div>
           <div className="flex pt-1 pl-5">
-            <span className="space-x-1">{openBountiesPercentage}%</span>
+            <span className="space-x-1">
+              {openBountiesPercentage ? openBountiesPercentage : 0}%
+            </span>
           </div>
         </div>
         <div className="flex basis-1/3 flex-col justify-items-center">
@@ -96,7 +95,9 @@ export default function BountiesStatus() {
             <span className="pl-1">Closed</span>
           </div>
           <div className="flex pt-1 pl-5">
-            <span className="space-x-1">{closedBountiesPercentage}%</span>
+            <span className="space-x-1">
+              {closedBountiesPercentage ? closedBountiesPercentage : 0}%
+            </span>
           </div>
         </div>
         <div className="flex basis-1/3 flex-col justify-items-center">
@@ -105,7 +106,12 @@ export default function BountiesStatus() {
             <span className="pl-1">Waiting For Funds</span>
           </div>
           <div className="flex pt-1 pl-5">
-            <span className="space-x-1">{waitingFundsBountiesPercentage}%</span>
+            <span className="space-x-1">
+              {waitingFundsBountiesPercentage
+                ? waitingFundsBountiesPercentage
+                : 0}
+              %
+            </span>
           </div>
         </div>
       </div>

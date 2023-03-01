@@ -1,20 +1,22 @@
-import ProgressLoader from './utils/ProgressLoader';
 import { useExploreContext } from '../ExploreContext';
+import ProgressLoader from './utils/ProgressLoader';
 
 export default function SubmissionStates() {
   const { submissionStatesData } = useExploreContext();
   const width = '100';
   const acceptedSubmissionWidth = (
-    (submissionStatesData?.acceptedSubmissions / submissionStatesData?.total) *
+    ((submissionStatesData?.acceptedSubmissions ?? 0) /
+      (submissionStatesData?.total ?? 0)) *
     100
   ).toFixed(2);
   const rejectedSubmissionWidth = (
-    (submissionStatesData?.rejectedSubmissions / submissionStatesData?.total) *
+    ((submissionStatesData?.rejectedSubmissions ?? 0) /
+      (submissionStatesData?.total ?? 0)) *
     100
   ).toFixed(2);
   const waitingForReviewSubmissionWidth = (
-    (submissionStatesData?.waitingForReviewSubmissions /
-      submissionStatesData?.total) *
+    ((submissionStatesData?.waitingForReviewSubmissions ?? 0) /
+      (submissionStatesData?.total ?? 0)) *
     100
   ).toFixed(2);
   if (!submissionStatesData) return <></>;
@@ -28,7 +30,7 @@ export default function SubmissionStates() {
             <ProgressLoader style={width} />
           </div>
           <div className="flex w-1/4 justify-center">
-            <span>{submissionStatesData?.total}</span>
+            <span>{submissionStatesData?.total ?? 0}</span>
           </div>
         </div>
       </div>
@@ -36,10 +38,10 @@ export default function SubmissionStates() {
         <span>Accepted</span>
         <div className="flex w-full flex-row pt-1">
           <div className="flex w-3/4">
-            <ProgressLoader style={acceptedSubmissionWidth} />
+            <ProgressLoader style={acceptedSubmissionWidth ?? 0} />
           </div>
           <div className="flex w-1/4 justify-center	">
-            <span>{submissionStatesData?.acceptedSubmissions}</span>
+            <span>{submissionStatesData?.acceptedSubmissions ?? 0}</span>
           </div>
         </div>
       </div>
@@ -47,10 +49,10 @@ export default function SubmissionStates() {
         <span>Rejected</span>
         <div className="flex w-full flex-row pt-1">
           <div className="flex w-3/4">
-            <ProgressLoader style={rejectedSubmissionWidth} />
+            <ProgressLoader style={rejectedSubmissionWidth ?? 0} />
           </div>
           <div className="flex w-1/4 justify-center	">
-            <span>{submissionStatesData?.rejectedSubmissions}</span>
+            <span>{submissionStatesData?.rejectedSubmissions ?? 0}</span>
           </div>
         </div>
       </div>
@@ -58,10 +60,12 @@ export default function SubmissionStates() {
         <span>Waiting For Review</span>
         <div className="flex w-full flex-row pt-1">
           <div className="flex w-3/4">
-            <ProgressLoader style={waitingForReviewSubmissionWidth} />
+            <ProgressLoader style={waitingForReviewSubmissionWidth ?? 0} />
           </div>
           <div className="flex w-1/4 justify-center	">
-            <span>{submissionStatesData?.waitingForReviewSubmissions}</span>
+            <span>
+              {submissionStatesData?.waitingForReviewSubmissions ?? 0}
+            </span>
           </div>
         </div>
       </div>

@@ -4,29 +4,25 @@ import { useExploreContext } from '../ExploreContext';
 
 export default function SubmissionData() {
   const { submissionStatesData } = useExploreContext();
-  let walletPercentage = 0;
-  let namePercentage = 0;
-  let domainPercentage = 0;
-  let emailPercentage = 0;
   const total =
-    submissionStatesData?.typesOfData?.walletCount +
-    submissionStatesData?.typesOfData?.nameCount +
-    submissionStatesData?.typesOfData?.domainCount +
-    submissionStatesData?.typesOfData?.emailCount;
-  walletPercentage = (
-    (submissionStatesData.typesOfData.walletCount / total) *
+    (submissionStatesData?.typesOfData?.walletCount ?? 0) +
+    (submissionStatesData?.typesOfData?.nameCount ?? 0) +
+    (submissionStatesData?.typesOfData?.domainCount ?? 0) +
+    (submissionStatesData?.typesOfData?.emailCount ?? 0);
+  const walletPercentage: number | undefined | string = (
+    ((submissionStatesData?.typesOfData?.walletCount ?? 0) / total) *
     100
   ).toFixed(2);
-  namePercentage = (
-    (submissionStatesData.typesOfData.nameCount / total) *
+  const namePercentage: number | undefined | string = (
+    ((submissionStatesData?.typesOfData?.nameCount ?? 0) / total) *
     100
   ).toFixed(2);
-  domainPercentage = (
-    (submissionStatesData.typesOfData.domainCount / total) *
+  const domainPercentage: number | undefined | string = (
+    ((submissionStatesData?.typesOfData.domainCount ?? 0) / total) *
     100
   ).toFixed(2);
-  emailPercentage = (
-    (submissionStatesData.typesOfData.emailCount / total) *
+  const emailPercentage: number | undefined | string = (
+    ((submissionStatesData?.typesOfData?.emailCount ?? 0) / total) *
     100
   ).toFixed(2);
   if (!submissionStatesData) return <></>;
@@ -40,22 +36,22 @@ export default function SubmissionData() {
             data={[
               {
                 title: 'Wallet',
-                value: submissionStatesData.typesOfData.walletCount,
+                value: submissionStatesData.typesOfData.walletCount ?? 0,
                 color: '#C7CEFF',
               },
               {
                 title: 'Name',
-                value: submissionStatesData.typesOfData.nameCount,
+                value: submissionStatesData.typesOfData.nameCount ?? 0,
                 color: '#7357F6',
               },
               {
                 title: 'Domain',
-                value: submissionStatesData.typesOfData.domainCount,
+                value: submissionStatesData.typesOfData.domainCount ?? 0,
                 color: '#172B53',
               },
               {
                 title: 'Email',
-                value: submissionStatesData.typesOfData.emailCount,
+                value: submissionStatesData.typesOfData.emailCount ?? 0,
                 color: '#4E29B8',
               },
             ]}
@@ -69,48 +65,48 @@ export default function SubmissionData() {
             <div className="flex w-3/4 flex-row">
               <span
                 className="mt-0.5 h-2	w-2 rounded-full"
-                style={{ ['background-color' as any]: `#C7CEFF` }}
+                style={{ ['backgroundColor' as any]: `#C7CEFF` }}
               ></span>
               <span className="pl-1">Wallet</span>
             </div>
             <div className="flex w-1/4">
-              <span>{walletPercentage}%</span>
+              <span>{walletPercentage ? walletPercentage : 0}%</span>
             </div>
           </div>
           <div className="flex w-full flex-row">
             <div className="flex w-3/4 flex-row">
               <span
                 className="mt-0.5 h-2	w-2 rounded-full"
-                style={{ ['background-color' as any]: `#7357F6` }}
+                style={{ ['backgroundColor' as any]: `#7357F6` }}
               ></span>
               <span className="pl-1">Name</span>
             </div>
             <div className="flex w-1/4">
-              <span>{namePercentage}%</span>
+              <span>{namePercentage ? namePercentage : 0}%</span>
             </div>
           </div>
           <div className="flex w-full flex-row">
             <div className="flex w-3/4 flex-row">
               <span
                 className="mt-0.5 h-2	w-2 rounded-full"
-                style={{ ['background-color' as any]: `#172B53` }}
+                style={{ ['backgroundColor' as any]: `#172B53` }}
               ></span>
               <span className="pl-1">Domain</span>
             </div>
             <div className="flex w-1/4">
-              <span>{domainPercentage}%</span>
+              <span>{domainPercentage ? domainPercentage : 0}%</span>
             </div>
           </div>
           <div className="flex w-full flex-row">
             <div className="flex w-3/4 flex-row">
               <span
                 className="mt-0.5 h-2	w-2 rounded-full"
-                style={{ ['background-color' as any]: `#4E29B8` }}
+                style={{ ['backgroundColor' as any]: `#4E29B8` }}
               ></span>
               <span className="pl-1">Email</span>
             </div>
             <div className="flex w-1/4">
-              <span>{emailPercentage}%</span>
+              <span>{emailPercentage ? emailPercentage : 0}%</span>
             </div>
           </div>
         </div>
