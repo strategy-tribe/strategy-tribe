@@ -19,7 +19,7 @@ export function getBountyStatusData(
   let waitingForFundsBounties = 0;
 
   parsedbountyStatusData &&
-    parsedbountyStatusData.forEach((item: BountiesStatusData) => {
+    parsedbountyStatusData.forEach((item: any) => {
       switch (item.status) {
         case 'Open':
           openBounties++;
@@ -139,9 +139,7 @@ export function getLastWeekDates(): string[] {
   return dateArray;
 }
 
-export function getLastWeekBountyPaidData(
-  trendData: AvgSubmissionPayoutData
-): number[] {
+export function getLastWeekBountyPaidData(trendData: any): number[] {
   const bountyAmountPaid: number[] = [];
   const dateArray = getLastWeekDates();
   dateArray &&
@@ -160,7 +158,7 @@ export function getLastWeekBountyPaidData(
 
 export function getLastWeekTotalBountiesFundData(
   lastWeekFundData: LastWeekTotalBountyFundData,
-  bountyAmount: number
+  bountyAmount: number | undefined
 ): number[] {
   const totalFunds: number[] = [];
   const dateArray = getLastWeekDates();
@@ -176,7 +174,7 @@ export function getLastWeekTotalBountiesFundData(
       totalFunds.push(amt);
     });
   const cumulativeSum = (
-    (sum) => (value) =>
+    (sum) => (value: any) =>
       (sum += value)
   )(0);
   const finalArray = totalFunds.map(cumulativeSum);

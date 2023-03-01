@@ -22,8 +22,8 @@ import { DEFAULT_FILTER } from '@/components/pages/explore/filters/utils/Default
 
 import { createContextInner } from '@/server/context';
 import prisma from '@/server/prisma/prismaClient';
-import { appRouter } from '@/server/routers/_app';
 import { getMapData } from '@/server/routers/map';
+import { appRouter } from '@/server/routers/_app';
 import { getAvgSubmissionPayout } from '@/server/routes/statistics/getAvgSubmissionPayout';
 import { getBountiesStatus } from '@/server/routes/statistics/getBountiesStatus';
 import { getLastWeekPaidBounties } from '@/server/routes/statistics/getLastWeekPaidBounties';
@@ -80,7 +80,7 @@ export const getStaticProps: GetStaticProps = async () => {
 
   //Trend chart - Total Bounties sum before a week
   const bountyFund = await getTotalBountiesFund(prisma);
-  const bountyAmount = bountyFund?._sum.balance;
+  const bountyAmount: number | undefined = bountyFund?._sum?.balance ?? 0;
 
   //Trend chart - Last week total bounties before a week
   const lastWeekFundData = await getLastWeekTotalBountiesFund(prisma);
