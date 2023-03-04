@@ -24,9 +24,9 @@ module.exports = {
 
       bg: '#000000',
       'surface-dark': '#191919',
-      'open-bounty': '#C7CEFF',
+      'open-bounty': '#3D4AA1',
       'close-bounty': '#8593ED',
-      'wait-bounty': '#3D4AA1',
+      'wait-bounty': '#C7CEFF',
       'dark-purple': '#4E29B8',
       purple: '#1F0054',
       surface: '#2D3436',
