@@ -12,7 +12,7 @@ export default function Users() {
       <div className="flex h-24 w-1/2 flex-col rounded border bg-purple pt-3 pl-2">
         <span>Avg submission payout</span>
         <span className="pt-3 text-lg">
-          {avgSubmissionPayout ? avgSubmissionPayout : 0} Matic
+          {avgSubmissionPayout ? avgSubmissionPayout.toFixed(2) : 0} Matic
         </span>
       </div>
     </div>

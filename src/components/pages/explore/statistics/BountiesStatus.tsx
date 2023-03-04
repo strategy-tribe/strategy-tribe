@@ -51,73 +51,78 @@ export default function BountiesStatus() {
 
   if (!bountyStatusData && !bountyTrendChartData) return <></>;
   return (
-    <div className="flex flex-col tablet:w-3/4">
-      <span className="flex flex-row">Bounties</span>
-      <div className="pt-0">
-        <PieChart
-          style={{ height: '210px' }}
-          data={[
-            {
-              title: 'Open',
-              value: bountyStatusData?.openBounties ?? 0,
-              color: '#C7CEFF',
-            },
-            {
-              title: 'Closed',
-              value: bountyStatusData?.closedBounties ?? 0,
-              color: '#8593ED',
-            },
-            {
-              title: 'Waiting For Funds',
-              value: bountyStatusData?.waitingForFundsBounties ?? 0,
-              color: '#3D4AA1',
-            },
-          ]}
-          lineWidth={20}
-          radius={48}
-        />
+    <div className="flex h-full flex-col tablet:w-3/4">
+      <div className="h-1/2">
+        <span className="flex flex-row">Bounties</span>
+        <div className="flex w-full flex-row">
+          <div className="w-1/2 pt-0 tablet:w-3/4">
+            <PieChart
+              style={{ height: '240px' }}
+              data={[
+                {
+                  title: 'Open',
+                  value: bountyStatusData?.openBounties ?? 0,
+                  color: '#3D4AA1',
+                },
+                {
+                  title: 'Closed',
+                  value: bountyStatusData?.closedBounties ?? 0,
+                  color: '#8593ED',
+                },
+                {
+                  title: 'Waiting For Funds',
+                  value: bountyStatusData?.waitingForFundsBounties ?? 0,
+                  color: '#C7CEFF',
+                },
+              ]}
+              lineWidth={20}
+              radius={48}
+            />
+          </div>
+          <div className="flex w-1/2 flex-col	justify-center pl-2.5 text-xs tablet:w-1/4   tablet:pl-0">
+            <div className="flex w-full flex-row justify-items-center">
+              <div className="flex w-4/5 flex-row">
+                <div className="h-4 w-4 rounded-full	bg-open-bounty"></div>
+                <span className="pl-1">Open</span>
+              </div>
+              <div className="flex w-1/5 flex-row">
+                <span className="pl-1">
+                  {openBountiesPercentage ? openBountiesPercentage : 0}%
+                </span>
+              </div>
+            </div>
+            <div className="flex w-full flex-row justify-items-center pt-2">
+              <div className="flex w-4/5 flex-row">
+                <div className="h-4 w-4 rounded-full	bg-close-bounty"></div>
+                <span className="pl-1">Closed</span>
+              </div>
+              <div className="flex w-1/5 flex-row">
+                <span className="pl-1">
+                  {closedBountiesPercentage ? closedBountiesPercentage : 0}%
+                </span>
+              </div>
+            </div>
+            <div className="flex w-full flex-row justify-items-center pt-2">
+              <div className="flex w-4/5 flex-row">
+                <div className="h-4 w-4 rounded-full	bg-wait-bounty"></div>
+                <span className="pl-1">Waiting For Funds</span>
+              </div>
+              <div className="flex w-1/5 flex-row">
+                <span className="pl-1">
+                  {waitingFundsBountiesPercentage
+                    ? waitingFundsBountiesPercentage
+                    : 0}
+                  %
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div className="flex w-full flex-row space-x-1 pl-5 pr-5 pt-3 text-xs">
-        <div className="flex basis-1/3 flex-col justify-items-center">
-          <div className="flex flex-row">
-            <span className="h-4 w-4 rounded-full	bg-open-bounty"></span>
-            <span className="pl-1">Open</span>
-          </div>
-          <div className="flex pt-1 pl-5">
-            <span className="space-x-1">
-              {openBountiesPercentage ? openBountiesPercentage : 0}%
-            </span>
-          </div>
-        </div>
-        <div className="flex basis-1/3 flex-col justify-items-center">
-          <div className="flex flex-row">
-            <span className="h-4 w-4 rounded-full	bg-close-bounty"></span>
-            <span className="pl-1">Closed</span>
-          </div>
-          <div className="flex pt-1 pl-5">
-            <span className="space-x-1">
-              {closedBountiesPercentage ? closedBountiesPercentage : 0}%
-            </span>
-          </div>
-        </div>
-        <div className="flex basis-1/3 flex-col justify-items-center">
-          <div className="flex flex-row">
-            <span className="h-4 w-4 rounded-full	bg-wait-bounty"></span>
-            <span className="pl-1">Waiting For Funds</span>
-          </div>
-          <div className="flex pt-1 pl-5">
-            <span className="space-x-1">
-              {waitingFundsBountiesPercentage
-                ? waitingFundsBountiesPercentage
-                : 0}
-              %
-            </span>
-          </div>
-        </div>
-      </div>
-      <div className="pt-6 pb-4">
-        <span className="flex flex-row pb-3">Trend</span>
-        <div className="h-64">
+
+      <div className="h-96 pt-10 pb-4">
+        <span className="flex flex-row pb-5">Trend</span>
+        <div className="h-64 tablet:h-72">
           <Line options={options} data={data} />
         </div>
       </div>

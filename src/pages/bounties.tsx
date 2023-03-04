@@ -7,10 +7,9 @@ import { MapDataWithFeatures } from '@/lib/models/MapData';
 import { overcomeSerialization } from '@/lib/utils/overcomeSerialization';
 import {
   BountyStatus,
+  calculateTotalBountyFund,
   getAvgSubmissionPayoutData,
   getBountyStatusData,
-  getLastWeekBountyPaidData,
-  getLastWeekTotalBountiesFundData,
   getSubmissionsData,
   SubmissionsData,
   TrendChartData,
@@ -22,12 +21,11 @@ import { DEFAULT_FILTER } from '@/components/pages/explore/filters/utils/Default
 
 import { createContextInner } from '@/server/context';
 import prisma from '@/server/prisma/prismaClient';
-import { getMapData } from '@/server/routers/map';
 import { appRouter } from '@/server/routers/_app';
+import { getMapData } from '@/server/routers/map';
 import { getAvgSubmissionPayout } from '@/server/routes/statistics/getAvgSubmissionPayout';
 import { getBountiesStatus } from '@/server/routes/statistics/getBountiesStatus';
-import { getLastWeekPaidBounties } from '@/server/routes/statistics/getLastWeekPaidBounties';
-import { getLastWeekTotalBountiesFund } from '@/server/routes/statistics/getLastWeekTotalBountiesFund';
+import { getPaidBounties } from '@/server/routes/statistics/getPaidBounties';
 import { getSubmissionsStatus } from '@/server/routes/statistics/getSubmissionsStatus';
 import { getTotalBountiesFund } from '@/server/routes/statistics/getTotalBountiesFund';
 import { getUsersCount } from '@/server/routes/statistics/getUsersCount';
@@ -53,18 +51,12 @@ export const getStaticProps: GetStaticProps = async () => {
 
   //#Bounty Status data - Open/Closed/Waiting For Funds
   const bountyStatusData = await getBountiesStatus(prisma);
-  const parsedbountyStatusData = overcomeSerialization(bountyStatusData);
-  const processedBountiesStatusData = getBountyStatusData(
-    parsedbountyStatusData
-  );
+  const processedBountiesStatusData = getBountyStatusData(bountyStatusData);
 
   //#Submissions data  - Accepted/Rejected/ Waiting For Review, Submitted data(Name/Email/Domain/Wallet)
   const submissionStatesData = await getSubmissionsStatus(prisma);
-  const parsedSubmissionStatesData =
-    overcomeSerialization(submissionStatesData);
-  const processedSubmissionStatesData = getSubmissionsData(
-    parsedSubmissionStatesData
-  );
+  const processedSubmissionStatesData =
+    getSubmissionsData(submissionStatesData);
 
   //Users Count
   const usersCount = await getUsersCount(prisma);
@@ -74,24 +66,17 @@ export const getStaticProps: GetStaticProps = async () => {
   const avgSubmissionPayoutData =
     getAvgSubmissionPayoutData(submissionPayoutData);
 
-  //Trend chart - Last Week Paid Bounties
-  const trendData = await getLastWeekPaidBounties(prisma);
-  const bountyAmountPaid = getLastWeekBountyPaidData(trendData);
+  //Total paid bounties
+  const trendData = await getPaidBounties(prisma);
+  const paidData = calculateTotalBountyFund(trendData, true);
 
-  //Trend chart - Total Bounties sum before a week
+  //Total bounty funding
   const bountyFund = await getTotalBountiesFund(prisma);
-  const bountyAmount: number | undefined = bountyFund?._sum?.balance ?? 0;
-
-  //Trend chart - Last week total bounties before a week
-  const lastWeekFundData = await getLastWeekTotalBountiesFund(prisma);
-  const totalFundsLastWeek = getLastWeekTotalBountiesFundData(
-    lastWeekFundData,
-    bountyAmount
-  );
+  const totalBountyFunding = calculateTotalBountyFund(bountyFund, false);
 
   const bountyTrendChartData: TrendChartData = {
-    totalBountyFunding: totalFundsLastWeek,
-    bountyAmountPaid: bountyAmountPaid,
+    totalBountyFunding: totalBountyFunding,
+    bountyAmountPaid: paidData,
   };
 
   return {

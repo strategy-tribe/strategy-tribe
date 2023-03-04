@@ -4,27 +4,15 @@ import { TRPCError } from '@trpc/server';
 import { ThenArg } from '../utils/helperTypes';
 
 export async function GetLastWeekPaidBountiesData(prisma: PrismaClient) {
-  let lastDay: string | number = Date.now() - 7 * 24 * 60 * 60 * 1000;
-  lastDay = new Date(lastDay).toISOString();
   const payoutStatus = await prisma.invoice.findMany({
     where: {
-      AND: [
-        {
-          status: 'Paid',
-        },
-        {
-          paidDate: {
-            gte: lastDay,
-          },
-        },
-      ],
+      status: 'Paid',
     },
     select: {
       id: true,
       paidDate: true,
       bounty: {
         select: {
-          slug: true,
           wallet: {
             select: {
               balance: true,
@@ -40,7 +28,7 @@ export async function GetLastWeekPaidBountiesData(prisma: PrismaClient) {
   return payoutStatus;
 }
 
-export const getLastWeekPaidBounties = async (
+export const getPaidBounties = async (
   prisma: PrismaClient
 ): Promise<BountiesStatusData> => {
   const lastWeekPaidBountiesData = await GetLastWeekPaidBountiesData(prisma);

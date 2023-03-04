@@ -1,6 +1,5 @@
 import { AvgSubmissionPayoutData } from '../../server/routes/statistics/getAvgSubmissionPayout';
 import { BountiesStatusData } from '../../server/routes/statistics/getBountiesStatus';
-import { LastWeekTotalBountyFundData } from '../../server/routes/statistics/getLastWeekTotalBountiesFund';
 import { SubmissionsStatusData } from '../../server/routes/statistics/getSubmissionsStatus';
 
 export type BountyStatus = {
@@ -122,7 +121,7 @@ export function getAvgSubmissionPayoutData(
   submissionPayoutData &&
     submissionPayoutData.forEach((item: any) => {
       totalBountyPaidInMatics =
-        totalBountyPaidInMatics + item?.bounty?.wallet?.balance;
+        totalBountyPaidInMatics + item?.bounty?.wallet?.balance ?? 0;
     });
   const avgSubmissionPayout = totalBountyPaidInMatics / totalPaidBounties;
   return avgSubmissionPayout;
@@ -139,47 +138,78 @@ export function getLastWeekDates(): string[] {
   return dateArray;
 }
 
-export function getLastWeekBountyPaidData(trendData: any): number[] {
-  const bountyAmountPaid: number[] = [];
-  const dateArray = getLastWeekDates();
-  dateArray &&
-    dateArray.forEach((date: any) => {
-      let amt = 0;
-      trendData &&
-        trendData.forEach((item: any) => {
-          if (item.paidDate.toLocaleDateString() === date) {
-            amt = amt + item.bounty?.wallet?.balance;
-          }
-        });
-      bountyAmountPaid.push(amt);
+export function totalPaidBounties(totalPaid: AvgSubmissionPayoutData): number {
+  let sum = 0;
+  totalPaid &&
+    totalPaid.forEach((element: any) => {
+      sum = sum + (element?.bounty?.wallet?.balance ?? 0);
     });
-  return bountyAmountPaid;
+  return sum;
 }
 
-export function getLastWeekTotalBountiesFundData(
-  lastWeekFundData: LastWeekTotalBountyFundData,
-  bountyAmount: number | undefined
+export function getTimeFromDate(): any {
+  const prevMonday = new Date();
+  prevMonday.setDate(prevMonday.getDate() - ((prevMonday.getDay() + 6) % 7));
+  const dates = [];
+  for (let i = 6; i >= 0; i--) {
+    const date = Number(prevMonday) - 7 * i * 24 * 60 * 60 * 1000;
+    const dateValue = new Date(date).setUTCHours(0, 0, 0, 0);
+    dates.push(dateValue);
+  }
+  return dates;
+}
+
+export function calculateTotalBountyFund(
+  fundData: any,
+  paid: boolean
 ): number[] {
-  const totalFunds: number[] = [];
-  const dateArray = getLastWeekDates();
-  dateArray &&
-    dateArray.forEach((date: any) => {
-      let amt = 0;
-      lastWeekFundData &&
-        lastWeekFundData.forEach((item: any) => {
-          if (item.updatedAt.toLocaleDateString() === date) {
-            amt = amt + item.balance;
-          }
-        });
-      totalFunds.push(amt);
+  let fundsTill7Weeks = 0,
+    fundsTill6Weeks = 0,
+    fundsTill5Weeks = 0,
+    fundsTill4Weeks = 0,
+    fundsTill3Weeks = 0,
+    fundsTill2Weeks = 0,
+    fundsTill1Weeks = 0;
+  const dateValue = paid ? 'paidDate' : 'updatedAt';
+  const dates = getTimeFromDate();
+  fundData &&
+    fundData.forEach((item: any) => {
+      const amount = paid
+        ? item?.bounty?.wallet?.balance ?? 0
+        : item?.wallet?.balance ?? 0;
+      if (new Date(item[dateValue])?.getTime() < dates[0]) {
+        fundsTill7Weeks += amount;
+      } else {
+        if (new Date(item[dateValue])?.getTime() < dates[1]) {
+          fundsTill6Weeks += amount;
+        } else if (new Date(item[dateValue])?.getTime() < dates[2]) {
+          fundsTill5Weeks += amount;
+        } else if (new Date(item[dateValue])?.getTime() < dates[3]) {
+          fundsTill4Weeks += amount;
+        } else if (new Date(item[dateValue])?.getTime() < dates[4]) {
+          fundsTill3Weeks += amount;
+        } else if (new Date(item[dateValue])?.getTime() < dates[5]) {
+          fundsTill2Weeks += amount;
+        } else if (new Date(item[dateValue])?.getTime() < dates[6]) {
+          fundsTill1Weeks += amount;
+        }
+      }
     });
+  const result = [
+    fundsTill6Weeks,
+    fundsTill5Weeks,
+    fundsTill4Weeks,
+    fundsTill3Weeks,
+    fundsTill2Weeks,
+    fundsTill1Weeks,
+  ];
   const cumulativeSum = (
     (sum) => (value: any) =>
       (sum += value)
   )(0);
-  const finalArray = totalFunds.map(cumulativeSum);
-  const totalFundsLastWeek = finalArray.map((item) => item + bountyAmount);
-  return totalFundsLastWeek;
+  const finalArray = result.map(cumulativeSum);
+  const totalDataLastWeek = finalArray.map((item) => item + fundsTill7Weeks);
+  return [fundsTill7Weeks].concat(totalDataLastWeek);
 }
 
 export type TrendChartData = {
