@@ -3,7 +3,6 @@ import Head from 'next/head';
 import { useEffect } from 'react';
 
 import { useConnectToBounty } from '@/lib/hooks/fingerprintHooks';
-import { getBrowserFingerprint } from '@/lib/utils/BrowserFingerprint';
 
 import AppLayout from '@/components/layouts/AppLayout';
 import { Bounty } from '@/components/pages/bounty/Bounty';
@@ -75,15 +74,15 @@ const BountyPage: NextPageWithLayout<{ bounty: FullBounty }> = ({
 
   useEffect(() => {
     if (!isFetchingUserInfo) {
-      connectFingerprint();
+      // connectFingerprint();
     }
   }, [isFetchingUserInfo]);
 
   const connectFingerprint = async () => {
-    const fp = await getBrowserFingerprint();
+    // const fp = await getBrowserFingerprint();
     Connect({
       slug: bounty.slug,
-      fingerprint: fp.visitorId,
+      fingerprint: '', //fp.visitorId,
       account,
     });
   };
