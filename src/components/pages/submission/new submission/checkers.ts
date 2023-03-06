@@ -2,6 +2,7 @@ import { RequirementType } from '@prisma/client';
 
 import {
   isEmailValid,
+  isLocationValid,
   isNameValid,
   isPhoneNumberValid,
   isReportValid,
@@ -31,6 +32,9 @@ export const CheckInput = (
 
     case RequirementType.PhoneNumber:
       return EvaluatePhoneNumber(s);
+
+    case RequirementType.Location:
+      return EvaluateLocation(s);
 
     case RequirementType.SocialMediaAccount:
       return EvaluateSocialMediaAccount(s);
@@ -70,7 +74,14 @@ const EvaluateUrl = (s: string) => {
 const EvaluatePhoneNumber = (s: string) => {
   return {
     isValid: isPhoneNumberValid(s),
-    errorMsg: 'Your input must a phone number.',
+    errorMsg: 'Your input must be a phone number.',
+  };
+};
+
+const EvaluateLocation = (s: string) => {
+  return {
+    isValid: isLocationValid(s),
+    errorMsg: 'Your input must have more than one word.',
   };
 };
 
