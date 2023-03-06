@@ -298,6 +298,7 @@ enum RequirementType {
   SocialMediaAccount
   Email
   Name
+  Location
 }
 
 //Users:--------------------------------------------------------------------------------

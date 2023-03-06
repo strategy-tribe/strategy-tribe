@@ -55,3 +55,8 @@ export function isUrlValid(s: string) {
 export function isPhoneNumberValid(s: string) {
   return PHONE_REGEX.test(s);
 }
+
+export function isLocationValid(s: string) {
+  const wordCount = GetWordCount(s as string);
+  return wordCount > 1;
+}

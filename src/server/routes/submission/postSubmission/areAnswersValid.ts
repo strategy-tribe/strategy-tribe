@@ -2,6 +2,7 @@ import { PrismaClient, Requirement, RequirementType } from '@prisma/client';
 
 import {
   isEmailValid,
+  isLocationValid,
   isNameValid,
   isPhoneNumberValid,
   isReportValid,
@@ -52,6 +53,9 @@ export const areAnswersValid = async (
         break;
       case RequirementType.PhoneNumber:
         if (!isPhoneNumberValid(input)) invalidAnswers.push(a);
+        break;
+      case RequirementType.Location:
+        if (!isLocationValid(input)) invalidAnswers.push(a);
         break;
       case RequirementType.Wallet:
         if (!isWalletValid(input)) invalidAnswers.push(a);
