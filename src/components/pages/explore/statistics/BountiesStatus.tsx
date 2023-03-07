@@ -22,7 +22,7 @@ export default function BountiesStatus() {
   ).toFixed(2);
   const labels = bountyTrendChartData?.labels;
   const data = {
-    labels,
+    labels: labels,
     datasets: [
       {
         label: 'Total bounty funding',
@@ -42,11 +42,14 @@ export default function BountiesStatus() {
   const options = {
     scales: {
       y: {
+        ticks: {
+          callback: (label: number) =>
+            label === 0 ? `0` : label > 999 ? `${label / 1000}K` : label,
+        },
         suggestedMin: 0,
         title: {
           display: true,
           text: 'Matic',
-          align: 'end',
         },
       },
     },

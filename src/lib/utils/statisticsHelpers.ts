@@ -147,7 +147,7 @@ export function totalPaidBounties(totalPaid: AvgSubmissionPayoutData): number {
   return sum;
 }
 
-export function getDates(labels: boolean): number[] | string[] {
+export function getDates(labels: boolean): any {
   const prevMonday = new Date();
   prevMonday.setDate(prevMonday.getDate() - ((prevMonday.getDay() + 6) % 7));
   const dates = [];
@@ -218,5 +218,5 @@ export function calculateTotalBountyFund(
 export type TrendChartData = {
   totalBountyFunding: number[];
   bountyAmountPaid: number[];
-  labels: string[] | number[];
+  labels: string[];
 };
