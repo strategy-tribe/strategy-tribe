@@ -147,16 +147,18 @@ export function totalPaidBounties(totalPaid: AvgSubmissionPayoutData): number {
   return sum;
 }
 
-export function getTimeFromDate(): any {
+export function getDates(labels: boolean): number[] | string[] {
   const prevMonday = new Date();
   prevMonday.setDate(prevMonday.getDate() - ((prevMonday.getDay() + 6) % 7));
   const dates = [];
+  const dateArray = [];
   for (let i = 6; i >= 0; i--) {
     const date = Number(prevMonday) - 7 * i * 24 * 60 * 60 * 1000;
+    dateArray.push(new Date(date).toLocaleDateString('en-GB'));
     const dateValue = new Date(date).setUTCHours(0, 0, 0, 0);
     dates.push(dateValue);
   }
-  return dates;
+  return !labels ? dates : dateArray;
 }
 
 export function calculateTotalBountyFund(
@@ -171,7 +173,7 @@ export function calculateTotalBountyFund(
     fundsTill2Weeks = 0,
     fundsTill1Weeks = 0;
   const dateValue = paid ? 'paidDate' : 'updatedAt';
-  const dates = getTimeFromDate();
+  const dates = getDates(false);
   fundData &&
     fundData.forEach((item: any) => {
       const amount = paid
@@ -209,10 +211,12 @@ export function calculateTotalBountyFund(
   )(0);
   const finalArray = result.map(cumulativeSum);
   const totalDataLastWeek = finalArray.map((item) => item + fundsTill7Weeks);
-  return [fundsTill7Weeks].concat(totalDataLastWeek);
+  const finalResult = [fundsTill7Weeks].concat(totalDataLastWeek);
+  return finalResult;
 }
 
 export type TrendChartData = {
   totalBountyFunding: number[];
   bountyAmountPaid: number[];
+  labels: string[] | number[];
 };

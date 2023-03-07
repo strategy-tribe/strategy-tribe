@@ -27,7 +27,7 @@ export default function SubmissionData() {
   ).toFixed(2);
   if (!submissionStatesData) return <></>;
   return (
-    <div className="mt-6 flex h-52 w-full flex-col rounded-md border px-6 pt-4">
+    <div className="mt-7 flex h-52 w-full flex-col rounded-md border px-6 pt-4">
       <span>Data Submissions</span>
       <div className="flex flex-row">
         <div className="w-3/5 pt-0">

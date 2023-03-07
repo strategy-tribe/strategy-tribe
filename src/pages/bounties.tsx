@@ -10,6 +10,7 @@ import {
   calculateTotalBountyFund,
   getAvgSubmissionPayoutData,
   getBountyStatusData,
+  getDates,
   getSubmissionsData,
   SubmissionsData,
   TrendChartData,
@@ -77,6 +78,7 @@ export const getStaticProps: GetStaticProps = async () => {
   const bountyTrendChartData: TrendChartData = {
     totalBountyFunding: totalBountyFunding,
     bountyAmountPaid: paidData,
+    labels: getDates(true),
   };
 
   return {

@@ -20,7 +20,7 @@ export default function BountiesStatus() {
     ((bountyStatusData?.waitingForFundsBounties ?? 0) / total) *
     100
   ).toFixed(2);
-  const labels = ['', '', '', '', '', '', ''];
+  const labels = bountyTrendChartData?.labels;
   const data = {
     labels,
     datasets: [
@@ -40,6 +40,16 @@ export default function BountiesStatus() {
   };
 
   const options = {
+    scales: {
+      y: {
+        suggestedMin: 0,
+        title: {
+          display: true,
+          text: 'Matic',
+          align: 'end',
+        },
+      },
+    },
     maintainAspectRatio: false,
     responsive: true,
     plugins: {
@@ -55,7 +65,7 @@ export default function BountiesStatus() {
       <div className="h-1/2">
         <span className="flex flex-row">Bounties</span>
         <div className="flex w-full flex-row">
-          <div className="w-1/2 pt-0 tablet:w-3/4">
+          <div className="w-1/2 pt-0 tablet:w-3/5">
             <PieChart
               style={{ height: '240px' }}
               data={[
@@ -76,14 +86,14 @@ export default function BountiesStatus() {
                 },
               ]}
               lineWidth={20}
-              radius={48}
+              radius={46}
             />
           </div>
-          <div className="flex w-1/2 flex-col	justify-center pl-2.5 text-xs tablet:w-1/4   tablet:pl-0">
+          <div className="flex w-1/2 flex-col	justify-center pl-2.5 text-xs tablet:w-2/5   tablet:pl-0">
             <div className="flex w-full flex-row justify-items-center">
-              <div className="flex w-4/5 flex-row">
+              <div className="flex w-4/5 flex-row pl-6">
                 <div className="h-4 w-4 rounded-full	bg-open-bounty"></div>
-                <span className="pl-1">Open</span>
+                <span className="pl-2">Open</span>
               </div>
               <div className="flex w-1/5 flex-row">
                 <span className="pl-1">
@@ -91,10 +101,10 @@ export default function BountiesStatus() {
                 </span>
               </div>
             </div>
-            <div className="flex w-full flex-row justify-items-center pt-2">
-              <div className="flex w-4/5 flex-row">
+            <div className="flex w-full flex-row justify-items-center pt-2.5">
+              <div className="flex w-4/5 flex-row pl-6">
                 <div className="h-4 w-4 rounded-full	bg-close-bounty"></div>
-                <span className="pl-1">Closed</span>
+                <span className="pl-2">Closed</span>
               </div>
               <div className="flex w-1/5 flex-row">
                 <span className="pl-1">
@@ -102,10 +112,10 @@ export default function BountiesStatus() {
                 </span>
               </div>
             </div>
-            <div className="flex w-full flex-row justify-items-center pt-2">
-              <div className="flex w-4/5 flex-row">
+            <div className="flex w-full flex-row justify-items-center pt-2.5">
+              <div className="flex w-4/5 flex-row pl-6">
                 <div className="h-4 w-4 rounded-full	bg-wait-bounty"></div>
-                <span className="pl-1">Waiting For Funds</span>
+                <span className="pl-2">Waiting For Funds</span>
               </div>
               <div className="flex w-1/5 flex-row">
                 <span className="pl-1">
