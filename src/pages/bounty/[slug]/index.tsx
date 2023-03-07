@@ -1,19 +1,19 @@
 import { GetStaticPaths, GetStaticProps } from 'next';
+import dynamic from 'next/dynamic';
 import Head from 'next/head';
-import { useEffect } from 'react';
-
-import { useConnectToBounty } from '@/lib/hooks/fingerprintHooks';
 
 import AppLayout from '@/components/layouts/AppLayout';
-import { Bounty } from '@/components/pages/bounty/Bounty';
 
-import { useAuth } from '@/auth/AuthContext';
 import { NextPageWithLayout } from '@/pages/_app';
 import prisma from '@/server/prisma/prismaClient';
 import {
   FullBounty,
   ServerGetBounty,
 } from '@/server/routes/bounties/getBounty';
+
+const Bounty = dynamic(import('@/components/pages/bounty/Bounty'), {
+  ssr: false,
+});
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const bounties = await prisma.bounty.findMany({
@@ -59,8 +59,8 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   return {
     props: {
       bounty: JSON.parse(JSON.stringify(bounty)),
-      revalidate: 60 * 5, //every 5 minutes
     },
+    revalidate: 60 * 5, //every 5 minutes
   };
 };
 
@@ -69,24 +69,6 @@ const BountyPage: NextPageWithLayout<{ bounty: FullBounty }> = ({
 }: {
   bounty: FullBounty;
 }) => {
-  const { Connect } = useConnectToBounty();
-  const { account, isFetchingUserInfo } = useAuth();
-
-  useEffect(() => {
-    if (!isFetchingUserInfo) {
-      // connectFingerprint();
-    }
-  }, [isFetchingUserInfo]);
-
-  const connectFingerprint = async () => {
-    // const fp = await getBrowserFingerprint();
-    Connect({
-      slug: bounty.slug,
-      fingerprint: '', //fp.visitorId,
-      account,
-    });
-  };
-
   return (
     <>
       <Head>
