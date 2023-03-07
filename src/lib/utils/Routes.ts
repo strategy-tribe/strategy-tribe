@@ -12,6 +12,8 @@ export const GoToOrganizationsPage = () => '/organizations';
 
 export const GoToTargetsPage = () => '/targets';
 
+export const GoToLeaderboard = () => '/leaderboard';
+
 export const GoToSearchPage = () => '/search';
 
 export const GoToRulesPage = () => '/rules';
@@ -75,4 +77,8 @@ export const GoToAddBountiesPage = () => {
 
 export const GoToEditBountyPage = () => {
   return `/admin/bounty/edit`;
+};
+
+export const GoToUserInfoPage = () => {
+  return `/admin/info`;
 };

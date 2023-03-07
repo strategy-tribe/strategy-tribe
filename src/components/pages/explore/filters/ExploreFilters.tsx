@@ -12,41 +12,67 @@ import Icon, { IconSize } from '@/components/utils/Icon';
 import { GetBountiesParams } from '@/server/routes/bounties/getBounties';
 
 import { OrderByFilter, StateFilter, TagsFilter, TypeFilter } from './Filters';
-import { DEFAULT_FILTERS } from './utils/DefaultFilter';
+import { BountiesFilter, DEFAULT_FILTERS } from './utils/DefaultFilter';
 import { Searchbar as SearchBar } from './utils/Searchbar';
 import { useExploreContext } from '../ExploreContext';
 
-export function ExploreFilters() {
-  const { urlFilter, setUrlFilter } = useExploreUrl();
+export function ExploreFilters({
+  urlFilter,
+  setUrlFilter,
+  filters = DEFAULT_FILTERS,
+  totalCount,
+  countries,
+  removeCountry,
+}: {
+  urlFilter?: BountiesFilter;
+  setUrlFilter?: any;
+  filters?: BountiesFilter[];
+  totalCount?: number;
+  countries?: string[];
+  removeCountry?: (country: string) => void;
+}) {
+  const urlFilterConfig = useExploreUrl();
+  if (!urlFilter || !setUrlFilter) {
+    urlFilter = urlFilterConfig.urlFilter;
+    setUrlFilter = urlFilterConfig.setUrlFilter;
+  }
 
-  const { bountyFetch, countries, removeCountry } = useExploreContext();
+  const context = useExploreContext();
 
-  const isLoading = bountyFetch?.isLoading ?? true;
-  const count = bountyFetch?.count ?? 0;
+  if (!countries || !removeCountry) {
+    countries = context.countries;
+    removeCountry = context.removeCountry;
+  }
 
-  function setSearch(s: string) {
+  const isLoading = totalCount ? false : context.bountyFetch?.isLoading ?? true;
+  const count = totalCount ?? context.bountyFetch?.count ?? 0;
+
+  function setSearch(s: string | undefined) {
     setUrlFilter({ search: s, page: 0 });
   }
 
   function resetOrgFromQuery(removedOrg: string) {
+    const orgNames = urlFilter?.query.orgName?.filter((o) => o !== removedOrg);
     setUrlFilter({
-      orgName: urlFilter.query.orgName?.filter((o) => o !== removedOrg),
+      orgName: orgNames && orgNames.length === 0 ? undefined : orgNames,
       page: 0,
     });
   }
 
   function resetTagFromQuery(removedTag: string) {
+    const tags = urlFilter?.query.tags?.filter((o) => o !== removedTag);
     setUrlFilter({
-      tags: urlFilter.query.tags?.filter((o) => o !== removedTag),
+      tags: tags && tags.length === 0 ? undefined : tags,
       page: 0,
     });
   }
 
   function resetTargetFromQuery(removedTarget: string) {
+    const targets = urlFilter?.query.targetNames?.filter(
+      (o) => o !== removedTarget
+    );
     setUrlFilter({
-      targetNames: urlFilter.query.targetNames?.filter(
-        (o) => o !== removedTarget
-      ),
+      targetNames: targets && targets.length === 0 ? undefined : targets,
       page: 0,
     });
   }
@@ -68,9 +94,9 @@ export function ExploreFilters() {
 
       <div className="max-w-full items-center justify-between gap-6 bt:flex">
         <ul className="flex gap-6 border-b-2 border-surface pb-2 bt:border-b-0 bt:pb-0">
-          {DEFAULT_FILTERS.map((filter, i) => {
+          {filters.map((filter, i) => {
             const opacity =
-              urlFilter.type === filter.type
+              urlFilter?.type === filter.type
                 ? ''
                 : 'opacity-50 hover:opacity-90';
             return (
@@ -104,7 +130,9 @@ export function ExploreFilters() {
                 />
                 <span className="label-sm">{country}</span>
                 <button
-                  onClick={() => removeCountry(country)}
+                  onClick={() => {
+                    if (removeCountry) removeCountry(country);
+                  }}
                   className="grid place-items-center hover:text-error-light"
                   key={i}
                 >
@@ -118,7 +146,7 @@ export function ExploreFilters() {
             <div className="my-2 flex items-center gap-2 rounded-full border-[1px] py-1 pl-3 pr-4 bt:my-0">
               <span className="label-sm">{urlFilter.query.search}</span>
               <button
-                onClick={() => setSearch('')}
+                onClick={() => setSearch(undefined)}
                 className="grid place-items-center hover:text-error-light"
               >
                 <Icon icon="close" size={IconSize.Small} />
@@ -209,14 +237,26 @@ export function ExploreFilters() {
         </div>
       </div>
 
-      {showFilters && <Filters hide={() => setShowFilters(false)} />}
+      {showFilters && (
+        <Filters
+          hide={() => setShowFilters(false)}
+          setUrlFilter={setUrlFilter}
+          urlFilter={urlFilter}
+        />
+      )}
     </div>
   );
 }
 
-function Filters({ hide }: { hide: () => void }) {
-  const { setUrlFilter, urlFilter } = useExploreUrl();
-
+function Filters({
+  hide,
+  setUrlFilter,
+  urlFilter,
+}: {
+  hide: () => void;
+  urlFilter: BountiesFilter;
+  setUrlFilter: any;
+}) {
   const [state, setState] = useState<GetBountiesParams>(urlFilter.query);
   //apply filters
   function changeState(newState: Partial<GetBountiesParams>) {

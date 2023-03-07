@@ -14,6 +14,7 @@ export enum BountiesFilterType {
   LowCompetition = 'Low competition',
   // eslint-disable-next-line no-unused-vars
   ClosesSoon = 'Closes soon',
+  Fingerprint = 'Fingerprint',
 }
 
 export type BountiesFilter = {
@@ -36,7 +37,6 @@ const TOP_REWARDS_FILTER: BountiesFilter = {
   query: {
     order: Order.Desc,
     orderBy: BountyOrderBy.Bounty,
-    states: [BountyState.Open],
     amount: 16,
 
     page: 0,
@@ -63,6 +63,19 @@ const CLOSES_SOON_FILTER: BountiesFilter = {
     page: 0,
   },
 };
+
+export const FINGERPRINTS_FILTER: BountiesFilter = {
+  type: BountiesFilterType.Fingerprint,
+
+  query: {
+    order: Order.Desc,
+    orderBy: BountyOrderBy.Fingerprint,
+    amount: 16,
+
+    page: 0,
+  },
+};
+
 export const DEFAULT_FILTERS = [
   TOP_REWARDS_FILTER,
   LATEST_FILTER,
@@ -70,4 +83,7 @@ export const DEFAULT_FILTERS = [
   CLOSES_SOON_FILTER,
 ];
 
-export const DEFAULT_FILTER = TOP_REWARDS_FILTER;
+export const DEFAULT_FILTER = {
+  ...LATEST_FILTER,
+  query: { ...LATEST_FILTER.query, states: [BountyState.Open] },
+};

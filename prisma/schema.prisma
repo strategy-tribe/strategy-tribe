@@ -298,6 +298,7 @@ enum RequirementType {
   SocialMediaAccount
   Email
   Name
+  Location
 }
 
 //Users:--------------------------------------------------------------------------------
@@ -311,6 +312,7 @@ model User {
   submissions Submission[]
   address     String       @unique
   rol         Rol
+  username    String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
