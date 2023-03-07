@@ -70,6 +70,7 @@ const BountyPage: NextPageWithLayout<{ bounty: FullBounty }> = ({
 }: {
   bounty: FullBounty;
 }) => {
+
   return (
     <>
       <Head>
