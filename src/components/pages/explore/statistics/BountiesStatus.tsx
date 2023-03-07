@@ -43,7 +43,7 @@ export default function BountiesStatus() {
     scales: {
       y: {
         ticks: {
-          callback: (label: number) =>
+          callback: (label: any) =>
             label === 0 ? `0` : label > 999 ? `${label / 1000}K` : label,
         },
         suggestedMin: 0,
