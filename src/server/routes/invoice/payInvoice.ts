@@ -33,7 +33,11 @@ async function _payInvoice(
         },
         bounty: {
           include: {
-            wallet: true,
+            wallet: {
+              include: {
+                walletControl: true,
+              },
+            },
           },
         },
       },
@@ -44,27 +48,36 @@ async function _payInvoice(
       bountySlug === invoice.bounty?.slug
     ) {
       const userAddress = invoice.submission.author?.address;
-      const bountyAddress = invoice.bounty?.wallet.address;
-      const bountyWalletData = await prisma.key.findUnique({
-        where: {
-          address: bountyAddress,
-        },
-        select: {
-          privateKey: true,
-        },
-      });
-      if (bountyWalletData) {
-        const provider = ethers.getDefaultProvider('matic');
-        const bountyWallet = new ethers.Wallet(
-          bountyWalletData.privateKey,
-          provider
-        );
-        const balance =
+      const provider = ethers.getDefaultProvider('matic');
+      let bountyAddress;
+      let privateKey;
+      let balance;
+      if (!invoice.bounty.wallet.walletControl) {
+        bountyAddress = invoice.bounty?.wallet.address;
+        const bountyWalletData = await prisma.key.findUnique({
+          where: {
+            address: bountyAddress,
+          },
+          select: {
+            privateKey: true,
+          },
+        });
+        privateKey = bountyWalletData?.privateKey;
+        balance =
           parseFloat(
             ethers.utils.formatEther(
               await provider.getBalance(bountyAddress as string)
             )
           ) - 0.02;
+      } else {
+        bountyAddress = process.env.COMMON_WALLET;
+        privateKey = process.env.COMMON_WALLET_KEY;
+        balance = invoice.bounty.wallet.balance;
+      }
+
+      if (privateKey) {
+        const bountyWallet = new ethers.Wallet(privateKey, provider);
+
         if (balance > 0) {
           const txn = {
             to: userAddress,
@@ -82,15 +95,6 @@ async function _payInvoice(
               txnHash: txnResult.hash,
               paidDate: new Date(),
               updatedAt: new Date(),
-            },
-          });
-
-          await prisma.key.update({
-            where: {
-              address: bountyAddress,
-            },
-            data: {
-              txnHash: txnResult.hash,
             },
           });
         } else {
