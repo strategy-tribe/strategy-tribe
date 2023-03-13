@@ -32,7 +32,7 @@ export function calculateTotalBountyFund(
     fundsTill3Weeks = 0,
     fundsTill2Weeks = 0,
     fundsTill1Weeks = 0;
-  const dateValue = paid ? 'paidDate' : 'updatedAt';
+  const dateValue = !paid ? 'updatedAt' : 'paidDate';
   const dates = getDates(false);
   fundData &&
     fundData.forEach((item: any) => {
