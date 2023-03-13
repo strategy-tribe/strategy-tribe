@@ -18,9 +18,9 @@ import { Button, ButtonStyle } from '@/components/utils/Button';
 import { useAuth } from '@/auth/AuthContext';
 
 import { LandingPageLink } from './LandingPageLink';
+import { NotifsMenu } from './menus/NotifsMenu';
 import { UserMenu } from './menus/UserMenu';
 import { NavLink } from './NavLink';
-
 export function Navbar({
   hideBgOnScroll,
   keepNavbar,
@@ -103,6 +103,14 @@ export function Navbar({
                 show={() => setShowNotifs(true)}
               />
             )} */}
+            {!!userId && (
+              <NotifsMenu
+                userId={userId}
+                shouldShow={showNotifs}
+                hide={() => setShowNotifs(false)}
+                show={() => setShowNotifs(true)}
+              />
+            )}
 
             {!userId ? (
               <div className="grid place-items-center py-1">

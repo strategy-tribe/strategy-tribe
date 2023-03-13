@@ -16,8 +16,8 @@ export const useGetUserServerNotifications = (
   isLoading: boolean;
   error: any;
 } => {
-  // const queryId = getQueryId(userId);
-
+  const queryId = getQueryId(userId);
+  //console.log(queryId, 'queryId');
   // const { fetch } = Moralis_getNotifications(
   //   userId,
   //   options?.amount,

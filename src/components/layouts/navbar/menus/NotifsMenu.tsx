@@ -4,7 +4,11 @@ import { NotificationListEntry } from '@/components/notifications/NotificationLi
 import Loading from '@/components/utils/Loading';
 import { Overlay } from '@/components/utils/Overlay';
 
+import { AccountView } from '@/lib/models/AccountView';
+import { GoToAccountPage } from '@/lib/utils/Routes';
 import { NavbarButton } from '../NavbarButton';
+import { Button, ButtonStyle } from './../../../utils/Button';
+import { IconSize } from './../../../utils/Icon';
 
 export function NotifsMenu({
   userId,
@@ -47,6 +51,18 @@ export function NotifsMenu({
                   onClick: hide,
                 }}
               /> */}
+              <Button
+                info={{
+                  iconSize: IconSize.Small,
+                  label: 'Settings',
+                  icon: 'settings',
+                  style: ButtonStyle.Text,
+                  removeMinWidth: true,
+                  removePadding: true,
+                  isALink: GoToAccountPage(AccountView.Notifications),
+                  onClick: hide,
+                }}
+              />
             </header>
 
             <hr className="w-full text-surface" />
@@ -86,6 +102,18 @@ export function NotifsMenu({
                   onClick: hide,
                 }}
               /> */}
+              <Button
+                info={{
+                  iconSize: IconSize.Small,
+                  label: 'All notifications',
+                  icon: 'arrow_forward',
+                  style: ButtonStyle.Text,
+                  removeMinWidth: true,
+                  removePadding: true,
+                  isALink: GoToAccountPage(AccountView.Notifications),
+                  onClick: hide,
+                }}
+              />
             </footer>
           </div>
 
