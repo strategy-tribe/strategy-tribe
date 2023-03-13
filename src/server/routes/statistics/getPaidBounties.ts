@@ -1,10 +1,14 @@
 import { PrismaClient } from '@prisma/client';
-import { TRPCError } from '@trpc/server';
+import { z } from 'zod';
+
+import { calculateTotalBountyFund } from '@/lib/utils/statisticsHelpers';
+
+import { publicProcedure } from '@/server/procedures';
 
 import { ThenArg } from '../utils/helperTypes';
 
-export async function GetLastWeekPaidBountiesData(prisma: PrismaClient) {
-  const payoutStatus = await prisma.invoice.findMany({
+export async function _getLastWeekPaidBountiesData(prisma: PrismaClient) {
+  const fundData = await prisma.invoice.findMany({
     where: {
       status: 'Paid',
     },
@@ -25,23 +29,19 @@ export async function GetLastWeekPaidBountiesData(prisma: PrismaClient) {
       paidDate: 'desc',
     },
   });
-  return payoutStatus;
+  const paidBountiesFund = calculateTotalBountyFund(fundData, true);
+  return paidBountiesFund;
 }
 
-export const getPaidBounties = async (
-  prisma: PrismaClient
-): Promise<BountiesStatusData> => {
-  const lastWeekPaidBountiesData = await GetLastWeekPaidBountiesData(prisma);
-  if (!lastWeekPaidBountiesData) {
-    throw new TRPCError({
-      code: 'INTERNAL_SERVER_ERROR',
-      message: 'Unable to query last week paid bounties data',
-    });
-  }
-
-  return lastWeekPaidBountiesData;
-};
-
-export type BountiesStatusData = NonNullable<
-  ThenArg<ReturnType<typeof GetLastWeekPaidBountiesData>>
+export type PaidBountiesData = NonNullable<
+  ThenArg<ReturnType<typeof _getLastWeekPaidBountiesData>>
 >;
+
+const GetSubmissionsDataSchema = z.object({}).optional();
+
+export const getPaidBounties = publicProcedure
+  .input(GetSubmissionsDataSchema)
+  .query(async ({ input, ctx: { prisma } }) => {
+    const lastWeekPaidBountiesData = await _getLastWeekPaidBountiesData(prisma);
+    return { lastWeekPaidBountiesData, ...input };
+  });

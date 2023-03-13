@@ -1,18 +1,18 @@
-import {
-  BountyStatus,
-  SubmissionsData,
-  TrendChartData,
-} from '@/lib/utils/statisticsHelpers';
 import dynamic from 'next/dynamic';
 
 import { MapDataWithFeatures } from '@/lib/models/MapData';
+import { TrendChartData } from '@/lib/utils/statisticsHelpers';
 
-import { Section } from '../landing/Section';
+import { AvgSubmissionPayoutData } from '@/server/routes/statistics/getAvgSubmissionPayout';
+import { BountiesStatusData } from '@/server/routes/statistics/getBountiesStatus';
+import { SubmissionsStatusData } from '@/server/routes/statistics/getSubmissionsStatus';
+import { UsersCountData } from '@/server/routes/statistics/getUsersCount';
+
 import { BountyBoard } from './BountyBoard';
 import { ExploreContextProvider, useExploreContext } from './ExploreContext';
 import { ExploreFilters } from './filters/ExploreFilters';
 import { PageControls } from './PageControls';
-
+import { Section } from '../landing/Section';
 const Map = dynamic(import('./map/MapProjection'), {
   ssr: false,
 });
@@ -42,10 +42,10 @@ export function Explore({
   bountyTrendChartData,
 }: {
   data: MapDataWithFeatures | undefined;
-  bountyStatusData: BountyStatus | undefined;
-  submissionStatesData: SubmissionsData | undefined;
-  usersCount: number | undefined;
-  avgSubmissionPayout: number | undefined;
+  bountyStatusData: BountiesStatusData | undefined;
+  submissionStatesData: SubmissionsStatusData | undefined;
+  usersCount: UsersCountData | undefined;
+  avgSubmissionPayout: AvgSubmissionPayoutData | undefined;
   bountyTrendChartData: TrendChartData | undefined;
 }) {
   return (

@@ -1,14 +1,14 @@
-import {
-  BountyStatus,
-  SubmissionsData,
-  TrendChartData,
-} from '@/lib/utils/statisticsHelpers';
 import { createContext, ReactNode, useContext } from 'react';
 
 import { useGetBounties } from '@/lib/hooks/bountyHooks';
 import { MapDataWithFeatures } from '@/lib/models/MapData';
+import { TrendChartData } from '@/lib/utils/statisticsHelpers';
 
 import { useExploreUrl } from '@/components/pages/explore/useExploreUrl';
+
+import { BountiesStatusData } from '@/server/routes/statistics/getBountiesStatus';
+import { SubmissionsStatusData } from '@/server/routes/statistics/getSubmissionsStatus';
+import { UsersCountData } from '@/server/routes/statistics/getUsersCount';
 
 interface iExploreContext {
   bountyFetch: ReturnType<typeof useGetBounties> | undefined;
@@ -16,9 +16,9 @@ interface iExploreContext {
   addCountry: (country: string) => void;
   removeCountry: (country: string) => void;
   map: MapDataWithFeatures | undefined;
-  bountyStatusData: BountyStatus | undefined;
-  submissionStatesData: SubmissionsData | undefined;
-  usersCount: number | undefined;
+  bountyStatusData: BountiesStatusData | undefined;
+  submissionStatesData: SubmissionsStatusData | undefined;
+  usersCount: UsersCountData | undefined;
   avgSubmissionPayout: number | undefined;
   bountyTrendChartData: TrendChartData | undefined;
 }
@@ -52,9 +52,9 @@ export const ExploreContextProvider = ({
   children: ReactNode;
 
   data: MapDataWithFeatures | undefined;
-  bountyStatusData: BountyStatus | undefined;
-  submissionStatesData: SubmissionsData | undefined;
-  usersCount: number | undefined;
+  bountyStatusData: BountiesStatusData | undefined;
+  submissionStatesData: SubmissionsStatusData | undefined;
+  usersCount: UsersCountData | undefined;
   avgSubmissionPayout: number | undefined;
   bountyTrendChartData: TrendChartData | undefined;
 }) => {

@@ -1,10 +1,12 @@
 import { PrismaClient } from '@prisma/client';
-import { TRPCError } from '@trpc/server';
+import { z } from 'zod';
+
+import { publicProcedure } from '@/server/procedures';
 
 import { ThenArg } from '../utils/helperTypes';
 
-export async function GetAvgSubmissionPayoutData(prisma: PrismaClient) {
-  const payoutStatus = await prisma.invoice.findMany({
+export async function _getAvgSubmissionPayoutData(prisma: PrismaClient) {
+  const submissionPayoutData = await prisma.invoice.findMany({
     where: {
       status: 'Paid',
     },
@@ -22,23 +24,26 @@ export async function GetAvgSubmissionPayoutData(prisma: PrismaClient) {
       },
     },
   });
-  return payoutStatus;
+  let totalBountyPaidInMatics = 0;
+  const totalPaidBounties = submissionPayoutData?.length || 0;
+  submissionPayoutData &&
+    submissionPayoutData.forEach((item: any) => {
+      totalBountyPaidInMatics =
+        totalBountyPaidInMatics + item?.bounty?.wallet?.balance ?? 0;
+    });
+  const avgSubmissionPayout = totalBountyPaidInMatics / totalPaidBounties;
+  return avgSubmissionPayout;
 }
 
-export const getAvgSubmissionPayout = async (
-  prisma: PrismaClient
-): Promise<AvgSubmissionPayoutData> => {
-  const avgSubmissionPayoutData = await GetAvgSubmissionPayoutData(prisma);
-  if (!avgSubmissionPayoutData) {
-    throw new TRPCError({
-      code: 'INTERNAL_SERVER_ERROR',
-      message: 'Unable to query payout data',
-    });
-  }
-
-  return avgSubmissionPayoutData;
-};
-
 export type AvgSubmissionPayoutData = NonNullable<
-  ThenArg<ReturnType<typeof GetAvgSubmissionPayoutData>>
+  ThenArg<ReturnType<typeof _getAvgSubmissionPayoutData>>
 >;
+
+const GetBountiesStatusDataSchema = z.object({}).optional();
+
+export const getAvgSubmissionPayout = publicProcedure
+  .input(GetBountiesStatusDataSchema)
+  .query(async ({ input, ctx: { prisma } }) => {
+    const avgSubmissionPayoutData = await _getAvgSubmissionPayoutData(prisma);
+    return { avgSubmissionPayoutData, ...input };
+  });

@@ -1,27 +1,24 @@
 import { PrismaClient } from '@prisma/client';
-import { TRPCError } from '@trpc/server';
+import { z } from 'zod';
+
+import { publicProcedure } from '@/server/procedures';
 
 import { ThenArg } from '../utils/helperTypes';
 
-export async function GetUsersCountData(prisma: PrismaClient) {
+export async function _getUsersCountData(prisma: PrismaClient) {
   const users = await prisma.user.count();
   return users;
 }
 
-export const getUsersCount = async (
-  prisma: PrismaClient
-): Promise<UsersCountData> => {
-  const usersCountData = await GetUsersCountData(prisma);
-  if (!usersCountData) {
-    throw new TRPCError({
-      code: 'INTERNAL_SERVER_ERROR',
-      message: 'Unable to query users count data',
-    });
-  }
-
-  return usersCountData;
-};
-
 export type UsersCountData = NonNullable<
-  ThenArg<ReturnType<typeof GetUsersCountData>>
+  ThenArg<ReturnType<typeof _getUsersCountData>>
 >;
+
+const GetUserCountSchema = z.object({}).optional();
+
+export const getUsersCount = publicProcedure
+  .input(GetUserCountSchema)
+  .query(async ({ input, ctx: { prisma } }) => {
+    const usersCountData = await _getUsersCountData(prisma);
+    return { usersCountData, ...input };
+  });

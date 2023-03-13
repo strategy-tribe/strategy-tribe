@@ -5,16 +5,8 @@ import superjson from 'superjson';
 
 import { MapDataWithFeatures } from '@/lib/models/MapData';
 import { overcomeSerialization } from '@/lib/utils/overcomeSerialization';
-import {
-  BountyStatus,
-  calculateTotalBountyFund,
-  getAvgSubmissionPayoutData,
-  getBountyStatusData,
-  getDates,
-  getSubmissionsData,
-  SubmissionsData,
-  TrendChartData,
-} from '@/lib/utils/statisticsHelpers';
+import { getDates } from '@/lib/utils/statisticsHelpers';
+import { TrendChartData } from '@/lib/utils/statisticsHelpers';
 
 import AppLayout from '@/components/layouts/AppLayout';
 import { Explore } from '@/components/pages/explore/Explore';
@@ -24,12 +16,30 @@ import { createContextInner } from '@/server/context';
 import prisma from '@/server/prisma/prismaClient';
 import { appRouter } from '@/server/routers/_app';
 import { getMapData } from '@/server/routers/map';
-import { getAvgSubmissionPayout } from '@/server/routes/statistics/getAvgSubmissionPayout';
-import { getBountiesStatus } from '@/server/routes/statistics/getBountiesStatus';
-import { getPaidBounties } from '@/server/routes/statistics/getPaidBounties';
-import { getSubmissionsStatus } from '@/server/routes/statistics/getSubmissionsStatus';
-import { getTotalBountiesFund } from '@/server/routes/statistics/getTotalBountiesFund';
-import { getUsersCount } from '@/server/routes/statistics/getUsersCount';
+import {
+  _getAvgSubmissionPayoutData,
+  AvgSubmissionPayoutData,
+} from '@/server/routes/statistics/getAvgSubmissionPayout';
+import {
+  _getBountiesStatusData,
+  BountiesStatusData,
+} from '@/server/routes/statistics/getBountiesStatus';
+import {
+  _getLastWeekPaidBountiesData,
+  PaidBountiesData,
+} from '@/server/routes/statistics/getPaidBounties';
+import {
+  _getSubmissionsStatusData,
+  SubmissionsStatusData,
+} from '@/server/routes/statistics/getSubmissionsStatus';
+import {
+  _getLastWeekTotalBountiesFundData,
+  TotalBountyFundData,
+} from '@/server/routes/statistics/getTotalBountiesFund';
+import {
+  _getUsersCountData,
+  UsersCountData,
+} from '@/server/routes/statistics/getUsersCount';
 
 import { NextPageWithLayout } from './_app';
 
@@ -51,29 +61,27 @@ export const getStaticProps: GetStaticProps = async () => {
   //#endregion Map Data
 
   //#Bounty Status data - Open/Closed/Waiting For Funds
-  const bountyStatusData = await getBountiesStatus(prisma);
-  const processedBountiesStatusData = getBountyStatusData(bountyStatusData);
+  const bountyStatusData: BountiesStatusData = await _getBountiesStatusData(
+    prisma
+  );
 
   //#Submissions data  - Accepted/Rejected/ Waiting For Review, Submitted data(Name/Email/Domain/Wallet)
-  const submissionStatesData = await getSubmissionsStatus(prisma);
-  const processedSubmissionStatesData =
-    getSubmissionsData(submissionStatesData);
+  const submissionStatesData: SubmissionsStatusData =
+    await _getSubmissionsStatusData(prisma);
 
   //Users Count
-  const usersCount = await getUsersCount(prisma);
+  const usersCount: UsersCountData = await _getUsersCountData(prisma);
 
   //Submission Payout
-  const submissionPayoutData = await getAvgSubmissionPayout(prisma);
-  const avgSubmissionPayoutData =
-    getAvgSubmissionPayoutData(submissionPayoutData);
+  const submissionPayoutData: AvgSubmissionPayoutData =
+    await _getAvgSubmissionPayoutData(prisma);
 
   //Total paid bounties
-  const trendData = await getPaidBounties(prisma);
-  const paidData = calculateTotalBountyFund(trendData, true);
+  const paidData: PaidBountiesData = await _getLastWeekPaidBountiesData(prisma);
 
   //Total bounty funding
-  const bountyFund = await getTotalBountiesFund(prisma);
-  const totalBountyFunding = calculateTotalBountyFund(bountyFund, false);
+  const totalBountyFunding: TotalBountyFundData =
+    await _getLastWeekTotalBountiesFundData(prisma);
 
   const bountyTrendChartData: TrendChartData = {
     totalBountyFunding: totalBountyFunding,
@@ -85,10 +93,10 @@ export const getStaticProps: GetStaticProps = async () => {
     props: {
       trpcState: ssg.dehydrate(),
       mapData: parsedData,
-      bountyStatusData: processedBountiesStatusData,
-      submissionStatesData: processedSubmissionStatesData,
+      bountyStatusData: bountyStatusData,
+      submissionStatesData: submissionStatesData,
       usersCount: usersCount,
-      avgSubmissionPayout: avgSubmissionPayoutData,
+      avgSubmissionPayout: submissionPayoutData,
       bountyTrendChartData: bountyTrendChartData,
     },
     revalidate: 60 * 5, //every 5 minutes
@@ -97,10 +105,10 @@ export const getStaticProps: GetStaticProps = async () => {
 
 const BountiesPage: NextPageWithLayout<{
   mapData: MapDataWithFeatures;
-  bountyStatusData: BountyStatus;
-  submissionStatesData: SubmissionsData;
-  usersCount: number;
-  avgSubmissionPayout: number;
+  bountyStatusData: BountiesStatusData;
+  submissionStatesData: SubmissionsStatusData;
+  usersCount: UsersCountData;
+  avgSubmissionPayout: AvgSubmissionPayoutData;
   bountyTrendChartData: TrendChartData;
 }> = ({
   mapData,
@@ -111,10 +119,10 @@ const BountiesPage: NextPageWithLayout<{
   bountyTrendChartData,
 }: {
   mapData: MapDataWithFeatures;
-  bountyStatusData: BountyStatus;
-  submissionStatesData: SubmissionsData;
-  usersCount: number;
-  avgSubmissionPayout: number;
+  bountyStatusData: BountiesStatusData;
+  submissionStatesData: SubmissionsStatusData;
+  usersCount: UsersCountData;
+  avgSubmissionPayout: AvgSubmissionPayoutData;
   bountyTrendChartData: TrendChartData;
 }) => {
   return (
