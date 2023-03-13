@@ -1,4 +1,5 @@
 import { bountyRouter } from './bounty';
+import { donationRouter } from './donation';
 import { fileRouter } from './files';
 import { fingerprintRouter } from './fingerprint';
 import { invoiceRouter } from './invoice';
@@ -27,6 +28,7 @@ export const appRouter = router({
   file: fileRouter,
   fingerprint: fingerprintRouter,
   user: userRouter,
+  donation: donationRouter,
 });
 
 // export type definition of API

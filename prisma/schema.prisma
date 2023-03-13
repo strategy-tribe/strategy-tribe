@@ -159,6 +159,7 @@ model Bounty {
 
   Invoice      Invoice?
   fingerprints Fingerprint[]
+  Donation     Donation[]
 }
 
 model Organization {
@@ -266,6 +267,22 @@ model Invoice {
   paidDate DateTime?
 }
 
+model Donation {
+  id            String   @id @default(cuid())
+  txnHash       String
+  txnDate       DateTime
+  addedToBounty Boolean
+
+  user   User?   @relation(fields: [userId], references: [id], onDelete: SetNull)
+  userId String?
+
+  bounty     Bounty? @relation(fields: [bountySlug], references: [slug], onDelete: SetNull)
+  bountySlug String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+}
+
 enum InvoiceStatus {
   Paid
   Unpaid
@@ -320,6 +337,7 @@ model User {
   review        Review[]
   notifications Notification[]
   fingerprints  Fingerprint[]
+  Donation      Donation[]
 }
 
 model Fingerprint {
