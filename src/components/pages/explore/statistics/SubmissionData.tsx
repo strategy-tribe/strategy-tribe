@@ -1,5 +1,7 @@
 import { PieChart } from 'react-minimal-pie-chart';
 
+import { toPercentage } from '@/lib/utils/statisticsHelpers';
+
 import { useExploreContext } from '../ExploreContext';
 
 export default function SubmissionData() {
@@ -9,22 +11,22 @@ export default function SubmissionData() {
     (submissionStatesData?.typesOfData?.nameCount ?? 0) +
     (submissionStatesData?.typesOfData?.domainCount ?? 0) +
     (submissionStatesData?.typesOfData?.emailCount ?? 0);
-  const walletPercentage: number | undefined | string = (
-    ((submissionStatesData?.typesOfData?.walletCount ?? 0) / total) *
-    100
-  ).toFixed(2);
-  const namePercentage: number | undefined | string = (
-    ((submissionStatesData?.typesOfData?.nameCount ?? 0) / total) *
-    100
-  ).toFixed(2);
-  const domainPercentage: number | undefined | string = (
-    ((submissionStatesData?.typesOfData.domainCount ?? 0) / total) *
-    100
-  ).toFixed(2);
-  const emailPercentage: number | undefined | string = (
-    ((submissionStatesData?.typesOfData?.emailCount ?? 0) / total) *
-    100
-  ).toFixed(2);
+  const walletPercentage = toPercentage(
+    submissionStatesData?.typesOfData?.walletCount ?? 0,
+    total
+  );
+  const namePercentage = toPercentage(
+    submissionStatesData?.typesOfData?.nameCount ?? 0,
+    total
+  );
+  const domainPercentage = toPercentage(
+    submissionStatesData?.typesOfData?.domainCount ?? 0,
+    total
+  );
+  const emailPercentage = toPercentage(
+    submissionStatesData?.typesOfData?.emailCount ?? 0,
+    total
+  );
   if (!submissionStatesData) return <></>;
   return (
     <div className="mt-7 flex h-52 w-full flex-col rounded-md border px-6 pt-4">
@@ -70,7 +72,7 @@ export default function SubmissionData() {
               <span className="pl-1">Wallet</span>
             </div>
             <div className="flex w-1/4">
-              <span>{walletPercentage ? walletPercentage : 0}%</span>
+              <span>{walletPercentage}%</span>
             </div>
           </div>
           <div className="flex w-full flex-row">
@@ -82,7 +84,7 @@ export default function SubmissionData() {
               <span className="pl-1">Name</span>
             </div>
             <div className="flex w-1/4">
-              <span>{namePercentage ? namePercentage : 0}%</span>
+              <span>{namePercentage}%</span>
             </div>
           </div>
           <div className="flex w-full flex-row">
@@ -94,7 +96,7 @@ export default function SubmissionData() {
               <span className="pl-1">Domain</span>
             </div>
             <div className="flex w-1/4">
-              <span>{domainPercentage ? domainPercentage : 0}%</span>
+              <span>{domainPercentage}%</span>
             </div>
           </div>
           <div className="flex w-full flex-row">
@@ -106,7 +108,7 @@ export default function SubmissionData() {
               <span className="pl-1">Email</span>
             </div>
             <div className="flex w-1/4">
-              <span>{emailPercentage ? emailPercentage : 0}%</span>
+              <span>{emailPercentage}%</span>
             </div>
           </div>
         </div>

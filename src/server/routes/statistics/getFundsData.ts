@@ -6,20 +6,19 @@ import { publicProcedure } from '@/server/procedures';
 import { ThenArg } from '../utils/helperTypes';
 
 export async function _getFundData(prisma: PrismaClient) {
-  const fundData = await prisma.fundsData.findMany({
+  let fundData = await prisma.fundsData.findMany({
     select: {
       totalFunds: true,
       paidFunds: true,
       date: true,
     },
     orderBy: {
-      date: 'desc',
+      date: 'asc',
     },
   });
-  // console.log(fundData, 'fetch fata');
-  // if(fundData.length > 7) {
-  //   fundData = fundData.slice()
-  // }
+  if (fundData.length > 7) {
+    fundData = fundData.slice(Math.max(fundData.length - 7, 0));
+  }
   const bountyAmountPaid: number[] = [];
   const totalBountyFunding: number[] = [];
   const labels: string[] = [];

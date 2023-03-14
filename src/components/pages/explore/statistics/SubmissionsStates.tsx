@@ -1,24 +1,24 @@
+import { toPercentage } from '@/lib/utils/statisticsHelpers';
+
 import ProgressLoader from './utils/ProgressLoader';
 import { useExploreContext } from '../ExploreContext';
 
 export default function SubmissionStates() {
   const { submissionStatesData } = useExploreContext();
-  const width = '100';
-  const acceptedSubmissionWidth = (
-    ((submissionStatesData?.acceptedSubmissions ?? 0) /
-      (submissionStatesData?.total ?? 0)) *
-    100
-  ).toFixed(2);
-  const rejectedSubmissionWidth = (
-    ((submissionStatesData?.rejectedSubmissions ?? 0) /
-      (submissionStatesData?.total ?? 0)) *
-    100
-  ).toFixed(2);
-  const waitingForReviewSubmissionWidth = (
-    ((submissionStatesData?.waitingForReviewSubmissions ?? 0) /
-      (submissionStatesData?.total ?? 0)) *
-    100
-  ).toFixed(2);
+  const total = submissionStatesData?.total ?? 0;
+  const width = total ? '100' : '0';
+  const acceptedSubmissionWidth = toPercentage(
+    submissionStatesData?.acceptedSubmissions ?? 0,
+    total
+  );
+  const rejectedSubmissionWidth = toPercentage(
+    submissionStatesData?.rejectedSubmissions ?? 0,
+    total
+  );
+  const waitingForReviewSubmissionWidth = toPercentage(
+    submissionStatesData?.waitingForReviewSubmissions ?? 0,
+    total
+  );
   if (!submissionStatesData) return <></>;
   return (
     <div className="flex w-full flex-col rounded-md border px-6 pt-4">

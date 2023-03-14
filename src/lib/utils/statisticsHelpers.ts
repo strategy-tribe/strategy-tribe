@@ -8,3 +8,9 @@ export function getTotalBountyFund(fundData: any, paid: boolean): any {
     });
   return funds;
 }
+
+export function toPercentage(data: number, total: number): string {
+  total = total === 0 ? 1 : total;
+  const percentage = (data / total) * 100;
+  return percentage > 0 ? percentage.toFixed(2) : '0';
+}

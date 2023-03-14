@@ -47,6 +47,7 @@ export default function BountiesStatus() {
             label === 0 ? `0` : label > 999 ? `${label / 1000}K` : label,
         },
         suggestedMin: 0,
+        min: 0,
         title: {
           display: true,
           text: 'Matic',

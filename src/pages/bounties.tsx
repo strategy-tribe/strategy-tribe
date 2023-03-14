@@ -12,6 +12,7 @@ import { DEFAULT_FILTER } from '@/components/pages/explore/filters/utils/Default
 
 import { createContextInner } from '@/server/context';
 import prisma from '@/server/prisma/prismaClient';
+import { appRouter } from '@/server/routers/_app';
 import { getMapData } from '@/server/routers/map';
 import {
   _getAvgSubmissionPayoutData,
@@ -71,7 +72,6 @@ export const getStaticProps: GetStaticProps = async () => {
 
   // Paid and Total fund data
   const totalBountyFunding: FundData = await _getFundData(prisma);
-  // console.log(totalBountyFunding, 'bounties.tsx');
 
   return {
     props: {
