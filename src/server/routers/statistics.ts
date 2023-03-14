@@ -1,6 +1,5 @@
 import { getAvgSubmissionPayout } from '@/server/routes/statistics/getAvgSubmissionPayout';
-import { getPaidBounties } from '@/server/routes/statistics/getPaidBounties';
-import { getTotalBountiesFund } from '@/server/routes/statistics/getTotalBountiesFund';
+import { getFundsData } from '@/server/routes/statistics/getFundsData';
 
 import { router } from '../procedures';
 import { getBountiesStatus } from '../routes/statistics/getBountiesStatus';
@@ -11,7 +10,6 @@ export const statisticsRouter = router({
   getBountiesStatus: getBountiesStatus,
   getSubmissionsStatus: getSubmissionsStatus,
   getAvgSubmissionPayout: getAvgSubmissionPayout,
-  getPaidBounties: getPaidBounties,
-  getTotalBountiesFund: getTotalBountiesFund,
+  getFundsData: getFundsData,
   getUsersCount: getUsersCount,
 });

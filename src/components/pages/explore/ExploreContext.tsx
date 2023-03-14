@@ -2,11 +2,11 @@ import { createContext, ReactNode, useContext } from 'react';
 
 import { useGetBounties } from '@/lib/hooks/bountyHooks';
 import { MapDataWithFeatures } from '@/lib/models/MapData';
-import { TrendChartData } from '@/lib/utils/statisticsHelpers';
 
 import { useExploreUrl } from '@/components/pages/explore/useExploreUrl';
 
 import { BountiesStatusData } from '@/server/routes/statistics/getBountiesStatus';
+import { FundData } from '@/server/routes/statistics/getFundsData';
 import { SubmissionsStatusData } from '@/server/routes/statistics/getSubmissionsStatus';
 import { UsersCountData } from '@/server/routes/statistics/getUsersCount';
 
@@ -20,7 +20,7 @@ interface iExploreContext {
   submissionStatesData: SubmissionsStatusData | undefined;
   usersCount: UsersCountData | undefined;
   avgSubmissionPayout: number | undefined;
-  bountyTrendChartData: TrendChartData | undefined;
+  bountyTrendChartData: FundData | undefined;
 }
 
 const ExploreContext = createContext<iExploreContext>({
@@ -56,7 +56,7 @@ export const ExploreContextProvider = ({
   submissionStatesData: SubmissionsStatusData | undefined;
   usersCount: UsersCountData | undefined;
   avgSubmissionPayout: number | undefined;
-  bountyTrendChartData: TrendChartData | undefined;
+  bountyTrendChartData: FundData | undefined;
 }) => {
   const {
     urlFilter: { query },

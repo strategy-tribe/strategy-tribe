@@ -1,10 +1,10 @@
 import dynamic from 'next/dynamic';
 
 import { MapDataWithFeatures } from '@/lib/models/MapData';
-import { TrendChartData } from '@/lib/utils/statisticsHelpers';
 
 import { AvgSubmissionPayoutData } from '@/server/routes/statistics/getAvgSubmissionPayout';
 import { BountiesStatusData } from '@/server/routes/statistics/getBountiesStatus';
+import { FundData } from '@/server/routes/statistics/getFundsData';
 import { SubmissionsStatusData } from '@/server/routes/statistics/getSubmissionsStatus';
 import { UsersCountData } from '@/server/routes/statistics/getUsersCount';
 
@@ -46,7 +46,7 @@ export function Explore({
   submissionStatesData: SubmissionsStatusData | undefined;
   usersCount: UsersCountData | undefined;
   avgSubmissionPayout: AvgSubmissionPayoutData | undefined;
-  bountyTrendChartData: TrendChartData | undefined;
+  bountyTrendChartData: FundData | undefined;
 }) {
   return (
     <>

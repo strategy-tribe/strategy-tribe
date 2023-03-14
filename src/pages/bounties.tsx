@@ -5,8 +5,6 @@ import superjson from 'superjson';
 
 import { MapDataWithFeatures } from '@/lib/models/MapData';
 import { overcomeSerialization } from '@/lib/utils/overcomeSerialization';
-import { getDates } from '@/lib/utils/statisticsHelpers';
-import { TrendChartData } from '@/lib/utils/statisticsHelpers';
 
 import AppLayout from '@/components/layouts/AppLayout';
 import { Explore } from '@/components/pages/explore/Explore';
@@ -25,17 +23,13 @@ import {
   BountiesStatusData,
 } from '@/server/routes/statistics/getBountiesStatus';
 import {
-  _getLastWeekPaidBountiesData,
-  PaidBountiesData,
-} from '@/server/routes/statistics/getPaidBounties';
+  _getFundData,
+  FundData,
+} from '@/server/routes/statistics/getFundsData';
 import {
   _getSubmissionsStatusData,
   SubmissionsStatusData,
 } from '@/server/routes/statistics/getSubmissionsStatus';
-import {
-  _getLastWeekTotalBountiesFundData,
-  TotalBountyFundData,
-} from '@/server/routes/statistics/getTotalBountiesFund';
 import {
   _getUsersCountData,
   UsersCountData,
@@ -76,18 +70,9 @@ export const getStaticProps: GetStaticProps = async () => {
   const submissionPayoutData: AvgSubmissionPayoutData =
     await _getAvgSubmissionPayoutData(prisma);
 
-  //Total paid bounties
-  const paidData: PaidBountiesData = await _getLastWeekPaidBountiesData(prisma);
-
-  //Total bounty funding
-  const totalBountyFunding: TotalBountyFundData =
-    await _getLastWeekTotalBountiesFundData(prisma);
-
-  const bountyTrendChartData: TrendChartData = {
-    totalBountyFunding: totalBountyFunding,
-    bountyAmountPaid: paidData,
-    labels: getDates(true),
-  };
+  // Paid and Total fund data
+  const totalBountyFunding: FundData = await _getFundData(prisma);
+  // console.log(totalBountyFunding, 'bounties.tsx');
 
   return {
     props: {
@@ -97,7 +82,7 @@ export const getStaticProps: GetStaticProps = async () => {
       submissionStatesData: submissionStatesData,
       usersCount: usersCount,
       avgSubmissionPayout: submissionPayoutData,
-      bountyTrendChartData: bountyTrendChartData,
+      bountyTrendChartData: totalBountyFunding,
     },
     revalidate: 60 * 5, //every 5 minutes
   };
@@ -109,7 +94,7 @@ const BountiesPage: NextPageWithLayout<{
   submissionStatesData: SubmissionsStatusData;
   usersCount: UsersCountData;
   avgSubmissionPayout: AvgSubmissionPayoutData;
-  bountyTrendChartData: TrendChartData;
+  bountyTrendChartData: FundData;
 }> = ({
   mapData,
   bountyStatusData,
@@ -123,7 +108,7 @@ const BountiesPage: NextPageWithLayout<{
   submissionStatesData: SubmissionsStatusData;
   usersCount: UsersCountData;
   avgSubmissionPayout: AvgSubmissionPayoutData;
-  bountyTrendChartData: TrendChartData;
+  bountyTrendChartData: FundData;
 }) => {
   return (
     <>

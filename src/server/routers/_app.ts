@@ -1,4 +1,3 @@
-import { router } from '../procedures';
 import { bountyRouter } from './bounty';
 import { donationRouter } from './donation';
 import { fileRouter } from './files';
@@ -14,6 +13,7 @@ import { tagRouter } from './tags';
 import { targetRouter } from './targets';
 import { userRouter } from './user';
 import { walletRouter } from './wallet';
+import { router } from '../procedures';
 
 export const appRouter = router({
   bounty: bountyRouter,
