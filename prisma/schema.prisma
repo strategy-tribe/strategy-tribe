@@ -272,6 +272,7 @@ model Donation {
   txnHash       String
   txnDate       DateTime
   addedToBounty Boolean
+  isValid       Boolean
 
   user   User?   @relation(fields: [userId], references: [id], onDelete: SetNull)
   userId String?

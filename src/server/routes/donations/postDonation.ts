@@ -24,6 +24,7 @@ async function _postDonation(
         txnHash: input.txnHash,
         txnDate: new Date(),
         addedToBounty: false,
+        isValid: true,
         bounty: {
           connect: {
             slug: input.bountySlug,
