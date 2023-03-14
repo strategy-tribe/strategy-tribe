@@ -15,23 +15,23 @@ import prisma from '@/server/prisma/prismaClient';
 import { getMapData } from '@/server/routers/map';
 import {
   AvgSubmissionPayoutData,
-  _getAvgSubmissionPayoutData,
+  _getAvgSubmissionPayoutData
 } from '@/server/routes/statistics/getAvgSubmissionPayout';
 import {
   BountiesStatusData,
-  _getBountiesStatusData,
+  _getBountiesStatusData
 } from '@/server/routes/statistics/getBountiesStatus';
 import {
   FundData,
-  _getFundData,
+  _getFundData
 } from '@/server/routes/statistics/getFundsData';
 import {
   SubmissionsStatusData,
-  _getSubmissionsStatusData,
+  _getSubmissionsStatusData
 } from '@/server/routes/statistics/getSubmissionsStatus';
 import {
   UsersCountData,
-  _getUsersCountData,
+  _getUsersCountData
 } from '@/server/routes/statistics/getUsersCount';
 
 import { NextPageWithLayout } from './_app';
