@@ -97,6 +97,9 @@ async function UpdateDonations() {
     where: {
       addedToBounty: false,
       isValid: true,
+      createdAt: {
+        lte: new Date(new Date().getTime() - 4 * 60 * 60 * 1000),
+      },
     },
     orderBy: {
       createdAt: 'asc',
@@ -119,7 +122,7 @@ async function UpdateDonations() {
     const provider = ethers.getDefaultProvider('matic');
     const txn = await provider.getTransaction(d.txnHash);
     const bountyWallet = d.bounty?.wallet.walletControl
-      ? process.env.COMMON_WALLET
+      ? process.env.NEXT_PUBLIC_COMMON_WALLET
       : d.bounty?.wallet.address;
     if (txn) {
       if (txn.from === d.user?.address && txn.to === bountyWallet) {
