@@ -4,7 +4,7 @@ import { TRPCError } from '@trpc/server';
 import { ThenArg } from '../utils/helperTypes';
 
 export async function GetLastWeekPaidBountiesData(prisma: PrismaClient) {
-  let lastDay = Date.now() - 7 * 24 * 60 * 60 * 1000;
+  let lastDay: string | number = Date.now() - 7 * 24 * 60 * 60 * 1000;
   lastDay = new Date(lastDay).toISOString();
   const payoutStatus = await prisma.invoice.findMany({
     where: {

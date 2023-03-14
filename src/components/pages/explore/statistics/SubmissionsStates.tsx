@@ -1,5 +1,5 @@
-import { useExploreContext } from '../ExploreContext';
 import ProgressLoader from './utils/ProgressLoader';
+import { useExploreContext } from '../ExploreContext';
 
 export default function SubmissionStates() {
   const { submissionStatesData } = useExploreContext();
