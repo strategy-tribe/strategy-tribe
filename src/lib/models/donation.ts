@@ -11,4 +11,5 @@ export type Donation = {
 
 export interface Recipient {
   wallet: Wallet;
+  slug: string;
 }

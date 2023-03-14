@@ -15,7 +15,7 @@ export function SupportButton({
   amountInEth: number;
   recipient: Recipient;
   after?: {
-    onSuccess: () => void;
+    onSuccess: (txnHash: string) => void;
     onError: (e: any) => void;
   };
   disabled?: boolean;
@@ -52,7 +52,7 @@ function ActualSupportButton({
   amountInEth: number;
   recipient: Recipient;
   after?: {
-    onSuccess: () => void;
+    onSuccess: (txnHash: string) => void;
     onError: (e: any) => void;
   };
   disabled?: boolean;
