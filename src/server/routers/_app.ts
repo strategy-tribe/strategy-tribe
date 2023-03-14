@@ -7,6 +7,7 @@ import { mapRouter } from './map';
 import { notificationRouter } from './notification';
 import { orgRouter } from './org';
 import { reviewRouter } from './review';
+import { statisticsRouter } from './statistics';
 import { submissionRouter } from './submission';
 import { tagRouter } from './tags';
 import { targetRouter } from './targets';
@@ -29,6 +30,7 @@ export const appRouter = router({
   fingerprint: fingerprintRouter,
   user: userRouter,
   donation: donationRouter,
+  statistics: statisticsRouter,
 });
 
 // export type definition of API
