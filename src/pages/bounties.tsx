@@ -14,24 +14,24 @@ import { createContextInner } from '@/server/context';
 import prisma from '@/server/prisma/prismaClient';
 import { getMapData } from '@/server/routers/map';
 import {
+  _getAvgSubmissionPayoutData,
   AvgSubmissionPayoutData,
-  _getAvgSubmissionPayoutData
 } from '@/server/routes/statistics/getAvgSubmissionPayout';
 import {
+  _getBountiesStatusData,
   BountiesStatusData,
-  _getBountiesStatusData
 } from '@/server/routes/statistics/getBountiesStatus';
 import {
+  _getFundData,
   FundData,
-  _getFundData
 } from '@/server/routes/statistics/getFundsData';
 import {
+  _getSubmissionsStatusData,
   SubmissionsStatusData,
-  _getSubmissionsStatusData
 } from '@/server/routes/statistics/getSubmissionsStatus';
 import {
+  _getUsersCountData,
   UsersCountData,
-  _getUsersCountData
 } from '@/server/routes/statistics/getUsersCount';
 
 import { NextPageWithLayout } from './_app';
