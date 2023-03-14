@@ -3,17 +3,19 @@ import { TRPCError } from '@trpc/server';
 
 import { ThenArg } from '../utils/helperTypes';
 
-export async function GetTotalBountiesFundData(prisma: PrismaClient) {
-  let lastDay: string | number = Date.now() - 7 * 24 * 60 * 60 * 1000;
-  lastDay = new Date(lastDay).toISOString();
-  const payoutStatus = await prisma.wallet.aggregate({
-    where: {
-      updatedAt: {
-        lt: lastDay,
+export async function GetLastWeekTotalBountiesFundData(prisma: PrismaClient) {
+  const payoutStatus = await prisma.bounty.findMany({
+    select: {
+      slug: true,
+      wallet: {
+        select: {
+          balance: true,
+        },
       },
+      updatedAt: true,
     },
-    _sum: {
-      balance: true,
+    orderBy: {
+      updatedAt: 'desc',
     },
   });
   return payoutStatus;
@@ -21,18 +23,20 @@ export async function GetTotalBountiesFundData(prisma: PrismaClient) {
 
 export const getTotalBountiesFund = async (
   prisma: PrismaClient
-): Promise<TotalBountiesFundData> => {
-  const totalBountiesFundData = await GetTotalBountiesFundData(prisma);
-  if (!totalBountiesFundData) {
+): Promise<LastWeekTotalBountyFundData> => {
+  const lastWeekTotalBountyFund = await GetLastWeekTotalBountiesFundData(
+    prisma
+  );
+  if (!lastWeekTotalBountyFund) {
     throw new TRPCError({
       code: 'INTERNAL_SERVER_ERROR',
-      message: 'Unable to query total bounty fund data',
+      message: 'Unable to query last week total bounty fund data',
     });
   }
 
-  return totalBountiesFundData;
+  return lastWeekTotalBountyFund;
 };
 
-export type TotalBountiesFundData = NonNullable<
-  ThenArg<ReturnType<typeof GetTotalBountiesFundData>>
+export type LastWeekTotalBountyFundData = NonNullable<
+  ThenArg<ReturnType<typeof GetLastWeekTotalBountiesFundData>>
 >;
