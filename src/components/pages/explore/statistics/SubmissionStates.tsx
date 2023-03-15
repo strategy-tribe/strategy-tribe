@@ -21,7 +21,7 @@ export default function SubmissionStates() {
   );
   if (!submissionStatesData) return <></>;
   return (
-    <div className="flex w-full flex-col rounded-md border px-6 pt-4">
+    <div className="mt-4 flex w-full flex-col rounded-md border px-6 py-6">
       <span>Submissions</span>
       <div className="mt-4 w-full pb-2 text-xs">
         <span>Total Submissions</span>
@@ -56,6 +56,7 @@ export default function SubmissionStates() {
           </div>
         </div>
       </div>
+      {/* TODO: add back when needed
       <div className="w-full pb-4 text-xs">
         <span>Waiting For Review</span>
         <div className="flex w-full flex-row pt-1">
@@ -68,7 +69,7 @@ export default function SubmissionStates() {
             </span>
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }
