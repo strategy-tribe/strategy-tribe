@@ -13,6 +13,7 @@ import { ExploreContextProvider, useExploreContext } from './ExploreContext';
 import { ExploreFilters } from './filters/ExploreFilters';
 import { PageControls } from './PageControls';
 import { Section } from '../landing/Section';
+
 const Map = dynamic(import('./map/MapProjection'), {
   ssr: false,
 });
@@ -87,9 +88,9 @@ function ExploreContent() {
         </div>
       </div>
       <div>
-        <Section>{!!Map && <Map />}</Section>
+        {/* <Section>{!!Map && <Map />}</Section> */}
 
-        <div className="flex min-h-screen w-full flex-col gap-y-8 px-4">
+        <div className="flex min-h-screen w-full flex-col gap-y-8 p-4">
           <>
             <Section className="w-full">
               <ExploreFilters />

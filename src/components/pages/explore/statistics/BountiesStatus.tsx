@@ -3,6 +3,7 @@ import { Line } from 'react-chartjs-2';
 import { PieChart } from 'react-minimal-pie-chart';
 
 import { useExploreContext } from '../ExploreContext';
+
 Chart.register(...registerables);
 
 export default function BountiesStatus() {
@@ -135,7 +136,7 @@ export default function BountiesStatus() {
       </div>
 
       <div className="h-96 pt-10 pb-4">
-        <span className="flex flex-row pb-5">Trend</span>
+        <span className="flex flex-row pb-5">Funding</span>
         <div className="h-64 tablet:h-72">
           <Line options={options} data={data} />
         </div>
