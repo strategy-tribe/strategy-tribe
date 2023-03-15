@@ -1,11 +1,14 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import { useState } from 'react';
 
+import { usePostDonation } from '@/lib/hooks/donationHooks';
 import { Recipient } from '@/lib/models/donation';
 
 import { Button, ButtonStyle } from '@/components/utils/Button';
 import { Overlay } from '@/components/utils/Overlay';
 import * as Title from '@/components/utils/Title';
+
+import { useAuth } from '@/auth/AuthContext';
 
 import { SupportButton } from './SupportButton';
 import {
@@ -16,6 +19,7 @@ import {
   NotificationType,
 } from '../notifications/iNotification';
 import { useNotification } from '../notifications/NotificationContext';
+
 ('../utils/Title');
 
 const lorem =
@@ -41,7 +45,11 @@ export function DonationPopUp({
 
   const { notify } = useNotification();
 
-  function onDonationSuccess() {
+  const { AddDonation } = usePostDonation();
+
+  const { userId } = useAuth();
+
+  function onDonationSuccess(txnHash: string) {
     const msg: ClientNotification = {
       title: 'Your donation is being processed',
       content: 'Thank you',
@@ -55,6 +63,11 @@ export function DonationPopUp({
       type: NotificationType.Banner,
     };
 
+    AddDonation({
+      txnHash,
+      bountySlug: recipient.slug,
+      userId: userId as string,
+    });
     hide();
     notify(msg, config);
   }
