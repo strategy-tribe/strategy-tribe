@@ -191,7 +191,7 @@ export function BountyHeader() {
         recipient={{
           wallet: {
             address: bounty.wallet.walletControl
-              ? process.env.COMMON_WALLET
+              ? process.env.NEXT_PUBLIC_COMMON_WALLET
               : bounty.wallet.address,
           } as Wallet,
           slug: bounty.slug,

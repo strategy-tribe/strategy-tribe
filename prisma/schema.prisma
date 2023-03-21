@@ -372,3 +372,10 @@ enum Rol {
   STAFF
   ADMIN
 }
+
+model FundsData {
+  id         String   @id @default(cuid())
+  totalFunds Float
+  paidFunds  Float
+  date       DateTime @default(now())
+}
