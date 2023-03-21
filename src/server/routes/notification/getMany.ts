@@ -16,9 +16,15 @@ async function _getManyNotifications(
   userId: string,
   params: GetManyNotificationsParams
 ) {
-  const { amount, page } = params;
+  const { amount, page, onlyUnread } = params;
   const notification = await prisma.notification.findMany({
-    where: { userId },
+    where: {
+      AND: {
+        userId,
+        read: onlyUnread,
+      },
+    },
+    // where: { userId },
     take: amount,
     skip: page,
     select: NOTIFICATION_SELECTOR,
@@ -31,14 +37,30 @@ export type GetManyNotificationsParams = z.infer<
   typeof GetManyNotificationSchema
 >;
 
+const countNotifications = async (
+  prisma: PrismaClient,
+  userId: string,
+  params: GetManyNotificationsParams
+) => {
+  const count: number = await prisma.notification.count({
+    where: { userId },
+  });
+
+  return count;
+};
+
 export const getManyNotifications = signedInOnlyProcedure
   .input(GetManyNotificationSchema)
-  .query(async ({ input, ctx: { prisma, session } }) => {
+  .query(async ({ ctx, input }) => {
     const notifications = await _getManyNotifications(
-      prisma,
-      session.user.id,
+      ctx.prisma,
+      ctx.session.user.id,
       input
     );
-
-    return { notifications };
+    const count = await countNotifications(
+      ctx.prisma,
+      ctx.session.user.id,
+      input
+    );
+    return { notifications, count };
   });

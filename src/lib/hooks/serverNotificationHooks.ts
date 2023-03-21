@@ -1,68 +1,71 @@
-const getQueryId = (userId: string) => {
-  return ['get user server notifs', userId];
-};
+import { useEffect, useState } from 'react';
 
-type Options = {
-  onlyUnread?: boolean;
-  enabled?: boolean;
-  amount?: number;
-};
+import { GetManyNotificationsParams } from '@/server/routes/notification/getMany';
+import { MarkAsReadParams } from '@/server/routes/notification/markAsRead';
+
+import { trpc } from '../trpc';
 
 export const useGetUserServerNotifications = (
-  userId: string,
-  options?: Options
-): {
-  notifications: any[] | undefined;
-  isLoading: boolean;
-  error: any;
-} => {
-  const queryId = getQueryId(userId);
-  //console.log(queryId, 'queryId');
-  // const { fetch } = Moralis_getNotifications(
-  //   userId,
-  //   options?.amount,
-  //   options?.onlyUnread
-  // );
+  config: GetManyNotificationsParams,
+  enabled = true
+) => {
+  const page = config.page || 0;
 
-  // const {
-  //   data: notifications,
-  //   isLoading,
-  //   error,
-  // } = useQuery(queryId, async () => fetch(), { enabled: options?.enabled });
+  const [numOfPages, setNumOfPages] = useState(0);
+  const [hasNextPage, setHasNextPage] = useState(false);
+  const [hasPreviousPage, setHasPreviousPage] = useState(false);
+
+  const { data, error, isLoading, isFetching } =
+    trpc.notification.getMany.useQuery(config, {
+      enabled,
+      refetchOnWindowFocus: true,
+      // refetchInterval: 3000,
+    });
+
+  useEffect(() => {
+    if (data && data.count && config.amount) {
+      const count = data.count;
+      const _numOfPages = Math.floor((count - 1) / config.amount + 1);
+      setHasNextPage(_numOfPages - 1 > (config?.page ?? _numOfPages));
+      setHasPreviousPage((config?.page ?? 0) != 0);
+      setNumOfPages(_numOfPages);
+    } else {
+      setNumOfPages(0);
+    }
+  }, [data, config, data?.count]);
 
   return {
-    notifications: undefined,
-    isLoading: true,
-    error: {
-      msg: 'this functionality needs refactoring ',
-    },
+    ...data,
+    isLoading,
+    isFetching,
+    page,
+    numOfPages,
+    hasNextPage,
+    hasPreviousPage,
+    isPreviousData: false,
+    error,
   };
 };
 
-export const useReadNotification = (
-  notificationId: string,
-  events?: {
-    onSuccess: () => void;
-    onError: () => void;
-  }
-) => {
-  // const q = useQueryClient();
-
-  // const { userId } = useAuth();
-
-  // const { call } = Moralis_setNotificationRead();
-
-  // const { mutate } = useMutation(() => call(notificationId), {
-  //   onError: events?.onError,
-  //   onSuccess: () => {
-  //     if (events?.onSuccess) events?.onSuccess();
-  //     q.invalidateQueries(getQueryId(userId || ''));
-  //   },
-  // });
-
-  return {
-    mutate: () => {
-      //
+export const useReadNotification = (events: {
+  onMutate: () => void;
+  onSuccess: (id?: string) => void;
+  onError: (e: any) => void;
+}) => {
+  const { onError, onMutate, onSuccess } = events;
+  const mutation = trpc.notification.markAsRead.useMutation({
+    onMutate,
+    onError,
+    onSuccess: () => {
+      onSuccess();
     },
+  });
+  return {
+    Pay: async (p: MarkAsReadParams) => {
+      mutation.mutate(p);
+    },
+    isLoading: mutation.isLoading,
+    isSuccess: mutation.isSuccess,
+    error: mutation.error,
   };
 };

@@ -45,5 +45,10 @@ export type MarkAsReadParams = z.infer<typeof MarkAsReadSchema>;
 export const markAsRead = signedInOnlyProcedure
   .input(MarkAsReadSchema)
   .mutation(async ({ input, ctx }) => {
-    await _markNotificationAsRead(ctx.prisma, ctx.session?.user.id, input.id);
+    const id = await _markNotificationAsRead(
+      ctx.prisma,
+      ctx.session?.user.id,
+      input.id
+    );
+    return { id };
   });

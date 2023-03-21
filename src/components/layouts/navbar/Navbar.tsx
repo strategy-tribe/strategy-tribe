@@ -94,15 +94,7 @@ export function Navbar({
 
           {/* right side */}
           <div className="flex items-center gap-1 bt:gap-6">
-            {/* TODO: to be implemented - RED-98
-            {!!userId && (
-              <NotifsMenu
-                userId={userId}
-                shouldShow={showNotifs}
-                hide={() => setShowNotifs(false)}
-                show={() => setShowNotifs(true)}
-              />
-            )} */}
+            {/* - RED-98 */}
             {!!userId && (
               <NotifsMenu
                 userId={userId}

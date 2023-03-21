@@ -1,8 +1,7 @@
 import { Section } from '@/components/pages/landing/Section';
 
-import { SubToOrgButton } from '@/components/subscriptions/SubscribeToOrgButton';
-import { ButtonStyle } from '@/components/utils/Button';
 import { FullOrg } from '@/server/routes/organizations/getOrg';
+
 import { useOrganizationContext } from './OrganizationContext';
 import { OrgCountries } from './OrgCountries';
 import { OrgStat } from './OrgStat';
@@ -42,15 +41,6 @@ export function OrgHeader() {
               };
             }}
           /> */}
-          <SubToOrgButton
-            orgId={org.id}
-            button={(_, isSubscribed) => {
-              return {
-                removePadding: isSubscribed ?? true,
-                style: isSubscribed ? ButtonStyle.Text : ButtonStyle.Filled,
-              };
-            }}
-          />
         </div>
       </Section>
     </div>

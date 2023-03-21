@@ -49,11 +49,6 @@ export function RegularUserMenu({
               url={GoToAccountPage(AccountView.Watching)}
               onClick={hide}
             /> */}
-            <MenuItem
-              label="Watching"
-              url={GoToAccountPage(AccountView.Watching)}
-              onClick={hide}
-            />
 
             <MenuItem
               label="Submissions"
