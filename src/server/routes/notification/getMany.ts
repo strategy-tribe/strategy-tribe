@@ -24,6 +24,9 @@ async function _getManyNotifications(
         read: onlyUnread,
       },
     },
+    orderBy: {
+      createdAt: 'desc',
+    },
     take: amount,
     skip: page,
     select: NOTIFICATION_SELECTOR,
