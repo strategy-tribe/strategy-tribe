@@ -6,6 +6,7 @@ import { z } from 'zod';
 import { ERROR, LOG } from '@/server/importer/utils';
 import { adminOnlyProcedure } from '@/server/procedures';
 
+import { NotifyUsers_InvoicePaid } from '../notification/utils/invoice';
 import { ThenArg } from '../utils/helperTypes';
 
 const payInvoiceSchema = z.object({
@@ -45,6 +46,7 @@ async function _payInvoice(
     ) {
       const userAddress = invoice.submission.author?.address;
       const bountyAddress = invoice.bounty?.wallet.address;
+      const authorId = invoice.submission?.authorId ?? '';
       const bountyWalletData = await prisma.key.findUnique({
         where: {
           address: bountyAddress,
@@ -92,6 +94,10 @@ async function _payInvoice(
             data: {
               txnHash: txnResult.hash,
             },
+          });
+          await NotifyUsers_InvoicePaid(prisma, bountySlug, {
+            userId: authorId,
+            submissionId,
           });
         } else {
           ERROR(`Bounty wallet has insufficient Balance: ${bountyAddress}`);

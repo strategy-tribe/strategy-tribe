@@ -19,7 +19,7 @@ export const useGetUserServerNotifications = (
     trpc.notification.getMany.useQuery(config, {
       enabled,
       refetchOnWindowFocus: true,
-      // refetchInterval: 3000,
+      refetchInterval: 3000,
     });
 
   useEffect(() => {
