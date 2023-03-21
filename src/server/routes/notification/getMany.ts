@@ -36,11 +36,7 @@ export type GetManyNotificationsParams = z.infer<
   typeof GetManyNotificationSchema
 >;
 
-const countNotifications = async (
-  prisma: PrismaClient,
-  userId: string,
-  params: GetManyNotificationsParams
-) => {
+const countNotifications = async (prisma: PrismaClient, userId: string) => {
   const count: number = await prisma.notification.count({
     where: { userId },
   });
@@ -56,10 +52,6 @@ export const getManyNotifications = signedInOnlyProcedure
       ctx.session.user.id,
       input
     );
-    const count = await countNotifications(
-      ctx.prisma,
-      ctx.session.user.id,
-      input
-    );
+    const count = await countNotifications(ctx.prisma, ctx.session.user.id);
     return { notifications, count };
   });
