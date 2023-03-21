@@ -44,12 +44,6 @@ export function AccountContent() {
         </>
       )}
 
-      {/* TODO: to be implemented - RED-98
-      {view === AccountView.Notifications && (
-        <>
-          <AccountNotifications />
-        </>
-      )} */}
       {view === AccountView.Notifications && (
         <>
           <AccountNotifications />

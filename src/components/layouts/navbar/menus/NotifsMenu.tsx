@@ -23,27 +23,16 @@ export function NotifsMenu({
   show: () => void;
   hide: () => void;
 }) {
-  const [query, setQuery] = useState<any>({
+  const [query] = useState<any>({
     amount: 3,
-    // paginate: true,
-    page: 0,
     onlyUnread: false,
     enabled: true,
   });
 
-  const {
-    notifications,
-    isLoading,
-    numOfPages,
-    page: currPage,
-    hasPreviousPage,
-    hasNextPage,
-  } = useGetUserServerNotifications(query, !!userId);
-  // const { notifications, isLoading } = useGetUserServerNotifications(userId, {
-  //   amount: 3,
-  //   onlyUnread: true,
-  //   enabled: true,
-  // });
+  const { notifications, isLoading } = useGetUserServerNotifications(
+    query,
+    !!userId
+  );
   return (
     <div className="relative">
       <NavbarButton icon="notifications" onClick={show} />
@@ -58,20 +47,6 @@ export function NotifsMenu({
           <div className="body-sm absolute top-6 right-0 z-50 flex w-96 flex-col overflow-hidden rounded-lg bg-surface-dark text-on-surface-p1">
             <header className="flex items-center justify-between px-6 py-4	">
               <p className="title-xs">Notifications</p>
-
-              {/* TODO: to be implemented - RED-98
-              <Button
-                info={{
-                  iconSize: IconSize.Small,
-                  label: 'Settings',
-                  icon: 'settings',
-                  style: ButtonStyle.Text,
-                  removeMinWidth: true,
-                  removePadding: true,
-                  isALink: GoToAccountPage(AccountView.Notifications),
-                  onClick: hide,
-                }}
-              /> */}
               <Button
                 info={{
                   iconSize: IconSize.Small,
@@ -92,7 +67,6 @@ export function NotifsMenu({
               <>
                 {notifications.length > 0 && (
                   <div className="">
-                    {/* <p className="title-xs">New</p> */}
                     <div className=" place-items-top px-6 pt-2">
                       <span className="label">New</span>
                     </div>
@@ -121,7 +95,6 @@ export function NotifsMenu({
 
             <hr className="w-full text-surface" />
             <footer className="flex justify-between px-6 py-4">
-              {/* //- RED-98 */}
               <Button
                 info={{
                   iconSize: IconSize.Small,

@@ -24,7 +24,6 @@ async function _getManyNotifications(
         read: onlyUnread,
       },
     },
-    // where: { userId },
     take: amount,
     skip: page,
     select: NOTIFICATION_SELECTOR,

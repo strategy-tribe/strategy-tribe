@@ -3,7 +3,7 @@ export enum AccountView {
   // Watching = 'watching', //TODO: to be implemented - RED-98
   Submissions = 'submissions',
   Rewards = 'rewards',
-  Notifications = 'notifications', // TODO: to be implemented - RED-98
+  Notifications = 'notifications',
   Reviews = 'reviews',
 }
 

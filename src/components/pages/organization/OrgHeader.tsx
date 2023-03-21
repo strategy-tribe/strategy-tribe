@@ -14,7 +14,7 @@ export function OrgHeader() {
         <div className="space-y-1">
           <OrgTags />
           <div className="space-y-2">
-            <h1 className="capitalize">{org.name}test</h1>
+            <h1 className="capitalize">{org.name}</h1>
             <OrgCountries />
           </div>
         </div>

@@ -2,28 +2,21 @@ import Link from 'next/link';
 
 import { useReadNotification } from '@/lib/hooks/serverNotificationHooks';
 import { GetDateInString } from '@/lib/utils/DateHelpers';
+
+import { ServerNotification } from '@/components/notifications/iNotification';
+
 export function NotificationListEntry({
   notification,
   className = '',
   showDot,
   hide,
 }: {
-  notification: any;
+  notification: ServerNotification;
   className?: string;
   showDot?: boolean;
   hide: () => void;
 }) {
-  const { Pay } = useReadNotification({
-    onMutate: () => {
-      // console.log('mutate');
-    },
-    onSuccess: () => {
-      // console.log('success');
-    },
-    onError: (error) => {
-      // console.log('error');
-    },
-  });
+  const { ReadNotification } = useReadNotification();
   return (
     <Link href={`${notification.urlCallback}`}>
       <span
@@ -33,7 +26,7 @@ export function NotificationListEntry({
             : 'bg-surface-dark text-on-surface-p1 hover:bg-surface'
         } relative block w-full rounded py-5 px-6 text-left ${className}`}
         onClick={(e) => {
-          Pay({ id: notification.id });
+          ReadNotification({ id: notification.id });
           hide();
         }}
       >

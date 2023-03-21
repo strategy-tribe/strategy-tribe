@@ -47,21 +47,10 @@ export const useGetUserServerNotifications = (
   };
 };
 
-export const useReadNotification = (events: {
-  onMutate: () => void;
-  onSuccess: (id?: string) => void;
-  onError: (e: any) => void;
-}) => {
-  const { onError, onMutate, onSuccess } = events;
-  const mutation = trpc.notification.markAsRead.useMutation({
-    onMutate,
-    onError,
-    onSuccess: () => {
-      onSuccess();
-    },
-  });
+export const useReadNotification = () => {
+  const mutation = trpc.notification.markAsRead.useMutation({});
   return {
-    Pay: async (p: MarkAsReadParams) => {
+    ReadNotification: async (p: MarkAsReadParams) => {
       mutation.mutate(p);
     },
     isLoading: mutation.isLoading,

@@ -13,7 +13,6 @@ export function AccountNotifications() {
     amount: 10,
     paginate: true,
     page: 0,
-    // onlyUnread: true,
   });
 
   const {
@@ -24,6 +23,7 @@ export function AccountNotifications() {
     hasPreviousPage,
     hasNextPage,
   } = useGetUserServerNotifications(query, !!userId);
+
   return (
     <div className="h-fit w-full space-y-4">
       {(notifications?.length ?? 0) > 0 &&
@@ -32,7 +32,7 @@ export function AccountNotifications() {
             <NotificationListEntry
               className="mb-0 w-full"
               hide={() => {
-                // console.log('hide')
+                /**/
               }}
               key={i + n.message}
               notification={n}
