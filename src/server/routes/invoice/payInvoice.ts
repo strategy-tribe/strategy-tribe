@@ -49,23 +49,23 @@ async function _payInvoice(
       bountySlug === invoice.bounty?.slug
     ) {
       const userAddress = invoice.submission.author?.address;
-      const bountyAddress = invoice.bounty?.wallet.address;
       const authorId = invoice.submission?.authorId ?? '';
-      const bountyWalletData = await prisma.key.findUnique({
-        where: {
-          address: bountyAddress,
-        },
-        select: {
-          privateKey: true,
-        },
-      });
-      if (bountyWalletData) {
-        const provider = ethers.getDefaultProvider('matic');
-        const bountyWallet = new ethers.Wallet(
-          bountyWalletData.privateKey,
-          provider
-        );
-        const balance =
+      const provider = ethers.getDefaultProvider('matic');
+      let bountyAddress;
+      let privateKey;
+      let balance;
+      if (!invoice.bounty.wallet.walletControl) {
+        bountyAddress = invoice.bounty?.wallet.address;
+        const bountyWalletData = await prisma.key.findUnique({
+          where: {
+            address: bountyAddress,
+          },
+          select: {
+            privateKey: true,
+          },
+        });
+        privateKey = bountyWalletData?.privateKey;
+        balance =
           parseFloat(
             ethers.utils.formatEther(
               await provider.getBalance(bountyAddress as string)
@@ -97,16 +97,6 @@ async function _payInvoice(
               txnHash: txnResult.hash,
               paidDate: new Date(),
               updatedAt: new Date(),
-            },
-          });
-
-
-          await prisma.key.update({
-            where: {
-              address: bountyAddress,
-            },
-            data: {
-              txnHash: txnResult.hash,
             },
           });
           await NotifyUsers_InvoicePaid(prisma, bountySlug, {
