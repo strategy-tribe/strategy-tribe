@@ -1,6 +1,6 @@
 import { router } from '../procedures';
-import { getManyNotifications } from '../routes/notification/getMany';
 import { getNotification } from '../routes/notification/getNotification';
+import { getManyNotifications } from '../routes/notification/getNotifications';
 import { markAsRead } from '../routes/notification/markAsRead';
 import { markManyAsRead } from '../routes/notification/markManyAsRead';
 

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import { GetManyNotificationsParams } from '@/server/routes/notification/getMany';
+import { GetManyNotificationsParams } from '@/server/routes/notification/getNotifications';
 import { MarkAsReadParams } from '@/server/routes/notification/markAsRead';
 
 import { trpc } from '../trpc';
