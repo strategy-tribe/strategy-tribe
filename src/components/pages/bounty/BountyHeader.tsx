@@ -188,7 +188,14 @@ export function BountyHeader() {
       <DonationPopUp
         show={showDonation}
         hide={() => setShowDonation(false)}
-        recipient={{ wallet: { address: bounty.wallet.address } as Wallet }}
+        recipient={{
+          wallet: {
+            address: bounty.wallet.walletControl
+              ? process.env.NEXT_PUBLIC_COMMON_WALLET
+              : bounty.wallet.address,
+          } as Wallet,
+          slug: bounty.slug,
+        }}
         description={`Bigger rewards mean more eyes and more OSINT hunters.\nBy donating to this bounty you're directly contributing to bringing this bounty to fruition.\n\nAll donations go directly to the hunter who fulfills the bounty requirements.`}
       />
     </>

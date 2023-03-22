@@ -4,6 +4,10 @@ import { useState } from 'react';
 
 import { Donation } from '@/lib/models/donation';
 
+import { PostDonationSchemaParams } from '@/server/routes/donations/postDonation';
+
+import { trpc } from '../trpc';
+
 const CHAIN_ID = process.env.NEXT_PUBLIC_CHAIN_ID as string;
 
 async function newDonation(donation: Donation) {
@@ -27,7 +31,7 @@ async function newDonation(donation: Donation) {
       method: 'wallet_switchEthereumChain',
       params: [{ chainId: CHAIN_ID }],
     });
-    await ethereum.request({
+    const hash = await ethereum.request({
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore`;
       method: 'eth_sendTransaction',
@@ -42,6 +46,7 @@ async function newDonation(donation: Donation) {
         },
       ],
     });
+    return hash;
   } catch (error) {
     throw new Error("We could't connect to your wallet.");
   }
@@ -50,7 +55,7 @@ async function newDonation(donation: Donation) {
 export const useCreateDonation = (
   donation: Donation,
   after?: {
-    onSuccess?: () => void;
+    onSuccess?: (txnHash: string) => void;
     onError?: (e: string | Error) => void;
   }
 ) => {
@@ -59,7 +64,12 @@ export const useCreateDonation = (
   const { mutate: createDonation, error } = useMutation(
     async () => {
       setisLoading(true);
-      return newDonation(donation).finally(() => setisLoading(false));
+      return newDonation(donation)
+        .then((txnHash: string) => {
+          setisLoading(false);
+          return txnHash;
+        })
+        .finally(() => setisLoading(false));
     },
     {
       onError: after?.onError,
@@ -68,4 +78,16 @@ export const useCreateDonation = (
   );
 
   return { createDonation, isLoading, error };
+};
+
+export const usePostDonation = () => {
+  const mutation = trpc.donation.postDonation.useMutation();
+  return {
+    AddDonation: async (p: PostDonationSchemaParams) => {
+      mutation.mutate(p);
+    },
+    isLoading: mutation.isLoading,
+    isSuccess: mutation.isSuccess,
+    error: mutation.error,
+  };
 };

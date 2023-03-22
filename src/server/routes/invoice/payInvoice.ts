@@ -34,7 +34,11 @@ async function _payInvoice(
         },
         bounty: {
           include: {
-            wallet: true,
+            wallet: {
+              include: {
+                walletControl: true,
+              },
+            },
           },
         },
       },
@@ -67,6 +71,15 @@ async function _payInvoice(
               await provider.getBalance(bountyAddress as string)
             )
           ) - 0.02;
+      } else {
+        bountyAddress = process.env.COMMON_WALLET;
+        privateKey = process.env.COMMON_WALLET_KEY;
+        balance = invoice.bounty.wallet.balance;
+      }
+
+      if (privateKey) {
+        const bountyWallet = new ethers.Wallet(privateKey, provider);
+
         if (balance > 0) {
           const txn = {
             to: userAddress,
@@ -86,6 +99,7 @@ async function _payInvoice(
               updatedAt: new Date(),
             },
           });
+
 
           await prisma.key.update({
             where: {

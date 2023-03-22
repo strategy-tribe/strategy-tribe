@@ -1,4 +1,5 @@
 import { bountyRouter } from './bounty';
+import { donationRouter } from './donation';
 import { fileRouter } from './files';
 import { fingerprintRouter } from './fingerprint';
 import { invoiceRouter } from './invoice';
@@ -6,6 +7,7 @@ import { mapRouter } from './map';
 import { notificationRouter } from './notification';
 import { orgRouter } from './org';
 import { reviewRouter } from './review';
+import { statisticsRouter } from './statistics';
 import { submissionRouter } from './submission';
 import { tagRouter } from './tags';
 import { targetRouter } from './targets';
@@ -27,6 +29,8 @@ export const appRouter = router({
   file: fileRouter,
   fingerprint: fingerprintRouter,
   user: userRouter,
+  donation: donationRouter,
+  statistics: statisticsRouter,
 });
 
 // export type definition of API
