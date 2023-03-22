@@ -1,9 +1,10 @@
 import countries from 'i18n-iso-countries';
 import en from 'i18n-iso-countries/langs/en.json';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 
-import { GoToBountyPage } from '@/lib/utils/Routes';
+import { GoToBountyPage, GoToFpPage } from '@/lib/utils/Routes';
 
 import Icon from '@/components/utils/Icon';
 
@@ -100,9 +101,12 @@ function Fingerprint({
         >
           <Icon icon={expanded ? 'expand_more' : 'chevron_right'} />
         </button>
-        <span className="pl-1 text-sm font-bold ">
+        <Link
+          href={GoToFpPage(fingerprint.fingerprint)}
+          className="pl-1 text-sm font-bold hover:underline"
+        >
           Fingerprint: {fingerprint.fingerprint}
-        </span>
+        </Link>
       </div>
       {expanded && (
         <div className="ml-6">
