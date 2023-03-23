@@ -70,8 +70,8 @@ async function _payInvoice(
             )
           ) - 0.02;
       } else {
-        bountyAddress = process.env.COMMON_WALLET;
-        privateKey = process.env.COMMON_WALLET_KEY;
+        bountyAddress = process.env.NEXT_PUBLIC_COMMON_WALLET;
+        privateKey = process.env.NEXT_PUBLIC_COMMON_WALLET_KEY;
         balance = invoice.bounty.wallet.balance;
       }
 

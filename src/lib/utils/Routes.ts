@@ -82,3 +82,5 @@ export const GoToEditBountyPage = () => {
 export const GoToUserInfoPage = () => {
   return `/admin/info`;
 };
+
+export const GoToFpPage = (fp: string) => `/admin/fp/${fp}`;
