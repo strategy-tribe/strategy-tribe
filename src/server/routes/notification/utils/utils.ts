@@ -96,7 +96,7 @@ export const DeleteNotifsAfterReview = async (
     newSubmissionNotifs.map((item) => {
       idsToDelete.push(item.id);
     });
-  const deletedUserCount = await prisma.notification.deleteMany({
+  await prisma.notification.deleteMany({
     where: {
       id: {
         in: idsToDelete,
