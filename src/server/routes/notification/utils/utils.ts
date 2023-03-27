@@ -1,9 +1,9 @@
 import { PrismaClient } from '@prisma/client';
 import { TRPCError } from '@trpc/server';
 
-import { OneSignal_NotifyMultiple, PushNotificationLoad } from './onesignal';
+import { PushNotificationLoad } from './onesignal';
 
-export const SenNotifications = async (
+export const SendNotifications = async (
   prisma: PrismaClient,
   params: PushNotificationLoad[]
 ) => {
@@ -41,7 +41,7 @@ export const SenNotifications = async (
   });
 
   //Send them to the user
-  await OneSignal_NotifyMultiple(parsedParams);
+  //await OneSignal_NotifyMultiple(parsedParams);
 };
 
 /** Creates a notification url based on a relative path and the notification ID.
@@ -74,4 +74,33 @@ const _CreateNotificationUrl = ({
   } else {
     return `${baseUrl}${relativeUrl}?notificationId=${notificationId}`;
   }
+};
+
+export const DeleteNotifsAfterReview = async (
+  prisma: PrismaClient,
+  submissionId: string,
+  bountyTitle: string
+) => {
+  //Submission reviewed, so clear notification for staff/admin
+  const newSubmissionNotifs = await prisma.notification.findMany({
+    where: {
+      AND: {
+        urlCallback: `/submission/${submissionId}`,
+        message: { contains: `There is a new submission for ${bountyTitle}` },
+      },
+    },
+    select: { id: true },
+  });
+  const idsToDelete: string[] = [];
+  newSubmissionNotifs &&
+    newSubmissionNotifs.map((item) => {
+      idsToDelete.push(item.id);
+    });
+  await prisma.notification.deleteMany({
+    where: {
+      id: {
+        in: idsToDelete,
+      },
+    },
+  });
 };

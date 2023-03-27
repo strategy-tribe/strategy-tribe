@@ -6,6 +6,7 @@ import { z } from 'zod';
 import { ERROR, LOG } from '@/server/importer/utils';
 import { adminOnlyProcedure } from '@/server/procedures';
 
+import { NotifyUsers_InvoicePaid } from '../notification/utils/invoice';
 import { ThenArg } from '../utils/helperTypes';
 
 const payInvoiceSchema = z.object({
@@ -48,6 +49,7 @@ async function _payInvoice(
       bountySlug === invoice.bounty?.slug
     ) {
       const userAddress = invoice.submission.author?.address;
+      const authorId = invoice.submission?.authorId ?? '';
       const provider = ethers.getDefaultProvider('matic');
       let bountyAddress;
       let privateKey;
@@ -96,6 +98,10 @@ async function _payInvoice(
               paidDate: new Date(),
               updatedAt: new Date(),
             },
+          });
+          await NotifyUsers_InvoicePaid(prisma, bountySlug, {
+            userId: authorId,
+            submissionId,
           });
         } else {
           ERROR(`Bounty wallet has insufficient Balance: ${bountyAddress}`);
