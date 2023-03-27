@@ -1,9 +1,9 @@
 import { PrismaClient } from '@prisma/client';
 import { TRPCError } from '@trpc/server';
 
-import { OneSignal_NotifyMultiple, PushNotificationLoad } from './onesignal';
+import { PushNotificationLoad } from './onesignal';
 
-export const SenNotifications = async (
+export const SendNotifications = async (
   prisma: PrismaClient,
   params: PushNotificationLoad[]
 ) => {
@@ -41,7 +41,7 @@ export const SenNotifications = async (
   });
 
   //Send them to the user
-  await OneSignal_NotifyMultiple(parsedParams);
+  //await OneSignal_NotifyMultiple(parsedParams);
 };
 
 /** Creates a notification url based on a relative path and the notification ID.

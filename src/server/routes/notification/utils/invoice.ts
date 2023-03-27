@@ -2,7 +2,7 @@ import { PrismaClient } from '@prisma/client';
 
 import { GoToSubmissionPage } from '@/lib/utils/Routes';
 
-import { SenNotifications } from './utils';
+import { SendNotifications } from './utils';
 
 export const NotifyUsers_InvoicePaid = async (
   prisma: PrismaClient,
@@ -21,5 +21,5 @@ export const NotifyUsers_InvoicePaid = async (
     url: GoToSubmissionPage(load.submissionId),
     user: load.userId,
   };
-  await SenNotifications(prisma, [notification]);
+  await SendNotifications(prisma, [notification]);
 };
