@@ -124,7 +124,6 @@ export const NotifyStaffs_SubmissionCreated = async (
     },
     select: { title: true },
   });
-
   const message = `There is a new submission for ${bountyTitle}`;
   const users = await prisma.user.findMany({
     where: {
