@@ -4,7 +4,7 @@ import { TRPCError } from '@trpc/server';
 import { GoToSubmissionPage } from '@/lib/utils/Routes';
 
 import { PushNotificationLoad } from './onesignal';
-import { SendNotifications } from './utils';
+import { DeleteNotifsAfterReview, SendNotifications } from './utils';
 
 /** Creates a notification load for a submission update.  */
 const CreateSubmissionNotificationLoad = ({
@@ -86,6 +86,7 @@ export const NotifyUsers_SubmissionsRejected = async (
   if (previouslyRejectedSubmissions === 0) {
     await SendNotifications(prisma, notifications);
   }
+  await DeleteNotifsAfterReview(prisma, load[0]?.submissionId, bountyTitle);
 };
 
 export const NotifyUsers_SubmissionAccepted = async (
@@ -109,6 +110,7 @@ export const NotifyUsers_SubmissionAccepted = async (
   });
 
   await SendNotifications(prisma, [notification]);
+  await DeleteNotifsAfterReview(prisma, load.submissionId, bountyTitle);
 };
 
 export const NotifyStaffs_SubmissionCreated = async (
@@ -126,7 +128,12 @@ export const NotifyStaffs_SubmissionCreated = async (
   const message = `There is a new submission for ${bountyTitle}`;
   const users = await prisma.user.findMany({
     where: {
-      rol: 'STAFF',
+      OR: [
+        {
+          rol: 'ADMIN',
+        },
+        { rol: 'STAFF' },
+      ],
     },
     select: {
       id: true,

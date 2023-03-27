@@ -75,3 +75,32 @@ const _CreateNotificationUrl = ({
     return `${baseUrl}${relativeUrl}?notificationId=${notificationId}`;
   }
 };
+
+export const DeleteNotifsAfterReview = async (
+  prisma: PrismaClient,
+  submissionId: string,
+  bountyTitle: string
+) => {
+  //Submission reviewed, so clear notification for staff/admin
+  const newSubmissionNotifs = await prisma.notification.findMany({
+    where: {
+      AND: {
+        urlCallback: `/submission/${submissionId}`,
+        message: { contains: `There is a new submission for ${bountyTitle}` },
+      },
+    },
+    select: { id: true },
+  });
+  const idsToDelete: string[] = [];
+  newSubmissionNotifs &&
+    newSubmissionNotifs.map((item) => {
+      idsToDelete.push(item.id);
+    });
+  const deletedUserCount = await prisma.notification.deleteMany({
+    where: {
+      id: {
+        in: idsToDelete,
+      },
+    },
+  });
+};
