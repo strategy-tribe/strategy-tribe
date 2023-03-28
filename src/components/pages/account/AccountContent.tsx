@@ -3,6 +3,7 @@ import { useAuth } from '@/auth/AuthContext';
 import { useAccountContext } from './AccountContext';
 import { AccountSideMap } from './AccountSideMap';
 import { AccountDetails } from './sections/AccountDetails';
+import { AccountNotifications } from './sections/AccountNotifications';
 import { AccountReviews } from './sections/AccountReviews';
 import { AccountRewards } from './sections/AccountRewards';
 import { AccountSubmissions } from './sections/AccountSubmissions';
@@ -43,12 +44,11 @@ export function AccountContent() {
         </>
       )}
 
-      {/* TODO: to be implemented - RED-98
       {view === AccountView.Notifications && (
         <>
           <AccountNotifications />
         </>
-      )} */}
+      )}
 
       {view === AccountView.Reviews && (isAdmin || isStaff) && (
         <>
