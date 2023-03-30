@@ -6,7 +6,6 @@ import { useOrganizationContext } from './OrganizationContext';
 import { OrgCountries } from './OrgCountries';
 import { OrgStat } from './OrgStat';
 import { OrgTags } from './OrgTags';
-
 export function OrgHeader() {
   const { org } = useOrganizationContext();
   return (

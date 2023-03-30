@@ -4,10 +4,10 @@ export interface ServerNotification {
   id: string;
   userId: string;
   message: string;
-  type: string;
   createdAt: Date;
+  updatedAt: Date;
   read: boolean;
-  url: string;
+  urlCallback: string;
 }
 
 type CallableComponent = (onClose: () => void) => ReactNode | string;
