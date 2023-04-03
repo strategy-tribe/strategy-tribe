@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useRouter } from 'next/router';
+import router, { useRouter } from 'next/router';
 import { signIn } from 'next-auth/react';
 import { useAccount, useConnect, useDisconnect, useSignMessage } from 'wagmi';
 import { CoinbaseWalletConnector } from 'wagmi/connectors/coinbaseWallet';
@@ -7,6 +7,14 @@ import { MetaMaskConnector } from 'wagmi/connectors/metaMask';
 import { WalletConnectConnector } from 'wagmi/connectors/walletConnect';
 
 import { WalletType } from '@/components/auth/ConnectWalletPopUp';
+import {
+  DelayType,
+  NotificationStyle,
+  NotificationType,
+} from '@/components/notifications/iNotification';
+import { useNotification } from '@/components/notifications/NotificationContext';
+
+import { usePostReferral } from './hooks/userHooks';
 
 /** Logic for custom sign in method */
 export const useSignIn = () => {
@@ -15,13 +23,61 @@ export const useSignIn = () => {
   const { isConnected } = useAccount();
   const { signMessageAsync } = useSignMessage();
   const { push } = useRouter();
+  const { notify } = useNotification();
+
+  const { PostReferral } = usePostReferral({
+    onMutate: () => {
+      notify(
+        {
+          title: 'Validating referral',
+          content: 'Please do not close this window',
+          icon: 'warning',
+        },
+        {
+          delayTime: 0,
+          delayType: DelayType.Condition,
+          condition: false,
+          type: NotificationType.Banner,
+        }
+      );
+    },
+    onSuccess: () => {
+      notify(
+        {
+          title: 'Referral updated Successfully',
+          style: NotificationStyle.success,
+        },
+        {
+          condition: false,
+          delayTime: 5,
+          delayType: DelayType.Time,
+          type: NotificationType.Banner,
+        }
+      );
+    },
+    onError: (error) => {
+      notify(
+        {
+          title: 'Referral updation Failed',
+          content: `${error.message}`,
+          icon: 'warning',
+          style: NotificationStyle.error,
+        },
+        {
+          condition: false,
+          delayTime: 5,
+          delayType: DelayType.Time,
+          type: NotificationType.Banner,
+        }
+      );
+    },
+  });
 
   async function handleAuth(
     walletType: WalletType,
     setError: (e: string) => void
   ) {
     try {
-      // console.log('trying to connect');
       if (isConnected) {
         await disconnectAsync();
       }
@@ -70,6 +126,13 @@ export const useSignIn = () => {
       });
 
       const url = res?.url;
+
+      if (router.query.referralCode) {
+        PostReferral({
+          referralCode: router.query.referralCode as string,
+          user: account,
+        });
+      }
 
       if (!url) {
         throw new Error('Unable to redirect to signed in page');

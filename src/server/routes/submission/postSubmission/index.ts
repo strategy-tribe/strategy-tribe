@@ -5,11 +5,11 @@ import { z } from 'zod';
 
 import { signedInOnlyProcedure } from '@/server/procedures';
 
+import { areAnswersValid } from './areAnswersValid';
+import { UserInputSchema } from './UserInput';
 import { NotifyStaffs_SubmissionCreated } from '../../notification/utils/submissions';
 import { isBountyOpen } from '../../utils/isBountyOpen';
 import { spotsLeftForUser } from '../../utils/spotsLeftForUser';
-import { areAnswersValid } from './areAnswersValid';
-import { UserInputSchema } from './UserInput';
 /** Schema used to query for submissions */
 const PostSubmissionSchema = z.object({
   slug: z.string(),
