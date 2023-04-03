@@ -25,11 +25,10 @@ async function _getNotification(
   params: GetNotificationParams
 ) {
   const { id } = params;
-  const notification = await prisma.notification.findUnique({
-    where: { id },
+  const notification = await prisma.notification.findMany({
+    where: { userId: id },
     select: NOTIFICATION_SELECTOR,
   });
-
   return notification;
 }
 
@@ -43,8 +42,7 @@ export const getNotification = signedInOnlyProcedure
   .input(GetNotificationSchema)
   .query(async ({ input, ctx: { prisma } }) => {
     const notification = await _getNotification(prisma, input);
-
-    if (notification?.userId !== input.id) {
+    if (notification[0]?.userId !== input.id) {
       throw new TRPCError({
         code: 'UNAUTHORIZED',
         cause: 'User id did not match owner of the notification',

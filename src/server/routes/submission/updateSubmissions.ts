@@ -95,6 +95,7 @@ export const RejectAndNotifySubmissions = async (
   await NotifyUsers_SubmissionsRejected(
     prisma,
     data.bountySlug,
+    true,
     users.filter(isClean).map((i) => {
       return { userId: i.authorId, submissionId: i.id };
     })

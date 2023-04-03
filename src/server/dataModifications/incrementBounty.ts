@@ -98,7 +98,7 @@ async function UpdateDonations() {
       addedToBounty: false,
       isValid: true,
       createdAt: {
-        lte: new Date(new Date().getTime() - 4 * 60 * 60 * 1000),
+        lte: new Date(new Date().getTime() - 24 * 60 * 60 * 1000),
       },
     },
     orderBy: {
