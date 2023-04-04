@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { trpc } from '@/lib/trpc';
 
 import { GetBountiesParams } from '@/server/routes/bounties/getBounties';
+import { PostReferralParams } from '@/server/routes/users/postReferral';
 import { UpdateUsernameParams } from '@/server/routes/users/updateUsername';
 
 export const useGetUser = () => {
@@ -11,6 +12,7 @@ export const useGetUser = () => {
 
   return {
     username: data?.user?.username ?? '',
+    referralCode: data?.user?.referralCode ?? '',
     error,
     isLoading,
   };
@@ -84,5 +86,33 @@ export const useGetInfo = (config: GetBountiesParams, enabled = true) => {
     hasPreviousPage,
     isPreviousData: false,
     error,
+  };
+};
+
+export const usePostReferral = (events: {
+  onMutate: () => void;
+  onSuccess: () => void;
+  onError: (e: any) => void;
+}) => {
+  const { onError, onMutate, onSuccess } = events;
+
+  const qc = useQueryClient();
+
+  const mutation = trpc.user.postReferral.useMutation({
+    onMutate,
+    onError,
+    onSuccess: () => {
+      qc.invalidateQueries();
+      onSuccess();
+    },
+  });
+
+  return {
+    PostReferral: async (params: PostReferralParams) => {
+      mutation.mutate(params);
+    },
+    isLoading: mutation.isLoading,
+    isSuccess: mutation.isSuccess,
+    error: mutation.error,
   };
 };

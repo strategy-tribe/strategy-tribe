@@ -327,10 +327,11 @@ model User {
   externalId String @unique
   signature  String @unique
 
-  submissions Submission[]
-  address     String       @unique
-  rol         Rol
-  username    String?
+  submissions  Submission[]
+  address      String       @unique
+  rol          Rol
+  username     String?
+  referralCode String?      @unique
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
@@ -339,6 +340,8 @@ model User {
   notifications Notification[]
   fingerprints  Fingerprint[]
   Donation      Donation[]
+  Referrals     Referral[]     @relation(name: "referrer")
+  joinedReferal Referral?      @relation(name: "newUser")
 }
 
 model Fingerprint {
@@ -378,4 +381,19 @@ model FundsData {
   totalFunds Float
   paidFunds  Float
   date       DateTime @default(now())
+}
+
+model Referral {
+  id          String    @id @default(cuid())
+  refrralPaid Boolean
+  txnHash     String?
+  paidDate    DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+
+  referrer   User?   @relation(fields: [referrerId], references: [id], onDelete: SetNull, name: "referrer")
+  referrerId String?
+  newUser    User?   @relation(fields: [newUserId], references: [id], onDelete: SetNull, name: "newUser")
+  newUserId  String? @unique
 }
