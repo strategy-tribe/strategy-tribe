@@ -2,6 +2,9 @@ import { createContext, ReactNode, useContext } from 'react';
 
 import { GoToBountyPage } from '@/lib/utils/Routes';
 
+import { useGetBounties } from '@/lib/hooks/bountyHooks';
+import { BountyOrderBy } from '@/lib/models/BountyQueryParams';
+import { Order } from '@/lib/models/Order';
 import { FullOrg } from '@/server/routes/organizations/getOrg';
 
 import { OrgView } from './OrgView';
@@ -10,6 +13,9 @@ import { useOrgUrl } from './useOrgUrl';
 interface iOrganizationContext {
   org: FullOrg;
   view: OrgView;
+  bounties: any;
+  isLoading: boolean;
+  count: number;
   setView: (val: OrgView) => void;
 }
 
@@ -29,11 +35,22 @@ export const OrganizationContextProvider = ({
   function setView(val: OrgView) {
     setQuery({ ...query, view: val }, GoToBountyPage(org?.name));
   }
+  const { bounties, isLoading, count } = useGetBounties({
+    order: Order.Desc,
+    orderBy: BountyOrderBy.Bounty,
+    // amount: AMOUNT_OF_BOUNTIES,
+    orgName: [org.name],
+  });
+
+  // console.log(bounties, 'bounties here');
 
   return (
     <OrganizationContext.Provider
       value={{
         org: org,
+        bounties: bounties,
+        isLoading: isLoading,
+        count: count,
         view: query.view,
         setView,
       }}

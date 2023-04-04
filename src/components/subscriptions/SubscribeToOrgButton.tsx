@@ -14,13 +14,21 @@ import { useNotification } from '../notifications/NotificationContext';
 export function SubToOrgButton({
   orgId,
   button,
+  bounties,
+  isLoading,
+  count,
   useLabel = true,
 }: {
   orgId: string;
+  bounties: any;
+  isLoading: boolean;
+  count: number;
   useLabel?: boolean;
   button: (isLoading: boolean, isSubscribed: boolean) => ButtonInformation;
 }) {
   const { notify, hide } = useNotification();
+  // console.log(bounties, 'bounties in subtoorg');
+  // console.log(isLoading, 'bounties in subtoorg');
 
   function ManageNotification(undo: () => void) {
     const notification = {
@@ -67,7 +75,7 @@ export function SubToOrgButton({
     isLoading: isLoadingSubs,
   } = useSubscribe(userId as string, orgId as string);
 
-  const isLoading = isLoadingSubscriptionState || isLoadingSubs;
+  const isLoadingAll = isLoadingSubscriptionState || isLoadingSubs || isLoading;
 
   function ManageClick() {
     if (isSubscribed) {
