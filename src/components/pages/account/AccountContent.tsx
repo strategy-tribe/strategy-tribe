@@ -4,6 +4,7 @@ import { useAccountContext } from './AccountContext';
 import { AccountSideMap } from './AccountSideMap';
 import { AccountDetails } from './sections/AccountDetails';
 import { AccountNotifications } from './sections/AccountNotifications';
+import { AccountReferrals } from './sections/AccountReferrals';
 import { AccountReviews } from './sections/AccountReviews';
 import { AccountRewards } from './sections/AccountRewards';
 import { AccountSubmissions } from './sections/AccountSubmissions';
@@ -53,6 +54,12 @@ export function AccountContent() {
       {view === AccountView.Reviews && (isAdmin || isStaff) && (
         <>
           <AccountReviews />
+        </>
+      )}
+
+      {view === AccountView.Referrals && (
+        <>
+          <AccountReferrals />
         </>
       )}
     </Section>

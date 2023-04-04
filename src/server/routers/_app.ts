@@ -6,6 +6,7 @@ import { invoiceRouter } from './invoice';
 import { mapRouter } from './map';
 import { notificationRouter } from './notification';
 import { orgRouter } from './org';
+import { referralRouter } from './referral';
 import { reviewRouter } from './review';
 import { statisticsRouter } from './statistics';
 import { submissionRouter } from './submission';
@@ -31,6 +32,7 @@ export const appRouter = router({
   user: userRouter,
   donation: donationRouter,
   statistics: statisticsRouter,
+  referral: referralRouter,
 });
 
 // export type definition of API
