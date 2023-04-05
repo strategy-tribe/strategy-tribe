@@ -81,13 +81,13 @@ export const SMALL_BOUNTY_SELECTION = Prisma.validator<Prisma.BountySelect>()({
 
 async function getBountiesWithMetaData(
   prisma: PrismaClient,
-  input: GetBountiesParams
+  input: GetBountiesParams,
+  where: Prisma.BountyWhereInput
 ) {
   //TODO: Use the input params to filter the bounties
   const orderBy = {
     ...getOrderBy(input.order ?? DEFAULT_ORDER, input.orderBy),
   };
-  const where = getWhere(input);
   const bounties = await prisma.bounty.findMany({
     where,
     orderBy: orderBy,
@@ -184,17 +184,21 @@ const getWhere = (input: GetBountiesParams) => {
   });
 };
 
-async function countBounties(prisma: PrismaClient, input: GetBountiesParams) {
-  const bounties = await prisma.bounty.count({ where: getWhere(input) });
+async function countBounties(
+  prisma: PrismaClient,
+  where: Prisma.BountyWhereInput
+) {
+  const bounties = await prisma.bounty.count({ where });
   return bounties;
 }
 
 export const getBounties = publicProcedure
   .input(GetBountiesSchema)
-  .query(async ({ input, ctx: { prisma } }) => {
+  .query(async ({ input, ctx: { prisma, session } }) => {
     try {
-      const bounties = await getBountiesWithMetaData(prisma, input);
-      const count = await countBounties(prisma, input);
+      const where = getWhere(session && session.user ? input : {});
+      const bounties = await getBountiesWithMetaData(prisma, input, where);
+      const count = await countBounties(prisma, where);
       return { bounties, count };
     } catch (error) {
       console.error(error);
