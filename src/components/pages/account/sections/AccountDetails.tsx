@@ -137,7 +137,7 @@ export function AccountDetails() {
         <SubmissionDetail label="Invite Link" value="Loading..." />
       ) : (
         <SubmissionDetail
-          label="Invite Link"
+          label="Invite Link - Earn referral bonus for each user joining with this link"
           value={`${process.env.NEXT_PUBLIC_DOMAIN}?referralCode=${referralCode}`}
           copyable
         />
