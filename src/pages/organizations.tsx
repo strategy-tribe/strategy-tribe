@@ -1,11 +1,15 @@
 import { GetStaticProps } from 'next';
 import Head from 'next/head';
+import router from 'next/router';
 
 import { overcomeSerialization } from '@/lib/utils/overcomeSerialization';
+import { GoToOrganizationsPage } from '@/lib/utils/Routes';
 
 import AppLayout from '@/components/layouts/AppLayout';
 import { AllOrganizations } from '@/components/pages/organizations/AllOrganizations';
+import { ImportantMessage } from '@/components/utils/Warning';
 
+import { useAuth } from '@/auth/AuthContext';
 import prisma from '@/server/prisma/prismaClient';
 import {
   getOrganizationsWithMetaData,
@@ -29,6 +33,8 @@ const OrganizationsPage: NextPageWithLayout<{ orgs: SmallOrg[] }> = ({
 }: {
   orgs: SmallOrg[];
 }) => {
+  const { userId, isAuthenticated } = useAuth();
+
   return (
     <>
       <Head>
@@ -41,7 +47,25 @@ const OrganizationsPage: NextPageWithLayout<{ orgs: SmallOrg[] }> = ({
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <AllOrganizations organizations={orgs} />
+      {isAuthenticated && !!userId && <AllOrganizations organizations={orgs} />}
+      {(!isAuthenticated || !userId) && (
+        <ImportantMessage
+          message="You're not signed in."
+          className="mx-auto w-full max-w-xs"
+          content={
+            <button
+              onClick={() =>
+                router.push(`${GoToOrganizationsPage()}?login=true`)
+              }
+              className="label mt-4"
+            >
+              Join the hunt,
+              <br />
+              <span className="underline">you only need your wallet</span>
+            </button>
+          }
+        />
+      )}
     </>
   );
 };
