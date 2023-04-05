@@ -1,7 +1,12 @@
 import dynamic from 'next/dynamic';
+import router from 'next/router';
 
 import { MapDataWithFeatures } from '@/lib/models/MapData';
+import { GoToBountiesPage } from '@/lib/utils/Routes';
 
+import { ImportantMessage } from '@/components/utils/Warning';
+
+import { useAuth } from '@/auth/AuthContext';
 import { AvgSubmissionPayoutData } from '@/server/routes/statistics/getAvgSubmissionPayout';
 import { BountiesStatusData } from '@/server/routes/statistics/getBountiesStatus';
 import { FundData } from '@/server/routes/statistics/getFundsData';
@@ -69,6 +74,7 @@ function ExploreContent() {
   const { bountyFetch } = useExploreContext();
 
   const error = bountyFetch?.error ?? '';
+  const { userId, isAuthenticated } = useAuth();
 
   if (error) {
     console.error(error);
@@ -93,7 +99,25 @@ function ExploreContent() {
         <div className="flex min-h-screen w-full flex-col gap-y-8 p-4">
           <>
             <Section className="w-full">
-              <ExploreFilters />
+              {isAuthenticated && !!userId && <ExploreFilters />}
+              {(!isAuthenticated || !userId) && (
+                <ImportantMessage
+                  className="mx-auto w-full max-w-xs p-2"
+                  icon="info"
+                  content={
+                    <button
+                      onClick={() =>
+                        router.push(`${GoToBountiesPage()}?login=true`)
+                      }
+                      className="label mt-2"
+                    >
+                      <span className="underline">
+                        Sign in to filter the bounties
+                      </span>
+                    </button>
+                  }
+                />
+              )}
             </Section>
             <div className="space-y-8">
               <PageNumber />
