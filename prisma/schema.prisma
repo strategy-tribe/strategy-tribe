@@ -384,10 +384,10 @@ model FundsData {
 }
 
 model Referral {
-  id          String    @id @default(cuid())
-  refrralPaid Boolean
-  txnHash     String?
-  paidDate    DateTime?
+  id           String    @id @default(cuid())
+  referralPaid Boolean
+  txnHash      String?
+  paidDate     DateTime?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())

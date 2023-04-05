@@ -4,7 +4,8 @@ import { useEffect, useState } from 'react';
 import { trpc } from '@/lib/trpc';
 
 import { GetBountiesParams } from '@/server/routes/bounties/getBounties';
-import { PostReferralParams } from '@/server/routes/users/postReferral';
+import { GetReferralsParams } from '@/server/routes/referrals/getReferrals';
+import { PostReferralParams } from '@/server/routes/referrals/postReferral';
 import { UpdateUsernameParams } from '@/server/routes/users/updateUsername';
 
 export const useGetUser = () => {
@@ -98,7 +99,7 @@ export const usePostReferral = (events: {
 
   const qc = useQueryClient();
 
-  const mutation = trpc.user.postReferral.useMutation({
+  const mutation = trpc.referral.postReferral.useMutation({
     onMutate,
     onError,
     onSuccess: () => {
@@ -114,5 +115,42 @@ export const usePostReferral = (events: {
     isLoading: mutation.isLoading,
     isSuccess: mutation.isSuccess,
     error: mutation.error,
+  };
+};
+
+export const useGetReferrals = (config: GetReferralsParams, enabled = true) => {
+  const page = config.page || 0;
+
+  const [numOfPages, setNumOfPages] = useState(0);
+  const [hasNextPage, setHasNextPage] = useState(false);
+  const [hasPreviousPage, setHasPreviousPage] = useState(false);
+
+  const { data, error, isLoading, isFetching } =
+    trpc.referral.getReferrals.useQuery(config, {
+      enabled,
+    });
+
+  useEffect(() => {
+    if (data && data.count && config.amount) {
+      const count = data.count;
+      const _numOfPages = Math.floor((count - 1) / config.amount + 1);
+      setHasNextPage(_numOfPages - 1 > (config?.page ?? _numOfPages));
+      setHasPreviousPage((config?.page ?? 0) != 0);
+      setNumOfPages(_numOfPages);
+    } else {
+      setNumOfPages(0);
+    }
+  }, [data, config, data?.count]);
+
+  return {
+    ...data,
+    isLoading,
+    isFetching,
+    page,
+    numOfPages,
+    hasNextPage,
+    hasPreviousPage,
+    isPreviousData: false,
+    error,
   };
 };

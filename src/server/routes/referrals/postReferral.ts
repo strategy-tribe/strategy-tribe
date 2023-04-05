@@ -64,7 +64,7 @@ export const postReferral = signedInOnlyProcedure
 
     const referral = await prisma.referral.create({
       data: {
-        refrralPaid: false,
+        referralPaid: false,
         referrer: {
           connect: {
             referralCode: input.referralCode,
