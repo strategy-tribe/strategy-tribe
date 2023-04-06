@@ -1,7 +1,7 @@
 import {
-  useIsSubscribed,
-  useSubscribe,
-  useUnSubscribe,
+  useIsSubscribedBounties,
+  useSubscribeBounty,
+  useUnSubscribeBounties,
 } from '@/lib/hooks/subscriptionHooks';
 
 import {
@@ -15,18 +15,12 @@ import { useAuth } from '@/auth/AuthContext';
 import { DelayType, NotificationType } from '../notifications/iNotification';
 import { useNotification } from '../notifications/NotificationContext';
 
-export function SubToOrgButton({
-  orgId,
+export function SubToBountyButton({
+  bountySlug,
   button,
-  bounties,
-  isLoading,
-  count,
   useLabel = true,
 }: {
-  orgId: string;
-  bounties?: any;
-  isLoading?: boolean;
-  count?: number;
+  bountySlug: string;
   useLabel?: boolean;
   button: (isLoading: boolean, isSubscribed: boolean) => ButtonInformation;
 }) {
@@ -36,16 +30,16 @@ export function SubToOrgButton({
     isLoading: isLoadingSubscriptionState,
     isSubscribed,
     refetch: refetchSubscriptionStatus,
-  } = useIsSubscribed(
+  } = useIsSubscribedBounties(
     userId as string,
-    orgId as string,
-    Boolean(userId as string) && Boolean(orgId as string)
+    bountySlug as string,
+    Boolean(userId as string) && Boolean(bountySlug as string)
   );
 
   function ManageNotification(isSubscription: boolean) {
     const text = isSubscription
-      ? `This organization has been added to your watchlist. We'll notify you of changes to this organization`
-      : `Your subscription has been removed and you will no longer receive notifications for this organization`;
+      ? `This bounty has been added to your watchlist. We'll notify you of changes to this bounty`
+      : `Your subscription has been removed and you will no longer receive notifications for this bounty`;
     const notification = {
       title: text,
       content: () => (
@@ -74,40 +68,34 @@ export function SubToOrgButton({
     notify(notification, config);
   }
 
-  const bountySlugs: string[] = [];
-
-  bounties &&
-    bounties.map((item: any) => {
-      bountySlugs.push(item.slug);
-    });
-
-  const { isLoading: isLoadingSubs, SubscribeToOrg } = useSubscribe({
+  const { isLoading: isLoadingSubs, SubscribeToBounty } = useSubscribeBounty({
     onSuccess: () => {
       void refetchSubscriptionStatus();
       ManageNotification(true);
     },
   });
 
-  const { isLoading: isLoadingUnSubs, UnSubscribeToOrg } = useUnSubscribe({
-    onSuccess: () => {
-      void refetchSubscriptionStatus();
-      ManageNotification(false);
-    },
-  });
+  const { isLoading: isLoadingUnSubs, UnSubscribeToBounty } =
+    useUnSubscribeBounties({
+      onSuccess: () => {
+        void refetchSubscriptionStatus();
+        ManageNotification(false);
+      },
+    });
 
   const isLoadingAll =
-    isLoadingSubscriptionState || isLoadingSubs || isLoadingUnSubs;
+    isLoadingSubscriptionState || isLoadingUnSubs || isLoadingSubs;
+
   function ManageClick() {
     if (isSubscribed) {
-      UnSubscribeToOrg({
+      UnSubscribeToBounty({
         userId: userId ? userId : '',
-        orgId,
+        bountySlug,
       });
     } else {
-      SubscribeToOrg({
+      SubscribeToBounty({
         userId: userId ? userId : '',
-        orgId,
-        bountySlugs,
+        bountySlug,
       });
     }
   }

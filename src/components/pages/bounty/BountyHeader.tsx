@@ -1,3 +1,5 @@
+import { useAuth } from '@/auth/AuthContext';
+import { SubToBountyButton } from '@/components/subscriptions/SubscribeToBountyButton';
 import { Wallet } from '@prisma/client';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -19,10 +21,8 @@ import FromOrganization from '@/components/utils/FromOrganization';
 import Icon, { IconSize } from '@/components/utils/Icon';
 import { Stat } from '@/components/utils/Stat';
 
-import { useAuth } from '@/auth/AuthContext';
-
-import BountyStatusShowcase from './BountyStatusShowcase';
 import { Section } from '../landing/Section';
+import BountyStatusShowcase from './BountyStatusShowcase';
 
 export function BountyHeader() {
   const { bounty } = useBountyContext();
@@ -36,6 +36,7 @@ export function BountyHeader() {
   );
   const [showDonation, setShowDonation] = useState(false);
   const [counter, setCounter] = useState(0);
+  const { userId } = useAuth();
 
   useEffect(() => {
     if (
@@ -100,6 +101,19 @@ export function BountyHeader() {
             </div>
 
             <div className="flex shrink-0 flex-col justify-start gap-4 tablet:items-end">
+              {userId && (
+                <SubToBountyButton
+                  bountySlug={bounty.slug}
+                  button={(_, isSubscribed) => {
+                    return {
+                      removeMinWidth: true,
+                      style: isSubscribed
+                        ? ButtonStyle.Text
+                        : ButtonStyle.Filled,
+                    };
+                  }}
+                />
+              )}
               <div className="flex items-center gap-4 text-main-light">
                 <Icon icon="emoji_events" size={IconSize.Large} />
                 <span className="h4 font-medium">

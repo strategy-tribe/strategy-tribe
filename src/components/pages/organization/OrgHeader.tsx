@@ -1,13 +1,18 @@
 import { Section } from '@/components/pages/landing/Section';
 
+import { ButtonStyle } from '@/components/utils/Button';
 import { FullOrg } from '@/server/routes/organizations/getOrg';
 
+import { useAuth } from '@/auth/AuthContext';
+import { SubToOrgButton } from '@/components/subscriptions/SubscribeToOrgButton';
 import { useOrganizationContext } from './OrganizationContext';
 import { OrgCountries } from './OrgCountries';
 import { OrgStat } from './OrgStat';
 import { OrgTags } from './OrgTags';
+
 export function OrgHeader() {
-  const { org } = useOrganizationContext();
+  const { org, bounties, isLoading, count } = useOrganizationContext();
+  const { userId } = useAuth();
   return (
     <div className="border-b-2 border-surface py-16">
       <Section className="items-center justify-between gap-8 tablet:flex">
@@ -31,16 +36,20 @@ export function OrgHeader() {
           <OrgStat value={`${getBalance(org)} MATIC`} label="In bounties" />
           <div className="h-10 w-0.5 bg-surface-dark" />
 
-          {/* TODO: to be implemented - RED-98
-          <SubToOrgButton
-            orgId={org.id}
-            button={(_, isSubscribed) => {
-              return {
-                removePadding: isSubscribed ?? true,
-                style: isSubscribed ? ButtonStyle.Text : ButtonStyle.Filled,
-              };
-            }}
-          /> */}
+          {userId && (
+            <SubToOrgButton
+              orgId={org.id}
+              isLoading={isLoading}
+              count={count}
+              bounties={bounties}
+              button={(_, isSubscribed) => {
+                return {
+                  removePadding: isSubscribed ?? true,
+                  style: isSubscribed ? ButtonStyle.Text : ButtonStyle.Filled,
+                };
+              }}
+            />
+          )}
         </div>
       </Section>
     </div>

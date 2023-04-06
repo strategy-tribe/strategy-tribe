@@ -2,6 +2,7 @@ import { InvoiceStatus, PrismaClient, ReviewGrade } from '@prisma/client';
 import { ThenArg, TRPCError } from '@trpc/server';
 import { User } from 'next-auth';
 import { z } from 'zod';
+import { Notify_BountyClosed } from '../notification/utils/bounty';
 
 import { staffOnlyProcedure } from '@/server/procedures';
 
@@ -86,7 +87,7 @@ async function _AcceptIt(
     });
   }
   await CloseBounty(prisma, submission.bounty.slug);
-
+  await Notify_BountyClosed(prisma, submission.bounty.slug);
   await RejectAndNotifySubmissions(prisma, {
     bountySlug: submission.bounty.slug,
     rejectAllButThisOne: submissionId,
