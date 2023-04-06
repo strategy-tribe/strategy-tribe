@@ -3,6 +3,7 @@ import { Line } from 'react-chartjs-2';
 import { PieChart } from 'react-minimal-pie-chart';
 
 import { useExploreContext } from '../ExploreContext';
+
 Chart.register(...registerables);
 
 export default function BountiesStatus() {
