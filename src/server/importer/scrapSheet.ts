@@ -4,6 +4,7 @@ import { isString, toTitleCase } from '@/lib/utils/StringHelpers';
 
 import prisma from '@/server/prisma/prismaClient';
 
+import { updateDb } from '../dataModifications/update';
 import { ReadFileInDataFolder } from '../routers/ReadFileInDataFolder';
 import { addToDb } from './add';
 import {
@@ -16,8 +17,6 @@ import {
   Row,
   TargetData,
 } from './utils';
-import { updateDb } from '../dataModifications/update';
-import { ReadFileInDataFolder } from '../routers/ReadFileInDataFolder';
 
 //*Scraping
 async function scrapSheet() {

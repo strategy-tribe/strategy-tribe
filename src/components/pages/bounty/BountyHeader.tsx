@@ -21,8 +21,8 @@ import { Stat } from '@/components/utils/Stat';
 
 import { useAuth } from '@/auth/AuthContext';
 
-import BountyStatusShowcase from './BountyStatusShowcase';
 import { Section } from '../landing/Section';
+import BountyStatusShowcase from './BountyStatusShowcase';
 
 export function BountyHeader() {
   const { bounty } = useBountyContext();

@@ -1,5 +1,8 @@
 [
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 34f9c18 (fix: adding sanction and discord link (#22))
   {
     "Name": "Afghanistan",
     "Code": "AFG"
@@ -713,6 +716,7 @@
     "Code": "GLOBAL"
   }
 ]
+<<<<<<< HEAD
 =======
     {
       "Name": "Afghanistan",
@@ -1429,3 +1433,5 @@
   ]
   
 >>>>>>> 4f4ab49 (Misc issues (#20))
+=======
+>>>>>>> 34f9c18 (fix: adding sanction and discord link (#22))
