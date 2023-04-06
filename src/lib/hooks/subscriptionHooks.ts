@@ -2,7 +2,6 @@ import { PostSubscriptionBountySchemaParams } from '@/server/routes/subscription
 import { PostSubscriptionSchemaParams } from '@/server/routes/subscription/subscribeOrg';
 import { DeleteBountySubscriptionParams } from '@/server/routes/subscription/unSubscribeBounty';
 import { DeleteSubscriptionParams } from '@/server/routes/subscription/unSubscribeOrg';
-import { useQueryClient } from '@tanstack/react-query';
 import { trpc } from '../trpc';
 
 export const useIsSubscribed = (
@@ -10,7 +9,7 @@ export const useIsSubscribed = (
   orgId: string,
   enabled = true
 ) => {
-  const { error, isLoading, data } =
+  const { error, isLoading, data, refetch } =
     trpc.subscriptionRouter.getSubscriptionStatus.useQuery(
       { userId, orgId },
       {
@@ -21,6 +20,7 @@ export const useIsSubscribed = (
     isLoading,
     isSubscribed: data?.subscriptionStatus,
     error,
+    refetch,
   };
 };
 
@@ -29,7 +29,7 @@ export const useIsSubscribedBounties = (
   bountySlug: string,
   enabled = true
 ) => {
-  const { error, isLoading, data } =
+  const { error, isLoading, data, refetch } =
     trpc.subscriptionRouter.getSubscriptionStatusBounty.useQuery(
       { userId, bountySlug },
       {
@@ -40,6 +40,7 @@ export const useIsSubscribedBounties = (
     isLoading,
     isSubscribed: data?.subscriptionStatus,
     error,
+    refetch,
   };
 };
 
@@ -74,15 +75,11 @@ export const getSubscribedBounties = (userId: string, enabled = true) => {
   };
 };
 
-export const useSubscribe = (
-  userId: string,
-  orgId: string,
-  bountySlugs: string[]
-) => {
-  const qc = useQueryClient();
+export const useSubscribe = (events: { onSuccess: () => void }) => {
+  const { onSuccess } = events;
   const mutation = trpc.subscriptionRouter.subscribeOrg.useMutation({
     onSuccess: () => {
-      qc.invalidateQueries();
+      onSuccess();
     },
   });
   return {
@@ -95,28 +92,11 @@ export const useSubscribe = (
   };
 };
 
-export const useSubscribeBounty = (userId: string, bountySlug: string) => {
-  const qc = useQueryClient();
-  const mutation = trpc.subscriptionRouter.subscribeBounty.useMutation({
-    onSuccess: () => {
-      qc.invalidateQueries();
-    },
-  });
-  return {
-    SubscribeToBounty: async (params: PostSubscriptionBountySchemaParams) => {
-      mutation.mutate(params);
-    },
-    isLoading: mutation.isLoading,
-    isSuccess: mutation.isSuccess,
-    error: mutation.error,
-  };
-};
-
-export const useUnSubscribe = (userId: string, orgId: string) => {
-  const qc = useQueryClient();
+export const useUnSubscribe = (events: { onSuccess: () => void }) => {
+  const { onSuccess } = events;
   const mutation = trpc.subscriptionRouter.unSubscribeOrg.useMutation({
     onSuccess: () => {
-      qc.invalidateQueries();
+      onSuccess();
     },
   });
   return {
@@ -129,11 +109,28 @@ export const useUnSubscribe = (userId: string, orgId: string) => {
   };
 };
 
-export const useUnSubscribeBounties = (userId: string, bountySlug: string) => {
-  const qc = useQueryClient();
+export const useSubscribeBounty = (events: { onSuccess: () => void }) => {
+  const { onSuccess } = events;
+  const mutation = trpc.subscriptionRouter.subscribeBounty.useMutation({
+    onSuccess: () => {
+      onSuccess();
+    },
+  });
+  return {
+    SubscribeToBounty: async (params: PostSubscriptionBountySchemaParams) => {
+      mutation.mutate(params);
+    },
+    isLoading: mutation.isLoading,
+    isSuccess: mutation.isSuccess,
+    error: mutation.error,
+  };
+};
+
+export const useUnSubscribeBounties = (events: { onSuccess: () => void }) => {
+  const { onSuccess } = events;
   const mutation = trpc.subscriptionRouter.unSubscribeBounty.useMutation({
     onSuccess: () => {
-      qc.invalidateQueries();
+      onSuccess();
     },
   });
   return {

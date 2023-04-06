@@ -1,4 +1,3 @@
-import Loading from '@/components/utils/Loading';
 import {
   useIsSubscribed,
   useSubscribe,
@@ -33,23 +32,28 @@ export function SubToOrgButton({
 }) {
   const { notify, hide } = useNotification();
   const { userId } = useAuth();
-  const { isLoading: isLoadingSubscriptionState, isSubscribed } =
-    useIsSubscribed(
-      userId as string,
-      orgId as string,
-      Boolean(userId as string) && Boolean(orgId as string)
-    );
+  const {
+    isLoading: isLoadingSubscriptionState,
+    isSubscribed,
+    refetch: refetchSubscriptionStatus,
+  } = useIsSubscribed(
+    userId as string,
+    orgId as string,
+    Boolean(userId as string) && Boolean(orgId as string)
+  );
 
-  function ManageNotification(undo: () => void) {
+  function ManageNotification(isSubscription: boolean) {
+    const text = isSubscription
+      ? `This organization has been added to your watchlist. We'll notify you of changes to this organization`
+      : `Your subscription has been removed and you will no longer receive notifications for this organization`;
     const notification = {
-      title: 'Success',
+      title: text,
       content: () => (
         <div className="flex flex-col">
           <Button
             info={{
-              label: 'Undo',
+              label: 'Close',
               onClick: () => {
-                undo();
                 hide();
               },
               style: ButtonStyle.TextPurple,
@@ -71,20 +75,26 @@ export function SubToOrgButton({
   }
 
   const bountySlugs: string[] = [];
+
   bounties &&
     bounties.map((item: any) => {
       bountySlugs.push(item.slug);
     });
-  const { isLoading: isLoadingSubs, SubscribeToOrg } = useSubscribe(
-    userId as string,
-    orgId as string,
-    bountySlugs as string[]
-  );
 
-  const { isLoading: isLoadingUnSubs, UnSubscribeToOrg } = useUnSubscribe(
-    userId as string,
-    orgId as string
-  );
+  const { isLoading: isLoadingSubs, SubscribeToOrg } = useSubscribe({
+    onSuccess: () => {
+      void refetchSubscriptionStatus();
+      ManageNotification(true);
+    },
+  });
+
+  const { isLoading: isLoadingUnSubs, UnSubscribeToOrg } = useUnSubscribe({
+    onSuccess: () => {
+      void refetchSubscriptionStatus();
+      ManageNotification(false);
+    },
+  });
+
   const isLoadingAll =
     isLoadingSubscriptionState || isLoadingSubs || isLoadingUnSubs;
   function ManageClick() {
@@ -109,7 +119,6 @@ export function SubToOrgButton({
   if (!buttonConfig.label) {
     buttonConfig.label = isSubscribed ? 'Watching' : 'Watch';
   }
-  if (isLoading) return <Loading small={true} />;
 
   return (
     <Button

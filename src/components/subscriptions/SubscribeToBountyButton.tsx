@@ -1,4 +1,3 @@
-import Loading from '@/components/utils/Loading';
 import {
   useIsSubscribedBounties,
   useSubscribeBounty,
@@ -18,38 +17,37 @@ import { useNotification } from '../notifications/NotificationContext';
 
 export function SubToBountyButton({
   bountySlug,
-  bounties,
-  isLoading,
   button,
-  count,
   useLabel = true,
 }: {
   bountySlug: string;
-  bounties?: any;
-  isLoading?: boolean;
-  count?: number;
   useLabel?: boolean;
   button: (isLoading: boolean, isSubscribed: boolean) => ButtonInformation;
 }) {
   const { notify, hide } = useNotification();
-  const orgId = '';
   const { userId } = useAuth();
-  const { isLoading: isLoadingSubscriptionState, isSubscribed } =
-    useIsSubscribedBounties(
-      userId as string,
-      bountySlug as string,
-      Boolean(userId as string) && Boolean(bountySlug as string)
-    );
-  function ManageNotification(undo: () => void) {
+  const {
+    isLoading: isLoadingSubscriptionState,
+    isSubscribed,
+    refetch: refetchSubscriptionStatus,
+  } = useIsSubscribedBounties(
+    userId as string,
+    bountySlug as string,
+    Boolean(userId as string) && Boolean(bountySlug as string)
+  );
+
+  function ManageNotification(isSubscription: boolean) {
+    const text = isSubscription
+      ? `This bounty has been added to your watchlist. We'll notify you of changes to this bounty`
+      : `Your subscription has been removed and you will no longer receive notifications for this bounty`;
     const notification = {
-      title: 'Success',
+      title: text,
       content: () => (
         <div className="flex flex-col">
           <Button
             info={{
-              label: 'Undo',
+              label: 'Close',
               onClick: () => {
-                undo();
                 hide();
               },
               style: ButtonStyle.TextPurple,
@@ -70,19 +68,26 @@ export function SubToBountyButton({
     notify(notification, config);
   }
 
-  const { isLoading: isLoadingSubs, SubscribeToBounty } = useSubscribeBounty(
-    userId as string,
-    bountySlug as string
-  );
+  const { isLoading: isLoadingSubs, SubscribeToBounty } = useSubscribeBounty({
+    onSuccess: () => {
+      void refetchSubscriptionStatus();
+      ManageNotification(true);
+    },
+  });
 
   const { isLoading: isLoadingUnSubs, UnSubscribeToBounty } =
-    useUnSubscribeBounties(userId as string, bountySlug as string);
+    useUnSubscribeBounties({
+      onSuccess: () => {
+        void refetchSubscriptionStatus();
+        ManageNotification(false);
+      },
+    });
+
   const isLoadingAll =
     isLoadingSubscriptionState || isLoadingUnSubs || isLoadingSubs;
 
   function ManageClick() {
     if (isSubscribed) {
-      // ManageNotification(subscribe);
       UnSubscribeToBounty({
         userId: userId ? userId : '',
         bountySlug,
@@ -92,7 +97,6 @@ export function SubToBountyButton({
         userId: userId ? userId : '',
         bountySlug,
       });
-      // ManageNotification(unsubscribe);
     }
   }
 
@@ -101,7 +105,7 @@ export function SubToBountyButton({
   if (!buttonConfig.label) {
     buttonConfig.label = isSubscribed ? 'Watching' : 'Watch';
   }
-  if (isLoading) return <Loading small={true} />;
+
   return (
     <Button
       info={{
