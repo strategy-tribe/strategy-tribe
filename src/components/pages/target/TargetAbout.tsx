@@ -3,8 +3,8 @@ import { ParagrapIsTooLong, splitToParas } from '@/lib/utils/StringHelpers';
 
 import { Button, ButtonStyle } from '@/components/utils/Button';
 
-import { useTargetContext } from './TargetContext';
 import { AboutTitle } from '../organization/utils/AboutTitle';
+import { useTargetContext } from './TargetContext';
 
 export function TargetAbout() {
   const { target } = useTargetContext();

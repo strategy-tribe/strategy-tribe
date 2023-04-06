@@ -6,7 +6,7 @@ import { Target } from '@/components/pages/target/Target';
 
 import { NextPageWithLayout } from '@/pages/_app';
 import prisma from '@/server/prisma/prismaClient';
-import { _getTarget, FullTarget } from '@/server/routes/targets/getTarget';
+import { FullTarget, _getTarget } from '@/server/routes/targets/getTarget';
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const targets = await prisma.target.findMany({

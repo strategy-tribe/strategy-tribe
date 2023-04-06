@@ -7,7 +7,7 @@ import AppLayout from '@/components/layouts/AppLayout';
 import { AllTargets } from '@/components/pages/targets/AllTargets';
 
 import prisma from '@/server/prisma/prismaClient';
-import { _getTargets, SmallTarget } from '@/server/routes/targets/getTargets';
+import { SmallTarget, _getTargets } from '@/server/routes/targets/getTargets';
 
 import { NextPageWithLayout } from './_app';
 
