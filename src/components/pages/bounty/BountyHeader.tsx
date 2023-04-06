@@ -49,6 +49,16 @@ export function BountyHeader() {
     }
   }, [counter]);
 
+  useEffect(() => {
+    if (
+      bounty.wallet.walletControl &&
+      counter < bounty.wallet.walletControl.numberOfIncrements
+    ) {
+      setTimeout(() => {
+        setCounter(counter + 1);
+      }, 300);
+    }
+  }, [counter]);
   return (
     <>
       <header className="space-y-14 border-b-2 border-main py-14">
