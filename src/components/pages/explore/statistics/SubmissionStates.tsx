@@ -1,7 +1,7 @@
 import { toPercentage } from '@/lib/utils/statisticsHelpers';
 
-import ProgressLoader from './utils/ProgressLoader';
 import { useExploreContext } from '../ExploreContext';
+import ProgressLoader from './utils/ProgressLoader';
 
 export default function SubmissionStates() {
   const { submissionStatesData } = useExploreContext();

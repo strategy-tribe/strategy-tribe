@@ -13,7 +13,6 @@ import { BountyBoard } from './BountyBoard';
 import { ExploreContextProvider, useExploreContext } from './ExploreContext';
 import { ExploreFilters } from './filters/ExploreFilters';
 import { PageControls } from './PageControls';
-
 const Map = dynamic(import('./map/MapProjection'), {
   ssr: false,
 });
