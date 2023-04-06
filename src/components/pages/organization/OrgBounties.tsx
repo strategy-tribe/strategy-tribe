@@ -1,5 +1,7 @@
 import { ArrayOfNumbers } from '@/lib/utils/ArrayHelpers';
 
+import { Button, ButtonStyle } from '@/components/utils/Button';
+import { GoToOrgBountiesPage } from '@/lib/utils/Routes';
 import { BountyCard, DummyBountyCard } from '../explore/bounty card/BountyCard';
 import { useOrganizationContext } from './OrganizationContext';
 import { AboutTitle } from './utils/AboutTitle';
@@ -8,15 +10,7 @@ const AMOUNT_OF_BOUNTIES = 9;
 
 export function OrgBounties() {
   const { org, bounties, isLoading, count } = useOrganizationContext();
-
-  // const { bounties, isLoading, count } = useGetBounties({
-  //   order: Order.Desc,
-  //   orderBy: BountyOrderBy.Bounty,
-  //   amount: AMOUNT_OF_BOUNTIES,
-  //   orgName: [org.name],
-  // });
-
-  // const theresMore = (count ?? 0) > AMOUNT_OF_BOUNTIES;
+  const theresMore = (count ?? 0) > AMOUNT_OF_BOUNTIES;
 
   return (
     <div className="space-y-8">
@@ -28,12 +22,12 @@ export function OrgBounties() {
             return <DummyBountyCard key={n} />;
           })}
         {!isLoading &&
-          bounties.map((b) => {
-            return <BountyCard bounty={b} key={b.slug} />;
+          bounties.map((bounty: any) => {
+            return <BountyCard bounty={bounty} key={bounty.slug} />;
           })}
       </div>
 
-      {/* {theresMore && !!count && (
+      {theresMore && !!count && (
         <Button
           info={{
             className: '-translate-x-2 w-fit',
@@ -45,7 +39,7 @@ export function OrgBounties() {
             isALink: GoToOrgBountiesPage(org.name),
           }}
         />
-      )} */}
+      )}
     </div>
   );
 }
