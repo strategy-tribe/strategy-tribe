@@ -13,11 +13,12 @@ import { Button, ButtonStyle } from '@/components/utils/Button';
 
 import { useAuth } from '@/auth/AuthContext';
 
+import { SubmissionDetail } from '../../submission/SubmissionDetail';
 import { Stat } from '../../../utils/Stat';
 
 export function AccountDetails() {
   const { userId, userInfo, isStaff } = useAuth();
-  const { username: uName, isLoading } = useGetUser();
+  const { username: uName, referralCode, isLoading } = useGetUser();
   const [username, setUsername] = useState('');
   const { notify } = useNotification();
   const [dataChanged, setDataChanged] = useState(false);
@@ -131,6 +132,16 @@ export function AccountDetails() {
           </div>
         )}
       </div>
+
+      {isLoading ? (
+        <SubmissionDetail label="Invite Link" value="Loading..." />
+      ) : (
+        <SubmissionDetail
+          label="Invite Link - Earn referral bonus for each user joining with this link"
+          value={`${process.env.NEXT_PUBLIC_DOMAIN}?referralCode=${referralCode}`}
+          copyable
+        />
+      )}
 
       <Stat
         title="Joined"

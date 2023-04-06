@@ -14,7 +14,7 @@ export function ImportantMessage({
   content,
   style = MessageStyle.p0,
 }: {
-  message: string;
+  message?: string;
   className?: string;
   icon?: string;
   content?: React.ReactNode | string;
@@ -26,7 +26,7 @@ export function ImportantMessage({
     >
       <Icon icon={icon} />
       <br />
-      <h6>{message}</h6>
+      {message && <h6>{message}</h6>}
       {content}
     </div>
   );
