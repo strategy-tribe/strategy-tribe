@@ -8,11 +8,11 @@ import { FundData } from '@/server/routes/statistics/getFundsData';
 import { SubmissionsStatusData } from '@/server/routes/statistics/getSubmissionsStatus';
 import { UsersCountData } from '@/server/routes/statistics/getUsersCount';
 
+import { Section } from '../landing/Section';
 import { BountyBoard } from './BountyBoard';
 import { ExploreContextProvider, useExploreContext } from './ExploreContext';
 import { ExploreFilters } from './filters/ExploreFilters';
 import { PageControls } from './PageControls';
-import { Section } from '../landing/Section';
 
 const Map = dynamic(import('./map/MapProjection'), {
   ssr: false,
