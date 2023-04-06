@@ -145,3 +145,64 @@ export const useUnSubscribeBounties = (userId: string, bountySlug: string) => {
     error: mutation.error,
   };
 };
+
+export const useSubscribeToAll = (
+  userId: string,
+  afterSubscribe: {
+    onSuccess?: () => void;
+    onError?: (err: any) => void;
+  },
+  afterUnsubscribe?: {
+    onSuccess?: () => void;
+    onError?: (err: any) => void;
+  }
+) => {
+  // const { onError, onSuccess } = afterSubscribe;
+  // const { subscribeToAllOrgs, unsubscribeFromAllOrgs } = usePushNotifs();
+  // const q = useQueryClient();
+
+  // const {
+  //   mutate: subscribeToAll,
+  //   error: subError,
+  //   isLoading: isLoadingSub,
+  // } = useMutation(() => subscribeToAllOrgs(userId), {
+  //   onSuccess: () => {
+  //     q.invalidateQueries(queryForUserSubsToAll(userId));
+  //     q.invalidateQueries(queryForUserInfo(userId));
+  //     if (onSuccess) onSuccess();
+  //   },
+  //   onError,
+  // });
+
+  // const {
+  //   mutate: unsubscribeFromAll,
+  //   error: unsubError,
+  //   isLoading: isLoadingUnsub,
+  // } = useMutation(() => unsubscribeFromAllOrgs(userId), {
+  //   onSuccess: () => {
+  //     q.invalidateQueries(queryForUserSubsToAll(userId));
+  //     q.invalidateQueries(queryForUserInfo(userId));
+  //     if (afterUnsubscribe?.onSuccess) afterUnsubscribe.onSuccess();
+  //   },
+  //   onError: (e) => {
+  //     if (afterUnsubscribe?.onError) afterUnsubscribe.onError(e);
+  //   },
+  // });
+
+  return {
+    subscribeToAll: () => {
+      //
+    },
+    unsubscribeFromAll: () => {
+      //
+    },
+    subError: {
+      msg: 'feature needs refactoring',
+    },
+    unsubError: {
+      msg: 'feature needs refactoring',
+    },
+    isLoading: true,
+    isLoadingUnsub: true,
+  };
+};

@@ -16,7 +16,7 @@ export function SubscribedToAllButton({ info }: { info: ButtonInformation }) {
   const { isLoading: isSubscribing, subscribeToAll } = useSubscribeToAll(
     userId as string,
     {
-      onError: (err) =>
+      onError: (err: any) =>
         notify(
           {
             title: 'There has been an error',
