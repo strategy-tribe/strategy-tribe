@@ -1,8 +1,8 @@
 import Loading from '@/components/utils/Loading';
 import {
-  useIsSubscribed,
-  useSubscribe,
-  useUnSubscribe,
+  useIsSubscribedBounties,
+  useSubscribeBounty,
+  useUnSubscribeBounties,
 } from '@/lib/hooks/subscriptionHooks';
 
 import {
@@ -16,15 +16,15 @@ import { useAuth } from '@/auth/AuthContext';
 import { DelayType, NotificationType } from '../notifications/iNotification';
 import { useNotification } from '../notifications/NotificationContext';
 
-export function SubToOrgButton({
-  orgId,
-  button,
+export function SubToBountyButton({
+  bountySlug,
   bounties,
   isLoading,
+  button,
   count,
   useLabel = true,
 }: {
-  orgId: string;
+  bountySlug: string;
   bounties?: any;
   isLoading?: boolean;
   count?: number;
@@ -32,14 +32,14 @@ export function SubToOrgButton({
   button: (isLoading: boolean, isSubscribed: boolean) => ButtonInformation;
 }) {
   const { notify, hide } = useNotification();
+  const orgId = '';
   const { userId } = useAuth();
   const { isLoading: isLoadingSubscriptionState, isSubscribed } =
-    useIsSubscribed(
+    useIsSubscribedBounties(
       userId as string,
-      orgId as string,
-      Boolean(userId as string) && Boolean(orgId as string)
+      bountySlug as string,
+      Boolean(userId as string) && Boolean(bountySlug as string)
     );
-
   function ManageNotification(undo: () => void) {
     const notification = {
       title: 'Success',
@@ -70,35 +70,27 @@ export function SubToOrgButton({
     notify(notification, config);
   }
 
-  const bountySlugs: string[] = [];
-  bounties &&
-    bounties.map((item: any) => {
-      bountySlugs.push(item.slug);
-    });
-  const { isLoading: isLoadingSubs, SubscribeToOrg } = useSubscribe(
+  const { isLoading: isLoadingSubs, SubscribeToBounty } = useSubscribeBounty(
     userId as string,
-    orgId as string,
-    bountySlugs as string[]
+    bountySlug as string
   );
 
-  const { isLoading: isLoadingUnSubs, UnSubscribeToOrg } = useUnSubscribe(
-    userId as string,
-    orgId as string
-  );
+  const { isLoading: isLoadingUnSubs, UnSubscribeToBounty } =
+    useUnSubscribeBounties(userId as string, bountySlug as string);
   const isLoadingAll =
-    isLoadingSubscriptionState || isLoadingSubs || isLoadingUnSubs;
+    isLoadingSubscriptionState || isLoadingUnSubs || isLoadingSubs;
+
   function ManageClick() {
     if (isSubscribed) {
       // ManageNotification(subscribe);
-      UnSubscribeToOrg({
+      UnSubscribeToBounty({
         userId: userId ? userId : '',
-        orgId,
+        bountySlug,
       });
     } else {
-      SubscribeToOrg({
+      SubscribeToBounty({
         userId: userId ? userId : '',
-        orgId,
-        bountySlugs,
+        bountySlug,
       });
       // ManageNotification(unsubscribe);
     }
@@ -110,7 +102,6 @@ export function SubToOrgButton({
     buttonConfig.label = isSubscribed ? 'Watching' : 'Watch';
   }
   if (isLoading) return <Loading small={true} />;
-
   return (
     <Button
       info={{

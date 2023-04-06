@@ -1,8 +1,8 @@
+import { toTitleCase } from '@/lib/utils/StringHelpers';
 import { PrismaClient, RequirementType } from '@prisma/client';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
 import { Wallet } from 'ethers';
-
-import { toTitleCase } from '@/lib/utils/StringHelpers';
+import { Notify_NewBountyAddedToOrg } from '../routes/notification/utils/bounty';
 
 import { LOG, OrgData, TargetData, WARN } from './utils';
 
@@ -83,7 +83,7 @@ export async function addToDb(
 
       //Have to do it this way to add the tags
       for await (const bountyData of bountiesData) {
-        await CreateBounty(prisma, {
+        const slug = await CreateBounty(prisma, {
           targetName: t.name,
           title: bountyData.bountyTitle,
           requirements: bountyData.requirements,
@@ -91,6 +91,12 @@ export async function addToDb(
           closesAt: addDays(new Date(), 7 * 4 * 6),
           incrementConfig: t.incrementConfig,
         });
+        Notify_NewBountyAddedToOrg(
+          prisma,
+          t.organizationName,
+          bountyData.bountyTitle,
+          slug
+        );
       }
       if (i % 3 === 0) LOG(`${i + 1}/${targets.length} targets created.`);
     } catch (error) {
@@ -229,7 +235,7 @@ async function CreateBounty(
   const walletControl = getWalletControl(incrementConfig, requirements);
   const address = await getNewAddress(prisma);
   LOG(`--- ${title}`);
-  await prisma.bounty.create({
+  const { slug } = await prisma.bounty.create({
     data: {
       title,
       description: '',
@@ -270,6 +276,7 @@ async function CreateBounty(
       },
     },
   });
+  return slug;
 }
 
 async function CreateOrganization(prisma: PrismaClient, o: OrgData) {

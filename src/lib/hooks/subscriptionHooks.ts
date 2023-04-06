@@ -1,168 +1,147 @@
-import Queries from '@/lib/utils/Queries';
-
-const queryForSubs = (userId: string, orgName: string) => [
-  Queries.isSubscribed,
-  orgName,
-  userId,
-];
-
-const queryForUserInfo = (userId: string) => {
-  return [userId, 'userInfo'];
-};
-
-const queryForUserSubsToAll = (userId: string) => {
-  return [userId, 'sub to all'];
-};
+import { PostSubscriptionBountySchemaParams } from '@/server/routes/subscription/subscribeBounty';
+import { PostSubscriptionSchemaParams } from '@/server/routes/subscription/subscribeOrg';
+import { DeleteBountySubscriptionParams } from '@/server/routes/subscription/unSubscribeBounty';
+import { DeleteSubscriptionParams } from '@/server/routes/subscription/unSubscribeOrg';
+import { useQueryClient } from '@tanstack/react-query';
+import { trpc } from '../trpc';
 
 export const useIsSubscribed = (
   userId: string,
   orgId: string,
   enabled = true
 ) => {
-  // const { isSubscribed } = usePushNotifs();
-
-  // const queryId = queryForSubs(userId, orgId);
-
-  // const { isLoading, data, error } = useQuery(
-  //   queryId,
-  //   () => isSubscribed(userId, orgName),
-  //   {
-  //     enabled,
-  //     staleTime: 1000,
-  //   }
-  // );
-
+  const { error, isLoading, data } =
+    trpc.subscriptionRouter.getSubscriptionStatus.useQuery(
+      { userId, orgId },
+      {
+        enabled: enabled,
+      }
+    );
   return {
-    isLoading: true,
-    isSubscribed: false,
-    error: {
-      msg: 'feature needs refactoring',
-    },
+    isLoading,
+    isSubscribed: data?.subscriptionStatus,
+    error,
   };
 };
 
-export const useSubscribe = (userId: string, orgId: string) => {
-  // const { subscribeToOrg, unsubscribeToOrg } = usePushNotifs();
-  // const q = useQueryClient();
-
-  // const {
-  //   mutate: subscribe,
-  //   error: subError,
-  //   isLoading: isLoadingSub,
-  // } = useMutation(() => subscribeToOrg(userId, orgName), {
-  //   onSuccess: () => {
-  //     q.invalidateQueries(queryForSubs(userId, orgName));
-  //     q.invalidateQueries(queryForUserInfo(userId));
-  //   },
-  // });
-
-  // const {
-  //   mutate: unsubscribe,
-  //   error: unsubError,
-  //   isLoading: isLoadingUnsub,
-  // } = useMutation(() => unsubscribeToOrg(userId, orgName), {
-  //   onSuccess: () => {
-  //     q.invalidateQueries(queryForSubs(userId, orgName));
-  //     q.invalidateQueries(queryForUserInfo(userId));
-  //   },
-  // });
-
-  return {
-    subscribe: () => {
-      //
-    },
-    unsubscribe: () => {
-      //
-    },
-    subError: {
-      msg: 'feature needs refactoring',
-    },
-    unsubError: {
-      msg: 'feature needs refactoring',
-    },
-    isLoading: true,
-  };
-};
-
-//!-------
-
-export const useIsSubscribeToAll = (userId: string, enabled = true) => {
-  // const { isSubscribedToAll } = usePushNotifs();
-  // const queryId = queryForUserSubsToAll(userId);
-  // const { isLoading, data, error } = useQuery(
-  //   queryId,
-  //   () => isSubscribedToAll(userId),
-  //   {
-  //     enabled,
-  //   }
-  // );
-
-  return {
-    isLoading: true,
-    isSubscribedToAll: false,
-    error: {
-      msg: 'feature needs refactoring',
-    },
-  };
-};
-
-export const useSubscribeToAll = (
+export const useIsSubscribedBounties = (
   userId: string,
-  afterSubscribe: {
-    onSuccess?: () => void;
-    onError?: (err: any) => void;
-  },
-  afterUnsubscribe?: {
-    onSuccess?: () => void;
-    onError?: (err: any) => void;
-  }
+  bountySlug: string,
+  enabled = true
 ) => {
-  // const { onError, onSuccess } = afterSubscribe;
-  // const { subscribeToAllOrgs, unsubscribeFromAllOrgs } = usePushNotifs();
-  // const q = useQueryClient();
+  const { error, isLoading, data } =
+    trpc.subscriptionRouter.getSubscriptionStatusBounty.useQuery(
+      { userId, bountySlug },
+      {
+        enabled: enabled,
+      }
+    );
+  return {
+    isLoading,
+    isSubscribed: data?.subscriptionStatus,
+    error,
+  };
+};
 
-  // const {
-  //   mutate: subscribeToAll,
-  //   error: subError,
-  //   isLoading: isLoadingSub,
-  // } = useMutation(() => subscribeToAllOrgs(userId), {
-  //   onSuccess: () => {
-  //     q.invalidateQueries(queryForUserSubsToAll(userId));
-  //     q.invalidateQueries(queryForUserInfo(userId));
-  //     if (onSuccess) onSuccess();
-  //   },
-  //   onError,
-  // });
+export const getSubscribedOrgs = (userId: string, enabled = true) => {
+  const { error, isLoading, data } =
+    trpc.subscriptionRouter.getSubscribedOrgs.useQuery(
+      { userId },
+      {
+        enabled: enabled,
+      }
+    );
+  return {
+    isLoading,
+    subscribedOrgs: data?.subscribedOrgs,
+    error,
+  };
+};
 
-  // const {
-  //   mutate: unsubscribeFromAll,
-  //   error: unsubError,
-  //   isLoading: isLoadingUnsub,
-  // } = useMutation(() => unsubscribeFromAllOrgs(userId), {
-  //   onSuccess: () => {
-  //     q.invalidateQueries(queryForUserSubsToAll(userId));
-  //     q.invalidateQueries(queryForUserInfo(userId));
-  //     if (afterUnsubscribe?.onSuccess) afterUnsubscribe.onSuccess();
-  //   },
-  //   onError: (e) => {
-  //     if (afterUnsubscribe?.onError) afterUnsubscribe.onError(e);
-  //   },
-  // });
+export const getSubscribedBounties = (userId: string, enabled = true) => {
+  const { error, isLoading, data } =
+    trpc.subscriptionRouter.getSubscribedBounties.useQuery(
+      { userId },
+      {
+        enabled: enabled,
+      }
+    );
 
   return {
-    subscribeToAll: () => {
-      //
+    isLoading,
+    subscribedBounties: data?.allSubscribedBounties,
+    error,
+  };
+};
+
+export const useSubscribe = (
+  userId: string,
+  orgId: string,
+  bountySlugs: string[]
+) => {
+  const qc = useQueryClient();
+  const mutation = trpc.subscriptionRouter.subscribeOrg.useMutation({
+    onSuccess: () => {
+      qc.invalidateQueries();
     },
-    unsubscribeFromAll: () => {
-      //
+  });
+  return {
+    SubscribeToOrg: async (params: PostSubscriptionSchemaParams) => {
+      mutation.mutate(params);
     },
-    subError: {
-      msg: 'feature needs refactoring',
+    isLoading: mutation.isLoading,
+    isSuccess: mutation.isSuccess,
+    error: mutation.error,
+  };
+};
+
+export const useSubscribeBounty = (userId: string, bountySlug: string) => {
+  const qc = useQueryClient();
+  const mutation = trpc.subscriptionRouter.subscribeBounty.useMutation({
+    onSuccess: () => {
+      qc.invalidateQueries();
     },
-    unsubError: {
-      msg: 'feature needs refactoring',
+  });
+  return {
+    SubscribeToBounty: async (params: PostSubscriptionBountySchemaParams) => {
+      mutation.mutate(params);
     },
-    isLoading: true,
-    isLoadingUnsub: true,
+    isLoading: mutation.isLoading,
+    isSuccess: mutation.isSuccess,
+    error: mutation.error,
+  };
+};
+
+export const useUnSubscribe = (userId: string, orgId: string) => {
+  const qc = useQueryClient();
+  const mutation = trpc.subscriptionRouter.unSubscribeOrg.useMutation({
+    onSuccess: () => {
+      qc.invalidateQueries();
+    },
+  });
+  return {
+    UnSubscribeToOrg: async (params: DeleteSubscriptionParams) => {
+      mutation.mutate(params);
+    },
+    isLoading: mutation.isLoading,
+    isSuccess: mutation.isSuccess,
+    error: mutation.error,
+  };
+};
+
+export const useUnSubscribeBounties = (userId: string, bountySlug: string) => {
+  const qc = useQueryClient();
+  const mutation = trpc.subscriptionRouter.unSubscribeBounty.useMutation({
+    onSuccess: () => {
+      qc.invalidateQueries();
+    },
+  });
+  return {
+    UnSubscribeToBounty: async (params: DeleteBountySubscriptionParams) => {
+      mutation.mutate(params);
+    },
+    isLoading: mutation.isLoading,
+    isSuccess: mutation.isSuccess,
+    error: mutation.error,
   };
 };

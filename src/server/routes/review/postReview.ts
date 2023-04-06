@@ -4,9 +4,9 @@ import { User } from 'next-auth';
 import { z } from 'zod';
 
 import { staffOnlyProcedure } from '@/server/procedures';
-
 import { CloseBounty } from '../bounties/updateBounty';
 import { CreateInvoice } from '../invoice/postInvoice';
+import { Notify_BountyClosed } from '../notification/utils/bounty';
 import { _getSubmission } from '../submission/getSubmission';
 import {
   AcceptAndNotifySubmission,
@@ -86,7 +86,7 @@ async function _AcceptIt(
     });
   }
   await CloseBounty(prisma, submission.bounty.slug);
-
+  await Notify_BountyClosed(prisma, submission.bounty.slug);
   await RejectAndNotifySubmissions(prisma, {
     bountySlug: submission.bounty.slug,
     rejectAllButThisOne: submissionId,

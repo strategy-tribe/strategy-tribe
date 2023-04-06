@@ -3,6 +3,7 @@ import { ethers } from 'ethers';
 
 import { ERROR, LOG } from '../importer/utils';
 import prisma from '../prisma/prismaClient';
+import { Notify_BountyGainedFunds } from '../routes/notification/utils/bounty';
 
 export async function IncrementBounty() {
   if (process.env.INCREMENT_BOUNTY === 'true') {
@@ -52,7 +53,6 @@ async function PeriodicBountyUpdate() {
   });
 
   LOG(`Fetched ${bounties.length} to increment bounty`);
-
   for (const b of bounties) {
     if (
       b.wallet.walletControl &&
@@ -85,8 +85,11 @@ async function PeriodicBountyUpdate() {
           },
         },
       });
+      //Send Notification
+      const text = `incremented from ${b.wallet.balance} to ${newBalance} Matic`;
+      await Notify_BountyGainedFunds(prisma, b.slug, text);
       LOG(
-        `Incremeted ${b.wallet.address} from ${b.wallet.balance} to ${newBalance}`
+        `incremented ${b.wallet.address} from ${b.wallet.balance} to ${newBalance} Matic`
       );
     }
   }
@@ -117,7 +120,6 @@ async function UpdateDonations() {
       },
     },
   });
-
   for (const d of donations) {
     const provider = ethers.getDefaultProvider('matic');
     const txn = await provider.getTransaction(d.txnHash);
@@ -151,6 +153,7 @@ async function UpdateDonations() {
             },
           });
         }
+
         await prisma.donation.update({
           where: {
             id: d.id,
@@ -160,6 +163,8 @@ async function UpdateDonations() {
             updatedAt: new Date(),
           },
         });
+        const text = `incremented`;
+        await Notify_BountyGainedFunds(prisma, d.bounty?.slug ?? '', text);
       } else {
         await prisma.donation.update({
           where: {

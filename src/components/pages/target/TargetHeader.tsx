@@ -2,10 +2,10 @@ import { Section } from '@/components/pages/landing/Section';
 
 import { FullTarget } from '@/server/routes/targets/getTarget';
 
+import { OrgStat } from '../organization/OrgStat';
 import { useTargetContext } from './TargetContext';
 import { TargetCountries } from './TargetCountries';
 import { TargetTags } from './TargetTags';
-import { OrgStat } from '../organization/OrgStat';
 
 export function TargetHeader() {
   const { target } = useTargetContext();
