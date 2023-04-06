@@ -37,6 +37,7 @@ const TOP_REWARDS_FILTER: BountiesFilter = {
   query: {
     order: Order.Desc,
     orderBy: BountyOrderBy.Bounty,
+    states: [BountyState.Open],
     amount: 16,
 
     page: 0,
