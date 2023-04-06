@@ -1,9 +1,14 @@
 import { GetStaticPaths, GetStaticProps } from 'next';
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
+import { useEffect } from 'react';
+
+import { useConnectToBounty } from '@/lib/hooks/fingerprintHooks';
+import { getBrowserFingerprint } from '@/lib/utils/BrowserFingerprint';
 
 import AppLayout from '@/components/layouts/AppLayout';
 
+import { useAuth } from '@/auth/AuthContext';
 import { NextPageWithLayout } from '@/pages/_app';
 import prisma from '@/server/prisma/prismaClient';
 import {
@@ -70,6 +75,24 @@ const BountyPage: NextPageWithLayout<{ bounty: FullBounty }> = ({
 }: {
   bounty: FullBounty;
 }) => {
+  const { Connect } = useConnectToBounty();
+  const { account, isFetchingUserInfo } = useAuth();
+
+  useEffect(() => {
+    if (!isFetchingUserInfo) {
+      connectFingerprint();
+    }
+  }, [isFetchingUserInfo]);
+
+  const connectFingerprint = async () => {
+    const fp = await getBrowserFingerprint();
+    Connect({
+      slug: bounty.slug,
+      fingerprint: fp.visitorId,
+      account,
+    });
+  };
+
   return (
     <>
       <Head>
