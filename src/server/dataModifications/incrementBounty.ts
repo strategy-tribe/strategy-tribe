@@ -153,7 +153,6 @@ async function UpdateDonations() {
             },
           });
         }
-
         await prisma.donation.update({
           where: {
             id: d.id,
