@@ -1,15 +1,11 @@
 import { useState } from 'react';
 
 import { useGetUserServerNotifications } from '@/lib/hooks/serverNotificationHooks';
-import { AccountView } from '@/lib/models/AccountView';
-import { GoToAccountPage } from '@/lib/utils/Routes';
 
 import { NotificationListEntry } from '@/components/notifications/NotificationListEntry';
 import Loading from '@/components/utils/Loading';
 import { Overlay } from '@/components/utils/Overlay';
 
-import { Button, ButtonStyle } from './../../../utils/Button';
-import { IconSize } from './../../../utils/Icon';
 import { NavbarButton } from '../NavbarButton';
 
 export function NotifsMenu({
@@ -47,6 +43,7 @@ export function NotifsMenu({
           <div className="body-sm absolute top-6 right-0 z-50 flex w-96 flex-col overflow-hidden rounded-lg bg-surface-dark text-on-surface-p1">
             <header className="flex items-center justify-between px-6 py-4	">
               <p className="title-xs">Notifications</p>
+              {/* TODO: to be implemented - RED-98
               <Button
                 info={{
                   iconSize: IconSize.Small,
@@ -58,7 +55,7 @@ export function NotifsMenu({
                   isALink: GoToAccountPage(AccountView.Notifications),
                   onClick: hide,
                 }}
-              />
+              /> */}
             </header>
 
             <hr className="w-full text-surface" />
@@ -95,7 +92,8 @@ export function NotifsMenu({
 
             <hr className="w-full text-surface" />
             <footer className="flex justify-between px-6 py-4">
-              <Button
+              {/* TODO: to be implemented - RED-98
+            <Button
                 info={{
                   iconSize: IconSize.Small,
                   label: 'All notifications',
@@ -106,7 +104,7 @@ export function NotifsMenu({
                   isALink: GoToAccountPage(AccountView.Notifications),
                   onClick: hide,
                 }}
-              />
+              /> */}
             </footer>
           </div>
 
