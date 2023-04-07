@@ -32,7 +32,7 @@ export const Notify_NewBountyAddedToOrg = async (
         url: GoToBountyPage(bountySlug),
       };
       await SendNotifications(prisma, [notification]);
-      const { id } = await prisma.watchBounty.create({
+      await prisma.watchBounty.create({
         data: {
           bounty: {
             connect: {
@@ -54,43 +54,11 @@ export const Notify_NewBountyAddedToOrg = async (
     });
 };
 
-export const Notify_BountyClosed = async (
-  prisma: PrismaClient,
-  bountySlug: string
-) => {
-  const { title: bountyTitle } = await prisma.bounty.findUniqueOrThrow({
-    where: {
-      slug: bountySlug,
-    },
-    select: { title: true },
-  });
-
-  const message = `The bounty ${bountyTitle} has been closed`;
-  const subscribedUsers = await prisma.watchBounty.findMany({
-    where: {
-      bounty: {
-        slug: bountySlug,
-      },
-    },
-    select: {
-      userId: true,
-    },
-  });
-  subscribedUsers &&
-    subscribedUsers.map(async (user) => {
-      const notification: PushNotificationLoad = {
-        user: user.userId,
-        message: message,
-        url: GoToBountyPage(bountySlug),
-      };
-      await SendNotifications(prisma, [notification]);
-    });
-};
-
-export const Notify_BountyGainedFunds = async (
+export const Notify_BountyFundOrStatusChanges = async (
   prisma: PrismaClient,
   bountySlug: string,
-  text: string
+  text: string,
+  fundChange: boolean
 ) => {
   const { title: bountyTitle } = await prisma.bounty.findUniqueOrThrow({
     where: {
@@ -98,8 +66,9 @@ export const Notify_BountyGainedFunds = async (
     },
     select: { title: true },
   });
-
-  const message = `The bounty fund for ${bountyTitle} has been ${text}`;
+  const message = fundChange
+    ? `The bounty fund for ${bountyTitle} has been ${text}`
+    : `The bounty you were watching ${bountyTitle} ${text}`;
   const subscribedUsers = await prisma.watchBounty.findMany({
     where: {
       bounty: {
