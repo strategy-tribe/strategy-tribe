@@ -22,13 +22,19 @@ export function SubToOrgButton({
   isLoading,
   count,
   useLabel = true,
+  refetchSubscribedOrgs,
+  isAccountPage,
+  refetchSubscribedBounties,
 }: {
   orgId: string;
   bounties?: any;
-  isLoading?: boolean;
+  isLoading: boolean;
   count?: number;
   useLabel?: boolean;
   button: (isLoading: boolean, isSubscribed: boolean) => ButtonInformation;
+  refetchSubscribedOrgs: () => void;
+  isAccountPage: boolean;
+  refetchSubscribedBounties: () => void;
 }) {
   const { notify, hide } = useNotification();
   const { userId } = useAuth();
@@ -81,22 +87,33 @@ export function SubToOrgButton({
       bountySlugs.push(item.slug);
     });
 
+  function refetchAfterUserAction(subscribed: boolean) {
+    ManageNotification(subscribed);
+    if (isAccountPage) {
+      void refetchSubscribedOrgs();
+      if (!subscribed) {
+        void refetchSubscribedBounties();
+      }
+    } else {
+      void refetchSubscriptionStatus();
+    }
+  }
+
   const { isLoading: isLoadingSubs, SubscribeToOrg } = useSubscribe({
     onSuccess: () => {
-      void refetchSubscriptionStatus();
-      ManageNotification(true);
+      refetchAfterUserAction(true);
     },
   });
 
   const { isLoading: isLoadingUnSubs, UnSubscribeToOrg } = useUnSubscribe({
     onSuccess: () => {
-      void refetchSubscriptionStatus();
-      ManageNotification(false);
+      refetchAfterUserAction(false);
     },
   });
 
   const isLoadingAll =
-    isLoadingSubscriptionState || isLoadingSubs || isLoadingUnSubs;
+    isLoadingSubscriptionState || isLoadingSubs || isLoadingUnSubs || isLoading;
+
   function ManageClick() {
     if (isSubscribed) {
       UnSubscribeToOrg({

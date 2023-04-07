@@ -38,6 +38,13 @@ export function OrgHeader() {
 
           {userId && (
             <SubToOrgButton
+              isAccountPage={false}
+              refetchSubscribedOrgs={() => {
+                return;
+              }}
+              refetchSubscribedBounties={() => {
+                return;
+              }}
               orgId={org.id}
               isLoading={isLoading}
               count={count}

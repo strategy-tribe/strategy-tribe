@@ -45,7 +45,7 @@ export const useIsSubscribedBounties = (
 };
 
 export const getSubscribedOrgs = (userId: string, enabled = true) => {
-  const { error, isLoading, data } =
+  const { error, isLoading, data, refetch } =
     trpc.subscriptionRouter.getSubscribedOrgs.useQuery(
       { userId },
       {
@@ -56,11 +56,12 @@ export const getSubscribedOrgs = (userId: string, enabled = true) => {
     isLoading,
     subscribedOrgs: data?.subscribedOrgs,
     error,
+    refetch,
   };
 };
 
 export const getSubscribedBounties = (userId: string, enabled = true) => {
-  const { error, isLoading, data } =
+  const { error, isLoading, data, refetch } =
     trpc.subscriptionRouter.getSubscribedBounties.useQuery(
       { userId },
       {
@@ -72,6 +73,7 @@ export const getSubscribedBounties = (userId: string, enabled = true) => {
     isLoading,
     subscribedBounties: data?.allSubscribedBounties,
     error,
+    refetch,
   };
 };
 

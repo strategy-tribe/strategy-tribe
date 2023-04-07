@@ -19,10 +19,14 @@ export function SubToBountyButton({
   bountySlug,
   button,
   useLabel = true,
+  refetchSubscribedBounties,
+  isAccountPage,
 }: {
   bountySlug: string;
   useLabel?: boolean;
   button: (isLoading: boolean, isSubscribed: boolean) => ButtonInformation;
+  refetchSubscribedBounties: () => void;
+  isAccountPage: boolean;
 }) {
   const { notify, hide } = useNotification();
   const { userId } = useAuth();
@@ -68,18 +72,25 @@ export function SubToBountyButton({
     notify(notification, config);
   }
 
+  function refetchAfterUserAction(subscribed: boolean) {
+    ManageNotification(subscribed);
+    if (isAccountPage) {
+      void refetchSubscribedBounties();
+    } else {
+      void refetchSubscriptionStatus();
+    }
+  }
+
   const { isLoading: isLoadingSubs, SubscribeToBounty } = useSubscribeBounty({
     onSuccess: () => {
-      void refetchSubscriptionStatus();
-      ManageNotification(true);
+      refetchAfterUserAction(true);
     },
   });
 
   const { isLoading: isLoadingUnSubs, UnSubscribeToBounty } =
     useUnSubscribeBounties({
       onSuccess: () => {
-        void refetchSubscriptionStatus();
-        ManageNotification(false);
+        refetchAfterUserAction(false);
       },
     });
 

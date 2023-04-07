@@ -103,6 +103,10 @@ export function BountyHeader() {
             <div className="flex shrink-0 flex-col justify-start gap-4 tablet:items-end">
               {userId && (
                 <SubToBountyButton
+                  refetchSubscribedBounties={() => {
+                    return;
+                  }}
+                  isAccountPage={false}
                   bountySlug={bounty.slug}
                   button={(_, isSubscribed) => {
                     return {

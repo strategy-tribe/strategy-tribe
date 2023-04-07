@@ -17,13 +17,17 @@ export function AccountWatching() {
   const { userId } = useAuth();
   const [view, setView] = useState('ORG');
 
-  const { isLoading: isLoadingOrgs, subscribedOrgs } = getSubscribedOrgs(
-    userId as string,
-    Boolean(userId as string)
-  );
+  const {
+    isLoading: isLoadingOrgs,
+    subscribedOrgs,
+    refetch: refetchSubscribedOrgs,
+  } = getSubscribedOrgs(userId as string, Boolean(userId as string));
 
-  const { isLoading: isLoadingBounties, subscribedBounties } =
-    getSubscribedBounties(userId as string, Boolean(userId as string));
+  const {
+    isLoading: isLoadingBounties,
+    subscribedBounties,
+    refetch: refetchSubscribedBounties,
+  } = getSubscribedBounties(userId as string, Boolean(userId as string));
 
   const isloading = isLoadingBounties || isLoadingOrgs;
 
@@ -81,6 +85,10 @@ export function AccountWatching() {
                       <SubscriptionEntry
                         subscription={subscription}
                         view={view}
+                        refetchSubscribedBounties={() =>
+                          refetchSubscribedBounties()
+                        }
+                        refetchSubscribedOrgs={() => refetchSubscribedOrgs()}
                       />
                     </motion.div>
                   );

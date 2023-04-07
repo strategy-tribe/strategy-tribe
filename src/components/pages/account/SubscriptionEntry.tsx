@@ -9,9 +9,13 @@ import {
 export function SubscriptionEntry({
   subscription,
   view,
+  refetchSubscribedBounties,
+  refetchSubscribedOrgs,
 }: {
   subscription: any;
   view: string;
+  refetchSubscribedBounties: () => void;
+  refetchSubscribedOrgs: () => void;
 }) {
   return (
     <div className="flex w-full items-center justify-between space-y-3">
@@ -24,7 +28,11 @@ export function SubscriptionEntry({
             />
           </div>
           <SubToOrgButton
+            isAccountPage={true}
+            isLoading={false}
             orgId={subscription.orgId}
+            refetchSubscribedOrgs={refetchSubscribedOrgs}
+            refetchSubscribedBounties={refetchSubscribedBounties}
             button={(_, isSubscribed) => {
               return {
                 removeMinWidth: true,
@@ -42,7 +50,9 @@ export function SubscriptionEntry({
             className="body w-fit text-on-surface-p1 hover:underline"
           />
           <SubToBountyButton
+            isAccountPage={true}
             bountySlug={subscription.bountySlug}
+            refetchSubscribedBounties={refetchSubscribedBounties}
             button={(_, isSubscribed) => {
               return {
                 removeMinWidth: true,
