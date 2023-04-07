@@ -89,7 +89,7 @@ async function PeriodicBountyUpdate() {
       const text = `incremented from ${b.wallet.balance} to ${newBalance} Matic`;
       await Notify_BountyFundOrStatusChanges(prisma, b.slug, text, true);
       LOG(
-        `Incremeted ${b.wallet.address} from ${b.wallet.balance} to ${newBalance}`
+        `Incremented ${b.wallet.address} from ${b.wallet.balance} to ${newBalance}`
       );
     }
   }
