@@ -1,3 +1,4 @@
+import { SubToBountyButton } from '@/components/subscriptions/SubscribeToBountyButton';
 import { SubToOrgButton } from '@/components/subscriptions/SubscribeToOrgButton';
 import { ButtonStyle } from '@/components/utils/Button';
 import {
@@ -5,24 +6,33 @@ import {
   OrganizationLink,
 } from '@/components/utils/OrganizationLink';
 
-import { Subscription } from '@/auth/AuthContext';
-
 export function SubscriptionEntry({
   subscription,
+  view,
+  refetchSubscribedBounties,
+  refetchSubscribedOrgs,
 }: {
-  subscription: Subscription;
+  subscription: any;
+  view: string;
+  refetchSubscribedBounties: () => void;
+  refetchSubscribedOrgs: () => void;
 }) {
   return (
-    <div className="flex w-full items-center justify-between">
-      {subscription.type === 'Org' && (
+    <div className="flex w-full items-center justify-between space-y-3">
+      {view === 'ORG' && (
         <>
-          <OrganizationLink
-            orgName={subscription.name}
-            className="body w-fit text-on-surface-p1 hover:underline"
-          />
-
+          <div className="mt-3 text-xl font-bold">
+            <OrganizationLink
+              orgName={subscription.org.name}
+              className="body w-fit text-on-surface-p1 hover:underline"
+            />
+          </div>
           <SubToOrgButton
-            orgId={subscription.id}
+            isAccountPage={true}
+            isLoading={false}
+            orgId={subscription.orgId}
+            refetchSubscribedOrgs={refetchSubscribedOrgs}
+            refetchSubscribedBounties={refetchSubscribedBounties}
             button={(_, isSubscribed) => {
               return {
                 removeMinWidth: true,
@@ -32,11 +42,25 @@ export function SubscriptionEntry({
           />
         </>
       )}
-      {subscription.type === 'Individual' && (
-        <BountyLink
-          bountyId={subscription.id}
-          className="body w-fit text-on-surface-p1 hover:underline"
-        />
+      {view === 'INDIVIDUAL' && (
+        <>
+          <BountyLink
+            bountyId={subscription.bountySlug}
+            title={subscription.bounty.title}
+            className="body w-fit text-on-surface-p1 hover:underline"
+          />
+          <SubToBountyButton
+            isAccountPage={true}
+            bountySlug={subscription.bountySlug}
+            refetchSubscribedBounties={refetchSubscribedBounties}
+            button={(_, isSubscribed) => {
+              return {
+                removeMinWidth: true,
+                style: isSubscribed ? ButtonStyle.Text : ButtonStyle.Filled,
+              };
+            }}
+          />
+        </>
       )}
     </div>
   );

@@ -30,20 +30,28 @@ export const OneSignal_NotifyMultiple = async (
 };
 
 const OneSignal_Notify = async (load: PushNotificationLoad) => {
-  const data = {
-    app_id: APP_ID,
-    contents: { en: load.message },
-    include_external_user_ids: [load.user],
-    urlCallback: load.url,
-  };
-
-  await axios.post(ONE_SIGNAL_URL, {
-    method: 'POST',
-    url: ONE_SIGNAL_URL,
-    body: JSON.stringify(data),
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Basic ${KEY_APP_KEY}`,
-    },
-  });
+  try {
+    const options = {
+      method: 'POST',
+      url: ONE_SIGNAL_URL,
+      headers: {
+        accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: `Basic ${KEY_APP_KEY}`,
+      },
+      data: {
+        app_id: APP_ID,
+        include_external_user_ids: [load.user],
+        contents: {
+          en: load.message,
+        },
+        urlCallback: load.url,
+      },
+    };
+    await axios.request(options);
+  } catch (error: any) {
+    console.error(
+      'There has been an issue creating push notification for this request'
+    );
+  }
 };
