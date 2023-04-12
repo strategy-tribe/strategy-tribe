@@ -1,8 +1,7 @@
 import Link from 'next/link';
 
 import { useGetOrganization } from '@/lib/hooks/organizationHooks';
-import { GoToOrgPage } from '@/lib/utils/Routes';
-
+import { GoToBountyPage, GoToOrgPage } from '@/lib/utils/Routes';
 export function OrganizationLink({
   orgName,
   className = 'font-medium text-main-light w-fit hover:underline',
@@ -26,18 +25,16 @@ export function OrganizationLink({
 
 export function BountyLink({
   bountyId: bountyId,
+  title,
   className = 'font-medium text-main-light w-fit hover:underline',
 }: {
   bountyId: string;
+  title: string;
   className?: string;
 }) {
-  // const { bounty } = useGetBounty(bountyId);
-
-  return <></>;
-
-  // return (
-  //   <Link href={GoToBountyPage(bounty.id)}>
-  //     <span className={className}>{bountyId}</span>
-  //   </Link>
-  // );
+  return (
+    <Link href={GoToBountyPage(bountyId)}>
+      <span className={className}>{title}</span>
+    </Link>
+  );
 }

@@ -1,15 +1,13 @@
+import { useAuth } from '@/auth/AuthContext';
 import { useQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import OneSignal from 'react-onesignal';
-
-import { useAuth } from '@/auth/AuthContext';
 
 /** Checks if the user is linked to OneSignal*/
 export const useRegisterUser = (
   isOneSignalInitialized: boolean | undefined
 ) => {
   const { userId } = useAuth();
-
   useEffect(() => {
     async function registerUserToOneSignal(userId: string) {
       const externalUserId = await OneSignal.getExternalUserId();
@@ -25,8 +23,9 @@ export const useRegisterUser = (
       }
     }
     async function check() {
-      if (isOneSignalInitialized && userId)
+      if (isOneSignalInitialized && userId) {
         await registerUserToOneSignal(userId);
+      }
     }
     check();
   }, [userId, isOneSignalInitialized]);
@@ -42,6 +41,7 @@ export const useInitializeOneSignal = (appId: string) => {
         try {
           if (initialized) return false;
           await OneSignal.init({ appId });
+          OneSignal.showSlidedownPrompt();
           return true;
         } catch (error) {
           console.warn(`Error initializing OneSignal`, error);

@@ -1,8 +1,8 @@
 import { BountyState } from '@prisma/client';
 import { ethers } from 'ethers';
-
 import { ERROR, LOG } from '../importer/utils';
 import prisma from '../prisma/prismaClient';
+import { Notify_BountyFundOrStatusChanges } from '../routes/notification/utils/bounty';
 
 export async function IncrementBounty() {
   if (process.env.INCREMENT_BOUNTY === 'true') {
@@ -85,8 +85,11 @@ async function PeriodicBountyUpdate() {
           },
         },
       });
+      //Send Notification
+      const text = `incremented from ${b.wallet.balance} to ${newBalance} Matic`;
+      await Notify_BountyFundOrStatusChanges(prisma, b.slug, text, true);
       LOG(
-        `Incremeted ${b.wallet.address} from ${b.wallet.balance} to ${newBalance}`
+        `Incremented ${b.wallet.address} from ${b.wallet.balance} to ${newBalance}`
       );
     }
   }
@@ -160,6 +163,13 @@ async function UpdateDonations() {
             updatedAt: new Date(),
           },
         });
+        const text = `incremented`;
+        await Notify_BountyFundOrStatusChanges(
+          prisma,
+          d.bounty?.slug ?? '',
+          text,
+          true
+        );
       } else {
         await prisma.donation.update({
           where: {

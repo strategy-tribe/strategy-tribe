@@ -11,6 +11,7 @@ import { referralRouter } from './referral';
 import { reviewRouter } from './review';
 import { statisticsRouter } from './statistics';
 import { submissionRouter } from './submission';
+import { subscriptionRouter } from './subscription';
 import { tagRouter } from './tags';
 import { targetRouter } from './targets';
 import { userRouter } from './user';
@@ -33,6 +34,7 @@ export const appRouter = router({
   donation: donationRouter,
   statistics: statisticsRouter,
   referral: referralRouter,
+  subscriptionRouter: subscriptionRouter,
 });
 
 // export type definition of API

@@ -42,14 +42,11 @@ export function RegularUserMenu({
         <aside>
           <div className="body-sm absolute top-10 right-0 z-50 flex flex-col overflow-hidden rounded bg-surface-dark text-on-surface-p1">
             <MenuItem label="Account" url={GoToAccountPage()} onClick={hide} />
-
-            {/* TODO: to be implemented - RED-98
             <MenuItem
               label="Watching"
               url={GoToAccountPage(AccountView.Watching)}
               onClick={hide}
-            /> */}
-
+            />
             <MenuItem
               label="Submissions"
               url={GoToAccountPage(AccountView.Submissions)}

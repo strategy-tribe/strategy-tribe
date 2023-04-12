@@ -13,6 +13,7 @@ export default NextAuth({
   },
   providers: [
     CredentialsProvider({
+      id: 'credentials',
       name: 'MoralisAuth',
       credentials: {
         message: {
