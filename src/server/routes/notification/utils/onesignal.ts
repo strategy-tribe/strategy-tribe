@@ -45,7 +45,7 @@ const OneSignal_Notify = async (load: PushNotificationLoad) => {
         contents: {
           en: load.message,
         },
-        urlCallback: load.url,
+        url: load.url,
       },
     };
     await axios.request(options);
