@@ -160,6 +160,7 @@ model Bounty {
   Invoice      Invoice?
   fingerprints Fingerprint[]
   Donation     Donation[]
+  watchBounty  WatchBounty[]
 }
 
 model Organization {
@@ -181,7 +182,8 @@ model Organization {
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
 
-  targets Target[]
+  targets           Target[]
+  watchOrganization WatchOrganization[]
 }
 
 model Submission {
@@ -336,12 +338,14 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
 
-  review        Review[]
-  notifications Notification[]
-  fingerprints  Fingerprint[]
-  Donation      Donation[]
-  Referrals     Referral[]     @relation(name: "referrer")
-  joinedReferal Referral?      @relation(name: "newUser")
+  review            Review[]
+  notifications     Notification[]
+  fingerprints      Fingerprint[]
+  Donation          Donation[]
+  Referrals         Referral[]          @relation(name: "referrer")
+  joinedReferal     Referral?           @relation(name: "newUser")
+  watchOrganization WatchOrganization[]
+  watchBounty       WatchBounty[]
 }
 
 model Fingerprint {
@@ -396,4 +400,27 @@ model Referral {
   referrerId String?
   newUser    User?   @relation(fields: [newUserId], references: [id], onDelete: SetNull, name: "newUser")
   newUserId  String? @unique
+}
+
+model WatchOrganization {
+  id          String        @id @default(cuid())
+  user        User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      String
+  org         Organization? @relation(fields: [orgId], references: [id], onDelete: SetNull)
+  orgId       String?
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @default(now())
+  watchBounty WatchBounty[]
+}
+
+model WatchBounty {
+  id              String             @id @default(cuid())
+  user            User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId          String
+  bounty          Bounty?            @relation(fields: [bountySlug], references: [slug], onDelete: SetNull)
+  bountySlug      String?
+  subscribedOrg   WatchOrganization? @relation(fields: [subscribedOrgId], references: [id], onDelete: Cascade)
+  subscribedOrgId String?
+  createdAt       DateTime           @default(now())
+  updatedAt       DateTime           @default(now())
 }

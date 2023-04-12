@@ -21,12 +21,12 @@ export function BountyMoreDetails() {
 
       <div className="space-y-8 p-4">
         <Stat title="Bounty Slug" content={bounty.slug} copyable />
-        <Stat
+        {/* <Stat
           title="Funds address"
           content={bounty.wallet.address}
           copyable
           size="break-all"
-        />
+        /> */}
 
         <Stat
           title="Additional info"
