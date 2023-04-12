@@ -102,15 +102,15 @@ function HeroDesktop() {
           />
         </div>
 
-        <h2 className="body-lg max-w-lg py-2 pl-4 bg-surfac text-main-light rounded-2xl">
-          Earn rewards by collecting data for bounties and by referring others to join the hunt.
-          Get your invite link{' '}
-            <a
-              className="underline hover:text-main-light"
-              href={`${process.env.NEXT_PUBLIC_DOMAIN}/account`}
-            >
-              here
-            </a>{' '}
+        <h2 className="body-lg max-w-lg py-2 pl-4 text-main-light">
+          Earn rewards by collecting data for bounties and by referring others
+          to join the hunt. Get your invite link{' '}
+          <a
+            className="underline hover:text-main-light"
+            href={`${process.env.NEXT_PUBLIC_DOMAIN}/account`}
+          >
+            here
+          </a>{' '}
         </h2>
       </motion.div>
 
@@ -380,15 +380,15 @@ function HeroMobile() {
           />
         </div>
 
-        <h2 className="body-lg max-w-lg py-2 pl-4 bg-surfac text-main-light rounded-2xl">
-          Earn rewards by collecting data for bounties and by referring others to join the hunt.
-          Get your invite link{' '}
-            <a
-              className="underline hover:text-main-light"
-              href={`${process.env.NEXT_PUBLIC_DOMAIN}/account`}
-            >
-              here
-            </a>{' '}
+        <h2 className="body-lg bg-surfac max-w-lg rounded-2xl py-2 pl-4 text-main-light">
+          Earn rewards by collecting data for bounties and by referring others
+          to join the hunt. Get your invite link{' '}
+          <a
+            className="underline hover:text-main-light"
+            href={`${process.env.NEXT_PUBLIC_DOMAIN}/account`}
+          >
+            here
+          </a>{' '}
         </h2>
       </div>
 
