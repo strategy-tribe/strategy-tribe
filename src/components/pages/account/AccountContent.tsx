@@ -1,5 +1,7 @@
 import { useAuth } from '@/auth/AuthContext';
 
+import { AccountView } from '../../../lib/models/AccountView';
+import { Section } from '../landing/Section';
 import { useAccountContext } from './AccountContext';
 import { AccountSideMap } from './AccountSideMap';
 import { AccountDetails } from './sections/AccountDetails';
@@ -8,8 +10,7 @@ import { AccountReferrals } from './sections/AccountReferrals';
 import { AccountReviews } from './sections/AccountReviews';
 import { AccountRewards } from './sections/AccountRewards';
 import { AccountSubmissions } from './sections/AccountSubmissions';
-import { Section } from '../landing/Section';
-import { AccountView } from '../../../lib/models/AccountView';
+import { AccountWatching } from './sections/AccountWatching';
 
 export function AccountContent() {
   const { view } = useAccountContext();
@@ -26,12 +27,11 @@ export function AccountContent() {
         </>
       )}
 
-      {/* TODO: to be implemented - RED-98
       {view === AccountView.Watching && (
         <>
           <AccountWatching />
         </>
-      )} */}
+      )}
 
       {view === AccountView.Submissions && !(isAdmin || isStaff) && (
         <>

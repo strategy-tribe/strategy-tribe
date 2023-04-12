@@ -1,108 +1,147 @@
-import Queries from '@/lib/utils/Queries';
-
-const queryForSubs = (userId: string, orgName: string) => [
-  Queries.isSubscribed,
-  orgName,
-  userId,
-];
-
-const queryForUserInfo = (userId: string) => {
-  return [userId, 'userInfo'];
-};
-
-const queryForUserSubsToAll = (userId: string) => {
-  return [userId, 'sub to all'];
-};
+import { PostSubscriptionBountySchemaParams } from '@/server/routes/subscription/subscribeBounty';
+import { PostSubscriptionSchemaParams } from '@/server/routes/subscription/subscribeOrg';
+import { DeleteBountySubscriptionParams } from '@/server/routes/subscription/unSubscribeBounty';
+import { DeleteSubscriptionParams } from '@/server/routes/subscription/unSubscribeOrg';
+import { trpc } from '../trpc';
 
 export const useIsSubscribed = (
   userId: string,
   orgId: string,
   enabled = true
 ) => {
-  // const { isSubscribed } = usePushNotifs();
-
-  // const queryId = queryForSubs(userId, orgId);
-
-  // const { isLoading, data, error } = useQuery(
-  //   queryId,
-  //   () => isSubscribed(userId, orgName),
-  //   {
-  //     enabled,
-  //     staleTime: 1000,
-  //   }
-  // );
-
+  const { error, isLoading, data, refetch } =
+    trpc.subscriptionRouter.getSubscriptionStatus.useQuery(
+      { userId, orgId },
+      {
+        enabled: enabled,
+      }
+    );
   return {
-    isLoading: true,
-    isSubscribed: false,
-    error: {
-      msg: 'feature needs refactoring',
-    },
+    isLoading,
+    isSubscribed: data?.subscriptionStatus,
+    error,
+    refetch,
   };
 };
 
-export const useSubscribe = (userId: string, orgId: string) => {
-  // const { subscribeToOrg, unsubscribeToOrg } = usePushNotifs();
-  // const q = useQueryClient();
-
-  // const {
-  //   mutate: subscribe,
-  //   error: subError,
-  //   isLoading: isLoadingSub,
-  // } = useMutation(() => subscribeToOrg(userId, orgName), {
-  //   onSuccess: () => {
-  //     q.invalidateQueries(queryForSubs(userId, orgName));
-  //     q.invalidateQueries(queryForUserInfo(userId));
-  //   },
-  // });
-
-  // const {
-  //   mutate: unsubscribe,
-  //   error: unsubError,
-  //   isLoading: isLoadingUnsub,
-  // } = useMutation(() => unsubscribeToOrg(userId, orgName), {
-  //   onSuccess: () => {
-  //     q.invalidateQueries(queryForSubs(userId, orgName));
-  //     q.invalidateQueries(queryForUserInfo(userId));
-  //   },
-  // });
-
+export const useIsSubscribedBounties = (
+  userId: string,
+  bountySlug: string,
+  enabled = true
+) => {
+  const { error, isLoading, data, refetch } =
+    trpc.subscriptionRouter.getSubscriptionStatusBounty.useQuery(
+      { userId, bountySlug },
+      {
+        enabled: enabled,
+      }
+    );
   return {
-    subscribe: () => {
-      //
-    },
-    unsubscribe: () => {
-      //
-    },
-    subError: {
-      msg: 'feature needs refactoring',
-    },
-    unsubError: {
-      msg: 'feature needs refactoring',
-    },
-    isLoading: true,
+    isLoading,
+    isSubscribed: data?.subscriptionStatus,
+    error,
+    refetch,
   };
 };
 
-//!-------
+export const getSubscribedOrgs = (userId: string, enabled = true) => {
+  const { error, isLoading, data, refetch } =
+    trpc.subscriptionRouter.getSubscribedOrgs.useQuery(
+      { userId },
+      {
+        enabled: enabled,
+      }
+    );
+  return {
+    isLoading,
+    subscribedOrgs: data?.subscribedOrgs,
+    error,
+    refetch,
+  };
+};
 
-export const useIsSubscribeToAll = (userId: string, enabled = true) => {
-  // const { isSubscribedToAll } = usePushNotifs();
-  // const queryId = queryForUserSubsToAll(userId);
-  // const { isLoading, data, error } = useQuery(
-  //   queryId,
-  //   () => isSubscribedToAll(userId),
-  //   {
-  //     enabled,
-  //   }
-  // );
+export const getSubscribedBounties = (userId: string, enabled = true) => {
+  const { error, isLoading, data, refetch } =
+    trpc.subscriptionRouter.getSubscribedBounties.useQuery(
+      { userId },
+      {
+        enabled: enabled,
+      }
+    );
 
   return {
-    isLoading: true,
-    isSubscribedToAll: false,
-    error: {
-      msg: 'feature needs refactoring',
+    isLoading,
+    subscribedBounties: data?.allSubscribedBounties,
+    error,
+    refetch,
+  };
+};
+
+export const useSubscribe = (events: { onSuccess: () => void }) => {
+  const { onSuccess } = events;
+  const mutation = trpc.subscriptionRouter.subscribeOrg.useMutation({
+    onSuccess: () => {
+      onSuccess();
     },
+  });
+  return {
+    SubscribeToOrg: async (params: PostSubscriptionSchemaParams) => {
+      mutation.mutate(params);
+    },
+    isLoading: mutation.isLoading,
+    isSuccess: mutation.isSuccess,
+    error: mutation.error,
+  };
+};
+
+export const useUnSubscribe = (events: { onSuccess: () => void }) => {
+  const { onSuccess } = events;
+  const mutation = trpc.subscriptionRouter.unSubscribeOrg.useMutation({
+    onSuccess: () => {
+      onSuccess();
+    },
+  });
+  return {
+    UnSubscribeToOrg: async (params: DeleteSubscriptionParams) => {
+      mutation.mutate(params);
+    },
+    isLoading: mutation.isLoading,
+    isSuccess: mutation.isSuccess,
+    error: mutation.error,
+  };
+};
+
+export const useSubscribeBounty = (events: { onSuccess: () => void }) => {
+  const { onSuccess } = events;
+  const mutation = trpc.subscriptionRouter.subscribeBounty.useMutation({
+    onSuccess: () => {
+      onSuccess();
+    },
+  });
+  return {
+    SubscribeToBounty: async (params: PostSubscriptionBountySchemaParams) => {
+      mutation.mutate(params);
+    },
+    isLoading: mutation.isLoading,
+    isSuccess: mutation.isSuccess,
+    error: mutation.error,
+  };
+};
+
+export const useUnSubscribeBounties = (events: { onSuccess: () => void }) => {
+  const { onSuccess } = events;
+  const mutation = trpc.subscriptionRouter.unSubscribeBounty.useMutation({
+    onSuccess: () => {
+      onSuccess();
+    },
+  });
+  return {
+    UnSubscribeToBounty: async (params: DeleteBountySubscriptionParams) => {
+      mutation.mutate(params);
+    },
+    isLoading: mutation.isLoading,
+    isSuccess: mutation.isSuccess,
+    error: mutation.error,
   };
 };
 
