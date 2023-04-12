@@ -17,6 +17,7 @@ const Footer = () => {
   const twitterUrl = process.env.NEXT_PUBLIC_TWITTER;
   const githubUrl = process.env.NEXT_PUBLIC_GITHUB;
   const discordUrl = process.env.NEXT_PUBLIC_DISCORD;
+  const redditUrl = process.env.NEXT_PUBLIC_REDDIT;
 
   return (
     <footer className="w-full bg-surface-dark text-on-surface-p0">
@@ -86,6 +87,7 @@ const Footer = () => {
 
             <FooterItem label="Twitter" link={twitterUrl ?? ''} />
             <FooterItem label="Discord" link={discordUrl ?? ''} />
+            <FooterItem label="Reddit" link={redditUrl ?? ''} />
             <FooterItem label="Github" link={githubUrl ?? ''} />
           </ul>
         </div>
