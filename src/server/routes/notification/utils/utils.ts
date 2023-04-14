@@ -1,5 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 import { TRPCError } from '@trpc/server';
+
 import { OneSignal_NotifyMultiple, PushNotificationLoad } from './onesignal';
 
 export const SendNotifications = async (

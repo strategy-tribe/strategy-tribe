@@ -144,7 +144,8 @@ model Bounty {
   target   Target @relation(fields: [targetId], references: [id], onDelete: Cascade)
   targetId String
 
-  status BountyState
+  status     BountyState
+  acceptMore Boolean?
 
   tags Tag[]
 
@@ -275,6 +276,7 @@ model Donation {
   txnDate       DateTime
   addedToBounty Boolean
   isValid       Boolean
+  amount        Int?
 
   user   User?   @relation(fields: [userId], references: [id], onDelete: SetNull)
   userId String?
