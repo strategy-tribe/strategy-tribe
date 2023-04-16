@@ -13,36 +13,38 @@ const CreateSubmissionNotificationLoad = ({
   submissionId,
   isBulkRejection,
   userId,
+  customMsg = '',
 }: {
   userId: string;
   submissionId: string;
   bountyTitle: string;
   isBulkRejection: boolean;
   state: SubmissionState;
+  customMsg?: string;
 }): PushNotificationLoad => {
   let message = '';
   if (isBulkRejection) {
-    message = `Your submission for ${bountyTitle} has been rejected due to another submission`;
+    message = `Your submission for ${bountyTitle} has been rejected due to another submission.`;
   } else {
     switch (state) {
       case 'Accepted':
-        message = `Your submission for ${bountyTitle} has been accepted`;
+        message = `Your submission for ${bountyTitle} has been accepted.`;
         break;
       case 'Rejected':
-        message = `Your submission for ${bountyTitle} has been rejected`;
+        message = `Your submission for ${bountyTitle} has been rejected.`;
         break;
       case 'WaitingForReview':
       default:
         throw new TRPCError({
           code: 'BAD_REQUEST',
           message:
-            'You can only change a submission state to either Accepted or Rejected',
+            'You can only change a submission state to either Accepted or Rejected.',
         });
     }
   }
 
   return {
-    message,
+    message: message + customMsg,
     url: GoToSubmissionPage(submissionId),
     user: userId,
   };
@@ -94,12 +96,13 @@ export const NotifyUsers_SubmissionAccepted = async (
   bountySlug: string,
   load: { userId: string; submissionId: string }
 ) => {
-  const { title: bountyTitle } = await prisma.bounty.findUniqueOrThrow({
-    where: {
-      slug: bountySlug,
-    },
-    select: { title: true },
-  });
+  const { title: bountyTitle, acceptMore } =
+    await prisma.bounty.findUniqueOrThrow({
+      where: {
+        slug: bountySlug,
+      },
+      select: { title: true, acceptMore: true },
+    });
 
   const notification = CreateSubmissionNotificationLoad({
     userId: load.userId,
@@ -107,6 +110,9 @@ export const NotifyUsers_SubmissionAccepted = async (
     bountyTitle,
     isBulkRejection: false,
     state: SubmissionState.Accepted,
+    customMsg: acceptMore
+      ? ' Invoice will be created when the bounty is closed.'
+      : '',
   });
 
   await SendNotifications(prisma, [notification]);

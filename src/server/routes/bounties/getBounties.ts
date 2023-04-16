@@ -55,6 +55,7 @@ export const SMALL_BOUNTY_SELECTION = Prisma.validator<Prisma.BountySelect>()({
   _count: true,
   requirements: true,
   status: true,
+  acceptMore: true,
   wallet: {
     select: {
       address: true,

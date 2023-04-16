@@ -1,5 +1,3 @@
-import { useAuth } from '@/auth/AuthContext';
-import { SubToBountyButton } from '@/components/subscriptions/SubscribeToBountyButton';
 import { Wallet } from '@prisma/client';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -16,13 +14,16 @@ import { ParagrapIsTooLong, splitToParas } from '@/lib/utils/StringHelpers';
 
 import { DonationPopUp } from '@/components/donations/DonationPopUp';
 import { useBountyContext } from '@/components/pages/bounty/BountyContext';
+import { SubToBountyButton } from '@/components/subscriptions/SubscribeToBountyButton';
 import { Button, ButtonStyle } from '@/components/utils/Button';
 import FromOrganization from '@/components/utils/FromOrganization';
 import Icon, { IconSize } from '@/components/utils/Icon';
 import { Stat } from '@/components/utils/Stat';
 
-import { Section } from '../landing/Section';
+import { useAuth } from '@/auth/AuthContext';
+
 import BountyStatusShowcase from './BountyStatusShowcase';
+import { Section } from '../landing/Section';
 
 export function BountyHeader() {
   const { bounty } = useBountyContext();
@@ -98,6 +99,11 @@ export function BountyHeader() {
                 </a>{' '}
                 or to aid in the progress of public safety and good.
               </h2>
+              {bounty.description && (
+                <h2 className="body-lg my-4 max-w-xl text-main-light">
+                  {bounty.description}
+                </h2>
+              )}
             </div>
 
             <div className="flex shrink-0 flex-col justify-start gap-4 tablet:items-end">
@@ -181,19 +187,20 @@ export function BountyHeader() {
               <div className="h-9 w-60 animate-pulse rounded bg-surface-dark" />
             )}
           </div>
-          {bounty.wallet.walletControl && (
-            <div className="space-y-4 text-center">
-              <div className="text-2xl">
-                {`Started at ${bounty.wallet.walletControl?.initial} MATIC`}
-              </div>
-              <div className="flex items-center justify-between">
-                <div className="rounded-md border-2 border-main py-4 px-6 text-6xl">
-                  {counter}
+          {bounty.wallet.walletControl &&
+            bounty.wallet.walletControl.numberOfIncrements > 0 && (
+              <div className="space-y-4 text-center">
+                <div className="text-2xl">
+                  {`Started at ${bounty.wallet.walletControl?.initial} MATIC`}
                 </div>
-                <div className="pl-4 text-base">times incremented</div>
+                <div className="flex items-center justify-between">
+                  <div className="rounded-md border-2 border-main py-4 px-6 text-6xl">
+                    {counter}
+                  </div>
+                  <div className="pl-4 text-base">times incremented</div>
+                </div>
               </div>
-            </div>
-          )}
+            )}
         </Section>
 
         {/* CTAs */}
