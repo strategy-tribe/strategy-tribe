@@ -2,16 +2,18 @@ import Loading from '@/components/utils/Loading';
 import { TargetType } from '@prisma/client';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useState } from 'react';
-import { SubscriptionEntry } from '../SubscriptionEntry';
+
+import {
+  getSubscribedBounties,
+  getSubscribedOrgs,
+} from '@/lib/hooks/subscriptionHooks';
 
 import Icon, { IconSize } from '@/components/utils/Icon';
 import { ScrollableTabs } from '@/components/utils/ScrollableTabs';
 
 import { useAuth } from '@/auth/AuthContext';
-import {
-  getSubscribedBounties,
-  getSubscribedOrgs,
-} from '@/lib/hooks/subscriptionHooks';
+
+import { SubscriptionEntry } from '../SubscriptionEntry';
 
 export function AccountWatching() {
   const { userId } = useAuth();

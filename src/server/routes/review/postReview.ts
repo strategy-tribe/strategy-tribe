@@ -2,12 +2,12 @@ import { InvoiceStatus, PrismaClient, ReviewGrade } from '@prisma/client';
 import { ThenArg, TRPCError } from '@trpc/server';
 import { User } from 'next-auth';
 import { z } from 'zod';
-import { Notify_BountyFundOrStatusChanges } from '../notification/utils/bounty';
 
 import { staffOnlyProcedure } from '@/server/procedures';
 
 import { CloseBounty } from '../bounties/updateBounty';
 import { CreateInvoice } from '../invoice/postInvoice';
+import { Notify_BountyFundOrStatusChanges } from '../notification/utils/bounty';
 import { _getSubmission } from '../submission/getSubmission';
 import {
   AcceptAndNotifySubmission,
@@ -86,23 +86,25 @@ async function _AcceptIt(
       message: 'Unable to find the bounty related to the submission',
     });
   }
-  await CloseBounty(prisma, submission.bounty.slug);
-  await Notify_BountyFundOrStatusChanges(
-    prisma,
-    submission.bounty.slug,
-    'has been closed',
-    false
-  );
-  await RejectAndNotifySubmissions(prisma, {
-    bountySlug: submission.bounty.slug,
-    rejectAllButThisOne: submissionId,
-  });
+  if (!submission.bounty.acceptMore) {
+    await CloseBounty(prisma, submission.bounty.slug);
+    await Notify_BountyFundOrStatusChanges(
+      prisma,
+      submission.bounty.slug,
+      'has been closed',
+      false
+    );
+    await RejectAndNotifySubmissions(prisma, {
+      bountySlug: submission.bounty.slug,
+      rejectAllButThisOne: submissionId,
+    });
+
+    await CreateInvoice(prisma, {
+      status: InvoiceStatus.Unpaid,
+      submissionId,
+      slug: submission?.bounty?.slug as string,
+    });
+  }
 
   await AcceptAndNotifySubmission(prisma, submissionId);
-
-  await CreateInvoice(prisma, {
-    status: InvoiceStatus.Unpaid,
-    submissionId,
-    slug: submission?.bounty?.slug as string,
-  });
 }

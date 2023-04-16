@@ -1,7 +1,5 @@
 import { useAuth } from '@/auth/AuthContext';
 
-import { AccountView } from '../../../lib/models/AccountView';
-import { Section } from '../landing/Section';
 import { useAccountContext } from './AccountContext';
 import { AccountSideMap } from './AccountSideMap';
 import { AccountDetails } from './sections/AccountDetails';
@@ -11,6 +9,8 @@ import { AccountReviews } from './sections/AccountReviews';
 import { AccountRewards } from './sections/AccountRewards';
 import { AccountSubmissions } from './sections/AccountSubmissions';
 import { AccountWatching } from './sections/AccountWatching';
+import { Section } from '../landing/Section';
+import { AccountView } from '../../../lib/models/AccountView';
 
 export function AccountContent() {
   const { view } = useAccountContext();

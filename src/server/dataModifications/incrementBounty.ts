@@ -160,6 +160,7 @@ async function UpdateDonations() {
           },
           data: {
             addedToBounty: true,
+            amount: donation,
             updatedAt: new Date(),
           },
         });

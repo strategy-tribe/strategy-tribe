@@ -6,6 +6,7 @@ import { Notify_NewBountyAddedToOrg } from '../routes/notification/utils/bounty'
 import { toTitleCase } from '@/lib/utils/StringHelpers';
 
 import { LOG, OrgData, TargetData, WARN } from './utils';
+import { Notify_NewBountyAddedToOrg } from '../routes/notification/utils/bounty';
 
 function addDays(date: Date, days: number) {
   const result = new Date(date);
