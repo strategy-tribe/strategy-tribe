@@ -1,8 +1,8 @@
+import { TRPCError } from '@trpc/server';
 import { z } from 'zod';
 
 import { LOG } from '@/server/importer/utils';
 import { signedInOnlyProcedure } from '@/server/procedures';
-import { TRPCError } from '@trpc/server';
 
 const DeleteSubscriptionSchema = z.object({
   userId: z.string(),

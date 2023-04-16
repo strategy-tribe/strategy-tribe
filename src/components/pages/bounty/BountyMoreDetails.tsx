@@ -13,7 +13,7 @@ export function BountyMoreDetails() {
             More
           </span>
 
-          <p className="whitespace-pre font-medium text-error-light">
+          <p className="whitespace-pre whitespace-pre-wrap font-medium text-error-light">
             {bounty.description}
           </p>
         </div>

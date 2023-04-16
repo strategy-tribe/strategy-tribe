@@ -1,5 +1,6 @@
 import { BountyState } from '@prisma/client';
 import { ethers } from 'ethers';
+
 import { ERROR, LOG } from '../importer/utils';
 import prisma from '../prisma/prismaClient';
 import { Notify_BountyFundOrStatusChanges } from '../routes/notification/utils/bounty';
@@ -160,6 +161,7 @@ async function UpdateDonations() {
           },
           data: {
             addedToBounty: true,
+            amount: donation,
             updatedAt: new Date(),
           },
         });

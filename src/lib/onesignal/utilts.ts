@@ -1,7 +1,8 @@
-import { useAuth } from '@/auth/AuthContext';
 import { useQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import OneSignal from 'react-onesignal';
+
+import { useAuth } from '@/auth/AuthContext';
 
 /** Checks if the user is linked to OneSignal*/
 export const useRegisterUser = (
