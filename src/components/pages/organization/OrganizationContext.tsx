@@ -7,6 +7,9 @@ import { GoToBountyPage } from '@/lib/utils/Routes';
 
 import { FullOrg } from '@/server/routes/organizations/getOrg';
 
+import { useGetBounties } from '@/lib/hooks/bountyHooks';
+import { BountyOrderBy } from '@/lib/models/BountyQueryParams';
+import { Order } from '@/lib/models/Order';
 import { OrgView } from './OrgView';
 import { useOrgUrl } from './useOrgUrl';
 

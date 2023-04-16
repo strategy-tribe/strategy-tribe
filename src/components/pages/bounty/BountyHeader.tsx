@@ -1,3 +1,5 @@
+import { useAuth } from '@/auth/AuthContext';
+import { SubToBountyButton } from '@/components/subscriptions/SubscribeToBountyButton';
 import { Wallet } from '@prisma/client';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -20,10 +22,8 @@ import FromOrganization from '@/components/utils/FromOrganization';
 import Icon, { IconSize } from '@/components/utils/Icon';
 import { Stat } from '@/components/utils/Stat';
 
-import { useAuth } from '@/auth/AuthContext';
-
-import BountyStatusShowcase from './BountyStatusShowcase';
 import { Section } from '../landing/Section';
+import BountyStatusShowcase from './BountyStatusShowcase';
 
 export function BountyHeader() {
   const { bounty } = useBountyContext();

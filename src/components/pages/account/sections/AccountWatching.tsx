@@ -1,3 +1,4 @@
+import Loading from '@/components/utils/Loading';
 import { TargetType } from '@prisma/client';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useState } from 'react';
@@ -8,7 +9,6 @@ import {
 } from '@/lib/hooks/subscriptionHooks';
 
 import Icon, { IconSize } from '@/components/utils/Icon';
-import Loading from '@/components/utils/Loading';
 import { ScrollableTabs } from '@/components/utils/ScrollableTabs';
 
 import { useAuth } from '@/auth/AuthContext';

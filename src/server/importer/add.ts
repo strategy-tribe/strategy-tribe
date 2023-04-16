@@ -1,6 +1,7 @@
 import { PrismaClient, RequirementType } from '@prisma/client';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
 import { Wallet } from 'ethers';
+import { Notify_NewBountyAddedToOrg } from '../routes/notification/utils/bounty';
 
 import { toTitleCase } from '@/lib/utils/StringHelpers';
 
