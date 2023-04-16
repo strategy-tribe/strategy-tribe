@@ -1,5 +1,4 @@
 import { useAuth } from '@/auth/AuthContext';
-import { SubToBountyButton } from '@/components/subscriptions/SubscribeToBountyButton';
 import { Wallet } from '@prisma/client';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
