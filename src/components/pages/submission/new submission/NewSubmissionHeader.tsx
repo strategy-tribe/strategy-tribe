@@ -17,8 +17,8 @@ export function NewSubmissionHeader() {
             style: ButtonStyle.TextPurple,
             removePadding: true,
             label: bounty?.title,
-            className: 'py-4 tablet:py-0',
-            labelClasses: 'truncate',
+            className: 'py-4 tablet:py-0 rounded-sm',
+            labelClasses: 'truncate whitespace-pre-wrap',
             isALink: GoToBountyPage(bounty?.slug as string),
           }}
         />
