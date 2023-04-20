@@ -5,7 +5,6 @@ import { ButtonStyle } from '@/components/utils/Button';
 import { useAuth } from '@/auth/AuthContext';
 import { FullOrg } from '@/server/routes/organizations/getOrg';
 
-import { SubToOrgButton } from '@/components/subscriptions/SubscribeToOrgButton';
 import { useOrganizationContext } from './OrganizationContext';
 import { OrgCountries } from './OrgCountries';
 import { OrgStat } from './OrgStat';

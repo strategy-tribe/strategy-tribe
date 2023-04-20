@@ -1,12 +1,12 @@
+import { createContext, useContext } from 'react';
+import OneSignal from 'react-onesignal';
+
 import {
   DelayType,
   NotificationStyle,
   NotificationType,
 } from '@/components/notifications/iNotification';
 import { useNotification } from '@/components/notifications/NotificationContext';
-import { createContext, useContext } from 'react';
-import OneSignal from 'react-onesignal';
-import { useInitializeOneSignal, useRegisterUser } from './utilts';
 
 import { useAuth } from '@/auth/AuthContext';
 
@@ -18,6 +18,7 @@ import {
   removeSubscriber,
   removeSubscriberFromAll,
 } from './methods';
+import { useInitializeOneSignal, useRegisterUser } from './utilts';
 
 interface PushNotifsContextInterface {
   initialized: boolean | undefined;
