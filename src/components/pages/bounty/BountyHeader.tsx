@@ -1,6 +1,6 @@
 import { Wallet } from '@prisma/client';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
+import router, { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
 import { useGetOrganization } from '@/lib/hooks/organizationHooks';
@@ -37,7 +37,7 @@ export function BountyHeader() {
   );
   const [showDonation, setShowDonation] = useState(false);
   const [counter, setCounter] = useState(0);
-  const { userId } = useAuth();
+  const { isAuthenticated, userId } = useAuth();
 
   useEffect(() => {
     if (
@@ -127,9 +127,18 @@ export function BountyHeader() {
               <div className="flex items-center gap-4 text-main-light">
                 <Icon icon="emoji_events" size={IconSize.Large} />
                 <span className="h4 font-medium">
-                  {bounty.wallet?.balance} MATIC
+                  {(bounty.wallet as { balance: number })?.balance ?? '?'} MATIC
                 </span>
               </div>
+              {(!isAuthenticated || !userId) && (
+                <button
+                  onClick={() => router.push(`${router.asPath}?login=true`)}
+                  className="label mt-2 flex items-center hover:text-main-light"
+                >
+                  <Icon icon="login" size={IconSize.Small}></Icon>
+                  <span className="pl-1 underline">Sign in to find price</span>
+                </button>
+              )}
               <Button
                 info={{
                   label: 'Support this bounty',
