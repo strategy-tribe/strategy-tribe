@@ -60,7 +60,7 @@ export function Privacy() {
                 label: 'Join the hunt',
                 style: ButtonStyle.Filled,
                 onClick: () => {
-                  router.push(GoToBountiesPage());
+                  router.push(`${GoToBountiesPage()}?login=true`);
                 },
               }}
             />

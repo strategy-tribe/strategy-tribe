@@ -1,9 +1,12 @@
 import { GetStaticPaths, GetStaticProps } from 'next';
 import Head from 'next/head';
+import router from 'next/router';
 
 import AppLayout from '@/components/layouts/AppLayout';
 import { Target } from '@/components/pages/target/Target';
+import { ImportantMessage } from '@/components/utils/Warning';
 
+import { useAuth } from '@/auth/AuthContext';
 import { NextPageWithLayout } from '@/pages/_app';
 import prisma from '@/server/prisma/prismaClient';
 import { _getTarget, FullTarget } from '@/server/routes/targets/getTarget';
@@ -63,6 +66,7 @@ const TargetPage: NextPageWithLayout<{ target: FullTarget }> = ({
   target: FullTarget;
 }) => {
   //*Router
+  const { userId, isAuthenticated } = useAuth();
 
   //*Queries
 
@@ -78,7 +82,23 @@ const TargetPage: NextPageWithLayout<{ target: FullTarget }> = ({
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Target target={target} />
+      {isAuthenticated && !!userId && <Target target={target} />}
+      {(!isAuthenticated || !userId) && (
+        <ImportantMessage
+          message="You're not signed in."
+          className="mx-auto w-full max-w-xs"
+          content={
+            <button
+              onClick={() => router.push(`${router.asPath}?login=true`)}
+              className="label mt-4"
+            >
+              Join the hunt,
+              <br />
+              <span className="underline">you only need your wallet</span>
+            </button>
+          }
+        />
+      )}
     </>
   );
 };

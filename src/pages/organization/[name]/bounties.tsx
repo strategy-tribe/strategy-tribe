@@ -16,7 +16,9 @@ import { Button, ButtonStyle } from '@/components/utils/Button';
 import { IconSize } from '@/components/utils/Icon';
 import Loading from '@/components/utils/Loading';
 import { MessageForUser } from '@/components/utils/MessageForUser';
+import { ImportantMessage } from '@/components/utils/Warning';
 
+import { useAuth } from '@/auth/AuthContext';
 import { NextPageWithLayout } from '@/pages/_app';
 
 const OrganizationBountiesPage: NextPageWithLayout = () => {
@@ -45,6 +47,7 @@ const OrganizationBountiesPage: NextPageWithLayout = () => {
     !!org
   );
 
+  const { userId, isAuthenticated } = useAuth();
   if (isLoadingBounties || isLoadingOrgs) return <Loading />;
   if ((!isLoadingOrgs && !org) || error)
     return <MessageForUser text={`${error}`} />;
@@ -78,18 +81,38 @@ const OrganizationBountiesPage: NextPageWithLayout = () => {
           </div>
         </aside>
 
-        <div className="grid h-fit grid-cols-3 gap-10 py-8 tablet:gap-16">
-          {!isLoadingBounties &&
-            bounties &&
-            bounties.map((b) => {
-              return <BountyCard key={b.slug} bounty={b} />;
-            })}
-          {isLoadingBounties &&
-            !bounties &&
-            ArrayOfNumbers(21).map((n) => {
-              return <DummyBountyCard key={n} />;
-            })}
-        </div>
+        {isAuthenticated && !!userId && (
+          <div className="grid h-fit grid-cols-3 gap-10 py-8 tablet:gap-16">
+            {!isLoadingBounties &&
+              bounties &&
+              bounties.map((b) => {
+                return <BountyCard key={b.slug} bounty={b} />;
+              })}
+            {isLoadingBounties &&
+              !bounties &&
+              ArrayOfNumbers(21).map((n) => {
+                return <DummyBountyCard key={n} />;
+              })}
+          </div>
+        )}
+        {(!isAuthenticated || !userId) && (
+          <ImportantMessage
+            message="You're not signed in."
+            className="mx-auto h-1/2 w-full max-w-xs"
+            content={
+              <button
+                onClick={() =>
+                  router.push(`${GoToOrgPage(org?.name as string)}?login=true`)
+                }
+                className="label mt-4"
+              >
+                Join the hunt,
+                <br />
+                <span className="underline">you only need your wallet</span>
+              </button>
+            }
+          />
+        )}
       </div>
     </>
   );
