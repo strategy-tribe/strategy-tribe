@@ -2,6 +2,7 @@ import Link from 'next/link';
 
 import { GoToBountyPage } from '@/lib/utils/Routes';
 
+import { useAuth } from '@/auth/AuthContext';
 import { SmallBounty } from '@/server/routes/bounties/getBounties';
 
 import { BountyCardFooter } from './BountyCardFooter';
@@ -14,6 +15,8 @@ export function BountyCard({ bounty }: { bounty: SmallBounty }) {
   const moveToLeft = 'hover:-translate-x-4';
   const moveBgtoLeft = 'group-hover:-translate-x-3';
   const expandBg = 'group-hover:scale-x-[1.15] group-hover:scale-y-[1.15]';
+
+  const { isAuthenticated, userId } = useAuth();
 
   return (
     <article className={`group relative h-fit ${moveToLeft} ${animClasses}`}>
@@ -36,7 +39,13 @@ export function BountyCard({ bounty }: { bounty: SmallBounty }) {
             {/* <BountyCardWatchButton animClasses={animClasses} /> */}
           </header>
 
-          <BountyCardReward reward={bounty.wallet?.balance ?? 0} />
+          {isAuthenticated && !!userId && (
+            <BountyCardReward
+              reward={
+                (bounty.wallet as { address: string; balance: number }).balance
+              }
+            />
+          )}
 
           <div className="flex flex-wrap gap-4">
             {bounty.tags.map((tag) => {

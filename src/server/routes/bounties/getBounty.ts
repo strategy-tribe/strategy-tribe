@@ -29,12 +29,24 @@ const BOUNTY_SELECTOR = Prisma.validator<Prisma.BountySelect>()({
 /** To be called from the server. Fetches a bounty by its slug */
 export async function ServerGetBounty(
   prisma: PrismaClient,
-  params: GetBountyParams
+  params: GetBountyParams,
+  userLoggedIn = true
 ) {
   const { slug } = params;
   const bounty = await prisma.bounty.findUnique({
     where: { slug },
-    select: BOUNTY_SELECTOR,
+    select: userLoggedIn
+      ? BOUNTY_SELECTOR
+      : {
+          ...BOUNTY_SELECTOR,
+          tags: true,
+          wallet: {
+            select: {
+              ...BOUNTY_SELECTOR.wallet.select,
+              balance: false,
+            },
+          },
+        },
   });
 
   return bounty;
@@ -48,7 +60,11 @@ export type FullBounty = NonNullable<
 
 export const getBounty = publicProcedure
   .input(GetBountySchema)
-  .query(async ({ input, ctx: { prisma } }) => {
-    const bounty = await ServerGetBounty(prisma, input);
+  .query(async ({ input, ctx: { prisma, session } }) => {
+    const bounty = await ServerGetBounty(
+      prisma,
+      input,
+      !!(session && session.user)
+    );
     return { bounty };
   });
