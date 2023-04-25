@@ -90,7 +90,7 @@ function HeroDesktop() {
             info={{
               label: 'Join the hunt',
               style: ButtonStyle.Filled,
-              onClick: () => router.push(GoToBountiesPage()),
+              onClick: () => router.push(`${GoToBountiesPage()}?login=true`),
             }}
           />
           <Button
@@ -368,7 +368,7 @@ function HeroMobile() {
             info={{
               label: 'Join the hunt',
               style: ButtonStyle.Filled,
-              onClick: () => router.push(GoToBountiesPage()),
+              onClick: () => router.push(`${GoToBountiesPage()}?login=true`),
             }}
           />
           <Button

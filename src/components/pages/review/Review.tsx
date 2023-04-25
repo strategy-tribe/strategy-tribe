@@ -24,7 +24,7 @@ export function Review({ submission }: { submission: FullSubmission }) {
   const [feedback, setFeedback] = useState('');
   const [view, setView] = useState(ReviewView.Edit);
 
-  const feedbackIsOk = !!feedback && GetWordCount(feedback) >= 5;
+  const feedbackIsOk = !!feedback && GetWordCount(feedback) >= 1;
 
   useEffect(() => {
     if (!feasible) {

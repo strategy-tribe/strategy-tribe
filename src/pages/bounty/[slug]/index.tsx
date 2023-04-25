@@ -2,7 +2,10 @@ import { GetStaticPaths, GetStaticProps } from 'next';
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
 
+import { useGetBounty } from '@/lib/hooks/bountyHooks';
+
 import AppLayout from '@/components/layouts/AppLayout';
+import Loading from '@/components/utils/Loading';
 
 import { NextPageWithLayout } from '@/pages/_app';
 import prisma from '@/server/prisma/prismaClient';
@@ -58,17 +61,18 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 
   return {
     props: {
-      bounty: JSON.parse(JSON.stringify(bounty)),
+      slug,
     },
     revalidate: 60 * 5, //every 5 minutes
   };
 };
 
-const BountyPage: NextPageWithLayout<{ bounty: FullBounty }> = ({
-  bounty,
+const BountyPage: NextPageWithLayout<{ slug: string }> = ({
+  slug,
 }: {
-  bounty: FullBounty;
+  slug: string;
 }) => {
+  const { isLoading, bounty } = useGetBounty(slug);
   return (
     <>
       <Head>
@@ -81,7 +85,8 @@ const BountyPage: NextPageWithLayout<{ bounty: FullBounty }> = ({
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Bounty bounty={bounty} />
+      {isLoading && <Loading small />}
+      {!isLoading && bounty && <Bounty bounty={bounty as FullBounty} />}
     </>
   );
 };
