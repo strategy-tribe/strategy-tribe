@@ -182,6 +182,7 @@ const getWhere = (input: GetBountiesParams) => {
     },
     status: {
       in: input.states,
+      notIn: [BountyState.Closed],
     },
     title: {
       search: input.search?.split(' ').join(' & '),
