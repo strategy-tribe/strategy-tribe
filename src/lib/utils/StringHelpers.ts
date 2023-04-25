@@ -47,7 +47,8 @@ export function splitToParas(s: string): string {
   const sentences = s.split('\\n').map((s) => s.trim());
 
   for (const sentence of sentences) {
-    finalP = finalP + CapitalizeFirstLetter(sentence.trim()) + '.' + breaker;
+    finalP =
+      finalP + CapitalizeFirstLetter(sentence.trim(), false) + '.' + breaker;
   }
 
   return finalP.replaceAll('..', '.');
