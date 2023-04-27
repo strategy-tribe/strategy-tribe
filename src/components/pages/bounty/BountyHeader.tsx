@@ -10,7 +10,7 @@ import {
   GoToOrgPage,
   GoToTargetPage,
 } from '@/lib/utils/Routes';
-import { ParagrapIsTooLong, splitToParas } from '@/lib/utils/StringHelpers';
+import { splitToParas } from '@/lib/utils/StringHelpers';
 
 import { DonationPopUp } from '@/components/donations/DonationPopUp';
 import { useBountyContext } from '@/components/pages/bounty/BountyContext';
@@ -180,7 +180,7 @@ export function BountyHeader() {
                 content={
                   bounty?.target?.bio.includes('\\n')
                     ? splitToParas(bounty?.target?.bio)
-                    : ParagrapIsTooLong(bounty?.target?.bio, 20)
+                    : bounty?.target?.bio
                 }
               />
             )}
