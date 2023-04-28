@@ -188,6 +188,16 @@ function GenerateBountiesData(
         title = 'Find at least one (1) name';
         extraDataTitle = 'Enter additional names here';
         break;
+      case RequirementType.PhoneNumber:
+        bountyTitle = `Find phone numbers associated with ${targetName}`;
+        title = 'Find at least one (1) phone number';
+        extraDataTitle = 'Enter additional phone numbers here';
+        break;
+      case RequirementType.Location:
+        bountyTitle = `Find locations associated with ${targetName}`;
+        title = 'Find at least one (1) location';
+        extraDataTitle = 'Enter additional locations here';
+        break;
       default:
         throw new Error(`Undefined bounty type for ${targetName}`);
     }
@@ -425,7 +435,7 @@ function getWalletControl(
     incrementBy: configs[2] ? parseFloat(configs[2]) : 0,
     numberOfIncrements: 0,
     incrementInDays: configs[3] ? parseFloat(configs[3]) : 0,
-    nextIncrementOn: new Date(),
+    nextIncrementOn: addDays(new Date(), 7),
     proposedFund: configs[4] ? parseFloat(configs[4]) : 0,
   };
 }
