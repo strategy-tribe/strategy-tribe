@@ -19,7 +19,7 @@ export default withAuth({
         const requestingAdminAccess = req.url.includes('admin');
 
         if (requestingAdminAccess && !hasPermissions) {
-          return false;
+          LOG(token ? token.user.rol : "no token");return false;
         }
         return true;
       } catch (error) {
