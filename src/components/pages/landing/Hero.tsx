@@ -272,7 +272,7 @@ function HeroDesktop() {
 function HeroMobile() {
   const { scrollY } = useScroll();
 
-  const y = 200;
+  const y = 400;
 
   //position
   const scrollValues = [0, y, y * 2, y * 3, y * 4, y * 5, y * 6, y * 7, y * 8];
