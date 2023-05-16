@@ -180,13 +180,12 @@ const AboutUsPage: NextPageWithLayout = () => {
               establish a new browser wallet to interact with our platform.
               <br />
               <br /> Please note that the only information we retain about our
-              users is their wallet addresses, information submitted to the site
-              (including bounty submissions and the optional leaderboard
-              usernames), IP addresses and browser fingerprints. This data
-              storage practice and transparency reflects our unwavering
-              dedication to upholding privacy rights and ensures our users can
-              engage with StrategyTribe without compromising their personal
-              information.
+              users is their wallet addresses, username and information
+              submitted to the site (including bounty submissions and the
+              optional leaderboard usernames). This data storage practice and
+              transparency reflects our unwavering dedication to upholding
+              privacy rights and ensures our users can engage with StrategyTribe
+              without compromising their personal information.
             </p>
           </ReadingSection>
 
