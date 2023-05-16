@@ -79,10 +79,11 @@ async function _payInvoice(
 
       if (privateKey) {
         const bountyWallet = new ethers.Wallet(privateKey, provider);
-
+        const fees = await provider.getFeeData();
         if (balance > 0) {
           const txn = {
             to: userAddress,
+            gasPrice: fees.gasPrice!,
             value: ethers.utils.parseEther(balance.toString()),
           };
           const txnResult = await bountyWallet.sendTransaction(txn);

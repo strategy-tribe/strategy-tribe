@@ -1,5 +1,3 @@
-import { BountyState } from '@prisma/client';
-
 import { BountyOrderBy } from '@/lib/models/BountyQueryParams';
 import { Order } from '@/lib/models/Order';
 
@@ -83,7 +81,4 @@ export const DEFAULT_FILTERS = [
   CLOSES_SOON_FILTER,
 ];
 
-export const DEFAULT_FILTER = {
-  ...LATEST_FILTER,
-  query: { ...LATEST_FILTER.query, states: [BountyState.Open] },
-};
+export const DEFAULT_FILTER = TOP_REWARDS_FILTER;

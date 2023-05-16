@@ -154,3 +154,16 @@ export const useGetReferrals = (config: GetReferralsParams, enabled = true) => {
     error,
   };
 };
+
+export const useGetLeaderboardUsers = (enabled = true) => {
+  const { error, isLoading, data } = trpc.user.getLeaderboardUsers.useQuery(
+    {},
+    { enabled }
+  );
+
+  return {
+    leaderBoard: data?.users ?? undefined,
+    error,
+    isLoading,
+  };
+};

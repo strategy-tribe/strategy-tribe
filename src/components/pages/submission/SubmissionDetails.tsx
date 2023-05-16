@@ -36,7 +36,7 @@ export function SubmissionDetails() {
           <>
             <SubmissionDetail
               label="Reward"
-              value={`${bounty?.wallet.balance} MATIC`}
+              value={`${(bounty?.wallet as { balance: number }).balance} MATIC`}
             />
           </>
         )}

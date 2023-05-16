@@ -82,7 +82,9 @@ export function StateFilter({
         remove={(opt) => {
           remove(opt?.label);
         }}
-        options={Object.values(BountyState).map((v) => ({ label: v }))}
+        options={Object.values(BountyState)
+          .filter((v) => v !== BountyState.Closed)
+          .map((v) => ({ label: v }))}
       />
     </FilterColumn>
   );

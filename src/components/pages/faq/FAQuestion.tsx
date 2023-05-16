@@ -12,7 +12,7 @@ export function FAQuestion({
   question: string;
   answer: string | React.ReactNode;
 }) {
-  const [expanded, setExpanded] = useState(false);
+  const [expanded, setExpanded] = useState(true);
   const expandedHeight =
     typeof answer === 'string'
       ? answer.length > 60
@@ -21,9 +21,7 @@ export function FAQuestion({
       : height;
   return (
     <motion.div
-      className={`transition-all ease-out ${
-        expanded ? expandedHeight : 'h-6'
-      } max-w-lg`}
+      className={`transition-all ease-out ${expanded ? '' : 'h-6'} max-w-lg`}
       initial={{ opacity: 0, y: 5 }}
       animate={{ opacity: 1, y: 0 }}
     >
