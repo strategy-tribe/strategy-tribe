@@ -2,6 +2,7 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import Image from 'next/image';
 import router from 'next/router';
 
+import { useGetLeaderboardUsers } from '@/lib/hooks/userHooks';
 import useWindowDimensions from '@/lib/hooks/useWindowDimensions';
 import { GoToAboutusPage, GoToBountiesPage } from '@/lib/utils/Routes';
 
@@ -41,6 +42,8 @@ function HeroDesktop() {
 
   const c3YOutput = [0, 0, 100, 100, 0, -50, -50, -50];
   const c3Y = useTransform(scrollY, scrollValues, c3YOutput);
+
+  const { leaderBoard, isLoading } = useGetLeaderboardUsers();
 
   return (
     <Section className="flex h-[1500px] flex-col justify-between laptop:flex-row laptop:gap-8">
@@ -112,6 +115,24 @@ function HeroDesktop() {
             here
           </a>{' '}
         </h2>
+
+        {!isLoading && leaderBoard && (
+          <div className="body-lg max-w-lg rounded-xl border-2 border-main py-2 pl-4 text-center">
+            <h2 className="py-2 text-main-light">
+              What our top hunters earned
+            </h2>
+            {leaderBoard.slice(0, 3).map((user, index) => (
+              <div
+                className="mc-auto flex place-content-center items-center p-2 text-lg"
+                key={index}
+              >
+                <p>{index + 1}. </p>
+                <p className="px-1 font-semibold">{user.totalBounty}</p>
+                <p>{` MATIC (From ${user.acceptedCount} bounties)`}</p>
+              </div>
+            ))}
+          </div>
+        )}
       </motion.div>
 
       {/* Left graphic */}
@@ -251,7 +272,7 @@ function HeroDesktop() {
 function HeroMobile() {
   const { scrollY } = useScroll();
 
-  const y = 200;
+  const y = 400;
 
   //position
   const scrollValues = [0, y, y * 2, y * 3, y * 4, y * 5, y * 6, y * 7, y * 8];
@@ -328,6 +349,8 @@ function HeroMobile() {
   const c3YOutput = [0, 0, 0, y, y * -0.5, y * -1, y * -1.5, y * -1, y * -1];
   const c3Y = useTransform(scrollY, scrollValues, c3YOutput);
 
+  const { leaderBoard, isLoading } = useGetLeaderboardUsers();
+
   return (
     <Section className="flex h-[1500px] flex-col justify-between laptop:flex-row laptop:gap-8">
       {/* Right section */}
@@ -390,6 +413,21 @@ function HeroMobile() {
             here
           </a>{' '}
         </h2>
+
+        {!isLoading && leaderBoard && (
+          <div className="body-lg max-w-lg rounded-xl border-2 border-main py-2 pl-4 text-center">
+            <h2 className="py-2 text-main-light">
+              What our top hunters earned
+            </h2>
+            {leaderBoard.slice(0, 3).map((user, index) => (
+              <div className="p-2 text-center text-lg" key={index}>{`${
+                index + 1
+              }. ${user.totalBounty} MATIC (From ${
+                user.acceptedCount
+              } bounties)`}</div>
+            ))}
+          </div>
+        )}
       </div>
 
       {/* Left graphic */}
