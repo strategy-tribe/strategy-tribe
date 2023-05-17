@@ -58,7 +58,7 @@ const FAQPage: NextPageWithLayout<{ submissionsPerDay: number }> = ({
           <div className="space-y-8">
             <FAQuestion
               question="What information do you collect and store?"
-              answer="At StrategyTribe, we are committed to transparency and our users' privacy. We believe in giving our users control over their data and keeping it safe and secure. We only collect four data points: your IP address, wallet addresses used for donating or receiving funds, browser fingerprints, and any information you submit to us, such as bounty submissions or an optional leaderboard username. We do not collect any other personal information and take steps to protect the data we collect."
+              answer="At StrategyTribe, we are committed to transparency and our users' privacy. We believe in giving our users control over their data and keeping it safe and secure. We only collect four data points: username, wallet addresses used for donating or receiving funds and any information you submit to us, such as bounty submissions or an optional leaderboard username. We do not collect any other personal information and take steps to protect the data we collect."
             />
             <FAQuestion
               question="Can anyone submit information?"
