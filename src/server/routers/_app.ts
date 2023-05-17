@@ -1,7 +1,6 @@
 import { bountyRouter } from './bounty';
 import { donationRouter } from './donation';
 import { fileRouter } from './files';
-import { fingerprintRouter } from './fingerprint';
 import { invoiceRouter } from './invoice';
 import { mapRouter } from './map';
 import { notificationRouter } from './notification';
@@ -29,7 +28,6 @@ export const appRouter = router({
   map: mapRouter,
   notification: notificationRouter,
   file: fileRouter,
-  fingerprint: fingerprintRouter,
   user: userRouter,
   donation: donationRouter,
   statistics: statisticsRouter,

@@ -1,7 +1,5 @@
 import { withAuth } from 'next-auth/middleware';
 
-import { LOG } from './server/importer/utils';
-
 export default withAuth({
   pages: {
     newUser: '/',
@@ -21,7 +19,6 @@ export default withAuth({
         const requestingAdminAccess = req.url.includes('admin');
 
         if (requestingAdminAccess && !hasPermissions) {
-          LOG(token ? token.user.rol : 'no token');
           return false;
         }
         return true;

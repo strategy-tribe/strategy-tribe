@@ -27,5 +27,4 @@ export enum BountyOrderBy {
   Bounty = 'funds',
   Submissions = 'submissions',
   ClosesAt = 'closesAt',
-  Fingerprint = 'fingerprint',
 }
