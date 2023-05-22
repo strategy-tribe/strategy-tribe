@@ -580,27 +580,10 @@ const RulesPage: NextPageWithLayout = () => {
             processing of your Personal Data. If you have any questions or
             comments about this Policy, our privacy practices, or if you would
             like to exercise your rights with respect to your Personal Data,
-            please contact us by one of the following methods:
+            please contact our data protection officer at:
           </p>
 
-          <p>
-            <strong>Data Privacy Team, StrategyTribe</strong>
-            <br />
-            International House,
-            <br />
-            6 South Molton St,
-            <br />
-            London,
-            <br />
-            United Kingdom,
-            <br />
-            W1K 5QF
-          </p>
-
-          <p>
-            In addition, you may contact our data protection officer at
-            privacy@strategytribe.io.
-          </p>
+          <p>privacy@strategytribe.io</p>
         </ReadingSection>
 
         <AfterRead />
