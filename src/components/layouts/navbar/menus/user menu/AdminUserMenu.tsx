@@ -4,7 +4,6 @@ import {
   GoToEditBountyPage,
   GoToInvoicesPage,
   GoToReviewsPage,
-  GoToUserInfoPage,
 } from '@/lib/utils/Routes';
 
 import { Overlay } from '@/components/utils/Overlay';
@@ -63,12 +62,6 @@ export function AdminUserMenu({
             />
 
             <hr className="mx-8 w-full text-surface" />
-
-            <MenuItem
-              label="Users Info"
-              url={GoToUserInfoPage()}
-              onClick={hide}
-            />
 
             <MenuItem label="Account" url={GoToAccountPage()} onClick={hide} />
 
