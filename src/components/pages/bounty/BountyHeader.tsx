@@ -3,6 +3,7 @@ import Link from 'next/link';
 import router, { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
+import { useGetFile } from '@/lib/hooks/fileHooks';
 import { useGetOrganization } from '@/lib/hooks/organizationHooks';
 import { useCanUserSubmit } from '@/lib/hooks/submission';
 import {
@@ -49,6 +50,10 @@ export function BountyHeader() {
       }, 300);
     }
   }, [counter]);
+
+  const { fileUrl } = useGetFile(
+    `targets/thumbnails/${bounty.target.name.split(' ').join('_')}.jpeg`
+  );
 
   return (
     <>
@@ -196,20 +201,27 @@ export function BountyHeader() {
               <div className="h-9 w-60 animate-pulse rounded bg-surface-dark" />
             )}
           </div>
-          {bounty.wallet.walletControl &&
-            bounty.wallet.walletControl.numberOfIncrements > 0 && (
-              <div className="space-y-4 text-center">
-                <div className="text-2xl">
-                  {`Started at ${bounty.wallet.walletControl?.initial} MATIC`}
-                </div>
-                <div className="flex items-center justify-between">
-                  <div className="rounded-md border-2 border-main py-4 px-6 text-6xl">
-                    {counter}
+          <div className="flex flex-col items-end">
+            {bounty.wallet.walletControl &&
+              bounty.wallet.walletControl.numberOfIncrements > 0 && (
+                <div className="space-y-4 text-center">
+                  <div className="text-2xl">
+                    {`Started at ${bounty.wallet.walletControl?.initial} MATIC`}
                   </div>
-                  <div className="pl-4 text-base">times incremented</div>
+                  <div className="flex items-center justify-between">
+                    <div className="rounded-md border-2 border-main py-4 px-6 text-6xl">
+                      {counter}
+                    </div>
+                    <div className="pl-4 text-base">times incremented</div>
+                  </div>
                 </div>
-              </div>
+              )}
+            {fileUrl && (
+              <figure key={fileUrl ?? ''} className="relative m-2">
+                <img src={fileUrl} alt="preview for image" />
+              </figure>
             )}
+          </div>
         </Section>
 
         {/* CTAs */}
