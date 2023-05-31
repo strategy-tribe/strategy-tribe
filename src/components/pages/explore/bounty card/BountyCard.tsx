@@ -1,5 +1,6 @@
 import Link from 'next/link';
 
+import { useGetFile } from '@/lib/hooks/fileHooks';
 import { GoToBountyPage } from '@/lib/utils/Routes';
 
 import { useAuth } from '@/auth/AuthContext';
@@ -18,6 +19,10 @@ export function BountyCard({ bounty }: { bounty: SmallBounty }) {
 
   const { isAuthenticated, userId } = useAuth();
 
+  const { fileUrl } = useGetFile(
+    `targets/thumbnails/${bounty.target.name.split(' ').join('_')}.jpeg`
+  );
+
   return (
     <article className={`group relative h-fit ${moveToLeft} ${animClasses}`}>
       <div
@@ -33,19 +38,30 @@ export function BountyCard({ bounty }: { bounty: SmallBounty }) {
                 requirements={bounty.requirements}
               />
 
-              <BountyCardTitle bounty={bounty} />
+              <div className="flex items-center">
+                {fileUrl && (
+                  <img
+                    src={fileUrl}
+                    className="m-2 h-[100px] w-[100px] object-cover"
+                    alt="preview for image"
+                  />
+                )}
+                <div className="tablet:max-w-[70%]">
+                  <BountyCardTitle bounty={bounty} />
+                  {isAuthenticated && !!userId && (
+                    <BountyCardReward
+                      reward={
+                        (bounty.wallet as { address: string; balance: number })
+                          .balance
+                      }
+                    />
+                  )}
+                </div>
+              </div>
             </div>
 
             {/* <BountyCardWatchButton animClasses={animClasses} /> */}
           </header>
-
-          {isAuthenticated && !!userId && (
-            <BountyCardReward
-              reward={
-                (bounty.wallet as { address: string; balance: number }).balance
-              }
-            />
-          )}
 
           <div className="flex flex-wrap gap-4">
             {bounty.tags.map((tag) => {
