@@ -35,7 +35,7 @@ function Tag({ tag, onClick }: { tag: string; onClick?: () => void }) {
       className="label-sm text-left capitalize text-on-surface-unactive"
       onClick={onClick}
     >
-      {tag?.length > 14 ? `${tag.slice(0, 28)}...` : tag}
+      {tag}
     </button>
   );
 }

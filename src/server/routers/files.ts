@@ -2,6 +2,7 @@ import { S3 } from 'aws-sdk';
 import { PresignedPost } from 'aws-sdk/clients/s3';
 import { z } from 'zod';
 
+import { LOG } from '../importer/utils';
 import { publicProcedure, router } from '../procedures';
 
 export const s3 = new S3({
@@ -43,13 +44,28 @@ export const fileRouter = router({
   getSignedUrlPromise: publicProcedure
     .input(
       z.object({
-        keys: z.string(),
+        key: z.string(),
       })
     )
     .query(async ({ input }) => {
-      return await s3.getSignedUrlPromise('getObject', {
-        Key: input.keys,
-        Bucket: process.env.OUR_AWS_BUCKET_NAME,
-      });
+      try {
+        const obj = await s3
+          .headObject({
+            Key: input.key,
+            Bucket: process.env.OUR_AWS_BUCKET_NAME ?? '',
+          })
+          .promise();
+        if (!obj) return '';
+
+        const url = await s3.getSignedUrlPromise('getObject', {
+          Key: input.key,
+          Bucket: process.env.OUR_AWS_BUCKET_NAME,
+          Expires: 240,
+        });
+        return url;
+      } catch (e: any) {
+        LOG(`${input.key}: ${e.toString()}`);
+        return '';
+      }
     }),
 });

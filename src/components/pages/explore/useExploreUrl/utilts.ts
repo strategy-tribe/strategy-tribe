@@ -59,7 +59,7 @@ export const QueryToParams = function (
       : [...query.tags]
     : undefined;
 
-  const amount = parseInt((query.amount as unknown as string) ?? 16);
+  const amount = parseInt((query.amount as unknown as string) ?? 18);
 
   const page = parseInt((query.page as unknown as string) ?? 0);
 
