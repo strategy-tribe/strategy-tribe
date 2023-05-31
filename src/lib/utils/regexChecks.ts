@@ -20,18 +20,25 @@ const NAME_REGEX =
   // eslint-disable-next-line no-useless-escape
   /[a-zA-Z]{3}/;
 
+const WALLET_REGEX =
+  // eslint-disable-next-line no-useless-escape
+  /[a-zA-Z0-9]{30}/;
+
 export function isEmailValid(s: string) {
   return MAIL_REGEX.test(s);
 }
 
 export function isWalletValid(s: string) {
-  const ethRegex = new RegExp('^0x[a-fA-F0-9]{40}$');
-  const btcRegex = new RegExp('^(bc1|[13])[a-zA-HJ-NP-Z0-9]{25,39}$');
+  // const ethRegex = new RegExp('^0x[a-fA-F0-9]{40}$');
+  // const btcRegex = new RegExp('^(bc1|[13])[a-zA-HJ-NP-Z0-9]{25,39}$');
 
-  const isEth = ethRegex.test(s);
-  const isBtc = btcRegex.test(s);
+  // const isEth = ethRegex.test(s);
+  // const isBtc = btcRegex.test(s);
 
-  return isBtc || isEth;
+  // return isBtc || isEth;
+
+  // To include Solana and other chains
+  return WALLET_REGEX.test(s);
 }
 
 export function isNameValid(s: string) {
