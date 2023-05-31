@@ -22,6 +22,8 @@ import Icon, { IconSize } from '@/components/utils/Icon';
 import { Stat } from '@/components/utils/Stat';
 
 import { useAuth } from '@/auth/AuthContext';
+import { SmallBounty } from '@/server/routes/bounties/getBounties';
+import { FullBounty } from '@/server/routes/bounties/getBounty';
 
 import BountyStatusShowcase from './BountyStatusShowcase';
 import { Section } from '../landing/Section';
@@ -168,39 +170,11 @@ export function BountyHeader() {
 
         {/* Details */}
         <Section className="flex justify-between space-x-8">
-          <div className="w-4/5 space-y-8 pr-2">
-            <div className="flex flex-col">
-              <span className="label-lg capitalize text-on-surface-unactive">
-                Target
-              </span>
-              <Link href={GoToTargetPage(bounty.target.name)}>
-                <span className="w-fit font-medium capitalize text-main-light hover:underline">
-                  {bounty.target.name}
-                </span>
-              </Link>
-            </div>
-            {bounty?.target?.bio && (
-              <Stat
-                title="bio"
-                content={
-                  bounty?.target?.bio.includes('\\n')
-                    ? splitToParas(bounty?.target?.bio)
-                    : bounty?.target?.bio
-                }
-              />
-            )}
-            <Stat
-              title="requirements"
-              contents={bounty.requirements
-                ?.filter((r) => !r.optional)
-                ?.map((r) => r.title)}
-            />
-            {organization ? (
-              <FromOrganization orgName={organization?.name} />
-            ) : (
-              <div className="h-9 w-60 animate-pulse rounded bg-surface-dark" />
-            )}
-          </div>
+          <BountyDetails
+            bounty={bounty}
+            orgName={organization?.name}
+            width="w-4/5"
+          />
           <div className="flex flex-col items-end">
             {bounty.wallet.walletControl &&
               bounty.wallet.walletControl.numberOfIncrements > 0 && (
@@ -303,5 +277,51 @@ function SubmitButtonWithMessages() {
         )}
       </div>
     </>
+  );
+}
+
+export function BountyDetails({
+  bounty,
+  orgName,
+  width,
+}: {
+  bounty: FullBounty | SmallBounty;
+  orgName: string | undefined;
+  width?: string;
+}) {
+  return (
+    <div className={`space-y-8 pr-2 ${width}`}>
+      <div className="flex flex-col">
+        <span className="label-lg capitalize text-on-surface-unactive">
+          Target
+        </span>
+        <Link href={GoToTargetPage(bounty.target.name)}>
+          <span className="w-fit font-medium capitalize text-main-light hover:underline">
+            {bounty.target.name}
+          </span>
+        </Link>
+      </div>
+      {bounty?.target?.bio && (
+        <Stat
+          title="bio"
+          content={
+            bounty?.target?.bio.includes('\\n')
+              ? splitToParas(bounty?.target?.bio)
+              : bounty?.target?.bio
+          }
+        />
+      )}
+      <Stat
+        title="requirements"
+        contents={bounty.requirements
+          ?.filter((r) => !r.optional)
+          ?.map((r) => r.title)}
+      />
+      {orgName ? (
+        <FromOrganization orgName={orgName} />
+      ) : (
+        <div className="h-9 w-60 animate-pulse rounded bg-surface-dark" />
+      )}
+    </div>
   );
 }
