@@ -27,6 +27,10 @@ import {
   FundData,
 } from '@/server/routes/statistics/getFundsData';
 import {
+  _getSubmissionsGrowth,
+  SubmissionsGrowthData,
+} from '@/server/routes/statistics/getSubmissionGrowth';
+import {
   _getSubmissionsStatusData,
   SubmissionsStatusData,
 } from '@/server/routes/statistics/getSubmissionsStatus';
@@ -73,6 +77,11 @@ export const getStaticProps: GetStaticProps = async () => {
   // Paid and Total fund data
   const totalBountyFunding: FundData = await _getFundData(prisma);
 
+  // Submissions Growth
+  const submissionsGrowth: SubmissionsGrowthData = await _getSubmissionsGrowth(
+    prisma
+  );
+
   return {
     props: {
       trpcState: ssg.dehydrate(),
@@ -82,6 +91,7 @@ export const getStaticProps: GetStaticProps = async () => {
       usersCount: usersCount,
       avgSubmissionPayout: submissionPayoutData,
       bountyTrendChartData: totalBountyFunding,
+      submissionsGrowth: submissionsGrowth,
     },
     revalidate: 60 * 5, //every 5 minutes
   };
@@ -94,6 +104,7 @@ const BountiesPage: NextPageWithLayout<{
   usersCount: UsersCountData;
   avgSubmissionPayout: AvgSubmissionPayoutData;
   bountyTrendChartData: FundData;
+  submissionsGrowth: SubmissionsGrowthData;
 }> = ({
   mapData,
   bountyStatusData,
@@ -101,6 +112,7 @@ const BountiesPage: NextPageWithLayout<{
   usersCount,
   avgSubmissionPayout,
   bountyTrendChartData,
+  submissionsGrowth,
 }: {
   mapData: MapDataWithFeatures;
   bountyStatusData: BountiesStatusData;
@@ -108,6 +120,7 @@ const BountiesPage: NextPageWithLayout<{
   usersCount: UsersCountData;
   avgSubmissionPayout: AvgSubmissionPayoutData;
   bountyTrendChartData: FundData;
+  submissionsGrowth: SubmissionsGrowthData;
 }) => {
   return (
     <>
@@ -128,6 +141,7 @@ const BountiesPage: NextPageWithLayout<{
         usersCount={usersCount}
         avgSubmissionPayout={avgSubmissionPayout}
         bountyTrendChartData={bountyTrendChartData}
+        submissionsGrowth={submissionsGrowth}
       />
     </>
   );
