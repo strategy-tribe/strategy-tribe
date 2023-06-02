@@ -23,6 +23,12 @@ export function ERROR(msg: string, throwIt = true) {
   console.log('\x1b[0m');
 }
 
+export function subtractDays(date: Date, days: number) {
+  const result = new Date(date);
+  result.setDate(result.getDate() - days);
+  return result;
+}
+
 export type Row = string[];
 
 export type TargetData = {
