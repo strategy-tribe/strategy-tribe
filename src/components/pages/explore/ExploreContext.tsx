@@ -7,6 +7,7 @@ import { useExploreUrl } from '@/components/pages/explore/useExploreUrl';
 
 import { BountiesStatusData } from '@/server/routes/statistics/getBountiesStatus';
 import { FundData } from '@/server/routes/statistics/getFundsData';
+import { SubmissionsGrowthData } from '@/server/routes/statistics/getSubmissionGrowth';
 import { SubmissionsStatusData } from '@/server/routes/statistics/getSubmissionsStatus';
 import { UsersCountData } from '@/server/routes/statistics/getUsersCount';
 
@@ -21,6 +22,7 @@ interface iExploreContext {
   usersCount: UsersCountData | undefined;
   avgSubmissionPayout: number | undefined;
   bountyTrendChartData: FundData | undefined;
+  submissionsGrowth: SubmissionsGrowthData | undefined;
 }
 
 const ExploreContext = createContext<iExploreContext>({
@@ -38,6 +40,7 @@ const ExploreContext = createContext<iExploreContext>({
   usersCount: undefined,
   avgSubmissionPayout: undefined,
   bountyTrendChartData: undefined,
+  submissionsGrowth: undefined,
 });
 
 export const ExploreContextProvider = ({
@@ -48,6 +51,7 @@ export const ExploreContextProvider = ({
   usersCount,
   avgSubmissionPayout,
   bountyTrendChartData,
+  submissionsGrowth,
 }: {
   children: ReactNode;
 
@@ -57,6 +61,7 @@ export const ExploreContextProvider = ({
   usersCount: UsersCountData | undefined;
   avgSubmissionPayout: number | undefined;
   bountyTrendChartData: FundData | undefined;
+  submissionsGrowth: SubmissionsGrowthData | undefined;
 }) => {
   const {
     urlFilter: { query },
@@ -90,6 +95,7 @@ export const ExploreContextProvider = ({
         usersCount,
         avgSubmissionPayout,
         bountyTrendChartData,
+        submissionsGrowth,
         bountyFetch,
         countries: query?.countries ?? [],
         addCountry,

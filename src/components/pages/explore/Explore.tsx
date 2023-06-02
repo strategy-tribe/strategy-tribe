@@ -10,6 +10,7 @@ import { useAuth } from '@/auth/AuthContext';
 import { AvgSubmissionPayoutData } from '@/server/routes/statistics/getAvgSubmissionPayout';
 import { BountiesStatusData } from '@/server/routes/statistics/getBountiesStatus';
 import { FundData } from '@/server/routes/statistics/getFundsData';
+import { SubmissionsGrowthData } from '@/server/routes/statistics/getSubmissionGrowth';
 import { SubmissionsStatusData } from '@/server/routes/statistics/getSubmissionsStatus';
 import { UsersCountData } from '@/server/routes/statistics/getUsersCount';
 
@@ -39,6 +40,10 @@ const SubmissionData = dynamic(import('./statistics/SubmissionData'), {
   ssr: false,
 });
 
+const SubmissionsGrowth = dynamic(import('./statistics/SubmissionGrowth'), {
+  ssr: false,
+});
+
 export function Explore({
   data,
   bountyStatusData,
@@ -46,6 +51,7 @@ export function Explore({
   usersCount,
   avgSubmissionPayout,
   bountyTrendChartData,
+  submissionsGrowth,
 }: {
   data: MapDataWithFeatures | undefined;
   bountyStatusData: BountiesStatusData | undefined;
@@ -53,6 +59,7 @@ export function Explore({
   usersCount: UsersCountData | undefined;
   avgSubmissionPayout: AvgSubmissionPayoutData | undefined;
   bountyTrendChartData: FundData | undefined;
+  submissionsGrowth: SubmissionsGrowthData | undefined;
 }) {
   return (
     <>
@@ -63,6 +70,7 @@ export function Explore({
         usersCount={usersCount}
         avgSubmissionPayout={avgSubmissionPayout}
         bountyTrendChartData={bountyTrendChartData}
+        submissionsGrowth={submissionsGrowth}
       >
         <ExploreContent />
       </ExploreContextProvider>
@@ -88,7 +96,7 @@ function ExploreContent() {
           <Section>{!!BountiesStatus && <BountiesStatus />}</Section>
         </div>
         <div className="pl-4 sm:w-full tablet:w-1/3">
-          <Section>{!!SubmissionsStates && <SubmissionsStates />}</Section>
+          <Section>{!!SubmissionsGrowth && <SubmissionsGrowth />}</Section>
           <Section>{!!Users && <Users />}</Section>
           <Section>{!!SubmissionData && <SubmissionData />}</Section>
         </div>
