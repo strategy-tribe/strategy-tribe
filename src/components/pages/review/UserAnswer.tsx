@@ -33,8 +33,8 @@ export function UserAnswer({
       {expanded && (
         <>
           {requirement?.type !== RequirementType.Image ? (
-            <p className="body pl-8">
-              <span className="inline">{answer}</span>
+            <p className="body whitespace-pre-wrap break-words pl-8">
+              {answer}
             </p>
           ) : (
             <>

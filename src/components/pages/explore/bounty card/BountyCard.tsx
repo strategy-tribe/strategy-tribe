@@ -42,7 +42,7 @@ export function BountyCard({ bounty }: { bounty: SmallBounty }) {
                 {fileUrl && (
                   <img
                     src={fileUrl}
-                    className="m-2 h-[100px] w-[100px] object-cover"
+                    className="mx-2 h-[100px] w-[100px] object-cover"
                     alt="preview for image"
                   />
                 )}

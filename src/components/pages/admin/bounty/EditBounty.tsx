@@ -618,7 +618,7 @@ export function EditBounty({
                 label: 'Update Bounty',
               }}
             />
-            {bounty.status === BountyState.WaitingForFunds && (
+            {bounty.status !== BountyState.Closed && (
               <Button
                 info={{
                   style: ButtonStyle.HollowDark,
