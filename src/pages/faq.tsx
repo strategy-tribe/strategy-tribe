@@ -79,7 +79,7 @@ const FAQPage: NextPageWithLayout<{ submissionsPerDay: number }> = ({
               }
             />
             <FAQuestion
-              question="How does the payments work?"
+              question="How do the payments work?"
               height="h-20"
               answer={
                 <p>
