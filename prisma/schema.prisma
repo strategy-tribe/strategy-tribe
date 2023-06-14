@@ -33,6 +33,7 @@ model Target {
   bio String?
 
   bounties Bounty[]
+  articles Article[]
 
   org   Organization? @relation(fields: [orgId], references: [id], onDelete: SetNull)
   orgId String?
@@ -320,6 +321,22 @@ enum RequirementType {
   Email
   Name
   Location
+}
+
+model Article {
+  id String @id @default(cuid())
+
+  slug      String  @unique
+  title     String  @unique
+  thumbnail String
+  summary   String
+  content   String
+  publish   Boolean
+
+  targets Target[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
 }
 
 //Users:--------------------------------------------------------------------------------

@@ -16,7 +16,7 @@ export const RenderMarkdown = ({
           return (
             <a
               href={href}
-              className="text-on-surface-p0 underline"
+              className="text-main-light underline hover:text-main"
               target="_blank"
               rel="noreferrer"
             >
@@ -25,10 +25,10 @@ export const RenderMarkdown = ({
           );
         },
         ol({ children }) {
-          return <ol className="list-decimal">{children}</ol>;
+          return <ol className="mb-2 list-decimal pl-[2rem]">{children}</ol>;
         },
         ul({ children }) {
-          return <ol className="list-disc">{children}</ol>;
+          return <ol className="mb-2 list-disc pl-[2rem]">{children}</ol>;
         },
         td({ children }) {
           return (
@@ -45,18 +45,58 @@ export const RenderMarkdown = ({
           );
         },
         h1({ children }) {
-          return <h1 className="h4 pb-4">{children}</h1>;
+          const split = (children[0] as string).split(' #');
+          return (
+            <h1
+              className={`h1 my-4 mx-8 border-y-2 border-surface py-4 text-center text-main text-[#${split[1]}]`}
+            >
+              {split[0]}
+            </h1>
+          );
         },
         h2({ children }) {
-          return <h1 className="h5 pb-3">{children}</h1>;
+          return (
+            <h1 className="h2 mt-3 w-fit pt-3 text-main-light">{children}</h1>
+          );
         },
         h3({ children }) {
-          return <h1 className="h6 pb-2">{children}</h1>;
+          return <h1 className="h3  my-2 pt-2">{children}</h1>;
+        },
+        p({ children }) {
+          return <p className="mb-4 font-grotesk leading-6">{children}</p>;
         },
         blockquote({ children }) {
           return (
             <div className="rounded bg-surface py-4 px-8 pl-8">
               <p className="body">{children}</p>
+            </div>
+          );
+        },
+        pre({ children }) {
+          return (
+            <pre className="notransalte pre-code bg-code m-4 whitespace-pre-line rounded-md p-4">
+              {children}
+            </pre>
+          );
+        },
+        code({ children }) {
+          return (
+            <code className="notransalte bg-code-inline m-0 whitespace-pre-line rounded-md py-1 px-2">
+              {children}
+            </code>
+          );
+        },
+        img({ src, alt, title, width, height }) {
+          return (
+            <div className="flex flex-col flex-wrap content-center text-center">
+              <img
+                src={src}
+                alt={alt}
+                title={title}
+                height={height}
+                width={width}
+              ></img>
+              <p>{title}</p>
             </div>
           );
         },

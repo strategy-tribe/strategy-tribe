@@ -1,3 +1,4 @@
+import { articleRouter } from './article';
 import { bountyRouter } from './bounty';
 import { donationRouter } from './donation';
 import { fileRouter } from './files';
@@ -33,6 +34,7 @@ export const appRouter = router({
   statistics: statisticsRouter,
   referral: referralRouter,
   subscriptionRouter: subscriptionRouter,
+  article: articleRouter,
 });
 
 // export type definition of API
