@@ -2,10 +2,13 @@ import { PieChart } from 'react-minimal-pie-chart';
 
 import { toPercentage } from '@/lib/utils/statisticsHelpers';
 
-import { useExploreContext } from '../ExploreContext';
+import { SubmissionsStatusData } from '@/server/routes/statistics/getSubmissionsStatus';
 
-export default function SubmissionData() {
-  const { submissionStatesData } = useExploreContext();
+export default function SubmissionData({
+  submissionStatesData,
+}: {
+  submissionStatesData: SubmissionsStatusData | undefined;
+}) {
   const total =
     (submissionStatesData?.typesOfData?.walletCount ?? 0) +
     (submissionStatesData?.typesOfData?.nameCount ?? 0) +

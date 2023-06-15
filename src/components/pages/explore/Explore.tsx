@@ -1,18 +1,18 @@
 import dynamic from 'next/dynamic';
+import Link from 'next/link';
 import router from 'next/router';
 
 import { MapDataWithFeatures } from '@/lib/models/MapData';
-import { GoToBountiesPage } from '@/lib/utils/Routes';
+import {
+  GoToBountiesPage,
+  GoToOrganizationsPage,
+  GoToStatsPage,
+  GoToTargetsPage,
+} from '@/lib/utils/Routes';
 
 import { ImportantMessage } from '@/components/utils/Warning';
 
 import { useAuth } from '@/auth/AuthContext';
-import { AvgSubmissionPayoutData } from '@/server/routes/statistics/getAvgSubmissionPayout';
-import { BountiesStatusData } from '@/server/routes/statistics/getBountiesStatus';
-import { FundData } from '@/server/routes/statistics/getFundsData';
-import { SubmissionsGrowthData } from '@/server/routes/statistics/getSubmissionGrowth';
-import { SubmissionsStatusData } from '@/server/routes/statistics/getSubmissionsStatus';
-import { UsersCountData } from '@/server/routes/statistics/getUsersCount';
 
 import { BountyBoard } from './BountyBoard';
 import { ExploreContextProvider, useExploreContext } from './ExploreContext';
@@ -20,58 +20,14 @@ import { ExploreFilters } from './filters/ExploreFilters';
 import { PageControls } from './PageControls';
 import { Section } from '../landing/Section';
 
-const Map = dynamic(import('./map/MapProjection'), {
+const Map = dynamic(import('../stats/map/MapProjection'), {
   ssr: false,
 });
 
-const BountiesStatus = dynamic(import('./statistics/BountiesStatus'), {
-  ssr: false,
-});
-
-const SubmissionsStates = dynamic(import('./statistics/SubmissionStates'), {
-  ssr: false,
-});
-
-const Users = dynamic(import('./statistics/Users'), {
-  ssr: false,
-});
-
-const SubmissionData = dynamic(import('./statistics/SubmissionData'), {
-  ssr: false,
-});
-
-const SubmissionsGrowth = dynamic(import('./statistics/SubmissionGrowth'), {
-  ssr: false,
-});
-
-export function Explore({
-  data,
-  bountyStatusData,
-  submissionStatesData,
-  usersCount,
-  avgSubmissionPayout,
-  bountyTrendChartData,
-  submissionsGrowth,
-}: {
-  data: MapDataWithFeatures | undefined;
-  bountyStatusData: BountiesStatusData | undefined;
-  submissionStatesData: SubmissionsStatusData | undefined;
-  usersCount: UsersCountData | undefined;
-  avgSubmissionPayout: AvgSubmissionPayoutData | undefined;
-  bountyTrendChartData: FundData | undefined;
-  submissionsGrowth: SubmissionsGrowthData | undefined;
-}) {
+export function Explore({ data }: { data: MapDataWithFeatures | undefined }) {
   return (
     <>
-      <ExploreContextProvider
-        data={data}
-        bountyStatusData={bountyStatusData}
-        submissionStatesData={submissionStatesData}
-        usersCount={usersCount}
-        avgSubmissionPayout={avgSubmissionPayout}
-        bountyTrendChartData={bountyTrendChartData}
-        submissionsGrowth={submissionsGrowth}
-      >
+      <ExploreContextProvider data={data}>
         <ExploreContent />
       </ExploreContextProvider>
     </>
@@ -91,15 +47,23 @@ function ExploreContent() {
 
   return (
     <>
-      <div className="success mx-auto flex w-full max-w-7xl gap-y-8 px-2 sm:flex-col tablet:flex-row tablet:pt-20 bt:pt-3">
-        <div className="sm:w-full tablet:w-2/3">
-          <Section>{!!BountiesStatus && <BountiesStatus />}</Section>
-        </div>
-        <div className="pl-4 sm:w-full tablet:w-1/3">
-          <Section>{!!SubmissionsGrowth && <SubmissionsGrowth />}</Section>
-          <Section>{!!Users && <Users />}</Section>
-          <Section>{!!SubmissionData && <SubmissionData />}</Section>
-        </div>
+      <div className="mx-auto my-4 flex max-w-7xl items-center space-x-4">
+        <div className="ml-2"> Find: </div>
+        <Link href={GoToStatsPage()}>
+          <span className="w-fit font-medium capitalize text-main-light hover:underline">
+            Bounty Stats
+          </span>
+        </Link>
+        <Link href={GoToTargetsPage()}>
+          <span className="w-fit font-medium capitalize text-main-light hover:underline">
+            Targets
+          </span>
+        </Link>
+        <Link href={GoToOrganizationsPage()}>
+          <span className="w-fit font-medium capitalize text-main-light hover:underline">
+            Organisations
+          </span>
+        </Link>
       </div>
       <div>
         {/* <Section>{!!Map && <Map />}</Section> */}
