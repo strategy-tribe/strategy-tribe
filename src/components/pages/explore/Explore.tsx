@@ -1,14 +1,8 @@
 import dynamic from 'next/dynamic';
-import Link from 'next/link';
 import router from 'next/router';
 
 import { MapDataWithFeatures } from '@/lib/models/MapData';
-import {
-  GoToBountiesPage,
-  GoToOrganizationsPage,
-  GoToStatsPage,
-  GoToTargetsPage,
-} from '@/lib/utils/Routes';
+import { GoToBountiesPage } from '@/lib/utils/Routes';
 
 import { ImportantMessage } from '@/components/utils/Warning';
 
@@ -47,8 +41,8 @@ function ExploreContent() {
 
   return (
     <>
-      <div className="mx-auto my-4 flex max-w-7xl items-center space-x-4">
-        <div className="ml-2"> Find: </div>
+      {/* <div className="mx-auto my-4 flex max-w-lg items-center justify-between space-x-4 border-b-2 border-surface p-2 rounded-xl">
+        <div className="ml-2"> Checkout: </div>
         <Link href={GoToStatsPage()}>
           <span className="w-fit font-medium capitalize text-main-light hover:underline">
             Bounty Stats
@@ -64,7 +58,7 @@ function ExploreContent() {
             Organisations
           </span>
         </Link>
-      </div>
+      </div> */}
       <div>
         {/* <Section>{!!Map && <Map />}</Section> */}
 
@@ -95,7 +89,7 @@ function ExploreContent() {
               <PageNumber />
               <BountyBoard />
             </div>
-            <div className="flex grow basis-0 flex-wrap items-end justify-center ">
+            <div className="flex grow basis-0 flex-wrap items-end justify-center">
               <PageControls />
             </div>
           </>
