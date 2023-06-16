@@ -149,10 +149,10 @@ export function BountyHeader() {
               <Button
                 info={{
                   label: 'Support this bounty',
-                  style: ButtonStyle.Text,
+                  style: ButtonStyle.Hollow,
                   icon: 'toll',
                   onClick: () => setShowDonation(true),
-                  className: 'w-fit',
+                  className: 'w-fit p-3 animate-pulse',
                   removeMinWidth: true,
                   removePadding: true,
                 }}
