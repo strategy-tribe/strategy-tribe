@@ -1,10 +1,14 @@
 import { toPercentage } from '@/lib/utils/statisticsHelpers';
 
-import ProgressLoader from './utils/ProgressLoader';
-import { useExploreContext } from '../ExploreContext';
+import { SubmissionsStatusData } from '@/server/routes/statistics/getSubmissionsStatus';
 
-export default function SubmissionStates() {
-  const { submissionStatesData } = useExploreContext();
+import ProgressLoader from './utils/ProgressLoader';
+
+export default function SubmissionStates({
+  submissionStatesData,
+}: {
+  submissionStatesData: SubmissionsStatusData | undefined;
+}) {
   const total = submissionStatesData?.total ?? 0;
   const width = total ? '100' : '0';
   const acceptedSubmissionWidth = toPercentage(

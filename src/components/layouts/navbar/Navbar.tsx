@@ -5,11 +5,9 @@ import useScrollPosition from '@/lib/hooks/useScrollPosition';
 import {
   GoToAboutusPage,
   GoToBountiesPage,
-  GoToFAQPage,
   GoToLeaderboard,
-  GoToOrganizationsPage,
   GoToRulesPage,
-  GoToTargetsPage,
+  GoToStatsPage,
 } from '@/lib/utils/Routes';
 
 import { ConnectWalletPopUp } from '@/components/auth/ConnectWalletPopUp';
@@ -21,6 +19,7 @@ import { LandingPageLink } from './LandingPageLink';
 import { NotifsMenu } from './menus/NotifsMenu';
 import { UserMenu } from './menus/UserMenu';
 import { NavLink } from './NavLink';
+
 export function Navbar({
   hideBgOnScroll,
   keepNavbar,
@@ -83,12 +82,10 @@ export function Navbar({
             <LandingPageLink />
             <div className="hidden gap-8 bt:flex">
               <NavLink url={GoToBountiesPage()} label="Bounties" />
-              <NavLink url={GoToOrganizationsPage()} label="Organizations" />
-              <NavLink url={GoToTargetsPage()} label="Targets" />
               <NavLink url={GoToLeaderboard()} label="Leaderboard" />
+              <NavLink url={GoToStatsPage()} label="Statistics" />
               <NavLink url={GoToAboutusPage()} label="About" />
               <NavLink url={GoToRulesPage()} label="Rules" />
-              <NavLink url={GoToFAQPage()} label="FAQ" />
             </div>
           </div>
 
@@ -124,14 +121,12 @@ export function Navbar({
         </div>
         <div className="m-2 flex flex-wrap justify-around gap-x-10 gap-y-6 border-b-2 border-main pb-1 bt:hidden">
           <NavLink url={GoToBountiesPage()} label="Bounties" />
-          <NavLink url={GoToOrganizationsPage()} label="Organizations" />
-          <NavLink url={GoToTargetsPage()} label="Targets" />
-        </div>
-        <div className="m-2 flex flex-wrap justify-around gap-x-10 border-b-2 border-main pb-1 bt:hidden">
           <NavLink url={GoToLeaderboard()} label="Leaderboard" />
+          <NavLink url={GoToStatsPage()} label="Statistics" />
+        </div>
+        <div className="m-2 flex flex-wrap justify-around gap-x-10 gap-y-6 border-b-2 border-main pb-1 bt:hidden">
           <NavLink url={GoToAboutusPage()} label="About" />
           <NavLink url={GoToRulesPage()} label="Rules" />
-          <NavLink url={GoToFAQPage()} label="FAQ" />
         </div>
       </nav>
       <ConnectWalletPopUp
