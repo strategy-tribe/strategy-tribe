@@ -1,12 +1,15 @@
 import { Chart, registerables } from 'chart.js';
 import { Line } from 'react-chartjs-2';
 
-import { useExploreContext } from '../ExploreContext';
+import { SubmissionsGrowthData } from '@/server/routes/statistics/getSubmissionGrowth';
 
 Chart.register(...registerables);
 
-export default function SubmissionsGrowth() {
-  const { submissionsGrowth } = useExploreContext();
+export default function SubmissionsGrowth({
+  submissionsGrowth,
+}: {
+  submissionsGrowth: SubmissionsGrowthData | undefined;
+}) {
   const labels = submissionsGrowth?.labels;
   const data = {
     labels: labels,

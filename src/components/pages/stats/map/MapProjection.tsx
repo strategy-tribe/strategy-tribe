@@ -3,13 +3,14 @@ import { CountryStats } from '@prisma/client';
 import { useMemo } from 'react';
 
 import useWindowDimensions from '@/lib/hooks/useWindowDimensions';
+import { MapDataWithFeatures } from '@/lib/models/MapData';
 import { kFormatter } from '@/lib/utils/NumberHelpers';
 
-import { useExploreContext } from '../ExploreContext';
-
-export default function MapProjection() {
-  const { addCountry, map } = useExploreContext();
-
+export default function MapProjection({
+  map,
+}: {
+  map: MapDataWithFeatures | undefined;
+}) {
   const max =
     map?.mapData.countries.reduce((acc, curr) => {
       return acc.bountyCount > curr.bountyCount ? acc : curr;
@@ -69,7 +70,7 @@ export default function MapProjection() {
           const data = thing.label as string;
 
           if (!data) return;
-          addCountry(data);
+          // addCountry(data);
         }}
         tooltip={({ feature }) => {
           if (!feature?.data) return null;
