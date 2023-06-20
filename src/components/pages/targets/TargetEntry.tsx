@@ -14,9 +14,10 @@ export function TargetEntry({
   target: SmallTarget;
   variants?: Variants;
 }) {
-  const { fileUrl } = useGetFile(
-    `targets/thumbnails/${target.name.split(' ').join('_')}.jpeg`
-  );
+  const { fileUrl } = useGetFile([
+    `targets/thumbnails/${target.name.split(' ').join('_')}.jpeg`,
+    `targets/orgs/${target.org?.name.split(' ').join('_')}.jpeg`,
+  ]);
 
   return (
     <motion.div
