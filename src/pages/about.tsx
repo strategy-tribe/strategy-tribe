@@ -62,7 +62,6 @@ const AboutUsPage: NextPageWithLayout<{ submissionsPerDay: number }> = ({
         initial={{ opacity: 0, y: 5 }}
         animate={{ opacity: 1, y: 0 }}
       >
-
         <div className="space-y-16">
           <ReadingSection title="Why">
             <p>
