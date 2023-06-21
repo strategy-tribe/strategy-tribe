@@ -62,10 +62,8 @@ const AboutUsPage: NextPageWithLayout<{ submissionsPerDay: number }> = ({
         initial={{ opacity: 0, y: 5 }}
         animate={{ opacity: 1, y: 0 }}
       >
-        <h1 className="text-on-surface-p0">Re: StrategyTribe</h1>
-
         <div className="space-y-16">
-          <ReadingSection title="About">
+          <ReadingSection title="Why">
             <p>
               {' '}
               StrategyTribe was established in response to the growing need for
