@@ -44,27 +44,37 @@ export const fileRouter = router({
   getSignedUrlPromise: publicProcedure
     .input(
       z.object({
-        key: z.string(),
+        keys: z.string().array(),
       })
     )
     .query(async ({ input }) => {
       try {
-        const obj = await s3
-          .headObject({
-            Key: input.key,
+        const { keys } = input;
+        const objects = await s3
+          .listObjects({
             Bucket: process.env.OUR_AWS_BUCKET_NAME ?? '',
+            Prefix: 'targets',
           })
           .promise();
-        if (!obj) return '';
 
-        const url = await s3.getSignedUrlPromise('getObject', {
-          Key: input.key,
-          Bucket: process.env.OUR_AWS_BUCKET_NAME,
-          Expires: 240,
-        });
-        return url;
+        if (objects.Contents) {
+          const objKeys = objects.Contents.map((c) => c.Key);
+
+          for (const key of keys) {
+            if (objKeys.includes(key)) {
+              const url = await s3.getSignedUrlPromise('getObject', {
+                Key: key,
+                Bucket: process.env.OUR_AWS_BUCKET_NAME,
+                Expires: 240,
+              });
+              return url;
+            }
+          }
+        }
+
+        return '';
       } catch (e: any) {
-        LOG(`${input.key}: ${e.toString()}`);
+        LOG(`${input.keys[1]}: ${e.toString()}`);
         return '';
       }
     }),

@@ -53,9 +53,10 @@ export function BountyHeader() {
     }
   }, [counter]);
 
-  const { fileUrl } = useGetFile(
-    `targets/thumbnails/${bounty.target.name.split(' ').join('_')}.jpeg`
-  );
+  const { fileUrl } = useGetFile([
+    `targets/thumbnails/${bounty.target.name.split(' ').join('_')}.jpeg`,
+    `targets/orgs/${bounty.target.org?.name.split(' ').join('_')}.jpeg`,
+  ]);
 
   return (
     <>
