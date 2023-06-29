@@ -83,23 +83,33 @@ export function ReviewDashboardFilters() {
 export function ReviewDashboardSearchbar() {
   const { query, setQuery } = useAdminReview();
 
-  const [search, setSearch] = useState('');
-  function hitSearch(clean = false) {
-    setSearch('');
-    const values = clean ? undefined : [search];
-    setQuery({ ...query, owners: values });
+  const [userId, setUserId] = useState('');
+  const [title, setTitle] = useState('');
+
+  function hitSearch() {
+    setUserId('');
+    setTitle('');
+    const userIds = !userId ? undefined : [userId];
+    setQuery({ ...query, owners: userIds, title });
+  }
+
+  function clearUserId() {
+    setUserId('');
+    setQuery({ ...query, owners: undefined });
+  }
+
+  function clearTitle() {
+    setTitle('');
+    setQuery({ ...query, title: undefined });
   }
 
   return (
     <div className="grow-[10]">
-      {query.owners && query.owners.at(0) && (
-        <>
+      <div className="flex space-x-4">
+        {query.owners && query.owners.at(0) && (
           <button
             className="group flex items-center gap-2 rounded-full border px-4 py-2"
-            onClick={() => {
-              setSearch('');
-              hitSearch(true);
-            }}
+            onClick={() => clearUserId()}
           >
             <Icon
               icon="close"
@@ -114,18 +124,52 @@ export function ReviewDashboardSearchbar() {
               </span>
             </div>
           </button>
-        </>
-      )}
+        )}
 
-      {(!query.owners || !query?.owners?.at(0)) && (
+        {query.title && (
+          <button
+            className="group flex items-center gap-2 rounded-full border px-4 py-2"
+            onClick={() => clearTitle()}
+          >
+            <Icon
+              icon="close"
+              size={IconSize.Small}
+              className="group-hover:text-error-light"
+            />
+            <div className="body-sm flex items-center gap-1">
+              <span className="text-left ">Title</span>
+
+              <span className="group-hover:text-error-light">
+                {query.title}
+              </span>
+            </div>
+          </button>
+        )}
+      </div>
+
+      {(!query.owners || !query?.owners?.at(0)) && !query.title && (
         <div className="flex items-center gap-4">
           <input
             type="text"
             className="body-sm w-full border-0 border-b bg-bg font-medium focus:border-main focus:ring-0"
-            placeholder="Search by user id"
-            value={search}
+            placeholder="Enter user id"
+            value={userId}
             onChange={(e) => {
-              setSearch(e.target.value);
+              setUserId(e.target.value);
+            }}
+            onKeyUp={(e) => {
+              if (e.key === 'Enter') {
+                hitSearch();
+              }
+            }}
+          />
+          <input
+            type="text"
+            className="body-sm ml-2 w-full border-0 border-b bg-bg font-medium focus:border-main focus:ring-0"
+            placeholder="Enter title"
+            value={title}
+            onChange={(e) => {
+              setTitle(e.target.value);
             }}
             onKeyUp={(e) => {
               if (e.key === 'Enter') {
@@ -135,7 +179,7 @@ export function ReviewDashboardSearchbar() {
           />
           <button
             className="label-sm shrink-0 grow rounded-full border border-bg bg-main px-8 py-2 text-center text-on-color"
-            onClick={() => hitSearch(false)}
+            onClick={() => hitSearch()}
           >
             Search
           </button>
