@@ -199,7 +199,7 @@ function GenerateBountiesData(
         extraDataTitle = 'Enter additional locations here';
         break;
       default:
-        throw new Error(`Undefined bounty type for ${targetName}`);
+        throw new Error(`Undefined bounty type for ${targetName}: ${type}`);
     }
     const requirement: RequirementData = {
       optional: false,
@@ -251,7 +251,7 @@ async function CreateBounty(
       title,
       description: '',
       closesAt,
-      status: 'WaitingForFunds',
+      status: 'Open',
       requirements: {
         createMany: {
           data: requirements.map((r) => ({
@@ -279,7 +279,7 @@ async function CreateBounty(
       wallet: {
         create: {
           address: address,
-          balance: 0,
+          balance: walletControl?.initial ?? 0,
           walletControl: {
             create: walletControl,
           },
@@ -418,19 +418,11 @@ function getWalletControl(
         )
     );
   if (!config) {
-    return {
-      fund: 0,
-      initial: 5,
-      incrementBy: 2,
-      numberOfIncrements: 0,
-      incrementInDays: 2,
-      nextIncrementOn: new Date(),
-      proposedFund: 0,
-    };
+    return undefined;
   }
   const configs = config.split(',');
   return {
-    fund: 0,
+    fund: configs[4] ? parseFloat(configs[4]) : 0,
     initial: configs[1] ? parseFloat(configs[1]) : 0,
     incrementBy: configs[2] ? parseFloat(configs[2]) : 0,
     numberOfIncrements: 0,
