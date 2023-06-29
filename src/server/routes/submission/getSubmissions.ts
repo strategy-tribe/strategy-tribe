@@ -18,6 +18,7 @@ const GetSubmissionsSchema = z.object({
   state: z.nativeEnum(SubmissionState).optional(),
   reviewed: z.boolean().optional(),
   owners: z.string().array().optional(),
+  title: z.string().optional(),
   page: z.number().optional(),
   /** Slugs of the bounties */
   bounties: z.string().array().optional(),
@@ -102,6 +103,13 @@ export const _getSubmissions = async (
         ? {
             isNot: {
               id: undefined,
+            },
+          }
+        : undefined,
+      bounty: input.title
+        ? {
+            title: {
+              search: input.title?.split(' ').join(' & '),
             },
           }
         : undefined,
