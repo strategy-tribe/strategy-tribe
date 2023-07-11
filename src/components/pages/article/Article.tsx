@@ -14,9 +14,9 @@ export function Article({ article }: { article: FullArticle }) {
   const { isAdmin, isStaff } = useAuth();
   const router = useRouter();
 
-  const { fileUrl } = useGetFile(
-    `articles/thumbnails/${article.thumbnail}.jpeg`
-  );
+  const { fileUrl } = useGetFile([
+    `articles/thumbnails/${article.thumbnail}.jpeg`,
+  ]);
 
   const orgsFull = article.targets
     .map((t) => t.org?.name ?? '')

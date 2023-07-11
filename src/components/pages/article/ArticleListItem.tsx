@@ -9,9 +9,9 @@ import { SmallArticle } from '@/server/routes/articles/getArticles';
 
 export function ArticleListItem({ article }: { article: SmallArticle }) {
   const { isAdmin, isStaff } = useAuth();
-  const { fileUrl } = useGetFile(
-    `articles/thumbnails/${article.thumbnail}.jpeg`
-  );
+  const { fileUrl } = useGetFile([
+    `articles/thumbnails/${article.thumbnail}.jpeg`,
+  ]);
   const router = useRouter();
 
   return (
