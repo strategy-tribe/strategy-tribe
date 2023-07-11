@@ -143,7 +143,7 @@ const getOrderBy = (
 };
 
 const getWhere = (input: GetBountiesParams) => {
-  return Prisma.validator<Prisma.BountyWhereInput>()({
+  const where = Prisma.validator<Prisma.BountyWhereInput>()({
     target: {
       AND: [
         {
@@ -194,6 +194,27 @@ const getWhere = (input: GetBountiesParams) => {
         },
       },
     },
+  });
+  const target = where.target.AND;
+  return Prisma.validator<Prisma.BountyWhereInput>()({
+    OR: [
+      {
+        ...where,
+        title: undefined,
+        target: {
+          AND: (where.target.AND as any).concat(
+            input.search
+              ? {
+                  alsoKnownAs: {
+                    has: input.search,
+                  },
+                }
+              : {}
+          ),
+        },
+      },
+      where,
+    ],
   });
 };
 

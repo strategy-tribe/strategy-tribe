@@ -111,9 +111,14 @@ export function scrapTargets(rows: Row[]): TargetData[] {
         row[1]?.toLowerCase().trim() ?? 'Undefined organization',
       alsoKnownAs: isString(row[2]) ? row[2].split(',') : [],
       tags: isString(row[3]) ? row[3].split(',') : [],
-      bio: row[4].toLowerCase().trim(),
+      bio: row[4].trim(),
       types: isString(row[5])
-        ? row[5].split(',').map((i) => toTitleCase(i.trim()) as RequirementType)
+        ? row[5]
+            .split(',')
+            .map(
+              (i) =>
+                toTitleCase(i.trim()).replaceAll(' ', '') as RequirementType
+            )
         : [],
       incrementConfig: row[6],
     };

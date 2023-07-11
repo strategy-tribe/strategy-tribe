@@ -302,6 +302,11 @@ export function BountyDetails({
           </span>
         </Link>
       </div>
+      {orgName ? (
+        <FromOrganization orgName={orgName} />
+      ) : (
+        <div className="h-9 w-60 animate-pulse rounded bg-surface-dark" />
+      )}
       {bounty?.target?.bio && (
         <Stat
           title="bio"
@@ -318,11 +323,6 @@ export function BountyDetails({
           ?.filter((r) => !r.optional)
           ?.map((r) => r.title)}
       />
-      {orgName ? (
-        <FromOrganization orgName={orgName} />
-      ) : (
-        <div className="h-9 w-60 animate-pulse rounded bg-surface-dark" />
-      )}
     </div>
   );
 }
