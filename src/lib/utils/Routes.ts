@@ -22,6 +22,8 @@ export const GoToAboutusPage = () => '/about';
 
 export const GoToFAQPage = () => '/faq';
 
+export const GoToStatsPage = () => '/stats';
+
 export const GoToWaitingForReview = () => '/review';
 
 export const GoToNewBountyPage = () => '/bounty/new';

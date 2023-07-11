@@ -53,9 +53,10 @@ export function BountyHeader() {
     }
   }, [counter]);
 
-  const { fileUrl } = useGetFile(
-    `targets/thumbnails/${bounty.target.name.split(' ').join('_')}.jpeg`
-  );
+  const { fileUrl } = useGetFile([
+    `targets/thumbnails/${bounty.target.name.split(' ').join('_')}.jpeg`,
+    `targets/orgs/${bounty.target.org?.name.split(' ').join('_')}.jpeg`,
+  ]);
 
   return (
     <>
@@ -149,10 +150,10 @@ export function BountyHeader() {
               <Button
                 info={{
                   label: 'Support this bounty',
-                  style: ButtonStyle.Text,
+                  style: ButtonStyle.Hollow,
                   icon: 'toll',
                   onClick: () => setShowDonation(true),
-                  className: 'w-fit',
+                  className: 'w-fit p-3 animate-pulse',
                   removeMinWidth: true,
                   removePadding: true,
                 }}
@@ -301,6 +302,11 @@ export function BountyDetails({
           </span>
         </Link>
       </div>
+      {orgName ? (
+        <FromOrganization orgName={orgName} />
+      ) : (
+        <div className="h-9 w-60 animate-pulse rounded bg-surface-dark" />
+      )}
       {bounty?.target?.bio && (
         <Stat
           title="bio"
@@ -317,11 +323,6 @@ export function BountyDetails({
           ?.filter((r) => !r.optional)
           ?.map((r) => r.title)}
       />
-      {orgName ? (
-        <FromOrganization orgName={orgName} />
-      ) : (
-        <div className="h-9 w-60 animate-pulse rounded bg-surface-dark" />
-      )}
     </div>
   );
 }

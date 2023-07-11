@@ -1,19 +1,49 @@
 import { motion } from 'framer-motion';
+import { GetStaticProps } from 'next';
 import Head from 'next/head';
 
 import { GoToFAQPage } from '@/lib/utils/Routes';
 
 import AppLayout from '@/components/layouts/AppLayout';
+import { FAQs } from '@/components/pages/faq/FAQs';
 import { AfterRead, ReadingSection } from '@/components/reading/utils';
 
 import { NextPageWithLayout } from './_app';
+
+export const getStaticProps: GetStaticProps = async () => {
+  try {
+    const submissionsPerDay = parseInt(
+      process.env.SUBMISSION_PER_DAY as string
+    );
+
+    if (!submissionsPerDay) {
+      throw new Error('Unable to assess submissions per day');
+    }
+
+    return {
+      props: {
+        submissionsPerDay,
+      },
+      revalidate: 60,
+    };
+  } catch (error) {
+    console.error('error:\n', error);
+    return {
+      props: { submissionsPerDay: 3 },
+      revalidate: 30,
+    };
+  }
+};
 
 const twitterUrl = process.env.NEXT_PUBLIC_TWITTER;
 const redditUrl = process.env.NEXT_PUBLIC_REDDIT;
 const discordUrl = process.env.NEXT_PUBLIC_DISCORD;
 const githubUrl = process.env.NEXT_PUBLIC_GITHUB;
 
-const AboutUsPage: NextPageWithLayout = () => {
+const AboutUsPage: NextPageWithLayout<{ submissionsPerDay: number }> = ({
+  // eslint-disable-next-line react/prop-types
+  submissionsPerDay,
+}) => {
   return (
     <div className="space-y-8 text-on-surface-p1">
       <Head>
@@ -32,10 +62,8 @@ const AboutUsPage: NextPageWithLayout = () => {
         initial={{ opacity: 0, y: 5 }}
         animate={{ opacity: 1, y: 0 }}
       >
-        <h1 className="text-on-surface-p0">Re: StrategyTribe</h1>
-
         <div className="space-y-16">
-          <ReadingSection title="About">
+          <ReadingSection title="Why">
             <p>
               {' '}
               StrategyTribe was established in response to the growing need for
@@ -188,6 +216,11 @@ const AboutUsPage: NextPageWithLayout = () => {
               without compromising their personal information.
             </p>
           </ReadingSection>
+
+          <FAQs
+            submissionsPerDay={submissionsPerDay}
+            discordUrl={discordUrl ?? ''}
+          />
 
           <AfterRead />
         </div>

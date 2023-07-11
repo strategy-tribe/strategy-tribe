@@ -2,31 +2,39 @@ import { Chart, registerables } from 'chart.js';
 import { Line } from 'react-chartjs-2';
 import { PieChart } from 'react-minimal-pie-chart';
 
-import { useExploreContext } from '../ExploreContext';
+import { BountiesStatusData } from '@/server/routes/statistics/getBountiesStatus';
+import { FundData } from '@/server/routes/statistics/getFundsData';
 
 Chart.register(...registerables);
 
-export default function BountiesStatus() {
-  const { bountyStatusData, bountyTrendChartData } = useExploreContext();
-
+export default function BountiesStatus({
+  bountyStatusData,
+  bountyTrendChartData,
+}: {
+  bountyStatusData: BountiesStatusData | undefined;
+  bountyTrendChartData: FundData | undefined;
+}) {
   if (!bountyStatusData && !bountyTrendChartData) return <></>;
   return (
     <div className="flex h-full flex-col tablet:w-3/4">
       <div className="h-1/2">
         <span className="flex flex-row">Bounties</span>
-        <BountyStatusPieChart />
+        <BountyStatusPieChart bountyStatusData={bountyStatusData} />
       </div>
 
       <div className="h-96 pt-10 pb-4">
         <span className="flex flex-row pb-5">Funding</span>
-        <BountyPaymentLineGraph />
+        <BountyPaymentLineGraph bountyTrendChartData={bountyTrendChartData} />
       </div>
     </div>
   );
 }
 
-export function BountyStatusPieChart() {
-  const { bountyStatusData } = useExploreContext();
+export function BountyStatusPieChart({
+  bountyStatusData,
+}: {
+  bountyStatusData: BountiesStatusData | undefined;
+}) {
   const total = bountyStatusData?.total ?? 0;
 
   const openBountiesPercentage: number | undefined | string = (
@@ -110,9 +118,11 @@ export function BountyStatusPieChart() {
   );
 }
 
-export function BountyPaymentLineGraph() {
-  const { bountyTrendChartData } = useExploreContext();
-
+export function BountyPaymentLineGraph({
+  bountyTrendChartData,
+}: {
+  bountyTrendChartData: FundData | undefined;
+}) {
   const labels = bountyTrendChartData?.labels;
   const data = {
     labels: labels,
