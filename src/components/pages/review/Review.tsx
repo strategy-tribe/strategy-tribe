@@ -7,6 +7,7 @@ import { GetWordCount } from '@/lib/utils/StringHelpers';
 import { SubmissionStateDisplayer } from '@/components/pages/bounty/SubmissionStatus';
 import { SubmitReviewButton } from '@/components/pages/submission/new submission/review/Evaluate';
 import Icon, { IconSize } from '@/components/utils/Icon';
+import { MarkdownView } from '@/components/utils/MarkdownView';
 import { RenderMarkdown } from '@/components/utils/RenderMarkdown';
 
 import { useAuth } from '@/auth/AuthContext';
@@ -14,7 +15,6 @@ import { FullSubmission } from '@/server/routes/submission/getSubmission';
 
 import { ReviewCheck } from './ReviewCheck';
 import { ReviewMap } from './ReviewMap';
-import { ReviewView } from './ReviewView';
 import { BountyDetails } from '../bounty/BountyHeader';
 
 export function Review({ submission }: { submission: FullSubmission }) {
@@ -23,7 +23,7 @@ export function Review({ submission }: { submission: FullSubmission }) {
   const [feasible, setFeasible] = useState(false);
   const [correct, setCorrect] = useState(false);
   const [feedback, setFeedback] = useState('');
-  const [view, setView] = useState(ReviewView.Edit);
+  const [view, setView] = useState(MarkdownView.Edit);
 
   const feedbackIsOk = !!feedback && GetWordCount(feedback) >= 1;
 
@@ -97,7 +97,7 @@ export function Review({ submission }: { submission: FullSubmission }) {
             >
               <div className="space-y-4">
                 <div className="flex items-center gap-6">
-                  {Object.entries(ReviewView).map((entry) => {
+                  {Object.entries(MarkdownView).map((entry) => {
                     const active = entry[1] === view;
                     return (
                       <button
@@ -114,7 +114,7 @@ export function Review({ submission }: { submission: FullSubmission }) {
                 </div>
 
                 <div>
-                  {view === ReviewView.Edit && (
+                  {view === MarkdownView.Edit && (
                     <ReactTextareaAutosize
                       placeholder="This input supports markdown"
                       className="body w-full whitespace-pre-wrap rounded border border-dashed border-on-surface-disabled bg-bg p-4 font-inter text-on-surface-p1 first-letter:capitalize focus:border-on-surface-unactive focus:ring-0"
@@ -124,7 +124,7 @@ export function Review({ submission }: { submission: FullSubmission }) {
                     />
                   )}
 
-                  {view === ReviewView.Preview && (
+                  {view === MarkdownView.Preview && (
                     <div
                       className={`min-h-[17.1rem] rounded border-surface p-4 ${
                         feedback === '' ? '' : 'border'
