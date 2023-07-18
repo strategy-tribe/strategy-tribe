@@ -29,6 +29,13 @@ export async function ServerGetSolution(
           name: true,
           bounties: {
             select: {
+              slug: true,
+              title: true,
+              wallet: {
+                select: {
+                  balance: true,
+                },
+              },
               tags: {
                 select: {
                   name: true,

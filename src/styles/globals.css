@@ -57,6 +57,14 @@
   }
 }
 
+.parallelogram {
+  position: relative;
+  display: inline-block;
+  -webkit-transform: skew(-9deg);
+  -moz-transform: skew(-9deg);
+  -o-transform: skew(-9deg);
+}
+
 @layer components {
   .body-lg {
     font-family: 'Inter';

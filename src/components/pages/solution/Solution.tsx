@@ -1,7 +1,12 @@
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 
 import { useGetFile } from '@/lib/hooks/fileHooks';
-import { GoToNewSolutionPage, GoToSolutionEditPage } from '@/lib/utils/Routes';
+import {
+  GoToBountyPage,
+  GoToNewSolutionPage,
+  GoToSolutionEditPage,
+} from '@/lib/utils/Routes';
 import { toTitleCase } from '@/lib/utils/StringHelpers';
 
 import { RenderMarkdown } from '@/components/utils/RenderMarkdown';
@@ -96,18 +101,40 @@ export function Solution({ solution }: { solution: FullSolution }) {
       </p>
       <h1 className="h2 mt-3 w-fit pt-3 text-main">Appendix</h1>
       <div className="space-y-4 px-2">
+        <h1 className="h3 mt-3 w-fit pt-3 text-wait-bounty">Bounties</h1>
+        <div>
+          <span>Bounty Paid: </span>
+          <span className="font-bold">
+            {solution.target.bounties
+              .map((bounty) => bounty.wallet.balance)
+              ?.reduce((sum, count) => sum + count, 0)
+              ?.toFixed(2)
+              ?.toString()}
+          </span>
+          <span> MATIC</span>
+        </div>
+        <ul className="list-disc pl-[2rem]">
+          {solution.target.bounties.map((bounty) => (
+            <li key={bounty.slug}>
+              <Link href={GoToBountyPage(bounty.slug)}>
+                <span className="text-left text-main-light underline hover:text-main">
+                  {bounty.title}
+                </span>
+              </Link>
+            </li>
+          ))}
+        </ul>
         <h1 className="h3 mt-3 w-fit pt-3 text-wait-bounty">
           Solution Symbology
         </h1>
         <div className="flex gap-x-8 px-4">
-          <div className="border- rounded-md border-2 p-4">Starting data</div>
-          <div className="border- rounded-full border-2 p-4 px-6">Process</div>
-          <div className="border- rounded-md border-2 p-4">Data found</div>
+          <div className="border-2 p-4">Process</div>
+          <div className="parallelogram border-2 p-4">Data found</div>
         </div>
         <h1 className="h3 mt-3 w-fit pt-3 text-wait-bounty">
           How Data is archived
         </h1>
-        <ul>
+        <ul className="list-disc pl-[2rem]">
           <li>
             Links are archived with{' '}
             <a

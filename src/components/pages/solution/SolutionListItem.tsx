@@ -25,8 +25,8 @@ export function SolutionListItem({ solution }: { solution: SmallSolution }) {
           alt="preview for image"
         />
       )}
-      <div className="self-center">
-        <div className="flex items-start justify-between gap-2 font-grotesk">
+      <div className="w-full self-center">
+        <div className="flex w-full items-start justify-between gap-2 font-grotesk">
           <h3 className="h5 breakWord font-grotesk capitalize group-hover:underline">
             {solution.target.name}
           </h3>
