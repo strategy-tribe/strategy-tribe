@@ -26,6 +26,11 @@ export function SolutionListItem({ solution }: { solution: SmallSolution }) {
         />
       )}
       <div className="w-full self-center">
+        {(isAdmin || isStaff) && (
+          <div className={solution.publish ? 'text-success' : 'text-error'}>
+            {solution.publish ? 'Published' : 'Unpublished'}
+          </div>
+        )}
         <div className="flex w-full items-start justify-between gap-2 font-grotesk">
           <h3 className="h5 breakWord font-grotesk capitalize group-hover:underline">
             {solution.target.name}
