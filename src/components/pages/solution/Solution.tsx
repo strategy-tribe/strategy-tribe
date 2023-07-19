@@ -6,6 +6,7 @@ import {
   GoToBountyPage,
   GoToNewSolutionPage,
   GoToSolutionEditPage,
+  GoToTargetPage,
 } from '@/lib/utils/Routes';
 import { toTitleCase } from '@/lib/utils/StringHelpers';
 
@@ -55,9 +56,11 @@ export function Solution({ solution }: { solution: FullSolution }) {
           ></img>
         )}
         <div className="self-center">
-          <div className="text-3xl font-bold text-main">
-            {toTitleCase(solution.target.name)}
-          </div>
+          <Link href={GoToTargetPage(solution.target.name)}>
+            <div className="text-3xl font-bold text-main hover:text-main-light">
+              {toTitleCase(solution.target.name)}
+            </div>
+          </Link>
           <div className="flex flex-wrap gap-4">
             {tags
               .filter(
