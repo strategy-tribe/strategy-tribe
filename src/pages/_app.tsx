@@ -70,6 +70,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
           name="viewport"
           content="width=device-width, initial-scale=1.0,minimum-scale=1.0"
         />
+        <meta name="robots" content="noarchive" />
       </Head>
       <QueryClientProvider client={qc}>
         <WagmiConfig client={wagmiClient}>
