@@ -2,15 +2,13 @@ import { GetStaticPaths, GetStaticProps } from 'next';
 import Head from 'next/head';
 import { useEffect, useState } from 'react';
 
+import { useGetSolution } from '@/lib/hooks/solutionHooks';
+
 import AppLayout from '@/components/layouts/AppLayout';
 import { SolutionEdit } from '@/components/pages/solution/SolutionEdit';
 
 import { NextPageWithLayout } from '@/pages/_app';
 import prisma from '@/server/prisma/prismaClient';
-import {
-  FullSolution,
-  ServerGetSolution,
-} from '@/server/routes/solutions/getSolution';
 import { PostSolutionParams } from '@/server/routes/solutions/postSolution';
 
 export const getStaticPaths: GetStaticPaths = async () => {
@@ -43,27 +41,20 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     };
   }
 
-  const solution: FullSolution | null = await ServerGetSolution(
-    prisma,
-    {
-      id,
-    },
-    true
-  );
-
   return {
     props: {
-      solution,
+      id,
     },
     revalidate: 60 * 5, //every 5 minutes
   };
 };
 
-const SolutionEditPage: NextPageWithLayout<{ solution: FullSolution }> = ({
-  solution,
+const SolutionEditPage: NextPageWithLayout<{ id: string }> = ({
+  id,
 }: {
-  solution: FullSolution;
+  id: string;
 }) => {
+  const { solution } = useGetSolution(id);
   const [solutionFetch, setSolutionFetch] = useState<PostSolutionParams>({
     id: '',
     mermaid: '',
