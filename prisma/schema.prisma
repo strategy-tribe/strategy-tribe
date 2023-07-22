@@ -33,6 +33,7 @@ model Target {
   bio String?
 
   bounties Bounty[]
+  solution Solution?
 
   org   Organization? @relation(fields: [orgId], references: [id], onDelete: SetNull)
   orgId String?
@@ -320,6 +321,20 @@ enum RequirementType {
   Email
   Name
   Location
+}
+
+model Solution {
+  id String @id @default(cuid())
+
+  mermaid String
+  content String
+  publish Boolean
+
+  target   Target @relation(fields: [targetId], references: [id], onDelete: Cascade)
+  targetId String @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
 }
 
 //Users:--------------------------------------------------------------------------------

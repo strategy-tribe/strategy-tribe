@@ -81,4 +81,11 @@ export const GoToEditBountyPage = () => {
   return `/admin/bounty/edit`;
 };
 
-export const GoToFpPage = (fp: string) => `/admin/fp/${fp}`;
+export const GoToSolutionPage = (id: string) => `/solutions/${id}`;
+
+export const GoToSolutionsPage = () => `/solutions`;
+
+export const GoToNewSolutionPage = () => `/admin/solutions/new`;
+
+export const GoToSolutionEditPage = (id: string) =>
+  `/admin/solutions/edit/${id}`;
