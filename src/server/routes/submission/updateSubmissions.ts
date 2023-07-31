@@ -18,6 +18,7 @@ type UpdateSubmissionsParams = z.infer<typeof UpdateSubmissionsSchema>;
 /** Schema used to update for submissions */
 const UpdateSubmissionsDataSchema = z.object({
   state: z.nativeEnum(SubmissionState),
+  uncertain: z.boolean().optional(),
 });
 
 export type UpdateSubmissionsDataParams = z.infer<

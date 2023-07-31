@@ -57,6 +57,7 @@ function isRequestForSubmissionsValid(
 export const SMALL_SUBMISSION_SELECT =
   Prisma.validator<Prisma.SubmissionSelect>()({
     state: true,
+    uncertain: true,
     createdAt: true,
     updatedAt: true,
     id: true,
