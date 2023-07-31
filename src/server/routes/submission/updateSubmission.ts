@@ -23,7 +23,8 @@ const _updateSubmission = async (
 /** Updates a submission to be accepted. It also notifies the user of this */
 export const AcceptAndNotifySubmission = async (
   prisma: PrismaClient,
-  submissionId: string
+  submissionId: string,
+  uncertain: boolean
 ) => {
   const { authorId, bountySlug } = await _updateSubmission(
     {
@@ -31,6 +32,7 @@ export const AcceptAndNotifySubmission = async (
     },
     {
       state: SubmissionState.Accepted,
+      uncertain,
     },
     prisma
   );
@@ -52,7 +54,8 @@ export const AcceptAndNotifySubmission = async (
 /** Updates a submission to be rejected. It also notifies the user of this */
 export const RejectAndNotifySubmission = async (
   prisma: PrismaClient,
-  submissionId: string
+  submissionId: string,
+  uncertain: boolean
 ) => {
   const { authorId, bountySlug } = await _updateSubmission(
     {
@@ -60,6 +63,7 @@ export const RejectAndNotifySubmission = async (
     },
     {
       state: SubmissionState.Rejected,
+      uncertain,
     },
     prisma
   );

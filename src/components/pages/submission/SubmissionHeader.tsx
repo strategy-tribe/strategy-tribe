@@ -43,7 +43,7 @@ export function SubmissionHeader() {
         </div>
 
         {(isAdmin || isStaff) &&
-          submission.state === SubmissionState.WaitingForReview && (
+          ((submission.state === SubmissionState.WaitingForReview && (
             <div className="flex h-fit flex-col items-center justify-center gap-4 pt-4">
               <div className="flex items-center gap-2">
                 <Icon icon="check" size={IconSize.Small} />
@@ -60,7 +60,13 @@ export function SubmissionHeader() {
                 }}
               />
             </div>
-          )}
+          )) ||
+            (submission.uncertain && (
+              <div className="pt-2 text-waiting">
+                There is a negligible chance that the target has been
+                misidentified
+              </div>
+            )))}
       </Section>
     </header>
   );

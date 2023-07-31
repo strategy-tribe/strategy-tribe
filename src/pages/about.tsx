@@ -2,8 +2,6 @@ import { motion } from 'framer-motion';
 import { GetStaticProps } from 'next';
 import Head from 'next/head';
 
-import { GoToFAQPage } from '@/lib/utils/Routes';
-
 import AppLayout from '@/components/layouts/AppLayout';
 import { FAQs } from '@/components/pages/faq/FAQs';
 import { AfterRead, ReadingSection } from '@/components/reading/utils';
@@ -63,63 +61,37 @@ const AboutUsPage: NextPageWithLayout<{ submissionsPerDay: number }> = ({
         animate={{ opacity: 1, y: 0 }}
       >
         <div className="space-y-16">
+          <ReadingSection title="Mission">
+            <p>
+              To develop the pursuit of open-source intelligence (OSINT)
+              excellence. By organizing and centralizing the efforts of our
+              community - whilst keeping the academic rigor in the output - we
+              strive to create a positive impact in the lives of others and
+              contribute to a wider good.
+              <br />
+              <br /> We aim to incentivize, study and then streamline data
+              mining on threat actors.
+            </p>
+            {/* <SectionContent content="Bringing efficient crowdsourced OSINT to the world as a capability to be used for immediate good." />
+  <CallToAction
+    className="pt-4"
+    label="Follow us on Twitter"
+    link={twitterUrl ?? ''}
+  /> */}
+          </ReadingSection>
+
           <ReadingSection title="Why">
             <p>
-              {' '}
-              StrategyTribe was established in response to the growing need for
-              more comprehensive and scalable open-source intelligence (OSINT)
-              efforts focused on the world’s most critical threat actors. Our
-              primary objective is to streamline and incentivize data collection
-              by individuals while centralizing and organizing this valuable
-              information.
-              <br /> <br /> We partner with journalists, private sector
-              entities, and governmental agencies to ensure our findings align
-              with our core values and disseminate these insights to relevant
-              stakeholders.
-              <br /> <br /> Visit our comprehensive{' '}
-              <a
-                className="underline hover:text-main-light"
-                href={GoToFAQPage()}
-              >
-                FAQ
-              </a>{' '}
-              section to learn more, follow us on{' '}
-              <a
-                className="underline hover:text-main-light"
-                href={twitterUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Twitter
-              </a>{' '}
-              ,{' '}
-              <a
-                className="underline hover:text-main-light"
-                href={redditUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Reddit
-              </a>{' '}
-              and{' '}
-              <a
-                className="underline hover:text-main-light"
-                href={discordUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Discord
-              </a>{' '}
-              , or check out our{' '}
-              <a
-                className="underline hover:text-main-light"
-                href={githubUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                GitHub
-              </a>{' '}
-              .
+              The rate at which public data is being produced is rapidly
+              increasing. StrategyTribe was established in response to the
+              growing need for more comprehensive and scalable efforts focused
+              on mining this data for good.
+              <br />
+              <br /> Existing journalist-led work in this space has helped show
+              the value to be mined in publicly available data - but is chaotic
+              & inefficient, with certainly no streamlining and very little
+              academic study going on. We aim to build on this work and take it
+              further, bigger, more sustainably.
             </p>
 
             {/* <div className="space-y-6 pt-4">
@@ -138,11 +110,6 @@ const AboutUsPage: NextPageWithLayout<{ submissionsPerDay: number }> = ({
               We are committed to upholding the Universal Declaration of Human
               Rights as a fundamental source of inspiration and motivation
               behind all our endeavors.
-              <br />
-              <br /> Furthermore, we recognize the significance and impact of
-              the open-source philosophy in today’s interconnected world. By
-              embracing this approach, we aim to foster a culture of
-              collaboration, innovation, and openness.
             </p>
             {/* <div className="flex items-center gap-2 tablet:-translate-x-6">
               <Icon
@@ -168,52 +135,13 @@ const AboutUsPage: NextPageWithLayout<{ submissionsPerDay: number }> = ({
             </div> */}
           </ReadingSection>
 
-          <ReadingSection title="Mission">
-            <p>
-              At StrategyTribe, our mission is to empower an innovative and
-              inclusive community dedicated to the pursuit of open-source
-              intelligence (OSINT) excellence. We are committed to assembling a
-              diverse team of individuals from various backgrounds, cultures,
-              and beliefs in order to expose and combat criminal activity. By
-              organizing and centralizing the efforts of our community, we
-              strive to create a positive impact in the lives of others and
-              contribute to the greater good.
-              <br />
-              <br /> Our vision is to foster a global network of individuals who
-              are deeply rooted in the principles of individual liberty,
-              democracy, and the rule of law. By sharing vital information with
-              journalists, private sector companies, and governments that align
-              with our values, we aim to bring justice to the world’s most
-              critical threat actors and promote a safer, more transparent
-              global society.
-              <br />
-              <br /> Together, we will build and nurture an efficient OSINT
-              community that serves as a beacon of truth, collaboration, and
-              progress in our ever-evolving world.
-            </p>
-            {/* <SectionContent content="Bringing efficient crowdsourced OSINT to the world as a capability to be used for immediate good." />
-            <CallToAction
-              className="pt-4"
-              label="Follow us on Twitter"
-              link={twitterUrl ?? ''}
-            /> */}
-          </ReadingSection>
-
           <ReadingSection title="Anonymity">
             <p>
-              At StrategyTribe, we firmly believe in the fundamental human right
-              to anonymity and are committed to preserving the privacy of our
-              users. Recognizing the critical nature of confidentiality in
-              today’s digital landscape, we strongly encourage users to
-              establish a new browser wallet to interact with our platform.
-              <br />
-              <br /> Please note that the only information we retain about our
-              users is their wallet addresses, username and information
-              submitted to the site (including bounty submissions and the
-              optional leaderboard usernames). This data storage practice and
-              transparency reflects our unwavering dedication to upholding
-              privacy rights and ensures our users can engage with StrategyTribe
-              without compromising their personal information.
+              We encourage users to establish a new browser wallet to interact
+              with our platform. The only information we retain about our users
+              is their wallet addresses, username and information submitted to
+              the site (including bounty submissions and the optional
+              leaderboard usernames).
             </p>
           </ReadingSection>
 
