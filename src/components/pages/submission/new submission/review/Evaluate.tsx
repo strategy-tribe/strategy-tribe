@@ -107,6 +107,7 @@ export default function Evaluate({ submissionId }: { submissionId: string }) {
             meetsRequirements:
               (meetsRequirements as string) === 'Yes' ? true : false,
             reviewer: user,
+            uncertain: false,
           }}
         />
       )}
@@ -124,6 +125,7 @@ export function SubmitReviewButton({
     meetsRequirements: boolean;
     reviewer: string;
     feedback: string;
+    uncertain: boolean;
   };
   disabled?: boolean;
 }) {
@@ -198,11 +200,12 @@ export function SubmitReviewButton({
               submissionId: submission.id,
               reviewerAddress: review.reviewer,
               reviewerComment: review.feedback,
+              uncertain: review.uncertain,
             });
         },
-        label: 'Yes, this is the grade it deserves',
+        label: review.meetsRequirements ? 'Accept' : 'Reject',
         disabled: disabled,
-        className: 'h-fit',
+        className: 'h-fit text-base font-bold',
       }}
     />
   );

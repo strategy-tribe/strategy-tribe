@@ -47,6 +47,15 @@ export default function RulesContent() {
             step-by-step guide.
           </span>
         </ol>
+
+        <ol className="flex flex-col gap-1">
+          <div className="label-lg flex items-center gap-2 text-error-light">
+            <Icon icon="report" size={IconSize.Small} />
+            Is the information valid?
+          </div>
+          {`You need to submit data that is robust and doesn't rely on weak
+          matches - e.g people with the same name only`}
+        </ol>
       </ul>
 
       <SectionContent
@@ -54,9 +63,8 @@ export default function RulesContent() {
                   have provided.
                   
                   StrategyTribe does not guarantee all submissions will be reviewed.
-                  Bounties and their rewards are awarded on a “first come, first
-                  served” basis; someone might have submitted their findings before
-                  you.`}
+                  Bounties and their rewards are awarded only to accepted submissions. Submissions with more information and better proof will be considered over others
+                  `}
       />
     </>
   );

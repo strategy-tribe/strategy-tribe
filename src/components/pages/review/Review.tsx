@@ -1,10 +1,8 @@
-import { SubmissionState } from '@prisma/client';
 import { useEffect, useState } from 'react';
 import ReactTextareaAutosize from 'react-textarea-autosize';
 
 import { GetWordCount } from '@/lib/utils/StringHelpers';
 
-import { SubmissionStateDisplayer } from '@/components/pages/bounty/SubmissionStatus';
 import { SubmitReviewButton } from '@/components/pages/submission/new submission/review/Evaluate';
 import Icon, { IconSize } from '@/components/utils/Icon';
 import { MarkdownView } from '@/components/utils/MarkdownView';
@@ -24,6 +22,7 @@ export function Review({ submission }: { submission: FullSubmission }) {
   const [correct, setCorrect] = useState(false);
   const [feedback, setFeedback] = useState('');
   const [view, setView] = useState(MarkdownView.Edit);
+  const [uncertain, setUncertain] = useState(false);
 
   const feedbackIsOk = !!feedback && GetWordCount(feedback) >= 1;
 
@@ -83,7 +82,7 @@ export function Review({ submission }: { submission: FullSubmission }) {
                 disabled: !feasible,
               }}
               num={3}
-              question="Did you arrived to the same results as the user?"
+              question="Did you arrived at the same results as the user?"
             />
 
             <ReviewCheck
@@ -163,14 +162,19 @@ export function Review({ submission }: { submission: FullSubmission }) {
               )}
 
               <div className="items-center justify-between bt:flex">
-                <div className="mb-6 flex items-baseline space-y-2 space-x-4 bt:block">
-                  <span>Your review will set this submission as: </span>
-                  <SubmissionStateDisplayer
-                    status={
-                      meetsRequirements
-                        ? SubmissionState.Accepted
-                        : SubmissionState.Rejected
-                    }
+                <div className="mb-6 flex items-end space-y-2 space-x-4">
+                  <span>
+                    There is a negligible chance that the target has been
+                    misidentified:
+                  </span>
+                  <input
+                    type="checkbox"
+                    id="terms"
+                    checked={uncertain}
+                    className="border-2 border-main bg-surface p-2 checked:bg-main hover:text-main focus:text-main"
+                    onChange={(e) => {
+                      setUncertain(e.target.checked);
+                    }}
                   />
                 </div>
                 <SubmitReviewButton
@@ -179,6 +183,7 @@ export function Review({ submission }: { submission: FullSubmission }) {
                     feedback: feedback,
                     meetsRequirements,
                     reviewer: account,
+                    uncertain,
                   }}
                   disabled={!carefullyRead || !feedbackIsOk}
                 />
