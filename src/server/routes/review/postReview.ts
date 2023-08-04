@@ -20,6 +20,7 @@ const PostReviewSchema = z.object({
   submissionId: z.string(),
   reviewerAddress: z.string(),
   reviewerComment: z.string(),
+  uncertain: z.boolean(),
 });
 
 /** Params necessary to call `postReview`  */
@@ -45,7 +46,8 @@ async function _postReview(
   user: User,
   params: PostReviewParams
 ) {
-  const { grade, submissionId, reviewerAddress, reviewerComment } = params;
+  const { grade, submissionId, reviewerAddress, reviewerComment, uncertain } =
+    params;
   const { id } = await prisma.review.create({
     data: {
       grade: grade,
@@ -64,9 +66,9 @@ async function _postReview(
   });
 
   if (grade === ReviewGrade.Accepted) {
-    await _AcceptIt(prisma, user, submissionId);
+    await _AcceptIt(prisma, user, submissionId, uncertain);
   } else {
-    await RejectAndNotifySubmission(prisma, submissionId);
+    await RejectAndNotifySubmission(prisma, submissionId, uncertain);
   }
 
   return id;
@@ -76,7 +78,8 @@ async function _postReview(
 async function _AcceptIt(
   prisma: PrismaClient,
   user: User,
-  submissionId: string
+  submissionId: string,
+  uncertain: boolean
 ) {
   const submission = await _getSubmission(prisma, user, { id: submissionId });
 
@@ -106,5 +109,5 @@ async function _AcceptIt(
     });
   }
 
-  await AcceptAndNotifySubmission(prisma, submissionId);
+  await AcceptAndNotifySubmission(prisma, submissionId, uncertain);
 }

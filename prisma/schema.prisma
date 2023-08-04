@@ -192,7 +192,8 @@ model Submission {
   author   User?   @relation(fields: [authorId], references: [id], onDelete: SetNull)
   authorId String?
 
-  state SubmissionState
+  state     SubmissionState
+  uncertain Boolean         @default(false)
 
   answers Answer[]
 
