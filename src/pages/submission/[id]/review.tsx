@@ -6,14 +6,18 @@ import { GoToBountiesPage } from '@/lib/utils/Routes';
 
 import AppLayout from '@/components/layouts/AppLayout';
 import { Review } from '@/components/pages/review/Review';
+import Loading from '@/components/utils/Loading';
+import { ImportantMessage } from '@/components/utils/Warning';
 
+import { useAuth } from '@/auth/AuthContext';
 import { NextPageWithLayout } from '@/pages/_app';
 
 const ReviewPage: NextPageWithLayout = () => {
   const router = useRouter();
   const { id: submissionId } = router.query;
+  const { isAdmin, isStaff } = useAuth();
 
-  const { submission, error } = useGetSubmission(
+  const { submission, error, isLoading } = useGetSubmission(
     submissionId as string,
     !!(submissionId as string)
   );
@@ -34,7 +38,16 @@ const ReviewPage: NextPageWithLayout = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      {!!submission && <Review submission={submission} />}
+      {isLoading && <Loading small />}
+      {(isStaff || isAdmin) && !!submission && (
+        <Review submission={submission} />
+      )}
+      {!isStaff && !isAdmin && !isLoading && (
+        <ImportantMessage
+          message="Unathorized"
+          className="mx-auto w-full max-w-xs"
+        />
+      )}
     </>
   );
 };

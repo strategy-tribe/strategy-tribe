@@ -1,11 +1,13 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 
 import { useGetFile } from '@/lib/hooks/fileHooks';
 import {
   GoToBountyPage,
   GoToNewSolutionPage,
   GoToSolutionEditPage,
+  GoToSolutionPage,
   GoToTargetPage,
 } from '@/lib/utils/Routes';
 import { toTitleCase } from '@/lib/utils/StringHelpers';
@@ -16,8 +18,14 @@ import { useAuth } from '@/auth/AuthContext';
 import { FullSolution } from '@/server/routes/solutions/getSolution';
 
 export function Solution({ solution }: { solution: FullSolution }) {
-  const { isAdmin, isStaff } = useAuth();
+  const { isAdmin, isStaff, userId, isAuthenticated } = useAuth();
   const router = useRouter();
+
+  useEffect(() => {
+    if (isAuthenticated && solution.content.includes('Loading...')) {
+      router.reload();
+    }
+  }, [isAuthenticated]);
 
   const { fileUrl } = useGetFile([
     `targets/thumbnails/${solution.target.name.split(' ').join('_')}.jpeg`,
@@ -84,7 +92,30 @@ export function Solution({ solution }: { solution: FullSolution }) {
           )}
         </div>
       </div>
-      <RenderMarkdown className="space-y-6" text={solution.content} />
+      <div className="relative">
+        <RenderMarkdown
+          className={`space-y-6 ${
+            !solution.content.includes('Loading...') ? '' : 'blur-sm'
+          }`}
+          text={solution.content}
+        />
+        <div
+          className={`absolute bottom-0 z-10 h-full w-full cursor-pointer text-center ${
+            !!userId && isAuthenticated ? 'hidden' : ''
+          }`}
+          onClick={() =>
+            router.push(`${GoToSolutionPage(solution.id)}?login=true`)
+          }
+        >
+          <span className="relative top-[25%] rounded-xl bg-main py-3 px-6 ">
+            {' '}
+            Login to view solution
+          </span>
+        </div>
+      </div>
+      <h1 className="h2 mt-3 w-fit pt-3 text-main">Data Points in Solution</h1>
+      <img src={solution.mermaid} alt="Piechart" title="Piechart"></img>
+
       <h1 className="h2 mt-3 w-fit pt-3 text-main">Request References Table</h1>
       <p className="mb-4 font-grotesk leading-6">
         For each flowchart, the reference table identifies the pieces of data

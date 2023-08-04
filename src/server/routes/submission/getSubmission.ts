@@ -25,6 +25,7 @@ export const _getSubmission = async (
   const userId = user.id;
   const isAdmin = user.rol === 'ADMIN';
   const isStaff = user.rol === 'STAFF';
+  const isAssociate = user.rol === 'ASSOCIATE';
 
   const submission = await prisma.submission.findUnique({
     where: {
@@ -34,7 +35,7 @@ export const _getSubmission = async (
     select: SMALL_SUBMISSION_SELECT,
   });
 
-  const isNoSpecial = !isAdmin && !isStaff;
+  const isNoSpecial = !isAdmin && !isStaff && !isAssociate;
   const authorWasDeleted = !submission?.author;
   const userIsAskingForSomeoneElse = submission?.author?.id !== userId;
 
