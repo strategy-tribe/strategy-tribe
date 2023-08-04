@@ -366,6 +366,7 @@ model User {
 
 enum Rol {
   REGULAR
+  ASSOCIATE
   STAFF
   ADMIN
 }
