@@ -5,7 +5,9 @@ import { useGetSubmissions } from '@/lib/hooks/submission/useGetSubmissions';
 import { Order } from '@/lib/models/Order';
 
 import { SubmissionListEntry } from '@/components/submissions/SubmissionListEntry';
+import { Button, ButtonStyle } from '@/components/utils/Button';
 import Dropdown, { HasLabel } from '@/components/utils/Dropdown';
+import { IconSize } from '@/components/utils/Icon';
 import Loading from '@/components/utils/Loading';
 import { PageControls } from '@/components/utils/PageControls';
 
@@ -48,19 +50,41 @@ export function AccountSubmissions() {
             {submissions.length === 1 ? 'Submission' : 'Submissions'}
           </span>
         )}
-        <Dropdown
-          defaultOptionIndex={0}
-          labelClass="border-2 p-2 border-main rounded-md"
-          options={options}
-          onSelect={({ label: newState }) => {
-            setQuery({
-              ...query,
-              state:
-                newState === 'All' ? undefined : (newState as SubmissionState),
-              page: 0,
-            });
-          }}
-        />
+        <div className="flex space-x-8">
+          <Button
+            info={{
+              style: ButtonStyle.Text,
+              label:
+                query.order === Order.Asc ? 'Old ones first' : 'New ones first',
+              icon: 'date_range',
+              removeMinWidth: true,
+              iconSize: IconSize.Small,
+              removePadding: true,
+              onClick: () => {
+                setQuery({
+                  ...query,
+                  order: query.order === Order.Asc ? Order.Desc : Order.Asc,
+                  page: 0,
+                });
+              },
+            }}
+          />
+          <Dropdown
+            defaultOptionIndex={0}
+            labelClass="border-2 p-2 border-main rounded-md"
+            options={options}
+            onSelect={({ label: newState }) => {
+              setQuery({
+                ...query,
+                state:
+                  newState === 'All'
+                    ? undefined
+                    : (newState as SubmissionState),
+                page: 0,
+              });
+            }}
+          />
+        </div>
       </div>
       {isLoading && <Loading small />}
 

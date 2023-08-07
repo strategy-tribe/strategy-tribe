@@ -3,7 +3,7 @@ import { z } from 'zod';
 
 import { Order } from '@/lib/models/Order';
 
-import { signedInOnlyProcedure } from '@/server/procedures';
+import { publicProcedure } from '@/server/procedures';
 
 import { ArrayElement, ThenArg } from '../utils/helperTypes';
 
@@ -68,7 +68,7 @@ const countSolutions = async (
   return count;
 };
 
-export const getSolutions = signedInOnlyProcedure
+export const getSolutions = publicProcedure
   .input(getSolutionsSchema)
   .query(async ({ ctx: { prisma, session }, input }) => {
     const solutions = await _getSolutions(

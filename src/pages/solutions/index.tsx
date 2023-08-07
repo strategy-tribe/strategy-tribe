@@ -1,12 +1,8 @@
 ('@/components/utils/Title');
 import Head from 'next/head';
-import router from 'next/router';
-
-import { GoToSolutionsPage } from '@/lib/utils/Routes';
 
 import AppLayout from '@/components/layouts/AppLayout';
 import { SolutionList } from '@/components/pages/solution/SolutionList';
-import { ImportantMessage } from '@/components/utils/Warning';
 
 import { useAuth } from '@/auth/AuthContext';
 import { NextPageWithLayout } from '@/pages/_app';
@@ -29,27 +25,9 @@ const NewSolutionPage: NextPageWithLayout = () => {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      {isAuthenticated && !!userId && (
-        <div className="mx-auto min-h-screen max-w-7xl space-y-8 p-4">
-          <SolutionList />
-        </div>
-      )}
-      {(!isAuthenticated || !userId) && (
-        <ImportantMessage
-          message="You're not signed in."
-          className="mx-auto w-full max-w-xs"
-          content={
-            <button
-              onClick={() => router.push(`${GoToSolutionsPage()}?login=true`)}
-              className="label mt-4"
-            >
-              Join the hunt,
-              <br />
-              <span className="underline">you only need your wallet</span>
-            </button>
-          }
-        />
-      )}
+      <div className="mx-auto min-h-screen max-w-7xl space-y-8 p-4">
+        <SolutionList />
+      </div>
     </div>
   );
 };
