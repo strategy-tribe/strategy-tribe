@@ -177,7 +177,7 @@ export function BountyHeader() {
             width="w-4/5"
           />
           <div className="flex flex-col items-end">
-            {bounty.wallet.walletControl &&
+            {/* {bounty.wallet.walletControl &&
               bounty.wallet.walletControl.numberOfIncrements > 0 && (
                 <div className="space-y-4 text-center">
                   <div className="text-2xl">
@@ -190,7 +190,7 @@ export function BountyHeader() {
                     <div className="pl-4 text-base">times incremented</div>
                   </div>
                 </div>
-              )}
+              )} */}
             {fileUrl && (
               <figure key={fileUrl ?? ''} className="relative m-2">
                 <img src={fileUrl} alt="preview for image" />
