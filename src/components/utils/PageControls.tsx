@@ -90,7 +90,7 @@ export function PageControls({
               info={{
                 onClick: prevPage,
                 label: 'Prev page',
-                labelClasses: 'hidden tablet:block',
+                labelClasses: 'hidden bt:block',
                 icon: 'arrow_back',
                 style: ButtonStyle.Text,
                 removeMinWidth: true,
@@ -123,7 +123,7 @@ export function PageControls({
               info={{
                 onClick: nextPage,
                 label: 'Next page',
-                labelClasses: 'hidden tablet:block',
+                labelClasses: 'hidden bt:block',
                 icon: 'arrow_forward',
                 style: ButtonStyle.Text,
                 removeMinWidth: true,
