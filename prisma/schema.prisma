@@ -1,0 +1,417 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextSearch"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum TargetType {
+  Org
+  Individual
+}
+
+enum BountyState {
+  WaitingForFunds
+  Open
+  Closed
+}
+
+enum SubmissionState {
+  WaitingForReview
+  Rejected
+  Accepted
+}
+
+model Target {
+  id          String   @id @default(cuid())
+  name        String   @unique @db.VarChar(200)
+  alsoKnownAs String[]
+
+  bio String?
+
+  bounties Bounty[]
+  solution Solution?
+
+  org   Organization? @relation(fields: [orgId], references: [id], onDelete: SetNull)
+  orgId String?
+
+  type TargetType
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+}
+
+model Country {
+  id   String @id @default(cuid())
+  name String @unique
+  code String @unique
+
+  orgs Organization[]
+
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @default(now())
+  stats     CountryStats[]
+}
+
+model CountriesData {
+  id        String         @id @default(cuid())
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @default(now())
+  countries CountryStats[]
+}
+
+model CountryStats {
+  id String @id @default(cuid())
+
+  country   Country? @relation(fields: [countryId], references: [id])
+  countryId String?
+
+  bountyCount       Int
+  organizationCount Int
+  totalFunds        Float
+
+  CountriesData   CountriesData? @relation(fields: [countriesDataId], references: [id])
+  countriesDataId String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+}
+
+model Tag {
+  id String @id @default(cuid())
+
+  name String @unique
+
+  bounties Bounty[]
+
+  orgs Organization[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+}
+
+model Wallet {
+  id        String   @id @default(cuid())
+  address   String   @unique
+  balance   Float
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+
+  walletControl   WalletControl? @relation(fields: [walletControlId], references: [id], onDelete: SetNull)
+  walletControlId String?        @unique
+
+  bounty Bounty?
+
+  org Organization?
+}
+
+model WalletControl {
+  id                 String   @id @default(cuid())
+  fund               Float
+  initial            Float
+  incrementBy        Float
+  numberOfIncrements Int
+  incrementInDays    Int
+  nextIncrementOn    DateTime @default(now())
+  proposedFund       Float?
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @default(now())
+  Wallet             Wallet?
+}
+
+model Key {
+  id             String   @id @default(cuid())
+  address        String   @unique
+  balance        Int
+  privateKey     String
+  publicKey      String
+  mnemonicPhrase String
+  txnHash        String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @default(now())
+}
+
+model Bounty {
+  slug  String @id @default(cuid())
+  title String @unique
+
+  description String
+
+  requirements Requirement[]
+
+  target   Target @relation(fields: [targetId], references: [id], onDelete: Cascade)
+  targetId String
+
+  status     BountyState
+  acceptMore Boolean?
+
+  tags Tag[]
+
+  submissions Submission[]
+
+  wallet   Wallet @relation(fields: [walledId], references: [id], onDelete: Restrict)
+  walledId String @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+  closesAt  DateTime
+
+  Invoice     Invoice?
+  Donation    Donation[]
+  watchBounty WatchBounty[]
+}
+
+model Organization {
+  id String @id @default(cuid())
+
+  name        String   @unique
+  alsoKnownAs String[]
+  bio         String?
+  why         String?
+  links       String[]
+
+  tags Tag[]
+
+  countries Country[]
+
+  wallet   Wallet? @relation(fields: [walletId], references: [id], onDelete: Restrict)
+  walletId String? @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+
+  targets           Target[]
+  watchOrganization WatchOrganization[]
+}
+
+model Submission {
+  id       String  @id @default(cuid())
+  author   User?   @relation(fields: [authorId], references: [id], onDelete: SetNull)
+  authorId String?
+
+  state     SubmissionState
+  uncertain Boolean         @default(false)
+
+  answers Answer[]
+
+  bounty     Bounty? @relation(fields: [bountySlug], references: [slug], onDelete: SetNull)
+  bountySlug String?
+
+  review Review?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+
+  Invoice Invoice?
+}
+
+model Answer {
+  id     String @id @default(cuid())
+  answer String
+
+  requirement   Requirement? @relation(fields: [requirementId], references: [id], onDelete: SetNull)
+  requirementId String?
+
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @default(now())
+  Submission   Submission? @relation(fields: [submissionId], references: [id], onDelete: SetNull)
+  submissionId String?
+}
+
+model Notification {
+  id String @id @default(cuid())
+
+  for    User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
+
+  message String
+
+  urlCallback String
+
+  read Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+}
+
+model Review {
+  id String @id @default(cuid())
+
+  reviewer   User   @relation(fields: [reviewerId], references: [id], onDelete: Restrict)
+  reviewerId String
+
+  content String
+
+  submission   Submission @relation(fields: [submissionId], references: [id], onDelete: Restrict)
+  submissionId String     @unique
+
+  grade ReviewGrade
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+}
+
+model Invoice {
+  id           String     @id @default(cuid())
+  submission   Submission @relation(fields: [submissionId], references: [id], onDelete: Restrict)
+  submissionId String     @unique
+
+  bounty     Bounty? @relation(fields: [bountySlug], references: [slug], onDelete: SetNull)
+  bountySlug String? @unique
+
+  status InvoiceStatus
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+
+  txnHash  String?
+  paidDate DateTime?
+}
+
+model Donation {
+  id            String   @id @default(cuid())
+  txnHash       String
+  txnDate       DateTime
+  addedToBounty Boolean
+  isValid       Boolean
+  amount        Int?
+
+  user   User?   @relation(fields: [userId], references: [id], onDelete: SetNull)
+  userId String?
+
+  bounty     Bounty? @relation(fields: [bountySlug], references: [slug], onDelete: SetNull)
+  bountySlug String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+}
+
+enum InvoiceStatus {
+  Paid
+  Unpaid
+  Error
+}
+
+enum ReviewGrade {
+  Accepted
+  Rejected
+}
+
+model Requirement {
+  id       String          @id @default(cuid())
+  title    String
+  type     RequirementType
+  optional Boolean
+
+  bounty     Bounty? @relation(fields: [bountySlug], references: [slug], onDelete: Cascade)
+  bountySlug String?
+
+  Answer Answer[]
+}
+
+enum RequirementType {
+  Image
+  Report
+  Wallet
+  Domain
+  PhoneNumber
+  SocialMediaAccount
+  Email
+  Name
+  Location
+}
+
+model Solution {
+  id String @id @default(cuid())
+
+  mermaid String
+  content String
+  publish Boolean
+
+  target   Target @relation(fields: [targetId], references: [id], onDelete: Cascade)
+  targetId String @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+}
+
+//Users:--------------------------------------------------------------------------------
+model User {
+  id String @id @default(cuid())
+
+  //Use to pair this user to an external service. Ideally, this would be its own table (ie, ExternalRelantionships, or something like that)
+  externalId String @unique
+  signature  String @unique
+
+  submissions  Submission[]
+  address      String       @unique
+  rol          Rol
+  username     String?
+  referralCode String?      @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+
+  review            Review[]
+  notifications     Notification[]
+  Donation          Donation[]
+  Referrals         Referral[]          @relation(name: "referrer")
+  joinedReferal     Referral?           @relation(name: "newUser")
+  watchOrganization WatchOrganization[]
+  watchBounty       WatchBounty[]
+}
+
+enum Rol {
+  REGULAR
+  ASSOCIATE
+  STAFF
+  ADMIN
+}
+
+model FundsData {
+  id         String   @id @default(cuid())
+  totalFunds Float
+  paidFunds  Float
+  date       DateTime @default(now())
+}
+
+model Referral {
+  id           String    @id @default(cuid())
+  referralPaid Boolean
+  txnHash      String?
+  paidDate     DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+
+  referrer   User?   @relation(fields: [referrerId], references: [id], onDelete: SetNull, name: "referrer")
+  referrerId String?
+  newUser    User?   @relation(fields: [newUserId], references: [id], onDelete: SetNull, name: "newUser")
+  newUserId  String? @unique
+}
+
+model WatchOrganization {
+  id          String        @id @default(cuid())
+  user        User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      String
+  org         Organization? @relation(fields: [orgId], references: [id], onDelete: SetNull)
+  orgId       String?
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @default(now())
+  watchBounty WatchBounty[]
+}
+
+model WatchBounty {
+  id              String             @id @default(cuid())
+  user            User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId          String
+  bounty          Bounty?            @relation(fields: [bountySlug], references: [slug], onDelete: SetNull)
+  bountySlug      String?
+  subscribedOrg   WatchOrganization? @relation(fields: [subscribedOrgId], references: [id], onDelete: Cascade)
+  subscribedOrgId String?
+  createdAt       DateTime           @default(now())
+  updatedAt       DateTime           @default(now())
+}
