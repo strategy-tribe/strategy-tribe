@@ -3,7 +3,9 @@ import {
   GoToAddBountiesPage,
   GoToEditBountyPage,
   GoToInvoicesPage,
+  GoToOrganizationsPage,
   GoToReviewsPage,
+  GoToTargetsPage,
 } from '@/lib/utils/Routes';
 
 import { Overlay } from '@/components/utils/Overlay';
@@ -44,6 +46,14 @@ export function AdminUserMenu({
             <MenuItem
               label="Invoices"
               url={GoToInvoicesPage()}
+              onClick={hide}
+            />
+
+            <MenuItem label="Targets" url={GoToTargetsPage()} onClick={hide} />
+
+            <MenuItem
+              label="Orgs"
+              url={GoToOrganizationsPage()}
               onClick={hide}
             />
 
