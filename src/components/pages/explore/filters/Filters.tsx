@@ -3,6 +3,7 @@ import { useState } from 'react';
 
 import { BountyOrderBy } from '@/lib/models/BountyQueryParams';
 
+import { useAuth } from '@/auth/AuthContext';
 import { GetBountiesParams } from '@/server/routes/bounties/getBounties';
 
 import { FilterColumn } from './utils/FilterColumnHeader';
@@ -72,8 +73,10 @@ export function StateFilter({
   select: (_: BountyState) => void;
   remove: (_: BountyState) => void;
 }) {
+  const { isAdmin, isStaff, isAssociate } = useAuth();
+
   return (
-    <FilterColumn name="State" tooltip="Pick which field to give priority to">
+    <FilterColumn name="State" tooltip="Pick which states to give priority to">
       <FilterSelector<{ label: BountyState }>
         selected={states}
         select={(opt) => {
@@ -83,7 +86,9 @@ export function StateFilter({
           remove(opt?.label);
         }}
         options={Object.values(BountyState)
-          .filter((v) => v !== BountyState.Closed)
+          .filter(
+            (v) => v !== BountyState.Closed || isAdmin || isStaff || isAssociate
+          )
           .map((v) => ({ label: v }))}
       />
     </FilterColumn>

@@ -3,8 +3,10 @@ import {
   Prisma,
   PrismaClient,
   RequirementType,
+  Rol,
 } from '@prisma/client';
 import { ThenArg, TRPCError } from '@trpc/server';
+import { CustomUser } from 'types/next-auth';
 import { z } from 'zod';
 
 import { BountyOrderBy } from '@/lib/models/BountyQueryParams';
@@ -142,7 +144,7 @@ const getOrderBy = (
   return {};
 };
 
-const getWhere = (input: GetBountiesParams) => {
+const getWhere = (input: GetBountiesParams, user: CustomUser) => {
   const where = Prisma.validator<Prisma.BountyWhereInput>()({
     target: {
       AND: [
@@ -182,7 +184,8 @@ const getWhere = (input: GetBountiesParams) => {
     },
     status: {
       in: input.states,
-      notIn: [BountyState.Closed],
+      notIn:
+        user && user.rol !== Rol.REGULAR ? undefined : [BountyState.Closed],
     },
     title: {
       search: input.search?.split(' ').join(' & '),
@@ -231,7 +234,10 @@ export const getBounties = publicProcedure
   .query(async ({ input, ctx: { prisma, session } }) => {
     try {
       const userLoggedIn = !!(session && session.user);
-      const where = getWhere(userLoggedIn ? input : {});
+      const where = getWhere(
+        userLoggedIn ? input : {},
+        session?.user as CustomUser
+      );
       const bounties = await getBountiesWithMetaData(
         prisma,
         input,
