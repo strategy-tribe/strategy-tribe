@@ -1,0 +1,60 @@
+import { SubmissionState } from '@prisma/client';
+
+import { GetDateInString } from '@/lib/utils/DateHelpers';
+
+import { useSubmissionContext } from './SubmissionContext';
+import { SubmissionDetail } from './SubmissionDetail';
+
+export function SubmissionDetails() {
+  const { submission, bounty } = useSubmissionContext();
+
+  return (
+    <div className="mx-auto max-w-[90rem] border-b-2 border-surface-dark pb-6">
+      <div className="mx-auto flex max-w-5xl flex-wrap items-center  gap-8">
+        <SubmissionDetail
+          label="Submitted"
+          value={GetDateInString(submission.createdAt) + ' ago'}
+          icon="schedule"
+        />
+
+        {submission.review && (
+          <>
+            <SubmissionDetail
+              label="Reviewed"
+              value={GetDateInString(submission.review?.createdAt) + ' ago'}
+            />
+
+            <SubmissionDetail
+              label="Reviewer ID"
+              value={`${submission.review?.reviewerId}`}
+              copyable
+            />
+          </>
+        )}
+
+        {submission.state === SubmissionState.Accepted && (
+          <>
+            <SubmissionDetail
+              label="Reward"
+              value={`${(bounty?.wallet as { balance: number }).balance} MATIC`}
+            />
+          </>
+        )}
+
+        <SubmissionDetail label="Status" value={submission.state} />
+
+        <SubmissionDetail
+          label="Submission ID"
+          value={submission.id}
+          copyable
+        />
+
+        <SubmissionDetail
+          label="User ID"
+          value={submission.author?.id as string}
+          copyable
+        />
+      </div>
+    </div>
+  );
+}
