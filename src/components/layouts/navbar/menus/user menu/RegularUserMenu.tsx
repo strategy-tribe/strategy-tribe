@@ -78,7 +78,7 @@ export function RegularUserMenu({
                 />
 
                 <MenuItem
-                  label="Orgs"
+                  label="Organizations"
                   url={GoToOrganizationsPage()}
                   onClick={hide}
                 />
