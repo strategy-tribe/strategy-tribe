@@ -67,23 +67,15 @@ export function RegularUserMenu({
               onClick={hide}
             />
 
-            {isAssociate && (
-              <>
-                <hr className="w-full text-surface" />
+            <hr className="w-full text-surface" />
 
-                <MenuItem
-                  label="Targets"
-                  url={GoToTargetsPage()}
-                  onClick={hide}
-                />
+            <MenuItem label="Targets" url={GoToTargetsPage()} onClick={hide} />
 
-                <MenuItem
-                  label="Organizations"
-                  url={GoToOrganizationsPage()}
-                  onClick={hide}
-                />
-              </>
-            )}
+            <MenuItem
+              label="Organizations"
+              url={GoToOrganizationsPage()}
+              onClick={hide}
+            />
 
             <hr className="w-full text-surface" />
             <LogOutButton hide={hide} />
