@@ -1,0 +1,28 @@
+{
+  "orgIssues": [
+    {
+      "data": {
+        "name": "the night wolves",
+        "alsoKnownAs": ["night wolves motorcycle club"],
+        "tags": ["byker gang"],
+        "countries": ["RUS"],
+        "bio": "The Night Wolves or Night Wolves Motorcycle Club is a Russian motorcycle club that was founded around the Moscow area in 1989. It holds an international status with at least 45 chapters world-wide.",
+        "why": "The club has long taken an interest in the political and social life of Russia, engaging in youth social issues, forging close links to the Kremlin and establishing a friendship with President Putin. They also contributed to the invasion of Crimea by patrolling the streets of the peninsula with unmarked soldiers sent from Russia. Members of the Night Wolves have fought on the side of pro-Russian militants during the Crimean Crisis and the Donbas war. They blockaded the main routes into Sevastopol and participated in attacks on a natural gas facility and the naval headquarters in the city.",
+        "links": [
+          "https://www.telegraph.co.uk/news/worldnews/europe/russia/10670244/meet-the-night-wolves-putins-hells-angels.html",
+          "https://www.washingtonpost.com/news/worldviews/wp/2015/04/25/an-ultra-nationalist-russian-biker-gang-is-invading-europe-and-poland-isnt-happy/",
+          "https://www.washingtonpost.com/news/worldviews/wp/2015/04/25/an-ultra-nationalist-russian-biker-gang-is-invading-europe-and-poland-isnt-happy/"
+        ],
+        "types": ["Wallet", "Email", "Domain"]
+      },
+      "error": {
+        "code": "P2002",
+        "clientVersion": "4.7.1",
+        "meta": {
+          "target": ["name"]
+        }
+      }
+    }
+  ],
+  "targetIssues": []
+}

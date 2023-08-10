@@ -1,0 +1,8 @@
+index.d.ts
+.yarn
+.next
+dist
+node_modules
+.husky
+*.spec.ts
+*.spec.tsx
