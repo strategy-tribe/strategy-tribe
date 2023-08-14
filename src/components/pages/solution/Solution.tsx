@@ -92,6 +92,12 @@ export function Solution({ solution }: { solution: FullSolution }) {
           )}
         </div>
       </div>
+
+      <h1 className="h2 mt-3 flex w-fit pt-3 text-center text-main">
+        Data Points in Solution
+      </h1>
+      <img src={solution.mermaid} alt="Piechart" title="Piechart"></img>
+
       <div className="relative">
         <RenderMarkdown
           className={`space-y-6 ${
@@ -113,8 +119,6 @@ export function Solution({ solution }: { solution: FullSolution }) {
           </span>
         </div>
       </div>
-      <h1 className="h2 mt-3 w-fit pt-3 text-main">Data Points in Solution</h1>
-      <img src={solution.mermaid} alt="Piechart" title="Piechart"></img>
 
       <h1 className="h2 mt-3 w-fit pt-3 text-main">Request References Table</h1>
       <p className="mb-4 font-grotesk leading-6">
