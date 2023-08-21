@@ -323,6 +323,16 @@ export function BountyDetails({
           ?.filter((r) => !r.optional)
           ?.map((r) => r.title)}
       />
+      <Stat
+        title="What we Accept"
+        contents={[
+          'email of a company: No generic emails with company domain, only named email addresses or company emails from different a domain. (eg: john@domain.com, not info@domain.com)',
+          '',
+          'Email of an individual: No emails with company domain, only personal emails. (eg: john@gmail.com, not john@domain.com)',
+          '',
+          'Company shareholders or directors: No individuals who are already in the bounty list',
+        ]}
+      />
     </div>
   );
 }
