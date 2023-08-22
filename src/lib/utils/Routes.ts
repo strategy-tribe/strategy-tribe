@@ -26,6 +26,8 @@ export const GoToStatsPage = () => '/stats';
 
 export const GoToWaitingForReview = () => '/review';
 
+export const GoToGuidePage = () => '/guide';
+
 export const GoToNewBountyPage = () => '/bounty/new';
 
 export const GoToAccountPage = (view?: AccountView) => {

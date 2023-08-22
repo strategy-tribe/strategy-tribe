@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 
 import { GetDateInString } from '@/lib/utils/DateHelpers';
@@ -39,12 +40,12 @@ export function SubmissionListEntry({
           </div>
 
           <div className="group">
-            <button
-              onClick={() => router.push(GoToSubmissionPage(submission.id))}
-              className="title-xs text-left group-hover:underline"
+            <Link
+              href={GoToSubmissionPage(submission.id)}
+              className="title-xs my-2 text-left group-hover:underline"
             >
               {submission.bounty?.title}
-            </button>
+            </Link>
 
             <div className="pointer-events-none invisible absolute top-0 left-0 translate-x-12 -translate-y-8 rounded bg-surface-dark px-4 py-2 group-hover:pointer-events-auto group-hover:visible">
               Go to submission
