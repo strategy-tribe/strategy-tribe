@@ -331,6 +331,8 @@ export function BountyDetails({
           'Email of an individual: No emails with company domain, only personal emails. (eg: john@gmail.com, not john@domain.com)',
           '',
           'Company shareholders or directors: No individuals who are already in the bounty list',
+          '',
+          'General information found on websites owned by the target companies will not be accepted',
         ]}
       />
     </div>

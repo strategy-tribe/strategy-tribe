@@ -1,10 +1,17 @@
 import { motion } from 'framer-motion';
 import { GetStaticProps } from 'next';
 import Head from 'next/head';
+import Link from 'next/link';
+
+import { GoToGuidePage } from '@/lib/utils/Routes';
 
 import AppLayout from '@/components/layouts/AppLayout';
 import { FAQs } from '@/components/pages/faq/FAQs';
-import { AfterRead, ReadingSection } from '@/components/reading/utils';
+import {
+  AfterRead,
+  ReadingSection,
+  SectionTitle,
+} from '@/components/reading/utils';
 
 import { NextPageWithLayout } from './_app';
 
@@ -144,6 +151,16 @@ const AboutUsPage: NextPageWithLayout<{ submissionsPerDay: number }> = ({
               leaderboard usernames).
             </p>
           </ReadingSection>
+
+          <div>
+            <SectionTitle title="Guide" />
+            <Link href={GoToGuidePage()}>
+              <span className="text-main-light hover:text-main hover:underline">
+                Check the guide on connecting to StrategyTribe and starting a
+                new submission
+              </span>
+            </Link>
+          </div>
 
           <FAQs
             submissionsPerDay={submissionsPerDay}
