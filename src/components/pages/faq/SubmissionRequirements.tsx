@@ -13,20 +13,20 @@ export function SubmissionRequirements() {
             the same target the bounty is for. There should be demonstrable
             proof to show this. A weak match will not be accepted; e.g. if the
             only proof you can provide is that the target shares a name with the
-            person whose information you’re submitting
+            person whose information you’re submitting.
           </span>
         </li>
         <li className="space-y-2">
           <span className="">
             Transaction analysis websites labelling wallets as responsible for a
-            hack doesn’t necessarily count as enough proof
+            hack doesn’t necessarily count as enough proof.
           </span>
         </li>
         <li className="space-y-2">
           <span className="">
             Include annotated screenshots or images of relevant data, URLs of
             web pages, social media accounts, or other sources to add to your
-            submission
+            submission.
           </span>
         </li>
         <li className="space-y-2">
@@ -48,55 +48,27 @@ export function SubmissionRequirements() {
             Each step must be replicable from start to finish. There is no such
             thing as too much detail in your submission. While reviewing
             submissions, the admin must be able to find exactly the same
-            information you are presenting easily, &nbsp;e.g., Google search
-            “John” &lt;screenshot, URL&gt;, the article comes up on page 3 from
-            website Domain.com &lt;screenshot&gt;, webpage on Domain.com shows
-            information &nbsp;XYZ &lt;screenshot&gt;, etc.
+            information you are presenting easily, e.g., Google search “John”
+            screenshot, URL, the article comes up on page 3 from website
+            Domain.com screenshot, webpage on Domain.com shows information XYZ
+            screenshot, etc.
           </span>
         </li>
         <li className="space-y-2">
           <span className="">
             If you are submitting email data regarding company bounties, we
             cannot accept any generic domain email addresses, only named email
-            addresses, i.e., “
+            addresses, i.e., “John@domain.com” will be accepted but
+            “info@domain.com” will not.
           </span>
-          <span className="">
-            <a className="" href="mailto:JohnDoe@domain.com">
-              John@domain.com
-            </a>
-          </span>
-          <span className="">” will be accepted but &nbsp;“</span>
-          <span className="">
-            <a className="" href="mailto:info@domain.com">
-              info@domain.com”
-            </a>
-          </span>
-          <span className="">&nbsp;will not.</span>
         </li>
         <li className="space-y-2">
           <span className="">
             If you are submitting email data regarding individual bounties, we
             cannot accept any domain email addresses, only personal email
-            addresses, i.e., “
+            addresses, i.e., “John@gmail.com” will be accepted but
+            John@domain.com will not.
           </span>
-          <span className="">
-            <a className="" href="mailto:JohnDoe@domain.com">
-              John@gmail.com
-            </a>
-          </span>
-          <span className="">”</span>
-          <span className="">&nbsp;will be accepted but</span>
-          <span className="">
-            <a className="" href="mailto:john@domain.com">
-              &nbsp;
-            </a>
-          </span>
-          <span className="">
-            <a className="" href="mailto:John@domain.com">
-              John@domain.com
-            </a>
-          </span>
-          <span className="">&nbsp;will not.</span>
         </li>
         <li className="space-y-2">
           <span className="">

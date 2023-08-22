@@ -2,17 +2,24 @@ export function SubmissionGuide() {
   return (
     <div className="">
       <h3 className="mt-8 mb-2">
-        <span className="">Starting a new submission</span>
+        <span className="">Starting a new submission.</span>
       </h3>
       <ol className="ml-6 list-decimal space-y-2">
         <li className="space-y-2">
           <span className="">
             Search through the bounties and find something that interests you.
             The list can be filtered to show top rewards, most recently posted
-            bounties, and many more. <br /> Pick a bounty that interests you and
-            start doing some research. You can find the information you need to
-            get started in the bounty.
+            bounties, and many more.
           </span>
+          <ol className="ml-4 list-[lower-alpha] space-y-2">
+            <li className="space-y-2">
+              <span className="">
+                Pick a bounty that interests you and start doing some research.
+                You can find the information you need to get started in the
+                bounty.
+              </span>
+            </li>
+          </ol>
           <p className="text-center">
             <span
               style={{
@@ -33,7 +40,7 @@ export function SubmissionGuide() {
         <li className="space-y-2">
           <span className="">
             Once you have enough information, you can click “Start a new
-            submission”
+            submission”.
           </span>
           <p className="block text-center">
             <img
