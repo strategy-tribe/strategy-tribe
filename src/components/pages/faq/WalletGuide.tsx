@@ -2,19 +2,18 @@ export function WalletGuide() {
   return (
     <div className="">
       <h3 className="mt-8 mb-2">
-        <span className="">Getting a Metamask Wallet</span>
+        <span className="">Getting a Metamask Wallet.</span>
       </h3>
       <ol className="ml-6 list-decimal space-y-2">
         <li className="space-y-2">
           <span className="">Install the Metamask Extension:</span>
           <ol className="ml-4 list-[lower-alpha] space-y-2">
             <li className="space-y-2">
-              <span className="">Open your preferred web browser (</span>
               <span className="">
-                Metamask supports Chrome, Firefox, Brave, and Edge, this guide
-                refers to the Chrome extension
+                Open your preferred web browser ( Metamask supports Chrome,
+                Firefox, Brave, and Edge, this guide refers to the Chrome
+                extension).
               </span>
-              <span className="">).</span>
             </li>
             <p className="text-center">
               <span
@@ -120,11 +119,16 @@ export function WalletGuide() {
           </span>
         </p>
         <li className="space-y-2">
-          <span className="">
-            Accept Terms and Privacy Policy: <br /> To use Metamask, you will be
-            asked to accept their terms and privacy policy. It’s best practice
-            to read and understand before agreeing to the policy.
-          </span>
+          <span className="">Accept Terms and Privacy Policy.</span>
+          <ol className="ml-6 list-[lower-alpha] space-y-2">
+            <li className="space-y-2">
+              <span className="">
+                To use Metamask, you will be asked to accept their terms and
+                privacy policy. It’s best practice to read and understand before
+                agreeing to the policy.
+              </span>{' '}
+            </li>
+          </ol>
         </li>
         <p className="text-center">
           <span
@@ -154,17 +158,25 @@ export function WalletGuide() {
           </span>
         </p>
         <li className="space-y-2">
-          <span className="">
-            {`Create a New Wallet: <br /> Click on the "Create A New Wallet"
-            button.`}
-          </span>
+          <span className="">Create a New Wallet.</span>
+          <ol className="ml-6 list-[lower-alpha] space-y-2">
+            <li className="space-y-2">
+              <span className="">{`Click on the "Create A New Wallet"
+            button.`}</span>{' '}
+            </li>
+          </ol>
         </li>
         <li className="space-y-2">
-          <span className="">
-            Set Up a Password: <br /> Create a strong and unique password for
-            your wallet. This password will be used to unlock your wallet
-            whenever you access it.
-          </span>
+          <span className="">Set Up a Password.</span>
+          <ol className="ml-6 list-[lower-alpha] space-y-2">
+            <li className="space-y-2">
+              <span className="">
+                Create a strong and unique password for your wallet. This
+                password will be used to unlock your wallet whenever you access
+                it.
+              </span>{' '}
+            </li>
+          </ol>
         </li>
         <li className="space-y-2">
           <span className="">Backup Your Seed Phrase:</span>
@@ -216,17 +228,27 @@ export function WalletGuide() {
           </p>
         </li>
         <li className="space-y-2">
-          <span className="">
-            Confirm Seed Phrase: <br /> Metamask will ask you to confirm your
-            seed phrase by selecting the words in the correct order. This helps
-            ensure you’ve properly backed up your phrase.
-          </span>
+          <span className="">Confirm Seed Phrase.</span>
+          <ol className="ml-6 list-[lower-alpha] space-y-2">
+            <li className="space-y-2">
+              <span className="">
+                Metamask will ask you to confirm your seed phrase by selecting
+                the words in the correct order. This helps ensure you’ve
+                properly backed up your phrase.
+              </span>{' '}
+            </li>
+          </ol>
         </li>
         <li className="space-y-2">
-          <span className="">
-            Wallet Ready: <br /> Congratulations! Your Metamask wallet is now
-            set up and ready to use.
-          </span>
+          <span className="">Wallet Ready.</span>
+          <ol className="ml-6 list-[lower-alpha] space-y-2">
+            <li className="space-y-2">
+              <span className="">
+                Congratulations! Your Metamask wallet is now set up and ready to
+                use.
+              </span>{' '}
+            </li>
+          </ol>
         </li>
       </ol>
 
@@ -238,6 +260,12 @@ export function WalletGuide() {
       <ol className="ml-6 list-decimal space-y-2">
         <li className="space-y-2">
           <span className="">Go to StrategyTribe.io</span>
+        </li>
+        <li className="space-y-2">
+          <span className="">
+            In the top right corner, click on the purple “connect wallet” button
+            (yellow arrow)
+          </span>
         </li>
         <p className="text-center">
           <span
@@ -266,12 +294,6 @@ export function WalletGuide() {
             />
           </span>
         </p>
-        <li className="space-y-2">
-          <span className="">
-            In the top right corner, click on the purple “connect wallet” button
-            (yellow arrow)
-          </span>
-        </li>
         <li className="space-y-2">
           <span className="">
             Select Metamask (if you get an error message, refresh the website
@@ -366,7 +388,7 @@ export function WalletGuide() {
           <ol className="ml-4 list-[lower-alpha] space-y-2">
             <li className="space-y-2">
               <span className="">
-                {`In the Metamask extension popup, select the " Activity " tab and
+                {`In the Metamask extension popup, select the "Activity" tab and
                 authorise the sign-in request by scrolling down and selecting
                 “Sign In”.`}
               </span>
@@ -510,10 +532,13 @@ export function WalletGuide() {
           </ol>
         </li>
         <li className="space-y-2">
-          <span className="">
-            {`Create a New Wallet: <br /> In the Coinbase Wallet extension, click
-            on the "Create New Wallet" button to setting up your wallet.`}
-          </span>
+          <span className="">Create a New Wallet.</span>
+          <ol className="ml-6 list-[lower-alpha] space-y-2">
+            <li className="space-y-2">
+              <span className="">{`In the Coinbase Wallet extension, click
+            on the "Create New Wallet" button to setting up your wallet.`}</span>{' '}
+            </li>
+          </ol>
         </li>
         <p className="text-center">
           <span
@@ -603,11 +628,15 @@ export function WalletGuide() {
           </span>
         </p>
         <li className="space-y-2">
-          <span className="">
-            Verify Your Recovery Phrase: <br /> The extension will ask you to
-            verify your recovery phrase by selecting the words in the correct
-            order.{' '}
-          </span>
+          <span className="">Verify Your Recovery Phrase. </span>
+          <ol className="ml-6 list-[lower-alpha] space-y-2">
+            <li className="space-y-2">
+              <span className="">
+                The extension will ask you to verify your recovery phrase by
+                selecting the words in the correct order.
+              </span>{' '}
+            </li>
+          </ol>
         </li>
         <li className="space-y-2">
           <span className="">Claim your free username, or do it later</span>
@@ -640,6 +669,12 @@ export function WalletGuide() {
         <li className="space-y-2">
           <span className="">Go to StrategyTribe.io</span>
         </li>
+        <li className="space-y-2">
+          <span className="">
+            In the top right corner, click on the purple “connect wallet” button
+            (yellow arrow)
+          </span>
+        </li>
         <p className="text-center">
           <span
             style={{
@@ -667,12 +702,6 @@ export function WalletGuide() {
             />
           </span>
         </p>
-        <li className="space-y-2">
-          <span className="">
-            In the top right corner, click on the purple “connect wallet” button
-            (yellow arrow)
-          </span>
-        </li>
         <li className="space-y-2">
           <span className="">
             Select Coinbase (if you get an error message, refresh the website
