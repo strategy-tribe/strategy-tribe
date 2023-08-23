@@ -72,6 +72,15 @@ export function SubmissionRequirements() {
         </li>
         <li className="space-y-2">
           <span className="">
+            If you are submitting phone number data regarding company bounties,
+            we cannot accept generic company phone numbers e.g. phone numbers
+            listed on company’s websites or “Contact Us” pages. Only personal
+            phone numbers belonging to individuals with a demonstrable
+            association to the company will be accepted.
+          </span>
+        </li>
+        <li className="space-y-2">
+          <span className="">
             When submitting against a bounty for company shareholders or
             directors, we cannot accept data provided for individuals who are
             already on our bounty list.
