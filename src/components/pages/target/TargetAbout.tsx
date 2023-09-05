@@ -16,9 +16,7 @@ export function TargetAbout() {
           <AboutTitle text="About" />
 
           <p className="whitespace-pre-wrap first-letter:capitalize">
-            {target.bio.includes('\\n')
-              ? splitToParas(target.bio)
-              : target.bio}
+            {target.bio.includes('\\n') ? splitToParas(target.bio) : target.bio}
           </p>
         </div>
       )}
