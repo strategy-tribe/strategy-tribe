@@ -18,7 +18,7 @@ export function TargetAbout() {
           <p className="whitespace-pre-wrap first-letter:capitalize">
             {target.bio.includes('\\n')
               ? splitToParas(target.bio)
-              : ParagrapIsTooLong(target.bio, 20)}
+              : target.bio}
           </p>
         </div>
       )}
