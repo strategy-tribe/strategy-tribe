@@ -60,7 +60,7 @@ export function BountyHeader() {
 
   return (
     <>
-      <header className="space-y-14 border-b-2 border-main py-14">
+      <header className="space-y-4 border-b-2 border-main py-14">
         <Section>
           <div className="flex flex-wrap gap-x-6 tablet:gap-6">
             {organization && (
@@ -161,7 +161,7 @@ export function BountyHeader() {
             </div>
           </div>
 
-          <div className="pt-4">
+          <div className="">
             <BountyStatusShowcase
               closesAt={bounty.closesAt}
               status={bounty.status}
