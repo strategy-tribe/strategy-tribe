@@ -7,7 +7,6 @@ import {
   useEditBounty,
   useGetFullBounty,
 } from '@/lib/hooks/bountyHooks';
-import { toTitleCase } from '@/lib/utils/StringHelpers';
 
 import {
   DelayType,
@@ -176,7 +175,7 @@ export function EditBounty({
             countries: {
               new: countries.split('\n').map((name) => ({
                 id: '',
-                name: toTitleCase(name),
+                name: name,
                 code: '',
                 updatedAt: new Date(),
                 createdAt: new Date(),
