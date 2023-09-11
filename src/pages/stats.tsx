@@ -93,7 +93,7 @@ export const getStaticProps: GetStaticProps = async () => {
       bountyTrendChartData: totalBountyFunding,
       submissionsGrowth: submissionsGrowth,
     },
-    revalidate: 60 * 5, //every 5 minutes
+    revalidate: 60, //every minute
   };
 };
 
