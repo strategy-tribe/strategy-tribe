@@ -8,7 +8,7 @@ import { trpc } from '../trpc';
 
 export const useSubmitSolution = (events: {
   onMutate: () => void;
-  onSuccess: () => void;
+  onSuccess: (solutionId: string) => void;
   onError: (e: any) => void;
 }) => {
   const { onError, onMutate, onSuccess } = events;
@@ -18,9 +18,9 @@ export const useSubmitSolution = (events: {
   const mutation = trpc.solution.post.useMutation({
     onMutate,
     onError,
-    onSuccess: () => {
+    onSuccess: (data) => {
       qc.invalidateQueries();
-      onSuccess();
+      onSuccess(data.solution);
     },
   });
 
@@ -77,6 +77,38 @@ export const useGetSolutions = (
 //!Get one
 export const useGetSolution = (id: string, enabled = true) => {
   const { error, isLoading, data } = trpc.solution.getSolution.useQuery(
+    {
+      id,
+    },
+    { enabled }
+  );
+
+  return {
+    solution: data?.solution ?? undefined,
+    error,
+    isLoading,
+  };
+};
+
+//!Get one raw
+export const useGetRawSolution = (id: string, enabled = true) => {
+  const { error, isLoading, data } = trpc.solution.getRawSolution.useQuery(
+    {
+      id,
+    },
+    { enabled }
+  );
+
+  return {
+    solution: data?.solution ?? undefined,
+    error,
+    isLoading,
+  };
+};
+
+//!Get one PII
+export const useGetPiiSolution = (id: string, enabled = true) => {
+  const { error, isLoading, data } = trpc.solution.getPiiSolution.useQuery(
     {
       id,
     },

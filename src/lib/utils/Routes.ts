@@ -90,4 +90,6 @@ export const GoToSolutionsPage = () => `/solutions`;
 export const GoToNewSolutionPage = () => `/admin/solutions/new`;
 
 export const GoToSolutionEditPage = (id: string) =>
-  `/admin/solutions/edit/${id}`;
+  `/admin/solutions/${id}/edit`;
+
+export const GoToSolutionPIIPage = (id: string) => `/admin/solutions/${id}/pii`;

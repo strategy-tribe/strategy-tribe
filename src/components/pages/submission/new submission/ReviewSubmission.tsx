@@ -1,6 +1,7 @@
 import { ImageGallery } from '@/components/utils/ImageGallery';
 
 import { useNewSubmissionContext } from './NewSubmissionContext';
+import { RenderHow } from '../../review/RenderHow';
 ('@/components/utils/Title');
 
 export function ReviewSubmission() {
@@ -16,11 +17,12 @@ export function ReviewSubmission() {
         return (
           <div key={i} className="space-y-1">
             <h6 className="label text-on-surface-p0">{title}</h6>
-            {typeof input === 'string' && (
-              <p className="whitespace-pre-line">
-                {input === '' ? 'None' : input}
-              </p>
-            )}
+            {typeof input === 'string' &&
+              (input === '' ? (
+                <p className="whitespace-pre-line">None</p>
+              ) : (
+                <RenderHow code={input} />
+              ))}
             {typeof input === 'object' && (
               <ImageGallery files={input as File[]} />
             )}

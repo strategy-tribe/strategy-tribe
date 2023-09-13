@@ -19,8 +19,6 @@ import { PostBountiesParams } from '@/server/routes/bounties/postBounties';
 export const useGetBounties = (config: GetBountiesParams, enabled = true) => {
   const page = config.page || 0;
 
-  // console.log(config);
-
   const [numOfPages, setNumOfPages] = useState(0);
   const [hasNextPage, setHasNextPage] = useState(false);
   const [hasPreviousPage, setHasPreviousPage] = useState(false);

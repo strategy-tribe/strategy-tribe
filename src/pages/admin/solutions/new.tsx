@@ -12,8 +12,34 @@ import { PostSolutionParams } from '@/server/routes/solutions/postSolution';
 
 const NewSolutionPage: NextPageWithLayout = () => {
   const [solution, setSolution] = useState<PostSolutionParams>({
-    id: '',
-    mermaid: '',
+    pieCode: `%%{
+      init: {
+        'theme': 'base',
+        'themeVariables': {
+          'primaryColor': '#666699',
+          'secondaryColor': '#9900ff',
+          'tertiaryColor': '#C2C2C2',
+          'pieStrokeColor': '#666600',
+          'pieSectionTextColor': '#ffffff',
+          'pieLegendTextColor': '#FFFFFF',
+          'pieOpacity': '0.7'
+        }
+      }
+    }%%
+    
+    pie showData
+        "Please Enter Data": 1`,
+    flowCode: `%%{
+      init: {
+        'themeVariables': {
+          'lineColor': '#808080'
+        }
+      }
+    }%%
+    flowchart-elk
+    
+        Start(("Start")) -->  D_name("Please Enter Name")
+    `,
     content: '',
     publish: false,
     target: '',

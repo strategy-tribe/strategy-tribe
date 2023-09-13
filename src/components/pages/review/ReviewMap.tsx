@@ -11,7 +11,7 @@ import { UserAnswer } from './UserAnswer';
 
 export function ReviewMap({ submission }: { submission: FullSubmission }) {
   return (
-    <aside className="left-0 top-24 mb-4 grow space-y-8 bg-surface-dark p-8 tablet:sticky tablet:min-h-screen tablet:max-w-sm bt:max-w-xl">
+    <aside className="left-0 top-24 mb-4 w-full grow space-y-8 bg-surface-dark p-8 tablet:sticky tablet:min-h-screen tablet:max-w-sm bt:max-w-xl">
       <Button
         info={{
           style: ButtonStyle.Text,

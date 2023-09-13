@@ -40,7 +40,7 @@ export function RequirementChecker({
   }, [passed]);
 
   return (
-    <div className="sticky top-40 z-30 min-w-[10rem] bg-surface-dark py-2">
+    <div className="sticky top-44 z-30 min-w-[10rem] bg-surface-dark py-2">
       <div className="label-lg group flex -translate-x-6 cursor-default items-center gap-2">
         <Icon
           icon="close"

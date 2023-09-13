@@ -1,12 +1,15 @@
 import { PrismaClient } from '@prisma/client';
 import { z } from 'zod';
 
+import { serializeState } from '@/lib/mermaid/serde';
+
 import { staffOnlyProcedure } from '@/server/procedures';
 
 /** Schema used to post Solution */
 const PostSolutionSchema = z.object({
-  id: z.string(),
-  mermaid: z.string(),
+  id: z.string().optional(),
+  pieCode: z.string(),
+  flowCode: z.string(),
   content: z.string(),
   publish: z.boolean(),
   target: z.string(),
@@ -14,14 +17,34 @@ const PostSolutionSchema = z.object({
 
 export type PostSolutionParams = z.infer<typeof PostSolutionSchema>;
 
+const getSvg = async (code: string) => {
+  const encoded = serializeState({
+    code: code,
+    mermaid: JSON.stringify({}),
+  });
+  const img = await (
+    await fetch(`http://render.strategytribe.io/svg/${encoded}?bgColor=000000`)
+  ).blob();
+  return await img.text();
+};
+
 const CreateSolution = async (
   prisma: PrismaClient,
   input: PostSolutionParams
 ) => {
-  const { id, mermaid, content, publish, target } = input;
+  const { id, pieCode, flowCode, content, publish, target } = input;
 
+  const dataSvg = await getSvg(
+    flowCode.toLowerCase().replace('start ->', 'showData \n start ->')
+  );
+  const labelSvg = await getSvg(flowCode);
+  const pieSvg = await getSvg(pieCode);
   const data = {
-    mermaid,
+    pieCode,
+    flowCode,
+    pieSvg,
+    labelSvg,
+    dataSvg,
     content,
     publish,
     target: {
@@ -33,7 +56,7 @@ const CreateSolution = async (
 
   const solution = await prisma.solution.upsert({
     where: {
-      id,
+      id: id ?? '',
     },
     create: data,
     update: data,

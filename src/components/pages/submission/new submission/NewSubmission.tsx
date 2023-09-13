@@ -32,8 +32,8 @@ function Content() {
   const { editPhase } = useNewSubmissionContext();
 
   return (
-    <Section>
-      <div className="mx-auto max-w-5xl space-y-7 rounded-xl bg-surface-dark px-8 pb-8">
+    <Section className="max-w-8xl">
+      <div className="max-w-9xl mx-auto space-y-7 rounded-xl bg-surface-dark px-8 pb-8">
         <NewSubmissionHeader />
         {editPhase && <EditSubmission />}
         {!editPhase && <ReviewSubmission />}

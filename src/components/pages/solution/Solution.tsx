@@ -7,15 +7,15 @@ import {
   GoToBountyPage,
   GoToNewSolutionPage,
   GoToSolutionEditPage,
-  GoToSolutionPage,
+  GoToSolutionPIIPage,
   GoToTargetPage,
 } from '@/lib/utils/Routes';
 import { toTitleCase } from '@/lib/utils/StringHelpers';
 
-import { RenderMarkdown } from '@/components/utils/RenderMarkdown';
-
 import { useAuth } from '@/auth/AuthContext';
 import { FullSolution } from '@/server/routes/solutions/getSolution';
+
+import { SolutionData } from './SolutionData';
 
 export function Solution({ solution }: { solution: FullSolution }) {
   const { isAdmin, isStaff, userId, isAuthenticated } = useAuth();
@@ -40,6 +40,12 @@ export function Solution({ solution }: { solution: FullSolution }) {
     <div className="mx-auto mt-2 min-h-screen max-w-7xl space-y-4 border-2 border-surface p-8">
       {(isAdmin || isStaff) && (
         <div className="flex space-x-16">
+          <button
+            onClick={() => router.push(GoToSolutionPIIPage(solution.id))}
+            className="label w-full rounded bg-surface py-2 px-5 hover:bg-main"
+          >
+            View PII
+          </button>
           <button
             onClick={() => router.push(GoToSolutionEditPage(solution.id))}
             className="label w-full rounded bg-surface py-2 px-5 hover:bg-main"
@@ -93,32 +99,7 @@ export function Solution({ solution }: { solution: FullSolution }) {
         </div>
       </div>
 
-      <h1 className="h2 mt-3 flex w-fit pt-3 text-center text-main">
-        Data Points in Solution
-      </h1>
-      <img src={solution.mermaid} alt="Piechart" title="Piechart"></img>
-
-      <div className="relative">
-        <RenderMarkdown
-          className={`space-y-6 ${
-            !solution.content.includes('Loading...') ? '' : 'blur-sm'
-          }`}
-          text={solution.content}
-        />
-        <div
-          className={`absolute bottom-0 z-10 h-full w-full cursor-pointer text-center ${
-            !!userId && isAuthenticated ? 'hidden' : ''
-          }`}
-          onClick={() =>
-            router.push(`${GoToSolutionPage(solution.id)}?login=true`)
-          }
-        >
-          <span className="relative top-[25%] rounded-xl bg-main py-3 px-6 ">
-            {' '}
-            Login to view solution
-          </span>
-        </div>
-      </div>
+      <SolutionData solution={solution} />
 
       <h1 className="h2 mt-3 w-fit pt-3 text-main">Request References Table</h1>
       <p className="mb-4 font-grotesk leading-6">
