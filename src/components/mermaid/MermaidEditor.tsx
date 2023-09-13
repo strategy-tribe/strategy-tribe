@@ -48,7 +48,7 @@ export function MermaidEditor({
         <Editor
           theme="vs-dark"
           height="75vh"
-          defaultLanguage="javascript"
+          // defaultLanguage="javascript"
           defaultValue={code}
           value={code}
           className="py-"
