@@ -6,6 +6,7 @@ import { useGetRawSolution } from '@/lib/hooks/solutionHooks';
 
 import AppLayout from '@/components/layouts/AppLayout';
 import { SolutionEdit } from '@/components/pages/solution/SolutionEdit';
+import Loading from '@/components/utils/Loading';
 
 import { NextPageWithLayout } from '@/pages/_app';
 import prisma from '@/server/prisma/prismaClient';
@@ -54,7 +55,7 @@ const SolutionEditPage: NextPageWithLayout<{ id: string }> = ({
 }: {
   id: string;
 }) => {
-  const { solution } = useGetRawSolution(id);
+  const { isLoading, solution } = useGetRawSolution(id);
   const [solutionFetch, setSolutionFetch] = useState<PostSolutionParams>({
     pieCode: '',
     flowCode: '',
@@ -87,7 +88,8 @@ const SolutionEditPage: NextPageWithLayout<{ id: string }> = ({
       {solution && (
         <SolutionEdit solution={solutionFetch} setSolution={setSolutionFetch} />
       )}
-      {!solution && <div>Invalid report id</div>}
+      {!solution && !isLoading && <div>Invalid report id</div>}
+      {isLoading && <Loading small />}
     </>
   );
 };

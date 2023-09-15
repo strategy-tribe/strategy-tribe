@@ -5,11 +5,11 @@ import { Button, ButtonStyle } from '@/components/utils/Button';
 
 export function RenderMermaid({ svg }: { svg: string }) {
   return (
-    <div className="zoomable-div w-full">
+    <div className="zoomable-div h-full w-full">
       <TransformWrapper
         initialScale={1}
-        initialPositionX={200}
-        initialPositionY={100}
+        initialPositionX={1}
+        initialPositionY={1}
         maxPositionX={100}
       >
         {({ zoomIn, zoomOut, resetTransform, zoomToElement, ...rest }) => (
@@ -49,15 +49,11 @@ export function RenderMermaid({ svg }: { svg: string }) {
                 }}
               />
             </div>
-            <div
-              className={`${
-                svg ? 'h-[75vh]' : 'min-h-[17rem]'
-              } m-2 border-2 border-surface p-4`}
-            >
+            <div className="m-2 h-[75vh] min-h-[17rem] border-2 border-surface p-4">
               <TransformComponent contentClass="" wrapperClass="w-full">
                 <div
                   id="conatiner"
-                  className="h[75vh] w-full"
+                  className="flex w-full justify-center"
                   dangerouslySetInnerHTML={{ __html: svg }}
                 ></div>
               </TransformComponent>

@@ -20,6 +20,11 @@ export const initEditor = (monacoEditor: typeof Monaco): void => {
       keywords: string[];
     }
   > = {
+    osint: {
+      typeKeywords: ['osint'],
+      blockKeywords: [],
+      keywords: ['showData'],
+    },
     flowchart: {
       typeKeywords: ['flowchart', 'flowchart-v2', 'graph'],
       blockKeywords: ['subgraph', 'end'],
@@ -265,6 +270,7 @@ export const initEditor = (monacoEditor: typeof Monaco): void => {
         [/^\s*gitGraph/m, 'typeKeyword', 'gitGraph'],
         [/^\s*info/m, 'typeKeyword', 'info'],
         [/^\s*pie/m, 'typeKeyword', 'pie'],
+        [/^\s*osint/m, 'typeKeyword', 'osint'],
         [/^\s*(flowchart|flowchart-v2|graph)/m, 'typeKeyword', 'flowchart'],
         [/^\s*sequenceDiagram/, 'typeKeyword', 'sequenceDiagram'],
         [/^\s*classDiagram(-v2)?/, 'typeKeyword', 'classDiagram'],
@@ -348,6 +354,15 @@ export const initEditor = (monacoEditor: typeof Monaco): void => {
         [/".*?"/, 'string'],
         [/\s*\d+/, 'number'],
         [/:/, 'delimiter.bracket'],
+        [/%%[^$]([^%]*(?!%%$)%?)*$/, 'comment'],
+      ],
+      osint: [
+        [/-+>?/, 'transition'],
+        [/start/, 'number'],
+        [/P_[a-zA-Z0-9_]+/, 'dataBlock'],
+        [/D_[a-zA-Z0-9_]+/, 'identifier'],
+        [/\(([^,]+)/, 'type'],
+        [/"([^"]*)"/, 'string'],
         [/%%[^$]([^%]*(?!%%$)%?)*$/, 'comment'],
       ],
       flowchart: [
@@ -604,8 +619,18 @@ export const initEditor = (monacoEditor: typeof Monaco): void => {
     colors: {},
     rules: [
       { token: 'typeKeyword', foreground: '9650c8', fontStyle: 'bold' },
+      { token: 'keyword', foreground: '649696' },
+      { token: 'custom-error', foreground: 'ff0000', fontStyle: 'bold' },
+      { token: 'string', foreground: 'ce9178' },
       { token: 'transition', foreground: '008800', fontStyle: 'bold' },
+      { token: 'delimiter.bracket', foreground: 'ffd700', fontStyle: 'bold' },
+      { token: 'annotation', foreground: '4b4b96' },
+      { token: 'number', foreground: 'A29BFE' },
+      { token: 'comment', foreground: '888c89' },
+      { token: 'variable', foreground: 'A22889' },
+      { token: 'type', foreground: '2BDEA8' },
       { token: 'identifier', foreground: '9cdcfe' },
+      { token: 'dataBlock', foreground: '74b0df' },
     ],
   });
 

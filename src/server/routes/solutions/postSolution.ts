@@ -23,7 +23,7 @@ const getSvg = async (code: string) => {
     mermaid: JSON.stringify({}),
   });
   const img = await (
-    await fetch(`http://render.strategytribe.io/svg/${encoded}?bgColor=000000`)
+    await fetch(`https://render.strategytribe.io/svg/${encoded}?bgColor=000000`)
   ).blob();
   return await img.text();
 };
@@ -34,9 +34,7 @@ const CreateSolution = async (
 ) => {
   const { id, pieCode, flowCode, content, publish, target } = input;
 
-  const dataSvg = await getSvg(
-    flowCode.toLowerCase().replace('start ->', 'showData \n start ->')
-  );
+  const dataSvg = await getSvg(flowCode.replace('osint', 'osint showData'));
   const labelSvg = await getSvg(flowCode);
   const pieSvg = await getSvg(pieCode);
   const data = {

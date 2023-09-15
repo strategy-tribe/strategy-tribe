@@ -46,24 +46,18 @@ export function MermaidEditor({
       <div className="min-w-[40%] space-y-4">
         <h6>Code</h6>
         <Editor
-          theme="vs-dark"
+          theme="mermaid-dark"
           height="75vh"
-          // defaultLanguage="javascript"
           defaultValue={code}
+          options={{
+            minimap: { enabled: false },
+          }}
+          language="mermaid"
           value={code}
-          className="py-"
+          className="mermaid-editor"
           beforeMount={(m) => initEditor(m)}
           onChange={(value, a) => setCode(value ?? '')}
         />
-        {/* <ReactTextareaAutosize
-          placeholder="This input supports markdown. Add the complete solution content here"
-          className="body max-h-[85vh] min-h-[17rem] w-full whitespace-pre-wrap rounded border border-dashed border-on-surface-disabled bg-bg p-4 font-inter text-on-surface-p1 first-letter:capitalize focus:border-on-surface-unactive focus:ring-0"
-          onChange={(e) => setCode(e.target.value)}
-          required
-          value={code}
-          minRows={10}
-          maxRows={50}
-        /> */}
       </div>
 
       <RenderMermaid svg={svg} />

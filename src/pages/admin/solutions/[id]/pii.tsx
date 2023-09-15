@@ -113,21 +113,6 @@ const SolutionPiiPage: NextPageWithLayout<{ id: string }> = ({
               >
                 Download PII Solution
               </a>
-              {/* <button
-                // onClick={() => }
-                className={`label rounded py-2 px-5 bg-surface hover:bg-main`}
-              >
-                Download PieChart
-              </button>
-              <button
-                // onClick={() => setView(entry[1])}
-                className={`label rounded py-2 px-5 bg-surface hover:bg-main`}
-                // className={`label rounded py-2 px-5 ${
-                //   active ? 'bg-surface' : 'hover:bg-surface-dark'
-                // }`}
-              >
-                Download PII Solution
-              </button> */}
             </div>
           </div>
           <SolutionData

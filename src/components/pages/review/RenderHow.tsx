@@ -13,11 +13,7 @@ export function RenderHow({ code }: { code: string }) {
 
   const getMermaid = async () => {
     try {
-      const { svg } = await render(
-        {} as MermaidConfig,
-        code,
-        'submission-graph-id'
-      );
+      const { svg } = await render({} as MermaidConfig, code, 'flowchart-id');
       if (svg.length > 0) {
         setSVG(svg);
       }

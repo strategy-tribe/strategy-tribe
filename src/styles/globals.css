@@ -256,6 +256,14 @@
   padding: 1rem;
 }
 
-.zoomable-div #graph-div {
-  max-height: 70vh;
+.zoomable-div #piechart-div {
+  max-height: 65vh;
+}
+
+.zoomable-div #flowchart-div {
+  max-height: 65vh;
+}
+
+.mermaid-editor .monaco-editor {
+  padding-top: 0.5rem;
 }
