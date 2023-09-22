@@ -34,7 +34,11 @@ const CreateSolution = async (
 ) => {
   const { id, pieCode, flowCode, content, publish, target } = input;
 
-  const dataSvg = await getSvg(flowCode.replace('osint', 'osint showData'));
+  const dataSvg = await getSvg(
+    flowCode
+      .replace('start ->', 'showData start ->')
+      .replace('osint-elk', 'osint')
+  );
   const labelSvg = await getSvg(flowCode);
   const pieSvg = await getSvg(pieCode);
   const data = {

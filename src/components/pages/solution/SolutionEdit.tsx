@@ -193,23 +193,21 @@ export function SolutionEdit({
           />
         </div>
 
-        {view === MarkdownView.Edit && (
-          <div>
-            <div className="px-2 font-bold">Pie Chart of datapoints:</div>
-            <MermaidEditor
-              id={PIE_DIV_ID}
-              code={piechartCode}
-              setCode={setPiechartCode}
-            />
+        <div className={view === MarkdownView.Edit ? '' : 'hidden'}>
+          <div className="px-2 font-bold">Pie Chart of datapoints:</div>
+          <MermaidEditor
+            id={PIE_DIV_ID}
+            code={piechartCode}
+            setCode={setPiechartCode}
+          />
 
-            <div className="px-2 font-bold">Flowchart:</div>
-            <MermaidEditor
-              id={FLOW_DIV_ID}
-              code={flowchartCode}
-              setCode={setFlowchartCode}
-            />
-          </div>
-        )}
+          <div className="px-2 font-bold">Flowchart:</div>
+          <MermaidEditor
+            id={FLOW_DIV_ID}
+            code={flowchartCode}
+            setCode={setFlowchartCode}
+          />
+        </div>
 
         <div className="align-center flex justify-between">
           <div className="align-center flex">

@@ -341,6 +341,7 @@ export const initEditor = (monacoEditor: typeof Monaco): void => {
       ],
       pie: [
         configDirectiveHandler,
+        [/---\n[\s\S]*?\n---/, 'transition'],
         [/(title|accDescription)(.*$)/, ['keyword', 'string']],
         [
           /[A-Za-z][\w$]*/,
@@ -359,6 +360,8 @@ export const initEditor = (monacoEditor: typeof Monaco): void => {
       osint: [
         [/-+>?/, 'transition'],
         [/start/, 'number'],
+        [/elk/, 'number'],
+        [/showData/, 'annotation'],
         [/P_[a-zA-Z0-9_]+/, 'dataBlock'],
         [/D_[a-zA-Z0-9_]+/, 'identifier'],
         [/\(([^,]+)/, 'type'],

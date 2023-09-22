@@ -1,9 +1,11 @@
 import Editor from '@monaco-editor/react';
 import type { MermaidConfig } from 'mermaid';
+import type * as Monaco from 'monaco-editor';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 
 import { render } from '@/lib/mermaid/mermaid';
 import { initEditor } from '@/lib/mermaid/monacoExtra';
+import { findMostRelevantLineNumber } from '@/lib/utils/MermaidErrorHelper';
 
 import { RenderMermaid } from './RenderMermaid';
 
@@ -17,7 +19,8 @@ export function MermaidEditor({
   setCode: Dispatch<SetStateAction<string>>;
 }) {
   const [svg, setSVG] = useState('');
-
+  const [monaco, setMonaco] = useState<typeof Monaco>();
+  const [editor, setEditor] = useState<Monaco.editor.IStandaloneCodeEditor>();
   const getMermaid = async () => {
     try {
       const { svg } = await render(
@@ -32,8 +35,40 @@ export function MermaidEditor({
       if (svg.length > 0) {
         setSVG(svg);
       }
+      const model = editor?.getModel();
+      if (model && monaco) {
+        monaco.editor.setModelMarkers(model, 'mermaid', []);
+      }
     } catch (e: any) {
-      setSVG(`<div class="text-base text-error">${e.message}</div>`);
+      let message: string = e.message;
+      let startLine =
+        e?.name === 'UnknownDiagramError'
+          ? 0
+          : findMostRelevantLineNumber(e.message, code);
+
+      if (e.parserErrors) {
+        const pError = e.parserErrors[0];
+        message = pError?.message;
+        startLine =
+          pError?.message.includes('D_') || pError?.message.includes('P_')
+            ? findMostRelevantLineNumber(pError?.message, code)
+            : pError?.previousToken?.image
+            ? findMostRelevantLineNumber(pError?.previousToken?.image, code)
+            : pError?.token.startLine;
+      }
+      const marker: Monaco.editor.IMarkerData = {
+        severity: 8,
+        startLineNumber: startLine,
+        startColumn: 0,
+        endLineNumber: startLine + 1,
+        endColumn: 0,
+        message: e.message,
+      };
+      const model = editor?.getModel();
+      if (model && monaco) {
+        monaco.editor.setModelMarkers(model, 'mermaid', [marker]);
+      }
+      setSVG(`<div class="text-base text-error">${message}</div>`);
     }
   };
 
@@ -55,7 +90,11 @@ export function MermaidEditor({
           language="mermaid"
           value={code}
           className="mermaid-editor"
-          beforeMount={(m) => initEditor(m)}
+          beforeMount={(m) => {
+            initEditor(m);
+            setMonaco(m);
+          }}
+          onMount={(e) => setEditor(e)}
           onChange={(value, a) => setCode(value ?? '')}
         />
       </div>

@@ -4,6 +4,9 @@ import mermaid from 'mermaid';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import mermaidOsint from './osint/mermaid-osint.js';
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import mermaidOsintElk from './osint/mermaid-osint-elk.js';
 
 export const render = async (
   config: MermaidConfig,
@@ -15,7 +18,7 @@ export const render = async (
   mermaid.initialize(config);
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
-  await mermaid.registerExternalDiagrams([mermaidOsint]);
+  await mermaid.registerExternalDiagrams([mermaidOsint, mermaidOsintElk]);
   return await mermaid.render(id, code);
 };
 
