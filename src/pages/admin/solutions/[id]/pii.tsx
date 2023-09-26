@@ -2,6 +2,7 @@ import { GetStaticPaths, GetStaticProps } from 'next';
 import Head from 'next/head';
 
 import { useGetPiiSolution } from '@/lib/hooks/solutionHooks';
+import { toTitleCase } from '@/lib/utils/StringHelpers';
 
 import AppLayout from '@/components/layouts/AppLayout';
 import { SolutionData } from '@/components/pages/solution/SolutionData';
@@ -70,6 +71,122 @@ const SolutionPiiPage: NextPageWithLayout<{ id: string }> = ({
     }
   };
 
+  const getMaxWidth = (svgString: string) => {
+    const container = document.createElement('div');
+    container.style.display = 'inline-block';
+    container.style.width = '1px';
+    container.style.height = '1px';
+    container.innerHTML = svgString;
+    document.body.appendChild(container);
+    const svgElement = container.querySelector('svg');
+    if (svgElement) {
+      const ariaRoleDescription = svgElement.getAttribute(
+        'aria-roledescription'
+      );
+      const maxHeight = svgElement.getBBox().height;
+      document.body.removeChild(container);
+      return [maxHeight, ariaRoleDescription];
+    }
+    return ['', ''];
+  };
+
+  function getImage(piechart: boolean, svgString: string, targetName: string) {
+    let max;
+    if (!piechart) {
+      const [maxWidth, element] = getMaxWidth(svgString);
+      if (element === 'osint') {
+        max = maxWidth;
+      }
+    }
+    let heightPercentage = '7.5%';
+    let imgHeight = '4.5%';
+    if (max && max > 1100) {
+      heightPercentage = '6.5%';
+      imgHeight = max > 1500 ? '5%' : '4.75%';
+    }
+    let width = '5%';
+    let createdTextHt = '5%';
+    if (max && max < 800) {
+      width = '10%';
+      createdTextHt = '18%';
+      heightPercentage = '20.5%';
+      imgHeight = '17.5%';
+    }
+    const parser = new DOMParser();
+    const svgDoc = parser.parseFromString(svgString, 'image/svg+xml');
+
+    //heading text
+    const headingText = document.createElementNS(
+      'http://www.w3.org/2000/svg',
+      'text'
+    );
+    headingText.setAttribute('x', '50%');
+    headingText.setAttribute('y', '0%');
+    headingText.textContent = `Data point Stats for ${toTitleCase(targetName)}`;
+    headingText.style.fill = 'white';
+    headingText.setAttribute('text-anchor', 'middle');
+
+    //created by text
+    const createdText = document.createElementNS(
+      'http://www.w3.org/2000/svg',
+      'text'
+    );
+    createdText.setAttribute('x', piechart ? '50%' : width);
+    createdText.setAttribute('y', piechart ? '101.5%' : createdTextHt);
+    createdText.textContent = 'Created by';
+    createdText.style.fontSize = '11px';
+    createdText.style.fill = 'dimgray';
+
+    //Logo text
+    const logoText = document.createElementNS(
+      'http://www.w3.org/2000/svg',
+      'text'
+    );
+    logoText.setAttribute('x', piechart ? '50%' : width);
+    logoText.setAttribute('y', piechart ? '106%' : `${heightPercentage}`);
+    logoText.textContent = 'StrategyTribe';
+    logoText.style.fill = 'white';
+
+    //Logo image
+    const logoImage = document.createElementNS(
+      'http://www.w3.org/2000/svg',
+      'image'
+    );
+    logoImage.setAttribute(
+      'x',
+      piechart ? 'calc(50% + 50px)' : `calc(${width} + 100px)`
+    );
+    logoImage.setAttribute('y', piechart ? '101%' : `${imgHeight}`);
+    logoImage.setAttribute('width', '30');
+    logoImage.setAttribute('height', '30');
+    logoImage.setAttributeNS(
+      'http://www.w3.org/1999/xlink',
+      'xlink:href',
+      window.origin + '/images/logo.svg'
+    );
+    logoImage.style.fill = 'white';
+
+    if (svgDoc && svgDoc.querySelector('svg')) {
+      const svgElement = svgDoc.querySelector('svg');
+      if (svgElement) {
+        if (piechart) {
+          svgElement.appendChild(headingText);
+          logoText.setAttribute('text-anchor', 'middle');
+          createdText.setAttribute('text-anchor', 'middle');
+        }
+        svgElement.appendChild(createdText);
+        svgElement.appendChild(logoText);
+        svgElement.appendChild(logoImage);
+      }
+      const modifiedSvgString = new XMLSerializer().serializeToString(svgDoc);
+      return window.URL.createObjectURL(
+        new Blob([modifiedSvgString], { type: 'image/svg+xml' })
+      );
+    } else {
+      console.error('Could not find SVG element in the document.');
+    }
+  }
+
   return (
     <>
       <Head>
@@ -88,9 +205,7 @@ const SolutionPiiPage: NextPageWithLayout<{ id: string }> = ({
             <Title title="PII Solution" useBorder={true} big={true} />
             <div className="flex items-center gap-6">
               <a
-                href={window.URL.createObjectURL(
-                  new Blob([solution.pieSvg], { type: 'image/svg+xml' })
-                )}
+                href={getImage(true, solution.pieSvg, solution.target.name)}
                 className="label rounded bg-surface py-2 px-5 hover:bg-main"
                 download={`${solution.target.name
                   .replaceAll('.', '')
@@ -101,9 +216,7 @@ const SolutionPiiPage: NextPageWithLayout<{ id: string }> = ({
                 Download PieChart
               </a>
               <a
-                href={window.URL.createObjectURL(
-                  new Blob([solution.dataSvg], { type: 'image/svg+xml' })
-                )}
+                href={getImage(false, solution.dataSvg, solution.target.name)}
                 className="label rounded bg-surface py-2 px-5 hover:bg-main"
                 download={`${solution.target.name
                   .replaceAll('.', '')
