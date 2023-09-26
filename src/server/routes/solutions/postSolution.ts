@@ -20,7 +20,7 @@ export type PostSolutionParams = z.infer<typeof PostSolutionSchema>;
 const getSvg = async (code: string) => {
   const encoded = serializeState({
     code: code,
-    mermaid: JSON.stringify({}),
+    mermaid: JSON.stringify({ securityLevel: 'antiscript' }),
   });
   const img = await (
     await fetch(`https://render.strategytribe.io/svg/${encoded}?bgColor=000000`)
@@ -35,9 +35,7 @@ const CreateSolution = async (
   const { id, pieCode, flowCode, content, publish, target } = input;
 
   const dataSvg = await getSvg(
-    flowCode
-      .replace('start ->', 'showData start ->')
-      .replace('osint-elk', 'osint')
+    flowCode.replace('start ->', 'showData start ->')
   );
   const labelSvg = await getSvg(flowCode);
   const pieSvg = await getSvg(pieCode);

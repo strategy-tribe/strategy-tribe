@@ -1,4 +1,3 @@
-import type { MermaidConfig } from 'mermaid';
 import { useEffect, useState } from 'react';
 
 import { render } from '@/lib/mermaid/mermaid';
@@ -13,7 +12,11 @@ export function RenderHow({ code }: { code: string }) {
 
   const getMermaid = async () => {
     try {
-      const { svg } = await render({} as MermaidConfig, code, 'flowchart-id');
+      const { svg } = await render(
+        { securityLevel: 'antiscript' },
+        code,
+        'flowchart-id'
+      );
       if (svg.length > 0) {
         setSVG(svg);
       }

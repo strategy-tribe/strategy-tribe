@@ -22094,9 +22094,13 @@ var Wy,
       (sR = (t, e = !1) => {
         let r = t.label;
         e &&
+          (console.log('type', t.dataType),
           (r +=
             `
-` + t.data),
+` +
+            (t.name.includes('_url_')
+              ? `<a class='underline hover:text-main-light' href='${t.data}' target='_blank' rel='noopener noreferrer'>Click Here</a>`
+              : t.data))),
           fr.addVertex(t.name, { text: r, type: 'lean_right' }, 'lean_right'),
           fr.setClass(t.name, 'conf_' + t.confidence);
       }),
@@ -22104,8 +22108,8 @@ var Wy,
         let e = { nodes: {}, edges: {} };
         fr.clear(),
           fr.setDirection('TB'),
-          fr.addClass('conf_h', ['stroke:#bd0b11', 'stroke-width:3px']),
-          fr.addClass('conf_l', ['stroke:#1a8a0e', 'stroke-width:3px']),
+          fr.addClass('conf_h', ['stroke:#1a8a0e', 'stroke-width:3px']),
+          fr.addClass('conf_l', ['stroke:#bd0b11', 'stroke-width:3px']),
           fr.addClass('conf_m', ['stroke:#d47b06', 'stroke-width:3px']);
         let r = t.showData;
         for (let n of t.rows)

@@ -99,7 +99,7 @@ export function Solution({ solution }: { solution: FullSolution }) {
         </div>
       </div>
 
-      <SolutionData solution={solution} />
+      <SolutionData asImage={true} solution={solution} />
 
       <h1 className="h2 mt-3 w-fit pt-3 text-main">Request References Table</h1>
       <p className="mb-4 font-grotesk leading-6">

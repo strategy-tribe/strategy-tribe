@@ -1,5 +1,4 @@
 import Editor from '@monaco-editor/react';
-import type { MermaidConfig } from 'mermaid';
 import type * as Monaco from 'monaco-editor';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 
@@ -23,15 +22,7 @@ export function MermaidEditor({
   const [editor, setEditor] = useState<Monaco.editor.IStandaloneCodeEditor>();
   const getMermaid = async () => {
     try {
-      const { svg } = await render(
-        {
-          flowchart: {
-            useMaxWidth: true,
-          },
-        } as MermaidConfig,
-        code,
-        id
-      );
+      const { svg } = await render({ securityLevel: 'antiscript' }, code, id);
       if (svg.length > 0) {
         setSVG(svg);
       }

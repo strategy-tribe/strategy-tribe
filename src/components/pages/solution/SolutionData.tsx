@@ -8,6 +8,7 @@ import { useAuth } from '@/auth/AuthContext';
 
 export function SolutionData({
   solution,
+  asImage = false,
 }: {
   solution: {
     id?: string;
@@ -15,6 +16,7 @@ export function SolutionData({
     labelSvg: string;
     content: string;
   };
+  asImage?: boolean;
 }) {
   const { userId, isAuthenticated } = useAuth();
   const router = useRouter();
@@ -40,11 +42,19 @@ export function SolutionData({
           <h1 className="h2 mt-3 flex w-fit pt-3 text-center text-main">
             Solution
           </h1>
-          <div
-            id="conatiner"
-            className="flex w-full justify-center"
-            dangerouslySetInnerHTML={{ __html: solution.labelSvg }}
-          ></div>
+          {asImage ? (
+            <img
+              src={`data:image/svg+xml;utf8,${encodeURIComponent(
+                solution.labelSvg
+              )}`}
+            />
+          ) : (
+            <div
+              id="conatiner"
+              className="flex w-full justify-center"
+              dangerouslySetInnerHTML={{ __html: solution.labelSvg }}
+            ></div>
+          )}
         </div>
         <div
           className={`absolute bottom-0 z-10 h-full w-full cursor-pointer text-center ${

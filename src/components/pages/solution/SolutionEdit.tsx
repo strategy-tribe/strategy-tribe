@@ -1,4 +1,3 @@
-import type { MermaidConfig } from 'mermaid';
 import { useRouter } from 'next/router';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import Switch from 'react-switch';
@@ -93,11 +92,7 @@ export function SolutionEdit({
 
   const getMermaid = async () => {
     try {
-      const { svg: pie } = await render(
-        {} as MermaidConfig,
-        piechartCode,
-        PIE_DIV_ID
-      );
+      const { svg: pie } = await render({}, piechartCode, PIE_DIV_ID);
       if (pie.length > 0) {
         setPiechartSVG(pie);
       }
@@ -106,7 +101,7 @@ export function SolutionEdit({
     }
     try {
       const { svg: flow } = await render(
-        {} as MermaidConfig,
+        { securityLevel: 'antiscript' },
         flowchartCode,
         FLOW_DIV_ID
       );
@@ -135,7 +130,11 @@ export function SolutionEdit({
   return (
     <div className="max-w-8xl mx-2 min-h-screen space-y-8 p-4">
       <div className="sticky top-[5rem] z-20 flex justify-between border-b-2 border-surface bg-bg py-4">
-        <Title title="Add new solution" useBorder={true} big={true} />
+        <Title
+          title={solution.id ? 'Edit Solution' : 'Add new solution'}
+          useBorder={true}
+          big={true}
+        />
         <div className="flex items-center gap-6">
           {Object.entries(MarkdownView).map((entry) => {
             const active = entry[1] === view;
@@ -193,21 +192,23 @@ export function SolutionEdit({
           />
         </div>
 
-        <div className={view === MarkdownView.Edit ? '' : 'hidden'}>
-          <div className="px-2 font-bold">Pie Chart of datapoints:</div>
-          <MermaidEditor
-            id={PIE_DIV_ID}
-            code={piechartCode}
-            setCode={setPiechartCode}
-          />
+        {view === MarkdownView.Edit && (
+          <div>
+            <div className="px-2 font-bold">Pie Chart of datapoints:</div>
+            <MermaidEditor
+              id={PIE_DIV_ID}
+              code={piechartCode}
+              setCode={setPiechartCode}
+            />
 
-          <div className="px-2 font-bold">Flowchart:</div>
-          <MermaidEditor
-            id={FLOW_DIV_ID}
-            code={flowchartCode}
-            setCode={setFlowchartCode}
-          />
-        </div>
+            <div className="px-2 font-bold">Flowchart:</div>
+            <MermaidEditor
+              id={FLOW_DIV_ID}
+              code={flowchartCode}
+              setCode={setFlowchartCode}
+            />
+          </div>
+        )}
 
         <div className="align-center flex justify-between">
           <div className="align-center flex">
