@@ -14,7 +14,7 @@ export function RenderHow({ code }: { code: string }) {
     try {
       const { svg } = await render(
         { securityLevel: 'antiscript' },
-        code,
+        code.replace('start ->', 'showData start ->'),
         'flowchart-id'
       );
       if (svg.length > 0) {
