@@ -229,7 +229,6 @@ const SolutionPiiPage: NextPageWithLayout<{ id: string }> = ({
             </div>
           </div>
           <SolutionData
-            asImage={true}
             solution={{ ...solution, labelSvg: solution.dataSvg, content: '' }}
           />
         </div>
