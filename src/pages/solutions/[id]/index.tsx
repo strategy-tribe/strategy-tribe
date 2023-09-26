@@ -6,6 +6,7 @@ import { useGetSolution } from '@/lib/hooks/solutionHooks';
 import AppLayout from '@/components/layouts/AppLayout';
 import { Solution } from '@/components/pages/solution/Solution';
 import Loading from '@/components/utils/Loading';
+import { NotFound } from '@/components/utils/NotFound';
 
 import { NextPageWithLayout } from '@/pages/_app';
 import prisma from '@/server/prisma/prismaClient';
@@ -72,6 +73,7 @@ const SolutionPage: NextPageWithLayout<{ id: string }> = ({
       {!isLoading && solution && (
         <Solution solution={solution as FullSolution} />
       )}
+      {!isLoading && !solution && <NotFound />}
     </>
   );
 };

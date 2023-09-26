@@ -1,5 +1,7 @@
 import { Prisma, PrismaClient } from '@prisma/client';
 import { ThenArg, TRPCError } from '@trpc/server';
+import { readFileSync } from 'fs';
+import path from 'path';
 import { z } from 'zod';
 
 import { publicProcedure } from '@/server/procedures';
@@ -67,6 +69,12 @@ export async function ServerGetSolution(
   if (!solution) {
     return solution;
   }
+  const dataFolder = path.resolve(
+    'public',
+    'images',
+    process.env.PRE_LOGIN_SOLUTION as string
+  );
+  const data = readFileSync(dataFolder);
   const _solution = {
     ...solution,
     content: !isLoggedIn
@@ -75,6 +83,7 @@ export async function ServerGetSolution(
       Loading... `
       : solution.content,
     target: solution.target,
+    labelSvg: isLoggedIn ? solution.labelSvg : data.toString(),
   };
   return _solution;
 }
