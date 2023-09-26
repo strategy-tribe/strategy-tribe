@@ -71,7 +71,7 @@ const SolutionPiiPage: NextPageWithLayout<{ id: string }> = ({
     }
   };
 
-  const getMaxWidth = (svgString: string) => {
+  const getMaxHeight = (svgString: string) => {
     const container = document.createElement('div');
     container.style.display = 'inline-block';
     container.style.width = '1px';
@@ -92,25 +92,27 @@ const SolutionPiiPage: NextPageWithLayout<{ id: string }> = ({
 
   function getImage(piechart: boolean, svgString: string, targetName: string) {
     let max;
+    let osElement;
     if (!piechart) {
-      const [maxWidth, element] = getMaxWidth(svgString);
-      if (element === 'osint') {
+      const [maxWidth, element] = getMaxHeight(svgString);
+      if (element === 'osint' || element === 'osint-elk') {
         max = maxWidth;
+        osElement = element;
       }
     }
-    let heightPercentage = '7.5%';
+    let logoHeightPercentage = '7.5%';
     let imgHeight = '4.5%';
-    if (max && max > 1100) {
-      heightPercentage = '6.5%';
-      imgHeight = max > 1500 ? '5%' : '4.75%';
-    }
-    let width = '5%';
+    let logoWidth = '5%';
     let createdTextHt = '5%';
-    if (max && max < 800) {
-      width = '10%';
+    if (osElement && osElement === 'osint-elk') {
+      logoWidth = '10%';
       createdTextHt = '18%';
-      heightPercentage = '20.5%';
-      imgHeight = '17.5%';
+      logoHeightPercentage = '20.5%';
+      imgHeight = '18%';
+      if (max && max > 1150) {
+        createdTextHt = '19%';
+        imgHeight = '19%';
+      }
     }
     const parser = new DOMParser();
     const svgDoc = parser.parseFromString(svgString, 'image/svg+xml');
@@ -131,7 +133,7 @@ const SolutionPiiPage: NextPageWithLayout<{ id: string }> = ({
       'http://www.w3.org/2000/svg',
       'text'
     );
-    createdText.setAttribute('x', piechart ? '50%' : width);
+    createdText.setAttribute('x', piechart ? '50%' : logoWidth);
     createdText.setAttribute('y', piechart ? '101.5%' : createdTextHt);
     createdText.textContent = 'Created by';
     createdText.style.fontSize = '11px';
@@ -142,8 +144,8 @@ const SolutionPiiPage: NextPageWithLayout<{ id: string }> = ({
       'http://www.w3.org/2000/svg',
       'text'
     );
-    logoText.setAttribute('x', piechart ? '50%' : width);
-    logoText.setAttribute('y', piechart ? '106%' : `${heightPercentage}`);
+    logoText.setAttribute('x', piechart ? '50%' : logoWidth);
+    logoText.setAttribute('y', piechart ? '106%' : `${logoHeightPercentage}`);
     logoText.textContent = 'StrategyTribe';
     logoText.style.fill = 'white';
 
@@ -154,7 +156,7 @@ const SolutionPiiPage: NextPageWithLayout<{ id: string }> = ({
     );
     logoImage.setAttribute(
       'x',
-      piechart ? 'calc(50% + 50px)' : `calc(${width} + 100px)`
+      piechart ? 'calc(50% + 50px)' : `calc(${logoWidth} + 100px)`
     );
     logoImage.setAttribute('y', piechart ? '101%' : `${imgHeight}`);
     logoImage.setAttribute('width', '30');
