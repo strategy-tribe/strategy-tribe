@@ -2,6 +2,7 @@ import { GetStaticPaths, GetStaticProps } from 'next';
 import Head from 'next/head';
 
 import { useGetPiiSolution } from '@/lib/hooks/solutionHooks';
+import { toTitleCase } from '@/lib/utils/StringHelpers';
 
 import AppLayout from '@/components/layouts/AppLayout';
 import { SolutionData } from '@/components/pages/solution/SolutionData';
@@ -70,10 +71,6 @@ const SolutionPiiPage: NextPageWithLayout<{ id: string }> = ({
     }
   };
 
-  const capitalizeWords = (str: string) => {
-    return str.replace(/\b\w/g, (match) => match.toUpperCase());
-  };
-
   const getMaxWidth = (svgString: string) => {
     const container = document.createElement('div');
     container.style.display = 'inline-block';
@@ -125,9 +122,7 @@ const SolutionPiiPage: NextPageWithLayout<{ id: string }> = ({
     );
     headingText.setAttribute('x', '50%');
     headingText.setAttribute('y', '0%');
-    headingText.textContent = `Data point Stats for ${capitalizeWords(
-      targetName
-    )}`;
+    headingText.textContent = `Data point Stats for ${toTitleCase(targetName)}`;
     headingText.style.fill = 'white';
     headingText.setAttribute('text-anchor', 'middle');
 
