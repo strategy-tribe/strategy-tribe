@@ -83,7 +83,7 @@ export async function ServerGetSolution(
       Loading... `
       : solution.content,
     target: solution.target,
-    labelSvg: isLoggedIn ? solution.labelSvg : data.toString(),
+    labelSvg: isLoggedIn ? solution.labelSvg : data?.toString(),
   };
   return _solution;
 }
