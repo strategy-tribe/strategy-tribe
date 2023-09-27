@@ -49,7 +49,7 @@ export function RenderMermaid({ svg }: { svg: string }) {
                 }}
               />
             </div>
-            <div className="m-2 h-[75vh] min-h-[17rem] border-2 border-surface p-4">
+            <div className="m-2 h-[75vh] min-h-[17rem] border-2 border-surface bg-bg p-4">
               <TransformComponent contentClass="" wrapperClass="w-full">
                 <div
                   id="conatiner"

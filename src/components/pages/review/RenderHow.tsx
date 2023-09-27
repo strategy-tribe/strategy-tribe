@@ -26,7 +26,11 @@ export function RenderHow({ code }: { code: string }) {
   };
 
   useEffect(() => {
-    getMermaid();
+    if (code.includes('<svg')) {
+      setSVG(code);
+    } else {
+      getMermaid();
+    }
   }, [code]);
 
   return (

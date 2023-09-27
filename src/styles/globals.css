@@ -264,6 +264,10 @@
   max-height: 65vh;
 }
 
+.zoomable-div #mermaid-svg {
+  max-height: 65vh;
+}
+
 .mermaid-editor .monaco-editor {
   padding-top: 0.5rem;
 }

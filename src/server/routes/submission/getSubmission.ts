@@ -7,6 +7,7 @@ import { signedInOnlyProcedure } from '@/server/procedures';
 import { s3 } from '@/server/routers/files';
 
 import { SMALL_SUBMISSION_SELECT } from './getSubmissions';
+import { getSvg } from '../utils/getSvg';
 import { ThenArg } from '../utils/helperTypes';
 
 /** Schema used to query for submissions */
@@ -55,20 +56,54 @@ export const getSubmission = signedInOnlyProcedure
       input
     );
     submission = await processImages(submission);
+    submission = await replaceMermaid(submission);
     return { submission };
   });
 
-const processImages = async (submissions: FullSubmission | null) => {
-  if (submissions && submissions.answers && submissions.answers.length > 0) {
-    const stringSubmissionParams: FullSubmission = submissions;
+const replaceMermaid = async (submission: FullSubmission | null) => {
+  if (!(submission && submission.answers && submission.answers.length > 0)) {
+    return submission;
+  }
+  const howAnswer = submission.answers.find(
+    (a) => a.requirement?.title === 'How did you find this info'
+  );
+
+  if (
+    howAnswer &&
+    new RegExp(/osint[\s\S]*?start[\s\S]*?->[\s\S]*?D_[\s\S]*?P_/).test(
+      howAnswer.answer
+    )
+  ) {
+    const svg = await getSvg(
+      howAnswer.answer.replace('start', 'showData start')
+    );
+    return {
+      ...submission,
+      answers: [
+        ...submission.answers.filter(
+          (ans) => ans.requirement?.title !== 'How did you find this info'
+        ),
+        {
+          ...howAnswer,
+          answer: svg,
+        },
+      ],
+    };
+  }
+  return submission;
+};
+
+const processImages = async (submission: FullSubmission | null) => {
+  if (submission && submission.answers && submission.answers.length > 0) {
+    const stringSubmissionParams: FullSubmission = submission;
     const fileSubmissionParams: FullSubmission = {
-      ...submissions,
+      ...submission,
       answers: [],
     };
-    const imageFileAns = submissions.answers.filter(
+    const imageFileAns = submission.answers.filter(
       (a) => a.requirement?.type === RequirementType.Image
     );
-    stringSubmissionParams.answers = submissions.answers.filter(
+    stringSubmissionParams.answers = submission.answers.filter(
       (a) => a.requirement?.type !== RequirementType.Image
     );
     if (imageFileAns && imageFileAns.length > 0) {
@@ -90,7 +125,7 @@ const processImages = async (submissions: FullSubmission | null) => {
     stringSubmissionParams.answers.push(...fileSubmissionParams.answers);
     return stringSubmissionParams;
   }
-  return submissions;
+  return submission;
 };
 
 export type FullSubmission = NonNullable<

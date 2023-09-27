@@ -1,9 +1,9 @@
 import { PrismaClient } from '@prisma/client';
 import { z } from 'zod';
 
-import { serializeState } from '@/lib/mermaid/serde';
-
 import { staffOnlyProcedure } from '@/server/procedures';
+
+import { getSvg } from '../utils/getSvg';
 
 /** Schema used to post Solution */
 const PostSolutionSchema = z.object({
@@ -16,17 +16,6 @@ const PostSolutionSchema = z.object({
 });
 
 export type PostSolutionParams = z.infer<typeof PostSolutionSchema>;
-
-const getSvg = async (code: string) => {
-  const encoded = serializeState({
-    code: code,
-    mermaid: JSON.stringify({ securityLevel: 'antiscript' }),
-  });
-  const img = await (
-    await fetch(`https://render.strategytribe.io/svg/${encoded}?bgColor=000000`)
-  ).blob();
-  return await img.text();
-};
 
 const CreateSolution = async (
   prisma: PrismaClient,
