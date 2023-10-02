@@ -231,6 +231,13 @@ export function OsintGraphGuide() {
               </li>
             </ul>
           </li>
+          <li className="space-y-2">
+            <span className="font-bold">Action</span>
+            <p>
+              This explains the action performed to obtain the relevant
+              information
+            </p>
+          </li>
         </ol>
       </div>
       <div className="mt-4 list-disc space-y-2">
