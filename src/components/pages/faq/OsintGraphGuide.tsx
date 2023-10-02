@@ -195,6 +195,42 @@ export function OsintGraphGuide() {
               string, preferably related to the data in the code
             </p>
           </li>
+          <li className="space-y-2">
+            <span className="font-bold">Data Type</span>
+            <p>
+              This denotes the data type for the process. Examples of data types
+              include:
+            </p>
+            <ul className="ml-6 list-disc space-y-2">
+              <li className="space-y-2">
+                <span>search</span>
+              </li>
+              <li className="space-y-2">
+                <span>examine</span>
+              </li>
+              <li className="space-y-2">
+                <span>phone</span>
+              </li>
+              <li className="space-y-2">
+                <span>dehash</span>
+              </li>
+              <li className="space-y-2">
+                <span>analyse</span>
+              </li>
+              <li className="space-y-2">
+                <span>select</span>
+              </li>
+              <li className="space-y-2">
+                <span>input</span>
+              </li>
+              <li className="space-y-2">
+                <span>scroll</span>
+              </li>
+              <li className="space-y-2">
+                <span>view</span>
+              </li>
+            </ul>
+          </li>
         </ol>
       </div>
       <div className="mt-4 list-disc space-y-2">
@@ -319,37 +355,40 @@ export function OsintGraphGuide() {
           <span>Code</span>
         </h5>
         <p className="mb-8">
-          &#39;osint <br />
-          start -&gt; D_name(fullName,h, &quot;Target Name&quot;, &quot;Jane
-          Doe&quot;) <br />
-          D_name -&gt; P_google(search, &quot;Google &#39;Jane Doe&#39;&quot;)
-          <br />
-          P_google -&gt; D_url_coindesk(link,h, &quot;Coindesk Article&quot;,
-          &quot;https://www.coindesk.com/sampleLink&quot;)
-          <br />
-          D_url_coindesk -&gt; P_examineCoindesk(examine, &quot;Examine Coindesk
-          Article&quot;)
-          <br />
-          P_examineCoindesk -&gt; D_targetDomain(domain,h, &quot;Sample
-          domain&quot;, &quot;onecoin.eu&quot;), D_titleFounder(title,m,
-          &quot;Title&quot;, &quot;Co-Founder&quot;)
-          <br />
-          D_targetDomain -&gt; P_rocketReach(search, &quot;Rocket Reach:
-          &#39;Jane Doe Domain&#39; &quot;)
-          <br />
-          P_rocketReach -&gt; D_email1(email,l, &quot;Email 1&quot;,
-          &quot;email@domain.com&quot;), D_email2(email,m, &quot;Email 2&quot;,
-          &quot;email2@domain.com&quot;)
-          <br />
-          D_email1 -&gt; P_twitterSearch(search, &quot;Twitter email
-          search&quot;), P_linkedinSearch(search, &quot;LinkedIn email
-          search&quot;)
-          <br />
-          P_twitterSearch -&gt; D_twitterProfile(profile,h, &quot;Twitter
-          profile&quot;, &quot;@username&quot;)
-          <br />
-          P_linkedinSearch -&gt; D_linkedinProfile(profile,l, &quot;LinkedIn
-          profile&quot;, &quot;linkedin.com/username&quot;)&#39;
+          <code>
+            osint <br />
+            start -&gt; D_name(fullName,h, &quot;Target Name&quot;, &quot;Jane
+            Doe&quot;) <br />
+            D_name -&gt; P_google(search, &quot;Google &#39;Jane Doe&#39;&quot;)
+            <br />
+            P_google -&gt; D_url_coindesk(link,h, &quot;Coindesk Article&quot;,
+            &quot;https://www.coindesk.com/sampleLink&quot;)
+            <br />
+            D_url_coindesk -&gt; P_examineCoindesk(examine, &quot;Examine
+            Coindesk Article&quot;)
+            <br />
+            P_examineCoindesk -&gt; D_targetDomain(domain,h, &quot;Sample
+            domain&quot;, &quot;onecoin.eu&quot;), D_titleFounder(title,m,
+            &quot;Title&quot;, &quot;Co-Founder&quot;)
+            <br />
+            D_targetDomain -&gt; P_rocketReach(search, &quot;Rocket Reach:
+            &#39;Jane Doe Domain&#39; &quot;)
+            <br />
+            P_rocketReach -&gt; D_email1(email,l, &quot;Email 1&quot;,
+            &quot;email@domain.com&quot;), D_email2(email,m, &quot;Email
+            2&quot;, &quot;email2@domain.com&quot;)
+            <br />
+            D_email1 -&gt; P_twitterSearch(search, &quot;Twitter email
+            search&quot;), P_linkedinSearch(search, &quot;LinkedIn email
+            search&quot;)
+            <br />
+            P_twitterSearch -&gt; D_twitterProfile(profile,h, &quot;Twitter
+            profile&quot;, &quot;@username&quot;)
+            <br />
+            P_linkedinSearch -&gt; D_linkedinProfile(profile,l, &quot;LinkedIn
+            profile&quot;, &quot;linkedin.com/username&quot;)
+          </code>
+          ;
         </p>
         <img
           alt=""
