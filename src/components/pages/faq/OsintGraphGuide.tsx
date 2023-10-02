@@ -26,7 +26,10 @@ export function OsintGraphGuide() {
         <h4 className="mt-8 mb-2">
           <span>Introduction to OSINT-Graph</span>
         </h4>
-        <p>With every OSINT-graph, there are three main elements:</p>
+        <p>
+          With every OSINT-graph, there are three main elements using nodes
+          (fundamental units in data structure):
+        </p>
         <ul className="ml-6 mt-4 list-disc space-y-2">
           <li className="space-y-2">
             <span>Start Node</span>
@@ -42,7 +45,7 @@ export function OsintGraphGuide() {
 
       <div className="mt-4 list-disc space-y-2">
         <span className="font-bold">Start Node</span>
-        <p>This node denotes the starting point of a graph.</p>
+        <p>This node denotes the starting point of a graph</p>
       </div>
 
       <div className="mt-4 list-disc space-y-2">
@@ -77,15 +80,16 @@ export function OsintGraphGuide() {
             <ol className="ml-4 list-[lower-alpha] space-y-2">
               <li className="space-y-2">
                 <span>
-                  Node name should start with &quot;D_&quot; followed by a
-                  unique string, preferably related to the data in the code.
+                  Node name should start with &quot;
+                  <span className="font-bold">D_</span>&quot; followed by a
+                  unique string, preferably related to the data in the code
                 </span>
               </li>
               <li className="space-y-2">
                 <span>
                   If the data in the node is an url, start the node name with
-                  &quot;D_url_&quot;. This will make the link appear as a
-                  clickable component
+                  &quot;<span className="font-bold">D_url_</span>&quot;. This
+                  will make the link appear as a clickable component
                 </span>
               </li>
             </ol>
@@ -130,15 +134,15 @@ export function OsintGraphGuide() {
               Confidence Level shows how much confidence you have in the data
               you have retrieved. The three confidence levels are:
             </p>
-            <p>
+            <p className="pt-4">
               h: High - The data I retrieved is almost certainly accurate (95% -
               100%)
             </p>
-            <p>
+            <p className="pt-4">
               m: Medium - The data I retrieved has a very high chance of being
               accurate (80%-95%)
             </p>
-            <p>
+            <p className="pt-4 pb-4">
               l: Low - It is highly likely that the data I retrieved is accurate
               (60%-80%)
             </p>
@@ -186,8 +190,9 @@ export function OsintGraphGuide() {
             </p>
             <p className="font-bold">Every node name must be unique.</p>
             <p>
-              Node name should start with &quot;P_&quot; followed by a unique
-              string, preferably related to the data in the code.
+              Node name should start with &quot;
+              <span className="font-bold">P_</span>&quot; followed by a unique
+              string, preferably related to the data in the code
             </p>
           </li>
         </ol>
@@ -195,13 +200,15 @@ export function OsintGraphGuide() {
       <div className="mt-4 list-disc space-y-2">
         <span className="font-bold">Connecting nodes</span>
         <p className="pb-4">
-          A connection from one node to another should be marked with -&gt;
+          A connection from one node to another should be marked with &quot;
+          <span className="font-bold">-&gt;</span>&quot;
         </p>
         <p>
           To reach a piece of data, there has to have been a prior process.
           Therefore, your solution diagram should show the flow as: <br />
-          Data -&gt; Process -&gt; Data… This rule implies that establishing a
-          direct link between two data points or between two processes is
+          Data -&gt; Process -&gt; Data… <br />
+          This rule implies that establishing a direct link between two data
+          points or between two processes is
           <span className="pl-1 font-bold">not</span> feasible.
         </p>
       </div>
@@ -219,7 +226,8 @@ export function OsintGraphGuide() {
             <span>
               To define the formatting style for our graph, it is necessary to
               specify this at the graph&apos;s outset using the keyword
-              &apos;osint&apos; which is the designated style for all ST graphs.
+              &apos;osint&apos;, which is the designated style for all ST
+              graphs.
             </span>
           </li>
           <li className="space-y-2">
@@ -275,7 +283,9 @@ export function OsintGraphGuide() {
             WebkitTransform: 'rotate(0.00rad) translateZ(0px)',
           }}
         />
-        <p className="mt-8 mb-1">Above code will render the following chart.</p>
+        <p className="mt-8 mb-1">
+          The above code will render the following chart.
+        </p>
         <div className="flex justify-center">
           <img
             alt=""
