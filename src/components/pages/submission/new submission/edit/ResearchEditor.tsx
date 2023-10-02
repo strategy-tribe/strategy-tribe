@@ -2,11 +2,12 @@ import { Requirement, RequirementType } from '@prisma/client';
 import { Dispatch, SetStateAction, useState } from 'react';
 import ReactTextareaAutosize from 'react-textarea-autosize';
 
+import { GoToOSINTGraphGuidePage } from '@/lib/utils/Routes';
+
 import { MermaidEditor } from '@/components/mermaid/MermaidEditor';
 import { ButtonStyle } from '@/components/utils/Button';
 import Icon, { IconSize } from '@/components/utils/Icon';
 import { RenderMarkdown } from '@/components/utils/RenderMarkdown';
-
 export function ResearchEditor({
   requirement,
   input,
@@ -27,7 +28,7 @@ export function ResearchEditor({
           }`}
           onClick={() => setIsMermaid(true)}
         >
-          Mermaid Flowchart
+          OSINT-Graph
         </button>
         <button
           className={`rounded-m p-2 ${
@@ -59,23 +60,65 @@ export function ResearchEditor({
             }`}
           >
             {!input && (
-              <div className="flex items-center gap-2 border-b-1 border-surface pb-4 text-on-surface-unactive">
-                <Icon icon="info" size={IconSize.Small} />
-                <span className="label">
-                  Swap to edit and start writing the solution
-                </span>
-              </div>
+              <>
+                <p className="label gap-2 text-on-surface-unactive">
+                  A Markdown editor is your go-to tool for creating beautifully
+                  formatted texts without the hassle. It provides a
+                  user-friendly environment that makes it easy to write and
+                  format text using Markdown syntax. With just a few simple
+                  symbols, you can create headings, lists, links, and more.
+                </p>
+                <br />
+                <p className="text-on-surface-unactive">
+                  <a
+                    href="https://commonmark.org/help/"
+                    className="label rounded bg-surface py-2 px-5 hover:bg-main"
+                  >
+                    View documentation
+                  </a>
+                </p>
+                <br />
+                <div className="flex items-center gap-2 border-b-1 border-surface pb-4 text-on-surface-unactive">
+                  <Icon icon="info" size={IconSize.Small} />
+                  <span className="label">
+                    Swap to edit and start writing the solution
+                  </span>
+                </div>
+              </>
             )}
             {!!input && <RenderMarkdown text={input as string} />}
           </div>
         </div>
       ) : (
-        <MermaidEditor
-          id="flowchart-div"
-          code={input as string}
-          setCode={setInput as Dispatch<SetStateAction<string>>}
-          showData={true}
-        />
+        <>
+          {!input && (
+            <>
+              <p className="label gap-2 pt-4 text-on-surface-unactive">
+                An OSINT graph is a visual representation of data and
+                relationships derived from publicly available sources like
+                websites, social media, news articles etc. These graphs employ
+                graph theory and network analysis to depict connections between
+                entities, making them invaluable for various purposes. OSINT
+                graphs are used to gain insights from open-source data, uncover
+                hidden connections, visualise complex information, enhance
+                situational awareness, support decision making, identify
+                influencers, and track trends, among other applications.{' '}
+              </p>
+              <br />
+              <a
+                href={GoToOSINTGraphGuidePage()}
+                className="label rounded bg-surface py-2 px-5 hover:bg-main"
+              >
+                View Guide
+              </a>
+            </>
+          )}
+          <MermaidEditor
+            id="submission-graph-div"
+            code={input as string}
+            setCode={setInput as Dispatch<SetStateAction<string>>}
+          />
+        </>
       )}
     </div>
   );

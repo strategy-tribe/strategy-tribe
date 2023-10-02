@@ -150,6 +150,24 @@ export function Solution({ solution }: { solution: FullSolution }) {
           <div className="border-2 p-4">Process</div>
           <div className="parallelogram border-2 p-4">Data found</div>
         </div>
+        <ul className="space-y-2 pt-3">
+          <span className="pb-2 font-bold">Colors in solution symbology</span>
+          <p>
+            The color indicates the confidence level of the data. The three
+            colors are:
+          </p>
+          <p className="pt-1">
+            Green - The data retrieved is almost certainly accurate (95% - 100%)
+          </p>
+          <p className="pt-1">
+            Orange - The data retrieved has a very high chance of being accurate
+            (80%-95%)
+          </p>
+          <p className="pt-1 pb-4">
+            Red - It is highly likely that the data retrieved is accurate
+            (60%-80%)
+          </p>
+        </ul>
         <h1 className="h3 mt-3 w-fit pt-3 text-wait-bounty">
           How Data is archived
         </h1>
