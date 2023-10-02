@@ -73,6 +73,8 @@ export function ResearchEditor({
                   <a
                     href="https://commonmark.org/help/"
                     className="label rounded bg-surface py-2 px-5 hover:bg-main"
+                    target="_blank"
+                    rel="noopener noreferrer"
                   >
                     View documentation
                   </a>
@@ -108,6 +110,8 @@ export function ResearchEditor({
               <a
                 href={GoToOSINTGraphGuidePage()}
                 className="label rounded bg-surface py-2 px-5 hover:bg-main"
+                target="_blank"
+                rel="noopener noreferrer"
               >
                 View Guide
               </a>
