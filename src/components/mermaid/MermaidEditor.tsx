@@ -12,17 +12,23 @@ export function MermaidEditor({
   id,
   code,
   setCode,
+  showData = false,
 }: {
   id: string;
   code: string;
   setCode: Dispatch<SetStateAction<string>>;
+  showData?: boolean;
 }) {
   const [svg, setSVG] = useState('');
   const [monaco, setMonaco] = useState<typeof Monaco>();
   const [editor, setEditor] = useState<Monaco.editor.IStandaloneCodeEditor>();
   const getMermaid = async () => {
     try {
-      const { svg } = await render({ securityLevel: 'antiscript' }, code, id);
+      const { svg } = await render(
+        { securityLevel: 'antiscript' },
+        showData ? code.replace('start', 'showData start') : code,
+        id
+      );
       if (svg.length > 0) {
         setSVG(svg);
       }

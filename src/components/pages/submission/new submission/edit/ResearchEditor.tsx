@@ -71,9 +71,10 @@ export function ResearchEditor({
         </div>
       ) : (
         <MermaidEditor
-          id="submission-graph-div"
+          id="flowchart-div"
           code={input as string}
           setCode={setInput as Dispatch<SetStateAction<string>>}
+          showData={true}
         />
       )}
     </div>
