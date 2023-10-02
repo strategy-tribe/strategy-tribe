@@ -22,6 +22,8 @@ export const GoToAboutusPage = () => '/about';
 
 export const GoToFAQPage = () => '/faq';
 
+export const GoToOSINTGraphGuidePage = () => '/osint-graph-guide';
+
 export const GoToStatsPage = () => '/stats';
 
 export const GoToWaitingForReview = () => '/review';
