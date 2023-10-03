@@ -46,3 +46,21 @@ export const useGetSubmissions = (
     error,
   };
 };
+
+//!Get Bulk
+
+export const useGetBulkSubmissions = (enabled = true) => {
+  const { data, error, isLoading } =
+    trpc.submission.getBulkSubmissions.useQuery(
+      {},
+      {
+        enabled,
+      }
+    );
+
+  return {
+    isLoading,
+    data,
+    error,
+  };
+};

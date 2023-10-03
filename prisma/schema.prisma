@@ -327,9 +327,13 @@ enum RequirementType {
 model Solution {
   id String @id @default(cuid())
 
-  mermaid String
-  content String
-  publish Boolean
+  flowCode String
+  pieCode  String
+  pieSvg   String
+  labelSvg String
+  dataSvg  String
+  content  String
+  publish  Boolean
 
   target   Target @relation(fields: [targetId], references: [id], onDelete: Cascade)
   targetId String @unique

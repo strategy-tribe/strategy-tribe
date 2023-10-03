@@ -1,5 +1,5 @@
 import { GoToOrgPage } from '@/lib/utils/Routes';
-import { ParagrapIsTooLong, splitToParas } from '@/lib/utils/StringHelpers';
+import { splitToParas } from '@/lib/utils/StringHelpers';
 
 import { Button, ButtonStyle } from '@/components/utils/Button';
 

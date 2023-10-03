@@ -6,8 +6,8 @@ import { useGetSolution } from '@/lib/hooks/solutionHooks';
 import AppLayout from '@/components/layouts/AppLayout';
 import { Solution } from '@/components/pages/solution/Solution';
 import Loading from '@/components/utils/Loading';
+import { NotFound } from '@/components/utils/NotFound';
 
-import { useAuth } from '@/auth/AuthContext';
 import { NextPageWithLayout } from '@/pages/_app';
 import prisma from '@/server/prisma/prismaClient';
 import { FullSolution } from '@/server/routes/solutions/getSolution';
@@ -56,7 +56,6 @@ const SolutionPage: NextPageWithLayout<{ id: string }> = ({
   id: string;
 }) => {
   const { isLoading, solution } = useGetSolution(id);
-  const { userId, isAuthenticated } = useAuth();
 
   return (
     <>
@@ -74,6 +73,7 @@ const SolutionPage: NextPageWithLayout<{ id: string }> = ({
       {!isLoading && solution && (
         <Solution solution={solution as FullSolution} />
       )}
+      {!isLoading && !solution && <NotFound />}
     </>
   );
 };

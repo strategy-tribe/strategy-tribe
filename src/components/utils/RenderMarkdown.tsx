@@ -51,12 +51,9 @@ export const RenderMarkdown = ({
           );
         },
         h1({ children }) {
-          const split = (children[0] as string).split(' #');
           return (
-            <h1
-              className={`h1 my-4 mx-8 border-y-2 border-surface py-4 text-center text-main text-[#${split[1]}]`}
-            >
-              {split[0]}
+            <h1 className="h1 my-4 mx-8 border-y-2 border-surface py-4 text-center text-main">
+              {children}
             </h1>
           );
         },

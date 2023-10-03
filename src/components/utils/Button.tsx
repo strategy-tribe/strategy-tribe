@@ -85,6 +85,7 @@ export function Button({ info }: { info: ButtonInformation }) {
   } else {
     return (
       <button
+        type="button"
         className={`${className} ${padding} ${font} ${others} ${colors} ${align} ${size}`}
         onClick={() => {
           if (onClick) onClick();
