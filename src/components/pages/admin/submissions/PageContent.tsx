@@ -13,14 +13,53 @@ import Loading from '@/components/utils/Loading';
 import { Title } from '@/components/utils/Title';
 
 export function ReviewDashboardHeader() {
-  const { submissionFetch } = useAdminReview();
+  const { submissionFetch, bulkSubmissions } = useAdminReview();
 
   return (
-    <header className="space-y-1">
+    <header className="flex items-center justify-between space-y-1">
       <Title
         title={`Submissions (${submissionFetch.count ?? ''})`}
         extraInfo="Submissions waiting to be reviewed"
       />
+      {!bulkSubmissions.isLoading && bulkSubmissions.data && (
+        <div className="flex justify-between space-x-2">
+          <a
+            href={window.URL.createObjectURL(
+              new Blob([JSON.stringify(bulkSubmissions.data.allSubmissions)], {
+                type: 'application/json',
+              })
+            )}
+            className="label rounded bg-surface py-2 px-5 hover:bg-main"
+            download={`All_Submissions_${new Date().toLocaleDateString()}`}
+          >
+            All Submissions
+          </a>
+          <a
+            href={window.URL.createObjectURL(
+              new Blob(
+                [JSON.stringify(bulkSubmissions.data.acceptedSubmissions)],
+                { type: 'application/json' }
+              )
+            )}
+            className="label rounded bg-surface py-2 px-5 hover:bg-main"
+            download={`Accepted_Submissions_${new Date().toLocaleDateString()}`}
+          >
+            Accepted Submissions
+          </a>
+          <a
+            href={window.URL.createObjectURL(
+              new Blob(
+                [JSON.stringify(bulkSubmissions.data.completedTargets)],
+                { type: 'application/json' }
+              )
+            )}
+            className="label rounded bg-surface py-2 px-5 hover:bg-main"
+            download={`Completed_Targets_${new Date().toLocaleDateString()}`}
+          >
+            Completed Targets
+          </a>
+        </div>
+      )}
     </header>
   );
 }

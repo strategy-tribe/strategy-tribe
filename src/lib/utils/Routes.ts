@@ -22,6 +22,8 @@ export const GoToAboutusPage = () => '/about';
 
 export const GoToFAQPage = () => '/faq';
 
+export const GoToOSINTGraphGuidePage = () => '/osint-graph-guide';
+
 export const GoToStatsPage = () => '/stats';
 
 export const GoToWaitingForReview = () => '/review';
@@ -90,4 +92,6 @@ export const GoToSolutionsPage = () => `/solutions`;
 export const GoToNewSolutionPage = () => `/admin/solutions/new`;
 
 export const GoToSolutionEditPage = (id: string) =>
-  `/admin/solutions/edit/${id}`;
+  `/admin/solutions/${id}/edit`;
+
+export const GoToSolutionPIIPage = (id: string) => `/admin/solutions/${id}/pii`;

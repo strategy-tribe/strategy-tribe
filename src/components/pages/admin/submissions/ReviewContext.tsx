@@ -1,13 +1,17 @@
 import { SubmissionState } from '@prisma/client';
 import React, { createContext, useContext, useState } from 'react';
 
-import { useGetSubmissions } from '@/lib/hooks/submission/useGetSubmissions';
+import {
+  useGetBulkSubmissions,
+  useGetSubmissions,
+} from '@/lib/hooks/submission/useGetSubmissions';
 import { Order } from '@/lib/models/Order';
 
 const AMOUNT_OF_PAGES = 10;
 
 interface AdminReviewInterface {
   submissionFetch: ReturnType<typeof useGetSubmissions>;
+  bulkSubmissions: ReturnType<typeof useGetBulkSubmissions>;
   isLoading: boolean;
   nextPage: () => void;
   prevPage: () => void;
@@ -35,6 +39,7 @@ const AdminReviewContextProvider = ({
   });
 
   const submissionFetch = useGetSubmissions(query);
+  const bulkSubmissions = useGetBulkSubmissions();
   const {
     hasNextPage,
     hasPreviousPage,
@@ -65,6 +70,7 @@ const AdminReviewContextProvider = ({
     <AdminReviewContext.Provider
       value={{
         submissionFetch,
+        bulkSubmissions,
         isLoading,
         nextPage,
         prevPage,

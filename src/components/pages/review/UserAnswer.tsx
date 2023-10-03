@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Icon from '@/components/utils/Icon';
 
 import { NumberSelector } from './NumberSelector';
+import { RenderHow } from './RenderHow';
 
 export function UserAnswer({
   content: answer,
@@ -32,25 +33,23 @@ export function UserAnswer({
 
       {expanded && (
         <>
-          {requirement?.type !== RequirementType.Image ? (
+          {requirement?.type === RequirementType.Image ? (
+            <div className="flex flex-col gap-4 pt-4">
+              <figure key={answer as string} className="relative">
+                <img
+                  src={answer as string}
+                  width={1920}
+                  height={1080}
+                  alt="preview for image"
+                />
+              </figure>
+            </div>
+          ) : requirement?.title?.includes('How did you find this info') ? (
+            <RenderHow code={answer as string} />
+          ) : (
             <p className="body whitespace-pre-wrap break-words pl-8">
               {answer}
             </p>
-          ) : (
-            <>
-              {requirement?.type === RequirementType.Image && (
-                <div className="flex flex-col gap-4 pt-4">
-                  <figure key={answer as string} className="relative">
-                    <img
-                      src={answer as string}
-                      width={1920}
-                      height={1080}
-                      alt="preview for image"
-                    />
-                  </figure>
-                </div>
-              )}
-            </>
           )}
         </>
       )}

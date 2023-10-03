@@ -6,6 +6,7 @@ import { useAuth } from '@/auth/AuthContext';
 
 import { useSubmissionContext } from './SubmissionContext';
 import { SubmissionDetail } from './SubmissionDetail';
+import { RenderHow } from '../review/RenderHow';
 
 export function SubmissionContent() {
   return (
@@ -96,7 +97,7 @@ function UserAnswers() {
             )}
 
             {anw.requirement?.type !== RequirementType.Image && (
-              <p className="body whitespace-pre-wrap">{anw.answer}</p>
+              <RenderHow code={anw.answer} />
             )}
           </div>
         );

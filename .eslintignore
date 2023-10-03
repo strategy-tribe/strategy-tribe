@@ -6,3 +6,4 @@ node_modules
 .husky
 *.spec.ts
 *.spec.tsx
+*.js
