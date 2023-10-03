@@ -209,12 +209,6 @@ export function OsintGraphGuide() {
                 <span>examine</span>
               </li>
               <li className="space-y-2">
-                <span>phone</span>
-              </li>
-              <li className="space-y-2">
-                <span>dehash</span>
-              </li>
-              <li className="space-y-2">
                 <span>analyse</span>
               </li>
               <li className="space-y-2">
@@ -222,12 +216,6 @@ export function OsintGraphGuide() {
               </li>
               <li className="space-y-2">
                 <span>input</span>
-              </li>
-              <li className="space-y-2">
-                <span>scroll</span>
-              </li>
-              <li className="space-y-2">
-                <span>view</span>
               </li>
             </ul>
           </li>
