@@ -81,7 +81,7 @@ export function PageControls({
       <div
         className={`${
           sticky ? 'sticky ' : ''
-        }bottom-0 border-t border-surface-dark bg-bg pt-2 pb-2`}
+        }bottom-0 z-10 border-t border-surface-dark bg-bg pt-2 pb-2`}
       >
         <div className="mx-auto max-w-xl space-y-4">
           <div className="flex items-center justify-between gap-8">

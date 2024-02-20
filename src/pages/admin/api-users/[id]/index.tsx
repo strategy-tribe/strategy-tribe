@@ -2,23 +2,23 @@ import { GetStaticPaths, GetStaticProps } from 'next';
 import Head from 'next/head';
 import { useEffect, useState } from 'react';
 
-import { useGetRawSolution } from '@/lib/hooks/solutionHooks';
+import { useGetApiUser } from '@/lib/hooks/apiUserHooks';
 
 import AppLayout from '@/components/layouts/AppLayout';
-import { SolutionEdit } from '@/components/pages/solution/SolutionEdit';
+import { ApiUserEdit } from '@/components/pages/apiUsers/ApiUserEdit';
 import Loading from '@/components/utils/Loading';
 
 import { NextPageWithLayout } from '@/pages/_app';
 import prisma from '@/server/prisma/prismaClient';
-import { PostSolutionParams } from '@/server/routes/solutions/postSolution';
+import { PostApiUserParams } from '@/server/routes/apiUsers/postApiUser';
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const solutions = await prisma.solution.findMany({
+  const apiUsers = await prisma.apiUser.findMany({
     select: {
       id: true,
     },
   });
-  const ids = solutions.reduce((acc, curr) => {
+  const ids = apiUsers.reduce((acc, curr) => {
     return acc.concat({
       params: {
         id: curr.id,
@@ -50,33 +50,33 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   };
 };
 
-const SolutionEditPage: NextPageWithLayout<{ id: string }> = ({
+const ApiUserEditPage: NextPageWithLayout<{ id: string }> = ({
   id,
 }: {
   id: string;
 }) => {
-  const { isLoading, solution } = useGetRawSolution(id);
-  const [solutionFetch, setSolutionFetch] = useState<PostSolutionParams>({
-    pieCode: '',
-    flowCode: '',
-    content: '',
-    publish: false,
-    target: '',
+  const { isLoading, apiUser } = useGetApiUser(id);
+  const [apiUserFetch, setApiUserFetch] = useState<PostApiUserParams>({
+    id: '',
+    name: '',
+    token: '',
+    tags: [],
+    isActive: false,
   });
 
   useEffect(() => {
-    if (solution && !solutionFetch.id) {
-      setSolutionFetch({
-        ...solution,
-        target: solution.target.name,
+    if (apiUser && apiUserFetch.id === '') {
+      setApiUserFetch({
+        ...apiUser,
+        tags: apiUser.tags.map((tag) => tag.name),
       });
     }
-  }, [solution]);
+  }, [apiUser]);
 
   return (
     <>
       <Head>
-        <title>Edit Solution</title>
+        <title>Edit ApiUser</title>
         <meta
           name="description"
           content=" An open source project dedicated to crowdsourcing and crowdfunding
@@ -85,16 +85,16 @@ const SolutionEditPage: NextPageWithLayout<{ id: string }> = ({
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      {solution && (
-        <SolutionEdit solution={solutionFetch} setSolution={setSolutionFetch} />
+      {apiUser && (
+        <ApiUserEdit apiUser={apiUserFetch} setApiUser={setApiUserFetch} />
       )}
-      {!solution && !isLoading && <div>Invalid report id</div>}
+      {!apiUser && !isLoading && <div>Invalid report id</div>}
       {isLoading && <Loading small />}
     </>
   );
 };
 
-export default SolutionEditPage;
-SolutionEditPage.getLayout = function getLayout(page) {
+export default ApiUserEditPage;
+ApiUserEditPage.getLayout = function getLayout(page) {
   return <AppLayout>{page}</AppLayout>;
 };

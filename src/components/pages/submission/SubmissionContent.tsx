@@ -77,7 +77,7 @@ function UserStats() {
   );
 }
 
-function UserAnswers() {
+export function UserAnswers() {
   const { submission } = useSubmissionContext();
 
   return (

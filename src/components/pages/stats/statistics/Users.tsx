@@ -11,7 +11,7 @@ export default function Users({
   return (
     <div className="flex w-full flex-row gap-4 gap-y-8 pt-7">
       <div className="flex h-24 w-1/2 flex-col rounded border bg-purple pt-3 pl-2">
-        <span>Users</span>
+        <span>Contributors</span>
         <span className="pt-3 text-2xl">{usersCount}</span>
       </div>
       <div className="flex h-24 w-1/2 flex-col rounded border bg-purple pt-3 pl-2">
