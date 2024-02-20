@@ -1,4 +1,4 @@
-import { Wallet } from '@prisma/client';
+import { BountyState, Wallet } from '@prisma/client';
 import Link from 'next/link';
 import router, { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
@@ -8,6 +8,7 @@ import { useGetOrganization } from '@/lib/hooks/organizationHooks';
 import { useCanUserSubmit } from '@/lib/hooks/submission';
 import {
   GoToBeforeNewSubmissionPage,
+  GoToBountySubmissionGraphPage,
   GoToOrgPage,
   GoToTargetPage,
 } from '@/lib/utils/Routes';
@@ -40,7 +41,7 @@ export function BountyHeader() {
   );
   const [showDonation, setShowDonation] = useState(false);
   const [counter, setCounter] = useState(0);
-  const { isAuthenticated, userId } = useAuth();
+  const { isAuthenticated, userId, isAdmin, isStaff } = useAuth();
 
   useEffect(() => {
     if (
@@ -147,17 +148,32 @@ export function BountyHeader() {
                   <span className="pl-1 underline">Sign in to find price</span>
                 </button>
               )}
-              <Button
-                info={{
-                  label: 'Support this bounty',
-                  style: ButtonStyle.Hollow,
-                  icon: 'toll',
-                  onClick: () => setShowDonation(true),
-                  className: 'w-fit p-3 animate-pulse',
-                  removeMinWidth: true,
-                  removePadding: true,
-                }}
-              />
+              {(isAdmin || isStaff) && bounty.status === BountyState.Closed ? (
+                <Button
+                  info={{
+                    label: 'Edit Submission Graph',
+                    style: ButtonStyle.Filled,
+                    icon: 'toll',
+                    onClick: () =>
+                      router.push(GoToBountySubmissionGraphPage(bounty.slug)),
+                    className: 'w-fit p-3',
+                    removeMinWidth: true,
+                    removePadding: true,
+                  }}
+                />
+              ) : (
+                <Button
+                  info={{
+                    label: 'Support this bounty',
+                    style: ButtonStyle.Hollow,
+                    icon: 'toll',
+                    onClick: () => setShowDonation(true),
+                    className: 'w-fit p-3 animate-pulse',
+                    removeMinWidth: true,
+                    removePadding: true,
+                  }}
+                />
+              )}
             </div>
           </div>
 

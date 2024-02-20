@@ -87,7 +87,8 @@ model Tag {
 
   bounties Bounty[]
 
-  orgs Organization[]
+  orgs     Organization[]
+  apiUsers ApiUser[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
@@ -159,9 +160,10 @@ model Bounty {
   updatedAt DateTime @default(now())
   closesAt  DateTime
 
-  Invoice     Invoice?
-  Donation    Donation[]
-  watchBounty WatchBounty[]
+  Invoice         Invoice?
+  Donation        Donation[]
+  watchBounty     WatchBounty[]
+  SubmissionGraph SubmissionGraph?
 }
 
 model Organization {
@@ -342,6 +344,22 @@ model Solution {
   updatedAt DateTime @default(now())
 }
 
+model SubmissionGraph {
+  id String @id @default(cuid())
+
+  code       String
+  labelSvg   String
+  dataSvg    String
+  renderUrl  String
+  isComplete Boolean @default(false)
+
+  bounty     Bounty? @relation(fields: [bountySlug], references: [slug], onDelete: SetNull)
+  bountySlug String? @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+}
+
 //Users:--------------------------------------------------------------------------------
 model User {
   id String @id @default(cuid())
@@ -366,6 +384,17 @@ model User {
   joinedReferal     Referral?           @relation(name: "newUser")
   watchOrganization WatchOrganization[]
   watchBounty       WatchBounty[]
+}
+
+model ApiUser {
+  id       String  @id @default(cuid())
+  name     String
+  token    String  @unique
+  isActive Boolean
+  tags     Tag[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
 }
 
 enum Rol {
