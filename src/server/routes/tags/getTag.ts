@@ -16,7 +16,12 @@ async function _getTag(prisma: PrismaClient, params: GetTagParams) {
       name,
     },
     include: {
-      bounties: true,
+      bounties: {
+        select: {
+          slug: true,
+          title: true,
+        },
+      },
       orgs: true,
       _count: true,
     },
