@@ -16,6 +16,10 @@ import { Title } from '@/components/utils/Title';
 
 import { PostApiUserParams } from '@/server/routes/apiUsers/postApiUser';
 
+import { FilterColumn } from '../explore/filters/utils/FilterColumnHeader';
+import { FilterSearchBox } from '../explore/filters/utils/SearchBox';
+import { SearchResultType } from '../explore/filters/utils/types';
+
 export function ApiUserEdit({
   apiUser,
   setApiUser,
@@ -166,25 +170,32 @@ export function ApiUserEdit({
           </button>
         </div>
 
-        <div className="flex grid  grid-cols-5 items-baseline">
-          <label className="col-span-2 justify-self-end px-2 font-bold">
+        <div className="flex grid  grid-cols-5 items-start">
+          <label className="col-span-2 mt-8 justify-self-end px-2 font-bold">
             Tags:
           </label>
-          <ReactTextareaAutosize
-            placeholder="No desciption added yet"
-            className="col-span-3 m-2 min-w-[24rem] justify-self-start rounded-md bg-bg text-on-surface-p0 placeholder:text-on-surface-unactive focus:border-main-light"
-            onChange={(e) =>
-              setApiUser({
-                ...apiUser,
-                tags: e.target.value
-                  .toLowerCase()
-                  .split('\n')
-                  .map((tag) => tag.trim()),
-              })
-            }
-            value={apiUser.tags.join('\n')}
-            minRows={2}
-          />
+          <div className="col-span-3 w-[24rem]">
+            <ReactTextareaAutosize
+              placeholder={`Add exact tag name in new lines.\n(Ideal use to paste multiple tags together)`}
+              className=" m-2 min-w-[24rem] justify-self-start rounded-md bg-bg text-on-surface-p0 placeholder:text-on-surface-unactive focus:border-main-light"
+              onChange={(e) =>
+                setApiUser({
+                  ...apiUser,
+                  tags: e.target.value
+                    .toLowerCase()
+                    .split('\n')
+                    .map((tag) => tag.trim()),
+                })
+              }
+              value={apiUser.tags.join('\n')}
+              minRows={2}
+            />
+            <div className="pl-2 pb-4 text-xs">
+              Will have access to bounties with these tags. <br /> Add no tags
+              to grand access to all submissions
+            </div>
+            <TagsFilter apiUser={apiUser} setApiUser={setApiUser} />
+          </div>
         </div>
 
         <div className="align-center flex justify-around">
@@ -205,5 +216,43 @@ export function ApiUserEdit({
         </div>
       </form>
     </div>
+  );
+}
+
+function TagsFilter({
+  apiUser,
+  setApiUser,
+}: {
+  apiUser: PostApiUserParams;
+  setApiUser: Dispatch<SetStateAction<PostApiUserParams>>;
+}) {
+  return (
+    <>
+      <FilterColumn
+        name="Find Tags"
+        tooltip="Use this to find Tags (Only select Tag icons)"
+      >
+        <FilterSearchBox
+          selectedResults={apiUser.tags.map((tag) => ({
+            type: SearchResultType.Tag,
+            name: tag,
+          }))}
+          setSelected={(newResults) => {
+            setApiUser({
+              ...apiUser,
+              tags: newResults
+                .filter((r) => r.type === SearchResultType.Tag)
+                .map((r) => r.name),
+            });
+          }}
+          remove={(name) => {
+            setApiUser({
+              ...apiUser,
+              tags: apiUser.tags.filter((tag) => tag !== name),
+            });
+          }}
+        />
+      </FilterColumn>
+    </>
   );
 }

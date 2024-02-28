@@ -344,6 +344,20 @@ model Solution {
   updatedAt DateTime @default(now())
 }
 
+model DataPoint {
+  id    String          @id @default(cuid())
+  type  RequirementType
+  value String
+
+  submissionGraph   SubmissionGraph? @relation(fields: [submissionGraphId], references: [id], onDelete: SetNull)
+  submissionGraphId String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+
+  @@unique([type, value, submissionGraphId], name: "dataPointIdentifier")
+}
+
 model SubmissionGraph {
   id String @id @default(cuid())
 
@@ -353,8 +367,9 @@ model SubmissionGraph {
   renderUrl  String
   isComplete Boolean @default(false)
 
-  bounty     Bounty? @relation(fields: [bountySlug], references: [slug], onDelete: SetNull)
-  bountySlug String? @unique
+  bounty     Bounty?     @relation(fields: [bountySlug], references: [slug], onDelete: SetNull)
+  bountySlug String?     @unique
+  dataPoints DataPoint[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())

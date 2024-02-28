@@ -75,6 +75,11 @@ export function ApiUserListItem({ apiUser }: { apiUser: SmallApiUser }) {
             </span>
           );
         })}
+        {apiUser.tags.length < 1 && (
+          <span className="label-sm border-r-2 border-surface pr-2 text-on-surface-unactive">
+            No tags added | Have access to ALL submissions
+          </span>
+        )}
       </div>
     </div>
   );
