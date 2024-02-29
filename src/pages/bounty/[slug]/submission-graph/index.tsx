@@ -12,7 +12,7 @@ import { ImportantMessage } from '@/components/utils/Warning';
 import { useAuth } from '@/auth/AuthContext';
 import { NextPageWithLayout } from '@/pages/_app';
 
-const ReviewPage: NextPageWithLayout = () => {
+const SubmissionGraphPage: NextPageWithLayout = () => {
   const router = useRouter();
   const slug = router.query.slug as string;
   const { isAdmin, isStaff } = useAuth();
@@ -52,7 +52,7 @@ const ReviewPage: NextPageWithLayout = () => {
   );
 };
 
-export default ReviewPage;
-ReviewPage.getLayout = function getLayout(page) {
+export default SubmissionGraphPage;
+SubmissionGraphPage.getLayout = function getLayout(page) {
   return <AppLayout>{page}</AppLayout>;
 };
