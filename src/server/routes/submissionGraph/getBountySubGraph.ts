@@ -18,6 +18,12 @@ const BOUNTY_SELECTOR = Prisma.validator<Prisma.BountySelect>()({
       id: true,
       code: true,
       isComplete: true,
+      dataPoints: {
+        select: {
+          value: true,
+          type: true,
+        },
+      },
     },
   },
   Invoice: {
