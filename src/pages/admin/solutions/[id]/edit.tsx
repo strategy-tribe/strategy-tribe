@@ -2,10 +2,11 @@ import { GetStaticPaths, GetStaticProps } from 'next';
 import Head from 'next/head';
 import { useEffect, useState } from 'react';
 
-import { useGetSolution } from '@/lib/hooks/solutionHooks';
+import { useGetRawSolution } from '@/lib/hooks/solutionHooks';
 
 import AppLayout from '@/components/layouts/AppLayout';
 import { SolutionEdit } from '@/components/pages/solution/SolutionEdit';
+import Loading from '@/components/utils/Loading';
 
 import { NextPageWithLayout } from '@/pages/_app';
 import prisma from '@/server/prisma/prismaClient';
@@ -45,7 +46,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     props: {
       id,
     },
-    revalidate: 60 * 2, //every 5 minutes
+    revalidate: 60 * 2, //every 2 minutes
   };
 };
 
@@ -54,19 +55,19 @@ const SolutionEditPage: NextPageWithLayout<{ id: string }> = ({
 }: {
   id: string;
 }) => {
-  const { solution } = useGetSolution(id);
+  const { isLoading, solution } = useGetRawSolution(id);
   const [solutionFetch, setSolutionFetch] = useState<PostSolutionParams>({
-    id: '',
-    mermaid: '',
+    pieCode: '',
+    flowCode: '',
     content: '',
     publish: false,
     target: '',
   });
 
   useEffect(() => {
-    if (solution) {
+    if (solution && !solutionFetch.id) {
       setSolutionFetch({
-        ...solution!,
+        ...solution,
         target: solution.target.name,
       });
     }
@@ -87,7 +88,8 @@ const SolutionEditPage: NextPageWithLayout<{ id: string }> = ({
       {solution && (
         <SolutionEdit solution={solutionFetch} setSolution={setSolutionFetch} />
       )}
-      {!solution && <div>Invalid report id</div>}
+      {!solution && !isLoading && <div>Invalid report id</div>}
+      {isLoading && <Loading small />}
     </>
   );
 };

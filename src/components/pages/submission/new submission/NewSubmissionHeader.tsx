@@ -9,7 +9,7 @@ export function NewSubmissionHeader() {
     useNewSubmissionContext();
 
   return (
-    <header className="sticky top-[6.8rem] z-10 w-full justify-between border-b-2 border-surface bg-surface-dark py-5 tablet:top-[5rem] tablet:flex">
+    <header className="sticky top-[6.8rem] z-40 w-full justify-between border-b-2 border-surface bg-surface-dark py-5 tablet:top-[5rem] tablet:flex">
       <div>
         <h2 className="title">New Submission</h2>
         <Button

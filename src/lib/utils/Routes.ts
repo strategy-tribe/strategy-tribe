@@ -22,9 +22,13 @@ export const GoToAboutusPage = () => '/about';
 
 export const GoToFAQPage = () => '/faq';
 
+export const GoToOSINTGraphGuidePage = () => '/osint-graph-guide';
+
 export const GoToStatsPage = () => '/stats';
 
 export const GoToWaitingForReview = () => '/review';
+
+export const GoToGuidePage = () => '/guide';
 
 export const GoToNewBountyPage = () => '/bounty/new';
 
@@ -88,4 +92,18 @@ export const GoToSolutionsPage = () => `/solutions`;
 export const GoToNewSolutionPage = () => `/admin/solutions/new`;
 
 export const GoToSolutionEditPage = (id: string) =>
-  `/admin/solutions/edit/${id}`;
+  `/admin/solutions/${id}/edit`;
+
+export const GoToSolutionPIIPage = (id: string) => `/admin/solutions/${id}/pii`;
+
+export const GoToApiUsersPage = () => `/admin/api-users`;
+
+export const GoToApiUserPage = (id: string) => `/admin/api-users/${id}`;
+
+export const GoToNewApiUserPage = () => `/admin/api-users/new`;
+
+export const GoToBountySubmissionGraphPage = (slug: string) =>
+  `/bounty/${slug}/submission-graph`;
+
+export const GoToBountySubmissionGraphsPage = () =>
+  `/admin/bounty/submission-graphs`;

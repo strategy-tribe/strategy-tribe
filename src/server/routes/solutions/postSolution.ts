@@ -3,10 +3,13 @@ import { z } from 'zod';
 
 import { staffOnlyProcedure } from '@/server/procedures';
 
+import { getSvg } from '../utils/getSvg';
+
 /** Schema used to post Solution */
 const PostSolutionSchema = z.object({
-  id: z.string(),
-  mermaid: z.string(),
+  id: z.string().optional(),
+  pieCode: z.string(),
+  flowCode: z.string(),
   content: z.string(),
   publish: z.boolean(),
   target: z.string(),
@@ -18,10 +21,19 @@ const CreateSolution = async (
   prisma: PrismaClient,
   input: PostSolutionParams
 ) => {
-  const { id, mermaid, content, publish, target } = input;
+  const { id, pieCode, flowCode, content, publish, target } = input;
 
+  const dataSvg = await getSvg(
+    flowCode.replace('start ->', 'showData start ->')
+  );
+  const labelSvg = await getSvg(flowCode);
+  const pieSvg = await getSvg(pieCode);
   const data = {
-    mermaid,
+    pieCode,
+    flowCode,
+    pieSvg,
+    labelSvg,
+    dataSvg,
     content,
     publish,
     target: {
@@ -33,7 +45,7 @@ const CreateSolution = async (
 
   const solution = await prisma.solution.upsert({
     where: {
-      id,
+      id: id ?? '',
     },
     create: data,
     update: data,

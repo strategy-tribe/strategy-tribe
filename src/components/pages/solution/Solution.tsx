@@ -7,15 +7,15 @@ import {
   GoToBountyPage,
   GoToNewSolutionPage,
   GoToSolutionEditPage,
-  GoToSolutionPage,
+  GoToSolutionPIIPage,
   GoToTargetPage,
 } from '@/lib/utils/Routes';
 import { toTitleCase } from '@/lib/utils/StringHelpers';
 
-import { RenderMarkdown } from '@/components/utils/RenderMarkdown';
-
 import { useAuth } from '@/auth/AuthContext';
 import { FullSolution } from '@/server/routes/solutions/getSolution';
+
+import { SolutionData } from './SolutionData';
 
 export function Solution({ solution }: { solution: FullSolution }) {
   const { isAdmin, isStaff, userId, isAuthenticated } = useAuth();
@@ -40,6 +40,12 @@ export function Solution({ solution }: { solution: FullSolution }) {
     <div className="mx-auto mt-2 min-h-screen max-w-7xl space-y-4 border-2 border-surface p-8">
       {(isAdmin || isStaff) && (
         <div className="flex space-x-16">
+          <button
+            onClick={() => router.push(GoToSolutionPIIPage(solution.id))}
+            className="label w-full rounded bg-surface py-2 px-5 hover:bg-main"
+          >
+            View PII
+          </button>
           <button
             onClick={() => router.push(GoToSolutionEditPage(solution.id))}
             className="label w-full rounded bg-surface py-2 px-5 hover:bg-main"
@@ -92,29 +98,8 @@ export function Solution({ solution }: { solution: FullSolution }) {
           )}
         </div>
       </div>
-      <div className="relative">
-        <RenderMarkdown
-          className={`space-y-6 ${
-            !solution.content.includes('Loading...') ? '' : 'blur-sm'
-          }`}
-          text={solution.content}
-        />
-        <div
-          className={`absolute bottom-0 z-10 h-full w-full cursor-pointer text-center ${
-            !!userId && isAuthenticated ? 'hidden' : ''
-          }`}
-          onClick={() =>
-            router.push(`${GoToSolutionPage(solution.id)}?login=true`)
-          }
-        >
-          <span className="relative top-[25%] rounded-xl bg-main py-3 px-6 ">
-            {' '}
-            Login to view solution
-          </span>
-        </div>
-      </div>
-      <h1 className="h2 mt-3 w-fit pt-3 text-main">Data Points in Solution</h1>
-      <img src={solution.mermaid} alt="Piechart" title="Piechart"></img>
+
+      <SolutionData asImage={true} solution={solution} />
 
       <h1 className="h2 mt-3 w-fit pt-3 text-main">Request References Table</h1>
       <p className="mb-4 font-grotesk leading-6">
@@ -165,6 +150,24 @@ export function Solution({ solution }: { solution: FullSolution }) {
           <div className="border-2 p-4">Process</div>
           <div className="parallelogram border-2 p-4">Data found</div>
         </div>
+        <ul className="space-y-2 pt-3">
+          <span className="pb-2 font-bold">Colors in solution symbology</span>
+          <p>
+            The color indicates the confidence level of the data. The three
+            colors are:
+          </p>
+          <p className="pt-1">
+            Green - The data retrieved is almost certainly accurate (95% - 100%)
+          </p>
+          <p className="pt-1">
+            Orange - The data retrieved has a very high chance of being accurate
+            (80%-95%)
+          </p>
+          <p className="pt-1 pb-4">
+            Red - It is highly likely that the data retrieved is accurate
+            (60%-80%)
+          </p>
+        </ul>
         <h1 className="h3 mt-3 w-fit pt-3 text-wait-bounty">
           How Data is archived
         </h1>

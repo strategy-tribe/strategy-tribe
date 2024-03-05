@@ -1,6 +1,8 @@
 import {
   GoToAccountPage,
   GoToAddBountiesPage,
+  GoToApiUsersPage,
+  GoToBountySubmissionGraphsPage,
   GoToEditBountyPage,
   GoToInvoicesPage,
   GoToOrganizationsPage,
@@ -68,6 +70,20 @@ export function AdminUserMenu({
             <MenuItem
               label="Edit Bounty"
               url={GoToEditBountyPage()}
+              onClick={hide}
+            />
+
+            <hr className="mx-8 w-full text-surface" />
+
+            <MenuItem
+              label="API Users"
+              url={GoToApiUsersPage()}
+              onClick={hide}
+            />
+
+            <MenuItem
+              label="Submission Graphs"
+              url={GoToBountySubmissionGraphsPage()}
               onClick={hide}
             />
 

@@ -15,7 +15,7 @@ export function OrgAbout() {
           <AboutTitle text="About" />
 
           <p className="whitespace-pre-wrap first-letter:capitalize">
-            {ParagrapIsTooLong(org.bio, 20)}
+            {org.bio}
           </p>
         </div>
       )}

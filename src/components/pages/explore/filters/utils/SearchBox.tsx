@@ -100,7 +100,10 @@ export function FilterSearchBox({
                       className="ui flex items-center justify-between gap-2  bg-opacity-50 p-1 ui-selected:bg-main 
                       ui-selected:text-on-color ui-selected:hover:bg-error-light ui-active:bg-surface ui-active:bg-opacity-100"
                     >
-                      <button className="flex w-full cursor-pointer items-center gap-1.5 py-1.5">
+                      <button
+                        type="button"
+                        className="flex w-full cursor-pointer items-center gap-1.5 py-1.5"
+                      >
                         <Icon
                           size={IconSize.Small}
                           icon={GetResultIcon(result.type)}
@@ -112,7 +115,10 @@ export function FilterSearchBox({
                       </button>
 
                       {selected && (
-                        <button className="grid place-items-center hover:text-error-light">
+                        <button
+                          type="button"
+                          className="grid place-items-center hover:text-error-light"
+                        >
                           <Icon size={IconSize.Small} icon="close" />
                         </button>
                       )}
@@ -158,7 +164,7 @@ function ActiveOptions({
 }) {
   return (
     <ul
-      className={`block h-[20rem] translate-y-4 overflow-y-auto ${
+      className={`block max-h-[20rem] translate-y-4 overflow-y-auto ${
         open ? 'opacity-50 blur-[2px]' : ''
       }`}
     >
@@ -204,6 +210,7 @@ function ActiveOption({
   return (
     <>
       <button
+        type="button"
         ref={reference}
         {...getReferenceProps({
           onClick,

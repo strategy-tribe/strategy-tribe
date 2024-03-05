@@ -3,6 +3,7 @@ import ReactTextareaAutosize from 'react-textarea-autosize';
 
 import { ImageUploader } from './ImageUploader';
 import { RequirementChecker } from './RequirementChecker';
+import { ResearchEditor } from './ResearchEditor';
 
 export function RequirementEditor({
   requirement,
@@ -19,11 +20,9 @@ export function RequirementEditor({
       <RequirementChecker requirement={requirement} input={input} />
 
       {/* Check the type of input needed */}
-      {requirement.type === RequirementType.Image && (
+      {requirement.type === RequirementType.Image ? (
         <ImageUploader files={input as File[]} setFiles={setInput} />
-      )}
-
-      {requirement.type !== RequirementType.Image && (
+      ) : requirement.title.indexOf('How did you find this info') < 0 ? (
         <ReactTextareaAutosize
           placeholder={requirement.title}
           className="body h-fit w-full
@@ -33,6 +32,13 @@ export function RequirementEditor({
           onChange={(e) => {
             setInput(e.target.value);
           }}
+        />
+      ) : (
+        <ResearchEditor
+          key={requirement.id}
+          requirement={requirement}
+          input={input as string}
+          setInput={setInput}
         />
       )}
     </div>

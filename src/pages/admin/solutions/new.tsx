@@ -9,11 +9,40 @@ import { NextPageWithLayout } from '@/pages/_app';
 import { PostSolutionParams } from '@/server/routes/solutions/postSolution';
 
 ('@/components/utils/Title');
+const FLOW_CODE = `%%{
+  init: {
+    'themeVariables': {
+      'lineColor': '#808080'
+    }
+  }
+}%%
+
+osint-elk
+
+  start -> D_name(fullname, h, "Please Enter Name", "Please Enter Name")`;
+
+const PIE_CODE = `%%{
+  init: {
+    'theme': 'base',
+    'themeVariables': {
+      'primaryColor': '#666699',
+      'secondaryColor': '#9900ff',
+      'tertiaryColor': '#C2C2C2',
+      'pieStrokeColor': '#666600',
+      'pieSectionTextColor': '#ffffff',
+      'pieLegendTextColor': '#FFFFFF',
+      'pieOpacity': '0.7'
+    }
+  }
+}%%
+
+pie
+    "Please Enter Data": 1`;
 
 const NewSolutionPage: NextPageWithLayout = () => {
   const [solution, setSolution] = useState<PostSolutionParams>({
-    id: '',
-    mermaid: '',
+    pieCode: PIE_CODE,
+    flowCode: FLOW_CODE,
     content: '',
     publish: false,
     target: '',

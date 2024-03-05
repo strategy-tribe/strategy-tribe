@@ -1,4 +1,4 @@
-import { Wallet } from '@prisma/client';
+import { BountyState, Wallet } from '@prisma/client';
 import Link from 'next/link';
 import router, { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
@@ -8,6 +8,7 @@ import { useGetOrganization } from '@/lib/hooks/organizationHooks';
 import { useCanUserSubmit } from '@/lib/hooks/submission';
 import {
   GoToBeforeNewSubmissionPage,
+  GoToBountySubmissionGraphPage,
   GoToOrgPage,
   GoToTargetPage,
 } from '@/lib/utils/Routes';
@@ -40,7 +41,7 @@ export function BountyHeader() {
   );
   const [showDonation, setShowDonation] = useState(false);
   const [counter, setCounter] = useState(0);
-  const { isAuthenticated, userId } = useAuth();
+  const { isAuthenticated, userId, isAdmin, isStaff } = useAuth();
 
   useEffect(() => {
     if (
@@ -60,7 +61,7 @@ export function BountyHeader() {
 
   return (
     <>
-      <header className="space-y-14 border-b-2 border-main py-14">
+      <header className="space-y-4 border-b-2 border-main py-14">
         <Section>
           <div className="flex flex-wrap gap-x-6 tablet:gap-6">
             {organization && (
@@ -147,21 +148,36 @@ export function BountyHeader() {
                   <span className="pl-1 underline">Sign in to find price</span>
                 </button>
               )}
-              <Button
-                info={{
-                  label: 'Support this bounty',
-                  style: ButtonStyle.Hollow,
-                  icon: 'toll',
-                  onClick: () => setShowDonation(true),
-                  className: 'w-fit p-3 animate-pulse',
-                  removeMinWidth: true,
-                  removePadding: true,
-                }}
-              />
+              {(isAdmin || isStaff) && bounty.status === BountyState.Closed ? (
+                <Button
+                  info={{
+                    label: 'Edit Submission Graph',
+                    style: ButtonStyle.Filled,
+                    icon: 'toll',
+                    onClick: () =>
+                      router.push(GoToBountySubmissionGraphPage(bounty.slug)),
+                    className: 'w-fit p-3',
+                    removeMinWidth: true,
+                    removePadding: true,
+                  }}
+                />
+              ) : (
+                <Button
+                  info={{
+                    label: 'Support this bounty',
+                    style: ButtonStyle.Hollow,
+                    icon: 'toll',
+                    onClick: () => setShowDonation(true),
+                    className: 'w-fit p-3 animate-pulse',
+                    removeMinWidth: true,
+                    removePadding: true,
+                  }}
+                />
+              )}
             </div>
           </div>
 
-          <div className="pt-4">
+          <div className="">
             <BountyStatusShowcase
               closesAt={bounty.closesAt}
               status={bounty.status}
@@ -170,13 +186,8 @@ export function BountyHeader() {
         </Section>
 
         {/* Details */}
-        <Section className="flex justify-between space-x-8">
-          <BountyDetails
-            bounty={bounty}
-            orgName={organization?.name}
-            width="w-4/5"
-          />
-          <div className="flex flex-col items-end">
+        <Section className=" justify-between space-x-8 space-y-4">
+          <div className="w-4/5 items-center justify-between pl-8 tablet:flex">
             {/* {bounty.wallet.walletControl &&
               bounty.wallet.walletControl.numberOfIncrements > 0 && (
                 <div className="space-y-4 text-center">
@@ -191,12 +202,42 @@ export function BountyHeader() {
                   </div>
                 </div>
               )} */}
+            <div className="space-y-4">
+              <div className="flex flex-col">
+                <span className="label-lg capitalize text-on-surface-unactive">
+                  Target
+                </span>
+                <Link href={GoToTargetPage(bounty.target.name)}>
+                  <span className="w-fit font-medium capitalize text-main-light hover:underline">
+                    {bounty.target.name}
+                  </span>
+                </Link>
+              </div>
+              {organization?.name ? (
+                <FromOrganization orgName={organization.name} />
+              ) : (
+                <div className="h-9 w-60 animate-pulse rounded bg-surface-dark" />
+              )}
+              <Stat
+                title="requirements"
+                contents={bounty.requirements
+                  ?.filter((r) => !r.optional)
+                  ?.map((r) => r.title)}
+              />
+            </div>
             {fileUrl && (
-              <figure key={fileUrl ?? ''} className="relative m-2">
-                <img src={fileUrl} alt="preview for image" />
-              </figure>
+              <img
+                src={fileUrl}
+                alt="preview for image"
+                className="max-h-[300px] tablet:max-w-[50%]"
+              />
             )}
           </div>
+          <BountyDetails
+            bounty={bounty}
+            orgName={organization?.name}
+            width="w-4/5"
+          />
         </Section>
 
         {/* CTAs */}
@@ -292,21 +333,6 @@ export function BountyDetails({
 }) {
   return (
     <div className={`space-y-8 pr-2 ${width}`}>
-      <div className="flex flex-col">
-        <span className="label-lg capitalize text-on-surface-unactive">
-          Target
-        </span>
-        <Link href={GoToTargetPage(bounty.target.name)}>
-          <span className="w-fit font-medium capitalize text-main-light hover:underline">
-            {bounty.target.name}
-          </span>
-        </Link>
-      </div>
-      {orgName ? (
-        <FromOrganization orgName={orgName} />
-      ) : (
-        <div className="h-9 w-60 animate-pulse rounded bg-surface-dark" />
-      )}
       {bounty?.target?.bio && (
         <Stat
           title="bio"
@@ -318,10 +344,16 @@ export function BountyDetails({
         />
       )}
       <Stat
-        title="requirements"
-        contents={bounty.requirements
-          ?.filter((r) => !r.optional)
-          ?.map((r) => r.title)}
+        title="What we Accept"
+        contents={[
+          'email of a company: No generic emails with company domain, only named email addresses or company emails from different a domain. (eg: john@domain.com, not info@domain.com)',
+          '',
+          'Email of an individual: No emails with company domain, only personal emails. (eg: john@gmail.com, not john@domain.com)',
+          '',
+          'Company shareholders or directors: No individuals who are already in the bounty list',
+          '',
+          'General information found on websites owned by the target companies will not be accepted',
+        ]}
       />
     </div>
   );
