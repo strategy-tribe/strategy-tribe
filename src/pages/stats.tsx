@@ -192,7 +192,12 @@ const StatsPage: NextPageWithLayout<{
           </Section>
         </div>
       </div>
-      {/* <Section>{ <Map map={mapData}/>}</Section> */}
+      <Section>
+        <span className="mt-8 flex flex-row justify-center pb-6 tablet:mt-20 tablet:pb-10">
+          Global Submissions Statistics
+        </span>
+        <Map map={mapData} />
+      </Section>
     </div>
   );
 };
