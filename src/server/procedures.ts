@@ -42,7 +42,28 @@ const isRegularUser = t.middleware(({ next, ctx }) => {
 });
 
 /**
- * Checks if the user is an admin
+ * Checks if the user is a staff or  admin or dataDumpUser
+ **/
+const isDataDumpUser = t.middleware(({ next, ctx }) => {
+  const session = ctx.session;
+
+  if (
+    !session ||
+    !session?.user ||
+    (session.user.rol !== 'DATADUMPUSER' &&
+      session.user.rol !== 'STAFF' &&
+      session.user.rol !== 'ADMIN')
+  ) {
+    throw new TRPCError({ code: 'UNAUTHORIZED' });
+  }
+
+  return next({
+    ctx: { ...ctx, session, prisma },
+  });
+});
+
+/**
+ * Checks if the user is a staff or  admin
  **/
 const isStaff = t.middleware(({ next, ctx }) => {
   const session = ctx.session;
@@ -91,3 +112,6 @@ export const adminOnlyProcedure = t.procedure.use(isAdmin);
 
 /** Protects a route. It only allows staff or admins */
 export const staffOnlyProcedure = t.procedure.use(isStaff);
+
+/** Protects a route. It only allows staff or admins or dataDumpUser*/
+export const dataDumpUserProcedure = t.procedure.use(isDataDumpUser);

@@ -2,6 +2,7 @@ import {
   GoToAccountPage,
   GoToAddBountiesPage,
   GoToApiUsersPage,
+  GoToBountyDataDumpPage,
   GoToBountySubmissionGraphsPage,
   GoToEditBountyPage,
   GoToInvoicesPage,
@@ -84,6 +85,12 @@ export function AdminUserMenu({
             <MenuItem
               label="Submission Graphs"
               url={GoToBountySubmissionGraphsPage()}
+              onClick={hide}
+            />
+
+            <MenuItem
+              label="Data Dump"
+              url={GoToBountyDataDumpPage()}
               onClick={hide}
             />
 

@@ -6,6 +6,7 @@ import { getBounty } from '../routes/bounties/getBounty';
 import { getFilterTags } from '../routes/bounties/getFilterTags';
 import { getFullBounty } from '../routes/bounties/getFullBounty';
 import { postBounties } from '../routes/bounties/postBounties';
+import { enrichData } from '../routes/submissionGraph/enrichData';
 import { getBountySubGraph } from '../routes/submissionGraph/getBountySubGraph';
 import { getBountySubGraphs } from '../routes/submissionGraph/getBountySubGraphs';
 import { postBountySubGraph } from '../routes/submissionGraph/postBountySubGraph';
@@ -21,4 +22,5 @@ export const bountyRouter = router({
   getBountySubGraph: getBountySubGraph,
   getBountySubGraphs: getBountySubGraphs,
   postBountySubGraph: postBountySubGraph,
+  enrichData: enrichData,
 });

@@ -13,16 +13,27 @@ import { Title } from '@/components/utils/Title';
 import { GetSubmissionGraphsParams } from '@/server/routes/submissionGraph/getBountySubGraphs';
 
 import { SubmissionGraphCard } from './BountySubGraphCard';
+import { TypeFilterMenu } from '../admin/submissions/submissionDump/SubmissionDumpList';
+import { FilterSelector } from '../explore/filters/utils/FilterSelector';
 import { Section } from '../landing/Section';
 
 export enum SubmissionGraphStatus {
   NotStarted = 'Not Started',
   Completed = 'Completed',
-  Incomplete = 'Incomplete',
+  WIP = 'In Progress',
+}
+
+export enum SubmissionGraphWIP {
+  GraphCompleted = 'Graph Completed',
+  GraphNotCompleted = 'Graph Not Completed',
+  DatapointsCompleted = 'Datapoints Completed',
+  DatapointsNotCompleted = 'Datapoints Not Completed',
+  EnrichmentCompleted = 'Enrichment Completed',
+  EnrichmentNotCompleted = 'Enrichment Not Completed',
 }
 
 export function SubmissionGraphList() {
-  const [query, setQuery] = useState<any>({
+  const [query, setQuery] = useState<GetSubmissionGraphsParams>({
     order: Order.Asc,
     amount: 12,
     paginate: true,
@@ -45,6 +56,15 @@ export function SubmissionGraphList() {
       return { label: entry[1] } as HasLabel;
     });
   }, []);
+
+  const clearFilters = () =>
+    setQuery({
+      order: Order.Asc,
+      amount: 12,
+      paginate: true,
+      page: 0,
+      status: SubmissionGraphStatus.NotStarted,
+    });
 
   return (
     <section className="w-full space-y-4">
@@ -69,6 +89,7 @@ export function SubmissionGraphList() {
             defaultOptionIndex={0}
             labelClass="border-2 p-2 border-main rounded-md"
             options={options}
+            label={query.status}
             onSelect={({ label: newState }) => {
               setQuery({
                 ...query,
@@ -76,6 +97,38 @@ export function SubmissionGraphList() {
               });
             }}
           />
+          {query.status === SubmissionGraphStatus.WIP && (
+            <TypeFilterMenu
+              label="WIP Status"
+              labelClass={`border-2 p-2 rounded-md ${
+                query.progress ? 'border-main' : 'border-surface'
+              }`}
+            >
+              <div className="elevation-1 absolute right-0 z-50 min-w-[16rem] overflow-hidden rounded bg-surface-dark py-3 pl-4 pr-8">
+                <FilterSelector<{ label: SubmissionGraphWIP }>
+                  selected={query.progress ?? []}
+                  select={(opt) => {
+                    const type = opt?.label;
+                    if (query.progress?.includes(type)) return;
+                    const types = [type].concat(query.progress ?? []);
+                    setQuery({ ...query, progress: types });
+                  }}
+                  remove={(opt) => {
+                    const type = opt?.label;
+                    const types =
+                      query.progress?.filter((t) => t !== type) ?? [];
+                    setQuery({
+                      ...query,
+                      progress: types.length > 0 ? types : undefined,
+                    });
+                  }}
+                  options={Object.values(SubmissionGraphWIP).map((v) => ({
+                    label: v,
+                  }))}
+                />
+              </div>
+            </TypeFilterMenu>
+          )}
           <Button
             info={{
               style: ButtonStyle.Text,
@@ -94,12 +147,18 @@ export function SubmissionGraphList() {
               },
             }}
           />
+          <button
+            className="label-sm w-fit rounded-md border border-bg bg-surface p-2 text-center text-on-color hover:bg-main"
+            onClick={clearFilters}
+          >
+            Clear Filters
+          </button>
         </div>
       </div>
 
-      <Section className="grid grid-cols-1 gap-x-10 gap-y-10 tablet:grid-cols-2 tablet:gap-x-16 bt:grid-cols-3">
-        {submissionGraphs &&
-          submissionGraphs?.map((submissionGraph) => {
+      {submissionGraphs && submissionGraphs.length > 0 && (
+        <Section className="grid grid-cols-1 gap-x-10 gap-y-10 tablet:grid-cols-2 tablet:gap-x-16 bt:grid-cols-3">
+          {submissionGraphs?.map((submissionGraph) => {
             return (
               <SubmissionGraphCard
                 key={submissionGraph.slug}
@@ -107,7 +166,23 @@ export function SubmissionGraphList() {
               />
             );
           })}
-      </Section>
+        </Section>
+      )}
+
+      {!isLoading && submissionGraphs && submissionGraphs.length === 0 && (
+        <Section className="grid place-items-center space-y-2">
+          <p className="label text-center">No results</p>
+          <Button
+            info={{
+              label: 'Try resetting the filters',
+              style: ButtonStyle.TextPurple,
+              removePadding: true,
+              onClick: clearFilters,
+            }}
+          />
+        </Section>
+      )}
+
       {isLoading && <Loading small />}
 
       {!isLoading && submissionGraphs && submissionGraphs.length > 0 && (

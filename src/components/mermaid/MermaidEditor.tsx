@@ -16,7 +16,7 @@ export function MermaidEditor({
 }: {
   id: string;
   code: string;
-  setCode: Dispatch<SetStateAction<string>>;
+  setCode: Dispatch<SetStateAction<string>> | ((code: string) => void);
   showData?: boolean;
 }) {
   const [svg, setSVG] = useState('');

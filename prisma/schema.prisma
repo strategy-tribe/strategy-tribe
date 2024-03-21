@@ -361,11 +361,14 @@ model DataPoint {
 model SubmissionGraph {
   id String @id @default(cuid())
 
-  code       String
-  labelSvg   String
-  dataSvg    String
-  renderUrl  String
-  isComplete Boolean @default(false)
+  code                   String
+  labelSvg               String
+  dataSvg                String
+  renderUrl              String
+  enrichedData           String
+  isGraphComplete        Boolean @default(false)
+  isDataPointsVerified   Boolean @default(false)
+  isEnrichedDataVerified Boolean @default(false)
 
   bounty     Bounty?     @relation(fields: [bountySlug], references: [slug], onDelete: SetNull)
   bountySlug String?     @unique
@@ -415,6 +418,7 @@ model ApiUser {
 enum Rol {
   REGULAR
   ASSOCIATE
+  DATADUMPUSER
   STAFF
   ADMIN
 }
