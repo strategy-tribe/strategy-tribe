@@ -9,6 +9,7 @@ import {
   GoToOrganizationsPage,
   GoToReviewsPage,
   GoToTargetsPage,
+  GoToUsersPage,
 } from '@/lib/utils/Routes';
 
 import { Overlay } from '@/components/utils/Overlay';
@@ -75,6 +76,8 @@ export function AdminUserMenu({
             />
 
             <hr className="mx-8 w-full text-surface" />
+
+            <MenuItem label="Users" url={GoToUsersPage()} onClick={hide} />
 
             <MenuItem
               label="API Users"
