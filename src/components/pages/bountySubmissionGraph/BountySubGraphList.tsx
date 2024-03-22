@@ -68,7 +68,7 @@ export function SubmissionGraphList() {
 
   return (
     <section className="w-full space-y-4">
-      <div className="flex items-center justify-between border-b-1 border-surface pb-4">
+      <div className="flex items-center justify-between border-b-1 border-main pb-4">
         {!submissionGraphs ? (
           <Title
             title="Submission Graphs will show up here"

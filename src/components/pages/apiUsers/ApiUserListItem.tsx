@@ -1,8 +1,9 @@
 import Link from 'next/link';
-import { useRouter } from 'next/router';
 
 import { GoToApiUserPage } from '@/lib/utils/Routes';
 import { toTitleCase } from '@/lib/utils/StringHelpers';
+
+import { cutString } from '@/components/submissions/SubmissionListEntry';
 
 import { SmallApiUser } from '@/server/routes/apiUsers/getApiUsers';
 
@@ -10,13 +11,11 @@ import { DelayType, NotificationType } from '../../notifications/iNotification';
 import { useNotification } from '../../notifications/NotificationContext';
 
 export function ApiUserListItem({ apiUser }: { apiUser: SmallApiUser }) {
-  const router = useRouter();
-
   const { notify } = useNotification();
 
   return (
     <div className="grid w-full items-center gap-x-4 gap-y-2 border-b-1 border-surface  pb-4 align-baseline tablet:w-full tablet:grid-cols-6">
-      <div className="flex flex-col items-start tablet:col-span-1">
+      <div className="relative flex flex-col items-start tablet:col-span-1">
         <div className="group pl-4">
           <Link
             href={GoToApiUserPage(apiUser.id)}
@@ -26,7 +25,7 @@ export function ApiUserListItem({ apiUser }: { apiUser: SmallApiUser }) {
           </Link>
 
           <div className="pointer-events-none invisible absolute top-0 left-0 translate-x-12 -translate-y-8 rounded bg-surface-dark px-4 py-2 group-hover:pointer-events-auto group-hover:visible">
-            Go to apiUser
+            Go to ApiUser
           </div>
         </div>
       </div>
@@ -83,22 +82,4 @@ export function ApiUserListItem({ apiUser }: { apiUser: SmallApiUser }) {
       </div>
     </div>
   );
-}
-
-function cutString(address: string) {
-  const firstPart = address
-    .split('')
-    .filter((_, i) => i < 8)
-    .join()
-    .replaceAll(',', '');
-
-  const secondPart = address
-    .split('')
-    .filter((_, i) => i > address.split('').length - 8)
-    .join()
-    .replaceAll(',', '');
-
-  const wallet = `${firstPart} ... ${secondPart}`;
-
-  return wallet;
 }
