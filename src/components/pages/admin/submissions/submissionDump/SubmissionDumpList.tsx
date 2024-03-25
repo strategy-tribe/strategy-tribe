@@ -1,5 +1,5 @@
 import { RequirementType } from '@prisma/client';
-import { Dispatch, SetStateAction, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 
 import { useGetSubmissionDump } from '@/lib/hooks/submission/useGetSubmissions';
 import { Order } from '@/lib/models/Order';
@@ -275,6 +275,18 @@ function TagsFilter({
       countries: countries.length > 0 ? countries : undefined,
     });
   }
+
+  useEffect(() => {
+    if (
+      !query.tags &&
+      !query.orgNames &&
+      !query.targetNames &&
+      !query.countries
+    ) {
+      setSelected([]);
+    }
+  }, [query]);
+
   return (
     <div
       className={`flex items-end space-x-2 border-2 bg-bg px-2 pb-1 ${

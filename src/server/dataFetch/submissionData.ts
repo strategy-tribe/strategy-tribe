@@ -75,6 +75,16 @@ export async function SubmissionData(
   }
 
   const processedAcceptedSubmissions = await getDataDump({}, prisma, where);
+  await prisma.apiUser.update({
+    where: {
+      token,
+    },
+    data: {
+      apiUseCount: {
+        increment: 1,
+      },
+    },
+  });
 
   return {
     count: processedAcceptedSubmissions.length,

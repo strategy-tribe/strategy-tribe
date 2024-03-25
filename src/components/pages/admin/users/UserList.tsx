@@ -49,14 +49,8 @@ export function UserList() {
   const sortBySubmissions = () => {
     const increasingOrder = !submissionsIncreasing;
     setUsers(
-      users?.sort((a, b) =>
-        a.submissions > b.submissions
-          ? increasingOrder
-            ? 1
-            : -1
-          : increasingOrder
-          ? -1
-          : 1
+      users?.sort(
+        (a, b) => (a.submissions - b.submissions) * (increasingOrder ? 1 : -1)
       )
     );
     setSubmissionsIncreasing(increasingOrder);
@@ -65,14 +59,10 @@ export function UserList() {
   const sortByAccepetedSubmissions = () => {
     const increasingOrder = !acceptedIncreasing;
     setUsers(
-      users?.sort((a, b) =>
-        a.acceptedSubmissions > b.acceptedSubmissions
-          ? increasingOrder
-            ? 1
-            : -1
-          : increasingOrder
-          ? -1
-          : 1
+      users?.sort(
+        (a, b) =>
+          (a.acceptedSubmissions - b.acceptedSubmissions) *
+          (increasingOrder ? 1 : -1)
       )
     );
     setAcceptedIncreasing(increasingOrder);
@@ -122,6 +112,7 @@ export function UserList() {
           <Dropdown
             defaultOptionIndex={0}
             labelClass="border-2 p-2 border-main rounded-md"
+            label={query.role ?? 'All'}
             options={options}
             onSelect={({ label: newState }) => {
               setQuery({

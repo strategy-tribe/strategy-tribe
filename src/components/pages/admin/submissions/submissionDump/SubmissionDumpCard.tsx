@@ -19,8 +19,7 @@ export function SubmissionDumpCard({
   const expandBg = 'group-hover:scale-x-[1.15] group-hover:scale-y-[1.15]';
 
   const { fileUrl } = useGetFile([
-    `targets/thumbnails/${'Mikhail Pavlovich Matveev'
-      .toLowerCase()
+    `targets/thumbnails/${submission.Target.toLowerCase()
       .split(' ')
       .join('_')}.jpeg`,
     `targets/orgs/${submission.Organisation.toLowerCase()
