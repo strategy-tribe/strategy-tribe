@@ -6,6 +6,7 @@ import { getBulkSubmissions } from '../routes/submission/getBulkSubmissions';
 import { getSubmission } from '../routes/submission/getSubmission';
 import { getSubmitterInfo } from '../routes/submission/getSubmitterInfo';
 import { postSubmission } from '../routes/submission/postSubmission';
+import { getSubmissionDump } from '../routes/submission/submissionDump/getSubmissionDump';
 
 export const submissionRouter = router({
   post: postSubmission,
@@ -14,4 +15,5 @@ export const submissionRouter = router({
   getSubmission: getSubmission,
   getSubmitterInfo: getSubmitterInfo,
   canUserSubmit: canUserSubmit,
+  getSubmissionDump: getSubmissionDump,
 });

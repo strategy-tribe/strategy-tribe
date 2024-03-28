@@ -1,15 +1,21 @@
 import { Prisma, PrismaClient, RequirementType } from '@prisma/client';
 import { z } from 'zod';
 
+import { getEnrichParams } from '@/server/dataFetch/utils';
+import { ERROR, LOG } from '@/server/importer/utils';
 import { staffOnlyProcedure } from '@/server/procedures';
 
+import { getEnrichedData } from './enrichData';
 import { getSvg, getSvgUrl } from '../utils/getSvg';
 
 /** Schema used to post BountySubGraph */
 const PostBountySubGraphSchema = z.object({
   slug: z.string(),
   code: z.string(),
-  isComplete: z.boolean(),
+  isGraphComplete: z.boolean(),
+  isDataPointsVerified: z.boolean(),
+  isEnrichedDataVerified: z.boolean(),
+  enrichedData: z.string(),
   dataPoints: z
     .object({ type: z.nativeEnum(RequirementType), value: z.string() })
     .array(),
@@ -17,11 +23,35 @@ const PostBountySubGraphSchema = z.object({
 
 export type PostBountySubGraphParams = z.infer<typeof PostBountySubGraphSchema>;
 
+const validateData = (input: PostBountySubGraphParams) => {
+  if (input.isEnrichedDataVerified) {
+    if (!input.isDataPointsVerified) {
+      throw new Error(
+        'Enriched data cannot be marked Completed without completing datapoints'
+      );
+    }
+    try {
+      const jsonData = JSON.parse(input?.enrichedData ?? '');
+    } catch (e: any) {
+      throw new Error(`Enriched Data not in JSON format. ${e.message}`);
+    }
+  }
+};
+
 const CreateBountySubGraph = async (
   prisma: PrismaClient,
   input: PostBountySubGraphParams
 ) => {
-  const { slug, code, isComplete, dataPoints } = input;
+  validateData(input);
+  const {
+    slug,
+    code,
+    isGraphComplete,
+    isDataPointsVerified,
+    isEnrichedDataVerified,
+    dataPoints,
+    enrichedData,
+  } = input;
 
   const labelSvg = await getSvg(code.replace('showData', ''));
 
@@ -34,7 +64,10 @@ const CreateBountySubGraph = async (
     code,
     labelSvg,
     dataSvg,
-    isComplete,
+    enrichedData,
+    isGraphComplete,
+    isDataPointsVerified,
+    isEnrichedDataVerified,
     renderUrl: getSvgUrl(code),
   });
 
@@ -90,6 +123,7 @@ const CreateBountySubGraph = async (
         },
       },
     });
+
     return submissionGraph.id;
   }
   const submissionGraph = await prisma.submissionGraph.create({
@@ -108,11 +142,41 @@ const CreateBountySubGraph = async (
   return submissionGraph.id;
 };
 
+const updateEnriched = async (
+  id: string,
+  prisma: PrismaClient,
+  input: PostBountySubGraphParams
+) => {
+  if (
+    input.isDataPointsVerified &&
+    !input.isEnrichedDataVerified &&
+    (!input.enrichedData ||
+      input.enrichedData === '' ||
+      input.enrichedData === '{}')
+  ) {
+    try {
+      LOG('Enriching');
+      const enrichedData = await getEnrichedData(
+        getEnrichParams(input.dataPoints)
+      );
+      await prisma.submissionGraph.update({
+        where: { id },
+        data: {
+          enrichedData: JSON.stringify(enrichedData, null, 4),
+        },
+      });
+      LOG('Enriched');
+    } catch (e: any) {
+      ERROR(e.message);
+    }
+  }
+};
+
 export const postBountySubGraph = staffOnlyProcedure
   .input(PostBountySubGraphSchema)
   .mutation(async ({ input, ctx }) => {
     const id = await CreateBountySubGraph(ctx.prisma, input);
-
+    updateEnriched(id, ctx.prisma, input);
     return {
       submissionGraph: id,
     };

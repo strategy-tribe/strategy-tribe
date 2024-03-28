@@ -30,7 +30,7 @@ function isRequestForSubmissionsValid(
   input: GetSubmissionsParams,
   user: User
 ): boolean {
-  const isAdminOrStaff = ['ADMIN', 'STAFF'].includes(user.rol);
+  const isAdminOrStaff = ['ADMIN', 'STAFF', 'ASSOCIATE'].includes(user.rol);
 
   /** Checks if an array of ids contains more than just the id passed */
   function askingForSomeoneElses(ids: string[], user: string) {
@@ -88,8 +88,11 @@ export const _getSubmissions = async (
     throw new TRPCError({ code: 'UNAUTHORIZED' });
   }
 
-  const owners: string[] | undefined =
-    user.rol === 'REGULAR' ? [user.id] : input.owners;
+  const owners: string[] | undefined = ['ADMIN', 'STAFF', 'ASSOCIATE'].includes(
+    user.rol
+  )
+    ? input.owners
+    : [user.id];
 
   const where = Prisma.validator<Prisma.SubmissionWhereInput>()({
     AND: {
@@ -139,8 +142,11 @@ const countSubmissions = async (
     throw new TRPCError({ code: 'UNAUTHORIZED' });
   }
 
-  const owners: string[] | undefined =
-    user.rol === 'REGULAR' ? [user.id] : input.owners;
+  const owners: string[] | undefined = ['ADMIN', 'STAFF', 'ASSOCIATE'].includes(
+    user.rol
+  )
+    ? input.owners
+    : [user.id];
 
   const where = Prisma.validator<Prisma.SubmissionWhereInput>()({
     AND: {

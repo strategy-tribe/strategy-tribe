@@ -100,7 +100,11 @@ export const getSolution = publicProcedure
     const solution = await ServerGetSolution(
       prisma,
       input,
-      !!(session && session?.user && session?.user.rol !== 'REGULAR'),
+      !!(
+        session &&
+        session?.user &&
+        ['ADMIN', 'STAFF'].includes(session.user.rol)
+      ),
       !!(session && session.user)
     );
     return { solution };

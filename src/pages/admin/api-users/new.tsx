@@ -1,6 +1,7 @@
 ('@/components/utils/Title');
 import Head from 'next/head';
 import { useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 
 import AppLayout from '@/components/layouts/AppLayout';
 import { ApiUserEdit } from '@/components/pages/apiUsers/ApiUserEdit';
@@ -14,7 +15,7 @@ const NewApiUserPage: NextPageWithLayout = () => {
   const [apiUser, setApiUser] = useState<PostApiUserParams>({
     id: '',
     name: '',
-    token: '',
+    token: uuidv4(),
     tags: [],
     isActive: false,
   });

@@ -3,7 +3,6 @@ import {
   Prisma,
   PrismaClient,
   RequirementType,
-  Rol,
 } from '@prisma/client';
 import { ThenArg, TRPCError } from '@trpc/server';
 import { CustomUser } from 'types/next-auth';
@@ -185,7 +184,9 @@ const getWhere = (input: GetBountiesParams, user: CustomUser) => {
     status: {
       in: input.states,
       notIn:
-        user && user.rol !== Rol.REGULAR ? undefined : [BountyState.Closed],
+        user && ['ADMIN', 'STAFF', 'ASSOCIATE'].includes(user.rol)
+          ? undefined
+          : [BountyState.Closed],
     },
     title: {
       search: input.search?.split(' ').join(' & '),

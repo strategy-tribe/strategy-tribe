@@ -99,7 +99,7 @@ export function SubmissionListEntry({
   );
 }
 
-function cutString(address: string) {
+export function cutString(address: string) {
   const firstPart = address
     .split('')
     .filter((_, i) => i < 8)

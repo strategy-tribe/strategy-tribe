@@ -37,11 +37,13 @@ export function FilterSearchBox({
   selectedResults,
   setSelected,
   remove,
+  showActive = true,
 }: {
   selectedResults: SearchResult[];
   setSelected: (_: SearchResult[]) => void;
   // eslint-disable-next-line no-unused-vars
   remove: (resultName: string) => void;
+  showActive?: boolean;
 }) {
   const [query, setQuery] = useState('');
   const { results: data, isLoading } = useSearchFilter(query);
@@ -77,16 +79,22 @@ export function FilterSearchBox({
             placeholder="Find a tag"
             autoComplete="off"
           />
-          <ActiveOptions
-            open={open}
-            removeResult={removeResult}
-            results={selectedResults}
-          />
+          {showActive && (
+            <ActiveOptions
+              open={open}
+              removeResult={removeResult}
+              results={selectedResults}
+            />
+          )}
 
           <Combobox.Options
             as="ul"
             inputMode="text"
-            className="elevation-5 absolute inset-x-0 top-11 max-h-[20rem] overflow-y-auto rounded bg-surface bg-opacity-50"
+            className={`elevation-5 absolute inset-x-0 top-11 z-20 max-h-[20rem] overflow-y-auto rounded ${
+              showActive
+                ? 'bg-surface bg-opacity-50'
+                : 'border-x-2 border-b-2 border-main bg-bg p-2'
+            }`}
           >
             {filteredResult.map((result, i) => (
               <Combobox.Option
@@ -97,7 +105,7 @@ export function FilterSearchBox({
                 {({ selected }) => {
                   return (
                     <div
-                      className="ui flex items-center justify-between gap-2  bg-opacity-50 p-1 ui-selected:bg-main 
+                      className="ui flex items-center justify-between gap-2  bg-opacity-100 p-1 ui-selected:bg-main 
                       ui-selected:text-on-color ui-selected:hover:bg-error-light ui-active:bg-surface ui-active:bg-opacity-100"
                     >
                       <button
@@ -153,7 +161,7 @@ export function FilterSearchBox({
 }
 
 /** Renders a list of results  */
-function ActiveOptions({
+export function ActiveOptions({
   results,
   open,
   removeResult,
@@ -237,7 +245,7 @@ function ActiveOption({
             }}
             {...getFloatingProps({
               className:
-                'body elevation-1 rounded border border-surface-dark bg-surface py-2.5 pl-3 pr-5 text-left',
+                'body elevation-1 z-50 rounded border border-surface-dark bg-surface py-2.5 pl-3 pr-5 text-left',
             })}
           >
             Click to remove

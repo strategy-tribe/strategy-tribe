@@ -1,6 +1,7 @@
 import { AccountView } from '@/lib/models/AccountView';
 import {
   GoToAccountPage,
+  GoToBountyDataDumpPage,
   GoToOrganizationsPage,
   GoToTargetsPage,
 } from '@/lib/utils/Routes';
@@ -40,7 +41,7 @@ export function RegularUserMenu({
   show: () => void;
   hide: () => void;
 }) {
-  const { isAssociate } = useAuth();
+  const { isDataDumpUser } = useAuth();
 
   return (
     <div className="relative">
@@ -78,6 +79,19 @@ export function RegularUserMenu({
             />
 
             <hr className="w-full text-surface" />
+
+            {isDataDumpUser && (
+              <>
+                <MenuItem
+                  label="Data Dump"
+                  url={GoToBountyDataDumpPage()}
+                  onClick={hide}
+                />
+
+                <hr className="w-full text-surface" />
+              </>
+            )}
+
             <LogOutButton hide={hide} />
           </div>
 

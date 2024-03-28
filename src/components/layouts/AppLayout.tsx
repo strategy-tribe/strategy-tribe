@@ -14,9 +14,9 @@ export default function AppLayout({
   hideBgOnScroll?: boolean;
   children: React.ReactNode;
 }) {
-  const { isAdmin, isStaff } = useAuth();
+  const { isAdmin, isStaff, isAssociate, isDataDumpUser } = useAuth();
 
-  const specialAccount = isAdmin || isStaff;
+  const specialAccount = isAdmin || isStaff || isAssociate || isDataDumpUser;
   const padding = specialAccount ? 'pt-40 bt:pt-20' : 'pt-40 bt:pt-20';
 
   return (
