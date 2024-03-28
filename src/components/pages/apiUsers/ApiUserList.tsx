@@ -93,7 +93,7 @@ export function ApiUserList() {
       </div>
 
       <div className="grid-cols- gap-8 tablet:grid">
-        <div className="grid gap-x-4 gap-y-2 border-b-1 border-surface pb-4 align-baseline tablet:w-full tablet:grid-cols-6">
+        <div className="grid gap-x-4 gap-y-2 border-b-1 border-surface pb-4 align-baseline tablet:w-full tablet:grid-cols-7">
           <div className="flex flex-col items-start pl-4 text-base font-bold tablet:col-span-1">
             Name
           </div>
@@ -102,6 +102,9 @@ export function ApiUserList() {
           </div>
           <div className="title col-span-1 block place-self-center text-base font-bold">
             Token
+          </div>
+          <div className="title col-span-1 block place-self-center text-base font-bold">
+            API Use Count
           </div>
           <div className="title col-span-3 block place-self-center text-base font-bold">
             Tags

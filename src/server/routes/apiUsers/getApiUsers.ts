@@ -30,6 +30,7 @@ export const API_USERS_SELECT = Prisma.validator<Prisma.ApiUserSelect>()({
   id: true,
   name: true,
   token: true,
+  apiUseCount: true,
   isActive: true,
   updatedAt: true,
   tags: {

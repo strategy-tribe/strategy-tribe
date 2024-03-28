@@ -14,7 +14,7 @@ export function ApiUserListItem({ apiUser }: { apiUser: SmallApiUser }) {
   const { notify } = useNotification();
 
   return (
-    <div className="grid w-full items-center gap-x-4 gap-y-2 border-b-1 border-surface  pb-4 align-baseline tablet:w-full tablet:grid-cols-6">
+    <div className="grid w-full items-center gap-x-4 gap-y-2 border-b-1 border-surface  pb-4 align-baseline tablet:w-full tablet:grid-cols-7">
       <div className="relative flex flex-col items-start tablet:col-span-1">
         <div className="group pl-4">
           <Link
@@ -63,7 +63,11 @@ export function ApiUserListItem({ apiUser }: { apiUser: SmallApiUser }) {
         </span>
       </button>
 
-      <div className="col-span-3 inline space-x-2 place-self-center">
+      <div className="title col-span-1 block place-self-center">
+        {apiUser.apiUseCount}
+      </div>
+
+      <div className="col-span-3 inline space-x-2 place-self-center pl-2">
         {apiUser.tags?.map((tag, i) => {
           return (
             <span
