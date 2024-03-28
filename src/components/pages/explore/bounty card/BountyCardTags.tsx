@@ -29,7 +29,7 @@ export function BountyCardTags({
   );
 }
 
-function Tag({ tag, onClick }: { tag: string; onClick?: () => void }) {
+export function Tag({ tag, onClick }: { tag: string; onClick?: () => void }) {
   return (
     <button
       className="label-sm text-left capitalize text-on-surface-unactive"

@@ -53,7 +53,7 @@ async function _getInvoices(
   }
 
   const owners: string[] | undefined =
-    user.rol === 'REGULAR' ? [user.id] : input.userIds;
+    user.rol !== 'ADMIN' ? [user.id] : input.userIds;
   const where = Prisma.validator<Prisma.InvoiceWhereInput>()({
     AND: {
       status: input.statuses

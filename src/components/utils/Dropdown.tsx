@@ -46,12 +46,14 @@ export default function Dropdown<T extends HasLabel>({
   onSelect,
   labelClass = 'title',
   className = '',
+  label,
 }: {
   onSelect?: (s: T) => void;
   options: T[];
   defaultOptionIndex?: number;
   labelClass?: string;
   className?: string;
+  label?: string;
 }) {
   function select(newSelection: T) {
     setSelected(newSelection);
@@ -78,7 +80,7 @@ export default function Dropdown<T extends HasLabel>({
               !open && 'group-hover:text-primary'
             }`}
           >
-            {selected?.label}
+            {label ?? selected?.label}
           </p>
           <Icon icon="arrow_drop_down" />
         </button>

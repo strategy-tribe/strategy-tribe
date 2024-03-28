@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 
 import { trpc } from '@/lib/trpc';
 
+import { EnrichDataParams } from '@/server/routes/submissionGraph/enrichData';
 import {
   GetSubmissionGraphsParams,
   SmallSubmissionGraph,
@@ -90,6 +91,34 @@ export const useSubmitSubmissionGraph = (events: {
 
   return {
     SubmitSubmissionGraph: async (params: PostBountySubGraphParams) => {
+      mutation.mutate(params);
+    },
+    isLoading: mutation.isLoading,
+    isSuccess: mutation.isSuccess,
+    error: mutation.error,
+  };
+};
+
+export const useEnrichDataPoints = (events: {
+  onMutate: () => void;
+  onSuccess: (enrichData: any) => void;
+  onError: (e: any) => void;
+}) => {
+  const { onError, onMutate, onSuccess } = events;
+
+  const qc = useQueryClient();
+
+  const mutation = trpc.bounty.enrichData.useMutation({
+    onMutate,
+    onError,
+    onSuccess: (data) => {
+      qc.invalidateQueries();
+      onSuccess(data);
+    },
+  });
+
+  return {
+    Enrich: async (params: EnrichDataParams) => {
       mutation.mutate(params);
     },
     isLoading: mutation.isLoading,

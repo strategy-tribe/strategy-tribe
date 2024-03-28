@@ -1,9 +1,17 @@
-import { BountyState, Prisma, PrismaClient } from '@prisma/client';
+import {
+  BountyState,
+  Prisma,
+  PrismaClient,
+  SubmissionState,
+} from '@prisma/client';
 import { z } from 'zod';
 
 import { Order } from '@/lib/models/Order';
 
-import { SubmissionGraphStatus } from '@/components/pages/bountySubmissionGraph/BountySubGraphList';
+import {
+  SubmissionGraphStatus,
+  SubmissionGraphWIP,
+} from '@/components/pages/bountySubmissionGraph/BountySubGraphList';
 
 import { staffOnlyProcedure } from '@/server/procedures';
 
@@ -16,6 +24,7 @@ const GetSubmissionGraphsSchema = z.object({
   amount: z.number().optional(),
   page: z.number().optional(),
   status: z.nativeEnum(SubmissionGraphStatus),
+  progress: z.nativeEnum(SubmissionGraphWIP).array().optional(),
   bountyTitle: z.string().optional(),
 });
 
@@ -52,7 +61,11 @@ export const _getSubmissionGraphs = async (
     orderBy:
       input.status === SubmissionGraphStatus.NotStarted
         ? {
-            createdAt: input.order,
+            Invoice: {
+              submission: {
+                createdAt: input.order,
+              },
+            },
           }
         : {
             SubmissionGraph: {
@@ -66,31 +79,119 @@ export const _getSubmissionGraphs = async (
 };
 
 const getWhere = (input: GetSubmissionGraphsParams) => {
-  const { status, bountyTitle } = input;
-  if (status === SubmissionGraphStatus.NotStarted) {
+  const { status, bountyTitle, progress } = input;
+  if (
+    status === SubmissionGraphStatus.NotStarted ||
+    status === SubmissionGraphStatus.Completed
+  ) {
     const where = Prisma.validator<Prisma.BountyWhereInput>()({
-      AND: {
-        title: {
-          search: bountyTitle?.split(' ').join(' & '),
-        },
-        status: BountyState.Closed,
-        SubmissionGraph: null,
-      },
-    });
-    return where;
-  }
-  const where = Prisma.validator<Prisma.BountyWhereInput>()({
-    AND: {
       title: {
         search: bountyTitle?.split(' ').join(' & '),
       },
       status: BountyState.Closed,
-      SubmissionGraph: {
-        isComplete: status === SubmissionGraphStatus.Completed ? true : false,
+      Invoice: {
+        submission: {
+          state: SubmissionState.Accepted,
+        },
+      },
+      SubmissionGraph:
+        status === SubmissionGraphStatus.NotStarted
+          ? null
+          : {
+              isGraphComplete: true,
+              isDataPointsVerified: true,
+              isEnrichedDataVerified: true,
+            },
+    });
+    return where;
+  }
+
+  const bountyWhere = {
+    title: {
+      search: bountyTitle?.split(' ').join(' & '),
+    },
+    status: BountyState.Closed,
+    Invoice: {
+      submission: {
+        state: SubmissionState.Accepted,
       },
     },
+  };
+  const where = Prisma.validator<Prisma.BountyWhereInput>()({
+    AND: [
+      {
+        ...bountyWhere,
+        SubmissionGraph: {
+          isNot: null,
+        },
+      },
+      {
+        ...bountyWhere,
+        SubmissionGraph: {
+          isNot: {
+            isGraphComplete: true,
+            isDataPointsVerified: true,
+            isEnrichedDataVerified: true,
+          },
+        },
+      },
+      {
+        ...bountyWhere,
+        SubmissionGraph: getSubGraphFilters(input),
+      },
+    ],
   });
+
   return where;
+};
+
+const getSubGraphFilters = (input: GetSubmissionGraphsParams) => {
+  const { progress } = input;
+  if (!progress) {
+    return {
+      isNot: {
+        isGraphComplete: true,
+        isDataPointsVerified: true,
+        isEnrichedDataVerified: true,
+      },
+    };
+  }
+
+  const subGraphWhere: {
+    isGraphComplete: boolean | undefined;
+    isDataPointsVerified: boolean | undefined;
+    isEnrichedDataVerified: boolean | undefined;
+  } = {
+    isGraphComplete: undefined,
+    isDataPointsVerified: undefined,
+    isEnrichedDataVerified: undefined,
+  };
+
+  if (progress.includes(SubmissionGraphWIP.GraphCompleted)) {
+    if (!progress.includes(SubmissionGraphWIP.GraphNotCompleted)) {
+      subGraphWhere.isGraphComplete = true;
+    }
+  } else if (progress.includes(SubmissionGraphWIP.GraphNotCompleted)) {
+    subGraphWhere.isGraphComplete = false;
+  }
+
+  if (progress.includes(SubmissionGraphWIP.DatapointsCompleted)) {
+    if (!progress.includes(SubmissionGraphWIP.DatapointsNotCompleted)) {
+      subGraphWhere.isDataPointsVerified = true;
+    }
+  } else if (progress.includes(SubmissionGraphWIP.DatapointsNotCompleted)) {
+    subGraphWhere.isDataPointsVerified = false;
+  }
+
+  if (progress.includes(SubmissionGraphWIP.EnrichmentCompleted)) {
+    if (!progress.includes(SubmissionGraphWIP.EnrichmentNotCompleted)) {
+      subGraphWhere.isEnrichedDataVerified = true;
+    }
+  } else if (progress.includes(SubmissionGraphWIP.EnrichmentNotCompleted)) {
+    subGraphWhere.isEnrichedDataVerified = false;
+  }
+
+  return subGraphWhere;
 };
 
 const countSubmissionGraphs = async (

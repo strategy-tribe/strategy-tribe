@@ -2,12 +2,14 @@ import {
   GoToAccountPage,
   GoToAddBountiesPage,
   GoToApiUsersPage,
+  GoToBountyDataDumpPage,
   GoToBountySubmissionGraphsPage,
   GoToEditBountyPage,
   GoToInvoicesPage,
   GoToOrganizationsPage,
   GoToReviewsPage,
   GoToTargetsPage,
+  GoToUsersPage,
 } from '@/lib/utils/Routes';
 
 import { Overlay } from '@/components/utils/Overlay';
@@ -75,6 +77,8 @@ export function AdminUserMenu({
 
             <hr className="mx-8 w-full text-surface" />
 
+            <MenuItem label="Users" url={GoToUsersPage()} onClick={hide} />
+
             <MenuItem
               label="API Users"
               url={GoToApiUsersPage()}
@@ -84,6 +88,12 @@ export function AdminUserMenu({
             <MenuItem
               label="Submission Graphs"
               url={GoToBountySubmissionGraphsPage()}
+              onClick={hide}
+            />
+
+            <MenuItem
+              label="Data Dump"
+              url={GoToBountyDataDumpPage()}
               onClick={hide}
             />
 

@@ -107,3 +107,7 @@ export const GoToBountySubmissionGraphPage = (slug: string) =>
 
 export const GoToBountySubmissionGraphsPage = () =>
   `/admin/bounty/submission-graphs`;
+
+export const GoToBountyDataDumpPage = () => `/data`;
+
+export const GoToUsersPage = () => `/admin/users`;

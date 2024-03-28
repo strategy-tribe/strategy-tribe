@@ -17,7 +17,10 @@ const BOUNTY_SELECTOR = Prisma.validator<Prisma.BountySelect>()({
     select: {
       id: true,
       code: true,
-      isComplete: true,
+      enrichedData: true,
+      isGraphComplete: true,
+      isDataPointsVerified: true,
+      isEnrichedDataVerified: true,
       dataPoints: {
         select: {
           value: true,

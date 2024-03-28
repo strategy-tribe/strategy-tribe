@@ -25,6 +25,7 @@ interface AuthContextInterface {
   isStaff: boolean;
   isAdmin: boolean;
   isAssociate: boolean;
+  isDataDumpUser: boolean;
   isFetchingUserInfo: boolean;
   account: string | undefined;
   userInfo: UserInfo | undefined;
@@ -45,6 +46,7 @@ export type UserInfo = {
   watching?: Subscription[];
   isAdmin: boolean;
   isAssociate: boolean;
+  isDataDumpUser: boolean;
   isStaff: boolean;
 };
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -75,6 +77,7 @@ const AuthProvider = ({
         isAdmin: false,
         isStaff: false,
         isAssociate: false,
+        isDataDumpUser: false,
         address: '',
         userId: '',
         watching: [],
@@ -84,6 +87,7 @@ const AuthProvider = ({
       isAdmin: data.user.rol === 'ADMIN',
       isStaff: data.user.rol === 'STAFF',
       isAssociate: data.user.rol === 'ASSOCIATE',
+      isDataDumpUser: data.user.rol === 'DATADUMPUSER',
       address: data.user.address,
       userId: data.user.id,
       watching: [],
@@ -104,6 +108,7 @@ const AuthProvider = ({
         isStaff: data?.user.rol === 'STAFF',
         isAdmin: data?.user.rol === 'ADMIN',
         isAssociate: data?.user.rol === 'ASSOCIATE',
+        isDataDumpUser: data?.user.rol === 'DATADUMPUSER',
         account: data?.user.address,
         userInfo,
         isFetchingUserInfo: status === 'loading',

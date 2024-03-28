@@ -74,12 +74,20 @@ export const getSolutions = publicProcedure
     const solutions = await _getSolutions(
       input,
       prisma,
-      !!(session && session?.user && session?.user.rol !== 'REGULAR')
+      !!(
+        session &&
+        session?.user &&
+        ['ADMIN', 'STAFF'].includes(session.user.rol)
+      )
     );
     const count = await countSolutions(
       input,
       prisma,
-      !!(session && session?.user && session?.user.rol !== 'REGULAR')
+      !!(
+        session &&
+        session?.user &&
+        ['ADMIN', 'STAFF'].includes(session.user.rol)
+      )
     );
     return { solutions, count };
   });

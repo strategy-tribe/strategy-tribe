@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import { useGetUser, useUpdateUser } from '@/lib/hooks/userHooks';
+import { useGetUser, useUpdateUserName } from '@/lib/hooks/userHooks';
 import { GetDateInString } from '@/lib/utils/DateHelpers';
 
 import {
@@ -32,7 +32,7 @@ export function AccountDetails() {
     setUsername(uName);
   }, [uName]);
 
-  const { UpdateUsername } = useUpdateUser({
+  const { UpdateUsername } = useUpdateUserName({
     onMutate: () => {
       notify(
         {

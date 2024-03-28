@@ -1,8 +1,11 @@
 import { Prisma, RequirementType, SubmissionState } from '@prisma/client';
 
-import { CapitalizeFirstLetter, toTitleCase } from '@/lib/utils/StringHelpers';
+import { CapitalizeFirstLetter } from '@/lib/utils/StringHelpers';
 
 import prisma from '@/server/prisma/prismaClient';
+
+import { types } from './utils';
+import { getDataDump } from '../routes/submission/submissionDump/getSubmissionDump';
 
 export async function SubmissionData(
   token: string,
@@ -20,10 +23,8 @@ export async function SubmissionData(
   if (!(apiUser && apiUser.isActive)) {
     throw new Error('Unauthourized. Invalid Token');
   }
+
   let where;
-  const types = Object.entries(RequirementType)
-    .map((entry) => entry[1])
-    .sort();
   where = Prisma.validator<Prisma.SubmissionWhereInput>()({
     state: SubmissionState.Accepted,
     bounty: {
@@ -38,6 +39,7 @@ export async function SubmissionData(
             }
           : undefined,
       SubmissionGraph: {
+        isDataPointsVerified: true,
         dataPoints: {
           some: {
             type: {
@@ -61,6 +63,7 @@ export async function SubmissionData(
       bounty: {
         ...where.bounty,
         SubmissionGraph: {
+          isDataPointsVerified: true,
           dataPoints: {
             some: {
               type: typeCase,
@@ -71,84 +74,18 @@ export async function SubmissionData(
     };
   }
 
-  const acceptedSubmissions = await prisma.submission.findMany({
-    where,
-    select: {
-      state: true,
-      bounty: {
-        select: {
-          slug: true,
-          title: true,
-          SubmissionGraph: {
-            select: {
-              renderUrl: true,
-              isComplete: true,
-              dataPoints: {
-                select: {
-                  type: true,
-                  value: true,
-                },
-              },
-            },
-          },
-          target: {
-            select: {
-              name: true,
-              org: {
-                select: {
-                  name: true,
-                },
-              },
-            },
-          },
-        },
-      },
-      answers: {
-        select: {
-          answer: true,
-          requirement: {
-            select: {
-              title: true,
-            },
-          },
-        },
+  const processedAcceptedSubmissions = await getDataDump({}, prisma, where);
+  await prisma.apiUser.update({
+    where: {
+      token,
+    },
+    data: {
+      apiUseCount: {
+        increment: 1,
       },
     },
   });
 
-  const processedAcceptedSubmissions = acceptedSubmissions.map((sub, i) => {
-    let data = {};
-    const dataPoints = sub.bounty?.SubmissionGraph?.dataPoints;
-    if (dataPoints) {
-      types.forEach((type) => {
-        if (dataPoints.findIndex((d) => d.type === type) >= 0) {
-          data = {
-            ...data,
-            [type]: dataPoints
-              .filter((d) => d.type === type)
-              .map((d) => d.value),
-          };
-        }
-      });
-    }
-
-    return {
-      'Serial No': `${i + 1}`,
-      Bounty: sub.bounty?.title,
-      'Bounty URL': `${process.env.APP_DOMAIN}/bounty/${sub.bounty?.slug}`,
-      Target: sub.bounty ? toTitleCase(sub.bounty.target.name) : '',
-      Organisation: sub.bounty?.target.org
-        ? toTitleCase(sub.bounty.target.org.name)
-        : '',
-      ...data,
-      Research: sub.answers.find((ans) =>
-        ans.requirement?.title.includes('How did you find this info')
-      )?.answer,
-      'Graph URL': sub.bounty?.SubmissionGraph?.isComplete
-        ? sub.bounty.SubmissionGraph.renderUrl
-        : undefined,
-    };
-  });
   return {
     count: processedAcceptedSubmissions.length,
     submissions: processedAcceptedSubmissions,
