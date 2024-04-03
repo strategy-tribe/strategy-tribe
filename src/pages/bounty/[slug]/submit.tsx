@@ -15,7 +15,7 @@ const NewSubmissionPage: NextPageWithLayout = () => {
       <Head>
         <title>New Submission</title>
         <meta
-          name="description"
+          name="description "
           content=" An open source project dedicated to crowdsourcing and crowdfunding
           OSINT for locating the cryptowallets of threat actors."
         />
