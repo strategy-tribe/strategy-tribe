@@ -71,8 +71,8 @@ model CountryStats {
 
   bountyCount       Int
   organizationCount Int
+  submissionCount Int@default(0)
   totalFunds        Float
-
   CountriesData   CountriesData? @relation(fields: [countriesDataId], references: [id])
   countriesDataId String?
 
