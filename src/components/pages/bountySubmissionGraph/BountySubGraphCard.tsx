@@ -38,7 +38,7 @@ export function SubmissionGraphCard({
             <img
               src="/images/logo.svg"
               alt="logo"
-              className="totext max-h-[12rem] pt-2"
+              className="totext max-h-[12rem] pt-3"
             />
           )}
 
