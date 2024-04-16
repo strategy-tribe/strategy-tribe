@@ -160,7 +160,7 @@ model Bounty {
   updatedAt DateTime @default(now())
   closesAt  DateTime
 
-  Invoice         Invoice?
+  invoices         Invoice[]
   Donation        Donation[]
   watchBounty     WatchBounty[]
   SubmissionGraph SubmissionGraph?
@@ -261,8 +261,8 @@ model Invoice {
   submission   Submission @relation(fields: [submissionId], references: [id], onDelete: Restrict)
   submissionId String     @unique
 
-  bounty     Bounty? @relation(fields: [bountySlug], references: [slug], onDelete: SetNull)
-  bountySlug String? @unique
+  bounty     Bounty @relation(fields: [bountySlug], references: [slug], onDelete: SetNull)
+  bountySlug String
 
   status InvoiceStatus
 

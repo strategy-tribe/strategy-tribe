@@ -58,20 +58,11 @@ export const _getSubmissionGraphs = async (
     where: where,
     skip: (input?.amount ?? 0) * (input?.page ?? 0),
     take: input.amount,
-    orderBy:
-      input.status === SubmissionGraphStatus.NotStarted
-        ? {
-            Invoice: {
-              submission: {
-                createdAt: input.order,
-              },
-            },
-          }
-        : {
-            SubmissionGraph: {
-              createdAt: input.order,
-            },
-          },
+    orderBy: {
+      SubmissionGraph: {
+        createdAt: input.order,
+      },
+    },
     select: SUBMISSION_GRAPH_SELECT,
   });
 
@@ -89,9 +80,11 @@ const getWhere = (input: GetSubmissionGraphsParams) => {
         search: bountyTitle?.split(' ').join(' & '),
       },
       status: BountyState.Closed,
-      Invoice: {
-        submission: {
-          state: SubmissionState.Accepted,
+      invoices: {
+        some: {
+          submission: {
+            state: SubmissionState.Accepted,
+          },
         },
       },
       SubmissionGraph:
@@ -111,9 +104,11 @@ const getWhere = (input: GetSubmissionGraphsParams) => {
       search: bountyTitle?.split(' ').join(' & '),
     },
     status: BountyState.Closed,
-    Invoice: {
-      submission: {
-        state: SubmissionState.Accepted,
+    invoices: {
+      some: {
+        submission: {
+          state: SubmissionState.Accepted,
+        },
       },
     },
   };

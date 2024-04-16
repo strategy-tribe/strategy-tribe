@@ -29,7 +29,7 @@ const BOUNTY_SELECTOR = Prisma.validator<Prisma.BountySelect>()({
       },
     },
   },
-  Invoice: {
+  invoices: {
     select: {
       submission: {
         select: {
