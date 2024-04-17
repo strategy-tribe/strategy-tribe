@@ -2,6 +2,7 @@ import Editor from '@monaco-editor/react';
 import { RequirementType } from '@prisma/client';
 import { useRouter } from 'next/router';
 import { useEffect, useMemo, useState } from 'react';
+
 import Switch from 'react-switch';
 
 import {
@@ -353,7 +354,6 @@ export function BountySubGraphEdit({ bounty }: { bounty: FullBountySubGraph }) {
           )}
 
           <hr className="mx-8 text-surface" />
-
           <div className="grid grid-cols-5 gap-x-8 pr-4">
             <div className="px- col-span-3 mx-auto ml-16 flex flex-col items-center">
               <div className="border-surfce mt-2 flex max-w-3xl items-baseline justify-between space-x-4 border-b-2 px-2">
