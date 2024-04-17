@@ -13,3 +13,8 @@ export type SearchResult = {
   type: SearchResultType;
   name: string;
 };
+
+export type MultipleSubBounties = {
+  bountySlug: string;
+  invoiceAmount: number;
+};

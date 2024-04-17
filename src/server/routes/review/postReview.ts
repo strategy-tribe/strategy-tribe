@@ -101,13 +101,12 @@ async function _AcceptIt(
       bountySlug: submission.bounty.slug,
       rejectAllButThisOne: submissionId,
     });
-
-    await CreateInvoice(prisma, {
-      status: InvoiceStatus.Unpaid,
-      submissionId,
-      slug: submission?.bounty?.slug as string,
-    });
   }
 
+  await CreateInvoice(prisma, {
+    status: InvoiceStatus.Unpaid,
+    submissionId,
+    slug: submission?.bounty?.slug as string,
+  });
   await AcceptAndNotifySubmission(prisma, submissionId, uncertain);
 }

@@ -52,7 +52,7 @@ export const _getBulkSubmissions = async (prisma: PrismaClient) => {
       bounties: {
         select: {
           title: true,
-          Invoice: {
+          invoices: {
             select: {
               submission: {
                 select: {

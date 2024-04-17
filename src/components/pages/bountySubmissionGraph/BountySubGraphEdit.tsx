@@ -2,7 +2,6 @@ import Editor from '@monaco-editor/react';
 import { RequirementType } from '@prisma/client';
 import { useRouter } from 'next/router';
 import { useEffect, useMemo, useState } from 'react';
-
 import Switch from 'react-switch';
 
 import {
@@ -206,13 +205,13 @@ export function BountySubGraphEdit({ bounty }: { bounty: FullBountySubGraph }) {
               isEnrichedDataVerified: false,
               dataPoints: [
                 {
-                  type: bounty.Invoice?.submission.answers.find(
+                  type: bounty.invoices[0]?.submission.answers.find(
                     (ans) =>
                       ans.requirement?.type !== RequirementType.Report &&
                       ans.requirement?.type !== RequirementType.Image
                   )?.requirement?.type as RequirementType,
                   value:
-                    bounty.Invoice?.submission.answers.find(
+                    bounty.invoices[0]?.submission.answers.find(
                       (ans) =>
                         !(
                           ans.requirement?.title.includes(
@@ -337,8 +336,10 @@ export function BountySubGraphEdit({ bounty }: { bounty: FullBountySubGraph }) {
             </div>
           </div>
 
-          {bounty.Invoice?.submission && (
-            <SubmissionContextProvider submission={bounty.Invoice?.submission}>
+          {bounty.invoices[0]?.submission && (
+            <SubmissionContextProvider
+              submission={bounty.invoices[0]?.submission}
+            >
               <div className="m-4 flex justify-around space-x-16 px-16">
                 <div className="spcae-y-4">
                   <h2 className="title-sm text-on-surface-p0">
