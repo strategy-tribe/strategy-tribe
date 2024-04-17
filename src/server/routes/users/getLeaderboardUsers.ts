@@ -2,6 +2,8 @@ import { PrismaClient, SubmissionState } from '@prisma/client';
 import { ThenArg } from '@trpc/server';
 import { z } from 'zod';
 
+import { MultipleSubBounties } from '@/components/pages/explore/filters/utils/types';
+
 import { publicProcedure } from '@/server/procedures';
 
 import { ArrayElement } from '../utils/helperTypes';
@@ -46,6 +48,7 @@ export async function _getLeaderboardUsers(
           state: true,
           bounty: {
             select: {
+              slug: true,
               wallet: {
                 select: {
                   balance: true,
@@ -74,6 +77,17 @@ export async function _getLeaderboardUsers(
     const acceptedSubmissions = user.submissions.filter(
       (sub) => sub.state === SubmissionState.Accepted
     );
+    const multipleSubmissionAcceptingBounties = JSON.parse(
+      process.env.MULTIPLE_SUBMISSION_ACCEPTING_BOUNTIES || '[]'
+    );
+    acceptedSubmissions.forEach((sub) => {
+      const matchingBounty = multipleSubmissionAcceptingBounties.find(
+        (bounty: MultipleSubBounties) => bounty.bountySlug === sub.bounty?.slug
+      );
+      if (matchingBounty) {
+        sub.bounty!.wallet.balance = matchingBounty.invoiceAmount;
+      }
+    });
     const highestBounty =
       acceptedSubmissions
         .map((sub) => sub.bounty?.wallet.balance)

@@ -3,6 +3,8 @@ import { TRPCError } from '@trpc/server';
 import { ethers } from 'ethers';
 import { z } from 'zod';
 
+import { MultipleSubBounties } from '@/components/pages/explore/filters/utils/types';
+
 import { ERROR, LOG } from '@/server/importer/utils';
 import { adminOnlyProcedure } from '@/server/procedures';
 
@@ -13,6 +15,10 @@ const payInvoiceSchema = z.object({
   submissionId: z.string(),
   bountySlug: z.string(),
 });
+
+const multipleSubmissionAcceptingBounties = JSON.parse(
+  process.env.MULTIPLE_SUBMISSION_ACCEPTING_BOUNTIES || '[]'
+);
 
 export type PayInvoiceSchemaParams = z.infer<typeof payInvoiceSchema>;
 
@@ -54,6 +60,9 @@ async function _payInvoice(
       let bountyAddress;
       let privateKey;
       let balance;
+      const matchingBounty = multipleSubmissionAcceptingBounties.find(
+        (bounty: MultipleSubBounties) => bounty.bountySlug === bountySlug
+      );
       if (!invoice.bounty.wallet.walletControl) {
         bountyAddress = invoice.bounty?.wallet.address;
         const bountyWalletData = await prisma.key.findUnique({
@@ -71,10 +80,16 @@ async function _payInvoice(
               await provider.getBalance(bountyAddress as string)
             )
           ) - 0.02;
+        if (matchingBounty) {
+          balance = matchingBounty.invoiceAmount - 0.02;
+        }
       } else {
         bountyAddress = process.env.NEXT_PUBLIC_COMMON_WALLET;
         privateKey = process.env.NEXT_PUBLIC_COMMON_WALLET_KEY;
         balance = invoice.bounty.wallet.balance;
+        if (matchingBounty) {
+          balance = matchingBounty.invoiceAmount;
+        }
       }
 
       if (privateKey) {

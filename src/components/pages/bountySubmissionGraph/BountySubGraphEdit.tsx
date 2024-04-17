@@ -206,13 +206,13 @@ export function BountySubGraphEdit({ bounty }: { bounty: FullBountySubGraph }) {
               isEnrichedDataVerified: false,
               dataPoints: [
                 {
-                  type: bounty.Invoice?.submission.answers.find(
+                  type: bounty.invoices[0]?.submission.answers.find(
                     (ans) =>
                       ans.requirement?.type !== RequirementType.Report &&
                       ans.requirement?.type !== RequirementType.Image
                   )?.requirement?.type as RequirementType,
                   value:
-                    bounty.Invoice?.submission.answers.find(
+                    bounty.invoices[0]?.submission.answers.find(
                       (ans) =>
                         !(
                           ans.requirement?.title.includes(
@@ -337,8 +337,10 @@ export function BountySubGraphEdit({ bounty }: { bounty: FullBountySubGraph }) {
             </div>
           </div>
 
-          {bounty.Invoice?.submission && (
-            <SubmissionContextProvider submission={bounty.Invoice?.submission}>
+          {bounty.invoices[0]?.submission && (
+            <SubmissionContextProvider
+              submission={bounty.invoices[0]?.submission}
+            >
               <div className="m-4 flex justify-around space-x-16 px-16">
                 <div className="spcae-y-4">
                   <h2 className="title-sm text-on-surface-p0">
@@ -352,7 +354,6 @@ export function BountySubGraphEdit({ bounty }: { bounty: FullBountySubGraph }) {
           )}
 
           <hr className="mx-8 text-surface" />
-
           <div className="grid grid-cols-5 gap-x-8 pr-4">
             <div className="px- col-span-3 mx-auto ml-16 flex flex-col items-center">
               <div className="border-surfce mt-2 flex max-w-3xl items-baseline justify-between space-x-4 border-b-2 px-2">
