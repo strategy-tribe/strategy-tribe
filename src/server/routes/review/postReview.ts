@@ -102,6 +102,7 @@ async function _AcceptIt(
       rejectAllButThisOne: submissionId,
     });
   }
+
   await CreateInvoice(prisma, {
     status: InvoiceStatus.Unpaid,
     submissionId,
